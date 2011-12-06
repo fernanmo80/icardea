@@ -54,7 +54,7 @@ public class EMail {
 			new javax.mail.Authenticator() {
 
 				protected PasswordAuthentication getPasswordAuthentication() {
-					return new PasswordAuthentication("yildiraykabak@gmail.com", "y.k-1387");
+					return new PasswordAuthentication("icardeaproject@gmail.com", "iCardea2010");
 				}
 			});
 
