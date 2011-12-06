@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.hibernate.Concern" table="Concern" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="increment">
+			</generator>
+		</id>
+		<property name="careProvisionCode" column="careProvisionCode" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="concernStatusCode" column="concernStatusCode" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="effectiveTimeLow" column="effectiveTimeLow" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="effectiveTimeHigh" column="effectiveTimeHigh" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="allergyCode" column="allergyCode" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="allergyValue" column="allergyValue" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="allergyValueCodeSystem" column="allergyValueCodeSystem" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="allergySubstanceCode" column="allergySubstanceCode" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="allergySubstanceCodeSystem" column="allergySubstanceCodeSystem" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="allergyOriginalText" column="allergyOriginalText" type="string" length="255" not-null="false" lazy="false"/>
+		<many-to-one name="eHRPHRData" column="EHRPHRDataID" class="tr.com.srdc.icardea.hibernate.EHRPHRData" cascade="save-update,lock" unique="true" not-null="true" lazy="no-proxy" access="field">
+		</many-to-one>
+		<many-to-one name="problem" column="ProblemID" class="tr.com.srdc.icardea.hibernate.Problem" cascade="save-update,lock" unique="true" not-null="false" lazy="no-proxy" access="field">
+		</many-to-one>
+	</class>
+</hibernate-mapping>

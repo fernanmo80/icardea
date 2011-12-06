@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ //
+  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
+  ~ //   
+  ~ //  TERMS OF USE  
+  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
+  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
+  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
+  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
+  ~ //
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  -->
+<!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ // This tool can be used to change diagrammer mode (link creation, hand or selection mode)
+  ~ // It also reflect change to diagrammer mode, should this change be cause by this tool  
+  ~ // or an external cause.
+  ~ ////////////////////////////////////////////////////////////////////////////////
+ -->
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="541" height="306" title="Eligibility Criteria Properties">
+	
+
+    <mx:Script>
+		<![CDATA[
+			import tr.com.srdc.icardea.gui.variables.DataSourcesTree;
+			import tr.com.srdc.icardea.gui.variables.VariableProperties;
+			import tr.com.srdc.icardea.gui.scriptEditor.ScriptEditor;
+			import mx.core.Application;
+
+			import tr.com.srdc.icardea.model.variables.Variable;
+		import tr.com.srdc.icardea.model.steps.EligibilityCriteria;
+		import mx.controls.Alert;
+		import mx.managers.PopUpManager;
+		import mx.collections.ArrayCollection;
+		import com.kapit.diagram.DiagramEvent;
+        import com.kapit.diagram.view.DiagramView;
+        
+        [Bindable]
+        public var types:ArrayCollection=new ArrayCollection();
+        [Bindable]  
+        public var eligibilityCriteria:EligibilityCriteria = new EligibilityCriteria();
+        [Bindable]
+        public var eligibilityVar:Variable;
+        [Bindable]
+        public var script:ScriptEditor = new ScriptEditor;
+        
+    	public function selectConcept():void
+        {
+        	var epopup:DataSourcesTree = new DataSourcesTree;
+        	PopUpManager.addPopUp(epopup, this,true);
+            PopUpManager.centerPopUp(epopup);
+    	}
+  
+        public function saveCriteriaChoices():void
+        {	
+        	///////variable /////////
+        	///all variables should be written to xml
+        	//this.eligibilityCriteria.evaluationScript = evScript.text;
+        	PopUpManager.removePopUp(this);
+            parentApplication.enabled=true;
+            parentApplication.careplanDT.iPopUp.enabled =true;
+        }
+        public function addVariable():void
+        {
+         	var apopup:VariableProperties = new VariableProperties;
+         	eligibilityVar = new Variable;
+         	eligibilityCriteria.variable.addItem(eligibilityVar);
+         	apopup.csVariable = eligibilityVar;
+        	PopUpManager.addPopUp(apopup, this,true);
+            PopUpManager.centerPopUp(apopup);
+        }
+        
+        public function editVariable():void
+        {
+         	var apopup:VariableProperties= new VariableProperties;
+        	for(var i:int=0;i<eligibilityCriteria.variable.length;i++)
+        	{
+        		if(myGrid.selectedItem.name==eligibilityCriteria.variable.getItemAt(i).name && myGrid.selectedItem.type==eligibilityCriteria.variable.getItemAt(i).type)
+        		{
+        			apopup.csVariable=eligibilityCriteria.variable.getItemAt(i) as Variable;
+        		}
+        	}	
+         	PopUpManager.addPopUp(apopup, this,true);
+            PopUpManager.centerPopUp(apopup);
+        }
+        public function writeScript():void
+        {
+        	script= new ScriptEditor;
+        	/* script.c2step = this.consultStep;
+            script.c3step = this.consultStep;
+            script.c4step = this.consultStep;
+            script.sparent = this;*/
+        	
+        	PopUpManager.addPopUp(script, Application.application as DisplayObject,true);
+            PopUpManager.centerPopUp(script); 
+        }
+        
+        public function deleteVariable():void
+        {
+        	
+        	/* for(var i:int=0;i<consultStep.variable.length;i++)
+        	{
+        		if(myGrid.selectedItem == null)
+        			Alert.show("Please select a variable to delete", "No Variable Selected");
+        			
+        		if(myGrid.selectedItem != null)
+        		{
+	        		if(myGrid.selectedItem.name==consultStep.variable.getItemAt(i).name && myGrid.selectedItem.type==consultStep.variable.getItemAt(i).type)
+	        		{
+	        			consultStep.variable.removeItemAt(i);
+	        		}
+	        	}
+        	}	 */
+        	
+        }
+        ]]>
+	</mx:Script>
+	<mx:VBox width="517" height="260">
+		<mx:Spacer width="5%"/>
+		<mx:Label text="VARIABLES" width="73" height="20" fontWeight="bold"/>
+	    <mx:HBox height="137" width="513">
+	    	<mx:DataGrid id="myGrid" width="358" height="124" dataProvider="{eligibilityVar}" >
+	    	   	<mx:columns>
+	    	   	   	<mx:DataGridColumn headerText="Name" dataField="name" />
+	    	   	    	<mx:DataGridColumn headerText="Type" dataField="type" />
+	    	   	    	<mx:DataGridColumn headerText="Refinement Script" dataField="refinementScript" >
+		    	   	    	<mx:itemRenderer>
+								<mx:Component>
+									<mx:HBox width="100%" horizontalAlign="center">
+										<mx:LinkButton icon="@Embed('/assets/careplaneditor/scriptEditor/editor.png')" click="outerDocument.writeScript()" width="20" height="20"/>
+									</mx:HBox>
+								</mx:Component>
+							</mx:itemRenderer>	
+						</mx:DataGridColumn>
+	    	   	 	</mx:columns> 
+	    	  	</mx:DataGrid>
+	       	<mx:VBox height="124" width="137">
+		       	<mx:Button label="Add New Variable" enabled="true" click="{addVariable()}" width="132" height="36"/>
+		       	<mx:Button label="Edit Variable" enabled="true" click="{editVariable()}" width="132" height="36"/>
+		       	<mx:Button label="Delete Variable" enabled="true" click="{deleteVariable()}" width="133" height="36"/>
+	       	</mx:VBox>
+	    </mx:HBox>
+	    <mx:HBox height="42" width="203">
+	    	<mx:Text text="EVALUATION SCRIPT" fontWeight="bold"/>
+	    	<mx:LinkButton icon="@Embed('/assets/careplaneditor/scriptEditor/editor.png')" click="writeScript()" width="75" height="38"/>
+	    </mx:HBox>
+	    <mx:Button label="EVALUATE" enabled="true" click="saveCriteriaChoices()" width="114" height="28"/>
+	</mx:VBox>
+</mx:TitleWindow>

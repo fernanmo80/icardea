@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.IMPEDANCE" table="IMPEDANCE">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <many-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.LEADCHNLMSMT" column="LEADCHNLMSMTID" lazy="no-proxy" name="lEADCHNLMSMT" not-null="true" unique="true">
+		</many-to-one>
+    <property column="value" lazy="false" length="50" name="value" not-null="false" type="string"/>
+    <property column="polarity" lazy="false" length="50" name="polarity" not-null="false" type="string"/>
+  </class>
+</hibernate-mapping>

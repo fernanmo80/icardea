@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.SESS" table="SESS">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <many-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.System" column="SystemID" lazy="no-proxy" name="system" not-null="true" unique="true">
+		</many-to-one>
+    <property column="dtm" lazy="false" length="50" name="dtm" not-null="false" type="string"/>
+    <property column="type" lazy="false" length="50" name="type" not-null="false" type="string"/>
+    <property column="reprogrammed" lazy="false" length="50" name="reprogrammed" not-null="false" type="string"/>
+    <property column="dtm_previous" lazy="false" length="50" name="dtm_previous" not-null="false" type="string"/>
+    <property column="type_previous" lazy="false" length="50" name="type_previous" not-null="false" type="string"/>
+    <property column="reprogrammed_previous" lazy="false" length="50" name="reprogrammed_previous" not-null="false" type="string"/>
+    <property column="clinician_name" lazy="false" length="50" name="clinician_name" not-null="false" type="string"/>
+    <property column="clinician_contact_information" lazy="false" length="50" name="clinician_contact_information" not-null="false" type="string"/>
+    <property column="clinic_name" lazy="false" length="50" name="clinic_name" not-null="false" type="string"/>
+  </class>
+</hibernate-mapping>

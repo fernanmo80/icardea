@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+{% block htmlTitle%}Login{% endblock %}
+{% block htmlHead %}
+{% endblock %}
+{% block htmlBody %}
+
+<form action='login' method="post">
+    <fieldset>
+    <legend>Login into the Identity Provider</legend>
+    <p><label for="username">Username:</label> <input type="text"
+    class="required" id="username" name="user" value="{{expected_user}}"/></p>
+    <p> <label for="pwd">Password:</label> <input
+    class="required" id="pwd" type="password" name="pwd"/> </p>
+</fieldset>
+        <input type="hidden" value="{{continue}}" name="continue"/>
+        <div class="formctrls">
+            <input type="submit" value="Submit!" />
+        </div>
+    </form>
+{% endblock %}

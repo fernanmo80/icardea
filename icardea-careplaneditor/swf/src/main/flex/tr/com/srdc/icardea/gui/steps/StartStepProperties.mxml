@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+  
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="Start Step Properties" height="188" fontSize="15" width="375">
+	<mx:VBox xmlns="fr.kapit.skin.component.*" 
+           buttonMode="true" borderColor="#DBD6D1" alpha="1.0" backgroundColor="#cccccc" horizontalAlign="left"
+           verticalAlign="top" width="347" height="139">
+    <mx:Script>
+		<![CDATA[
+			import mx.core.Application;
+			import mx.managers.PopUpManager;
+			import tr.com.srdc.icardea.model.steps.StartStep;
+	
+	    [Bindable]
+        public var startStep : StartStep = new StartStep();
+        
+        private function openCriteria():void
+		{
+			var criteria:EligibilityCriteriaProperties = new EligibilityCriteriaProperties;
+			PopUpManager.addPopUp(criteria, Application.application as DisplayObject,true);
+        	PopUpManager.centerPopUp(criteria);
+		}  
+		     
+        public function saveStartChoices():void
+        {   
+        	startStep.id= startName.text;
+   	    	startStep.ownName ="startStep";
+      	    	
+            PopUpManager.removePopUp(this);
+         	parentApplication.enabled=true;
+        }
+        ]]>
+	</mx:Script>
+	    <mx:Spacer height="5%"/>
+	    <mx:Text id="startName" text="{this.startStep.name}" width="161"/>
+	   	<mx:HBox width="341" height="36">
+	   		<mx:Label text="Do you want to add Eligibility Criteria to the Guideline?" width="276"/>
+	    	<mx:Button label="Add" click="openCriteria()"/>
+	   	</mx:HBox>
+	    <mx:Spacer height="10%"/>
+	    <mx:Button label="OK" enabled="true" click="{saveStartChoices()}" width="79" height="29"/>
+	</mx:VBox>
+</mx:TitleWindow>

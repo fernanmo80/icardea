@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Form xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()" 
+	styleName="mainLoginForm" xmlns:view="tr.com.srdc.icardea.gui.homePage.*"  width="100%" height="100%"
+	>
+	<mx:Script>
+	<![CDATA[
+		import tr.com.srdc.icardea.patient.Caregivers;
+		import mx.utils.ObjectUtil;
+		import mx.events.CollectionEvent;
+		import mx.core.Application;
+		import mx.managers.PopUpManager;
+		import mx.events.IndexChangedEvent;
+		import mx.messaging.Channel;
+		import mx.messaging.channels.SecureAMFChannel;
+		import mx.messaging.ChannelSet;
+		import mx.rpc.remoting.RemoteObject;
+		import mx.rpc.events.FaultEvent;
+		import mx.rpc.events.ResultEvent;
+		import tr.com.srdc.icardea.model.userRoles.Patient;
+		import mx.controls.Alert;
+		import mx.collections.ArrayCollection;
+		import tr.com.srdc.icardea.model.userControl.Organization;
+		import tr.com.srdc.icardea.model.userControl.Model;
+		import tr.com.srdc.icardea.model.userRoles.Person;
+		
+		[Bindable]
+		public var person : Person;
+		[Bindable]
+		public var model : Model;
+		[Bindable]
+		public var myPatientList:ArrayCollection = new ArrayCollection;
+		[Bindable]
+		public var allPatientsList:ArrayCollection = new ArrayCollection;
+		[Bindable]
+		public var caregivers:Caregivers;
+		
+		
+		/* private function fillOrganizationDetails():void {
+			var org:Organization = organizations.selectedItem as Organization;
+			person.organization = org;			
+		} */
+
+		//TODO: Alarm Management
+		public function init():void
+       	{
+       		var service : RemoteObject = new RemoteObject("subscriptionService");
+			var cs:ChannelSet = new ChannelSet();
+			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+			cs.addChannel(customChannel);
+			service.channelSet = cs;
+			service.addEventListener(ResultEvent.RESULT,onResultRegisteredPatients);
+			service.addEventListener(FaultEvent.FAULT, onFault);
+			
+			service.listRegisteredPatients();
+       		allPatientsList.dispatchEvent(new CollectionEvent(CollectionEvent.COLLECTION_CHANGE));
+       	}
+       	public function onResultRegisteredPatients(result:ResultEvent):void 
+       	{
+       		  	
+       		this.allPatientsList = result.result as ArrayCollection;
+       	
+       	} 
+       
+       	public function onFault(fault:FaultEvent):void 
+       	{
+       		Alert.show(fault.fault.faultString);	
+       
+       	}
+       	/* public function openCaregivers():void{
+       		caregivers = new Caregivers;
+       		///TODO:service to get list of caregivers of the patient
+       		if(patients.selectedItem != null)
+       			caregivers.caregiversList = (patients.selectedItem as Patient).caregivers;
+       		
+       		PopUpManager.addPopUp(caregivers, Application.application as DisplayObject,true);
+            PopUpManager.centerPopUp(caregivers);
+       	} */
+       	
+ 
+ //////////////////////////////////bakkkkkkk
+        private function arrColl_collectionChange(evt:CollectionEvent):void {
+            try {
+                var tArr:Array = allPatientsList.source.filter(selectedOnly);
+                trace( ObjectUtil.toString(tArr))
+                
+            } catch (err:Error) {
+                // ignore.
+            }
+        }
+ 
+        private function selectedOnly(item:Object, idx:uint, arr:Array):Boolean {
+            return item.isSelected;
+        }
+//////////////////////////////////bakkkkkkk		
+	]]>
+	</mx:Script>
+	
+		<mx:Accordion width="100%" height="100%" styleName="myAccordion" creationPolicy="all">
+			<mx:HBox width="100%" height="100%" horizontalAlign="center" label="User Info">
+				<mx:Form  styleName="mainLoginForm" >
+					<mx:FormItem label="Username:" styleName="mainLoginFormItem">
+						<mx:TextInput id="usernameText" text="{person.username}" editable="false" />
+					</mx:FormItem>
+					<mx:FormItem label="Title:" styleName="mainLoginFormItem">
+						<mx:TextInput id="titleText" text="{person.title}" />
+					</mx:FormItem>
+					<mx:FormItem label="Name:" styleName="mainLoginFormItem">
+						<mx:TextInput id="nameText" text="{person.name}" />
+					</mx:FormItem>
+					<mx:FormItem label="Middle Name:" styleName="mainLoginFormItem">
+						<mx:TextInput id="middleNameText" text="{person.middleName}" />
+					</mx:FormItem>
+					<mx:FormItem label="Surname:" styleName="mainLoginFormItem"> 
+						<mx:TextInput id="surnameText" text="{person.surname}" />
+					</mx:FormItem>
+					<mx:FormItem label="Password: " styleName="mainLoginFormItem"> 
+						<mx:TextInput displayAsPassword="true" id="password" text="{person.password}" />
+					</mx:FormItem>
+				</mx:Form>
+				<mx:Form  styleName="mainLoginForm" >
+					<mx:FormItem label="Email:" styleName="mainLoginFormItem">
+						<mx:TextInput id="emailText" text="{person.contact.email}" />
+					</mx:FormItem>
+					<mx:FormItem label="Postal Address:" styleName="mainLoginFormItem">
+						<mx:TextInput id="addressText" text="{person.contact.addressLine}" />
+					</mx:FormItem>
+					<mx:FormItem label="Mobile Phone:" styleName="mainLoginFormItem">
+						<mx:TextInput id="mobileText" text="{person.contact.mobileNumber}" />
+					</mx:FormItem>
+					<mx:FormItem label="Phone Number:" styleName="mainLoginFormItem">
+						<mx:TextInput id="phoneNumber" text="{person.contact.phoneNumber}"/>
+					</mx:FormItem>
+					<mx:FormItem label="Fax Number:" styleName="mainLoginFormItem">
+						<mx:TextInput id="faxNumber" text="{person.contact.faxNumber}"/>
+					</mx:FormItem>
+					<mx:FormItem label="Google Talk:" styleName="mainLoginFormItem">
+						<mx:TextInput id="googleTalk" text="{person.contact.gtalk}"/>
+					</mx:FormItem>
+				</mx:Form>
+			</mx:HBox>
+			<mx:VBox horizontalAlign="center" height="100%" width="100%" label="Alarm Management" >
+				<mx:Label text="Registered Patients: "/>
+				<mx:DataGrid id="patients" dataProvider="{allPatientsList}">
+					<mx:columns>
+						<mx:DataGridColumn headerText="Name" dataField="name"/>	
+						<mx:DataGridColumn headerText="Surname" dataField="surname" />
+						<mx:DataGridColumn headerText="Gender" dataField="gender" />
+						<mx:DataGridColumn headerText="Birth Date" dataField="dateOfBirth" />
+						<mx:DataGridColumn headerText="Add">
+							<mx:itemRenderer>
+								<mx:Component>
+									<mx:HBox horizontalAlign="center" >
+										<mx:CheckBox selectedField="isSelected" change="onChange(event);">
+					                        <mx:Script>
+					                            <![CDATA[
+					                                private function onChange(evt:Event):void {
+					                                    data.isSelected = !data.isSelected;
+					                                }
+					                            ]]>
+					                        </mx:Script>
+					                    </mx:CheckBox>
+									</mx:HBox>
+								</mx:Component>
+							</mx:itemRenderer>
+						</mx:DataGridColumn>		
+						
+						<mx:DataGridColumn headerText="Urgency Level" dataField="add" >
+							<mx:itemRenderer>
+								<mx:Component>
+									<mx:HBox horizontalAlign="center">
+										<mx:RadioButtonGroup id="urgencyLevelGroup"/>
+										<mx:RadioButton id="sms" groupName="radiogroup1" fillAlphas="[1.0, 1.0]" fillColors="[#F91313, #F91313]"/>
+										<mx:RadioButton id="email" groupName="radiogroup1" fillAlphas="[1.0, 1.0]" fillColors="[#E6EC3B, #E6EC4E]" selected="true"/>
+										<mx:RadioButton id="nothing" groupName="radiogroup1" fillAlphas="[1.0, 1.0]" fillColors="[#14EF28, #14EF28]"/>
+									</mx:HBox>
+								</mx:Component>
+							</mx:itemRenderer>		
+						</mx:DataGridColumn>		
+					</mx:columns>
+				</mx:DataGrid>
+				<!--<mx:Label text="Set My Urgency Level: "/>-->
+				<mx:HBox >
+					<mx:RadioButtonGroup id="urgencyLevelGroup"/>
+					<mx:RadioButton id="sms" label="Send SMS" groupName="radiogroup1" fillAlphas="[1.0, 1.0]" fillColors="[#F91313, #F91313]"/>
+					<mx:RadioButton id="email" label="Send E-Mail" groupName="radiogroup1" fillAlphas="[1.0, 1.0]" fillColors="[#E6EC3B, #E6EC4E]"/>
+					<mx:RadioButton id="nothing" label="Do Nothing" groupName="radiogroup1" fillAlphas="[1.0, 1.0]" fillColors="[#14EF28, #14EF28]"/>
+				</mx:HBox>
+			</mx:VBox>
+			<!--<mx:VBox label="User Contact">
+				<mx:Form width="100%" height="100%" styleName="mainLoginForm" verticalGap="10">
+					<mx:FormItem label="Email:" styleName="mainLoginFormItem">
+						<mx:TextInput id="emailText" text="{person.contact.email}" />
+					</mx:FormItem>
+					<mx:FormItem label="Postal Address:" styleName="mainLoginFormItem">
+						<mx:TextInput id="addressText" text="{person.contact.addressLine}" />
+					</mx:FormItem>
+					<mx:FormItem label="Mobile Phone:" styleName="mainLoginFormItem">
+						<mx:TextInput id="mobileText" text="{person.contact.mobileNumber}" />
+					</mx:FormItem>
+					<mx:FormItem label="Phone Number:" styleName="mainLoginFormItem">
+						<mx:TextInput id="phoneNumber" text="{person.contact.phoneNumber}"/>
+					</mx:FormItem>
+					<mx:FormItem label="Fax Number:" styleName="mainLoginFormItem">
+						<mx:TextInput id="faxNumber" text="{person.contact.faxNumber}"/>
+					</mx:FormItem>
+					<mx:FormItem label="Google Talk:" styleName="mainLoginFormItem">
+						<mx:TextInput id="googleTalk" text="{person.contact.gtalk}"/>
+					</mx:FormItem>
+				</mx:Form>
+			</mx:VBox>-->
+		</mx:Accordion>
+		
+		<!--<mx:Accordion width="100%" height="100%" styleName="myAccordion"  creationPolicy="all">
+			<mx:VBox label="Organization Info">
+				
+				<mx:Form width="475" height="251" styleName="mainLoginForm" verticalGap="10">
+					mx:HBox>
+					       <mx:FormItem label="search">
+					               <view:CollectionTextInputFilter tabIndex="1"
+					                       collection="{organizations.organizationsList}"
+					                       columnSearchable="name" />
+					       </mx:FormItem>
+					</mx:HBox
+					<view:OrganizationsGrid id="organizations" width="413" dataProvider="{model.organizationsList}" click="{fillOrganizationDetails();}"/>
+					
+					<mx:FormItem label="Name:" styleName="mainLoginFormItem">
+						<mx:TextInput id="orgNameText" text="{person.organization.name}" />
+					</mx:FormItem>
+					<mx:FormItem label="Identifier:" styleName="mainLoginFormItem">
+						<mx:TextInput id="orgIdentifierText" text="{person.organization.identifier}" />
+					</mx:FormItem>
+				</mx:Form>
+			</mx:VBox>
+			<mx:VBox label="Organization Contact">
+				<mx:Form width="100%" height="100%" styleName="mainLoginForm" verticalGap="10">
+					<mx:FormItem label="Postal Address:" styleName="mainLoginFormItem">
+						<mx:TextInput id="orgAddressText" text="{person.organization.contact.addressLine}" />
+					</mx:FormItem>
+					<mx:FormItem label="Mobile Phone:" styleName="mainLoginFormItem">
+						<mx:TextInput id="orgMobileText" text="{person.organization.contact.mobileNumber}" />
+					</mx:FormItem>
+					<mx:FormItem label="Phone Number:" styleName="mainLoginFormItem">
+						<mx:TextInput id="orgPhoneNumber" text="{person.organization.contact.phoneNumber}"/>
+					</mx:FormItem>
+					<mx:FormItem label="Fax Number:" styleName="mainLoginFormItem">
+						<mx:TextInput id="orgFaxNumber" text="{person.organization.contact.faxNumber}"/>
+					</mx:FormItem>
+				</mx:Form>
+			</mx:VBox>
+		</mx:Accordion>-->
+	
+</mx:Form>

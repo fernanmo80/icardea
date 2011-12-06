@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.hibernate.Observation" table="Observation" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="increment">
+			</generator>
+		</id>
+		<property name="universalServiceIdentifier" column="universalServiceIdentifier" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="observationDateTime" column="observationDateTime" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="observationEndDataTime" column="observationEndDataTime" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="resultRptStatusChangeDateTime" column="resultRptStatusChangeDateTime" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="resultStatus" column="resultStatus" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="attendingDoctorID" column="attendingDoctorID" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="visitID" column="visitID" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="patientClass" column="patientClass" type="string" length="255" not-null="false" lazy="false"/>
+		<many-to-one name="system" column="SystemID" class="tr.com.srdc.icardea.hibernate.System" cascade="save-update,lock" unique="true" not-null="true" lazy="no-proxy" access="field">
+		</many-to-one>
+		<property name="base64String" column="base64String" type="text" not-null="false" lazy="false"/>
+		<property name="abnormalFlags" column="abnormalFlags" type="string" length="10" not-null="false" lazy="false"/>
+		<property name="equipmentInstanceIdentifier" column="equipmentInstanceIdentifier" type="string" length="100" not-null="false" lazy="false"/>
+		<property name="fillerOrderNumber" column="fillerOrderNumber" type="string" length="255" not-null="false" lazy="false"/>
+		<one-to-one name="cIEDData" class="tr.com.srdc.icardea.hibernate.CIEDData" cascade="save-update,lock" property-ref="observationfillerOrderNumber" lazy="no-proxy" access="field"/>
+		<set name="ORM_BinaryData" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="ObservationID" not-null="true"/>
+			<one-to-many class="tr.com.srdc.icardea.hibernate.BinaryData"/>
+		</set>
+	</class>
+</hibernate-mapping>

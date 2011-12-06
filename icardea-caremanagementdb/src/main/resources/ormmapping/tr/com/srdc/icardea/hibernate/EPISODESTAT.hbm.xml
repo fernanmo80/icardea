@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.EPISODESTAT" table="EPISODESTAT">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <many-to-one access="field" cascade="lock" class="tr.com.srdc.icardea.hibernate.STAT" column="STATID" lazy="no-proxy" name="sTAT" not-null="false">
+		</many-to-one>
+    <property column="type" lazy="false" length="50" name="type" not-null="false" type="string"/>
+    <property column="type_induced" lazy="false" length="50" name="type_induced" not-null="false" type="string"/>
+    <property column="vendor_type" lazy="false" length="50" name="vendor_type" not-null="false" type="string"/>
+    <property column="recent_count" lazy="false" length="50" name="recent_count" not-null="false" type="string"/>
+    <property column="recent_count_dtm_start" lazy="false" length="50" name="recent_count_dtm_start" not-null="false" type="string"/>
+    <property column="recent_count_dtm_end" lazy="false" length="50" name="recent_count_dtm_end" not-null="false" type="string"/>
+    <property column="total_count" lazy="false" length="50" name="total_count" not-null="false" type="string"/>
+    <property column="total_count_dtm_start" lazy="false" length="50" name="total_count_dtm_start" not-null="false" type="string"/>
+    <property column="total_count_dtm_end" lazy="false" length="50" name="total_count_dtm_end" not-null="false" type="string"/>
+    <property column="subID" lazy="false" length="11" name="subID" not-null="false" type="integer"/>
+  </class>
+</hibernate-mapping>

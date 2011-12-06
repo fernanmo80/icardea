@@ -1,0 +1,50 @@
+<xacml-samlp:XACMLAuthzDecisionQuery
+	ID="AuthzQuery12345789" IssueInstant="2010-11-25T08:04:35.919Z"
+	Version="2.0"
+	xmlns:xacml-samlp="urn:oasis:names:tc:xacml:2.0:profile:saml2.0:v2:schema:protocol">
+	<saml:Issuer xmlns:saml="urn:oasis:names:tc:SAML:2.0:assertion">http://idp.srdc.com.tr
+	</saml:Issuer>
+	<xacml-context:Request xmlns:xacml-context="urn:oasis:names:tc:xacml:2.0:context:schema:os">
+		<xacml-context:Subject
+			SubjectCategory="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject">
+			<xacml-context:Attribute
+				AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
+				DataType="http://www.w3.org/2001/XMLSchema#string">
+				<xacml-context:AttributeValue>ROLECODE:DOCTOR
+				</xacml-context:AttributeValue>
+			</xacml-context:Attribute>
+		</xacml-context:Subject>
+		<xacml-context:Subject
+			SubjectCategory="urn:oasis:names:tc:xacml:1.0:subject-category:access-subject">
+			<xacml-context:Attribute
+				AttributeId="urn:oasis:names:tc:xacml:1.0:subject:subject-id"
+				DataType="http://www.w3.org/2001/XMLSchema#string">
+				<xacml-context:AttributeValue>ROLECODE:PHARMACIST
+				</xacml-context:AttributeValue>
+			</xacml-context:Attribute>
+		</xacml-context:Subject>
+		<xacml-context:Resource>
+			<xacml-context:Attribute
+				AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+				DataType="http://www.w3.org/2001/XMLSchema#string">
+				<xacml-context:AttributeValue>RESOURCECODE:CONDITION
+				</xacml-context:AttributeValue>
+			</xacml-context:Attribute>
+		</xacml-context:Resource>
+		<xacml-context:Resource>
+			<xacml-context:Attribute
+				AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+				DataType="http://www.w3.org/2001/XMLSchema#string">
+				<xacml-context:AttributeValue>RESOURCECODE:MEDICATION
+				</xacml-context:AttributeValue>
+			</xacml-context:Attribute>
+		</xacml-context:Resource>
+		<xacml-context:Action>
+			<xacml-context:Attribute
+				AttributeId="urn:oasis:names:tc:xacml:1.0:action:action-id"
+				DataType="http://www.w3.org/2001/XMLSchema#string">
+				<xacml-context:AttributeValue>READ</xacml-context:AttributeValue>
+			</xacml-context:Attribute>
+		</xacml-context:Action>
+	</xacml-context:Request>
+</xacml-samlp:XACMLAuthzDecisionQuery>

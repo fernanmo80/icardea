@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox horizontalAlign="center" xmlns:mx="http://www.adobe.com/2006/mxml" 
+	width="100%" height="100%" xmlns:component="fr.kapit.skin.component.*">
+	<mx:Script>
+		<![CDATA[
+			import flash.net.navigateToURL;
+			import mx.messaging.Channel;
+			import mx.messaging.channels.SecureAMFChannel;
+			import mx.messaging.ChannelSet;
+			import mx.rpc.remoting.RemoteObject;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import tr.com.srdc.icardea.model.userControl.ModelImpl;
+			//import tr.com.srdc.iCardea.gui.login.controller.message.LoginRequest;
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			[Bindable] public var typeList:ArrayCollection;
+
+			import tr.com.srdc.icardea.model.userControl.ProfileLanguage;
+			import tr.com.srdc.icardea.model.userRoles.Person;
+			import tr.com.srdc.icardea.events.LoginEvent;
+			[Bindable]
+			private var isPending : Boolean = false;
+			public function doLogin() : void {
+				var person : Person = new Person();
+				person.username = username.text;
+				
+				var service : RemoteObject = new RemoteObject("loginService");
+				var cs:ChannelSet = new ChannelSet();
+				var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+				cs.addChannel(customChannel);
+				service.channelSet = cs;
+				service.addEventListener(ResultEvent.RESULT,onResultLogin);
+				service.addEventListener(FaultEvent.FAULT, onFault);
+			
+				//servletCall.send(null);
+				
+				service.createRedirect(person.username);
+				/* person.password = password.text;
+				var event : LoginEvent = new LoginEvent(person);
+				dispatchEvent(event);
+				isPending = true; */
+			}
+			public function onResultLogin(result:ResultEvent):void 
+	       	{
+	       		navigateToURL(new URLRequest(result.result as String),"_self");
+	       	} 
+	       
+	      	public function onFault(fault:FaultEvent):void 
+	       	{
+	       		Alert.show(fault.fault.faultString);	
+	       	}
+			
+			
+			private function usernameInit():void{
+				username.setFocus();
+				addEventListener(KeyboardEvent.KEY_DOWN, keyHandler)
+			}
+			
+			private function keyHandler(event:KeyboardEvent):void{
+				if(event.keyCode == Keyboard.ENTER)
+					doLogin()
+			}
+			public function serviceResultForServletCall(event:ResultEvent):void
+		    {
+				//navigateToURL(new URLRequest(event.result as String),"_self");
+		    }
+			
+		    public function serviceFail(event:FaultEvent):void
+		    {
+				trace(event.fault.faultString)
+		    }
+		]]>
+	</mx:Script>	
+	
+	<mx:Form id="mainForm" width="100%" styleName="mainLoginForm" >
+		<mx:FormItem horizontalAlign="center" creationComplete="usernameInit()" width="100%" styleName="mainLoginFormItem">
+			<mx:HBox>
+				<mx:Label text="Verify your ID:" fontSize="12"/>
+				<mx:TextInput id="username"  styleName="mainLoginTextInput"/> 
+				<mx:Button id="loginButton" label="Verify" click="doLogin()"/>
+			</mx:HBox>
+		</mx:FormItem>
+		<!--mx:FormItem label="Login as:" width="100%" styleName="mainLoginFormItem">
+			<mx:ComboBox id="roleList" width="100%" dataProvider="{ModelImpl.typeList}" styleName="iCardeaCombo"  />
+		</mx:FormItem-->
+	</mx:Form>
+	<!--<mx:HTTPService method="POST" resultFormat = "text" showBusyCursor = "true" useProxy = "false" id="servletCall" url="https://localhost:8080/icardea_careplaneditor/servlet/loginServlet?identifier=https://www.google.com/accounts/o8/id" result="serviceResultForServletCall(event)" fault="serviceFail( event)"/>
+		-->	
+</mx:VBox>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+ 
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="Final Step Properties" width="242" height="148" fontSize="15"> 
+	<mx:VBox xmlns="fr.kapit.skin.component.*" 
+           buttonMode="true" borderColor="#DBD6D1" alpha="1.0" backgroundColor="#cccccc" horizontalAlign="left"
+           verticalAlign="top" width="212" height="101">
+    <mx:Script>
+		<![CDATA[
+			import tr.com.srdc.icardea.model.steps.FinalStep;
+			import mx.managers.PopUpManager;
+	
+	    [Bindable]
+        public var finalStep : FinalStep = new FinalStep();
+        
+        public function saveFinalChoices():void
+        {
+      		this.finalStep.id=finalName.text;
+      	       	
+            PopUpManager.removePopUp(this);
+            parentApplication.enabled=true;
+        }
+        ]]>
+	</mx:Script>
+    	<mx:Text id="finalName" text="{this.finalStep.name}" width="194" fontSize="12"/>
+    	<mx:Spacer height="10%"/>
+    	<mx:Button label="OK" enabled="true" click="{saveFinalChoices()}" width="114" height="29"/>
+	</mx:VBox>
+</mx:TitleWindow>

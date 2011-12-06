@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.PatientHealthcareActorAssignment" table="PatientHealthcareActorAssignment">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <property column="PatientIdentifier" lazy="false" length="32" name="patientIdentifier" not-null="false" type="string"/>
+    <property column="HealthcareActorIdentifier" lazy="false" length="32" name="healthcareActorIdentifier" not-null="false" type="string"/>
+    <property column="AssignmentDate" lazy="false" name="assignmentDate" not-null="false" type="timestamp"/>
+  </class>
+</hibernate-mapping>

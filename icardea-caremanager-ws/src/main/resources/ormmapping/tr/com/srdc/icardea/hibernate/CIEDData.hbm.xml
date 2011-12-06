@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.hibernate.CIEDData" table="CIEDData" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="increment">
+			</generator>
+		</id>
+		<property name="sendingApplication" column="sendingApplication" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="sendingFacility" column="sendingFacility" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="receivingApplication" column="receivingApplication" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="receivingFacility" column="receivingFacility" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="messageTime" column="messageTime" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="comment" column="comment" type="string" length="255" not-null="false" lazy="false"/>
+		<many-to-one name="observationfillerOrderNumber" column="ObservationID" class="tr.com.srdc.icardea.hibernate.Observation" cascade="save-update,lock" unique="true" not-null="true" lazy="no-proxy" access="field">
+		</many-to-one>
+		<property name="receivedTime" column="receivedTime" type="string" length="255" not-null="false" lazy="false"/>
+		<many-to-one name="patient1" cascade="lock" column="PatientID" class="tr.com.srdc.icardea.hibernate.Patient" not-null="true" lazy="no-proxy" access="field">
+		</many-to-one>
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.hibernate.LEADCHNLMSMT" table="LEADCHNLMSMT" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="increment">
+			</generator>
+		</id>
+		<many-to-one name="mSMT" cascade="lock" column="MSMTID" class="tr.com.srdc.icardea.hibernate.MSMT" not-null="true" lazy="no-proxy" access="field">
+		</many-to-one>
+		<property name="chamber" column="chamber" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="dtm_start" column="dtm_start" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="dtm_end" column="dtm_end" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="lead_channel_status" column="lead_channel_status" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="subID" column="subID" type="integer" length="11" not-null="false" lazy="false"/>
+		<property name="dtm" column="dtm" type="string" length="50" not-null="false" lazy="false"/>
+		<one-to-one name="sENSINGMSMT" class="tr.com.srdc.icardea.hibernate.SENSINGMSMT" cascade="save-update,lock" property-ref="lEADCHNLMSMT" lazy="no-proxy" access="field"/>
+		<one-to-one name="pACINGTHRESHOLD" class="tr.com.srdc.icardea.hibernate.PACINGTHRESHOLD" cascade="save-update,lock" property-ref="lEADCHNLMSMT" lazy="no-proxy" access="field"/>
+		<one-to-one name="iMPEDANCE" class="tr.com.srdc.icardea.hibernate.IMPEDANCE" cascade="save-update,lock" property-ref="lEADCHNLMSMT" lazy="no-proxy" access="field"/>
+	</class>
+</hibernate-mapping>

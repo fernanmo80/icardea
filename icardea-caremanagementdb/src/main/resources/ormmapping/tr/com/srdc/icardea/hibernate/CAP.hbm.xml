@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.CAP" table="CAP">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <many-to-one access="field" cascade="lock" class="tr.com.srdc.icardea.hibernate.MSMT" column="MSMTID" lazy="no-proxy" name="mSMT" not-null="false">
+		</many-to-one>
+    <property column="charge_dtm" lazy="false" length="50" name="charge_dtm" not-null="false" type="string"/>
+    <property column="charge_time" lazy="false" length="50" name="charge_time" not-null="false" type="string"/>
+    <property column="charge_energy" lazy="false" length="50" name="charge_energy" not-null="false" type="string"/>
+    <property column="charge_type" lazy="false" length="50" name="charge_type" not-null="false" type="string"/>
+    <property column="subID" lazy="false" length="11" name="subID" not-null="false" type="integer"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml"
+				xmlns:diagctl="com.kapit.diagram.controls.*"
+				xmlns:diagview="com.kapit.diagram.view.*"
+				xmlns:component="fr.kapit.skin.component.*"
+				xmlns:view = "tr.com.srdc.icardea.gui.homePage.*"
+				xmlns:cpview = "tr.com.srdc.icardea.gui.*"
+				xmlns:careplans = "tr.com.srdc.icardea.gui.careplan.*"
+				xmlns:monitor = "tr.com.srdc.icardea.gui.monitoringTool.*"
+				xmlns:cpatientview = "tr.com.srdc.icardea.patient.*"
+				horizontalScrollPolicy="off" verticalScrollPolicy="off" clipContent="false"
+				xmlns:kapit="fr.kapit.*"
+				horizontalAlign="left"
+				layout="absolute"
+				backgroundColor="#ececec"
+				width="100%"
+				height="100%"
+				xmlns:local="*"
+				xmlns:flexlib="http://code.google.com/p/flexlib/"
+				creationComplete="init()"
+				>
+
+	<mx:Style source="/assets/style/style.css"/>
+	<mx:Script>
+	<![CDATA[
+		import mx.utils.URLUtil;
+		import mx.events.BrowserChangeEvent;
+		import mx.managers.BrowserManager;
+		import mx.managers.IBrowserManager;
+		import mx.rpc.events.FaultEvent;
+		import mx.rpc.events.ResultEvent;
+		import mx.messaging.channels.SecureAMFChannel;
+		import mx.messaging.Channel;
+		import mx.messaging.ChannelSet;
+		import mx.rpc.remoting.RemoteObject;
+		import tr.com.srdc.icardea.model.userControl.Contact;
+		import tr.com.srdc.icardea.model.userControl.Organization;
+		import tr.com.srdc.icardea.model.userRoles.Person;
+		import mx.events.StateChangeEvent;
+		import mx.controls.Alert;
+		import mx.events.CloseEvent;
+		import mx.managers.PopUpManager;
+		import tr.com.srdc.icardea.gui.homePage.AddUserPopup;
+		import fr.kapit.demo.conf.BPMNSVGLib;
+		import com.kapit.diagram.library.SVGAssetLibrary;
+		import mx.collections.ArrayCollection;
+		import tr.com.srdc.icardea.control.EmailControlImpl;
+		import tr.com.srdc.icardea.control.EmailControl;
+		import tr.com.srdc.icardea.model.userControl.ProfileModelImpl;
+		import tr.com.srdc.icardea.control.ProfileControlImpl;
+		import tr.com.srdc.icardea.control.ProfileControl;
+		import tr.com.srdc.icardea.model.userControl.ProfileModel;
+		import tr.com.srdc.icardea.control.UserControlImpl;
+		import tr.com.srdc.icardea.model.userControl.ModelImpl;
+		import tr.com.srdc.icardea.control.UserControl;
+		import tr.com.srdc.icardea.model.userControl.Model;
+		import mx.events.ItemClickEvent;
+		import mx.collections.ArrayCollection;
+		[Bindable]
+		private var columnNameToSearch : String = "username";
+		[Bindable]
+		private var model : Model;
+		[Bindable]
+		public var control : UserControl;
+		[Bindable]
+		private var profileModel : ProfileModel;
+		[Bindable]
+		private var profileControl : ProfileControl;
+		[Bindable]
+		public var _groups:ArrayCollection=null;
+		[Bindable]
+		private var firstGroupId:String;
+		[Bindable] public var typeList:ArrayCollection;
+		private var popup:AddUserPopup;
+		
+		[Bindable] public var flag:Boolean = false;
+	
+		/* [Bindable]
+		[Embed('/assets/monitoringTool/circle.png')] 
+        public var markerCircle:Class; */
+		
+		private var is_verified:Boolean = false;
+		public function init():void {
+			
+			//model = new ModelImpl();
+			//control = new UserControlImpl(model,this);
+			
+			/* var service : RemoteObject = new RemoteObject("loginService");
+			var cs:ChannelSet = new ChannelSet();
+			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+			cs.addChannel(customChannel);
+			service.channelSet = cs;
+			service.addEventListener(ResultEvent.RESULT,onResultLogin);
+			service.addEventListener(FaultEvent.FAULT, onFault);
+			service.handleReturnUrl(); */
+			/*profileModel = new ProfileModelImpl(2);
+			profileControl = new ProfileControlImpl(profileModel,this);*/		
+			
+//			homeText.setStyle('textAlign','justify');
+		}
+		public function onResultLogin(result:ResultEvent):void 
+       	{
+       		
+       	} 
+       
+      	public function onFault(fault:FaultEvent):void 
+       	{
+       			
+       	}		
+		
+		private function handleSearchMethod(event:ItemClickEvent):void {
+				columnNameToSearch = event.currentTarget.selectedValue as String;
+		}
+		
+		private function languageCombo_labelFunc(item:Object):String {
+				var language:String = item['languageName'];                
+				return language;
+		}
+		
+		public function openAddUserPopUp():void{
+			
+				this.enabled = false;
+				popup = new AddUserPopup;
+				popup.addEventListener("popupClose", closeAddUserPopup);
+				popup.width = 450;  
+				popup.prnt = this;
+				
+				
+				PopUpManager.addPopUp(popup, this,true);
+				PopUpManager.centerPopUp(popup); 
+		}
+		
+		/* public function openUpdateUserPopUp():void{
+				this.enabled = false;
+				if(userGrid.selectedItem == null){
+	        		Alert.show("Please select a user to edit", "No User Selected");
+	        	}else{
+		        	popup = new AddUserPopup;
+					for(var i:int=0;i<model.usersCollection.length;i++)
+		        	{
+		        		if(userGrid.selectedItem.username==model.usersCollection.getItemAt(i).username)
+		        		{
+		        			popup.isUpdate = true;
+		        			popup.addEventListener("popupClose", closeAddUserPopup);
+							popup.width = 450;  
+							popup.prnt = this;
+		        			popup.person=model.usersCollection.getItemAt(i) as Person;
+		        		}
+		        	}	
+		         	PopUpManager.addPopUp(popup, Application.application as DisplayObject,true);
+		         	
+		            PopUpManager.centerPopUp(popup);
+	           }
+				/* popup = new AddUserPopup;
+				popup.addEventListener("popupClose", closeAddUserPopup);
+				popup.width = 450;  
+				popup.prnt = this;
+				
+				PopUpManager.addPopUp(popup, this,true);
+				PopUpManager.centerPopUp(popup);  
+		}*/
+		
+		
+		public function closeAddUserPopup(event:Event = null):void {
+				this.enabled = true;
+				if(popup == null) return;
+				popup.removeEventListener("popupClose", closeAddUserPopup);
+				PopUpManager.removePopUp(popup);
+				popup = null;
+		}
+		
+		private function removeUser():void {
+			control.removePersonByUsername(userGrid.selectedItem.username);
+		}
+		
+		private function updatePerson():void {
+			var person:Person = userForm.person;
+			person.name = userForm.nameText.text;
+			person.surname = userForm.surnameText.text;
+			person.middleName = userForm.middleNameText.text;
+			person.title = userForm.titleText.text;
+			person.username = userForm.usernameText.text;
+			//person.password = userForm.password.text;
+			if (person.contact == null) person.contact = new Contact();
+			person.contact.email = userForm.emailText.text;
+			person.contact.addressLine = userForm.addressText.text;
+			person.contact.mobileNumber = userForm.mobileText.text;
+			person.contact.phoneNumber = userForm.phoneNumber.text;
+			person.contact.faxNumber = userForm.faxNumber.text;
+			person.contact.gtalk = userForm.googleTalk.text;
+			//if(person.organization == null) person.organization = new Organization();
+			/* person.organization.identifier = userForm.orgIdentifierText.text;
+			person.organization.name = userForm.orgNameText.text;
+			if (person.organization.contact == null) person.organization.contact = new Contact();
+			person.organization.contact.addressLine = userForm.orgAddressText.text;
+			person.organization.contact.mobileNumber = userForm.orgMobileText.text;
+			person.organization.contact.phoneNumber = userForm.orgPhoneNumber.text;
+			person.organization.contact.faxNumber = userForm.orgFaxNumber.text; */
+			
+			
+			//TODO:set urgency level for each patient and add selected patients to the doctor's list.
+			//if(userForm.addPatient.selected == true)
+			
+			
+			/* person.myPatients = userForm.myPatientList;	
+			if(userForm.nothing.selected)
+				person.urgencyLevel = "1";
+			else if(userForm.email.selected)
+				person.urgencyLevel = "2";
+			else if(userForm.sms.selected)
+				person.urgencyLevel = "3";  */
+			 	
+			control.updatePerson(person);
+		}
+		private function doReturnHome():void{
+			viewStack.selectedIndex = 2;
+			userMain.selectedIndex = 3;
+		}
+		
+		
+			
+	]]>
+	</mx:Script>
+	 
+	
+	<mx:VBox width="100%" height="100%">
+	<mx:ApplicationControlBar id="appControlBar" width="100%" height="15%" styleName="mainApplicationControlBar" paddingLeft="0" paddingRight="0">
+		<mx:VBox width="100%" height="100%">
+			<mx:HBox width="100%" height="100%" paddingLeft="30" paddingRight="30" verticalAlign="middle">
+				<!--<mx:Image id="logo" source="@Embed('/assets/careplaneditor/sirketlogo.png')" />-->
+				<mx:Label text="iCARDEA" styleName="iCardeaTitle" fontFamily="Georgia" fontWeight="normal" fontSize="26"/>
+				<mx:Image id="icardeaLogo" source="@Embed('/assets/careplaneditor/heart.png')" />
+			</mx:HBox>
+			<mx:ApplicationControlBar id="userBar" width="100%" height="15%" styleName="applicationBar" horizontalAlign="right" paddingRight="30">
+			 		<mx:Text id="authName" visible="{model.workFlowState == ModelImpl.WINDOW_USER_FORM || model.workFlowState == ModelImpl.WINDOW_LIST_USERS}" includeInLayout="{this.visible}" color="#ffffff" text="" fontSize="13" fontWeight="bold"/>
+					<mx:LinkButton id="logoutButton" color="white" styleName="logoutStyle" visible="{authName.visible}" includeInLayout="{this.visible}" click="{control.doLogout()}" label="Logout" />
+					<mx:LinkButton id="homeButton" color="white" styleName="logoutStyle" visible="{authName.visible}" includeInLayout="{this.visible}" click="{doReturnHome()}" label="Homepage" />
+			</mx:ApplicationControlBar>
+		</mx:VBox>
+	</mx:ApplicationControlBar>
+	<mx:ViewStack id="viewStack" selectedIndex="{model.workFlowState}" width="100%" height="100%" creationPolicy="all">
+		<mx:HBox id="applicationContainer"
+					 width="100%"
+					 height="100%"
+					 styleName="applicationContainer">
+			
+			<mx:VBox id="homePage" width="100%" height="100%" horizontalAlign="center" styleName="toolPanelContainer" >
+				
+				<mx:VBox width="100%" height="100%" styleName="mainFrame">
+					<mx:HBox width="100%" height="100%" styleName="mainApplication" >
+							<mx:VBox id="menuColumn"
+								 height="100%" width="100%"
+								 styleName="middleBox">
+								 <mx:Box width="100%" horizontalAlign="center">
+								 	<mx:Image id="medicine" source="@Embed('/assets/pictures/medicine.jpg')" scaleContent="false" autoLoad="true" horizontalAlign="center"/>
+								 </mx:Box>
+								<mx:Spacer height="5%"/>
+				      			<mx:Text width="100%" styleName="homeTitle" text="An Intelligent Platform for Personalized Remote Monitoring of the Cardiac Patients with Electronic Implant Devices"/>
+								<mx:Spacer height="5%"/>
+								<mx:Text id="homeText" width="100%" styleName="homeText" text="iCARDEA will expose CIED data through standard interfaces to develop an intelligent platform to semi-automate the follow-up of CIED patients with context-aware, adaptable computer interpretable clinical guideline models."   />
+								<mx:Box width="100%" horizontalAlign="center" >
+									<mx:LinkButton click="navigateToURL(new URLRequest('http://www.srdc.com.tr/icardea/'), 'quote')" label="more..." styleName="linkButtonStyle" fontSize="12" color="#016598"/>	
+								</mx:Box>	
+							</mx:VBox >
+							
+							<!--<mx:VBox height="100%" width="100%"
+								 styleName="middleBox" >
+								 <mx:Box width="100%" height="100%" horizontalAlign="center">
+									 <mx:Box borderColor="#00669a" borderThickness="2" borderStyle="solid">
+										<mx:Image id="devices" source="@Embed('/assets/pictures/pacemaker3.jpg')" scaleContent="false" autoLoad="true" horizontalAlign="center"/>		 	
+									 </mx:Box>		
+								 </mx:Box>
+								 <mx:Text width="100%" styleName="homeTitle" text="An Intelligent Platform for Personalized Remote Monitoring of the Cardiac Patients with Electronic Implant Devices"/>
+								 <mx:Text id="homeText" width="100%" styleName="homeText" text="Over the last decade, there has been an exponential growth in the number of cardiac implantable devices, in their electronic and software complexity widening their function and application. However, due to their limited processing capabilities restricted by their size, CIEDs need to be supported with software running on the data centers. Currently, the data center processing is standalone with their custom software and proprietary interfaces. iCARDEA will expose CIED data through standard interfaces to develop an intelligent platform to semi-automate the follow-up of CIED patients with context-aware, adaptable computer interpretable clinical guideline models."   />
+								 <mx:Box width="100%" horizontalAlign="center" >
+								 	<mx:LinkButton label="more..." styleName="linkButtonStyle" fontSize="12" color="#016598"/>	
+								 </mx:Box>		
+							</mx:VBox>-->
+							<!--mx:Spacer width="100%" /-->
+							<mx:VBox id="loginColumn"
+							 height="100%" width="100%"
+							 styleName="middleBox">
+							 	<mx:Box width="100%" horizontalAlign="center">
+									 <mx:Box borderColor="#00669a" borderThickness="2" borderStyle="solid">
+										<mx:Image id="key" source="@Embed('/assets/pictures/loginkey.png')" scaleContent="false" autoLoad="true" horizontalAlign="center"/>		 	
+									 </mx:Box>		
+								 </mx:Box>
+								 <mx:Spacer height="5%"/>
+								 <!--<flexlib:WindowShade opened="false" horizontalAlign="center" width="100%" id="ws1" tabChildren="{ws1.opened}" styleName="linkButtonWindowShade" 
+							      	label="iCardea" >
+							          <mx:LinkButton label="Home Page" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" id="about1"/>
+							          <mx:LinkButton label="Overview" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" id="about2"/>
+							          <mx:LinkButton label="FAQ" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" id="about3"/>
+				      			</flexlib:WindowShade>-->
+								 <mx:Text width="100%" styleName="homeTitle" text="Login"/>
+							 	<view:Login width="100%"/>
+							 
+							</mx:VBox>
+					</mx:HBox>
+				</mx:VBox>
+				
+			</mx:VBox>
+			
+		</mx:HBox>
+		<mx:HBox id="container"
+					 width="100%"
+					 height="100%"
+					 styleName="applicationContainer">
+			<mx:VBox id="adminPage" width="100%" height="100%" horizontalAlign="center" styleName="toolPanelContainer" >
+				<mx:VBox width="100%" height="100%" styleName="mainFrame">
+					<mx:HBox width="100%" height="100%" styleName="mainApplication" >
+							<mx:VBox id="adminMenuColumn"
+								 height="100%"
+								 width="25%"
+								 styleName="middleBox">
+								 <flexlib:WindowShade id="ws2" styleName="linkButtonWindowShade" 
+							      	label="iCardea" width="100%">
+							          <mx:LinkButton label="Home Page" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{adminMain.selectedIndex = 0}"/>
+							          <mx:LinkButton label="Overview" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{adminMain.selectedIndex = 1}" />
+							          <mx:LinkButton label="FAQ" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" />
+				      			</flexlib:WindowShade>
+				
+							</mx:VBox >
+							
+							<mx:ViewStack id="adminMain" width="100%" height="100%">
+								<mx:VBox height="100%" width="100%"
+								 styleName="middleBox" >
+								 
+									 <mx:Text width="100%" styleName="homeTitle" text="An Intelligent Platform for Personalized Remote Monitoring of the Cardiac Patients with Electronic Implant Devices"/>
+									 <mx:Spacer height="5%"/>
+									 <mx:Text id="homeText2" width="100%" styleName="homeText" text="Over the last decade, there has been an exponential growth in the number of cardiac implantable devices, in their electronic and software complexity widening their function and application. However, due to their limited processing capabilities restricted by their size, CIEDs need to be supported with software running on the data centers. Currently, the data center processing is standalone with their custom software and proprietary interfaces. iCARDEA will expose CIED data through standard interfaces to develop an intelligent platform to semi-automate the follow-up of CIED patients with context-aware, adaptable computer interpretable clinical guideline models."   />
+									 <mx:Box width="100%" horizontalAlign="center" >
+									 	<mx:LinkButton click="navigateToURL(new URLRequest('http://www.srdc.com.tr/icardea/'), 'quote')" label="more..." styleName="linkButtonStyle" fontSize="12" color="#016598"/>	
+									 </mx:Box>		
+								 </mx:VBox>
+								 <mx:VBox height="100%" width="100%"
+								 styleName="middleBox">
+								 	<view:UsersGrid id="userGrid" dataProvider="{model.usersCollection}" width="100%" height="100%"  styleName="usersGrid"/>
+								 	<mx:ControlBar width="100%" horizontalAlign="right">
+								 		<mx:Button label="Add User" click="{openAddUserPopUp()}" styleName="adminButton" />
+								 		<mx:Button label="Remove User" click="{removeUser()}" styleName="adminButton" />
+								 	</mx:ControlBar>
+								 </mx:VBox>
+							</mx:ViewStack>
+					</mx:HBox>
+				</mx:VBox>
+			</mx:VBox>
+		</mx:HBox>
+		<mx:HBox id="userContainer"
+					 width="100%"
+					 height="100%"
+					 styleName="applicationContainer">
+			<mx:VBox id="userPage" width="100%" height="100%" horizontalAlign="center" styleName="toolPanelContainer" >
+				<mx:VBox height="100%" width="100%" styleName="mainFrame">
+					<mx:HBox width="100%" height="100%" styleName="mainApplication" >
+						<mx:VBox id="userMenuColumn"
+							 height="100%"
+							 width="25%"
+							 styleName="middleBox">
+							 <flexlib:WindowShade id="ws3" styleName="linkButtonWindowShade" 
+						      	label="iCardea" width="100%">
+						          <mx:LinkButton label="Home Page" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{userMain.selectedIndex = 0}"/>
+						          <mx:LinkButton label="FAQ" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" />
+						          <mx:LinkButton label="Account Settings" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{userMain.selectedIndex = 2; control.getOrganizations();}"/>
+			      			</flexlib:WindowShade>
+			      			<flexlib:WindowShade id="ws4" styleName="linkButtonWindowShade" 
+						      	label="Tools" width="100%">
+						          <mx:LinkButton label="Care Plan Definition Tool" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{userMain.selectedIndex = 3}"/>
+						          
+						          <!-- TODO This was used for testing -->
+						          <mx:LinkButton label="Care Plan Monitoring Tool" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{ userMain.selectedIndex = 5}" />
+						          <!-- careplanDT.execute=true; careplanDT.doSettings(); careplans.isMonitoring = true; -->
+						           
+						          <!--<mx:LinkButton label="Patient Management" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{userMain.selectedIndex = 4}" />-->
+						          
+			      			</flexlib:WindowShade>
+			      			<flexlib:WindowShade opened="false" id="ws5" styleName="linkButtonWindowShade" 
+						      	label="User Manuals" width="100%">
+						          <mx:LinkButton click="navigateToURL(new URLRequest('http://www.srdc.com.tr/icardea/userguide/manual-CarePlanEditor.htm'), 'quote')" label="Care Plan Definition Tool" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%"/>
+						          <mx:LinkButton click="navigateToURL(new URLRequest('http://www.srdc.com.tr/icardea/userguide/manual-CarePlanMonitoringTool.htm'), 'quote')" label="Care Plan Monitoring Tool" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%"/>
+						    </flexlib:WindowShade>
+						</mx:VBox >
+						<mx:ViewStack id="userMain" width="100%" height="100%">
+							<mx:VBox height="100%" width="100%"
+							 styleName="middleBox" >
+								 <mx:Text width="100%" styleName="homeTitle" text="An Intelligent Platform for Personalized Remote Monitoring of the Cardiac Patients with Electronic Implant Devices"/>
+								 
+								 <mx:Text id="homeText3" width="100%" styleName="homeText" text="Over the last decade, there has been an exponential growth in the number of cardiac implantable devices, in their electronic and software complexity widening their function and application. However, due to their limited processing capabilities restricted by their size, CIEDs need to be supported with software running on the data centers. Currently, the data center processing is standalone with their custom software and proprietary interfaces. iCARDEA will expose CIED data through standard interfaces to develop an intelligent platform to semi-automate the follow-up of CIED patients with context-aware, adaptable computer interpretable clinical guideline models."   />
+								 <mx:Box width="100%" horizontalAlign="center" >
+								 	<mx:LinkButton click="navigateToURL(new URLRequest('http://www.srdc.com.tr/icardea/'), 'quote')" label="more..." styleName="linkButtonStyle" fontSize="12" color="#016598"/>	
+								 </mx:Box>		
+							 </mx:VBox>
+							 <mx:VBox height="100%" width="100%"
+							 styleName="middleBox">
+							 </mx:VBox>
+							 <mx:VBox height="100%" width="100%" styleName="middleBox" >
+							 	<view:UserForm id="userForm" person="{model.authenticatedUser}" model="{model}" />
+							 	<mx:ControlBar width="100%" horizontalAlign="right" >
+							 		<mx:Button label="Update" click="{updatePerson()}" styleName="adminButton" />
+							 	</mx:ControlBar>
+							 </mx:VBox>
+							 <mx:VBox width="100%" height="100%">
+							 	<careplans:DefinedCareplans click="{careplanDT.execute=false; careplanDT.doSettings();}" />
+							 </mx:VBox>
+							 <mx:VBox width="100%" height="100%">
+							 	<cpatientview:patients id="patientManagement"/>
+							 </mx:VBox>	
+							 <mx:VBox width="100%" height="100%">
+							 	<monitor:DefinedPatients2Monitor id="monitorPatients" click="{careplanDT.execute=true; careplanDT.doSettings();}"/>
+							 	<!--<careplans:DefinedCareplans click="{careplanDT.execute=true; careplanDT.doSettings(); careplans.isMonitoring = true;}" isMonitoring = "true" id="careplans1"/>-->
+							 </mx:VBox>						 
+						</mx:ViewStack>
+					</mx:HBox>
+				</mx:VBox>
+			</mx:VBox>
+		</mx:HBox>
+		<mx:VBox width="100%" height="100%">
+			<cpview:CarePlanEditor id="careplanDT"/>
+		</mx:VBox>
+		
+		<!-- TODO: To be discussed with the team members if monitoring tool should be seperated from srdcDemo -->
+		<!--mx:VBox>
+		 	<monTool:monitoringTool id="moniTool"/>
+		</mx:VBox-->
+	</mx:ViewStack>
+	</mx:VBox>		
+</mx:Application>

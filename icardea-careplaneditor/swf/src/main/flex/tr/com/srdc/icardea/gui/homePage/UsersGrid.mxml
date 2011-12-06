@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DataGrid xmlns:mx="http://www.adobe.com/2006/mxml"  styleName="usersGrid">
+	<mx:columns>
+		<mx:DataGridColumn dataField="name" headerText="Name" />
+		<mx:DataGridColumn dataField="surname" headerText="Last Name" />
+		<mx:DataGridColumn labelFunction="emailLabel"  headerText="Email" />
+		<mx:DataGridColumn dataField="username" headerText="Username" />
+		<mx:DataGridColumn labelFunction="roleLabel" headerText="Role" />
+	</mx:columns>
+<mx:Script>
+	<![CDATA[
+		import tr.com.srdc.icardea.model.userRoles.Person;
+		import mx.collections.ArrayCollection;
+	[Inspectable]
+	public function set users(usersCollection : ArrayCollection): void {
+		this.dataProvider = usersCollection;
+	}
+	
+	public function emailLabel(item:Object, column:DataGridColumn):String {
+		return (item as Person).contact.email;
+	}
+
+	
+	public function roleLabel(item:Object, column:DataGridColumn):String {
+		switch ((item as Person).role){
+			case "ROLE_ADMIN": return "Administrator";
+			case "ROLE_USERS": return "Doctor";
+			default: return (item as Person).role;
+		}
+		//return "";
+	}
+	]]>
+</mx:Script>
+</mx:DataGrid>

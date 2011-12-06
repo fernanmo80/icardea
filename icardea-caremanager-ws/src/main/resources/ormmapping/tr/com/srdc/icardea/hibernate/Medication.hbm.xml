@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.hibernate.Medication" table="Medication" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="increment">
+			</generator>
+		</id>
+		<property name="careProvisionCode" column="careProvisionCode" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="text" column="text" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="effectiveTime" column="effectiveTime" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="routeCode" column="routeCode" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="approachSiteCode" column="approachSiteCode" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="doseQuantity" column="doseQuantity" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="drugCode" column="drugCode" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="drugCodeSystem" column="drugCodeSystem" type="string" length="255" not-null="false" lazy="false"/>
+		<many-to-one name="eHRPHRData" column="EHRPHRDataID" class="tr.com.srdc.icardea.hibernate.EHRPHRData" cascade="save-update,lock" unique="true" not-null="true" lazy="no-proxy" access="field">
+		</many-to-one>
+		<property name="effectiveTimeHigh" column="effectiveTimeHigh" type="string" length="255" not-null="false" lazy="false"/>
+	</class>
+</hibernate-mapping>

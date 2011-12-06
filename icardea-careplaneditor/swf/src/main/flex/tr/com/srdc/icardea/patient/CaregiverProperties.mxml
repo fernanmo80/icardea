@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow  xmlns:mx="http://www.adobe.com/2006/mxml" width="358" title="Caregivers:" height="230">
+	<mx:Script>
+	<![CDATA[
+		import mx.rpc.events.FaultEvent;
+		import mx.rpc.events.ResultEvent;
+		import mx.messaging.channels.SecureAMFChannel;
+		import mx.messaging.Channel;
+		import mx.messaging.ChannelSet;
+		import mx.rpc.remoting.RemoteObject;
+
+		import tr.com.srdc.icardea.patient.patients;
+		import tr.com.srdc.icardea.model.userRoles.Person;
+		import mx.controls.Alert;
+		import tr.com.srdc.icardea.model.userRoles.Patient;
+		import mx.managers.PopUpManager;
+		import mx.collections.ArrayCollection;
+	
+	
+	[Bindable]
+	public var patient:Patient;
+	
+	public var sparent:Caregivers;
+		
+	[Bindable]
+    public var newCaregiver:Person;
+    [Bindable]
+    public var edit:Boolean;
+		
+	
+	private function cancelNewCaregiver():void{
+		PopUpManager.removePopUp(this);
+	}
+	private function addNewCaregiver():void{
+		
+		this.newCaregiver.identifier= caregiverID.text;
+		this.newCaregiver.name = caregiverName.text;
+		this.newCaregiver.surname = caregiverSurname.text;
+	 	this.newCaregiver.contact.phoneNumber = caregiverPhone.text;
+		this.newCaregiver.contact.email = caregiverEmail.text; 
+		
+		var service : RemoteObject = new RemoteObject("subscriptionService");
+		var cs:ChannelSet = new ChannelSet();
+		var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+		cs.addChannel(customChannel);
+		service.channelSet = cs;
+		service.addEventListener(ResultEvent.RESULT,onResultAddCaregivers);
+		service.addEventListener(FaultEvent.FAULT, onFault);
+		
+  		if(edit){
+  			service.updateCaregiver(this.patient, this.newCaregiver); 
+  			
+  		}else{
+  			service.createCaregiver(this.patient, this.newCaregiver);
+  			this.patient.caregivers.addItem(this.newCaregiver);
+  		}
+  	
+    	       	
+        PopUpManager.removePopUp(this);
+       
+		
+	}
+	
+	public function onResultAddCaregivers(result:ResultEvent):void 
+   	{
+   		
+  	} 
+   
+  	public function onFault(fault:FaultEvent):void 
+   	{
+   		Alert.show(fault.fault.faultString);	
+   	} 
+	
+		
+	]]>
+	</mx:Script>
+	
+		<mx:VBox width="324" height="181">
+			<mx:HBox>
+				<mx:Label text="ID:" width="52"/>
+				<mx:TextInput id="caregiverID" text="{this.newCaregiver.identifier}"/>
+			</mx:HBox>
+			<mx:HBox>
+				<mx:Label text="Name:" width="52"/>
+				<mx:TextInput id="caregiverName" text="{this.newCaregiver.name}"/>
+			</mx:HBox>
+			<mx:HBox>
+				<mx:Label text="Surname:"/>
+				<mx:TextInput id="caregiverSurname" text="{this.newCaregiver.surname}"/>
+			</mx:HBox>
+			<mx:HBox>
+				<mx:Label text="Phone:" width="52"/>
+				<mx:TextInput id="caregiverPhone" text="{this.newCaregiver.contact.phoneNumber}"/>
+			</mx:HBox>
+			<mx:HBox>
+				<mx:Label text="E-mail:" width="52"/>
+				<mx:TextInput id="caregiverEmail" text="{this.newCaregiver.contact.email}"/>
+			</mx:HBox>
+		<mx:HBox width="113" height="28">
+				<mx:Button label="SAVE" click="addNewCaregiver()"/>
+				<mx:Button label="Cancel" click="cancelNewCaregiver()"/>
+			</mx:HBox>	
+		</mx:VBox>
+</mx:TitleWindow>

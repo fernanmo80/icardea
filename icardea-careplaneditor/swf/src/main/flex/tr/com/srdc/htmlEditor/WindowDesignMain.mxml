@@ -1,0 +1,219 @@
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="Execution Monitoring Window Design" width="1205" height="784" xmlns:code="http://code.google.com/p/flex-iframe/">
+	<mx:VBox xmlns="fr.kapit.skin.component.*"
+             xmlns:groe_org="org.groe.html.*"
+          	 buttonMode="true" borderColor="#DBD6D1" alpha="1.0" backgroundColor="#cccccc" horizontalAlign="left" verticalAlign="top" 
+           	 initialize="init()" width="100%" height="100%">
+    <mx:Script>
+		<![CDATA[
+			import tr.com.srdc.icardea.model.variables.Variable;
+			import mx.core.Application;
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+			import tr.com.srdc.icardea.model.htmlEditor.Display;
+			import mx.collections.ArrayCollection;
+			import mx.core.mx_internal;
+			use namespace mx_internal;
+			
+			[Bindable]
+			public var variablesList:ArrayCollection = new ArrayCollection;
+			[Bindable]
+			public var nextSteps:ArrayCollection = new ArrayCollection;
+			[Bindable]
+			public var display:Display;
+			[Bindable]
+			public var blockTypes:ArrayCollection = new ArrayCollection;
+			
+		private function init():void{
+			if(display.html.body != null){
+				ifr.content = display.html.body;
+			}
+			var obj:Object = new Object;
+			obj.name = "Patient Block";
+			obj.isSelected = false ;
+			blockTypes.addItem(obj);
+			var obj1:Object = new Object;
+			obj1.name = "CIED Block";
+			obj1.isSelected = false ;
+			blockTypes.addItem(obj1);
+			var obj2:Object = new Object;
+			obj2.name = "EGM Block";
+			obj2.isSelected = false ;
+			blockTypes.addItem(obj2);
+			var obj3:Object = new Object;
+			obj3.name = "Choice Block";
+			obj3.isSelected = false ;
+			blockTypes.addItem(obj3);
+			var obj4:Object = new Object;
+			obj4.name = "Recommendation Block";
+			obj4.isSelected = false ;
+			blockTypes.addItem(obj4);
+			var obj5:Object = new Object;
+			obj5.name = "Medication Compliance Block";
+			obj5.isSelected = false ;
+			blockTypes.addItem(obj5);
+			var obj6:Object = new Object;
+			obj6.name = "Patient Reported Symptoms Block";
+			obj6.isSelected = false ;
+			blockTypes.addItem(obj6);
+			var obj7:Object = new Object;
+			obj7.name = "Medical History Block";
+			obj7.isSelected = false ;
+			blockTypes.addItem(obj7);
+			var obj8:Object = new Object;
+			obj8.name = "Recent Lab Results Block";
+			obj8.isSelected = false ;
+			blockTypes.addItem(obj8);
+			
+		}
+		private function cancelDesign():void{
+			PopUpManager.removePopUp(this);
+		}
+		private function saveDesign():void{
+			display.html.body = ifr.content;
+			PopUpManager.removePopUp(this);
+		}
+        private function createWindow():void{
+        	
+        	(mainViewContent.getTextField() as TextField).replaceText(0,(mainViewContent.getTextField() as TextField).caretIndex,"");
+        	(mainViewContent.getTextField() as TextField).appendText("<table cellspacing="+"\"10\""+" style="+"\"background-color:#e1e1e1\""+"><tbody>");
+        	
+        	for(var i:int = 0; i < blockTypes.length; i++ ){
+        		var blockName:String = blockTypes.getItemAt(i).name;
+        		//Hic bisey selected olmasa bile nextstepleri varsa choice olmalı + baska seler de olabilir mi?
+        		if(blockTypes.getItemAt(i).isSelected == true){
+        			switch(blockName){
+        				case "Patient Block":
+		               		var patientBlock:String = "<tr name="+"\"PatientBlock\""+" id="+"\"PatientBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b>Brief Information about the patient </b></p>"+"<p>Patient Name:"+"<data src="+"\"caremanagementdb://Patient/@givenName\""+"/>"+"<data src="+"\"caremanagementdb://Patient/@secondName\""+"/>"+"<data src="+"\"caremanagementdb://Patient/@familyName\""+"/>"+"<br />"+"Patient ID:"+"<data src="+"\"caremanagementdb://Patient/@patientIdentifier\""+"/>"+"<br />"+"<a href="+"\"http://patient.parameter.monitor.link/a.php?patientID\""+">Access to EHR</a> <br />"+"Implanted Device:"+"<data src="+"\"caremanagementdb://720897:MDC_IDC_PG_TYPE\""+"/>"+"<data src="+"\"caremanagementdb://720898:MDC_IDC_PG_MODEL\""+"/>"+"<br />"+"Last Follow-up Date: <data src="+"\"caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS\""+"/><a href="+"\"http://link.to.care.management.db\""+">Access to previous Remote follow-up results</a> </p>"+"<p><br />"+"</p>"+"</td>"+"</tr>\n";          		
+		               		(mainViewContent.getTextField() as TextField).appendText(patientBlock);
+				            break;
+		               	case "CIED Block":
+		               		var ciedBlock:String = "<tr name="+"\"CIEDBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"Received Date:	<data src="+"\"caremanagementdb://Patient/CIEDData/@receivedTime\""+"/>"+"<br/>"+"Alarms Detected:"+"<data src="+"\"alarmmanager://Alarm/Time\""+"/>"+"VT Episode"+"<br/>"+"<a href="+"\"http://patient.parameter.monitor.link\""+">Access to Report Exported</a>"+"</td>"+"</tr>\n";	  					
+		               		(mainViewContent.getTextField() as TextField).appendText(ciedBlock);
+		               		break;
+		               	case "EGM Block":
+		               		var egmBlock:String = "<tr name="+"\"EGMBlock\""+"> <td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b>Brief Information about the EGM and detected problems </b> </p>"+"<table  cellspacing="+"\"10\""+" width="+"\"100%\""+">"+"<tbody>"+"<tr>"+"<td>"+"<p align="+"\"center\""+"> EGM: <a href="+"\"http://patient.parameter.monitor.link\""+">Access to Report Exported</a> <br /> </p>"+"<p><img width="+"\"312\""+" height="+"\"190\""+" id="+"\"Picture1\""+" src="+"\"caremanagementdb://Patient/Observation/@base64String\""+" alt="+"\"x.bmp\""+" /></p>"+"</td>"+"<td>"+"<p align="+"\"center\""+">  Assesment by CIED <a href="+"\"http://patient.parameter.monitor.link\""+">Access to Report Exported</a> <br />"+"<br/>";
+		               		egmBlock += "<p align="+"\"left\""+">";		               		
+		               		for(var k:int = 0; k < variableGrid.selectedItems.length  ; k++){
+		               			egmBlock+=variableGrid.selectedItems[k].name+": $"+variableGrid.selectedItems[k].name+"<br />";
+		               		}
+		               		egmBlock +="</p></p></td></tr></tbody></table></td></tr\n>";
+				            (mainViewContent.getTextField() as TextField).appendText(egmBlock);
+		               		break;
+		               	case "Choice Block":
+		               		var choiceBlock:String ="<tr name="+"\"ChoiceBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b>Recommendation and Next Step to follow </b> </p>"+"<p>Please choose the suitable option</p>"+"<form onsubmit="+"\"return ValidateData();\""+" action="+"\"null\""+" method="+"\"post\""+">\n";
+		               		for(var j:int = 0; j< nextSteps.length; j++){
+		               			choiceBlock+="<input type="+"\"submit\""+" name="+"\"S5Choice\""+" value="+"\""+nextSteps.getItemAt(j).name+"\""+" onclick="+"\"btnWhichButton=this\""+" />\n";
+		               		}
+		               		choiceBlock += "</form>"+"</td>"+"</tr>\n";
+		               		(mainViewContent.getTextField() as TextField).appendText(choiceBlock);
+		               	 	break;
+		               	case "Recommendation Block":
+		               		var recommendBlock:String = "<tr name="+"\"RecommendationBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b><font color="+"\"#880015\""+">Recommendation and Next Step to follow</font> </b> </p>"+"<p>"+recommendationMessage.text+"</p>"+"<form onsubmit="+"\"return ValidateData();\""+" action="+"\"null\""+" method="+"\"post\""+">"+"<input type="+"\"submit\""+" name="+"\"D5Choice\""+" value="+"\"Continue\""+" onclick="+"\"btnWhichButton=this\""+"/>"+"</form>"+"</td>"+"</tr>\n";
+		               		(mainViewContent.getTextField() as TextField).appendText(recommendBlock);
+		               		break;
+		               	case "Medication Compliance Block":
+		               		var medicationComp:String = "<tr name="+"\"EHRBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b>Brief Information about the Patient History retrieved from EHR"+"</b> </p>"+"<table  width="+"\"100%\""+">"+"<tbody>"+"<tr>"+"<th>Active Medications</th>"+"<th>Does the patient regularly takes the medications?</th>"+"</tr>"+"<script>\n<arguments>";
+							for(var l:int = 0; l < variableGrid.selectedItems.length  ; l++){
+								if(l == variableGrid.selectedItems.length - 1){
+									medicationComp+= "$"+variableGrid.selectedItems[l].name;
+								}
+								else {
+									medicationComp+= "$"+variableGrid.selectedItems[l].name+", ";
+								}
+		               		}
+		               	 	medicationComp += "</arguments>\n"+"<content>function generate(ehrMeds, phrMeds) { var e; var p; var output = ''; for(e=0; e&lt;ehrMeds.length;e++) { var ehrMed = ehrMeds[e]; var effectiveTimeHighEHR = ehrMed.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHighEHR)) continue; output = output + '&lt;tr&gt;'; var useIt = 'No'; for(p=0; p&lt;phrMeds.length;p++) { var phrMed = phrMeds[p];	var effectiveTimeHighPHR = phrMed.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHighPHR)) continue; if(ehrMed.getDrugCode().equals(phrMed.getDrugCode())) { useIt = '&lt;font color=\"#880015\"&gt;&lt;b&gt;Yes: ' + phrMed.getDoseQuantity() + ' mg&lt;/b&gt;&lt;/font&gt;'; }  } var line = '&lt;td&gt;' + ehrMed.getText() + ':' + ehrMed.getDoseQuantity() + ' mg&lt;/td&gt;' + '&lt;td&gt;' + useIt + '&lt;/td&gt;' + '&lt;td&gt;'; output = output + line; output = output + '&lt;/tr&gt;'; }  return output; }</content>"+"</script>"+"</tbody>"+"</table>"+"</td>"+"</tr>\n";
+							(mainViewContent.getTextField() as TextField).appendText(medicationComp);	
+							break;
+		               	case "Patient Reported Symptoms Block":
+	               			var reportedSymptoms:String = "<tr name="+"\"PHRBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b>Brief Information about the patient reported symptoms retrieved from PHR</b> </p><table  width="+"\"100%\""+"><tbody><tr><td>Patient Reported Symptoms </td><td>Value</td></tr>\n";
+						  	for(var m:int = 0; m < variableGrid.selectedItems.length  ; m++){
+		               			reportedSymptoms+= "<tr><td>"+variableGrid.selectedItems[m].name+"</td><td>$"+variableGrid.selectedItems[m].name+" <a href="+"\"http://link.to.patient.parameter.monitor\""+">Link to PHR</a></td></tr>\n";
+		               	  	}
+						  	reportedSymptoms+="</tbody></table></td></tr>\n";
+		               		(mainViewContent.getTextField() as TextField).appendText(reportedSymptoms);
+		     				break;
+		               	case "Medical History Block":
+	               			var medicalHist:String = "<tr name="+"\"EHRBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b>Brief Information about the Patient History retrieved from EHR"+ "</b> </p> <table  width="+"\"100%\""+"><tbody><tr><td><b>Status of associated Diseases</b></td><td><b>EHR values</b></td></tr>\n";
+						  	for(var n:int = 0; n < variableGrid.selectedItems.length  ; n++){
+		               			medicalHist+= "<tr><td>"+variableGrid.selectedItems[n].name+"</td><td>$"+variableGrid.selectedItems[n].name+" <a href="+"\"http://link.to.patient.parameter.monitor\""+">Link to EHR</a></td></tr>\n";
+		               	  	}
+						  	medicalHist+="</tbody></table></td></tr>\n";
+		               		(mainViewContent.getTextField() as TextField).appendText(medicalHist);
+	     					break;
+		               	case "Recent Lab Results Block":
+							var labResults:String = "<tr name="+"\"EHRBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b>Brief Information about the Patient History retrieved from EHR </b> </p>"+"<table  width="+"\"100%\""+"><tbody><tr><td>Lab Results</td><td>Value</td><td>Normal Values</td></tr>\n";
+							for(var p:int = 0; p < variableGrid.selectedItems.length  ; p++){
+		               			labResults+= "<tr><td>"+variableGrid.selectedItems[p].name+"</td><td>$"+variableGrid.selectedItems[p].name+ " <a href="+"\"http://link.to.patient.parameter.monitor\""+">Link to EHR</a></td><td>"+ "$"+(variableGrid.selectedItems[p] as Variable).refValue +"</td></tr>\n";
+		               	  	}
+		               	 	labResults+="</tbody></table></td></tr>\n";
+			               	(mainViewContent.getTextField() as TextField).appendText(labResults);
+							break;
+					   }	
+        			}
+        		}
+        		(mainViewContent.getTextField() as TextField).appendText("</tbody></table>");
+        		ifr.content =(mainViewContent.getTextField() as TextField).text; 
+        	}
+        	
+        	
+        
+		 ]]>
+	</mx:Script>
+    <mx:HBox width="100%" height="100%">
+    	<mx:VBox height="100%" width="50%">
+    		<mx:Label text="Select Block to Add:" fontSize="12"/>
+    		<mx:DataGrid id="blockGrid" width="100%" height="100%" dataProvider="{blockTypes}">
+    			<mx:columns>
+    				<mx:DataGridColumn headerText="Block" dataField="name"/>
+    				<mx:DataGridColumn headerText="Add" dataField="isSelected">
+						<mx:itemRenderer>
+							<mx:Component>
+								<mx:HBox horizontalAlign="center" >
+									<mx:CheckBox selectedField="isSelected" change="onChange(event);">
+				                        <mx:Script>
+				                            <![CDATA[
+				                                private function onChange(evt:Event):void {
+				                                    data.isSelected = !data.isSelected;
+				                                    if(data.isSelected == true && data.name == "Recommendation Block"){
+				                                    	outerDocument.messageBox.visible = true;
+        												outerDocument.messageBox.includeInLayout = true;
+				                                    }
+				                                    else{
+				                                    	outerDocument.messageBox.visible = false;
+        												outerDocument.messageBox.includeInLayout = false;
+				                                    }
+				                                }
+				                            ]]>
+				                        </mx:Script>
+				                    </mx:CheckBox>
+								</mx:HBox>
+							</mx:Component>
+						</mx:itemRenderer>
+					</mx:DataGridColumn>	
+    			</mx:columns>
+    		</mx:DataGrid>
+	    	<mx:Label text="Add from Defined Parameters to Monitor:" fontSize="12"/>
+    		<mx:DataGrid allowMultipleSelection="true" id="variableGrid" width="100%" dataProvider="{variablesList}">
+    			<mx:columns>
+    				<mx:DataGridColumn headerText="Parameter Name" dataField="name"/>
+    			</mx:columns>
+    		</mx:DataGrid>
+    		<mx:Text text="Note: Use 'CTRL' for multiple parameter selection"/>
+    		<mx:Spacer width="5%"/>
+    		<mx:VBox id="messageBox" width="100%" visible="false" includeInLayout="false">
+    			<mx:Text text="Recommendation Message:" fontSize="12"/>
+    			<mx:TextArea id="recommendationMessage" width="100%"/>    	
+    		</mx:VBox>
+    		<mx:HBox horizontalAlign="right" width="100%">
+    			<mx:Button label="Create" click="createWindow()"/>	
+    		</mx:HBox>
+    	</mx:VBox>
+    	<mx:TextArea visible="false" includeInLayout="false" id="mainViewContent"/>
+    	<code:IFrame id="ifr" width="100%" height="100%" />
+    </mx:HBox>
+    <mx:HBox>
+    	<mx:Button icon="@Embed(source='/assets/save.png')" label="Save" click="saveDesign()" />
+    	<mx:Button icon="@Embed(source='/assets/cancel.png')" label="Cancel" click="cancelDesign()"/>
+    </mx:HBox>
+	</mx:VBox>
+</mx:TitleWindow>

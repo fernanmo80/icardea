@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: ali yildiz
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.LEAD" table="LEAD">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <many-to-one access="field" cascade="lock" class="tr.com.srdc.icardea.hibernate.System" column="SystemID" lazy="no-proxy" name="system" not-null="true">
+		</many-to-one>
+    <property column="model" lazy="false" length="50" name="model" not-null="false" type="string"/>
+    <property column="serial" lazy="false" length="50" name="serial" not-null="false" type="string"/>
+    <property column="mfg" lazy="false" length="50" name="mfg" not-null="false" type="string"/>
+    <property column="implant_dt" lazy="false" length="50" name="implant_dt" not-null="false" type="string"/>
+    <property column="polarity_type" lazy="false" length="50" name="polarity_type" not-null="false" type="string"/>
+    <property column="location" lazy="false" length="50" name="location" not-null="false" type="string"/>
+    <property column="location_detail_1" lazy="false" length="50" name="location_detail_1" not-null="false" type="string"/>
+    <property column="location_detail_2" lazy="false" length="50" name="location_detail_2" not-null="false" type="string"/>
+    <property column="location_detail_3" lazy="false" length="50" name="location_detail_3" not-null="false" type="string"/>
+    <property column="connection_status" lazy="false" length="50" name="connection_status" not-null="false" type="string"/>
+    <property column="special_function" lazy="false" length="50" name="special_function" not-null="false" type="string"/>
+    <property column="subID" lazy="false" length="11" name="subID" not-null="false" type="integer"/>
+  </class>
+</hibernate-mapping>

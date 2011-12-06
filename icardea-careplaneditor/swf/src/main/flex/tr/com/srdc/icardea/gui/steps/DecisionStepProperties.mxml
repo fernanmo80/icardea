@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ //
+  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
+  ~ //   
+  ~ //  TERMS OF USE  
+  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
+  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
+  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
+  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
+  ~ //
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  -->
+<!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ // This tool can be used to change diagrammer mode (link creation, hand or selection mode)
+  ~ // It also reflect change to diagrammer mode, should this change be cause by this tool  
+  ~ // or an external cause.
+  ~ ////////////////////////////////////////////////////////////////////////////////
+ -->
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="Decision Step Properties" height="484">
+<mx:VBox xmlns="fr.kapit.skin.component.*" 
+           
+           buttonMode="true" borderColor="#DBD6D1" alpha="1.0" backgroundColor="#cccccc" horizontalAlign="left"
+           verticalAlign="top" width="453" height="435">
+    <mx:Script>
+		<![CDATA[
+			import tr.com.srdc.icardea.model.steps.NextStep;
+			import tr.com.srdc.icardea.model.careplan.Script;
+			import tr.com.srdc.icardea.gui.variables.VariableProperties;
+			import mx.core.Application;
+			import tr.com.srdc.icardea.gui.scriptEditor.ScriptEditor;
+		import tr.com.srdc.icardea.model.variables.Variable;
+		import com.googlecode.flexxb.FlexXBEngine;
+		import tr.com.srdc.icardea.model.steps.DecisionStep;
+		import mx.controls.Alert;
+		import mx.managers.PopUpManager;
+		import mx.collections.ArrayCollection;
+		import com.kapit.diagram.DiagramEvent;
+        import com.kapit.diagram.view.DiagramView;
+        
+        [Bindable]
+        public var types:ArrayCollection=new ArrayCollection();
+        [Bindable]
+        public var decisionStep:DecisionStep = new DecisionStep();
+        [Bindable]
+        public var decisionVar:Variable;
+        [Bindable]
+        public var evaluationScript:ScriptEditor;
+        [Bindable]
+        public var script:Script;
+        
+        public function saveDecisionChoices():void
+        {	
+        	this.decisionStep.name = decisionName.text;
+        	this.decisionStep.nextStep = myGrid2.dataProvider as ArrayCollection;
+        	this.decisionStep.variable = myGrid.dataProvider as ArrayCollection;
+        	
+        	PopUpManager.removePopUp(this);           
+            parentApplication.enabled=true;       
+            
+        }
+      
+      	public function deleteVariable():void
+        {
+        	for(var i:int=0;i<decisionStep.variable.length;i++)
+        	{
+        		if(myGrid.selectedItem.name==decisionStep.variable.getItemAt(i).name && myGrid.selectedItem.type==decisionStep.variable.getItemAt(i).type)
+        		{
+        			decisionStep.variable.removeItemAt(i);
+        		}
+        	}	
+        	
+        }
+        
+        public function addVariable():void
+        {
+         	var apopup:VariableProperties= new VariableProperties;
+         	decisionVar = new Variable;
+         	decisionStep.variable.addItem(decisionVar);
+         	apopup.csVariable = decisionVar;
+        	PopUpManager.addPopUp(apopup, this,true);
+
+        	
+            PopUpManager.centerPopUp(apopup);
+        }
+        
+        public function editVariable():void
+        {
+        	if(myGrid.selectedItem == null){
+        		Alert.show("Please select a variable to edit", "No Variable Selected");
+        	}else{
+	        	var apopup:VariableProperties= new VariableProperties;
+	        	for(var i:int=0;i<decisionStep.variable.length;i++)
+	        	{
+	        		if(myGrid.selectedItem.name==decisionStep.variable.getItemAt(i).name && myGrid.selectedItem.type==decisionStep.variable.getItemAt(i).type)
+	        		{
+	        			apopup.csVariable=decisionStep.variable.getItemAt(i) as Variable;
+	        		}
+	        	}	
+	         	PopUpManager.addPopUp(apopup, this,true);
+	       
+	        
+	            PopUpManager.centerPopUp(apopup);
+            }
+         	
+        }
+        
+        public function whichNextStep():NextStep{
+        	var next:NextStep = new NextStep;
+        	for(var i:int = 0; i < decisionStep.nextStep.length; i++){
+        		if(myGrid2.selectedItem != null)
+        		{
+	        		if(myGrid2.selectedItem.name==decisionStep.nextStep.getItemAt(i).name)
+	        		{
+	        			next=decisionStep.nextStep.getItemAt(i) as NextStep;
+	        		}
+	        	}
+        	}  
+        	return next;
+        }
+        
+        public function writeEvaluationScript():void
+        {
+        	evaluationScript = new ScriptEditor;
+        	evaluationScript.sparent=this;
+        	evaluationScript.stepName="decisionStep";
+        	script = new Script;
+        	evaluationScript.script=script;
+        	var evaNext:NextStep = whichNextStep();
+        	script.evaluationNext = evaNext;
+        	
+        	PopUpManager.addPopUp(evaluationScript, Application.application as DisplayObject,true);
+            PopUpManager.centerPopUp(evaluationScript);
+        }
+        ]]>
+	</mx:Script>
+    <!--<mx:Label text="Decision Step Properties" width="268" height="31" textAlign="left" fontWeight="bold" fontSize="20" fontFamily="Arial"/>-->
+	
+		<mx:VBox width="447" height="359">
+		    <mx:Spacer height="5%"/>
+		    <mx:TextInput id="decisionName" text="{this.decisionStep.name}" width="426" height="23"/>
+		    <mx:Spacer height="5%"/>
+		    <mx:Label text="VARIABLES" width="73" height="20" fontWeight="bold"/>
+		    <mx:Spacer height="5%"/>
+		    <mx:HBox height="136" width="437">
+		    	<!--<mx:Spacer width="155" height="1"/>-->
+		    	<mx:DataGrid id="myGrid" width="287" height="123" dataProvider="{this.decisionStep.variable}" >
+		    	   	<mx:columns>
+		    	   	   	<mx:DataGridColumn dataField="name" headerText="Name" />
+		    	   	    <mx:DataGridColumn dataField="type" headerText="Type" />
+		    	   	 </mx:columns> 
+		    	</mx:DataGrid>
+		       	<mx:VBox height="131" width="135">
+		       	<mx:Button label="Add New Variable" enabled="true" click="{addVariable()}" width="131" height="36"/>
+		       	<mx:Button label="Edit Variable" enabled="true" click="{editVariable()}" width="132" height="36"/>
+		       	<mx:Button label="Delete Variable" enabled="true" click="{deleteVariable()}" width="133" height="36"/>
+		       	</mx:VBox>
+		    </mx:HBox>
+		    <mx:Label text="NEXT STEPS" width="163" height="20" fontWeight="bold"/>
+		    <mx:DataGrid id="myGrid2" width="429" height="115" dataProvider="{this.decisionStep.nextStep}" >
+		    <mx:columns>
+		        	<mx:DataGridColumn dataField="name" editable="true" headerText="Name"/>
+		        	<mx:DataGridColumn dataField="evaluationScript" editable="true" headerText="Evaluation Script" >
+		        		<mx:itemRenderer>
+							<mx:Component>
+								<mx:HBox width="100%" horizontalAlign="center">
+									<mx:LinkButton icon="@Embed('/assets/careplaneditor/scriptEditor/editor.png')" click="outerDocument.writeEvaluationScript()" width="20" height="20"/>
+								</mx:HBox>
+							</mx:Component>
+						</mx:itemRenderer>	
+		        	</mx:DataGridColumn>
+		     	</mx:columns> 
+		    </mx:DataGrid>
+		</mx:VBox>
+		<mx:Spacer width="5%"/>
+	<mx:Spacer height="5%"/>
+    <mx:Button label="OK" enabled="true" click="{saveDecisionChoices()}" width="114" height="29"/>
+    <mx:Spacer height="5%"/>
+</mx:VBox>
+</mx:TitleWindow>
+

@@ -1,0 +1,23 @@
+{% extends 'layout.html' %}
+{% block htmlBody %}
+
+{% if approvals %}
+<p>You have given approval for the following sites:</p>
+<table>
+    {% for a in approvals %}
+    <tr>
+        <td><a href="{{a}}" class="trustroot" target="_blank">{{a}}</a></td>
+        <td>
+            <form method="post">
+                <input type="hidden" name="root" value="{{a}}"/>
+                <input type="submit" value="Remove approval"/>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>You have not given any approval yet.</p>
+{% endif %}
+
+{% endblock %}

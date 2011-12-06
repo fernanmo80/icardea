@@ -1,0 +1,7 @@
+pywin32
+bottle
+jinja2
+bottle_sqlite
+python-openid
+beaker
+active_directory

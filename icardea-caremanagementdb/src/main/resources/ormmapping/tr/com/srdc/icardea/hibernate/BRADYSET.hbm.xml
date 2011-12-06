@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.BRADYSET" table="BRADYSET">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <many-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.SET" column="SETID" lazy="no-proxy" name="sET" not-null="true" unique="true">
+		</many-to-one>
+    <property column="mode" lazy="false" length="50" name="mode" not-null="false" type="string"/>
+    <property column="vendor_mode" lazy="false" length="50" name="vendor_mode" not-null="false" type="string"/>
+    <property column="lowrate" lazy="false" length="50" name="lowrate" not-null="false" type="string"/>
+    <property column="hystrate" lazy="false" length="50" name="hystrate" not-null="false" type="string"/>
+    <property column="night_rate" lazy="false" length="50" name="night_rate" not-null="false" type="string"/>
+    <property column="sensor_type" lazy="false" length="50" name="sensor_type" not-null="false" type="string"/>
+    <property column="max_tracking_rate" lazy="false" length="50" name="max_tracking_rate" not-null="false" type="string"/>
+    <property column="max_sensor_rate" lazy="false" length="50" name="max_sensor_rate" not-null="false" type="string"/>
+    <property column="sav_delay_high" lazy="false" length="50" name="sav_delay_high" not-null="false" type="string"/>
+    <property column="sav_delay_low" lazy="false" length="50" name="sav_delay_low" not-null="false" type="string"/>
+    <property column="pav_delay_high" lazy="false" length="50" name="pav_delay_high" not-null="false" type="string"/>
+    <property column="pav_delay_low" lazy="false" length="50" name="pav_delay_low" not-null="false" type="string"/>
+    <property column="at_mode_switch_mode" lazy="false" length="50" name="at_mode_switch_mode" not-null="false" type="string"/>
+    <property column="at_mode_switch_rate" lazy="false" length="50" name="at_mode_switch_rate" not-null="false" type="string"/>
+  </class>
+</hibernate-mapping>

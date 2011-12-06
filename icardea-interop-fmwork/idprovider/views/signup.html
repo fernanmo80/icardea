@@ -1,0 +1,47 @@
+{% extends "layout.html" %}
+{% block htmlTitle%}Sign Up{% endblock %}
+{% block htmlHead %}
+<script>
+    $(function() {
+        var eff = "slide";
+        $('#f').hide();
+        $('#uf').hide();
+        $('#no').click( function() {
+            $('#f').hide();
+            $('#uf').show();
+        });
+        $('#yes').click( function() {
+            $('#uf').hide();
+            $('#f').show();
+        });
+    });
+</script>
+{% endblock %}
+{% block htmlBody %}
+
+Are you an existing user in the Hospital? <a href="#" id="yes">yes</a> &nbsp;&nbsp;<a href="#" id="no">no</a>
+<form action='signup' method="post" id="uf">
+    <fieldset>
+        <legend>Access Information</legend>
+        <p><label for="username">Username:</label> <input type="text" class="required" id="username" name="user" /></p>
+        <p> <label for="pwd">Password:</label> <input class="required" id="pwd" type="password" name="pwd"/> </p>
+        <p> <label for="pwd2">Repeat your password:</label> <input
+        class="required" id="pwd2" type="password" name="pwd2"/> </p>
+    </fieldset>
+    <div class="formctrls">
+        <input type="reset" value="Clear" />
+        <input type="submit" value="Submit!" />
+    </div>
+</form>
+<form action='signup' method="post" id="f">
+    <fieldset>
+        <legend>Hospital Access Information</legend>
+        <p><label for="username">Username:</label> <input type="text" class="required" id="username" name="user" /></p>
+        <p> <label for="pwd">Password:</label> <input class="required" id="pwd" type="password" name="pwd"/> </p>
+        <input type="hidden" name="hospital_user" value="yes" />
+    </fieldset>
+    <div class="formctrls"> <input type="reset" value="Clear" />
+        <input type="submit" value="Submit!" /> </div>
+</form>
+
+{% endblock %}

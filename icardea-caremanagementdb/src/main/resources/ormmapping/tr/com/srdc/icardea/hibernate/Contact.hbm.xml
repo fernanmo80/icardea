@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.Contact" table="Contact">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <property column="AddressLine" lazy="false" length="255" name="addressLine" not-null="false" type="string"/>
+    <property column="FaxNumber" lazy="false" length="20" name="faxNumber" not-null="false" type="string"/>
+    <property column="Email" lazy="false" length="100" name="email" not-null="false" type="string"/>
+    <property column="PhoneNumber" lazy="false" length="20" name="phoneNumber" not-null="false" type="string"/>
+    <property column="MobileNumber" lazy="false" length="20" name="mobileNumber" not-null="false" type="string"/>
+    <property column="GTalk" lazy="false" length="20" name="GTalk" not-null="false" type="string"/>
+    <many-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.Organization" column="OrganizationID" lazy="no-proxy" name="organization" not-null="false" unique="true">
+		</many-to-one>
+    <many-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.Person" column="PersonID" lazy="no-proxy" name="person" not-null="false" unique="true">
+		</many-to-one>
+  </class>
+</hibernate-mapping>

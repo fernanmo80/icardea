@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.PACING" table="PACING">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <property column="amplitude" lazy="false" length="50" name="amplitude" not-null="false" type="string"/>
+    <property column="pulsewidth" lazy="false" length="50" name="pulsewidth" not-null="false" type="string"/>
+    <property column="polarity" lazy="false" length="50" name="polarity" not-null="false" type="string"/>
+    <property column="anode_location_1" lazy="false" length="50" name="anode_location_1" not-null="false" type="string"/>
+    <property column="anode_location_2" lazy="false" length="50" name="anode_location_2" not-null="false" type="string"/>
+    <property column="anode_location_3" lazy="false" length="50" name="anode_location_3" not-null="false" type="string"/>
+    <property column="anode_electrode_1" lazy="false" length="50" name="anode_electrode_1" not-null="false" type="string"/>
+    <property column="anode_electrode_2" lazy="false" length="50" name="anode_electrode_2" not-null="false" type="string"/>
+    <property column="anode_electrode_3" lazy="false" length="50" name="anode_electrode_3" not-null="false" type="string"/>
+    <property column="cathode_location_1" lazy="false" length="50" name="cathode_location_1" not-null="false" type="string"/>
+    <property column="cathode_location_2" lazy="false" length="50" name="cathode_location_2" not-null="false" type="string"/>
+    <property column="cathode_location_3" lazy="false" length="50" name="cathode_location_3" not-null="false" type="string"/>
+    <property column="cathode_electrode_1" lazy="false" length="50" name="cathode_electrode_1" not-null="false" type="string"/>
+    <property column="cathode_electrode_2" lazy="false" length="50" name="cathode_electrode_2" not-null="false" type="string"/>
+    <property column="cathode_electrode_3" lazy="false" length="50" name="cathode_electrode_3" not-null="false" type="string"/>
+    <property column="capture_mode" lazy="false" length="50" name="capture_mode" not-null="false" type="string"/>
+    <many-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.LEADCHNLSET" column="LEADCHNLSETID" lazy="no-proxy" name="lEADCHNLSET" not-null="true" unique="true">
+		</many-to-one>
+  </class>
+</hibernate-mapping>

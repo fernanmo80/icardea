@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ //
+  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
+  ~ //   
+  ~ //  TERMS OF USE  
+  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
+  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
+  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
+  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
+  ~ //
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  -->
+<!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ // This tool can be used to change diagrammer mode (link creation, hand or selection mode)
+  ~ // It also reflect change to diagrammer mode, should this change be cause by this tool  
+  ~ // or an external cause.
+  ~ ////////////////////////////////////////////////////////////////////////////////
+ -->
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="Assign Guideline to the Patient" height="356" width="536" >
+
+    <mx:Script>
+		<![CDATA[
+			import tr.com.srdc.icardea.gui.careplan.DefinedCareplans;
+			import tr.com.srdc.icardea.model.careplan.MedicalCareplan;
+			import mx.controls.PopUpButton;
+			import tr.com.srdc.icardea.model.userRoles.Patient;
+			import mx.collections.ArrayCollection;
+			
+			import mx.managers.PopUpManager;
+	
+		[Bindable]
+        public var arr:ArrayCollection=new ArrayCollection;
+		[Bindable]
+        public var sparent:DefinedCareplans;
+		
+		
+		public function assign():void
+		{	
+			//sparent.myViewStack.selectedIndex=0;
+			trace(sparent.dgrid.selectedItem as MedicalCareplan)
+			if((dgrid.selectedItem as Patient).assignedCareplans == null)
+				(dgrid.selectedItem as Patient).assignedCareplans = new ArrayCollection;
+			else	
+				(dgrid.selectedItem as Patient).assignedCareplans.addItem(sparent.dgrid.selectedItem as MedicalCareplan);
+			trace((dgrid.selectedItem as Patient).assignedCareplans);
+			PopUpManager.removePopUp(this);
+		}
+		private function cancel():void{
+			PopUpManager.removePopUp(this);
+		}
+		
+		
+        
+        ]]>
+	</mx:Script>
+    <mx:DataGrid styleName="usersGrid" width="497" height="268" id="dgrid" dataProvider="{this.arr}" borderStyle="none">
+		<mx:columns>
+			<mx:DataGridColumn headerText="ID" dataField="personID" />
+			<mx:DataGridColumn headerText="Name" dataField="name"/>	
+			<mx:DataGridColumn headerText="Surname" dataField="surname" />
+			<mx:DataGridColumn headerText="Gender" dataField="gender" />
+			<mx:DataGridColumn headerText="Birth Date" dataField="dateOfBirth" />
+		</mx:columns>
+	</mx:DataGrid>
+	<mx:HBox>
+		<mx:Button label="ASSIGN" click="assign()" width="86" height="30"/>
+		<mx:Button label="CANCEL" click="cancel()" width="86" height="30"/>
+	</mx:HBox>
+	
+</mx:TitleWindow> 

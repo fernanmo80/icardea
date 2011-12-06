@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.careplanengine.entities.alarmDistributionEntities.MessageHistory" table="MESSAGELOGGINGS">
+		<id name="logID" column="ID">
+			<generator class="increment"/>
+		</id>
+	
+		<many-to-one name="message" column="MESSAGE_ID" class="tr.com.srdc.icardea.careplanengine.entities.alarmDistributionEntities.AlarmDistributionEntity" lazy="false" not-null="true" cascade="delete"/>
+		
+		<property name="attemp" column="ATTEMP"/>
+		<property name="sentTime" column="SENT_TIME" type="timestamp"/>
+		<property name="ackTime" column="ACK_TIME" type="timestamp"/>
+
+	</class>
+</hibernate-mapping>

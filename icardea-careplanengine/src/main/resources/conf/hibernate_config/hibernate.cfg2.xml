@@ -1,0 +1,34 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- Database connection settings -->
+		<property name="hibernate.connection.driver_class">org.gjt.mm.mysql.Driver</property>
+        <property name="hibernate.connection.password">icardea</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost/final_icardea</property>
+		<property name="hibernate.connection.username">icardea</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<!-- JDBC connection pool -->
+		<property name="connection.pool_size">2</property>
+		<!-- SQL Dialect -->
+		<property name="current_session_context_class">thread</property>
+		<!-- Disable second level cache -->
+		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+		
+		<property name="show_sql">false</property>
+
+		<!-- For table generation 
+		<property name="hbm2ddl.auto">create</property> -->
+
+		<!-- Entities from TEPE EHR DB -->
+		<mapping resource="conf/hibernate_config/mappings/PatientEntity.hbm.xml"/>
+		<mapping resource="conf/hibernate_config/mappings/UserInfo.hbm.xml"/>
+		<mapping resource="conf/hibernate_config/mappings/UserRole.hbm.xml"/>
+		<mapping resource="conf/hibernate_config/mappings/UserAuthorityRole.hbm.xml"/>
+
+	</session-factory>
+		
+</hibernate-configuration>
+	

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:DataGrid xmlns:mx="http://www.adobe.com/2006/mxml"  styleName="usersGrid">
+	<mx:columns>
+		<mx:DataGridColumn dataField="name" headerText="Organization Name"/>
+		<mx:DataGridColumn dataField="identifier" headerText="Identifier" />
+	</mx:columns>
+<mx:Script>
+	<![CDATA[
+	import mx.collections.ArrayCollection;
+	[Inspectable]
+	public function set organizationsList(organizationsCollection : ArrayCollection): void {
+		this.dataProvider = organizationsCollection;
+	}
+	[Bindable]
+	public function get organizationsList(): ArrayCollection {
+		return this.dataProvider as ArrayCollection;
+	}
+	]]>
+</mx:Script>
+</mx:DataGrid>

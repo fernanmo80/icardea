@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.careplanengine.entities.CustomizationInfo" table="CUSTOMIZATION_INFO">
+		<id name="cid" column="C_ID">
+			<generator class="increment"/>
+		</id>
+		
+		<property name="importance" column="IMPORTANCE"/>
+		<property name="message" column="MESSAGE"/>
+		<property name="expression" column="EXPRESSION"/>
+
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,693 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ //
+  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
+  ~ //   
+  ~ //  TERMS OF USE  
+  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
+  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
+  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
+  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
+  ~ //
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  -->
+<!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ // This tool can be used to change diagrammer mode (link creation, hand or selection mode)
+  ~ // It also reflect change to diagrammer mode, should this change be cause by this tool  
+  ~ // or an external cause.
+  ~ ////////////////////////////////////////////////////////////////////////////////
+ -->
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml" height="100%" width="100%">
+
+    <mx:Script>
+		<![CDATA[
+			import tr.com.srdc.icardea.gui.variables.DataSourcesTree;
+			
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+			import mx.collections.ArrayCollection;
+		
+				
+		[Bindable]
+		public var gridArr:ArrayCollection = new ArrayCollection;
+		[Bindable]
+		public var gridArr1:ArrayCollection = new ArrayCollection;
+		[Bindable]
+		public var gridArr2:ArrayCollection = new ArrayCollection;
+		[Bindable]
+		public var gridArr3:ArrayCollection = new ArrayCollection;
+		[Bindable]
+		public var gridArr4:ArrayCollection = new ArrayCollection;
+		[Bindable]
+		public var gridArr5:ArrayCollection = new ArrayCollection;
+		[Bindable]
+		public var arr:ArrayCollection = new ArrayCollection;
+		
+		[Bindable]
+		public var sparent:EHRPHRDataSources;
+		
+		private var flg1:Boolean = false;
+		private var flg2:Boolean = false;
+		private var flg3:Boolean = false;
+		private var flg4:Boolean = false;
+		private var flg5:Boolean = false;
+		private var flg6:Boolean = false;
+		
+	
+		
+		public function saveChoice():void
+		{
+			
+		}
+				
+		public function cancel():void
+		{
+			PopUpManager.removePopUp(this);
+		}
+		
+		public function initArr():ArrayCollection
+		{
+			trace("sparent.selected: "+sparent.selectedNode.@label)
+		
+			if(sparent.selectedNode.@label == "Problem\n")
+			{	
+				if(!flg1)
+				{
+					var obj1:Object=new Object;
+					obj1.name="Cerebrovascular accident";
+					obj1.code="SNOMED";
+					obj1.id="230690007";
+					gridArr.addItem(obj1);
+							
+					var obj2:Object=new Object;
+					obj2.name="Transient Ischemic Attack";
+					obj2.code="SNOMED";
+					obj2.id="266257000";
+					gridArr.addItem(obj2);
+					
+					var obj3:Object=new Object;
+					obj3.name="Congestive heart failure";
+					obj3.code="SNOMED";
+					obj3.id="42343007";
+					gridArr.addItem(obj3);
+					
+					var obj4:Object=new Object;
+					obj4.name="Diabetis Mellitus";
+					obj4.code="SNOMED";
+					obj4.id="73211009";
+					gridArr.addItem(obj4);
+					
+					var obj5:Object=new Object;
+					obj5.name="Hypertensive disease";
+					obj5.code="SNOMED";
+					obj5.id="266287006";
+					gridArr.addItem(obj5);
+					
+					var obj6:Object=new Object;
+					obj6.name="Bleeding";
+					obj6.code="SNOMED";
+					obj6.id="131148009";
+					gridArr.addItem(obj6);
+					
+					var obj7:Object=new Object;
+					obj7.name="Intracranialhemorrhage";
+					obj7.code="SNOMED";
+					obj7.id="1386000";
+					gridArr.addItem(obj7);
+					
+					var obj8:Object=new Object;
+					obj8.name="Intracranialaneurism";
+					obj8.code="SNOMED";
+					obj8.id="128609009";
+					gridArr.addItem(obj8);
+					
+					var obj9:Object=new Object;
+					obj9.name="Majorinjury";
+					obj9.code="SNOMED";
+					obj9.id="2734008";
+					gridArr.addItem(obj9);
+					
+					var obj10:Object=new Object;
+					obj10.name="Gastrointestinalhemorrhage";
+					obj10.code="SNOMED";
+					obj10.id="74474003";
+					gridArr.addItem(obj10);
+					
+					var obj11:Object=new Object;
+					obj11.name="Abnormal liver function";
+					obj11.code="SNOMED";
+					obj11.id="75183008";
+					gridArr.addItem(obj11);
+					
+					var obj12:Object=new Object;
+					obj12.name="Disorder of hematopoietic system";
+					obj12.code="SNOMED";
+					obj12.id="34093004";
+					gridArr.addItem(obj12);
+					
+					var obj13:Object=new Object;
+					obj13.name="Lactation";
+					obj13.code="SNOMED";
+					obj13.id="63158009";
+					gridArr.addItem(obj13);
+					
+					var obj14:Object=new Object;
+					obj14.name="Pregnancy";
+					obj14.code="SNOMED";
+					obj14.id="289908002";
+					gridArr.addItem(obj14);
+					
+					var obj15:Object=new Object;
+					obj15.name="Third trimester pregnancy";
+					obj15.code="SNOMED";
+					obj15.id="41587001";
+					gridArr.addItem(obj15);
+					
+					var obj16:Object=new Object;
+					obj16.name="First trimester pregnancy";
+					obj16.code="SNOMED";
+					obj16.id="57630001";
+					gridArr.addItem(obj16);
+					
+					var obj17:Object=new Object;
+					obj17.name="Impaired cognition";
+					obj17.code="SNOMED";
+					obj17.id="386806002";
+					gridArr.addItem(obj17);
+					
+					var obj18:Object=new Object;
+					obj18.name="Dementia";
+					obj18.code="SNOMED";
+					obj18.id="52448006";
+					gridArr.addItem(obj18);
+					
+					var obj19:Object=new Object;
+					obj19.name="Mentaldisorder";
+					obj19.code="SNOMED";
+					obj19.id="74732009";
+					gridArr.addItem(obj19);
+					
+					var obj20:Object=new Object;
+					obj20.name="Chronicalcoholism";
+					obj20.code="SNOMED";
+					obj20.id="191809008";
+					gridArr.addItem(obj20);
+					
+					var obj21:Object=new Object;
+					obj21.name="Hemorrhagicretinopathy";
+					obj21.code="SNOMED";
+					obj21.id="10055332";
+					gridArr.addItem(obj21);
+					
+					var obj22:Object=new Object;
+					obj22.name="Unspecified peptic ulcer";
+					obj22.code="SNOMED";
+					obj22.id="196697002";
+					gridArr.addItem(obj22);
+					
+					var obj23:Object=new Object;
+					obj23.name="Disease of liver";
+					obj23.code="SNOMED";
+					obj23.id="235856003";
+					gridArr.addItem(obj23);
+					
+					var obj24:Object=new Object;
+					obj24.name="Epilepsy";
+					obj24.code="SNOMED";
+					obj24.id="84757009";
+					gridArr.addItem(obj24);
+					
+					var obj25:Object=new Object;
+					obj25.name="Pericardialeffusion";
+					obj25.code="SNOMED";
+					obj25.id="373945007";
+					gridArr.addItem(obj25);
+					
+					var obj26:Object=new Object;
+					obj26.name="Accessory Pathway";
+					obj26.code="SNOMED";
+					obj26.id="251102007";
+					gridArr.addItem(obj26);
+					
+					var obj27:Object=new Object;
+					obj27.name="Heartfailure";
+					obj27.code="SNOMED";
+					obj27.id="195117009";
+					gridArr.addItem(obj27);
+					
+					var obj28:Object=new Object;
+					obj28.name="VentricularHypertrophy(Left)";
+					obj28.code="SNOMED";
+					obj28.id="164873001";
+					gridArr.addItem(obj28);
+					
+					var obj29:Object=new Object;
+					obj29.name="CoronaryArteryDisease";
+					obj29.code="SNOMED";
+					obj29.id="414024009";
+					gridArr.addItem(obj29);
+					
+					var obj30:Object=new Object;
+					obj30.name="HeartDiseases";
+					obj30.code="SNOMED";
+					obj30.id="56265001";
+					gridArr.addItem(obj30);
+					
+					var obj31:Object=new Object;
+					obj31.name="Cerebrovascular accident";
+					obj31.code="UMLS";
+					obj31.id="C0038454";
+					gridArr.addItem(obj31);
+					
+					var obj32:Object=new Object;
+					obj32.name="Transient Ischemic Attack";
+					obj32.code="UMLS";
+					obj32.id="C0007787";
+					gridArr.addItem(obj32);
+					
+					var obj33:Object=new Object;
+					obj33.name="Congestive heart failure";
+					obj33.code="UMLS";
+					obj33.id="C0018802";
+					gridArr.addItem(obj33);
+					
+					var obj34:Object=new Object;
+					obj34.name="Diabetis Mellitus";
+					obj34.code="UMLS";
+					obj34.id="C0011849";
+					gridArr.addItem(obj34);
+					
+					var obj35:Object=new Object;
+					obj35.name="Hypertensive disease";
+					obj35.code="UMLS";
+					obj35.id="C0020538";
+					gridArr.addItem(obj35);
+					
+					var obj36:Object=new Object;
+					obj36.name="Majorbleedingintheprevioussixmonths";
+					obj36.code="UMLS";
+					obj36.id="C0019080";
+					gridArr.addItem(obj36);
+					
+					var obj37:Object=new Object;
+					obj37.name="Intracranialhemorrhage";
+					obj37.code="UMLS";
+					obj37.id="C0151699";
+					gridArr.addItem(obj37);
+					
+					var obj38:Object=new Object;
+					obj38.name="Intracranialaneurism";
+					obj38.code="UMLS";
+					obj38.id="C0007766";
+					gridArr.addItem(obj38);
+					
+					var obj39:Object=new Object;
+					obj39.name="Recentmajortrauma";
+					obj39.code="UMLS";
+					obj39.id="C0332677";
+					gridArr.addItem(obj39);
+					
+					var obj40:Object=new Object;
+					obj40.name="Gastrointestinalbleeding";
+					obj40.code="UMLS";
+					obj40.id="C0017181";
+					gridArr.addItem(obj40);
+					
+					var obj41:Object=new Object;
+					obj41.name="Severehepaticimpairment";
+					obj41.code="UMLS";
+					obj41.id="C0948807";
+					gridArr.addItem(obj41);
+					
+					var obj42:Object=new Object;
+					obj42.name="Blooddyscrasia";
+					obj42.code="UMLS";
+					obj42.id="C0018939";
+					gridArr.addItem(obj42);
+					
+					var obj43:Object=new Object;
+					obj43.name="Severeuncontrolledhypertension";
+					obj43.code="UMLS";
+					obj43.id="C1868885";
+					gridArr.addItem(obj43);
+					
+					var obj44:Object=new Object;
+					obj44.name="Pregnancyorlactation";
+					obj44.code="UMLS";
+					obj44.id="C0022925";
+					gridArr.addItem(obj44);
+					
+					var obj45:Object=new Object;
+					obj45.name="Cognitiveimpairment";
+					obj45.code="UMLS";
+					obj45.id="C0338656";
+					gridArr.addItem(obj45);
+					
+					var obj46:Object=new Object;
+					obj46.name="Dementia";
+					obj46.code="UMLS";
+					obj46.id="C0497327";
+					gridArr.addItem(obj46);
+					
+					var obj47:Object=new Object;
+					obj47.name="Psychiatricdisease";
+					obj47.code="UMLS";
+					obj47.id="C0497327";
+					gridArr.addItem(obj47);
+					
+					var obj48:Object=new Object;
+					obj48.name="Severechronicalcoholism";
+					obj48.code="UMLS";
+					obj48.id="C0001973";
+					gridArr.addItem(obj48);
+					
+					var obj49:Object=new Object;
+					obj49.name="Hemorrhagicretinopathy";
+					obj49.code="UMLS";
+					obj49.id="C0948059";
+					gridArr.addItem(obj49);
+					
+					var obj50:Object=new Object;
+					obj50.name="Activegastroduodenalulcus";
+					obj50.code="UMLS";
+					obj50.id="C0041582";
+					gridArr.addItem(obj50);
+					
+					var obj51:Object=new Object;
+					obj51.name="Chronichepaticdisease";
+					obj51.code="UMLS";
+					obj51.id="C0023895";
+					gridArr.addItem(obj51);
+					
+					var obj52:Object=new Object;
+					obj52.name="Epilepsy";
+					obj52.code="UMLS";
+					obj52.id="C0014544";
+					gridArr.addItem(obj52);
+					
+					var obj53:Object=new Object;
+					obj53.name="Pericardialeffusion";
+					obj53.code="UMLS";
+					obj53.id="C0031039";
+					gridArr.addItem(obj53);
+					
+					var obj54:Object=new Object;
+					obj54.name="Accelerated atrioventricular conduction (disorder)";
+					obj54.code="UMLS";
+					obj54.id="C0264897";
+					gridArr.addItem(obj54);
+					
+					var obj55:Object=new Object;
+					obj55.name="Heartfailure";
+					obj55.code="UMLS";
+					obj55.id="C0018801";
+					gridArr.addItem(obj55);
+					
+					var obj56:Object=new Object;
+					obj56.name="LeftVentricularHypertrophy";
+					obj56.code="UMLS";
+					obj56.id="C0149721";
+					gridArr.addItem(obj56);
+					
+					var obj57:Object=new Object;
+					obj57.name="CoronaryArteryDisease";
+					obj57.code="UMLS";
+					obj57.id="C1956346";
+					gridArr.addItem(obj57);
+					
+					var obj58:Object=new Object;
+					obj58.name="HeartDiseases";
+					obj58.code="UMLS";
+					obj58.id="C0018799";
+					gridArr.addItem(obj58);
+					arr=gridArr;
+					flg1=true;
+				}
+				arr=gridArr;
+			}
+			else if(sparent.selectedNode.@label == "Medication\n")
+			{
+				if(!flg2)
+				{
+					var obj59:Object=new Object;
+					obj59.name="Medications";
+					obj59.code="UMLS";
+					obj59.id="C0004002";
+					gridArr1.addItem(obj59);
+					
+					var obj60:Object=new Object;
+					obj60.name="Nexium 20 mg";
+					obj60.code="Rx NORM";
+					obj60.id="574982";
+					gridArr1.addItem(obj60);
+					
+					var obj61:Object=new Object;
+					obj61.name="Thrombo ass 100 mg Aspirin";
+					obj61.code="Rx NORM";
+					obj61.id="246461";
+					gridArr1.addItem(obj61);
+					
+					var obj62:Object=new Object;
+					obj62.name="Plavix 75 mg";
+					obj62.code="Rx NORM";
+					obj62.id="573094";
+					gridArr1.addItem(obj62);
+					
+					var obj63:Object=new Object;
+					obj63.name="Nomexor (Nebivolol)";
+					obj63.code="Rx NORM";
+					obj63.id="31555";
+					gridArr1.addItem(obj63);
+					
+					var obj64:Object=new Object;
+					obj64.name="Simvastatin 20 mg";
+					obj64.code="Rx NORM";
+					obj64.id="312961";
+					gridArr1.addItem(obj64);
+					
+					var obj65:Object=new Object;
+					obj65.name="Drug eluting stent";
+					obj65.code="SNOMED";
+					obj65.id="411191007";
+					gridArr1.addItem(obj65);
+					arr=gridArr1;
+					flg2=true;
+				}
+				arr=gridArr1;
+			}
+			else if(sparent.selectedNode.@label == "Imaging Result\n")
+			{
+				if(!flg3)
+				{
+					var obj66:Object=new Object;
+					obj66.name="GOT";
+					obj66.code="SNOMED";
+					obj66.id="26091008";
+					gridArr2.addItem(obj66);
+					
+					var obj67:Object=new Object;
+					obj67.name="TZ";
+					obj67.code="SNOMED";
+					obj67.id="42525009";
+					gridArr2.addItem(obj67);
+					
+					var obj68:Object=new Object;
+					obj68.name="PTT";
+					obj68.code="SNOMED";
+					obj68.id="42525009";
+					gridArr2.addItem(obj68);
+					
+					var obj69:Object=new Object;
+					obj69.name="GOT";
+					obj69.code="UMLS";
+					obj69.id="C0004002";
+					gridArr2.addItem(obj69);
+					
+					var obj70:Object=new Object;
+					obj70.name="GPT";
+					obj70.code="UMLS";
+					obj70.id="C0201836";
+					gridArr2.addItem(obj70);
+					
+					var obj71:Object=new Object;
+					obj71.name="LDH";
+					obj71.code="UMLS";
+					obj71.id="C0202113";
+					gridArr2.addItem(obj71);
+					
+					var obj72:Object=new Object;
+					obj72.name="Phosphatase";
+					obj72.code="UMLS";
+					obj72.id="C0201850";
+					gridArr2.addItem(obj72);
+					
+					var obj73:Object=new Object;
+					obj73.name="Gamma-GT";
+					obj73.code="UMLS";
+					obj73.id="C0202035";
+					gridArr2.addItem(obj73);
+					
+					var obj74:Object=new Object;
+					obj74.name="Erythrocytecount";
+					obj74.code="UMLS";
+					obj74.id="C0014772";
+					gridArr2.addItem(obj74);
+					
+					var obj75:Object=new Object;
+					obj75.name="Hemoglobin";
+					obj75.code="UMLS";
+					obj75.id="C0518015";
+					gridArr2.addItem(obj75);
+					
+					var obj76:Object=new Object;
+					obj76.name="Platelets";
+					obj76.code="UMLS";
+					obj76.id="C0032181";
+					gridArr2.addItem(obj76);
+					
+					var obj77:Object=new Object;
+					obj77.name="Leucocytes";
+					obj77.code="UMLS";
+					obj77.id="C0023508";
+					gridArr2.addItem(obj77);
+					
+					var obj78:Object=new Object;
+					obj78.name="PT";
+					obj78.code="UMLS";
+					obj78.id="C0033707";
+					gridArr2.addItem(obj78);
+					
+					var obj79:Object=new Object;
+					obj79.name="TZ";
+					obj79.code="UMLS";
+					obj79.id="C0030605";
+					gridArr2.addItem(obj79);
+					
+					var obj80:Object=new Object;
+					obj80.name="PTT";
+					obj80.code="UMLS";
+					obj80.id="C0030605";
+					gridArr2.addItem(obj80);
+					
+					var obj81:Object=new Object;
+					obj81.name="Fibrinogen";
+					obj81.code="UMLS";
+					obj81.id="C0016006";
+					gridArr2.addItem(obj81);
+					
+					var obj82:Object=new Object;
+					obj82.name="GPT";
+					obj82.code="LOINC";
+					obj82.id="1741-8";
+					gridArr2.addItem(obj82);
+					
+					var obj83:Object=new Object;
+					obj83.name="LDH";
+					obj83.code="LOINC";
+					obj83.id="2527-0";
+					gridArr2.addItem(obj83);
+					
+					var obj84:Object=new Object;
+					obj84.name="Phosphatase";
+					obj84.code="LOINC";
+					obj84.id="15112-6";
+					gridArr2.addItem(obj84);
+					
+					var obj85:Object=new Object;
+					obj85.name="Gamma-GT";
+					obj85.code="LOINC";
+					obj85.id="2322-6";
+					gridArr2.addItem(obj85);
+					
+					var obj86:Object=new Object;
+					obj86.name="Erythrocytecount";
+					obj86.code="LOINC";
+					obj86.id="13530-1";
+					gridArr2.addItem(obj86);
+					
+					var obj87:Object=new Object;
+					obj87.name="Hemoglobin";
+					obj87.code="LOINC";
+					obj87.id="16931-8";
+					gridArr2.addItem(obj87);
+					
+					var obj88:Object=new Object;
+					obj88.name="Platelets";
+					obj88.code="LOINC";
+					obj88.id="26515-7";
+					gridArr2.addItem(obj88);
+					
+					var obj89:Object=new Object;
+					obj89.name="Leucocytes";
+					obj89.code="LOINC";
+					obj89.id="804-5";
+					gridArr2.addItem(obj89);
+					
+					var obj90:Object=new Object;
+					obj90.name="PT";
+					obj90.code="LOINC";
+					obj90.id="3244-1";
+					gridArr2.addItem(obj90);
+					
+					var obj91:Object=new Object;
+					obj91.name="Fibrinogen";
+					obj91.code="LOINC";
+					obj91.id="3255-7";
+					gridArr2.addItem(obj91);
+					arr=gridArr2;
+					flg3=true;
+				}
+				arr=gridArr2;
+			}
+			
+			else if(sparent.selectedNode.@label == "Demograpics\n")
+			{
+				if(!flg5)
+				{
+					var obj96:Object=new Object;
+					obj96.name="Patient date of birth";
+					obj96.code="UMLS";
+					obj96.id="C0421451";
+					gridArr5.addItem(obj96); 
+					arr=gridArr5;
+					flg5=true;
+				}
+				arr=gridArr5;
+			}
+			else if(sparent.selectedNode.@label == "Procedure\n")
+			{
+				if(!flg6)
+				{
+					var obj92:Object=new Object;
+					obj92.name="Surgeryperformedorplannedwithinonemonth";
+					obj92.code="SNOMED";
+					obj92.id="71388002";
+					gridArr3.addItem(obj92);
+					arr=gridArr3;
+					flg6=true;
+				}
+				arr=gridArr3;
+			}
+			
+			myGrid.dataProvider = arr;
+			return arr;
+		}
+		
+        
+        ]]>
+	</mx:Script>
+
+	<mx:HBox width="100%" height="100%">
+		<mx:DataGrid id="myGrid" width="100%" height="100%">
+			<mx:columns>
+				<mx:DataGridColumn headerText="ID" dataField="id" />
+				<mx:DataGridColumn headerText="Name" dataField="name"/>
+				<mx:DataGridColumn headerText="Code" dataField="code" />
+			</mx:columns>
+		</mx:DataGrid>
+	</mx:HBox>	
+</mx:VBox>
+
+

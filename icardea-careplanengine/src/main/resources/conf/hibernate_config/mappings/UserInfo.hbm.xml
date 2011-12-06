@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.careplanengine.entities.UserInfo" table="USER">
+		<id name="userID" column="USERID">
+			<generator class="assigned"/>
+		</id>
+		
+		<property name="userName" column="USERNAME" type="string"/>
+		<property name="password" column="PASSWORD" type="string"/>
+		<property name="fullName" column="INFORMATION" type="string"/>
+
+	</class>
+</hibernate-mapping>

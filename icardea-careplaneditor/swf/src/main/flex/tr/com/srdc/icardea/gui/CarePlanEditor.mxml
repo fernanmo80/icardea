@@ -1,0 +1,1473 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ //
+  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
+  ~ //   
+  ~ //  TERMS OF USE  
+  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
+  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
+  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
+  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
+  ~ //
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  -->
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml"
+				xmlns:diagctl="com.kapit.diagram.controls.*"
+				xmlns:diagview="com.kapit.diagram.view.*"
+				xmlns:component="fr.kapit.skin.component.*"
+				xmlns:kapit="fr.kapit.*"
+				xmlns:cpview = "tr.com.srdc.icardea.gui.*"
+				xmlns:diagrammingTools = "tr.com.srdc.icardea.gui.diagrammingTools.*"
+				preinitialize="preInitializeHandler()"
+				creationComplete="creationCompleteHandler()"
+				horizontalAlign="left"
+				layout="absolute"
+				backgroundColor="#ffffff"
+				width="100%"
+				height="100%"
+				addedToStage="addedToStageHandler()"
+				xmlns:local="tr.com.srdc.icardea.gui.*" xmlns:ui="com.kapit.diagram.ui.*" xmlns:graphics="com.qs.graphics.*">
+
+	<mx:Style source="/assets/style/style.css"/>
+	<mx:Script>
+		<![CDATA[
+			import mx.messaging.channels.SecureAMFChannel;
+			import flash.sampler.getSize;
+			import mx.controls.PopUpButton;
+			import tr.com.srdc.icardea.model.monitoring.MonitoringMessage;
+			import tr.com.srdc.icardea.model.monitoring.ConsultMessage;
+			import tr.com.srdc.icardea.model.mainStructure.Queue;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import mx.messaging.Channel;
+			import mx.messaging.channels.AMFChannel;
+			import mx.messaging.ChannelSet;
+			import mx.rpc.remoting.RemoteObject;
+			import tr.com.srdc.icardea.model.steps.NextStep;
+			import flash.utils.setInterval;
+			import tr.com.srdc.icardea.model.mainStructure.Body;
+			import tr.com.srdc.icardea.model.mainStructure.Algorithm;
+			import tr.com.srdc.icardea.model.mainStructure.Algorithm;
+			import tr.com.srdc.icardea.model.mainStructure.Body;
+			import tr.com.srdc.icardea.gui.careplan.DefinedCareplans;
+			import tr.com.srdc.icardea.gui.steps.DecisionStepProperties;
+			import tr.com.srdc.icardea.gui.steps.ConsultStepProperties;
+			import tr.com.srdc.icardea.gui.steps.RecommendationStepProperties;
+			import tr.com.srdc.icardea.gui.steps.RecordActionStepProperties;
+			import tr.com.srdc.icardea.gui.steps.WaitStepProperties;
+			import tr.com.srdc.icardea.gui.steps.FinalStepProperties;
+			import tr.com.srdc.icardea.model.steps.recordAction.RecordActionStep;
+			import tr.com.srdc.icardea.model.steps.WaitStep;
+			import tr.com.srdc.icardea.gui.diagrammingTools.ViewPopUp;
+			import mx.controls.RadioButton;
+			import com.hurlant.util.der.Integer;
+			import mx.utils.StringUtil;
+			import mx.controls.TextArea;
+			import tr.com.srdc.icardea.model.htmlEditor.HTML;
+			import mx.controls.Image;
+			import mx.controls.Label;
+			import mx.containers.FormItemDirection;
+			import mx.containers.FormItem;
+			import mx.containers.Form;
+			import tr.com.srdc.icardea.control.CareplanControl;
+			import tr.com.srdc.icardea.model.careplan.MedicalCareplan;
+			import tr.com.srdc.icardea.gui.monitoringTool.executionTool;
+			import flash.utils.clearInterval;
+			import mx.controls.Button;
+			import fr.kapit.demo.data.MyLink;
+			import com.kapit.diagram.view.AnchorPoint;
+			import tr.com.srdc.icardea.model.steps.EligibilityCriteria;
+			
+			import tr.com.srdc.icardea.model.steps.StartStep;
+			import tr.com.srdc.icardea.model.steps.DecisionStep;
+			import tr.com.srdc.icardea.model.steps.ConsultStep;
+			import tr.com.srdc.icardea.util.Archiver;
+			import tr.com.srdc.icardea.util.ArchiveUtil;
+			import tr.com.srdc.icardea.util.DiagramContent;
+			import tr.com.srdc.icardea.gui.steps.StartStepProperties;
+			import tr.com.srdc.icardea.model.steps.RecommendationStep;
+			import tr.com.srdc.icardea.model.steps.FinalStep;
+			
+		
+			import com.googlecode.flexxb.FlexXBEngine;
+			import fr.kapit.demo.data.MyLinkProxy;
+			import mx.core.Application;
+			import com.kapit.diagram.layouts.utils.Constants;
+			import fr.kapit.demo.conf.BPMNXmlSample;
+			import fr.kapit.demo.conf.BPMNDiagramMapping;
+			import fr.kapit.demo.conf.BPMNSVGLib;
+			import fr.kapit.demo.data.MyObjectProxy;
+			import fr.kapit.demo.data.MyLinkProxy;
+			import com.kapit.diagram.DiagramEvent;
+			import com.kapit.diagram.library.SVGAssetLibrary;
+			import com.kapit.diagram.model.DiagramModel;
+			import com.kapit.diagram.proxies.DiagramProxy;
+			import com.kapit.diagram.proxies.KDLProxy;
+			import com.kapit.diagram.view.DiagramLink;
+			import com.kapit.diagram.view.DiagramLinkType;
+			import com.kapit.diagram.view.DiagramObject;
+			import com.kapit.diagram.view.DiagramView;
+			
+			import flash.net.navigateToURL;
+			import flash.utils.getTimer;
+			
+
+			import mx.collections.ArrayCollection;
+			import mx.controls.TextInput;
+			import mx.events.DataGridEvent;
+			import mx.events.ListEvent;
+			import mx.managers.PopUpManager;
+			import mx.controls.Alert;
+			//import flash.geom.Rectangle;
+			import tr.com.srdc.icardea.gui.monitoringTool.ComponentGenerator;
+			
+			import tr.com.srdc.icardea.gui.*;
+			[Bindable]
+			private var _careplan:MedicalCareplan;
+			[Bindable]
+			public var control:CareplanControl;
+	
+			[Bindable]
+			[Embed('/assets/careplaneditor/nurse1.jpg')]
+	        public var patientPic:Class;
+	        
+			[Embed(source="/assets/careplaneditor/release.txt",mimeType="application/octet-stream")]
+			private var demoVersion:Class;
+
+			[Embed(source="/assets/careplaneditor/layout/ico_baloon.png")]
+			[Bindable]
+			public var IconBalloon:Class;
+			[Embed(source="/assets/careplaneditor/layout/ico_circular.png")]
+			[Bindable]
+			public var IconCircular:Class;
+			[Embed(source="/assets/careplaneditor/layout/ico_hierachical_cyclique.png")]
+			[Bindable]
+			public var IconHierarchicalCyclic:Class;
+			[Embed(source="/assets/careplaneditor/layout/ico_hierachical.png")]
+			[Bindable]
+			public var IconHierarchical:Class;
+			[Embed(source="/assets/careplaneditor/layout/ico_organic.png")]
+			[Bindable]
+			public var IconOrganic:Class;
+			[Embed(source="/assets/careplaneditor/layout/ico_organic_anim.png")]
+			[Bindable]
+			public var IconAnimOrganic:Class;
+			[Embed(source="/assets/careplaneditor/layout/ico_radial.png")]
+			[Bindable]
+			public var IconRadial:Class;
+			[Embed(source="/assets/careplaneditor/layout/ico_ortho.png")]
+			[Bindable]
+			public var IconOrtho:Class;
+
+			[Embed(source="/assets/careplaneditor/tabs/tab_open_00.png")]
+			[Bindable]
+			public var Group1Opened:Class;
+			[Embed(source="/assets/careplaneditor/tabs/tab_ferme_00.png")] 
+			[Bindable]
+			public var Group1Closed:Class;
+
+			[Bindable]
+			public var Group1_Icon:Class=Group1Closed;
+
+			[Embed(source="/assets/careplaneditor/tabs/tab_open_01.png")]
+			[Bindable]
+			public var Group2Opened:Class;
+			[Embed(source="/assets/careplaneditor/tabs/tab_ferme_01.png")]
+			[Bindable]
+			public var Group2Closed:Class;
+
+			[Bindable]
+			public var Group2_Icon:Class=Group2Opened;
+
+			[Embed(source="/assets/careplaneditor/tabs/tab_open_02.png")]
+			[Bindable]
+			public var Group3Opened:Class;
+			[Embed(source="/assets/careplaneditor/tabs/tab_ferme_02.png")]
+			[Bindable]
+			public var Group3Closed:Class;
+		
+			[Bindable]
+			public var Group3_Icon:Class=Group3Opened;
+			
+			[Embed(source="/assets/pictures/ekgpic.jpg")]
+			[Bindable]
+			public var ekgPicture:Class;
+
+			[Embed(source="/assets/pictures/art-euro571431.fig2.gif")]
+			[Bindable]
+			public var ciedPicture:Class;
+
+            // Default layout parameters
+            private static const MIN_ANGLE:Number=180;
+            private static const MAX_ANGLE:Number=360;
+            private static const MIN_SPACING:Number=0;
+            private static const MAX_SPACING:Number=200;
+
+            // Version of the demo
+			private var _demoVersion:String;
+
+            // All sprite group 
+			private var _groups:ArrayCollection=null;
+
+			[Bindable]
+			private var TREE_LINKS_TYPES:ArrayCollection=new ArrayCollection(["Straight", "Straight polyline", "Curved polyline", "Orthogonal polyline", "Orthogonal curved"]);
+			[Bindable]
+			private var SUGIYAMA_LINKS_TYPES:ArrayCollection=new ArrayCollection(["Curve Edges", "Polyline Edges"]);
+			[Bindable]
+			private var ORIENTATION_TYPES:ArrayCollection=new ArrayCollection(["Top To Bottom", "Bottom To Top", "Left To Right", "Right to Left"]);
+			[Bindable]
+			private var EDGE_DRAWING_TYPES:ArrayCollection=new ArrayCollection(["Node Center", "Node Side"]);
+			[Bindable]
+			private var firstGroupId:String;
+
+			private var _proxy:DiagramProxy;
+			private var zoomRatio:Number;
+			private var zoomRatioStep:Number;
+			private var _handMode:Boolean=false;
+			
+			public var selectedItem:String;
+			public var selectedUID:String;
+			
+			
+			public var cpop:ConsultStepProperties;
+			public var spop:StartStepProperties;
+			public var fpop:FinalStepProperties;
+			public var dpop:DecisionStepProperties;
+			public var rpop:RecommendationStepProperties;
+			public var wpop:WaitStepProperties;
+			public var recpop:RecordActionStepProperties;
+			
+			
+			public var s_vect:ArrayCollection = new ArrayCollection;
+
+            /*
+            * A simple collection of object corresponding to diagram objects
+            */
+			[Bindable]
+			public var myObjects:ArrayCollection=new ArrayCollection();
+			
+			[Bindable]
+			public var object_dic:Dictionary = new Dictionary();
+			
+			[Bindable]
+			public var link_dic:Dictionary = new Dictionary();
+			
+  		
+			private var xml:XML;
+
+			private static const DEFAULT_FILE_NAME:String = "careplan.mcpd";
+			private static const FILE_TYPES:Array = [new FileFilter("Medical Careplan Diagram File", "*.mcpd")];
+
+			private var reference:FileReference;
+			
+			private var steps:Array = ["Start Step", "Consult Step", "Decision Step", "Recommendation Step", "Final Step", "Wait Step", "Record Action Step"];
+			[Bindable]
+			private var tileSteps:ArrayCollection = new ArrayCollection(steps);
+			
+			
+			//Plan Properties
+			[Bindable]
+			public var planid:String;
+			[Bindable]
+			public var planname:String;
+			[Bindable]
+			public var planversion:String;
+			
+			public var iPopUp:ViewPopUp;
+			
+			[Bindable]
+			public var execute:Boolean;
+			
+			var dobObject:DiagramObject = null;
+			
+			var executionTimerId;
+			
+			[Bindable]
+			private var logInfo:String = "";
+			
+			var executionPopUp:executionTool;
+			
+			public var nextDob:Number;
+			
+			[Bindable]
+			public var executeCareplanObj:Object;
+			
+			[Bindable]
+			public var monitoringMessageQueue:ArrayCollection = new ArrayCollection;
+			
+			[Bindable]
+			public var consultMessageQueue:ArrayCollection = new ArrayCollection;
+			
+			
+            /*
+            * Setup SVG library before application initialization
+            */
+			public function preInitializeHandler():void
+			{
+				if (this.parentApplication._groups != null)
+				_groups= this.parentApplication._groups;//new ArrayCollection(lib.groupnames);
+				else {
+				var lib:SVGAssetLibrary=new SVGAssetLibrary(BPMNSVGLib.svg);
+				lib.initIconsCache(25, 25);
+				_groups = new ArrayCollection(lib.groupnames);
+				this.parentApplication._groups = _groups;
+				}
+				firstGroupId=_groups[0].toString();
+				
+			}			
+
+            /*
+            * Create popup and init header after application creation
+            */
+            
+			public function creationCompleteHandler():void
+			{
+				
+				iPopUp=new ViewPopUp();
+				iPopUp.view=diagram;
+				PopUpManager.addPopUp(iPopUp, this,false);
+
+				iPopUp.x=Links.x + diagram.x + 400;
+				iPopUp.y=Links.y + diagram.y + 215;
+
+				var byteArray:ByteArray;
+				var content:String;
+				byteArray=new demoVersion() as ByteArray;
+				content=byteArray.readUTFBytes(byteArray.length);
+				_demoVersion=new String(content);
+				
+			
+			}
+
+            /*
+            * Register keyboard event handler after application is added to stage
+            */
+			public function addedToStageHandler():void
+			{
+				stage.addEventListener(KeyboardEvent.KEY_DOWN, stage_keyDownHandler);
+			}
+			
+			/*
+			* Setup all diagrammer property after component creation
+			*/
+			public function diagram_creationCompleteHandler():void
+			{
+				// Override default behavior
+				diagram.multipanel=true; // Enable multipannel
+				diagram.multicolumn=true; // Enable multicolumn
+				diagram.selectionenabled=true; // Enable selection of objects
+				diagram.keyboardenabled=true; // Enable keyboard input
+				diagram.dragenabled=true; // Enable dragging objects
+				diagram.dropenabled=true; // Enable creation by dropping from sprite library
+				diagram.showUIOnRollOver=true; // Show action ui on roll over sprite
+				diagram.defaultLinkMode=DiagramView.NO_LINK_MODE; // To create link, user must use link tool
+				diagram.defaultlinktype.behaviour=DiagramLinkType.FREE_BEHAVIOUR; // No constraint on link
+				diagram.defaultlinktype.geometry=DiagramLinkType.POLYLINE_GEOMETRY; // Defaut link geometry is polyline
+
+                // Define proxy object.
+                // In this demo, proxy is used to link diagrmmer objects and the data grid
+				MyObjectProxy._objects=myObjects;
+				MyLinkProxy._links= new ArrayCollection();
+				
+				diagram.model=new DiagramModel(BPMNDiagramMapping.xml);
+
+                // Register all diagrammer event listeners to interact with user interface
+				diagram.addEventListener(DiagramEvent.SELECTION_CHANGED, diagram_selectionHandler);
+				diagram.addEventListener(DiagramEvent.DIAGRAM_DEFAULT_MODE_SET, diagram_defaultModeHandler);
+				diagram.addEventListener(DiagramEvent.DIAGRAM_LINK_MODE_SET, diagram_linkModeHandler);
+				diagram.addEventListener(DiagramEvent.DIAGRAM_HAND_MODE_SET, diagram_handModeHandler);
+
+                // Create the KDLProy. It's mandatory to use layouts.
+				_proxy=new KDLProxy(diagram);
+				_proxy.sugiyamaLayout.orientation = Constants.ORIENTATION_LEFT_RIGHT;
+				_proxy.sugiyamaLayout.verticalDistance = 30;
+				_proxy.sugiyamaLayout.horizontalDistance = 30;
+                // Create defaults objects from an XML export
+				//diagram.fromXML(BPMNXmlSample.xml);
+				
+				// Import graph in proxy. This must be made only once, after that KDLProxy listen to diagrammer events 
+				_proxy.importGraph();
+			}
+			
+			
+			/*
+			* Depending on the tool's purpose, prepare it accordingly.
+			* The purpose of the tool is either to execute a careplan
+			* or define one.
+			*/
+			public function doSettings():void {
+				//diagram.clearAll();
+				buttonBox.removeAllChildren();
+				buttonBox1.removeAllChildren();
+				if (execute == true) {
+					editorStack.includeInLayout = false;
+					editorStack.visible = false;
+					monitorStack.visible = true;
+					monitorStack.includeInLayout = true;
+					var bt1:Button = new Button();
+					var bt2:Button = new Button();
+					var bt3:Button = new Button();
+					bt1.addEventListener(MouseEvent.CLICK, executeGuideline);
+					bt2.addEventListener(MouseEvent.CLICK, getFromXML);
+					bt3.addEventListener(MouseEvent.CLICK, restartGuideline);
+					bt1.width = 105;
+					bt1.height = 30;
+					bt3.width = 80;
+					bt3.height = 30;
+					bt2.width = 93;
+					bt2.height = 30;
+					bt1.label = "Start";
+					bt1.setStyle("color", "Green");
+					bt3.label = "Clear";
+					bt2.label = "Import XML";
+					bt1.id = "executeButton";
+					bt2.id = "importXML";
+					bt3.id = "restartButton";
+					//iPopUp.visible = false;
+					//iPopUp.includeInLayout = false;
+					buttonBox.addChild(bt1);
+					buttonBox.addChild(bt2);
+					buttonBox.addChild(bt3);
+				
+				} else if (execute == false) {
+					editorStack.includeInLayout = true;
+					editorStack.visible = true;
+					monitorStack.visible = false;
+					monitorStack.includeInLayout = false;
+					var bt1:Button = new Button();
+					var bt2:Button = new Button();
+					var bt3:Button = new Button();					
+					bt1.addEventListener(MouseEvent.CLICK, editTheProperties);
+					bt2.addEventListener(MouseEvent.CLICK, writeToXML);
+					bt3.addEventListener(MouseEvent.CLICK, getFromXML);
+					bt1.label="Edit";
+					bt2.label="Export";
+					bt3.label="Import";
+					bt1.width = bt2.width = bt3.width = 92;
+					bt1.height = bt2.height = bt3.height = 30;
+					bt1.id = "edit";
+					bt2.id = "exportXML";
+					bt3.id = "importXML";
+					buttonBox1.addChild(bt1);
+					buttonBox1.addChild(bt2);
+					buttonBox1.addChild(bt3);
+					//iPopUp.visible = true;
+					//iPopUp.includeInLayout = true;
+					
+				}
+				
+			}
+			
+			public function set careplan(careplan:MedicalCareplan):void{
+				this._careplan = careplan;
+				//diagram.clearAll();
+				//trace("careplan.diagram: "+careplan.diagram)
+				//trace("careplan.careplan: "+careplan.careplan)
+				
+				if(careplan.diagram != null && careplan.diagram != ""){
+	               
+	
+	                var body:Body = (FlexXBEngine.instance.deserialize(new XML(careplan.careplan), Body) as Body);
+	                trace("body"+body)
+	                
+	                var algo:Algorithm = body.algorithm;
+	                trace("algo"+algo)
+	                if(body != null && algo != null){
+	                	diagram.fromXML(new XML(careplan.diagram));
+	                	for(var i:String in algo.consultStep.source){
+		             		var cs:ConsultStep = algo.consultStep.source[i] as ConsultStep; 
+		             		cs.ownName = "consultStep";
+		             		object_dic[cs.id] = cs;
+		             	}
+		             	for(var j:String in algo.decisionStep.source){
+		             		var ds:DecisionStep = algo.decisionStep.source[j] as DecisionStep;
+		             		ds.ownName = "decisionStep"; 
+		             		object_dic[ds.id] = ds;
+		             	}   
+		             	for(var k:String in algo.recommendationStep.source){
+		             		var rs:RecommendationStep = algo.recommendationStep.source[k] as RecommendationStep;
+		             		rs.ownName = "recommendationStep"; 
+		             		object_dic[rs.id] = rs;
+		             	}
+		             	for(var l:String in algo.waitStep.source){
+		             		var ws:WaitStep = algo.waitStep.source[l] as WaitStep;
+		             		ws.ownName = "waitStep"; 
+		             		object_dic[ws.id] = ws;
+		             	}
+		             	for(var m:String in algo.recordActionStep.source){
+		             		var recs:RecordActionStep = algo.recordActionStep.source[m] as RecordActionStep;
+		             		recs.ownName = "recordActionStep"; 
+		             		object_dic[recs.id] = recs;
+		             	}
+		             	
+		             	if(algo.startStep){
+		             		algo.startStep.ownName = "startStep";
+		             		object_dic[algo.startStep.id] = algo.startStep;
+		             	}
+		             	if(algo.finalStep){
+		             		algo.finalStep.ownName = "finalStep";
+		             		object_dic[algo.finalStep.id] = algo.finalStep;
+		             	}
+					}
+					else {
+						Alert.show("No content for careplan diagram. You better start drawing :)", "No diagram");
+					}
+	                }
+	                
+	             	
+			}
+			
+			
+			private function getFromXML(event:MouseEvent):void {
+				fromXML();
+			}
+			
+			private function writeToXML(event:MouseEvent):void {
+				toXML();
+			}
+			
+			private function editTheProperties(event:MouseEvent):void {
+				editProperties();
+			}
+
+			/*
+			* Execution starts by setting the time interval to 2 seconds between
+			* two nodes in the guideline.
+			*/
+			private function restartGuideline(event:MouseEvent):void {
+				
+				if(MyObjectProxy._objects != null){
+					 for(var i:int = 0;i<MyObjectProxy._objects.length;i++){
+						dobObject = diagram.getElementByDataObjectId(MyObjectProxy._objects[i].uid) as DiagramObject;
+						trace("NUM CHILD: "+dobObject.sprite.numChildren);
+						if(dobObject.sprite.numChildren > 2){
+							
+							while(dobObject.sprite.numChildren != 2)
+								dobObject.sprite.removeChildAt(dobObject.sprite.numChildren-1);
+						}
+					}
+					
+					
+					diagram.scrollTo(0,0);
+				}
+				//logText.text = "";
+			}
+			
+			private function executeGuideline(event:MouseEvent):void {
+				if ((buttonBox.getChildAt(0) as Button).label == "Start") {
+					(buttonBox.getChildAt(0) as Button).setStyle("color", "Red");
+					(buttonBox.getChildAt(0) as Button).label = "Stop";
+					
+					var service : RemoteObject = new RemoteObject("engineService");
+					var cs:ChannelSet = new ChannelSet();
+					var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+					cs.addChannel(customChannel);
+					service.channelSet = cs;
+					service.addEventListener(ResultEvent.RESULT,onResultExecuteCareplan);
+					service.addEventListener(FaultEvent.FAULT, onFault);
+					
+					trace("personID: "+executeCareplanObj.personID+" cpID: "+ executeCareplanObj.careplanID)
+					service.executeCareplan(executeCareplanObj.personID, executeCareplanObj.careplanID);
+					
+					
+				} else { //TODO
+					(buttonBox.getChildAt(0) as Button).label = "Start";
+					(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
+					clearInterval(executionTimerId);
+					logInfo += "Execution Stops!"+"\n";
+				
+				} 
+			}
+			
+			public function onResultExecuteCareplan(result:ResultEvent):void 
+       		{
+       			var executionID:String = result.result as String;
+       			trace("Execution id: "+executionID)
+       			executionTimerId = setInterval(startExecution, 1000, executionID);
+       			startExecution(executionID);
+				logInfo += "Execution Starts!"+"\n";					
+       		}
+       		
+       		
+       		public function startExecution(executionID:String):void {
+       			
+       		
+       			var service : RemoteObject = new RemoteObject("engineService");
+				var cs:ChannelSet = new ChannelSet();
+				var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+				cs.addChannel(customChannel);
+				service.channelSet = cs;
+				service.addEventListener(ResultEvent.RESULT,onResultMonitorQueue);
+				service.addEventListener(FaultEvent.FAULT, onFault);
+				service.receiveMonitoringMessage(); 
+				
+       			var service : RemoteObject = new RemoteObject("engineService");
+				var cs:ChannelSet = new ChannelSet();
+				var customChannel:Channel = new AMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+				cs.addChannel(customChannel);
+				service.channelSet = cs;
+				service.addEventListener(ResultEvent.RESULT,onResultConsultQueue);
+				service.addEventListener(FaultEvent.FAULT, onFault);
+				service.receiveConsultMessage();
+				 
+				
+				
+       			
+       		}
+       		public function scrollTo(dobTarget:DiagramObject):void {
+       			trace("dobTarget.x: "+dobTarget.x)
+       			trace("dobTarget.y: "+dobTarget.y)
+       			trace("diagram.width: "+diagram.width)
+       			trace("diagram.height: "+diagram.height)
+       			
+       			
+       			if (dobTarget.x-diagram.width/2 < 0) { 
+					if (dobTarget.y-diagram.height/2 < 0) {
+						diagram.scrollTo(0,0);
+					} else {
+						diagram.scrollTo(0,dobTarget.y-diagram.height/2);
+					}
+				} else {
+					if (dobTarget.y-diagram.height/2 < 0) {
+						diagram.scrollTo(dobTarget.x-diagram.width/2,0);
+					} else {
+						diagram.scrollTo(dobTarget.x-diagram.width/2,dobTarget.y-diagram.height/2);
+					}
+				}
+       		}
+       		public function colorSprite(color:String,dobTarget:DiagramObject):void{
+       			if(color == "red"){       				
+       				if(object_dic[dobTarget.dataobjectid].ownName=="startStep" ||object_dic[dobTarget.dataobjectid].ownName=="recommendationStep" || object_dic[dobTarget.dataobjectid].ownName=="consultStep") {
+							var circle:Shape = new Shape();
+							dobTarget.sprite.addChild(circle);
+							circle.graphics.lineStyle(1, 0x000000);
+							circle.graphics.beginFill(0xff0000,0.3);
+							circle.graphics.drawCircle(30, 30, 30);
+							circle.graphics.endFill();
+					} else if (object_dic[dobTarget.dataobjectid].ownName=="finalStep" || object_dic[dobTarget.dataobjectid].ownName=="decisionStep" || object_dic[dobTarget.dataobjectid].ownName=="recordActionStep") {
+							var rectangle:Shape = new Shape();
+							dobTarget.sprite.addChild(rectangle);
+							rectangle.graphics.lineStyle(1, 0x000000);
+							rectangle.graphics.beginFill(0xff0000,0.3);
+							rectangle.graphics.drawRect(-30,-30,40,40);
+							rectangle.rotation = 45;
+							rectangle.x = 30;
+							rectangle.y = 44;
+							rectangle.graphics.endFill();
+					} else if (object_dic[dobTarget.dataobjectid].ownName== "waitStep") {
+							var rectangle:Shape = new Shape();
+							dobTarget.sprite.addChild(rectangle);
+							rectangle.graphics.lineStyle(1, 0x000000);
+							rectangle.graphics.beginFill(0xff0000,0.3);
+							rectangle.graphics.drawRect(-60,-60,60,60);
+							rectangle.x = 60;
+							rectangle.y = 60;
+							rectangle.graphics.endFill();
+					} 
+					
+       			}
+       			else {
+       				if(object_dic[dobTarget.dataobjectid].ownName=="startStep" ||object_dic[dobTarget.dataobjectid].ownName=="recommendationStep" || object_dic[dobTarget.dataobjectid].ownName=="consultStep") {
+							var circle:Shape = new Shape();
+							dobTarget.sprite.addChild(circle);
+							circle.graphics.lineStyle(1, 0x000000);
+							circle.graphics.beginFill(0x00ff00,0.1);
+							circle.graphics.drawCircle(30, 30, 30);
+							circle.graphics.endFill();
+					} else if (object_dic[dobTarget.dataobjectid].ownName=="finalStep" || object_dic[dobTarget.dataobjectid].ownName=="decisionStep" || object_dic[dobTarget.dataobjectid].ownName=="recordActionStep") {
+							var rectangle:Shape = new Shape();
+							dobTarget.sprite.addChild(rectangle);
+							rectangle.graphics.lineStyle(1, 0x000000);
+							rectangle.graphics.beginFill(0x00ff00,0.1);
+							rectangle.graphics.drawRect(-30,-30,40,40);
+							rectangle.rotation = 45;
+							rectangle.x = 30;
+							rectangle.y = 44;
+							rectangle.graphics.endFill();
+					} else if (object_dic[dobTarget.dataobjectid].ownName== "waitStep") {
+							var rectangle:Shape = new Shape();
+							dobTarget.sprite.addChild(rectangle);
+							rectangle.graphics.lineStyle(1, 0x000000);
+							rectangle.graphics.beginFill(0x00ff00,0.1);
+							rectangle.graphics.drawRect(-60,-60,60,60);
+							rectangle.x = 60;
+							rectangle.y = 60;
+							rectangle.graphics.endFill();
+					} 
+       				
+       			}
+       		}
+       		
+       		
+       		public function onResultMonitorQueue(result:ResultEvent):void 
+       		{
+       			trace("monitoring......");
+       			trace("Monitoring result: "+(result.result as ArrayCollection).length);
+       			monitoringMessageQueue = result.result as ArrayCollection;	
+       			
+       			
+       			
+       				if(monitoringMessageQueue.length != 0){
+	       				
+	       					trace("MMQ length: "+monitoringMessageQueue.length);
+			   				var mm:MonitoringMessage = monitoringMessageQueue.getItemAt(0) as MonitoringMessage;
+			   				sendAssertMonitoring(true);
+			   				
+			   				var id:String = mm.stepID;
+			   				trace("mm.stepid: " + id)
+			   				
+			   				if (id != null && id != "" && mm.isMonitored == false){
+			   					var dobTarget:DiagramObject = diagram.getElementByDataObjectId(id) as DiagramObject;
+			   					if(id == "S06803B5E-9643-8FF4-B83C-67ADE997CA20" ){//TODO: These are only for AF and VT
+			   						dobTarget = diagram.getElementByDataObjectId("S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09") as DiagramObject;
+			   						//(buttonBox.getChildAt(0) as Button).label == "Start";
+			   						//clearInterval(executionTimerId);
+			   						(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
+			   						(buttonBox.getChildAt(0) as Button).label = "Start";
+			   						Alert.show("Guideline Finalized!");
+			   						clearInterval(executionTimerId);
+									//logInfo += "Execution Ends!"+"\n";
+			   					}
+			   					if(id == "S0F4B6AE8-BC3C-052D-E84E-9105773EF96A" ){
+			   						dobTarget = diagram.getElementByDataObjectId("S30264FBE-5736-5620-9F74-910787388943") as DiagramObject;
+			   						//(buttonBox.getChildAt(0) as Button).label == "Start";
+			   						//clearInterval(executionTimerId);
+			   						(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
+			   						(buttonBox.getChildAt(0) as Button).label = "Start";
+			   						Alert.show("Guideline Finalized!");
+			   						clearInterval(executionTimerId);
+									//logInfo += "Execution Ends!"+"\n";
+			   					}
+			   						
+			   					
+		   						scrollTo(dobTarget);
+		   						colorSprite("red",dobTarget);
+		   						//logInfo += object_dic[dobTarget.dataobjectid].name+"\n";
+		   						mm.isMonitored = true;
+			   							   					
+			   				}
+			   				//monitoringMessageQueue.removeItemAt(0);
+			   				
+			    }
+       		}
+			public function sendAssertMonitoring(result:Boolean):void{
+				var service : RemoteObject = new RemoteObject("engineService");
+				var cs:ChannelSet = new ChannelSet();
+				var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+				cs.addChannel(customChannel);
+				service.channelSet = cs;
+				service.addEventListener(ResultEvent.RESULT,onResultAssertMonitoringMessage);
+				service.addEventListener(FaultEvent.FAULT, onFault);
+				service.assertMonitoringMessage(result); 
+			}
+			public function onResultAssertMonitoringMessage(result:ResultEvent):void{
+				trace("Monitoring is successful!");
+			}
+       		public var cm:ConsultMessage;
+       		public function onResultConsultQueue(result:ResultEvent):void 
+       		{
+       			
+       			trace("consulting......");
+       			trace("Consult result: "+(result.result as ArrayCollection).length);
+       			consultMessageQueue = result.result as ArrayCollection;
+       			
+       			if(consultMessageQueue.length != 0){
+       				trace("CMQ length: "+consultMessageQueue.length);
+   					cm = consultMessageQueue.getItemAt(0) as ConsultMessage;
+   					trace("cm.html: "+cm.consultHTMLString);
+   					var id:String = cm.stepID;
+   					 if (id != null && id != ""){
+	   					var dobTarget:DiagramObject = diagram.getElementByDataObjectId(id) as DiagramObject;
+	   					if(id == "S06803B5E-9643-8FF4-B83C-67ADE997CA20"){//TODO: These are only for AF and VT
+	   						dobTarget = diagram.getElementByDataObjectId("S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09") as DiagramObject;
+	   						(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
+	   						(buttonBox.getChildAt(0) as Button).label = "Start";
+	   						Alert.show("Guideline Finalized!");
+			   				//(buttonBox.getChildAt(0) as Button).label == "Start";
+			   				clearInterval(executionTimerId);
+							//logInfo += "Execution Ends!"+"\n";
+	   					}
+	   					if(id == "S0F4B6AE8-BC3C-052D-E84E-9105773EF96A"){
+	   						dobTarget = diagram.getElementByDataObjectId("S30264FBE-5736-5620-9F74-910787388943") as DiagramObject;
+	   						(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
+	   						(buttonBox.getChildAt(0) as Button).label = "Start";
+	   						Alert.show("Guideline Finalized!");
+			   				//(buttonBox.getChildAt(0) as Button).label == "Start";
+			   				clearInterval(executionTimerId);
+							//logInfo += "Execution Ends!"+"\n";
+	   					}
+	   						
+	   					//isScrolled = true;
+	   					scrollTo(dobTarget);
+	   					colorSprite("red",dobTarget);
+	   					
+	   					
+	   				} 
+   					
+   					clearInterval(executionTimerId);
+   					
+   					
+   					//var scriptContent:String =  "var btnWhichButton;"+"function ValidateData() {"+"if (btnWhichButton.value == 'The case is VT!' ) {"+"alert('VT Pressed');"+"} else if (btnWhichButton.value == 'There is Noise!' ){"+"alert('Noise Pressed');"+"} else if (btnWhichButton.value == 'Submit' ){"+"alert('Submit Pressed');"+"return true;}"+"return false;}";
+					//var scriptContent:String =  " function ValidateData\(\) &#123; &#125; getFlexApp\('iCardea'\).consultResult\(btnWhichButton.value\); window.close\(\); return true; &#125; function getFlexApp\(appName\)&#123;  if \(navigator.appName.indexOf \('Microsoft'\) !=-1\)  &#123; return opener.window[appName];  &#125;  else &#123; return opener.document[appName];  &#125;	&#125;";
+					var scriptContent:String =  " function ValidateData() { getFlexApp('iCardea').consultResult(btnWhichButton.value); window.close(); return true; } function getFlexApp(appName){  if (navigator.appName.indexOf ('Microsoft') !=-1)  { return opener.window[appName];  }  else { return opener.document[appName];  }}";
+					//var noscriptContent:String =	"<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' id='iCardea' width='100%' height='100%'	codebase='http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab'><param name='movie' value='iCardea.swf' />	<param name='quality' value='high' /><param name='bgcolor' value='#ececec' /><param name='allowScriptAccess' value='sameDomain' />	<embed src='iCardea.swf' quality='high' bgcolor='#ececec'	width='100%' height='100%' name='iCardea' align='middle' play='true' loop='false'	quality='high'	allowScriptAccess='sameDomain'	type='application/x-shockwave-flash'	pluginspage='http://www.adobe.com/go/getflashplayer'>	</embed></object>";	
+					//var st:String = "function(){" +"var pop_w = window.open( '', '', 'height = 750, width = 600,scrollbars=1' );"+	"var content = "+cm.consultHTMLString+";"+"pop_w.document.write(content);"+	"pop_w.document.close(); }";//var st2:String = "function ValidateData() {	if (btnWhichButton.value == 'The case is VT!' ) {	alert('VT Pressed');	} else if (btnWhichButton.value == 'There is Noise!' ){	alert('Noise Pressed');	} else if (btnWhichButton.value == 'Submit' ){	alert('Submit Pressed');return true;}return false;}";
+	                //$('head').append("+scriptContent+");              
+	                //ExternalInterface.call("st",cm.consultHTMLString,scriptContent);
+	                //ExternalInterface.call(st);
+	               
+	               var headContent:String = "<meta http-equiv="+"\"Content-Type\""+" content="+"\"text/html; charset=utf-8\""+" />";
+					
+	                var arr:Array = cm.consultHTMLString.split("<body>");
+	                var arr1:Array = (arr[1] as String).split("</body>");
+	                var st2:String = arr1[0];
+	                
+	                ExternalInterface.call("openindex",st2,scriptContent); 
+	                
+	                //var jsfunc:String ="function st(){OpenWindow=window.open('', 'newwin', 'height=750, width=650,toolbar=no,scrollbars=1,menubar=no');OpenWindow.document.write('<HTML lang="+"\"en\""+">');OpenWindow.document.write('<HEAD>'); OpenWindow.document.write("+headContent+"); OpenWindow.document.write('<SCRIPT LANGUAGE="+"\"JavaScript\""+">'); OpenWindow.document.write("+scriptContent+");OpenWindow.document.write('</SCRIPT>');OpenWindow.document.write('</HEAD>');OpenWindow.document.write('<BODY>');OpenWindow.document.write("+st2+");OpenWindow.document.write('</BODY>');OpenWindow.document.write('</HTML>');OpenWindow.document.close();self.name='main';}";	                	                
+	                
+	                //ExternalInterface.call(jsfunc);
+	                ExternalInterface.addCallback("consultResult",consultResult);
+			
+   					addEventListener(Event.CLOSE, continueExecution); 
+   					
+       			}  
+       			
+       					
+       			
+       		}
+       		public function closePopUp():void {
+				//Dispatch close event, so that the parent is able to recognize popup's been closed.
+				dispatchEvent(new Event(Event.CLOSE));
+				
+			} 
+       		public function consultResult(result:String):void {
+       		
+				trace("result: "+result)
+				trace("cm.careplanProcessorID"+cm.careplanProcessorID)
+   				informConsultMessage(cm.careplanProcessorID, result);
+                closePopUp();
+				
+			}
+			public function informConsultMessage(executionID:String, result:String):void{
+       			var service : RemoteObject = new RemoteObject("engineService");
+				var cs:ChannelSet = new ChannelSet();
+				var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+				cs.addChannel(customChannel);
+				service.channelSet = cs;
+				service.addEventListener(ResultEvent.RESULT,onResultInformConsultMessage);
+				service.addEventListener(FaultEvent.FAULT, onFault);
+				
+				service.informConsultMessage(executionID,result); 
+       		}
+       		public function onFault(fault:FaultEvent):void 
+	        {
+	       		Alert.show(fault.fault.faultString);	
+	       	}
+       		
+       		public function onResultInformConsultMessage(result:ResultEvent):void {
+       			
+       		}
+       		
+       		
+			
+			
+			private function continueExecution(e:Event):void {
+				executionTimerId = setInterval(startExecution, 1000,"");
+			}
+			
+			
+
+            /*
+            * Change contextual menu when hand mode is activated
+            */
+			private function diagram_handModeHandler(event:DiagramEvent):void
+			{
+				contextualMenu.currentState='';
+			}
+
+            /*
+            * When link mode change, change link menu accordingly
+            */
+			private function diagram_linkModeHandler(event:DiagramEvent):void
+			{
+				contextualMenu.currentState='link';
+				var behaviour:int=(diagram.defaultlinktype.behaviour == DiagramLinkType.FREE_BEHAVIOUR) ? 0 : 1;
+				var geometry:int=(diagram.defaultlinktype.geometry == DiagramLinkType.POLYLINE_GEOMETRY) ? 0 : 2;
+//				contextualMenu.linkType.selectedIndex=behaviour + geometry;
+				
+			}
+			
+            /*
+            * Change contextual menu when default mode is activated
+            */
+            private function diagram_defaultModeHandler(event:DiagramEvent):void
+            {
+            	contextualMenu.currentState='';
+            }
+            
+            /*
+            * When a object is selected on the diagram, we 
+            * - Change the contextual menu if needed
+            * - select the corresponding objects on the datagrid
+            */
+			private function diagram_selectionHandler(event:DiagramEvent):void
+			{
+				//edit.visible=true;
+				
+				var selection:Array=diagram.getSelectedObjects();
+				var link:DiagramLink;
+				if (!selection || selection.length < 1 || (selection.length == 1 && !(selection[0] is DiagramLink)))
+				{
+					
+					// If no selection or a single object, no specific menu
+					contextualMenu.currentState='';
+					
+					/* if (selection != null && selection.length == 1) {
+						var dobObject:DiagramObject = selection[0] as DiagramObject;
+						
+						
+						
+						if (dobObject != null) {
+							var dict:Dictionary=Application.application.careplanDT.object_dic;
+							var id:String;
+							if (dict[dobObject.dataobjectid].ownName == "startStep" || dict[dobObject.dataobjectid].ownName=="finalStep" || dict[dobObject.dataobjectid].ownName=="recommendationStep" )
+								id = dict[dobObject.dataobjectid].nextStep.ref;
+							else
+								id = dict[dobObject.dataobjectid].nextStep[0].ref;
+							var dobTarget:DiagramObject;
+							dobTarget = diagram.getElementByDataObjectId(id) as DiagramObject;
+							
+							
+								
+								
+								
+								if (dobTarget.x-diagram.width/2 < 0) { 
+									if (dobTarget.y-diagram.height/2 < 0) {
+										diagram.scrollTo(0,0);
+									} else {
+										diagram.scrollTo(0,dobTarget.y-diagram.height/2);
+									}
+								} else {
+									if (dobTarget.y-diagram.height/2 < 0) {
+										diagram.scrollTo(dobTarget.x-diagram.width/2,0);
+									} else {
+										diagram.scrollTo(dobTarget.x-diagram.width/2,dobTarget.y-diagram.height/2);
+									}
+								}
+							}
+						} */
+					
+					
+					
+				
+				}
+				else if (selection.length == 1 && selection[0] is DiagramLink)
+				{
+					// For a single link, activate link properties menu
+					link=selection[0] as DiagramLink;
+					contextualMenu.currentState='selectedLink';
+					/* contextualMenu.linkColor.selectedColor=link.lineColor;
+					contextualMenu.linkWidth.value=link.lineWidth;
+					contextualMenu.linkAlpha.value=link.lineOpacity;
+					contextualMenu.selectedLinkType.selectedIndex=
+						(link.linktype.geometry == DiagramLinkType.POLYLINE_GEOMETRY) ? 0 : 1;	
+								 */
+				}
+				else
+				    // Otherwise activate alignement menu
+					contextualMenu.currentState='alignement';
+				
+
+				var uid:String=(selection && selection.length == 1) ? DiagramObject(selection[0]).dataobjectid : null;
+				/* objectsGrid.selectedIndex=-1; */
+
+				if (uid)
+				{
+					var found:Boolean=false;
+					for (var i:int=0; i < myObjects.length; i++)
+					{
+						if (myObjects.getItemAt(i).uid == uid)
+						{
+							/* objectsGrid.selectedIndex=i;
+							objectsGrid.scrollToIndex(i); */
+							selectedItem=myObjects.getItemAt(i).spriteid;
+							selectedUID=myObjects.getItemAt(i).uid;
+							found=true;
+							break;
+						}
+					}
+				}
+			}
+
+            /*
+            * When user click on an item of the grid, we select the corresponding object on the diagram
+            */
+			private function objectsGrid_itemClickHandler(event:ListEvent):void
+			{
+				
+				
+				// Retrieve object data id
+				var uid:String=myObjects.getItemAt(event.rowIndex).uid;
+				selectedItem=myObjects.getItemAt(event.rowIndex).spriteid;
+				selectedUID=myObjects.getItemAt(event.rowIndex).uid;
+				
+				// Retrive according object on diagram
+				var dob:DiagramObject=DiagramObject(diagram.getElementByDataObjectId(uid));
+				
+				// Select only the object (no sanity check, because it should be present).
+				diagram.deselectAll();
+				diagram.selectObject(dob);
+			
+				
+				//Check if the object is at the margins
+				
+				trace("dobTarget.x: "+dob.x)
+       			trace("dobTarget.y: "+dob.y)
+       			trace("diagram.width: "+diagram.width)
+       			trace("diagram.height: "+diagram.height)
+				
+				if (dob.x-diagram.width/2 < 0) { 
+					if (dob.y-diagram.height/2 < 0) {
+						diagram.scrollTo(0,0);
+					} else {
+						diagram.scrollTo(0,dob.y-diagram.height/2);
+					}
+				} else {
+					if (dob.y-diagram.height/2 < 0) {
+						diagram.scrollTo(dob.x-diagram.width/2,0);
+					} else {
+						diagram.scrollTo(dob.x-diagram.width/2,dob.y-diagram.height/2);
+					}
+					
+				}
+				
+				
+				//diagram.scrollTo(dob.x - diagram.width/2,dob.y - diagram.height/2);
+				
+			}
+
+            /*
+            * When user click on an item of the grid, we select the corresponding object on the diagram
+            */
+            private function objectsGrid_itemEditEndHandler(event:DataGridEvent):void
+			{
+				var edit:TextInput=TextInput(event.currentTarget.itemEditorInstance);
+				var name:String=edit.text;
+				
+				var uid:String=myObjects.getItemAt(event.rowIndex).uid;
+				var dob:DiagramObject=DiagramObject(diagram.getElementByDataObjectId(uid));
+
+				if (dob.annotation)
+					dob.annotation.text=name;
+				else
+					diagram.createAnnotation(dob, name);
+			
+			}
+
+            /*
+            * Copy xml export to system clipboard on Ctrl-C key.
+            */
+			private function stage_keyDownHandler(event:KeyboardEvent):void
+			{
+				if (event.ctrlKey && event.keyCode == 17)
+				{
+					System.setClipboard(diagram.toXML());
+				}
+			}
+					
+			private function toXMLsave():String
+			{			
+				
+				var xml:String;
+				var algo:Algorithm = new Algorithm;
+				var body:Body = new Body;
+				
+			    for each (var value:Object in object_dic)
+			    {
+			      	if(value is StartStep)
+			      		algo.startStep = value as StartStep;
+			      	if(value is FinalStep)
+			      		algo.finalStep = value as FinalStep;
+			      	if(value is ConsultStep)
+			      		algo.addConsult(value as ConsultStep);
+			      	if(value is DecisionStep)
+			      		algo.addDecision(value as DecisionStep);	
+			      	if(value is RecommendationStep)
+			      		algo.addRecommendation(value as RecommendationStep);
+			      	if(value is WaitStep)
+			      		algo.addWait(value as WaitStep);
+			      	if(value is RecordActionStep)
+			      		algo.addRecord(value as RecordActionStep)		
+			      			
+			    }
+			    
+			   // body.eligibilityCriteria =Application.application.careplans.elCriteria.eligibilityCriteria;
+			    body.algorithm=algo;
+			    xml=FlexXBEngine.instance.serialize(body);
+			    var xml1:XML = new XML(xml);
+			    var body2:Body = FlexXBEngine.instance.deserialize(xml1, Body) as Body;
+			    					
+				return xml;	
+           }
+
+			private function cleareFileReference(event:Event):void
+			{
+				reference = null;
+			}
+			
+			private function onFileSelect(e:Event):void
+			{
+				reference.addEventListener(Event.COMPLETE, onFileLoad);
+				reference.load();
+			}
+			
+			private function onFileLoad(e:Event):void
+			{
+				var archive:ArchiveUtil = new Archiver;				
+				var data:ByteArray = e.currentTarget.data;
+				var content:DiagramContent = archive.readArchive(data);
+				
+                
+                reference = null;
+                diagram.clearAll();
+
+                diagram.fromXML(new XML(content.diagram));
+
+                var body:Body = (FlexXBEngine.instance.deserialize(new XML(content.careplan), Body) as Body);
+                trace("careplan: "+content.careplan);
+                var algo:Algorithm = body.algorithm;
+                trace("Algo: "+body.algorithm);
+             	for(var i:String in algo.consultStep.source){
+             		var cs:ConsultStep = algo.consultStep.source[i] as ConsultStep; 
+             		cs.ownName = "consultStep";
+             		object_dic[cs.id] = cs;
+             	}
+             	for(var j:String in algo.decisionStep.source){
+             		var ds:DecisionStep = algo.decisionStep.source[j] as DecisionStep;
+             		ds.ownName = "decisionStep"; 
+             		object_dic[ds.id] = ds;
+             	}   
+             	for(var k:String in algo.recommendationStep.source){
+             		var rs:RecommendationStep = algo.recommendationStep.source[k] as RecommendationStep;
+             		rs.ownName = "recommendationStep"; 
+             		object_dic[rs.id] = rs;
+             	}
+             	for(var l:String in algo.waitStep.source){
+             		var ws:WaitStep = algo.waitStep.source[l] as WaitStep;
+             		ws.ownName = "waitStep"; 
+             		object_dic[ws.id] = ws;
+             	}
+             	for(var m:String in algo.recordActionStep.source){
+             		var recs:RecordActionStep = algo.recordActionStep.source[m] as RecordActionStep;
+             		recs.ownName = "recordActionStep"; 
+             		object_dic[recs.id] = recs;
+             	}
+             	if(algo.startStep){
+             		algo.startStep.ownName = "startStep";
+             		object_dic[algo.startStep.id] = algo.startStep;
+             	}
+             	if(algo.finalStep){
+             		algo.finalStep.ownName = "finalStep";
+             		object_dic[algo.finalStep.id] = algo.finalStep;
+             	}
+                
+			}
+			
+			private function toXML():void
+			{
+				xml = diagram.toXML();
+                reference = new FileReference();
+                var archiver:ArchiveUtil = new Archiver;
+                var content:DiagramContent=archiver.createArchive(DEFAULT_FILE_NAME,toXMLsave(),xml);
+                                
+                reference.save(content.content, DEFAULT_FILE_NAME);
+                reference.addEventListener(Event.COMPLETE, cleareFileReference);
+			}
+			public function fromXML():void
+			{
+				reference = new FileReference();
+				reference.browse(FILE_TYPES);
+				reference.addEventListener(Event.SELECT, onFileSelect);
+			}
+			
+			private function editProperties():void
+			{
+				switch(selectedItem)
+				{
+					case("startStep"):
+						spop=new StartStepProperties();
+						spop.startStep=object_dic[selectedUID];
+                		
+                		PopUpManager.addPopUp(spop, this,true);
+                		PopUpManager.centerPopUp(spop);
+                		
+						break;
+					case("consultStep"):
+						cpop=new ConsultStepProperties();
+						cpop.consultStep=object_dic[selectedUID];
+				
+                		PopUpManager.addPopUp(cpop, this,true);
+                		PopUpManager.centerPopUp(cpop);
+                	
+                		
+						break;
+					case("recommendationStep"):
+						rpop=new RecommendationStepProperties();
+						rpop.recommendationStep=object_dic[selectedUID];
+				
+                		PopUpManager.addPopUp(rpop, this,true);
+                		PopUpManager.centerPopUp(rpop);
+                		
+						break;
+					case("decisionStep"):
+						dpop=new DecisionStepProperties();
+						dpop.decisionStep=object_dic[selectedUID];
+				
+                		PopUpManager.addPopUp(dpop, this,true);
+                		PopUpManager.centerPopUp(dpop);
+                		
+						break;
+					case("finalStep"):
+						fpop=new FinalStepProperties();
+						fpop.finalStep=object_dic[selectedUID];
+				
+                		PopUpManager.addPopUp(fpop, this,true);
+                		PopUpManager.centerPopUp(fpop);
+                	
+						break;
+					case("waitStep"):
+						wpop=new WaitStepProperties;
+						wpop.wStep=object_dic[selectedUID];
+				
+                		PopUpManager.addPopUp(wpop, this,true);
+                		PopUpManager.centerPopUp(wpop);
+                	
+						break;	
+					case("recordActionStep"):
+						recpop=new RecordActionStepProperties;
+						recpop.recordStep=object_dic[selectedUID];
+				
+                		PopUpManager.addPopUp(recpop, this,true);
+                		PopUpManager.centerPopUp(recpop);
+                	
+						break;	
+				}
+				
+			}
+			
+			private function cancelCareplan():void
+			{
+				//log out //
+				myObjects.removeAll();
+				diagram.removeAll();
+				diagram.visible = false;
+
+			}
+						
+			private function displayCareplans():void
+			{
+				var htpop:DefinedCareplans= new DefinedCareplans;
+        					
+            	PopUpManager.addPopUp(htpop, this,true);
+            	PopUpManager.centerPopUp(htpop);
+			}
+			
+			private function updateCareplan():void{
+				var xml:String;
+				var algo:Algorithm = new Algorithm;
+				var body:Body = new Body;
+				
+			    for each (var value:Object in object_dic)
+			    {
+			      	if(value is StartStep)
+			      		algo.startStep = value as StartStep;
+			      	if(value is FinalStep)
+			      		algo.finalStep = value as FinalStep;
+			      	if(value is ConsultStep)
+			      		algo.addConsult(value as ConsultStep);
+			      	if(value is DecisionStep)
+			      		algo.addDecision(value as DecisionStep);	
+			      	if(value is RecommendationStep)
+			      		algo.addRecommendation(value as RecommendationStep);
+			      	if(value is WaitStep)
+			      		algo.addWait(value as WaitStep);
+			      	if(value is RecordActionStep)
+			      		algo.addRecord(value as RecordActionStep);			
+			      			
+			    }
+			    
+			    body.algorithm=algo;
+			    xml = FlexXBEngine.instance.serialize(body);
+			    trace("XMLemel: "+xml)
+			    trace("Diagram: "+diagram.toXML().toXMLString())
+			    
+			    if(diagram != null){
+			    	this._careplan.careplan = xml;
+			    	this._careplan.diagram = diagram.toXML().toXMLString();
+			    	this.control.updateCareplan(this._careplan);
+			    }
+			    else {
+			    	Alert.show("No content to save");
+			    }
+			    
+			    
+			}
+			
+			public function cancelCareplanEdit():void{
+				Application.application.viewStack.selectedIndex = 2;
+				Application.application.userMain.selectedIndex = 3;
+				
+			}
+			
+			
+		]]>
+	</mx:Script>
+	
+	
+	<mx:HBox id="applicationContainer" 
+			 width="100%"
+			 height="100%"
+			 styleName="applicationContainer">
+				<mx:VBox visible="false" styleName="toolPanelContainer" id="monitorStack" includeInLayout="false" height="100%">
+					<mx:Label text="Care Plan Execution" fontWeight="bold" enabled="true" fontFamily="Arial" fontSize="20"/>
+					<mx:Spacer height="5%"/>
+					<mx:Label text="Patient Health Record" textDecoration="underline" fontWeight="bold"/>
+					<mx:Spacer height="5%"/>
+					<!--<mx:HBox >
+						<mx:Spacer width="80"/>
+						<mx:Image horizontalAlign="center" source="{patientPic}"/>
+						<mx:TextArea editable="false" width="120" height="150" textAlign="center" text="NO IMAGE"/>
+					</mx:HBox>-->
+					<mx:Spacer height="5%"/>
+					<mx:HBox >
+						<mx:Label text="Patient ID:" fontWeight="bold"/>
+						<mx:Text id="patientID" text="{executeCareplanObj.personID}"/>
+					</mx:HBox>
+					<mx:HBox >
+						<mx:Label text="Patient Name:" fontWeight="bold"/>
+						<mx:Text id="patientName" text="{executeCareplanObj.name}" />
+					</mx:HBox>
+					<mx:HBox >
+						<mx:Label text="Gender:" fontWeight="bold"/>
+						<mx:Text id="gender" text="{executeCareplanObj.gender}" />
+					</mx:HBox>
+					<mx:HBox >
+						<mx:Label text="Date of Birth:" fontWeight="bold"/>
+						<mx:Text id="age" text="{executeCareplanObj.dateOfBirth}"  />
+					</mx:HBox>
+					<mx:Spacer height="5%"/>
+					<mx:Button label="Details"/>
+					<mx:Spacer height="10%"/>
+					<mx:Label text="Care Plan Details" textDecoration="underline" fontWeight="bold"/>
+					<mx:Spacer height="5%"/>
+					<mx:HBox >
+						<mx:Label text="Care Plan ID:" fontWeight="bold"/>
+						<mx:Text id="planId" text="{executeCareplanObj.careplanID}" />
+					</mx:HBox>
+					<!--<mx:HBox >
+						<mx:Label text="Version:" fontWeight="bold"/>
+						<mx:Text id="planVersion" text="{executeCareplanObj.version}" />
+					</mx:HBox>-->
+					<mx:HBox >
+						<mx:Label text="Title:" fontWeight="bold"/>
+						<mx:Text id="planITitle" text="{executeCareplanObj.careplanName}" />
+					</mx:HBox>
+					<!--<mx:HBox >
+						<mx:Label text="Detailed info:" fontWeight="bold"/>
+						<mx:Text id="planInfo" text="{executeCareplanObj.careplanName}"/>
+					</mx:HBox>-->
+					<mx:Spacer height="5%"/>
+					<mx:Button label="Details"/>
+					<mx:Spacer height="10%"/>
+					<mx:HBox id="buttonBox" width="100%">
+					</mx:HBox>
+				</mx:VBox>	
+				
+			<mx:VBox styleName="toolPanelContainer" height="100%" id="editorStack" visible="false" includeInLayout="false">	
+				<mx:Label text="Care Plan Editor" fontWeight="bold" enabled="true" fontFamily="Arial" fontSize="20"/>	
+	 			<mx:Spacer height="5%"/>
+	 			<mx:Label text="Care Plan Details" textDecoration="underline" fontWeight="bold"/>
+				<mx:Spacer height="2%"/>
+				<mx:HBox >
+					<mx:Label text="Care Plan ID:" fontWeight="bold"/>
+					<mx:Text text="{_careplan.id}" />
+				</mx:HBox>
+				<!--<mx:HBox >
+					<mx:Label text="Version:" fontWeight="bold"/>
+					<mx:Text text="{_careplan.version}" />
+				</mx:HBox>-->
+				<mx:HBox >
+					<mx:Label text="Title:" fontWeight="bold"/>
+					<mx:Text text="{_careplan.name}" />
+				</mx:HBox>
+				<!--<mx:HBox >
+					<mx:Label text="Detailed info:" fontWeight="bold"/>
+					<mx:Text text="{_careplan.name}"/>
+				</mx:HBox>-->
+				<mx:Spacer height="2%"/>
+				<mx:Box horizontalAlign="left" width="100%">
+					<mx:Button  id="updateCP" label="UPDATE" click="updateCareplan()"/>
+				</mx:Box>
+				<mx:Spacer height="2%"/>	
+				
+				<component:ToolPanel id="groupNavigator" >
+					<component:GenericTitle title="STEPS"
+										 />
+					<mx:HBox 
+							icon="{Group1_Icon}">
+						<diagctl:SVGAssetLibraryGroupTile id="stepGroupTile"
+														  backgroundColor="0xf4f4f4"
+														  width="15%"
+														  height="100%"
+														  groupid="{firstGroupId}"
+														  borderThickness="0" 
+														  direction="vertical" rowCount="7" scaleX="1.5" scaleY="1.5"/>
+														  
+						<mx:TileList dataProvider="{tileSteps}" direction="vertical" borderThickness="0"
+							selectable="false" columnWidth="120" columnCount="1" rowCount="7"
+							rowHeight="39" textAlign="left" verticalAlign="middle" />
+					</mx:HBox>
+				</component:ToolPanel>
+				<!--<component:ToolPanel id="info" height="100%" width="100%">
+					<component:GenericTitle title="INFO"
+											 />
+					<mx:DataGrid id="objectsGrid"
+								 dataProvider="{myObjects}"
+								 itemEditEnd="objectsGrid_itemEditEndHandler(event);"
+								 itemClick="objectsGrid_itemClickHandler(event);"
+								 width="100%"
+								 editable="true">
+							<mx:columns>
+								<mx:DataGridColumn headerText="Step type"
+												   dataField="spriteid"
+												   editable="false"/>
+								<mx:DataGridColumn headerText="Comment"
+												   dataField="name"
+												   editable="true"/>
+							</mx:columns>
+					</mx:DataGrid>
+				</component:ToolPanel>-->
+				<mx:Spacer height="5%"/>
+				<mx:HBox id="buttonBox1" width="100%">
+				</mx:HBox>
+		</mx:VBox>
+		<mx:VBox id="Links" 
+				 width="100%"
+				 height="100%"
+				 styleName="toolPanelContainer">
+			<diagrammingTools:Menu id="contextualMenu"
+						view="{diagram}"
+						width="100%"
+						height="8%">
+			</diagrammingTools:Menu>
+			<diagview:DiagramView id="diagram"
+								  width="100%" height="100%"
+								  creationComplete="diagram_creationCompleteHandler()">
+			</diagview:DiagramView>
+		</mx:VBox>
+	</mx:HBox>
+</mx:Panel>
+
+

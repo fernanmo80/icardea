@@ -1,0 +1,42 @@
+{% extends "layout.html" %}
+{%block htmlTitle %}{{userid}}{% endblock%}
+{%block htmlHead %}
+<meta http-equiv="x-xrds-location" content="{{user_yadis_url}}"/>
+<!-- 
+<script>
+    $(function() {
+        $('#opid').html(window.location.href);
+    });
+</script>
+-->
+<style>
+    #opid {
+        color: red;
+    }
+</style>
+{% endblock%}
+
+{% block htmlBody %}
+{% if loggedin %}
+<h1>Welcome {{my_profile.givenName}}!</h1>
+
+<p>This is your "identity" page! You can use the <a
+    href="http://en.wikipedia.org/wiki/Uniform_Resource_Locator">URL</a>
+shown in the address bar of your browser (i.e. <span id="opid">{{identity}}</span>)
+as your iCARDEA id in order to log into the rest of the iCARDEA
+applications. </p> 
+
+{% if my_profile.groups %}
+<p>So it appears that you are a member of the following groups:</p>
+<ul>
+    {%for g in my_profile.groups %}
+    <li>{{g}}</li>
+    {%endfor%}
+</ul>
+{% else %}
+<p>You do not seem to belong to any user group!</p>
+{% endif %}
+
+{% endif %}
+
+{% endblock%}

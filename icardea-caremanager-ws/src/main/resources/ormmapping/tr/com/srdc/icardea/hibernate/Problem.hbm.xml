@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.hibernate.Problem" table="Problem" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="increment">
+			</generator>
+		</id>
+		<property name="careProvisionCode" column="careProvisionCode" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="problemCode" column="problemCode" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="problemText" column="problemText" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="effectiveTimeLow" column="effectiveTimeLow" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="effectiveTimeHigh" column="effectiveTimeHigh" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="problemValue" column="problemValue" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="problemValueCodeSystem" column="problemValueCodeSystem" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="problemValueOriginalText" column="problemValueOriginalText" type="string" length="255" not-null="false" lazy="false"/>
+		<many-to-one name="eHRPHRData" column="EHRPHRDataID" class="tr.com.srdc.icardea.hibernate.EHRPHRData" cascade="save-update,lock" unique="true" not-null="true" lazy="no-proxy" access="field">
+		</many-to-one>
+		<property name="severity" column="severity" type="string" length="5" not-null="false" lazy="false"/>
+		<one-to-one name="concern" class="tr.com.srdc.icardea.hibernate.Concern" cascade="save-update,lock" property-ref="problem" lazy="no-proxy" access="field"/>
+	</class>
+</hibernate-mapping>

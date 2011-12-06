@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ //
+  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
+  ~ //   
+  ~ //  TERMS OF USE  
+  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
+  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
+  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
+  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
+  ~ //
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  -->
+<!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ // This tool can be used to change diagrammer mode (link creation, hand or selection mode)
+  ~ // It also reflect change to diagrammer mode, should this change be cause by this tool  
+  ~ // or an external cause.
+  ~ ////////////////////////////////////////////////////////////////////////////////
+ -->
+<ToolPanel xmlns="fr.kapit.skin.component.*" xmlns:mx="http://www.adobe.com/2006/mxml"
+           mouseDown="this.startDrag()" mouseUp="this.stopDrag()" creationComplete="creationCompleteHandler()"
+           buttonMode="true" borderColor="#DBD6D1" alpha="1.0" backgroundColor="#DEDCD7" horizontalAlign="center"
+           verticalAlign="middle"
+           visible="{parentApplication.viewStack.selectedIndex == 1}" includeInLayout="false"
+           >
+    <mx:Script>
+		<![CDATA[
+			import tr.com.srdc.icardea.model.userControl.ModelImpl;
+		import com.kapit.diagram.DiagramEvent;
+        import com.kapit.diagram.view.DiagramView;
+
+		/*
+		*  The diagramview linked to this popup
+		*/
+        public var _view:DiagramView;
+
+        public function get view():DiagramView
+        {
+            return _view;
+        }
+
+        public function set view(value:DiagramView):void
+        {
+            _view = value;
+        }
+        
+        /*
+        * After creation, register to diagramer events to stay in sync et reset diagram to default mode
+        */ 
+        private function creationCompleteHandler():void
+        {
+            view.addEventListener(DiagramEvent.DIAGRAM_DEFAULT_MODE_SET, view_defaultModeHandler);
+            view.addEventListener(DiagramEvent.DIAGRAM_LINK_MODE_SET, view_linkModeHandler);
+            view.addEventListener(DiagramEvent.DIAGRAM_HAND_MODE_SET, view_handModeHandler);
+            selectionTool_clickHandler();
+        }
+ 
+        /*
+        * Set diagramer to hand mode
+        */         
+        private function handTool_clickHandler():void
+        {
+            view.handMode = true;
+        }
+        
+        /*
+        * Set diagramer to link mode
+        */   
+        private function linkTool_clickHandler():void
+        {
+            view.linkMode = DiagramView.MANUAL_LINK_MODE;
+        }
+        
+        /*
+        * Set diagramer to selection mode
+        */   
+        private function selectionTool_clickHandler():void
+        {
+            view.returnToDefaultMode();
+        }
+
+        /*
+        * When diagrammer enter link mode, highlight link icon
+        */   
+        private function view_linkModeHandler(event:DiagramEvent):void
+        {
+            selectionTool.alpha = 0.4;
+            linkTool.alpha = 1;
+            handTool.alpha = 0.4;
+        }
+
+        /*
+        * When diagrammer enter link mode, highlight hand icon
+        */   
+        private function view_handModeHandler(event:DiagramEvent):void
+        {
+            selectionTool.alpha = 0.4;
+            linkTool.alpha = 0.4;
+            handTool.alpha = 1;
+        }
+
+        /*
+        * When diagrammer enter default mode, highlight selection icon
+        */   
+        private function view_defaultModeHandler(event:DiagramEvent):void
+        {
+            selectionTool.alpha = 1;
+            linkTool.alpha = 0.4;
+            handTool.alpha = 0.4;
+        }
+		]]>
+	</mx:Script>
+    <mx:Box id="selectionTool" toolTip="Selection tool" width="24" height="24" buttonMode="true"
+            horizontalAlign="center" verticalAlign="middle" click="selectionTool_clickHandler()">
+        <mx:Image source="@Embed(source='/assets/careplaneditor/tools/Curseur - Selection.png')"/>
+    </mx:Box>
+    <mx:Box id="linkTool" toolTip="Link tool" width="24" height="24" buttonMode="true" horizontalAlign="center"
+            verticalAlign="middle" click="linkTool_clickHandler()">
+        <mx:Image source="@Embed(source='/assets/careplaneditor/tools/Bouton - Liens - tool.png')"/>
+    </mx:Box>
+    <mx:Box id="handTool" toolTip="Hand tool" width="24" height="24" buttonMode="true" click="handTool_clickHandler()">
+        <mx:Image source="@Embed(source='/assets/careplaneditor/tools/Curseur - Hand.png')"/>
+    </mx:Box>
+</ToolPanel>
+

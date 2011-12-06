@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.MSMT" table="MSMT">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <many-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.System" column="SystemID" lazy="no-proxy" name="system" not-null="true" unique="true">
+		</many-to-one>
+    <property column="dtm_start" lazy="false" length="50" name="dtm_start" not-null="false" type="string"/>
+    <property column="dtm_end" lazy="false" length="50" name="dtm_end" not-null="false" type="string"/>
+    <set cascade="save-update,lock" inverse="true" lazy="true" name="ORM_bATTERY2">
+      <key column="MSMTID" not-null="false"/>
+      <one-to-many class="tr.com.srdc.icardea.hibernate.BATTERY2"/>
+    </set>
+    <set cascade="save-update,lock" inverse="true" lazy="true" name="ORM_cAP">
+      <key column="MSMTID" not-null="false"/>
+      <one-to-many class="tr.com.srdc.icardea.hibernate.CAP"/>
+    </set>
+    <set cascade="save-update,lock" inverse="true" lazy="true" name="ORM_lEADCHNLMSMT">
+      <key column="MSMTID" not-null="true"/>
+      <one-to-many class="tr.com.srdc.icardea.hibernate.LEADCHNLMSMT"/>
+    </set>
+    <set cascade="save-update,lock" inverse="true" lazy="true" name="ORM_lEADHVCHANNELMSMT">
+      <key column="MSMTID" not-null="true"/>
+      <one-to-many class="tr.com.srdc.icardea.hibernate.LEADHVCHANNELMSMT"/>
+    </set>
+  </class>
+</hibernate-mapping>

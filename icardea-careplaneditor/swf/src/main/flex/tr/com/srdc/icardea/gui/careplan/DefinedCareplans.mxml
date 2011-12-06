@@ -1,0 +1,436 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ //
+  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
+  ~ //   
+  ~ //  TERMS OF USE  
+  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
+  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
+  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
+  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
+  ~ //
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  -->
+<!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ // This tool can be used to change diagrammer mode (link creation, hand or selection mode)
+  ~ // It also reflect change to diagrammer mode, should this change be cause by this tool  
+  ~ // or an external cause.
+  ~ ////////////////////////////////////////////////////////////////////////////////
+ -->
+<mx:VBox xmlns="fr.kapit.skin.component.*" xmlns:mx="http://www.adobe.com/2006/mxml"
+           paddingTop="5" paddingLeft="5" paddingRight="5"
+           buttonMode="true" alpha="1.0" horizontalAlign="left"
+           verticalAlign="top" width="100%" height="100%" creationComplete="sendCalls()" initialize="initializeGrid()">
+    <mx:Script>
+		<![CDATA[
+			import mx.rpc.http.mxml.HTTPService;
+			import tr.com.srdc.icardea.gui.CarePlanEditor;
+			import tr.com.srdc.icardea.gui.steps.EligibilityCriteriaProperties;
+			import tr.com.srdc.icardea.patient.assignPatient;
+			import mx.messaging.Channel;
+			import mx.messaging.channels.SecureAMFChannel;
+			import mx.messaging.ChannelSet;
+			import mx.rpc.remoting.RemoteObject;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import tr.com.srdc.icardea.control.CareplanControlImp;
+			import tr.com.srdc.icardea.control.CareplanControl;
+			import tr.com.srdc.icardea.careplan.CareplanModelImp;
+			import tr.com.srdc.icardea.careplan.CareplanModel;
+		import tr.com.srdc.icardea.model.careplan.MedicalCareplan;
+		import mx.core.Application;
+		import tr.com.srdc.icardea.model.steps.FinalStep;
+		import mx.controls.Alert;
+		import mx.managers.PopUpManager;
+		import mx.collections.ArrayCollection;
+		import com.kapit.diagram.DiagramEvent;
+        import com.kapit.diagram.view.DiagramView;
+        
+        [Bindable]
+        public var model:CareplanModel = new CareplanModelImp();
+        
+        public var control:CareplanControl;
+        
+        [Bindable]
+        public var isMonitoring:Boolean;
+        [Bindable]
+		public var mcp:MedicalCareplan;
+		[Bindable]
+		public var carePlanEditor:CarePlanEditor;
+		private var isFirstCallCompletedVT:Boolean = false;
+		private var isSecondCallCompletedVT:Boolean = false;
+		private var isFirstCallCompletedAF:Boolean = false;
+		private var isSecondCallCompletedAF:Boolean = false;
+		[Bindable]
+        public var diagramVT:String;
+        [Bindable]
+        public var careplanVT:String;
+        
+        [Bindable]
+        public var diagramAF:String;
+        [Bindable]
+        public var careplanAF:String;
+
+        
+        [Bindable]
+        public var elCriteria:EligibilityCriteriaProperties;
+        
+        
+        public function sendCalls():void {
+	       	careplanCallVT.send(null);
+	       	diagramCallVT.send(null);
+	       	
+	       	careplanCallAF.send(null);
+	       	diagramCallAF.send(null);
+       	
+       }         
+        public function initializeGrid():void
+        {
+        	if(!isMonitoring){
+        		newCareplan.visible = true;	
+        		newCareplan.includeInLayout = true;
+        		openDiagram.label = "OPEN";
+        	}
+        	else {
+        		newCareplan.visible = false;	
+        		newCareplan.includeInLayout = false;
+        		openDiagram.label = "EXECUTE";
+        	}
+        		
+        	this.control = new CareplanControlImp(this.model);
+        	//myViewStack.selectedChild = MDE;
+        	this.control.listCareplans();
+        	 
+        }
+        public function serviceResultForDiagramVT(event:ResultEvent):void
+	    {
+			isSecondCallCompletedVT = true;
+
+			diagramVT = event.result as String;
+			
+			   
+	    }
+        public function serviceResultForXMLVT(event:ResultEvent):void
+	    {
+			isFirstCallCompletedVT = true;
+
+			careplanVT = event.result as String;
+	    }
+	    
+	    public function serviceResultForDiagramAF(event:ResultEvent):void
+	    {
+			isSecondCallCompletedAF = true;
+
+			diagramAF = event.result as String;
+			
+			   
+	    }
+        public function serviceResultForXMLAF(event:ResultEvent):void
+	    {
+			isFirstCallCompletedAF = true;
+
+			careplanAF = event.result as String;
+	    }
+		
+	    public function serviceFail(event:FaultEvent):void
+	    {
+			trace(event.fault.faultString)
+	    }
+        private function checkIfStateCanBeChanged():void {
+        	if(dgrid.selectedItem.id == 1){
+        		if(isFirstCallCompletedAF == true && isSecondCallCompletedAF == true) {
+				//trace("buraaaaaa: "+careplan)
+				//trace("buraaaaaa1: "+diagram)
+				isFirstCallCompletedAF = false;
+ 				isSecondCallCompletedAF = false;
+ 				mcp.careplan = careplanAF;
+ 				mcp.diagram = diagramAF;
+				carePlanEditor.careplan = mcp;
+				
+	    		parentApplication.viewStack.selectedIndex = 1;
+	    		parentApplication.careplanDT.execute=false;
+	    		parentApplication.careplanDT.doSettings();   
+        		}
+        	}
+        	else if(dgrid.selectedItem.id == 2){
+        		if(isFirstCallCompletedVT == true && isSecondCallCompletedVT == true) {
+				//trace("buraaaaaa: "+careplan)
+				//trace("buraaaaaa1: "+diagram)
+				isFirstCallCompletedVT = false;
+ 				isSecondCallCompletedVT = false;
+ 				mcp.careplan = careplanVT;
+ 				mcp.diagram = diagramVT;
+				carePlanEditor.careplan = mcp;
+				
+	    		parentApplication.viewStack.selectedIndex = 1;
+	    		parentApplication.careplanDT.execute=false;
+	    		parentApplication.careplanDT.doSettings();   
+				}
+        	}
+        	else {
+        		mcp.careplan = ""; //TODO DB den cekilecek
+ 				mcp.diagram = "";  //TODO DB den cekilecek
+ 				carePlanEditor.control = this.control;
+				carePlanEditor.careplan = mcp;
+        		parentApplication.viewStack.selectedIndex = 1;
+	    		parentApplication.careplanDT.execute=false;
+	    		parentApplication.careplanDT.doSettings();   
+        	}
+	   }        
+        
+        public function openSelected():void
+        {
+        	
+        	
+        	carePlanEditor = parentApplication.careplanDT;
+        	
+     
+        	if (dgrid.selectedItem != null) { 
+        		mcp = new MedicalCareplan;
+	    		mcp.id =dgrid.selectedItem.id;
+	    		mcp.name = dgrid.selectedItem.name;
+	    		mcp.url =(dgrid.selectedItem as MedicalCareplan).url;
+	    		//trace("careplanurl: "+mcp.url)
+	    		
+        		
+        		checkIfStateCanBeChanged();
+        		
+        		//trace("cp: "+mcp.careplan)
+	    		//trace("dgr: "+mcp.diagram)
+        		
+        		/* var hs:HTTPService = new HTTPService();
+				hs.showBusyCursor = true;
+				hs.method = "GET";
+				hs.url = "http://localhost:8080/icardea/guidelines/icardea/ManagementofVT-2.cp";
+				hs.resultFormat = "text";
+				hs.useProxy = false;
+				hs.send(null);
+				
+				hs.addEventListener(ResultEvent.RESULT,serviceResultForXML);
+				hs.addEventListener(FaultEvent.FAULT,serviceFail); 
+				
+				var hs1:HTTPService = new HTTPService();
+				hs1.showBusyCursor = true;
+				hs1.method = "GET";
+				hs1.url = "http://localhost:8080/icardea/guidelines/icardea/ManagementofVT-2.dgr";
+				hs1.resultFormat = "text";
+				hs1.useProxy = false;
+				hs1.send(null);
+				
+				hs1.addEventListener(ResultEvent.RESULT,serviceResultForDiagram);
+				hs1.addEventListener(FaultEvent.FAULT,serviceFail); */
+        		
+	        	   	
+	        }
+	        if(dgrid.selectedItem == null)
+	        {
+	        	Alert.show("Please select a care plan to open", "No Care Plan Selected");
+	        }
+        }
+        
+        public function openSelected2():void
+        {
+        	      	
+           
+            
+            
+        }
+        public function newCP():void
+        {
+        	var newPop:CareplanProperties = new CareplanProperties;
+        	
+        	var mc = new MedicalCareplan;
+        	newPop.medicalCareplan=mc;
+        	newPop.control = this.control;
+        	        					
+           	PopUpManager.addPopUp(newPop, this,true);
+           	PopUpManager.centerPopUp(newPop);
+             	
+        }
+        
+        public function cancel():void
+        {
+          	
+            PopUpManager.removePopUp(this);
+            parentApplication.enabled=true;
+        }
+        
+        public function editCP():void
+        {
+        	var newPop:CareplanProperties = new CareplanProperties;
+        	for(var i:int=0;i<this.model.careplans.length;i++)
+        	{
+        		if(dgrid.selectedItem.name==this.model.careplans.getItemAt(i).name && dgrid.selectedItem.id==this.model.careplans.getItemAt(i).id && dgrid.selectedItem.version==this.model.careplans.getItemAt(i).version)
+        		{
+        			newPop.medicalCareplan=this.model.careplans.getItemAt(i) as MedicalCareplan;
+        		}
+        	}
+        	newPop.control = this.control;
+         	PopUpManager.addPopUp(newPop, this,true);
+            PopUpManager.centerPopUp(newPop);
+           
+        }
+        public function deleteCP():void
+        {
+          	this.control.deleteCareplan(dgrid.selectedItem as MedicalCareplan);
+           
+        }
+        public function askApproval():void
+        {
+          	for(var i:int=0;i<this.model.careplans.length;i++)
+        	{
+        		if(dgrid.selectedItem.name==this.model.careplans.getItemAt(i).name && dgrid.selectedItem.id==this.model.careplans.getItemAt(i).id && dgrid.selectedItem.version==this.model.careplans.getItemAt(i).version)
+        		{
+        			if(this.model.careplans.getItemAt(i).status =="no")
+        				this.model.careplans.getItemAt(i).status="asked";
+        				//change the status in DB!!!!
+        				this.control.updateCareplan(dgrid.selectedItem as MedicalCareplan);
+        		}
+        	}	
+           
+        }
+        public function changeIcon():void
+        {
+        	
+        	 var htpop:Alert=new Alert;
+    		 htpop.text="The careplan is approved!";
+						
+        	 PopUpManager.addPopUp(htpop, this,true);
+        	 PopUpManager.centerPopUp(htpop);
+        
+        	// dgrid2.selectedItem.status="approved";
+        }
+        public function changeIcon2():void
+        {
+        	/*  var htpop:reasonForDisapproval = new reasonForDisapproval;
+        	
+        	 PopUpManager.addPopUp(htpop, this,true);
+        	 PopUpManager.centerPopUp(htpop);
+        	 
+        	 dgrid2.selectedItem.status="disapproved"; */
+        	 	
+        
+        }
+        public function assignCP():void
+        {
+        	//TODO:Registered patientlardan oluşan listeyi göster o careplanı o patienta assign et.
+        	var service : RemoteObject = new RemoteObject("subscriptionService");
+			var cs:ChannelSet = new ChannelSet();
+			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+			cs.addChannel(customChannel);
+			service.channelSet = cs;
+			service.addEventListener(ResultEvent.RESULT,onResultRegisteredPatients);
+			service.addEventListener(FaultEvent.FAULT, onFault);
+			
+			service.listRegisteredPatients();
+       		//subscriptionService.listRegisteredPatients();
+       	
+       	}
+       	public function onResultRegisteredPatients(result:ResultEvent):void 
+       	{
+       		var assignPop:assignPatient = new assignPatient;
+        	
+        	trace((result.result as ArrayCollection).length);
+        	for(var i:int =0; i< (result.result as ArrayCollection).length;i++)
+        	{
+        		(assignPop.arr as ArrayCollection).addItem((result.result as ArrayCollection).getItemAt(i));
+        	}
+        	assignPop.arr = result.result as ArrayCollection;
+        	assignPop.sparent=this;
+        	PopUpManager.addPopUp(assignPop, this,true);
+        	PopUpManager.centerPopUp(assignPop);
+       		
+       		
+       	} 
+       
+      	public function onFault(fault:FaultEvent):void 
+       	{
+       		Alert.show(fault.fault.faultString);	
+       	}
+        
+        
+        ]]>
+	</mx:Script>
+    <mx:Label text="Care Plans:" width="100%" fontWeight="bold" enabled="true" fontFamily="Arial" fontSize="20"/>
+    <!--<mx:ViewStack id="myViewStack" width="937" height="329">-->
+		<mx:VBox id="MDE" label="Medical Domain Expert" width="100%" height="100%" fontWeight="bold" >
+		    <mx:HBox width="100%" height="50%">
+			    <mx:DataGrid resizableColumns="true" styleName="usersGrid" width="100%" height="100%" id="dgrid" dataProvider="{this.model.careplans}" borderStyle="none">
+											<mx:columns>
+												<mx:DataGridColumn dataField="id" headerText="ID"  />
+												<mx:DataGridColumn dataField="name" headerText="Name" />	
+												<!--<mx:DataGridColumn dataField="version" headerText="Version"  />-->
+												<!--<mx:DataGridColumn dataField="status" headerText="Status"  />-->
+													
+												<mx:DataGridColumn dataField="edit" headerText="Edit" >
+													<mx:itemRenderer>
+														<mx:Component>
+															<mx:HBox width="100%" horizontalAlign="center">
+																<mx:LinkButton icon="@Embed('/assets/careplaneditor/edit.png')" click="outerDocument.editCP()"  />
+															</mx:HBox>
+														</mx:Component>
+													</mx:itemRenderer>	
+												</mx:DataGridColumn>	
+												<mx:DataGridColumn dataField="delete" headerText="Delete" >
+													<mx:itemRenderer>
+														<mx:Component>
+															<mx:HBox width="100%" horizontalAlign="center">
+																<mx:LinkButton icon="@Embed('/assets/careplaneditor/delete.png')" click="outerDocument.deleteCP()" />
+															</mx:HBox>
+														</mx:Component>
+													</mx:itemRenderer>	
+												</mx:DataGridColumn>
+												<mx:DataGridColumn dataField="assign" headerText="Assign to patient">
+													<mx:itemRenderer>
+														<mx:Component>
+															<mx:HBox width="100%" horizontalAlign="center">
+																<mx:LinkButton icon="@Embed('/assets/careplaneditor/assign.png')" click="outerDocument.assignCP()" />
+															</mx:HBox>
+														</mx:Component>
+													</mx:itemRenderer>	
+												</mx:DataGridColumn>
+																
+											</mx:columns>
+										</mx:DataGrid>
+				
+			</mx:HBox>
+			<mx:HBox width="100%">
+				<mx:Button id="newCareplan" visible="false" includeInLayout="false" label="NEW" enabled="true" click="newCP()" styleName="adminButton"/>
+			    <mx:Button id="openDiagram" click="openSelected()" styleName="adminButton"/>		
+			</mx:HBox>	
+    	</mx:VBox>
+    	<!--<mx:VBox id="CR" label="Careplan Reviewer" width="100%" height="100%" fontWeight="bold" >
+		    <mx:HBox>
+			    <mx:DataGrid styleName="usersGrid"  width="884" height="204" id="dgrid2" dataProvider="{this.model.careplans}" themeColor="#009DFF">
+					<mx:columns>
+						<mx:DataGridColumn headerText="ID" dataField="id" />
+						<mx:DataGridColumn headerText="Name" dataField="name"/>	
+						<mx:DataGridColumn headerText="Version" dataField="version" />
+						<mx:DataGridColumn headerText="Status" dataField="status" />
+						<mx:DataGridColumn headerText="Approve" dataField="approve">
+							<mx:itemRenderer>
+								<mx:Component>
+									<mx:HBox width="100%" horizontalAlign="center">
+										<mx:LinkButton id="approveButton" icon="@Embed('/assets/careplaneditor/tick.png')" click="outerDocument.changeIcon()" width="20" height="20" />
+										<mx:LinkButton id="disapproveButton" icon="@Embed('/assets/careplaneditor/delete.png')" click="outerDocument.changeIcon2()" width="20" height="20" />
+									</mx:HBox>
+								</mx:Component>
+							</mx:itemRenderer>	
+						</mx:DataGridColumn>
+					</mx:columns>
+				</mx:DataGrid>
+			</mx:HBox>
+			<mx:HBox height="53" width="209">
+				<mx:Button label="CANCEL" enabled="true" click="cancel()" width="95" height="32"/>
+				<mx:Button label="OPEN" enabled="true" click="openSelected2()" width="92" height="32"/>	
+			</mx:HBox>	
+    	</mx:VBox>
+      </mx:ViewStack>-->
+    <mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="careplanCallVT" url="https://localhost:8080/icardea/guidelines/icardea/ManagementofVT-2.cp" result="serviceResultForXMLVT(event)" fault="serviceFail( event)"/>
+	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="diagramCallVT" url="https://localhost:8080/icardea/guidelines/icardea/ManagementofVT-2.dgr" result="serviceResultForDiagramVT( event )" fault="serviceFail(event)"/>
+	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="careplanCallAF" url="https://localhost:8080/icardea/guidelines/icardea/ManagementofAF-1.cp" result="serviceResultForXMLAF(event)" fault="serviceFail( event)"/>
+	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="diagramCallAF" url="https://localhost:8080/icardea/guidelines/icardea/ManagementofAF-1.dgr" result="serviceResultForDiagramAF( event )" fault="serviceFail(event)"/>
+</mx:VBox>
+

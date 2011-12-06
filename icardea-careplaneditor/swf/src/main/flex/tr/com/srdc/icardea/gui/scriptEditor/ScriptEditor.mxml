@@ -1,0 +1,662 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow initialize="init()" xmlns:mx="http://www.adobe.com/2006/mxml" title="Script Editor" height="650" width="1014" xmlns:scriptEditor="tr.com.srdc.icardea.gui.scriptEditor.*">
+
+	
+	<mx:Script>
+		<![CDATA[
+			import tr.com.srdc.icardea.model.variables.VariablesList;
+			import tr.com.srdc.icardea.model.careplan.Script;
+			import tr.com.srdc.icardea.model.steps.ConsultStep;
+			import mx.controls.Alert;
+			import mx.core.Application;
+			import mx.collections.ArrayCollection;
+			import mx.managers.PopUpManager;
+			import tr.com.srdc.icardea.model.variables.Variable;
+			import mx.controls.TextArea;
+			import mx.managers.DragManager;
+			import mx.events.DragEvent;
+		[Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/plus.jpg')]
+        public var plusImage:Class;
+        
+        [Bindable]
+        [Embed('/assets/careplaneditor/scriptEditor/minus.jpg')]
+        public var minusImage:Class;
+        
+        [Bindable]
+        [Embed('/assets/careplaneditor/scriptEditor/multiply.jpg')]
+        public var multiplyImage:Class;
+
+		[Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/divide.jpg')] 
+        public var divideImage:Class;
+        
+        [Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/greater.jpg')] 
+        public var greaterImage:Class;
+        
+        [Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/greaterEqual.jpg')] 
+        public var greaterEqualImage:Class;
+        
+        [Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/less.jpg')] 
+        public var lessImage:Class;
+        
+        [Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/lessEqual.jpg')] 
+        public var lessEqualImage:Class;
+        
+        [Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/equal.jpg')] 
+        public var equalImage:Class;
+        
+        [Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/notEqual.jpg')] 
+        public var notEqualImage:Class;
+        
+        [Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/and.png')] 
+        public var andImage:Class;
+        
+        [Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/or.png')] 
+        public var orImage:Class;
+        
+        [Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/not.png')] 
+        public var notImage:Class;
+        
+        [Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/if.png')] 
+        public var ifImage:Class;
+        
+        [Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/getSize.png')] 
+        public var sizeImage:Class;
+        
+        [Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/orList.png')] 
+        public var orListImage:Class;
+        
+        [Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/andList.png')] 
+        public var andListImage:Class;
+        
+        [Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/inList.png')] 
+        public var inListImage:Class;
+        
+        [Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/makeList.png')] 
+        public var makeListImage:Class;
+        
+        [Bindable]
+		[Embed('/assets/careplaneditor/scriptEditor/sumList.png')] 
+        public var sumListImage:Class;
+        
+		[Bindable]
+		public var varList:ArrayCollection = new ArrayCollection;
+		
+		[Bindable]
+		public var definedVarLists:ArrayCollection = new ArrayCollection;
+		
+		[Bindable]
+		public var operation:String;
+		
+		[Bindable]
+		public var stepName:String;
+		
+		[Bindable]
+		public var sparent;
+		
+		[Bindable]
+		public var result:String;
+		
+		[Bindable]
+		public var script:Script;
+		
+		public function init():void
+		{
+			if(script == null)
+				script = new Script;
+			else{
+				if(stepName == "consultStep")
+				{
+					for(var k:int = 0;k<sparent.consultStep.variable.length;k++)
+						script.variableList.addItem(sparent.consultStep.variable.getItemAt(k));
+				}
+				else if(stepName == "decisionStep")
+				{
+					for(var l:int = 0;l<sparent.decisionStep.variable.length;l++)
+						script.variableList.addItem(sparent.decisionStep.variable.getItemAt(l));
+				}
+				else if(stepName == "eligibilityCriteria")
+				{
+					for(var m:int = 0;m<sparent.eligibilityCriteria.variable.length;m++)
+						script.variableList.addItem(sparent.eligibilityCriteria.variable.getItemAt(m));
+				}
+			}
+		}
+				
+		public function plusHandler():void
+		{
+			operations.selectedIndex = 0;
+			operation="+";
+		}
+		public function minusHandler():void
+		{
+			operations.selectedIndex = 0;			
+			operation="-";
+		}
+		public function multiplyHandler():void
+		{
+			operations.selectedIndex = 0;	
+			operation="*";
+		}
+		public function divideHandler():void
+		{
+			operations.selectedIndex = 0;	
+			operation="/";
+		}
+		public function greaterHandler():void
+		{
+			operations.selectedIndex = 0;	
+			operation=">";
+		}
+		public function greaterEqualHandler():void
+		{
+			operations.selectedIndex = 0;
+			operation=">=";
+		}
+		public function lessHandler():void
+		{
+			operations.selectedIndex = 0;	
+			operation="<";
+		}
+		public function lessEqualHandler():void
+		{
+			operations.selectedIndex = 0;	
+			operation="<=";
+		}
+		public function equalHandler():void
+		{
+			operations.selectedIndex = 0;
+			operation="==";
+		}
+		public function notEqualHandler():void
+		{
+			operations.selectedIndex = 0;
+			operation="!=";
+		}
+		public function andHandler():void
+		{
+			operations.selectedIndex = 0;
+			operation="&&";
+		}
+		public function orHandler():void
+		{
+			operations.selectedIndex = 0;
+			operation="||";
+		}
+		public function notHandler():void
+		{
+			operations.selectedIndex = 2;
+			operation="~";
+		}
+		public function ifHandler():void
+		{
+			operations.selectedIndex = 3;
+			operation="IF";
+		}
+		public function getSizeHandler():void
+		{
+			operations.selectedIndex = 1;
+			operation="getSize";
+		}
+		public function orListHandler():void
+		{
+			operations.selectedIndex = 1;
+			operation="orList";
+		}
+		public function andListHandler():void
+		{
+			operations.selectedIndex = 1;
+			operation="andList";
+		}
+		public function sumListHandler():void
+		{
+			operations.selectedIndex = 1;
+			operation="sumList";			
+		}
+		public function inListHandler():void
+		{
+			operations.selectedIndex = 4;
+			operation="inList";
+		}
+		public function makeListHandler():void
+		{
+			var makeList:MakeList = new MakeList;
+			makeList.sparent = this;
+			PopUpManager.addPopUp(makeList, Application.application as DisplayObject,true);
+            PopUpManager.centerPopUp(makeList);
+			operations.selectedIndex =5;
+			operation="makeList";	
+		}
+		
+	 	public function dragEnterHandler(event:DragEvent):void 
+	 	{
+	 		if(variableList.selectedItem != null)
+	 		{
+	            DragManager.acceptDragDrop(TextArea(event.currentTarget));
+	            (TextArea(event.currentTarget)).text = variableList.selectedItem.name;
+    		}
+    		else
+    			Alert.show("Please select from variables", "No Variable Selected");
+        }
+        
+        public function dragEnterHandlerList(event:DragEvent):void 
+	 	{
+	 		if(definedLists.selectedItem != null)
+	 		{
+	            DragManager.acceptDragDrop(TextArea(event.currentTarget));
+	            (TextArea(event.currentTarget)).text = definedLists.selectedItem.listName;
+	   		}
+	   		else
+    			Alert.show("Please select from defined lists", "No List Selected");
+        }
+        public function yesClicked():void
+        {
+        	var controlName:String = script.refineVar.name;
+        	var complexVar:Variable = new Variable;
+        	complexVar.type = "complex type";
+        	if(operations.selectedIndex == 0)
+        	{
+        		var ops1:String,ops2:String;
+        		if(operand1.text == controlName || operand1.text.charAt(0) == "(")
+        			ops1 = operand1.text;
+        		else
+        			ops1 = "$"+operand1.text;
+        		if(operand2.text == controlName || operand2.text.charAt(0) == "(")
+        			ops2 = operand2.text;
+        		else
+        			ops2 = "$"+operand2.text;
+        		
+        		complexVar.name = "( " + ops1 + " " + op.text + " " + ops2 + " )";
+        	}
+        	else if(operations.selectedIndex == 1)
+        	{	
+        		var ops1:String;
+        		if(operand1List.text == controlName || operand1List.text.charAt(0) == "(")
+        			ops1 = operand1List.text;
+        		else
+        			ops1 = "$"+operand1List.text;
+        		
+        		complexVar.name = opList.text + "( " + ops1 + " )";
+        	}
+        	else if(operations.selectedIndex == 2)
+        	{
+        		var ops1:String;
+        		if(operand1Not.text == controlName || operand1Not.text.charAt(0) == "(")
+        			ops1 = operand1Not.text;
+        		else
+        			ops1 = "$"+operand1Not.text;
+        			
+        		complexVar.name = opNot.text + "( " + ops1 + " )";
+        	}
+        	else if(operations.selectedIndex == 3)
+        	{	
+        		var ops1:String,ops2:String;
+        		if(operand1Listif.text == controlName || operand1Listif.text.charAt(0) == "(")
+        			ops1 = operand1Listif.text;
+        		else
+        			ops1 = "$"+operand1Listif.text;	
+        		if(operand2Listif.text == controlName || operand2Listif.text.charAt(0) == "(")
+        			ops2 = operand2Listif.text;
+        		else
+        			ops2 = "$"+operand2Listif.text;
+        		
+        		complexVar.name = opListif.text + "( " + ops1 + " ) return ("+ops2+" )";
+        	}
+        	else if(operations.selectedIndex == 4)
+        	{
+        		var ops1:String,ops2:String;
+        		if(operand1ListinList.text == controlName || operand1ListinList.text.charAt(0) == "(")
+        			ops1 = operand1ListinList.text;
+        		else
+        			ops1 = "$"+operand1ListinList.text;
+        		if(operand2ListinList.text == controlName || operand2ListinList.text.charAt(0) == "(" )
+        			ops2 = operand2ListinList.text;
+        		else
+        			ops2 = "$"+operand2ListinList.text;	
+        		
+        		complexVar.name = opListinList.text + "( " + ops1 + ", "+ops2+" )";
+        	}	
+        		
+        	//TODO:make list
+        	//else if(operations.selectedIndex == 5)	
+        		//complexVar.name = opListMake.text + "( " + operand1Not.text + " )";
+        	
+        	script.variableList.addItem(complexVar);
+        	yes.selected = false;
+      
+        }
+        public function saveScript():void //TODO
+        {
+        	var controlName:String = script.refineVar.name;
+        	
+        	if(operation == "+" || operation == "-" || operation == "*" || operation == "/" || operation == "<" || operation == "<=" || operation == ">" || operation == ">=" || operation == "==" || operation == "!=" || operation == "&&" || operation == "||")
+        	{
+        		var ops1:String,ops2:String;
+        		if(operand1.text == controlName || operand1.text.charAt(0) == "(")
+        			ops1 = operand1.text;
+        		else
+        			ops1 = "$"+operand1.text;
+        		if(operand2.text == controlName || operand2.text.charAt(0) == "(")
+        			ops2 = operand2.text;
+        		else
+        			ops2 = "$"+operand2.text;		
+        		result = "( " + ops1 + " " + op.text + " " + ops2 + " )";	
+        	}	
+        	else if(operation == "~")
+        	{
+        		var ops1:String;
+        		if(operand1Not.text == controlName || operand1Not.text.charAt(0) == "(")
+        			ops1 = operand1Not.text;
+        		else
+        			ops1 = "$"+operand1Not.text;
+        		
+        		result = "( " + opNot.text + " " + ops1 + " )";
+        	}
+        	else if(operation == "IF")
+        	{
+        		var ops1:String,ops2:String;
+        		if(operand1Listif.text == controlName || operand1Listif.text.charAt(0) == "(")
+        			ops1 = operand1Listif.text;
+        		else
+        			ops1 = "$"+operand1Listif.text;	
+        		if(operand2Listif.text == controlName || operand2Listif.text.charAt(0) == "(")
+        			ops2 = operand2Listif.text;
+        		else
+        			ops2 = "$"+operand2Listif.text;
+        	
+        		result = opListif.text + "("+ ops1 + " )" + " return "+ "( "+ops2+" )"; 
+        	}
+        	else if(operation == "inList")
+        	{
+        		var ops2:String;
+        		var newVarList:VariablesList = new VariablesList;
+        		newVarList.listElements = (definedLists.selectedItem as VariablesList).listElements;
+        		
+        		var lst:String="";
+        		for(var i:int = 0; i<newVarList.listElements.length;i++){
+        			if(i == newVarList.listElements.length-1 )
+        			{
+        				if(newVarList.listElements.getItemAt(i).name == controlName || newVarList.listElements.getItemAt(i).name.charAt(0) == "(")
+        					lst=lst+newVarList.listElements.getItemAt(i).name;
+        				else
+        					lst=lst+"$"+newVarList.listElements.getItemAt(i).name;	
+        			}
+        			else
+        			{
+        				if(newVarList.listElements.getItemAt(i).name == controlName || newVarList.listElements.getItemAt(i).name.charAt(0) == "(")
+        					lst=lst+newVarList.listElements.getItemAt(i).name+",";
+        				else
+        					lst=lst+"$"+newVarList.listElements.getItemAt(i).name+",";	
+        			
+        			}	
+        			trace("lst: "+lst);
+        		}
+        		
+        		//TODO: Elementin variable olmaması!!
+        		if(operand2ListinList.text == controlName || operand2ListinList.text.charAt(0) == "(")
+        			ops2 = operand2ListinList.text;
+        		else
+        			ops2 = "$"+operand2ListinList.text;	
+        		result = "( "+opListinList.text +" (" + "( "+lst +" )"+ "; "+ops2+ " ) )"        		
+        		//TODO: Elementin variable olmaması!!
+        		trace("rst: "+ result);
+        	}
+        	else if(operation == "makeList")
+        	{
+        		result ="makeList";//TODO 
+        	}
+        	else if(operation == "getSize")
+        	{
+        		var newVarList:VariablesList = new VariablesList;
+        		newVarList.listElements = (definedLists.selectedItem as VariablesList).listElements;
+        		
+        		var lst:String="";
+        		for(var i:int = 0; i<newVarList.listElements.length;i++){
+        			if(i == newVarList.listElements.length-1 )
+        			{
+        				if(newVarList.listElements.getItemAt(i).name == controlName || newVarList.listElements.getItemAt(i).name.charAt(0) == "(")
+        					lst=lst+newVarList.listElements.getItemAt(i).name;
+        				else
+        					lst=lst+"$"+newVarList.listElements.getItemAt(i).name;	
+        			}
+        			else
+        			{
+        				if(newVarList.listElements.getItemAt(i).name == controlName || newVarList.listElements.getItemAt(i).name.charAt(0) == "(")
+        					lst=lst+newVarList.listElements.getItemAt(i).name+",";
+        				else
+        					lst=lst+"$"+newVarList.listElements.getItemAt(i).name+",";	
+        			
+        			}	
+        			trace("lst: "+lst);
+        		}
+        		
+        		result = "( "+opList.text +" ( "+lst +" ) )";        		
+
+        		trace("getsizeRslt: "+ result);
+        	
+        	}
+        	else if(operation == "andList" || operation == "orList" || operation == "sumList")
+        	{
+        		var newVarList:VariablesList = new VariablesList;
+        		newVarList.listElements = (definedLists.selectedItem as VariablesList).listElements;
+        		
+        		var lst:String="";
+        		for(var i:int = 0; i<newVarList.listElements.length;i++){
+        			if(i == newVarList.listElements.length-1 )
+        			{
+        				if(newVarList.listElements.getItemAt(i).name == controlName || newVarList.listElements.getItemAt(i).name.charAt(0) == "(")
+        					lst=lst+newVarList.listElements.getItemAt(i).name;
+        				else
+        					lst=lst+"$"+newVarList.listElements.getItemAt(i).name;	
+        			}
+        			else
+        			{
+        				if(newVarList.listElements.getItemAt(i).name == controlName || newVarList.listElements.getItemAt(i).name.charAt(0) == "(")
+        					lst=lst+newVarList.listElements.getItemAt(i).name+",";
+        				else
+        					lst=lst+"$"+newVarList.listElements.getItemAt(i).name+",";	
+        			
+        			}	
+        			trace("lst: "+lst);
+        		}
+        		
+        		result = "( "+opList.text +" ( "+lst +" ) )";        		
+
+        		trace("listRslt: "+ result);
+        	} 	 
+        	
+        	if(stepName == "consultStep")
+        		script.refineVar.refinementScript = "function refine("+script.refineVar.name+") { var result; result = "+result+"; }";
+        
+        	if(stepName == "decisionStep") 
+        		script.evaluationNext.evaluationScript = "function refine() { var result; result = "+result+"; }";
+        	PopUpManager.removePopUp(this);
+        	trace(script.refineVar.refinementScript);
+        	 	
+        }
+        public function clearClicked():void
+        {
+        	if(variableList.selectedItem != null)
+        	{
+	        	varList.removeItemAt(variableList.selectedIndex);
+	        	clear.selected = false;
+        	}
+        	else 
+        	{
+        		Alert.show("Please select varible to delete", "No Variable Selected");
+        	}
+        	
+        }
+        public function cancelScript():void
+        {
+        	PopUpManager.removePopUp(this);
+        }
+        
+		]]>
+	</mx:Script>
+				<mx:HBox backgroundColor="#ffffff" label="Operations" width="980" height="599">
+				
+					<mx:VBox height="594" width="273">
+						<mx:Label text="Please first choose an operator from below:" fontSize="12" width="273" />
+						<mx:Label text="Arithmetical operators " width="168"/>
+						<mx:HBox height="51" width="205" paddingTop="15" paddingLeft="10" horizontalAlign="left">
+							<mx:Image click="plusHandler();" id="plus" source="{plusImage}" width="35" height="28"/>
+							<mx:Image click="minusHandler();" id="minus" source="{minusImage}" width="35" height="28"/>
+							<mx:Image click="multiplyHandler();" id="multiply" source="{multiplyImage}" width="35" height="28"/>
+							<mx:Image click="divideHandler();" id="divide" source="{divideImage}" width="35" height="28"/>
+						</mx:HBox>
+						<mx:Label text="Comparison operators" width="168"/>
+						<mx:HBox height="51" width="266" paddingTop="15" paddingLeft="10" horizontalAlign="left">
+							<mx:Image click="greaterHandler();" id="greater" source="{greaterImage}" width="35" height="28"/>
+							<mx:Image click="greaterEqualHandler();" id="greaterEqual" source="{greaterEqualImage}" width="35" height="28"/>
+							<mx:Image click="lessHandler();" id="less" source="{lessImage}" width="35" height="28"/>
+							<mx:Image click="lessEqualHandler();" id="lessEqual" source="{lessEqualImage}" width="35" height="28"/>
+							<mx:Image click="equalHandler();" id="equal" source="{equalImage}" width="35" height="28"/>
+							<mx:Image click="notEqualHandler();" id="notEqual" source="{notEqualImage}" width="35" height="28"/>
+						</mx:HBox>
+						<mx:Label text="Logical operators" width="168"/>
+						<mx:HBox height="51" width="263" paddingTop="15" paddingLeft="10" horizontalAlign="left">
+							<mx:Image click="andHandler();" id="and" source="{andImage}" />
+							<mx:Image click="orHandler();" id="or" source="{orImage}" />
+							<mx:Image click="notHandler();" id="not" source="{notImage}" />
+						</mx:HBox>
+						<mx:Label text="Condition operator" width="168"/>
+						<mx:HBox height="51" width="263" paddingTop="15" paddingLeft="10" horizontalAlign="left">
+							<mx:Image click="ifHandler();" id="condition" source="{ifImage}" />
+						</mx:HBox>
+						<mx:Label text="List operators" width="168"/>
+						<mx:HBox height="79" width="261" paddingTop="15" paddingLeft="10" horizontalAlign="left">
+							<mx:Image click="getSizeHandler();" id="getSize" source="{sizeImage}" />
+							<mx:Image click="makeListHandler();" id="makeList" source="{makeListImage}" />
+							<mx:Image click="inListHandler();" id="inList" source="{inListImage}" />
+						</mx:HBox>
+						<mx:HBox height="75" width="260" paddingTop="15" paddingLeft="10" horizontalAlign="left">
+							<mx:Image click="andListHandler();" id="andList" source="{andListImage}" />
+							<mx:Image click="orListHandler();" id="orList" source="{orListImage}" />
+							<mx:Image click="sumListHandler();" id="sumList" source="{sumListImage}" />
+						</mx:HBox>
+						<mx:HBox height="46" width="201">
+							<mx:Button label="Save" width="90" click="saveScript()" height="36"/>
+							<mx:Button label="Cancel" width="90" click="cancelScript()" height="36"/>
+						</mx:HBox>
+					</mx:VBox>
+					
+					<mx:VBox width="688" height="560">
+						<mx:HBox height="221">
+							<mx:VBox>
+								<mx:Label text="Defined variables:" fontSize="12" width="339" />
+								<mx:DataGrid dragEnabled="true" dataProvider="{script.variableList}" id="variableList" height="170" width="339">
+									<mx:columns>
+										<mx:DataGridColumn headerText="Name" dataField="name"/>
+										<mx:DataGridColumn headerText="Type" dataField="type" width="100"/>
+									</mx:columns>
+								</mx:DataGrid>
+							</mx:VBox>
+							<mx:Spacer width="25"/>
+							<mx:VBox>
+								<mx:Label text="Defined lists:" fontSize="12" width="168"/>
+								<mx:DataGrid dragEnabled="true" dataProvider="{definedVarLists}" id="definedLists" height="170" width="294">
+									<mx:columns>
+										<mx:DataGridColumn headerText="Name" dataField="listName"/>
+									</mx:columns>
+								</mx:DataGrid>
+							</mx:VBox>
+						</mx:HBox>
+						<mx:Spacer height="75"/>
+						<mx:ViewStack id="operations" height="104" width="671">
+							<mx:HBox id="basicOp">
+								<mx:VBox>
+									<mx:TextArea width="215" id="operand1" dragEnter="dragEnterHandler(event)"/>
+									<mx:Label id="operand1Label" text="Operator" width="107" height="23"/>
+								</mx:VBox>
+								<mx:VBox>
+									<mx:TextArea width="215" id="op" text="{operation}"/>
+									<mx:Label id="opLabel" text="Operand" width="107" height="23"/>
+								</mx:VBox>								
+								<mx:VBox>
+									<mx:TextArea width="215" id="operand2" dragEnter="dragEnterHandler(event)"/>
+									<mx:Label id="operand2Label" text="Operand" width="63" height="23"/>
+								</mx:VBox>
+							</mx:HBox>
+							<mx:HBox id="listOp">
+								<mx:VBox>
+									<mx:TextArea width="215" id="opList" text="{operation}"/>
+									<mx:Label id="opLabelList" text="Operator" width="107" height="23"/>
+								</mx:VBox>	
+								<mx:VBox>
+									<mx:TextArea width="215" id="operand1List" dragEnter="dragEnterHandlerList(event)"/>
+									<mx:Label id="operand1LabelList" text="List" width="107" height="23"/>
+								</mx:VBox>	
+							</mx:HBox>
+							<mx:HBox id="notOp">
+								<mx:VBox>
+									<mx:TextArea width="215" id="opNot" text="{operation}"/>
+									<mx:Label id="opLabelNot" text="Operator" width="107" height="23"/>
+								</mx:VBox>	
+								<mx:VBox>
+									<mx:TextArea width="215" id="operand1Not" dragEnter="dragEnterHandler(event)"/>
+									<mx:Label id="operand1LabelNot" text="Operand" width="107" height="23"/>
+								</mx:VBox>															
+							</mx:HBox>
+							<mx:HBox id="ifOp">
+								<mx:VBox>
+									<mx:TextArea width="215" id="opListif" text="{operation}"/>
+									<mx:Label id="opLabelListif" text="Operator" width="107" height="23"/>
+								</mx:VBox>	
+								<mx:VBox>
+									<mx:TextArea width="215" id="operand1Listif" dragEnter="dragEnterHandler(event)"/>
+									<mx:Label id="operand1LabelListif" text="Boolean Expression" width="107" height="23"/>
+								</mx:VBox>															
+								<mx:VBox>
+									<mx:TextArea width="215" id="operand2Listif" dragEnter="dragEnterHandler(event)"/>
+									<mx:Label id="operand2LabelListif" text="Result" width="63" height="23"/>
+								</mx:VBox>
+							</mx:HBox>
+							<mx:HBox id="inListOp">
+								<mx:VBox>
+									<mx:TextArea width="215" id="opListinList" text="{operation}"/>
+									<mx:Label id="opLabelListinList" text="Operator" width="107" height="23"/>
+								</mx:VBox>	
+								<mx:VBox>
+									<mx:TextArea width="215" id="operand1ListinList" dragEnter="dragEnterHandlerList(event)"/>
+									<mx:Label id="operand1LabelListinList" text="List" width="107" height="23"/>
+								</mx:VBox>															
+								<mx:VBox>
+									<mx:TextArea width="215" id="operand2ListinList" dragEnter="dragEnterHandler(event)"/>
+									<mx:Label id="operand2LabelListinList" text="Element" width="63" height="23"/>
+								</mx:VBox>
+							</mx:HBox>
+							<mx:HBox id="makeListOp">
+								<mx:VBox>
+									<mx:TextArea width="215" id="opListMake" text="{operation}"/>
+									<mx:Label id="opLabelListMake" text="Operator" width="107" height="23"/>
+								</mx:VBox>	
+							</mx:HBox>					
+						</mx:ViewStack>
+						<mx:HBox>
+							<mx:Spacer width="513" height="1"/>
+							<mx:VBox id="saveOperation" height="94" width="140">
+								<mx:Label text="Use this operation again?" width="133" height="23"/>
+								<mx:RadioButton id="yes" click="yesClicked()" label="Save" groupName="radiogroup1" width="55"/>
+								<mx:RadioButton id="clear" click="clearClicked()" label="Clear" groupName="radiogroup1"/>
+							</mx:VBox>
+						</mx:HBox>
+					</mx:VBox>
+				</mx:HBox>
+</mx:TitleWindow>

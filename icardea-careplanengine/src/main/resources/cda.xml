@@ -1,0 +1,617 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <id assigningAuthorityName="ICARDEA" extension="111" root="111"/>
+    <code code="34133-9" codeSystem="2.16.840.1.113883.6.1" displayName="SUMMARIZATION OF EPISODE NOTE"/>
+    <effectiveTime value="20080122"/>
+    <!-- yyyyMMdd -->
+    <author>
+        <time value="20080122"/>
+        <!-- yyyyMMdd -->
+        <assignedAuthor>
+            <assignedAuthoringDevice>
+                <code code="111" codeSystem="222" codeSystemVersion="1"/>
+            </assignedAuthoringDevice>
+        </assignedAuthor>
+    </author>
+    <custodian>
+        <assignedCustodian>
+            <representedCustodianOrganization>
+                <name>Dr Ana Fruntelata</name>
+            </representedCustodianOrganization>
+        </assignedCustodian>
+    </custodian>
+    <!--
+	***************
+	Demographics
+	*****************
+	-->
+    <recordTarget>
+        <patientRole>
+            <patient>
+                <name>John Doe</name>
+                <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1"/>
+                <birthTime value="19351012"/>
+                <maritalStatusCode code="M" codeSystem="2.16.840.1.113883.5.2"/>
+            </patient>
+        </patientRole>
+    </recordTarget>
+    <component>
+        <structuredBody>
+            <!--
+		***************
+		Active Problems Sections
+		*****************
+		-->
+            <component>
+                <section>
+                    <code code="11450-4" codeSystem="2.16.840.1.113883.6.1"/>
+                    <title>Active Problems</title>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0008031"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="ChestPain"/>
+                            <!--ChestPain-->
+                            <effectiveTime>
+                                <high value="20080115000000"/>
+                                <low value="20080115000000"/>
+                            </effectiveTime>
+                            <value>true</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="Dyspnea"/>
+                            <!--Dyspnea-->
+                            <value>true</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0155919"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="AcutePulmonaryedema"/>
+                            <!--AcutePulmonaryedema-->
+                            <value>true</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="CardiogenicShock"/>
+                            <!--CardiogenicShock-->
+                            <value>false</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="CardiacArrest"/>
+                            <!--CardiacArrest-->
+                            <value>false</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="Palpitations"/>
+                            <!--Palpitations-->
+                            <value>false</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="Peripheraledema"/>
+                            <!--Peripheraledema-->
+                            <value>false</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0006266"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="Bronchialspasm"/>
+                            <!--Bronchialspasm-->
+                            <value>true</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="killip"
+                                codeSystem="LOCAL_CODING_SCHEME" displayName="KillipClass"/>
+                            <!--KillipClass-->
+                            <value>2</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="134434004"
+                                codeSystem="2.16.840.1.113883.6.96" displayName="NYHA"/>
+                            <!--NYHA-->
+                            <value>2</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="F41.9"
+                                codeSystem="2.16.840.1.113883.6.3" displayName="Anxiety"/>
+                            <!--Anxiety-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+            <!--
+		***************
+		Past Medical History Section
+		*****************
+		-->
+            <component>
+                <section>
+                    <code code="11348-0" codeSystem="2.16.840.1.113883.6.1"/>
+                    <title>PastMedicalHistory</title>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="ValveDisease"/>
+                            <!--ValveDisease-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0027051"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="MI"/>
+                            <!--MI-->
+                            <effectiveTime>
+                                <low value="20080122000000"/>
+                            </effectiveTime>
+                            <value>1</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="275227003"
+                                codeSystem="2.16.840.1.113883.6.96" displayName="MyocardialRevascularization"/>
+                            <!--MyocardialRevascularization-->
+                            <value>2</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0002962"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="Angina"/>
+                            <!--Angina-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0264714"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="HeartFailure"/>
+                            <!--HeartFailure-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0741554"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="BleedingHistory"/>
+                            <!--BleedingHistory-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="CoronaryStenosisDegree"/>
+                            <!--CoronaryStenosisDegree-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="271649006"
+                                codeSystem="2.16.840.1.113883.6.96" displayName="DefaultBP"/>
+                            <!--DefaultBP-->
+                            <value>20</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="CoronaryStenosisLocation"/>
+                            <!--CoronaryStenosisLocation-->
+                            <value>2</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0011849"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="DM"/>
+                            <!--DM-->
+                            <value>true</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0020538"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="Hypertension"/>
+                            <!--Hypertension-->
+                            <value>true</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0004096"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="Asthma"/>
+                            <!--Asthma-->
+                            <value>true</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="claudication"
+                                codeSystem="LOCAL_CODING_SCHEME" displayName="Claudication"/>
+                            <!--Claudication-->
+                            <value>true</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="Pulmonaryedema"/>
+                            <!--Pulmonaryedema-->
+                            <value>false</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0949700"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="DobutamineStressEcho"/>
+                            <!--DobutamineStressEcho-->
+                            <value>true</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0034606"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="StressMyocardial"/>
+                            <!--StressMyocardial-->
+                            <value>true</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="Smoking"/>
+                            <!--Smoking-->
+                            <value>false</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="Dyslipidemia"/>
+                            <!--Dyslipidemia-->
+                            <value>true</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C1096316"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="DefaultTroponin"/>
+                            <!--DefaultTroponin-->
+                            <value>2</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0010290"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="DefaultCKMB"/>
+                            <!--DefaultCKMB-->
+                            <value>2</value>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+            <!--
+		***************
+		Medications Section
+		*****************
+		-->
+            <component>
+                <section>
+                    <code code="10160-0" codeSystem="2.16.840.1.113883.6.1"/>
+                    <title>Medications</title>
+                </section>
+            </component>
+            <!--
+		***************
+		Allergies and Adverse Reactions Features
+		*****************
+		-->
+            <component>
+                <section>
+                    <code code="10155-0" codeSystem="2.16.840.1.113883.6.1"/>
+                    <title>Allergies and Adverse Reactions</title>
+                    <entry>
+                        <observation classCode="COND" moodCode="EVN" negationInd="false">
+                            <statusCode code="active"/>
+                            <value code="C1096316"
+                                codeSystem="2.16.840.1.113883.6.86"
+                                displayName="DefaultTroponin" xsi:type="CD">
+                                <originalText>
+                                    <reference value="#allergen-1"/>
+                                </originalText>
+                            </value>
+                            <entryRelationship typeCode="SPRT">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="RXNASSESS"/>
+                                    <statusCode code="completed"/>
+                                    <!-- reactions -->
+                                    <entryRelationship typeCode="SUBJ">
+                                    <observation classCode="OBS" moodCode="EVN">
+                                    <id root="369nn3eb"/>
+                                    <statusCode code="completed"/>
+                                    <value code="247472004"
+                                    codeSystem="2.16.840.1.113883.6.96"
+                                    displayName="weal" xsi:type="CD">
+                                    <originalText>
+                                    <reference value="#reaction-1"/>
+                                    </originalText>
+                                    </value>
+                                    </observation>
+                                    </entryRelationship>
+                                </observation>
+                            </entryRelationship>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="COND" moodCode="EVN" negationInd="false">
+                            <statusCode code="active"/>
+                            <value code="C0010290"
+                                codeSystem="2.16.840.1.113883.6.86"
+                                displayName="DefaultCKMB" xsi:type="CD">
+                                <originalText>
+                                    <reference value="#allergen-1"/>
+                                </originalText>
+                            </value>
+                            <entryRelationship typeCode="SPRT">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="RXNASSESS"/>
+                                    <statusCode code="completed"/>
+                                    <!-- reactions -->
+                                    <entryRelationship typeCode="SUBJ">
+                                    <observation classCode="OBS" moodCode="EVN">
+                                    <id root="369nn3eb"/>
+                                    <statusCode code="completed"/>
+                                    <value code="247472004"
+                                    codeSystem="2.16.840.1.113883.6.96"
+                                    displayName="weal" xsi:type="CD">
+                                    <originalText>
+                                    <reference value="#reaction-1"/>
+                                    </originalText>
+                                    </value>
+                                    </observation>
+                                    </entryRelationship>
+                                </observation>
+                            </entryRelationship>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+            <!--
+		***************
+		ECG Features
+		*****************
+		-->
+            <component>
+                <section>
+                    <code code="34752-6" codeSystem="2.16.840.1.113883.6.1"/>
+                    <title>ECG Features</title>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="9874-9"
+                                codeSystem="2.16.840.1.113883.6.1" displayName="Rhythm"/>
+                            <!--Rhythm-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="infarctlocalization"
+                                codeSystem="LOCAL_CODING_SCHEME" displayName="InfarctLocalization"/>
+                            <!--InfarctLocalization-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="LBBB"/>
+                            <!--LBBB-->
+                            <value>9</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="26141007"
+                                codeSystem="2.16.840.1.113883.6.96" displayName="ST"/>
+                            <!--ST-->
+                            <value>2</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="QWaves"/>
+                            <!--QWaves-->
+                            <value>true</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="142101008"
+                                codeSystem="2.16.840.1.113883.6.96" displayName="TWaveInvertion"/>
+                            <!--TWaveInvertion-->
+                            <value>true</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0428772"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="LVEF"/>
+                            <!--LVEF-->
+                            <value>38</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="DiastolicFunction"/>
+                            <!--DiastolicFunction-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="LVH"/>
+                            <!--LVH-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="WMAs"/>
+                            <!--WMAs-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="Tamponade"/>
+                            <!--Tamponade-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C1384495"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="ECGStressTest"/>
+                            <!--ECGStressTest-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0949700"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="DobutamineStressEcho"/>
+                            <!--DobutamineStressEcho-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0034606"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="StressMyocardial"/>
+                            <!--StressMyocardial-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0085532"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="CoronaryAnatomy"/>
+                            <!--CoronaryAnatomy-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="CoronarySpasm"/>
+                            <!--CoronarySpasm-->
+                            <value>true</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0087086"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="Thrombus"/>
+                            <!--Thrombus-->
+                            <value>true</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="ABLE_TO_EXERCISE"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="AbleToExcercise"/>
+                            <!--AbleToExcercise-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+            <!--
+		***************
+		Patient Blood
+		*****************
+		-->
+            <component>
+                <section>
+                    <code code="11447-0" codeSystem="2.16.840.1.113883.6.1"/>
+                    <title>Patient Blood</title>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C1096316"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="CardiacTroponin"/>
+                            <!--CardiacTroponin-->
+                            <value>2</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0010287"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="CK"/>
+                            <!--CK-->
+                            <value>2</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0010290"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="CKMBMass"/>
+                            <!--CKMBMass-->
+                            <value>2</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN" displayName="MB"/>
+                            <!--MB-->
+                            <value>2</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0006560"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="CRP"/>
+                            <!--CRP-->
+                            <value>2</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0021760"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="IL6"/>
+                            <!--IL6-->
+                            <value>2</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0016006"
+                                codeSystem="2.16.840.1.113883.6.86" displayName="Fibrinogen"/>
+                            <!--Fibrinogen-->
+                            <value>2</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="creatinine"
+                                codeSystem="LOCAL_CODING_SCHEME" displayName="Creatinine"/>
+                            <!--Creatinine-->
+                            <value>2</value>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+        </structuredBody>
+    </component>
+</ClinicalDocument>
+

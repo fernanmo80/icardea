@@ -1,0 +1,42 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+	"-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+	"http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- Database connection settings -->
+		<property name="hibernate.connection.driver_class">org.gjt.mm.mysql.Driver</property>
+		<property name="hibernate.connection.password">icardea</property>
+		<property name="hibernate.connection.url">jdbc:mysql://localhost/final_icardea_repository</property>
+		<property name="hibernate.connection.username">icardea</property>
+		<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>
+		<!-- JDBC connection pool -->
+		<property name="connection.pool_size">2</property>
+		<!-- SQL Dialect -->
+		<property name="current_session_context_class">thread</property>
+		<!-- Disable second level cache -->
+		<property name="cache.provider_class">org.hibernate.cache.NoCacheProvider</property>
+		
+		<property name="show_sql">false</property>
+
+		<!-- For table generation 
+		<property name="hbm2ddl.auto">create</property> -->
+		
+		<!-- Entities requested by IPA -->
+
+		<!--This customization info is no longer used. Instead the alarm rules on the OFFIS' database is used.-->
+		<!--mapping resource="conf/hibernate_config/mappings/CustomizationInfo.hbm.xml"/-->
+		<mapping resource="conf/hibernate_config/mappings/SensorsSetInfo.hbm.xml"/>
+		
+		<!-- Entities by METU -->
+		<mapping resource="conf/hibernate_config/mappings/DiagnosisCode.hbm.xml"/>
+		<mapping resource="conf/hibernate_config/mappings/GuidelineEntity.hbm.xml"/>
+		<mapping resource="conf/hibernate_config/mappings/AssignmentEntity.hbm.xml"/>
+		<mapping resource="conf/hibernate_config/mappings/MonitoringMessageEntity.hbm.xml"/>
+		<mapping resource="conf/hibernate_config/mappings/GEHistory.hbm.xml"/>
+		<mapping resource="conf/hibernate_config/mappings/GEHistoryHeader.hbm.xml"/>
+			
+	</session-factory>
+		
+</hibernate-configuration>
+	

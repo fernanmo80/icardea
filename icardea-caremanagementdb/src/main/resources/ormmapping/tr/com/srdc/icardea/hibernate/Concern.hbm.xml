@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.Concern" table="Concern">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <property column="careProvisionCode" lazy="false" length="255" name="careProvisionCode" not-null="false" type="string"/>
+    <property column="concernStatusCode" lazy="false" length="255" name="concernStatusCode" not-null="false" type="string"/>
+    <property column="effectiveTimeLow" lazy="false" length="255" name="effectiveTimeLow" not-null="false" type="string"/>
+    <property column="effectiveTimeHigh" lazy="false" length="255" name="effectiveTimeHigh" not-null="false" type="string"/>
+    <property column="allergyCode" lazy="false" length="255" name="allergyCode" not-null="false" type="string"/>
+    <property column="allergyValue" lazy="false" length="255" name="allergyValue" not-null="false" type="string"/>
+    <property column="allergyValueCodeSystem" lazy="false" length="255" name="allergyValueCodeSystem" not-null="false" type="string"/>
+    <property column="allergySubstanceCode" lazy="false" length="255" name="allergySubstanceCode" not-null="false" type="string"/>
+    <property column="allergySubstanceCodeSystem" lazy="false" length="255" name="allergySubstanceCodeSystem" not-null="false" type="string"/>
+    <property column="allergyOriginalText" lazy="false" length="255" name="allergyOriginalText" not-null="false" type="string"/>
+    <many-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.EHRPHRData" column="EHRPHRDataID" lazy="no-proxy" name="eHRPHRData" not-null="true" unique="true">
+		</many-to-one>
+    <many-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.Problem" column="ProblemID" lazy="no-proxy" name="problem" not-null="false" unique="true">
+		</many-to-one>
+  </class>
+</hibernate-mapping>

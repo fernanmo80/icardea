@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ //
+  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
+  ~ //   
+  ~ //  TERMS OF USE  
+  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
+  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
+  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
+  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
+  ~ //
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  -->
+<!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ // This tool can be used to change diagrammer mode (link creation, hand or selection mode)
+  ~ // It also reflect change to diagrammer mode, should this change be cause by this tool  
+  ~ // or an external cause.
+  ~ ////////////////////////////////////////////////////////////////////////////////
+ -->
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="Subscription List" height="268" width="576" >
+
+    <mx:Script>
+		<![CDATA[
+			import tr.com.srdc.icardea.model.userRoles.Patient;
+			
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+		import mx.collections.ArrayCollection;
+		
+				
+		[Bindable]
+		public var topicsForEHR:ArrayCollection = new ArrayCollection;
+		
+		[Bindable]
+		public var topicsForPHR:ArrayCollection = new ArrayCollection;
+		
+		public function save():void
+		{	
+			PopUpManager.removePopUp(this);
+		}
+		
+        
+        ]]>
+	</mx:Script>
+		
+	<mx:Spacer height="5"/>
+	<mx:HBox>
+		<mx:Label text="EHR Subscriptions:" width="103"/>
+		<mx:Spacer width="159"/>
+		<mx:Label text="PHR Subscriptions:"/>
+	</mx:HBox>
+	<mx:HBox height="145" width="547">
+		<mx:List height="129" id="topicListForEHR" width="269" dataProvider="{topicsForEHR}"/>
+		<mx:List height="129" id="topicListForPHR" width="264" dataProvider="{topicsForPHR}"/>
+	</mx:HBox>
+	<mx:Button label="CANCEL" click="save()"/>
+</mx:TitleWindow> 

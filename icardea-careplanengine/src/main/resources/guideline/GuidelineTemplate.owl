@@ -1,0 +1,3120 @@
+
+<rdf:RDF xml:base="http://www.owl-ontologies.com/unnamed.owl" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:owl="http://www.w3.org/2002/07/owl#" xmlns:xsd="http://www.w3.org/2001/XMLSchema#" xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#" xmlns="http://www.owl-ontologies.com/unnamed.owl#">
+   <owl:Ontology rdf:about=""/>
+   <owl:Class rdf:ID="Guideline_Exception">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="GLIF_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Compound_Data_Value">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Data_Value"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="RuleInChoice">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Choice"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Medically_Oriented_Action_Specification">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Action_Specification"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Strength_Of_Evidence_Or_Recommendation">
+      <rdfs:subClassOf rdf:resource="#GLIF_Entity"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Concept">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Knowledge_Item"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Duration_Value">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Primitive_Data_Value"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Synchronization_Step">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Guideline_Step"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Float_Value">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Primitive_Data_Value"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="GLIF_connector">
+      <rdfs:subClassOf rdf:resource="http://protege.stanford.edu/plugins/owl/protege#DIRECTED-BINARY-RELATION"/>
+   </owl:Class>
+   <owl:Class rdf:ID="AttributeDescription">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Core_GLIF_Class"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Rectangle">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Diagram_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Observation_Value">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="RIM_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="String_Value">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Primitive_Data_Value"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Medical_Knowledge_Layer"/>
+   <owl:Class rdf:ID="Next_Step">
+      <rdfs:subClassOf rdf:resource="#GLIF_connector"/>
+   </owl:Class>
+   <owl:Class rdf:ID="ObjectLocation">
+      <rdfs:subClassOf rdf:resource="#Diagram_Entity"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Message_Action">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Programming_Oriented_Action_Specification"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Utility_Choice">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Choice"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Atomic_Frequency">
+      <rdfs:subClassOf rdf:resource="#GLIF_Entity"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Nestable">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Guideline_Model_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Guideline_Duration_Expression">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Duration"/>
+      </rdfs:subClassOf>
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Guideline_Expression"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Patient_State_Step">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Step"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Literal_Data_Item">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Data_Item"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Parameter_Name_And_Value">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="User_Defined_Data_Model_Class"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Duration_Interval">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Global_Concepts"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Event">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Model_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:about="#Primitive_Data_Value">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Data_Value"/>
+      </rdfs:subClassOf>
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Basic_Data_Type"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Decision_Destinations">
+      <rdfs:subClassOf rdf:resource="#GLIF_connector"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Supplemental_Material">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Model_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Weighted_Criterion">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Criterion"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Concept_Relationship">
+      <rdfs:subClassOf rdf:resource="#Core_GLIF_Class"/>
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Knowledge_Item"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Ratio">
+      <rdfs:subClassOf rdf:resource="#Observation_Value"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Branch_Step">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Step"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Branch_Destination">
+      <rdfs:subClassOf rdf:resource="#GLIF_connector"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Data_Item_Relationship">
+      <rdfs:subClassOf rdf:resource="#Core_GLIF_Class"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Alarm_Entity">
+      <rdfs:subClassOf rdf:resource="#Medical_Knowledge_Layer"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Sensor_Entity">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Data_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Triggering_Event">
+      <rdfs:subClassOf rdf:resource="#GLIF_Entity"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Patient_Data_Value">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Instance_Value"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Observation">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Patient_Data"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Data_Model_Instance">
+      <rdfs:subClassOf rdf:resource="#User_Defined_Data_Model_Class"/>
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Data_Item_Value"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Connector_Metaclass">
+      <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+   </owl:Class>
+   <owl:Class rdf:about="#Criterion">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Expression"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Variable_Data_Item">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Data_Item"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Select_Action">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Programming_Oriented_Action_Specification"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Generate_Event_Action">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Programming_Oriented_Action_Specification"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Keyword_Didactic">
+      <rdfs:subClassOf rdf:resource="#Supplemental_Material"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Iteration_Specification">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Model_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Time_Stamp_Value">
+      <rdfs:subClassOf rdf:resource="#Primitive_Data_Value"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Choice_Step">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Decision_Step"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Default_Destination">
+      <rdfs:subClassOf rdf:resource="#GLIF_connector"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Case_Condition">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Decision_Condition"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="EHR_Entity">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Data_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:about="#Decision_Step">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Step"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Symbol_Value">
+      <rdfs:subClassOf rdf:resource="#Primitive_Data_Value"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Fuzzy_Duration">
+      <rdfs:subClassOf rdf:resource="#GLIF_Entity"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Expression">
+      <rdfs:subClassOf rdf:resource="#Global_Concepts"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Extended_Boolean_Value">
+      <rdfs:subClassOf rdf:resource="#Primitive_Data_Value"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Get_Conditional_Data_Macro">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Macro"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Time_Interval">
+      <rdfs:subClassOf rdf:resource="#Global_Concepts"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Integer_Value">
+      <rdfs:subClassOf rdf:resource="#Primitive_Data_Value"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Range">
+      <rdfs:subClassOf rdf:resource="#Observation_Value"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Macro_Schema">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Model_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Concept_Value">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Instance_Value"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Discrete_Temporal_Expression_Table">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Iteration_Expression"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Conditional_Data_List_Macro">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Macro"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Case_Step">
+      <rdfs:subClassOf rdf:resource="#Decision_Step"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Physical_Quantity">
+      <rdfs:subClassOf rdf:resource="#Observation_Value"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Macro_Action">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Action_Specification"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:about="#Duration">
+      <rdfs:subClassOf rdf:resource="#Expression"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Macro_Decision_Step">
+      <rdfs:subClassOf rdf:resource="#Decision_Step"/>
+   </owl:Class>
+   <owl:Class rdf:about="#Instance_Value">
+      <rdfs:subClassOf rdf:resource="#User_Defined_Data_Model_Class"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Medication">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Patient_Data"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Risk_Calculation_Macro">
+      <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">not yet defined</rdfs:comment>
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Macro"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:about="#Data_Item">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Basic_Data_Type"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="DataModelAttribute">
+      <rdfs:subClassOf rdf:resource="#AttributeDescription"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Times_Expression">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Frequency_Expression"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:about="#Frequency_Expression">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Iteration_Expression"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="ConceptAttribute">
+      <rdfs:subClassOf rdf:resource="#AttributeDescription"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Weighted_Choice">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Choice"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Arden_Macro">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Macro"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:about="#Data_Item_Value">
+      <rdfs:subClassOf rdf:resource="#Global_Concepts"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Action_Step">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Step"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Point">
+      <rdfs:subClassOf rdf:resource="#Diagram_Entity"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Medical_Action_Entity">
+      <rdfs:subClassOf rdf:resource="#Medical_Knowledge_Layer"/>
+   </owl:Class>
+   <owl:Class rdf:about="#Guideline_Expression">
+      <rdfs:subClassOf rdf:resource="#Expression"/>
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Model_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:about="#Choice">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Decision_Condition"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:about="#Iteration_Expression">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Model_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:about="#Action_Specification">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Model_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:about="#Patient_Data">
+      <rdfs:subClassOf rdf:resource="#Data_Item_Value"/>
+      <rdfs:subClassOf rdf:resource="#RIM_Entity"/>
+   </owl:Class>
+   <owl:Class rdf:about="#Knowledge_Item">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Basic_Data_Type"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Text_Material">
+      <rdfs:subClassOf rdf:resource="#Supplemental_Material"/>
+   </owl:Class>
+   <owl:Class rdf:about="#Decision_Condition">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Model_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="ParameterValue">
+      <rdfs:subClassOf>
+         <owl:Class rdf:ID="Parameter"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:about="#Parameter">
+      <rdfs:subClassOf rdf:resource="#Core_GLIF_Class"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Get_Knowledge_Action">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Programming_Oriented_Action_Specification"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Procedure">
+      <rdfs:subClassOf rdf:resource="#Patient_Data"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Utility_Choice_Step">
+      <rdfs:subClassOf rdf:resource="#Choice_Step"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Three_Valued_Criterion">
+      <rdfs:subClassOf rdf:resource="#Criterion"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Supplemental_Material_List">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Model_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Get_Data_Action">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Programming_Oriented_Action_Specification"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="BasicAttribute">
+      <rdfs:subClassOf rdf:resource="#AttributeDescription"/>
+   </owl:Class>
+   <owl:Class rdf:about="#Guideline_Step">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Model_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Network_Metaclass">
+      <rdfs:subClassOf rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+   </owl:Class>
+   <owl:Class rdf:about="#Basic_Data_Type">
+      <rdfs:subClassOf rdf:resource="#Global_Concepts"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Risk_Assessment_Macro">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Macro"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Recommendations_Based_On_Risk">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Macro"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Assignment_Action">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Programming_Oriented_Action_Specification"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Decision_Option">
+      <rdfs:subClassOf rdf:resource="#GLIF_Entity"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Guideline_Collection">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Model_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Guideline">
+      <rdfs:subClassOf rdf:resource="#Nestable"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Time_Literal">
+      <rdfs:subClassOf rdf:resource="#Global_Concepts"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Material_URL">
+      <rdfs:subClassOf rdf:resource="#Supplemental_Material"/>
+   </owl:Class>
+   <owl:Class rdf:ID="DataModelClass">
+      <rdfs:subClassOf rdf:resource="#Core_GLIF_Class"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Set_Value">
+      <rdfs:subClassOf rdf:resource="#Primitive_Data_Value"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Data_Item_List">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Model_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Let_Expression">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Model_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Logical_Expression_Of_Guideline_Step">
+      <rdfs:subClassOf rdf:resource="#GLIF_Entity"/>
+   </owl:Class>
+   <owl:Class rdf:ID="List_Value">
+      <rdfs:subClassOf rdf:resource="#Primitive_Data_Value"/>
+   </owl:Class>
+   <owl:Class rdf:ID="View_Specification">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Model_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Maintenance_Info">
+      <rdfs:subClassOf rdf:resource="#GLIF_Entity"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Every_Expression">
+      <rdfs:subClassOf rdf:resource="#Frequency_Expression"/>
+   </owl:Class>
+   <owl:Class rdf:about="#Data_Value">
+      <rdfs:subClassOf rdf:resource="#User_Defined_Data_Model_Class"/>
+   </owl:Class>
+   <owl:Class rdf:about="#Programming_Oriented_Action_Specification">
+      <rdfs:subClassOf rdf:resource="#Action_Specification"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Index">
+      <rdfs:subClassOf rdf:resource="#Observation_Value"/>
+   </owl:Class>
+   <owl:Class rdf:about="#Data_Entity">
+      <rdfs:subClassOf rdf:resource="#Medical_Knowledge_Layer"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Text_Value">
+      <rdfs:subClassOf rdf:resource="#Observation_Value"/>
+   </owl:Class>
+   <owl:Class rdf:about="#Macro">
+      <rdfs:subClassOf rdf:resource="#Nestable"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Parameter_Passed">
+      <rdfs:subClassOf>
+         <owl:Class rdf:about="#Guideline_Model_Entity"/>
+      </rdfs:subClassOf>
+   </owl:Class>
+   <owl:Class rdf:ID="Subguideline_Action">
+      <rdfs:subClassOf rdf:resource="#Programming_Oriented_Action_Specification"/>
+   </owl:Class>
+   <owl:Class rdf:about="#Guideline_Model_Entity">
+      <rdfs:subClassOf rdf:resource="#GLIF_Entity"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Macro_Action_Step">
+      <rdfs:subClassOf rdf:resource="#Action_Step"/>
+   </owl:Class>
+   <owl:Class rdf:ID="Algorithm">
+      <rdfs:subClassOf rdf:resource="#Guideline_Model_Entity"/>
+   </owl:Class>
+   <owl:ObjectProperty rdf:ID="let_expressions">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Guideline_Expression"/>
+               <owl:Class rdf:about="#Guideline"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="until">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Atomic_Frequency"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="variable_data_item">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Parameter_Passed"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="for_">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Frequency_Expression"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="continuation">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Synchronization_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="entry_array">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Item_List"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="duration">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Fuzzy_Duration"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="node_slot">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Network_Metaclass"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="action">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Arden_Macro"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="expression">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Assignment_Action"/>
+               <owl:Class rdf:about="#Case_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="parameters">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Compound_Data_Value"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="tasks">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Action_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="data_to_get">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Get_Conditional_Data_Macro"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="schema">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Macro"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="strict_rule_out">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#RuleInChoice"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="normal_range">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Observation"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="parameter_value">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#ParameterValue"/>
+               <owl:Class rdf:about="#Parameter_Name_And_Value"/>
+               <owl:Class rdf:about="#Patient_Data_Value"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="event">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Generate_Event_Action"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="GLIF_pattern">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Macro_Schema"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="destination">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Decision_Option"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="min_duration">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Duration_Interval"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="parameters_passed">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Guideline"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="glif_connectors">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Algorithm"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="frequency">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Atomic_Frequency"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="repeat_every">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Every_Expression"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="data_source_type">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Get_Data_Action"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="guidelines">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Guideline_Collection"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="max_duration">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Duration_Interval"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="demographics">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Conditional_Data_List_Macro"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="max_time_stamp">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Time_Interval"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="recommendations">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Risk_Assessment_Macro"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="algorithm">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Guideline"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="domain">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#AttributeDescription"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="didactics">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Guideline_Step"/>
+               <owl:Class rdf:about="#Guideline_Expression"/>
+               <owl:Class rdf:about="#Guideline"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="functionality">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Medical_Action_Entity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="strength_of_recommendation">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Decision_Option"/>
+               <owl:Class rdf:about="#Action_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="condition">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Recommendations_Based_On_Risk"/>
+               <owl:Class rdf:about="#Get_Conditional_Data_Macro"/>
+               <owl:Class rdf:about="#Guideline_Exception"/>
+               <owl:Class rdf:about="#Arden_Macro"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="macro">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Macro_Action"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="critical_time">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Patient_Data"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="medical_task">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Medically_Oriented_Action_Specification"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="options">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Decision_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="stopping_condition">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Iteration_Specification"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="steps">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Algorithm"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="dosage_quantity">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Medication"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="duration_constraint">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Action_Step"/>
+               <owl:Class rdf:about="#Decision_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="recommendation">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Recommendations_Based_On_Risk"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="iteration_info">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Action_Step"/>
+               <owl:Class rdf:about="#Decision_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="semantic_category">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Entity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="criterion_and_weight">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Weighted_Choice"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="rule_out">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#RuleInChoice"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="exception_event">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Guideline_Exception"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="object">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#ObjectLocation"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="upper_bound">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Range"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="concept">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Item"/>
+               <owl:Class rdf:about="#ConceptAttribute"/>
+               <owl:Class rdf:about="#Parameter"/>
+               <owl:Class rdf:about="#Data_Model_Instance"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="lower_bound">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Range"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="location">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#ObjectLocation"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="input_relationships">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Get_Knowledge_Action"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="Get_Data_Items">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Guideline_Expression"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="next_step">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Guideline_Exception"/>
+               <owl:Class rdf:about="#Action_Step"/>
+               <owl:Class rdf:about="#Patient_State_Step"/>
+               <owl:Class rdf:about="#Synchronization_Step"/>
+               <owl:Class rdf:about="#Arden_Macro"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="rule_in">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#RuleInChoice"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="check_dose_quantity">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Medication"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="message">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Message_Action"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="critical_duration">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Patient_Data"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="method_cd">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Patient_Data"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="data_item">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Get_Data_Action"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="activity_time">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Patient_Data"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="start_time_constraint">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Triggering_Event"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="items">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Supplemental_Material_List"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="maintenance_info">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Guideline"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="first_object_slot_pointer">
+      <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Used for diagrams. This contains a slot . The system automatically inserts the second_object as the slot value of this slot at the first_object.
+
+   Implicit in here is the restriction that this slot must be an own slot of the first_object (and must take instance values)</rdfs:comment>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Connector_Metaclass"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="condition_value">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Decision_Option"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="connectors">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <Network_Metaclass rdf:ID="Network">
+                  <rdfs:subClassOf rdf:resource="#Diagram_Entity"/>
+               </Network_Metaclass>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="upper_left_corner">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Rectangle"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="keywords">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Keyword_Didactic"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="branches">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Branch_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="per">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Times_Expression"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="min_time_stamp">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Time_Interval"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="input">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Entity"/>
+               <owl:Class rdf:about="#Medical_Action_Entity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="layout_information">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <Network_Metaclass rdf:about="#Network"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="strength_quantity">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Medication"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="output">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Entity"/>
+               <owl:Class rdf:about="#Medical_Action_Entity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="patient_state_description">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Patient_State_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="attributes">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#DataModelClass"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="strength_of_evidence">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Guideline_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="evoke">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Arden_Macro"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="list_value">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#List_Value"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="calculation_data">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Risk_Assessment_Macro"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="recording_time">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Patient_Data"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="data_value">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Item"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="default_viewer">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Guideline"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="default_next_step">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Case_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="Get_Knowledge_Items">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Guideline_Expression"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="frequency_list">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Discrete_Temporal_Expression_Table"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="after_uncertainty">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Fuzzy_Duration"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="first_step">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Algorithm"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="triggering_event">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Criterion"/>
+               <owl:Class rdf:about="#Triggering_Event"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="case_value">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Case_Condition"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="from_list">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Select_Action"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="values">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Model_Instance"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="decision_detail">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Decision_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="strict_rule_in">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#RuleInChoice"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="abort_condition">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Iteration_Specification"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="iteration_frequency">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Iteration_Specification"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="concept_value">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Concept_Value"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="concept_to">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Concept_Relationship"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="entry_site_cd">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Procedure"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="data_item_from">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Item_Relationship"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="value">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Observation"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="service_cd">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Patient_Data"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="exceptions">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Guideline"/>
+               <owl:Class rdf:about="#Action_Step"/>
+               <owl:Class rdf:about="#Decision_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="second_object_slot_pointer">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Connector_Metaclass"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Used for diagrams. This contains a slot . The system automatically inserts the fist_object as the slot value of this slot at the second_object.
+
+   Implicit in here is the restriction that this slot must be an own slot of the second_object (and must take instance values)</rdfs:comment>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="lower_right_corner">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Rectangle"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="action_detail">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Subguideline_Action"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="data_items">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Guideline"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="concept_from">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Concept_Relationship"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="eligibility_criteria">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Guideline"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="before_uncertainty">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Fuzzy_Duration"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="data_item_to">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Item_Relationship"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="risk_calculation">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Risk_Assessment_Macro"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="rate_quantity">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Medication"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="triggering_events">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Action_Step"/>
+               <owl:Class rdf:about="#Decision_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="body_site_cd">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Patient_Data"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:ObjectProperty rdf:ID="set_value">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Set_Value"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:ObjectProperty>
+   <owl:DatatypeProperty rdf:ID="repeat_times">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Times_Expression"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="hour">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Time_Literal"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="url">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Material_URL"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="expression_string">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Let_Expression"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="event_type">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Event"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="certainty">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Observation"/>
+               <owl:Class rdf:about="#Data_Item_Relationship"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="intention">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Action_Specification"/>
+               <owl:Class rdf:about="#Guideline"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="data_value_name">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Compound_Data_Value"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="year">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Time_Literal"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="pq_value">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Physical_Quantity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="attribute_to_be_assigned">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Get_Data_Action"/>
+               <owl:Class rdf:about="#Select_Action"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="MIME_type_format">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Supplemental_Material"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="month">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Time_Literal"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="concept_id">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Concept"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="time_zone">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Time_Literal"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="precision">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Physical_Quantity"/>
+               <owl:Class rdf:about="#Index"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="direction">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Parameter_Passed"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="encoded_last_modification_date">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Maintenance_Info"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="primitive_data_item_name">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Assignment_Action"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="guideline_version">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Maintenance_Info"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="logical_expression_of_guideline_step">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Logical_Expression_Of_Guideline_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="primary_time">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Get_Data_Action"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="identifier">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Let_Expression"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="representation_status">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Maintenance_Info"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="string_value">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#String_Value"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="numerator">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Ratio"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="type">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#EHR_Entity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="status_cd">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Patient_Data"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="decision_diagram_url">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Utility_Choice_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="is_synchronous">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Entity"/>
+               <owl:Class rdf:about="#Medical_Action_Entity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="confidentiality_cd">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Patient_Data"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="alarm_threshold">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Alarm_Entity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="integer_value">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Integer_Value"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="name2">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Guideline_Model_Entity"/>
+               <owl:Class rdf:about="#Data_Item"/>
+               <owl:Class rdf:about="#GLIF_connector"/>
+               <owl:Class rdf:about="#Decision_Option"/>
+               <owl:Class rdf:about="#AttributeDescription"/>
+               <owl:Class rdf:about="#DataModelClass"/>
+               <owl:Class rdf:about="#Parameter"/>
+               <owl:Class rdf:about="#Data_Value"/>
+               <owl:Class rdf:about="#Data_Item_Relationship"/>
+               <owl:Class rdf:about="#Concept_Relationship"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="strength">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Strength_Of_Evidence_Or_Recommendation"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="alarm_message">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Alarm_Entity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="service_xsd">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Entity"/>
+               <owl:Class rdf:about="#Medical_Action_Entity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="object_ids">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#EHR_Entity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="millisecond">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Time_Literal"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="second">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Time_Literal"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="text">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Text_Value"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="display_name">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Duration_Interval"/>
+               <owl:Class rdf:about="#Duration"/>
+               <owl:Class rdf:about="#Decision_Option"/>
+               <owl:Class rdf:about="#Fuzzy_Duration"/>
+               <owl:Class rdf:about="#Patient_State_Step"/>
+               <owl:Class rdf:about="#Physical_Quantity"/>
+               <owl:Class rdf:about="#Range"/>
+               <owl:Class rdf:about="#Ratio"/>
+               <owl:Class rdf:about="#Time_Interval"/>
+               <owl:Class rdf:about="#Time_Literal"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="data_model_source_id">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Item"/>
+               <owl:Class rdf:about="#DataModelClass"/>
+               <owl:Class rdf:about="#DataModelAttribute"/>
+               <owl:Class rdf:about="#Data_Model_Instance"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="parameter_name">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Parameter_Name_And_Value"/>
+               <owl:Class rdf:about="#Instance_Value"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="variable_type">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Parameter_Passed"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="parent_source_id">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#DataModelClass"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="operator">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Case_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="is_critical">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Entity"/>
+               <owl:Class rdf:about="#Medical_Action_Entity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="Encoding_Language"/>
+   <owl:DatatypeProperty rdf:ID="duration_value">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Duration_Value"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="purpose">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Supplemental_Material_List"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="instance_name">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Model_Instance"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="priority">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Triggering_Event"/>
+               <owl:Class rdf:about="#Guideline_Exception"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="last_divider_location">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <Network_Metaclass rdf:about="#Network"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="reset_iteration_points">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Every_Expression"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="message_destination">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Message_Action"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="id">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Patient_Data"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="concept_name">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Concept"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="unit">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Physical_Quantity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="route_cd">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Medication"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="patient_id">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Alarm_Entity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="plus_hour">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Time_Literal"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="severity">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Observation"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="doseform_cd">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Medication"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="guideline_status">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Maintenance_Info"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="variable_name">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Get_Knowledge_Action"/>
+               <owl:Class rdf:about="#Get_Data_Action"/>
+               <owl:Class rdf:about="#Select_Action"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="symbol_value">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Symbol_Value"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="derivation_expression">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Observation"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="developing_institution">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Maintenance_Info"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="mood_cd">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Patient_Data"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="node">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Utility_Choice"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="title">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Maintenance_Info"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="relationship_type">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Concept_Relationship"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="new_encounter">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#boolean"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Patient_State_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="interpretation_cd">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Patient_Data"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="description">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Action_Specification"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="author">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Maintenance_Info"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="time_stamp">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Time_Stamp_Value"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="y">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Point"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="x">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Point"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="GLIF_version">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Maintenance_Info"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="data_type">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#BasicAttribute"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="authoring_date">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Maintenance_Info"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="service_owls">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Entity"/>
+               <owl:Class rdf:about="#Medical_Action_Entity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="concept_source">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Concept"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="relationship_source">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Concept_Relationship"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="filter_expression">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#View_Specification"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="encoder">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Maintenance_Info"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="macro_class_name">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Macro_Schema"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="owner">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Variable_Data_Item"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="index">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Index"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="denomerator">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Ratio"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="order_constraint">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Branch_Step"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="second_object">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <Connector_Metaclass rdf:ID="Connector">
+                  <rdfs:subClassOf rdf:resource="#Diagram_Entity"/>
+                  <rdfs:comment rdf:datatype="http://www.w3.org/2001/XMLSchema#string">This is the abstract superclass for all connectors. To create a specific connector class (for a netowrk), you must subclass Connector (using Connector_Metaclass).</rdfs:comment>
+               </Connector_Metaclass>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="day">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Time_Literal"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="coding_scheme">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Strength_Of_Evidence_Or_Recommendation"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="encoded_guideline_version">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Maintenance_Info"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="weight">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Weighted_Criterion"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="encoding_language">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Expression"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="minute">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Time_Literal"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="relationship_code">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Item_Relationship"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="main_panel_width">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <Network_Metaclass rdf:about="#Network"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="main_panel_height">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#int"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <Network_Metaclass rdf:about="#Network"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="specification">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Expression"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="material">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Text_Material"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="parent_class_id">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#DataModelClass"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="extended_boolean_value">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Extended_Boolean_Value"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="directionality">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Item_Relationship"/>
+               <owl:Class rdf:about="#Concept_Relationship"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="service_wsdl">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Entity"/>
+               <owl:Class rdf:about="#Medical_Action_Entity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="roles">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Alarm_Entity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="float_value">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#float"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Float_Value"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="agent_id">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Alarm_Entity"/>
+               <owl:Class rdf:about="#EHR_Entity"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="data_model_class_id">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Item"/>
+               <owl:Class rdf:about="#DataModelClass"/>
+               <owl:Class rdf:about="#DataModelAttribute"/>
+               <owl:Class rdf:about="#Data_Model_Instance"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="first_object">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <Connector_Metaclass rdf:about="#Connector"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="adapting_institution">
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Maintenance_Info"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="cardinality">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#AttributeDescription"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+   </owl:DatatypeProperty>
+   <owl:DatatypeProperty rdf:ID="relationship_id">
+      <rdfs:domain>
+         <owl:Class>
+            <owl:unionOf rdf:parseType="Collection">
+               <rdf:Description rdf:about="http://www.w3.org/2002/07/owl#Thing"/>
+               <owl:Class rdf:about="#Data_Item_Relationship"/>
+               <owl:Class rdf:about="#Concept_Relationship"/>
+            </owl:unionOf>
+         </owl:Class>
+      </rdfs:domain>
+      <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+   </owl:DatatypeProperty>  
+</rdf:RDF>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.Procedure" table="`Procedure`">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <property column="careProvisionCode" lazy="false" length="255" name="careProvisionCode" not-null="false" type="string"/>
+    <property column="procedureCode" lazy="false" length="255" name="procedureCode" not-null="false" type="string"/>
+    <property column="procedureCodeSystem" lazy="false" length="255" name="procedureCodeSystem" not-null="false" type="string"/>
+    <property column="procedureText" lazy="false" length="255" name="procedureText" not-null="false" type="string"/>
+    <property column="statusCode" lazy="false" length="255" name="statusCode" not-null="false" type="string"/>
+    <property column="effectiveTimeLow" lazy="false" length="255" name="effectiveTimeLow" not-null="false" type="string"/>
+    <property column="effectiveTimeHigh" lazy="false" length="255" name="effectiveTimeHigh" not-null="false" type="string"/>
+    <many-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.EHRPHRData" column="EHRPHRDataID" lazy="no-proxy" name="eHRPHRData" not-null="true" unique="true">
+		</many-to-one>
+  </class>
+</hibernate-mapping>

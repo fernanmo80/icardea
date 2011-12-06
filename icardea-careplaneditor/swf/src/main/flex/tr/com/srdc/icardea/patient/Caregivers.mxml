@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow initialize="init()" xmlns:mx="http://www.adobe.com/2006/mxml" styleName="mainLoginForm" xmlns:view="tr.com.srdc.icardea.gui.homePage.*" width="974" title="Caregivers:" height="280">
+	<mx:Script>
+	<![CDATA[
+		import mx.core.Application;
+		
+
+		import tr.com.srdc.icardea.gui.careplan.CareplanProperties;
+ 		import tr.com.srdc.icardea.patient.patients;
+		import mx.rpc.events.ResultEvent;
+		import mx.rpc.events.FaultEvent;
+		import mx.messaging.channels.SecureAMFChannel;
+		import mx.messaging.Channel;
+		import mx.messaging.ChannelSet;
+		import mx.rpc.remoting.RemoteObject;
+		import tr.com.srdc.icardea.model.userRoles.Person;
+		import mx.controls.Alert;
+		import tr.com.srdc.icardea.model.userRoles.Patient;
+		import mx.managers.PopUpManager;
+		import mx.collections.ArrayCollection;
+	
+	
+	[Bindable]
+	public var patient:Patient;
+	
+	
+	private function init():void{
+		trace("Resulrttttttt111111");
+		var service : RemoteObject = new RemoteObject("subscriptionService");
+		var cs:ChannelSet = new ChannelSet();
+		var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+		cs.addChannel(customChannel);
+		service.channelSet = cs;
+		service.addEventListener(ResultEvent.RESULT,onResultCaregivers);
+		service.addEventListener(FaultEvent.FAULT, onFault);
+		
+		service.listCaregivers(patient);
+	}
+	private function cancel():void{
+		
+		/* for(var i :int; i< patient.caregivers.length ; i++)
+		{
+			
+			patient.caregivers.addItem(caregiversList.getItemAt(i));
+			
+		//en son patienta kaydedilen caregiverlar
+		}	 */ 
+		trace("pattt: "+this.patient.caregivers.length);
+		PopUpManager.removePopUp(this);
+	}
+	private function addCaregiver():void{
+		
+   		var caregiverProp:CaregiverProperties = new CaregiverProperties;
+   		
+   		var caregiver:Person = new Person;
+       	//patient.caregivers.addItem(caregiver);
+     	caregiverProp.newCaregiver = caregiver;
+        caregiverProp.edit = false;	
+        caregiverProp.patient = this.patient;
+   		//TODO service for add caregiver
+   		
+    	PopUpManager.addPopUp(caregiverProp, this,true);
+    	PopUpManager.centerPopUp(caregiverProp);
+   }
+   	public function editCaregiver():void{
+   		
+   		if(dgrid.selectedItem == null){
+        		Alert.show("Please select a caregiver to edit", "No Caregiver Selected");
+        	}else{
+	        	var caregiverProp:CaregiverProperties = new CaregiverProperties;
+	        	for(var i:int=0;i<patient.caregivers.length;i++)
+	        	{
+	        		if(dgrid.selectedItem.identifier==patient.caregivers.getItemAt(i).identifier)
+	        		{
+	        			caregiverProp.newCaregiver=patient.caregivers.getItemAt(i) as Person;
+	        			caregiverProp.edit = true;
+	        			caregiverProp.patient = this.patient;
+	        		}
+	        	}	
+	        	
+	        	//TODO service for update caregiver
+	         	PopUpManager.addPopUp(caregiverProp, Application.application as DisplayObject,true);
+	         	
+	            PopUpManager.centerPopUp(caregiverProp);
+           }
+   			
+   	} 
+	public function deleteCaregiver():void{
+		for(var i:int=0;i<patient.caregivers.length;i++)
+        	{
+        		if(dgrid.selectedItem == null)
+        			Alert.show("Please select a caregiver to delete", "No Caregiver Selected");
+        			
+        		if(dgrid.selectedItem != null)
+        		{
+	        		if(dgrid.selectedItem.identifier==patient.caregivers.getItemAt(i).identifier)
+	        		{
+	        			trace("lflfl: "+patient.caregivers.length)
+	        			var service : RemoteObject = new RemoteObject("subscriptionService");
+						var cs:ChannelSet = new ChannelSet();
+						var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+						cs.addChannel(customChannel);
+						service.channelSet = cs;
+						service.addEventListener(ResultEvent.RESULT,onResultDeleteCaregivers);
+						service.addEventListener(FaultEvent.FAULT, onFault);
+						trace("Caregivers size before: "+patient.caregivers.length)
+						service.deleteCaregiver(patient, dgrid.selectedItem as Person)
+						trace("Caregivers size after: "+patient.caregivers.length)
+						//patient.caregivers.removeItemAt(i);
+						trace("Caregivers size after after: "+patient.caregivers.length)
+	        			//TODO service for delete caregiver
+	        		}
+	        	}
+        	}	
+	}
+	public function onResultDeleteCaregivers(result:ResultEvent):void 
+   	{
+   		patient.caregivers = result.result as ArrayCollection;
+   		trace("Son size: "+patient.caregivers.length)
+  	} 
+   
+  	public function onFault(fault:FaultEvent):void 
+   	{
+   		Alert.show(fault.fault.faultString);	
+   	} 
+	
+	private function emailLabel(item:Object, column:DataGridColumn):String {
+		return (item as Person).contact.email;
+	}
+	private function phoneLabel(item:Object, column:DataGridColumn):String {
+		return (item as Person).contact.phoneNumber;
+	}
+	
+	public function onResultCaregivers(result:ResultEvent):void 
+   	{
+   		trace("Resulrttttttt: " + (result.result as ArrayCollection).length );
+   		trace("Resulrttttttt11: "+this.patient.caregivers.length);
+   		
+   		patient.caregivers.removeAll();
+   		for(var i:int; i< (result.result as ArrayCollection).length;i++){
+   		
+   				this.patient.caregivers.addItem((result.result as ArrayCollection).getItemAt(i));
+   			}
+   			
+   		
+   		trace("LEngth: "+this.patient.caregivers.length);
+  	} 
+   
+  	
+	/* private function saveCaregivers():void {
+		for(var i :int; i< caregiversList.length ; i++)
+		{
+			(patient as Patient).caregivers.addItem(caregiversList.getItemAt(i))
+		//en son patienta kaydedilen caregiverlar
+		}	
+	} */
+		
+	]]>
+	</mx:Script>
+	
+		<mx:VBox width="938" height="224">
+			<mx:DataGrid styleName="usersGrid" id="dgrid" dataProvider="{this.patient.caregivers}" borderStyle="none"  width="922" height="164">
+					<mx:columns>
+						<mx:DataGridColumn headerText="ID" dataField="identifier" />
+						<mx:DataGridColumn headerText="Name" dataField="name"/>	
+						<mx:DataGridColumn headerText="Surname" dataField="surname" />
+						<mx:DataGridColumn headerText="Phone" labelFunction="phoneLabel" />
+						<mx:DataGridColumn headerText="E-mail" labelFunction="emailLabel" />
+						<mx:DataGridColumn dataField="edit" headerText="Edit" width="70">
+							<mx:itemRenderer>
+								<mx:Component>
+									<mx:HBox width="100%" horizontalAlign="center">
+										<mx:LinkButton icon="@Embed('/assets/careplaneditor/edit.png')" click="outerDocument.editCaregiver()"  width="20" height="20"/>
+								  	</mx:HBox>
+								</mx:Component>
+							</mx:itemRenderer>	
+						</mx:DataGridColumn>	
+						<mx:DataGridColumn dataField="delete" headerText="Delete" width="70">
+							<mx:itemRenderer>
+								<mx:Component>
+									<mx:HBox width="100%" horizontalAlign="center">
+										<mx:LinkButton icon="@Embed('/assets/careplaneditor/delete.png')" click="outerDocument.deleteCaregiver()" width="20" height="20"/>
+									</mx:HBox>
+								</mx:Component>
+							</mx:itemRenderer>	
+						</mx:DataGridColumn>
+					</mx:columns>
+				</mx:DataGrid>
+				
+							
+			<mx:HBox  width="930" height="41">
+				<!--<mx:Button label="Save Caregivers" click="saveCaregivers()" width="131" height="33"/>
+				<mx:Spacer width="615" height="0"/>-->
+				<mx:Button label="New" click="addCaregiver()" width="76" height="32"/>
+				<mx:Button label="Cancel" click="cancel()" width="78" height="32"/>
+			</mx:HBox>
+		</mx:VBox>
+		
+</mx:TitleWindow>
