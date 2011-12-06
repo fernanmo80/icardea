@@ -126,61 +126,6 @@
 					<target>1.6</target>
 				</configuration>
 			</plugin>
-			<!--plugin>
-				<groupId>org.twdata.maven</groupId>
-				<artifactId>maven-cli-plugin</artifactId>
-				<version>1.0.5</version>
-				<extensions>true</extensions>
-				<configuration>
-					<userAliases>
-						<run.script>icardea-careplanengine install -Dtask=run.script</run.script>
-						<run.engine>icardea-careplanengine install -Dtask=run.engine</run.engine>
-						<obs.processor>icardea-caremanagementdb install -Dtask=observation.processor</obs.processor>
-						<patientindex>icardea-interop-fmwork/pixpdq install -Dtask=patientindex</patientindex>
-						<invoke.consent>icardea-consenteditor-invoker install -Dtask=invoke.consent</invoke.consent>
-						<invoke.cts>icardea-ctsinvoker install -Dtask=invoke.cts</invoke.cts>
-						<create.db>install -DcreateDatabases=true</create.db>
-						<generate.glif>icardea-careplanengine install -Dtask=generate.glif</generate.glif>
-						<setup>install -DcreateDatabases=true -S</setup>
-						<test.run>install -DskipDeploy=true</test.run>
-					</userAliases>
-				</configuration>
-			</plugin-->
-<!-- 			<plugin>
-				<artifactId>maven-surefire-plugin</artifactId>
-				<version>2.8.1</version>
-				<configuration>
-					<skip>true</skip>
-				</configuration>
-				<executions>
-					<execution>
-						<id>unit-tests</id>
-						<phase>test</phase>
-						<goals>
-							<goal>test</goal>
-						</goals>
-						<configuration>
-							<skip>${maven.test.skip}</skip>
-							<excludes>
-								<exclude>**/*Test.java</exclude>
-							</excludes>
-						</configuration>
-					</execution>
-					<execution>
-						<id>integration-tests</id>
-						<phase>install</phase>
-						<goals>
-							<goal>test</goal>
-						</goals>
-						<configuration>
-							<skip>${maven.test.skip}</skip>
-							<includes>
-								<include>**/*Test.java</include>
-							</includes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>	 -->		
 		</plugins>
 		<pluginManagement>
 			<plugins>
