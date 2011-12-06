@@ -46,3 +46,4 @@ call mvn install:install-file -DgroupId=org.wicket -DartifactId=wicket -Dversion
 echo Installing the databases
 
 call mvn install -DcreateDatabases=true -DinstallApacheAndMongo=true -Dmaven.test.skip=true -f ..\pom.xml
+call mvn -o install -f ..\icardea-careplanengine\pom.xml -DafCareplan=true
