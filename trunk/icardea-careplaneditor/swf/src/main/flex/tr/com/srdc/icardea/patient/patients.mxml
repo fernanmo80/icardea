@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ //
+  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
+  ~ //   
+  ~ //  TERMS OF USE  
+  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
+  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
+  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
+  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
+  ~ //
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  -->
+<!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ // This tool can be used to change diagrammer mode (link creation, hand or selection mode)
+  ~ // It also reflect change to diagrammer mode, should this change be cause by this tool  
+  ~ // or an external cause.
+  ~ ////////////////////////////////////////////////////////////////////////////////
+ -->
+<mx:VBox xmlns="fr.kapit.skin.component.*" xmlns:mx="http://www.adobe.com/2006/mxml"
+           paddingTop="5" paddingLeft="5" paddingRight="5"
+           buttonMode="true" alpha="1.0" horizontalAlign="left"
+           verticalAlign="top" width="100%" height="100%" initialize="init()">
+    <mx:Script>
+		<![CDATA[
+			import tr.com.srdc.icardea.control.PatientControlImp;
+			import tr.com.srdc.icardea.control.PatientControl;
+			import tr.com.srdc.icardea.patient.Caregivers;
+			import tr.com.srdc.icardea.model.userRoles.Patient;
+			import mx.messaging.channels.SecureAMFChannel;
+			import mx.messaging.Channel;
+			import mx.messaging.ChannelSet;
+			import mx.rpc.remoting.RemoteObject;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+		import tr.com.srdc.icardea.model.careplan.MedicalCareplan;
+		import mx.core.Application;
+		import tr.com.srdc.icardea.model.steps.FinalStep;
+		import mx.controls.Alert;
+		import mx.managers.PopUpManager;
+		import mx.collections.ArrayCollection;
+		import com.kapit.diagram.DiagramEvent;
+        import com.kapit.diagram.view.DiagramView;
+        
+        
+        [Bindable]
+        public var subPatient:subscription;
+        [Bindable]
+        public var slist:subscriptionList;
+        [Bindable]
+        public var val:patientRegistration;
+        [Bindable]
+		public var caregivers:Caregivers;
+		
+		public var control:PatientControl;
+		
+		[Bindable]
+        public var model:PatientModel = new PatientModelImp();
+        
+       public function init():void
+       {
+       		/* var service : RemoteObject = new RemoteObject("subscriptionService");
+			var cs:ChannelSet = new ChannelSet();
+			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+			cs.addChannel(customChannel);
+			service.channelSet = cs;
+			service.addEventListener(ResultEvent.RESULT,onResultRegisteredPatients);
+			service.addEventListener(FaultEvent.FAULT, onFault);
+			
+			service.listRegisteredPatients(); */
+			this.control = new PatientControlImp(this.model);
+			this.control.listRegisteredPatients();
+       }
+       public function onResultRegisteredPatients(result:ResultEvent):void 
+       {
+       		//this.registeredPatients = result.result as ArrayCollection;
+       	
+       } 
+       
+       public function onFault(fault:FaultEvent):void 
+       {
+       		Alert.show(fault.fault.faultString);	
+       	
+       }
+       public function newPatient():void
+       {
+       		var newPop:patientRegistration = new patientRegistration;
+        	
+        	var patient:Patient = new Patient;
+        	newPop.newPatient=patient;
+        	newPop.control = this.control;
+        	
+        	
+           	PopUpManager.addPopUp(newPop, this,true);
+        	PopUpManager.centerPopUp(newPop);
+       }
+       public function editPatient():void
+        {
+        	var newPop:patientRegistration = new patientRegistration;
+        	for(var i:int=0;i<this.model.patients.length;i++)
+        	{
+        		if(dgrid.selectedItem.name==this.model.patients.getItemAt(i).name && dgrid.selectedItem.personID==this.model.patients.getItemAt(i).personID )
+        		{
+        			newPop.newPatient=this.model.patients.getItemAt(i) as Patient;
+        		}
+        	}
+        	newPop.control = this.control;
+         	PopUpManager.addPopUp(newPop, this,true);
+            PopUpManager.centerPopUp(newPop);
+           
+        }
+                
+       public function subscribePatient():void
+       {       		
+       		subPatient = new subscription;
+       		subPatient.sparent = this;
+       		subPatient.patient = dgrid.selectedItem as Patient;
+       		
+  
+       		if(dgrid.selectedItem != null)
+			{
+	           	PopUpManager.addPopUp(subPatient, this,true);
+	        	PopUpManager.centerPopUp(subPatient);
+   			}
+   			else 
+   			{
+   				Alert.show("Please select a patient to subscribe", "No Patient Selected");
+   			}
+       }
+       public function subscribeList():void
+       {
+       		
+       		slist = new subscriptionList;
+       		
+       		slist.topicsForEHR = (dgrid.selectedItem as Patient).ehrSubscriptions;
+       		slist.topicsForPHR = (dgrid.selectedItem as Patient).phrSubscriptions;
+       		 
+       		PopUpManager.addPopUp(slist, this,true);
+	        PopUpManager.centerPopUp(slist);
+       }
+       public function listAssignments():void
+       {
+       		
+        	
+        	//guidelinePop.arr = result.result as ArrayCollection;
+        	//TODO:guideline assignment service
+        	
+        	var service : RemoteObject = new RemoteObject("subscriptionService");
+			var cs:ChannelSet = new ChannelSet();
+			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+			cs.addChannel(customChannel);
+			service.channelSet = cs;
+			service.addEventListener(ResultEvent.RESULT,onResultGuidelines);
+			service.addEventListener(FaultEvent.FAULT, onGuidelinesFault);
+			
+			service.listGuidelines((dgrid.selectedItem as Patient));
+        	
+       }
+       public function onResultGuidelines(result:ResultEvent):void 
+       {
+       		var guidelinePop:assignedGuidelines = new assignedGuidelines;
+       		guidelinePop.arr = result.result as ArrayCollection;
+        	trace(result.result as ArrayCollection);
+        	PopUpManager.addPopUp(guidelinePop, this,true);
+        	PopUpManager.centerPopUp(guidelinePop);
+      	} 
+       
+      	public function onGuidelinesFault(fault:FaultEvent):void 
+       	{
+       		Alert.show(fault.fault.faultString);	
+       	} 
+       	public function openCaregivers():void{
+       		caregivers = new Caregivers;
+
+       		///TODO:service to get list of caregivers of the patient
+       		if(dgrid.selectedItem != null)
+       		{
+       			trace("Burdddddd");
+       			this.caregivers.patient = dgrid.selectedItem as Patient;
+       			trace("Burdddddd111111111");
+       		}
+       		
+       		PopUpManager.addPopUp(caregivers, Application.application as DisplayObject,true);
+            PopUpManager.centerPopUp(caregivers);
+       	}
+       	
+        public function deletePatient():void
+        {
+          	this.control.deletePatient(dgrid.selectedItem as Patient);
+        }
+        
+        ]]>
+	</mx:Script>
+    <mx:Label text="Registered Patients" width="100%" fontWeight="bold" enabled="true" fontFamily="Arial" fontSize="20"/>
+    <mx:ViewStack id="myViewStack" width="100%" height="100%">
+		<mx:VBox id="MDE" label="Medical Domain Expert" width="100%" height="100%" fontWeight="bold" >
+		    <mx:HBox height="50%" width="100%">
+			    <mx:DataGrid styleName="usersGrid" id="dgrid" dataProvider="{this.model.patients}" borderStyle="none" width="100%" height="100%">
+					<mx:columns>
+						<mx:DataGridColumn headerText="ID" dataField="personID" />
+						<mx:DataGridColumn headerText="Name" dataField="name"/>	
+						<mx:DataGridColumn headerText="Surname" dataField="surname" />
+						<mx:DataGridColumn headerText="Gender" dataField="gender" />
+						<mx:DataGridColumn headerText="Birth Date" dataField="dateOfBirth" />
+						<mx:DataGridColumn dataField="edit" headerText="Edit">
+							<mx:itemRenderer>
+								<mx:Component>
+									<mx:HBox width="100%" horizontalAlign="center">
+										<mx:LinkButton icon="@Embed('/assets/careplaneditor/edit.png')" click="outerDocument.editPatient()" />
+									</mx:HBox>
+								</mx:Component>
+							</mx:itemRenderer>	
+						</mx:DataGridColumn>	
+						<mx:DataGridColumn dataField="delete" headerText="Delete" width="70">
+							<mx:itemRenderer>
+								<mx:Component>
+									<mx:HBox width="100%" horizontalAlign="center">
+										<mx:LinkButton icon="@Embed('/assets/careplaneditor/delete.png')" click="outerDocument.deletePatient()" />
+									</mx:HBox>
+								</mx:Component>
+							</mx:itemRenderer>	
+						</mx:DataGridColumn>
+						<mx:DataGridColumn headerText="Caregivers" dataField="caregiver" >
+									<mx:itemRenderer>
+										<mx:Component>
+											<mx:HBox width="100%" horizontalAlign="center">
+												<mx:LinkButton icon="@Embed('/assets/careplaneditor/nurse.jpg')" click="outerDocument.openCaregivers()"/>
+											</mx:HBox>
+										</mx:Component>
+									</mx:itemRenderer>		
+								</mx:DataGridColumn>
+						<mx:DataGridColumn headerText="Subscribed" dataField="status"  >
+							<mx:itemRenderer>
+								<mx:Component>
+									<mx:HBox width="100%" horizontalAlign="center">
+										<mx:LinkButton icon="@Embed('/assets/careplaneditor/edit.png')" click="outerDocument.subscribeList()"/>
+									</mx:HBox>
+								</mx:Component>
+							</mx:itemRenderer>
+						</mx:DataGridColumn>
+						<mx:DataGridColumn dataField="assign" headerText="Guidelines">
+							<mx:itemRenderer>
+								<mx:Component>
+									<mx:HBox width="100%" horizontalAlign="center">
+										<mx:LinkButton icon="@Embed('/assets/careplaneditor/assign.png')" click="outerDocument.listAssignments()" />
+									</mx:HBox>
+								</mx:Component>
+							</mx:itemRenderer>	
+						</mx:DataGridColumn>	
+					</mx:columns>
+				</mx:DataGrid>
+			</mx:HBox>
+			<mx:HBox width="100%">
+				<mx:Button label="NEW" enabled="true" click="newPatient()" styleName="adminButton"/>
+				<mx:Button label="SUBSCRIBE TO DATA" enabled="true" click="subscribePatient()" styleName="adminButton"/>
+			</mx:HBox>
+		</mx:VBox>		
+      </mx:ViewStack>
+      <!--<mx:RemoteObject id="subscriptionService" destination="subscriptionService">
+      			<mx:method name="listRegisteredPatients" result="onResultRegisteredPatients(event)" fault="onFault(event)"/>
+      </mx:RemoteObject>-->	
+</mx:VBox>

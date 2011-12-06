@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.careplanengine.entities.MonitoringMessageEntity" table="MONITORING_MESSAGES">
+		<id name="id" column="MM_ID">
+			<generator class="increment"/>
+		</id>
+
+		<property name="type" column="TYPE"/>
+		<property name="stepName" column="STEP_NAME"/>
+		<property name="monitoringInfo" column="INFO"/>
+		<property name="messageSentDate" column="SENT_DATE" type="timestamp"/>
+		<many-to-one name="assignmentEntity" class="tr.com.srdc.icardea.careplanengine.entities.AssignmentEntity" column="ASSIGNMENT_ID" not-null="true" lazy="false" cascade="save-update"/>
+	</class>	
+</hibernate-mapping>

@@ -1,0 +1,723 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <id assigningAuthorityName="ICARDEA" extension="111" root="111"/>
+    <code code="34133-9" codeSystem="2.16.840.1.113883.6.1" displayName="SUMMARIZATION OF EPISODE NOTE"/>
+    <effectiveTime value="20091214"/>
+    <!-- yyyyMMdd -->
+    <author>
+        <time value="20091214"/>
+        <!-- yyyyMMdd -->
+        <assignedAuthor>
+            <assignedAuthoringDevice>
+                <code code="111" codeSystem="222" codeSystemVersion="1"/>
+            </assignedAuthoringDevice>
+        </assignedAuthor>
+    </author>
+    <custodian>
+        <assignedCustodian>
+            <representedCustodianOrganization>
+                <name>Dr Ana Fruntela</name>
+            </representedCustodianOrganization>
+        </assignedCustodian>
+    </custodian>
+    <!--
+	***************
+	Demographics
+	*****************
+	-->
+    <recordTarget>
+        <patient>
+            <patientPatient>
+                <administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1"/>
+                <birthTime value="19850905"/>
+                <maritalStatusCode code="S" codeSystem="2.16.840.1.113883.5.2"/>
+            </patientPatient>
+        </patient>
+    </recordTarget>
+    <component>
+        <structuredBody>
+            <!--
+		***************
+		Active Problems Sections
+		*****************
+		-->
+            <component>
+                <section>
+                    <code code="11450-4" codeSystem="2.16.840.1.113883.6.1"/>
+                    <title>Active Problems</title>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="R07.4" codeSystem="2.16.840.1.113883.6.3"/>
+                            <!--ChestPain-->
+                            <effectiveTime>
+                                <low value="2006-04-13 00:00:00.0"/>
+                                <high value="2006-04-13 00:00:00.0"/>
+                            </effectiveTime>
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="R00.2" codeSystem="2.16.840.1.113883.6.3"/>
+                            <!--Palpitations-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="41587001" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Third trimester pregnancy-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="289908002" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Pregnancy-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="57630001" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--First trimester pregnancy-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="63158009" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Lactation-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="158144005" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Dizziness-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN"/>
+                            <!--Dyspnea-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN"/>
+                            <!--AcutePulmonaryedema-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+            <!--
+		***************
+		Past Medical History Section
+		*****************
+		-->
+            <component>
+                <section>
+                    <code code="11348-0" codeSystem="2.16.840.1.113883.6.1"/>
+                    <title>PastMedicalHistory</title>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="16797001" codeSystem="2.16.840.1.113883.6.96"/>
+                            <value>1</value>
+							   <!--AccessoryPathway-->
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0018799" codeSystem="2.16.840.1.113883.6.86"/>
+                            <value>1</value>
+							   <!--Heart Disease-->
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C1956346" codeSystem="2.16.840.1.113883.6.86"/>
+                            <value>1</value>
+							   <!--Coronary Heart Disease-->
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="266308000" codeSystem="2.16.840.1.113883.6.96"/>
+                            <value>1</value>
+							   <!--Heart Failure-->
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="I21" codeSystem="2.16.840.1.113883.6.3"/>
+                            <!--MI-->
+                            <effectiveTime>
+                                <low value="20100413"/>
+                                <high value="20100413"/>
+                            </effectiveTime>
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="2734008" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Major injury-->
+							<effectiveTime>
+                               	<low value="20090413100000"/>
+								<high value="20090413103500"/>
+                            </effectiveTime>
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0948807" codeSystem="2.16.840.1.113883.6.86"/>
+                            <!--Hepatic impairment-->
+                            <value>1</value>
+                       
+						 <entryRelationship typeCode='SUBJ' inversionInd='true'>
+							<observation classCode='OBS' moodCode='EVN'>
+								<code code='SEV' displayName='Severity' codeSystem='2.16.840.1.113883.5.4' codeSystemName='ActCode' />
+									<text><reference value='#severity-1'/></text>
+									<statusCode code='completed'/>
+									<value xsi:type='CD' code='M' displayName='Moderate' codeSystem='2.16.840.1.113883.5.1063' codeSystemName='Observation Value' />
+							</observation>
+						</entryRelationship>
+						 </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0149721" codeSystem="2.16.840.1.113883.6.86"/>
+                            <!--LVH-->
+                            <value>1</value>
+                       
+						 <entryRelationship typeCode='SUBJ' inversionInd='true'>
+							<observation classCode='OBS' moodCode='EVN'>
+								<code code='SEV' displayName='Severity' codeSystem='2.16.840.1.113883.5.4' codeSystemName='ActCode' />
+									<text><reference value='#severity-1'/></text>
+									<statusCode code='completed'/>
+									<value xsi:type='CD' code='H' displayName='High' codeSystem='2.16.840.1.113883.5.1063' codeSystemName='Observation Value' />
+							</observation>
+						</entryRelationship>
+						 </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="386806002" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Impaired cognition-->
+                            <value>1</value>
+							<entryRelationship typeCode='SUBJ' inversionInd='true'>
+							<observation classCode='OBS' moodCode='EVN'>
+								<code code='SEV' displayName='Severity' codeSystem='2.16.840.1.113883.5.4' codeSystemName='ActCode' />
+									<text><reference value='#severity-1'/></text>
+									<statusCode code='completed'/>
+									<value xsi:type='CD' code='M' displayName='Moderate' codeSystem='2.16.840.1.113883.5.1063' codeSystemName='Observation Value' />
+							</observation>
+						</entryRelationship>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="3238004" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Pericarditis-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="52448006" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Dementia-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="128613002" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Epilepsy-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="196697002" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Unspecified peptic ulcer-->
+							<statusCode code='active'/>
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					  
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="235856003" codeSystem="2.16.840.1.113883.6.96"/>
+                          <!-- hepatic disease-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="74732009" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Mental disorder-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0948059" codeSystem="2.16.840.1.113883.6.86"/>
+                            <!--Retinopathy hemorrhagic-->
+                            <value>0</value>
+							<entryRelationship typeCode='SUBJ' inversionInd='true'>
+							<observation classCode='OBS' moodCode='EVN'>
+								<code code='SEV' displayName='Severity' codeSystem='2.16.840.1.113883.5.4' codeSystemName='ActCode' />
+									<text><reference value='#severity-1'/></text>
+									<statusCode code='completed'/>
+									<value xsi:type='CD' code='M' displayName='Moderate' codeSystem='2.16.840.1.113883.5.1063' codeSystemName='Observation Value' />
+							</observation>
+						</entryRelationship>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="191809008" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--chronic alcoholism-->
+                            <value>1</value>
+							<entryRelationship typeCode='SUBJ' inversionInd='true'>
+							<observation classCode='OBS' moodCode='EVN'>
+								<code code='SEV' displayName='Severity' codeSystem='2.16.840.1.113883.5.4' codeSystemName='ActCode' />
+									<text><reference value='#severity-1'/></text>
+									<statusCode code='completed'/>
+									<value xsi:type='CD' code='M' displayName='Moderate' codeSystem='2.16.840.1.113883.5.1063' codeSystemName='Observation Value' />
+							</observation>
+						</entryRelationship>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="34093004" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Hematological Disease-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C1868885" codeSystem="2.16.840.1.113883.6.86"/>
+                            <!--Uncontrolled hypertension-->
+                            <value>0</value>
+							<entryRelationship typeCode='SUBJ' inversionInd='true'>
+							<observation classCode='OBS' moodCode='EVN'>
+								<code code='SEV' displayName='Severity' codeSystem='2.16.840.1.113883.5.4' codeSystemName='ActCode' />
+									<text><reference value='#severity-1'/></text>
+									<statusCode code='completed'/>
+									<value xsi:type='CD' code='M' displayName='Moderate' codeSystem='2.16.840.1.113883.5.1063' codeSystemName='Observation Value' />
+							</observation>
+						</entryRelationship>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="74474003" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Gastrointestinal hemorrhage-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="50960005" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Bleeding-->
+                            <effectiveTime>
+                               	<low value="20090413100000"/>
+								<high value="20090413103500"/>
+                            </effectiveTime>
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="195178005" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Intracranial hemorrhage-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="128609009" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Intracranial aneurysm-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="I25.5" codeSystem="2.16.840.1.113883.6.3"/>
+                            <!--IschemicCardiomyopathy-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="I95" codeSystem="2.16.840.1.113883.6.3"/>
+                            <!--Hypotension-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="230690007" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Stroke-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="42343007" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--CHF-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="154671004" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--DM-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="38341003" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Hypertension-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="J45" codeSystem="2.16.840.1.113883.6.3"/>
+                            <!--Asthma-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="I20.0" codeSystem="2.16.840.1.113883.6.3"/>
+                            <!--Angina-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="271649006" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--DefaultBP-->
+                            <value>100</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN"/>
+                            <!--Smoking-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+            <!--
+		***************
+		Medications Section
+		*****************
+		-->
+            <component>
+                <section>
+                    <code code="10160-0" codeSystem="2.16.840.1.113883.6.1"/>
+                    <title>Medications</title>
+					<entry>
+                        <substanceAdministration classCode="ActClass" moodCode="EVN">
+                            <consumable>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+										<code code="33252009" codeSystem="2.16.840.1.113883.6.96"/>
+										<!--BetaBlocker-->
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </consumable>
+                            <statusCode code="active"/>
+                        </substanceAdministration>
+                    </entry>
+					<entry>
+                        <substanceAdministration classCode="ActClass" moodCode="EVN">
+							<doseQuantity>
+								<low value="2.5" unit="mg"/>
+							</doseQuantity>	
+                            <consumable>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+										<code code="108547003" codeSystem="2.16.840.1.113883.6.96"/>
+										<!--Bisoprolol-->
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </consumable>
+                            <statusCode code="active"/>
+                        </substanceAdministration>
+                    </entry>
+					<entry>
+                        <substanceAdministration classCode="ActClass" moodCode="EVN">
+							<doseQuantity>
+								<low value="0" unit="mg"/>
+							</doseQuantity>	
+                            <consumable>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+										<code code="318638009" codeSystem="2.16.840.1.113883.6.96"/>
+										<!--Nebivolol-->
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </consumable>
+                            <statusCode code="cancelled"/>
+                        </substanceAdministration>
+                    </entry>
+                    <entry>
+                        <substanceAdministration classCode="ActClass" moodCode="EVN">
+                            <consumable>
+                                <manufacturedProduct>
+                                    <manufacturedLabeledDrug>
+                                    <code code="387458008" codeSystem="2.16.840.1.113883.6.96"/>
+                                    <!--Aspirin-->
+                                    </manufacturedLabeledDrug>
+                                </manufacturedProduct>
+                            </consumable>
+                            <statusCode code="completed"/>
+                        </substanceAdministration>
+                    </entry>
+                </section>
+            </component>
+            <!--
+		***************
+		Allergies and Adverse Reactions Features
+		*****************
+		-->
+            <component>
+                <section>
+                    <code code="10155-0" codeSystem="2.16.840.1.113883.6.1"/>
+                    <title>Allergies and Adverse Reactions</title>
+                    <entry>
+                        <observation classCode="COND" moodCode="EVN" negationInd="false">
+                            <statusCode code="active"/>
+                            <value code="387458008" codeSystem="2.16.840.1.113883.6.96" displayName="Aspirin" xsi:type="CD">
+                                <originalText>
+                                    <reference value="#allergen-1"/>
+                                </originalText>
+                            </value>
+                            <entryRelationship typeCode="SPRT">
+                                <observation classCode="OBS" moodCode="EVN">
+                                    <code code="RXNASSESS"/>
+                                    <statusCode code="completed"/>
+                                    <!-- reactions -->
+                                    <entryRelationship typeCode="SUBJ">
+                                    <observation classCode="OBS" moodCode="EVN">
+                                    <id root="369nn3eb"/>
+                                    <statusCode code="completed"/>
+                                    <value code="247472004" codeSystem="2.16.840.1.113883.6.96" displayName="weal" xsi:type="CD">
+                                    <originalText>
+                                    <reference value="#reaction-1"/>
+                                    </originalText>
+                                    </value>
+                                    </observation>
+                                    </entryRelationship>
+                                </observation>
+                            </entryRelationship>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="372821002" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--Allergy to Amiodarone-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+            <!--
+		***************
+		ECG Features
+		*****************
+		-->
+            <component>
+                <section>
+                    <code code="34752-6" codeSystem="2.16.840.1.113883.6.1"/>
+                    <title>ECG Features</title>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN"/>
+                            <!--LBBB-->
+                            <value>9</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN"/>
+                            <!--STElevation-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="26141007" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--STDepression-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN"/>
+                            <!--QWaves-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="142101008" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--TWaveInvertion-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="250908004" codeSystem="2.16.840.1.113883.6.96"/>
+                            <!--LVEF-->
+                            <value>38</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN"/>
+                            <!--CoronarySpasm-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                    <entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="UNKNOWN" codeSystem="UNKNOWN"/>
+                            <!--Thrombus-->
+                            <value>0</value>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+            <!--
+		***************
+		Patient Blood
+		*****************
+		-->
+            <component>
+                <section>
+                    <code code="30954-2" codeSystem="2.16.840.1.113883.6.1"/>
+                    <title>Lab Results</title>
+						<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0392386" codeSystem="2.16.840.1.113883.6.86"/>
+                            <!--low platelet count-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="266308000" codeSystem="2.16.840.1.113883.6.86"/>
+                            <!--altered coagulation times-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0004002" codeSystem="2.16.840.1.113883.6.86"/>
+                            <!--GOTAST-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0201836" codeSystem="2.16.840.1.113883.6.86"/>
+                            <!--GPTALT-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0202113" codeSystem="2.16.840.1.113883.6.86"/>
+                            <!--LDH-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0201850" codeSystem="2.16.840.1.113883.6.86"/>
+                            <!--Phosphatase-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0202035" codeSystem="2.16.840.1.113883.6.86"/>
+                            <!--Gamma Gt-->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0014772" codeSystem="2.16.840.1.113883.6.86"/>
+                            <!--Erythrocyte count -->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0518015" codeSystem="2.16.840.1.113883.6.86"/>
+                            <!--Hemoglobin measurement -->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+										<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0032181" codeSystem="2.16.840.1.113883.6.86"/>
+                            <!--Platelet measurement -->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0023508" codeSystem="2.16.840.1.113883.6.86"/>
+                            <!--White Blood Cell Count procedure -->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="C0016006" codeSystem="2.16.840.1.113883.6.86"/>
+                            <!--Fibrinogen  -->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="PZ" codeSystem="UNKNOWN"/>
+                            <!--PZ  -->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="PTT" codeSystem="UNKNOWN"/>
+                            <!--PTT  -->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+					<entry>
+                        <observation classCode="OBS" moodCode="EVN">
+                            <code code="TZ" codeSystem="UNKNOWN"/>
+                            <!--TZ  -->
+                            <value>1</value>
+                        </observation>
+                    </entry>
+                </section>
+            </component>
+        </structuredBody>
+    </component>
+</ClinicalDocument>

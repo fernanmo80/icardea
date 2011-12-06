@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.hibernate.PersonalizedMedicalCareplan" table="PersonalizedMedicalCareplan" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="increment">
+			</generator>
+		</id>
+		<property name="content" column="Content" type="text" not-null="false" lazy="false"/>
+		<property name="identifier" column="Identifier" type="string" length="32" not-null="false" lazy="false"/>
+		<property name="creationDate" column="CreationDate" type="timestamp" not-null="false" lazy="false"/>
+		<property name="name" column="Name" type="string" length="100" not-null="false" lazy="false"/>
+		<property name="patientIdentifier" column="PatientIdentifier" type="string" length="32" not-null="false" lazy="false"/>
+		<many-to-one name="medicalCareplanTemplate" cascade="lock" column="MedicalCareplanTemplateID" class="tr.com.srdc.icardea.hibernate.MedicalCareplanTemplate" not-null="true" lazy="no-proxy" access="field">
+		</many-to-one>
+		<set name="ORM_PersonalizedMedicalCareplanInstance" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="PersonalizedMedicalCareplanID" not-null="true"/>
+			<one-to-many class="tr.com.srdc.icardea.hibernate.PersonalizedMedicalCareplanInstance"/>
+		</set>
+	</class>
+</hibernate-mapping>

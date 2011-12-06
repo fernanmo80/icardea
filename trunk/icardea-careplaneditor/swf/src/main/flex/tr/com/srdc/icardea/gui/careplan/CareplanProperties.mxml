@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ //
+  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
+  ~ //   
+  ~ //  TERMS OF USE  
+  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
+  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
+  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
+  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
+  ~ //
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  -->
+<!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ // This tool can be used to change diagrammer mode (link creation, hand or selection mode)
+  ~ // It also reflect change to diagrammer mode, should this change be cause by this tool  
+  ~ // or an external cause.
+  ~ ////////////////////////////////////////////////////////////////////////////////
+ -->
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="New Care Plan">
+<mx:VBox xmlns="fr.kapit.skin.component.*" xmlns:mx="http://www.adobe.com/2006/mxml"
+           buttonMode="true" borderColor="#DBD6D1" alpha="1.0" backgroundColor="#cccccc" horizontalAlign="left"
+           verticalAlign="top" initialize="init()" >
+    <mx:Script>
+		<![CDATA[
+			import tr.com.srdc.icardea.control.CareplanControl;
+		import mx.core.Application;
+		import tr.com.srdc.icardea.model.careplan.MedicalCareplan;
+		import tr.com.srdc.icardea.model.steps.FinalStep;
+		import mx.controls.Alert;
+		import mx.managers.PopUpManager;
+		import mx.collections.ArrayCollection;
+		import com.kapit.diagram.DiagramEvent;
+        import com.kapit.diagram.view.DiagramView;
+        
+        [Bindable]
+        private var _medicalCareplan:MedicalCareplan;
+        [Bindable]
+        public var control:CareplanControl;
+        private var _edit:Boolean = false;
+        
+        private function init():void{
+        	//TODO: Care plan ID kontrol
+        }
+        public function set medicalCareplan(careplan:MedicalCareplan):void{
+        	this._medicalCareplan = careplan;
+        	if(careplan.id != ""){
+        		this._edit = true;
+        	}
+        }
+        
+        public function saveCarePlan():void
+        {
+      		this._medicalCareplan.name= pname.text;
+      		this._medicalCareplan.id = pid.text;
+      		///TODO:id disabled-random id generation
+      		//this._medicalCareplan.version = version.text;
+      		if(this._medicalCareplan.name != "" && this._medicalCareplan.id != ""){
+      			if(this._edit){
+	      			this.control.updateCareplan(this._medicalCareplan); 
+	      		}else{
+	      			this.control.createCareplan(this._medicalCareplan);
+	      		}
+	      		PopUpManager.removePopUp(this);
+            	parentApplication.enabled=true;
+      		}
+      		else {
+      			Alert.show("Please fill the required areas!");
+      		}
+      	}
+        private function cancelCarePlan():void{
+        	PopUpManager.removePopUp(this);
+        }
+        ]]>
+	</mx:Script>
+    <mx:Label text="Care Plan ID:" />
+    <mx:TextInput id="pid" text="{this._medicalCareplan.id}"/>
+    <mx:Label text="Care Plan Name:"/>
+    <mx:TextInput id="pname" text="{this._medicalCareplan.name}"/>
+    <mx:Spacer height="5%"/>
+    <mx:HBox>
+    	<mx:Button label="SAVE" click="saveCarePlan()"/>
+   		<mx:Button label="CANCEL" click="cancelCarePlan()"/>
+    </mx:HBox>
+</mx:VBox>
+</mx:TitleWindow>
+

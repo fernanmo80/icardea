@@ -1,0 +1,231 @@
+html, body {    
+    font-family:Verdana,Geneva,Arial,Helvetica,sans-serif;
+    font-size: 100%;
+}
+#container {
+   min-height: 100%;
+   margin-bottom: -50px;
+   position: relative;
+}
+#clearfooter {
+   height: 50px;
+   clear: both;
+}
+#content {
+    /*width:960px;*/
+    margin: 20px 20px 20px;
+    /* font-family: Verdana, Arial, sans-serif; */
+    color: #222222;
+    clear: both;
+}
+#header {
+    height:104px;
+    clear:both;
+    background: url(logo.jpg) left no-repeat;
+    /* background-color: #1389AF;*/
+    background-color: #FFFFFF;
+}
+#header h1 {
+    padding: 40px;
+    font-size: 1.5em;
+    /* color: white;
+    color: #9BA6A8; */
+    color: #FF6200;
+    font-family: serif;
+    text-align: right;
+}
+
+#header h1 a {
+    text-decoration: none;
+}
+#content {
+    margin: 20px 0;
+    font-size: 15px;
+    line-height: 20px;
+}
+
+#content h1 {
+    font-size: 40px;
+    font-weight: normal;
+    line-height: 40px;
+    letter-spacing: -1px;
+    text-align: center;
+}
+#footer {
+   height: 50px;
+   clear:both;
+   position: relative;
+   /* background-color:#EEE8D5; */
+   color: #222222;
+   text-align: center;
+   text-decoration: none;
+   font-size: 10px;
+}
+
+#nav {
+    text-align: center;
+    height:30px;
+    padding:5px;
+    /*background: #17A6D5;
+     background-color:#EEE8D5; */
+    background-color: #2C5AA0;
+    text-color: #fff;
+    font-weight: bold;
+    clear:both;
+}
+#submenu {
+    height: 20px;
+}
+#nav ul {
+    padding:0; 
+    margin:0;
+    list-style: none;
+}
+
+#nav ul li {
+    display: block;
+    float: left;
+    margin: 2px;    
+    font-size: 15px;
+    width: 120px;
+}
+
+#nav ul li a {
+    color: #333333;
+    text-decoration: none;
+    padding:5px;
+    display:block;
+    margin:0;
+    /* font-size: 1.2em;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px; */
+}
+#nav ul li a:visited {
+    color: #333333;
+}
+#nav ul li a:hover {
+    color: white;
+}
+#nav ul li ul {
+    height: 30px;
+    width: 500px;
+    position: absolute;
+    left:-999em;
+}
+#nav ul li ul li {
+    margin-left: 0px;
+    margin-right: 4px;
+}
+#nav ul li ul li a {
+      background-color: #3E6470;
+      padding: 0 2px 0 0; 
+}
+#nav > ul > li:hover > a {
+      background-color: #3E6470;
+      color: white;
+}
+#nav ul li:hover ul {
+    position: static;
+    left:0;
+}
+#nav ul li a {
+    /* background: #17A6D5; */
+    background: none repeat scroll 0 0 #BDDBE7;
+}
+
+#nav ul li li {
+  display:inline;
+}
+
+#myopid {
+    text-align: right;
+    font-weight: normal;
+}
+.opid  {
+    text-decoration: none;
+    color: red;
+}
+a.trustroot {
+    text-decoration: none;
+    color: green;
+}
+#alerts {
+    padding-bottom: 10px;
+    font-size: 12px;
+}
+fieldset {
+    width:500px;
+    margin:2em auto;
+    padding:20px;
+    border:2px solid #ccc;
+    border-radius: 15px;
+}
+legend {
+    font-weight:bold;
+    border:2px solid #ccc;
+    border-radius: 15px;
+}
+fieldset p {
+    display:block;
+    clear:both;
+    padding:10px;
+}
+form fieldset label {
+    width: 200px;
+    float: left;
+    text-align: right;
+}
+
+form fieldset input {
+    margin-left:10px;
+    width: 200px;
+    float: left;
+}
+form fieldset select {
+    margin-left:10px;
+    width: 200px;
+    float: left;
+}
+
+form fieldset input.required {
+    border-color: #e88;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 3px inset, 0 0 5px rgba(255, 0, 0, .8);
+    -moz-box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 3px inset, 0 0 5px rgba(255, 0, 0, .8);
+    -o-box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 3px inset, 0 0 5px rgba(255, 0, 0, .8);
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 2px 3px inset, 0 0 5px rgba(255, 0, 0, .8);
+}
+form div.formctrls {
+    width:500px;
+    margin:2em auto;
+    padding-bottom: 20px;
+}
+form div.formctrls input {
+    display: block;
+    margin-left: 3px;
+    margin-right: 3px;
+    width: auto;
+    float: right;
+    position: static;
+}
+
+.moreactions {
+    margin-top: 20px;
+    text-align: center;
+}
+
+
+
+
+.ui-button {
+    margin-right: 10px;
+}
+
+.ui-icon {
+    float: left;
+}
+
+a.fg-button {
+    color: white;
+}
+
+a:visited { text-decoration:none;}

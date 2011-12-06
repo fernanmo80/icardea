@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ //
+  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
+  ~ //   
+  ~ //  TERMS OF USE  
+  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
+  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
+  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
+  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
+  ~ //
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  -->
+<!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ // This tool can be used to change diagrammer mode (link creation, hand or selection mode)
+  ~ // It also reflect change to diagrammer mode, should this change be cause by this tool  
+  ~ // or an external cause.
+  ~ ////////////////////////////////////////////////////////////////////////////////
+ -->
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="Assigned Guidelines" height="356" width="536" >
+
+    <mx:Script>
+		<![CDATA[
+			import mx.collections.ArrayCollection;
+			
+			import mx.managers.PopUpManager;
+	
+		[Bindable]
+        public var arr:ArrayCollection=new ArrayCollection;
+				
+		
+		
+		public function save():void
+		{	
+			PopUpManager.removePopUp(this);
+		}
+		
+        
+        ]]>
+	</mx:Script>
+    <mx:DataGrid styleName="usersGrid" width="497" height="268" id="dgrid" dataProvider="{this.arr}" borderStyle="none">
+		<mx:columns>
+			<mx:DataGridColumn headerText="ICD-10" dataField="id" width="80" />
+			<mx:DataGridColumn headerText="Name" dataField="name"/>	
+			<mx:DataGridColumn headerText="Date" dataField="date" width="100"/>
+		</mx:columns>
+	</mx:DataGrid>
+
+	<mx:Button label="CANCEL" click="save()" width="86" height="30"/>
+</mx:TitleWindow> 

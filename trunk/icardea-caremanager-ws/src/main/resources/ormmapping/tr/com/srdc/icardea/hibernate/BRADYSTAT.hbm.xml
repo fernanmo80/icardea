@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.hibernate.BRADYSTAT" table="BRADYSTAT" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="increment">
+			</generator>
+		</id>
+		<property name="dtm_start" column="dtm_start" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="dtm_end" column="dtm_end" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="ra_percent_paced" column="ra_percent_paced" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="rv_percent_paced" column="rv_percent_paced" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="ap_vp_percent" column="ap_vp_percent" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="as_vp_percent" column="as_vp_percent" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="ap_vs_percent" column="ap_vs_percent" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="as_vs_percent" column="as_vs_percent" type="string" length="50" not-null="false" lazy="false"/>
+		<many-to-one name="sTAT" column="STATID" class="tr.com.srdc.icardea.hibernate.STAT" cascade="save-update,lock" unique="true" not-null="true" lazy="no-proxy" access="field">
+		</many-to-one>
+	</class>
+</hibernate-mapping>

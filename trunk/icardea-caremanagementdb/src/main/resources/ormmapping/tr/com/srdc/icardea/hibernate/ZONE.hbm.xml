@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.ZONE" table="ZONE">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <many-to-one access="field" cascade="lock" class="tr.com.srdc.icardea.hibernate.SET" column="SETID" lazy="no-proxy" name="sET" not-null="true">
+		</many-to-one>
+    <property column="type" lazy="false" length="50" name="type" not-null="false" type="string"/>
+    <property column="vendor_type" lazy="false" length="50" name="vendor_type" not-null="false" type="string"/>
+    <property column="status" lazy="false" length="50" name="status" not-null="false" type="string"/>
+    <property column="detection_interval" lazy="false" length="50" name="detection_interval" not-null="false" type="string"/>
+    <property column="detection_beats_numerator" lazy="false" length="50" name="detection_beats_numerator" not-null="false" type="string"/>
+    <property column="detection_beats_denominator" lazy="false" length="50" name="detection_beats_denominator" not-null="false" type="string"/>
+    <property column="detection_details" lazy="false" length="50" name="detection_details" not-null="false" type="string"/>
+    <property column="type_atp_1" lazy="false" length="50" name="type_atp_1" not-null="false" type="string"/>
+    <property column="type_atp_2" lazy="false" length="50" name="type_atp_2" not-null="false" type="string"/>
+    <property column="type_atp_3" lazy="false" length="50" name="type_atp_3" not-null="false" type="string"/>
+    <property column="type_atp_4" lazy="false" length="50" name="type_atp_4" not-null="false" type="string"/>
+    <property column="type_atp_5" lazy="false" length="50" name="type_atp_5" not-null="false" type="string"/>
+    <property column="num_atp_seqs_1" lazy="false" length="50" name="num_atp_seqs_1" not-null="false" type="string"/>
+    <property column="num_atp_seqs_2" lazy="false" length="50" name="num_atp_seqs_2" not-null="false" type="string"/>
+    <property column="num_atp_seqs_3" lazy="false" length="50" name="num_atp_seqs_3" not-null="false" type="string"/>
+    <property column="num_atp_seqs_4" lazy="false" length="50" name="num_atp_seqs_4" not-null="false" type="string"/>
+    <property column="num_atp_seqs_5" lazy="false" length="50" name="num_atp_seqs_5" not-null="false" type="string"/>
+    <property column="shock_energy_1" lazy="false" length="50" name="shock_energy_1" not-null="false" type="string"/>
+    <property column="shock_energy_2" lazy="false" length="50" name="shock_energy_2" not-null="false" type="string"/>
+    <property column="shock_energy_3" lazy="false" length="50" name="shock_energy_3" not-null="false" type="string"/>
+    <property column="shock_energy_4" lazy="false" length="50" name="shock_energy_4" not-null="false" type="string"/>
+    <property column="shock_energy_5" lazy="false" length="50" name="shock_energy_5" not-null="false" type="string"/>
+    <property column="num_shocks_1" lazy="false" length="50" name="num_shocks_1" not-null="false" type="string"/>
+    <property column="num_shocks_2" lazy="false" length="50" name="num_shocks_2" not-null="false" type="string"/>
+    <property column="num_shocks_3" lazy="false" length="50" name="num_shocks_3" not-null="false" type="string"/>
+    <property column="num_shocks_4" lazy="false" length="50" name="num_shocks_4" not-null="false" type="string"/>
+    <property column="num_shocks_5" lazy="false" length="50" name="num_shocks_5" not-null="false" type="string"/>
+    <property column="subID" lazy="false" length="11" name="subID" not-null="false" type="integer"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.hibernate.LEAD2" table="LEAD" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="increment">
+			</generator>
+		</id>
+		<many-to-one name="system" cascade="lock" column="SystemID" class="tr.com.srdc.icardea.hibernate.System" not-null="true" lazy="no-proxy" access="field">
+		</many-to-one>
+		<property name="model" column="model" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="serial" column="serial" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="mfg" column="mfg" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="implant_dt" column="implant_dt" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="polarity_type" column="polarity_type" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="location" column="location" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="location_detail_1" column="location_detail_1" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="location_detail_2" column="location_detail_2" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="location_detail_3" column="location_detail_3" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="connection_status" column="connection_status" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="special_function" column="special_function" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="subID" column="subID" type="integer" length="11" not-null="false" lazy="false"/>
+	</class>
+</hibernate-mapping>

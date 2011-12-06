@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.hibernate.STAT" table="STAT" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="increment">
+			</generator>
+		</id>
+		<many-to-one name="system" column="SystemID" class="tr.com.srdc.icardea.hibernate.System" cascade="save-update,lock" unique="true" not-null="true" lazy="no-proxy" access="field">
+		</many-to-one>
+		<property name="dtm_start" column="dtm_start" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="dtm_end" column="dtm_end" type="string" length="50" not-null="false" lazy="false"/>
+		<one-to-one name="hEART_RATE" class="tr.com.srdc.icardea.hibernate.HEART_RATE" cascade="save-update,lock" property-ref="sTAT" lazy="no-proxy" access="field"/>
+		<one-to-one name="aT" class="tr.com.srdc.icardea.hibernate.AT" cascade="save-update,lock" property-ref="sTAT" lazy="no-proxy" access="field"/>
+		<set name="ORM_ePISODESTAT" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="STATID" not-null="false"/>
+			<one-to-many class="tr.com.srdc.icardea.hibernate.EPISODESTAT"/>
+		</set>
+		<one-to-one name="bRADYSTAT" class="tr.com.srdc.icardea.hibernate.BRADYSTAT" cascade="save-update,lock" property-ref="sTAT" lazy="no-proxy" access="field"/>
+		<one-to-one name="cRTSTAT" class="tr.com.srdc.icardea.hibernate.CRTSTAT" cascade="save-update,lock" property-ref="sTAT" lazy="no-proxy" access="field"/>
+		<one-to-one name="tACHYTHERAPYSTAT" class="tr.com.srdc.icardea.hibernate.TACHYTHERAPYSTAT" cascade="save-update,lock" property-ref="sTAT" lazy="no-proxy" access="field"/>
+	</class>
+</hibernate-mapping>

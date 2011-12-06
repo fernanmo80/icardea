@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ //
+  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
+  ~ //   
+  ~ //  TERMS OF USE  
+  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
+  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
+  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
+  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
+  ~ //
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  -->
+<!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ // This tool can be used to change diagrammer mode (link creation, hand or selection mode)
+  ~ // It also reflect change to diagrammer mode, should this change be cause by this tool  
+  ~ // or an external cause.
+  ~ ////////////////////////////////////////////////////////////////////////////////
+ -->
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="Wait Step Properties" height="258" width="290">
+	<mx:VBox xmlns="fr.kapit.skin.component.*"
+          xmlns:groe_org="org.groe.html.*"
+           buttonMode="true" borderColor="#DBD6D1" alpha="1.0" backgroundColor="#cccccc" horizontalAlign="left"
+           verticalAlign="top" width="259" height="211"
+           creationComplete="init()">
+    <mx:Script>
+		<![CDATA[
+			import tr.com.srdc.icardea.model.variables.DataSource;
+			import tr.com.srdc.icardea.model.steps.recordAction.EventAction;
+			import mx.controls.Alert;
+			import tr.com.srdc.icardea.model.variables.Variable;
+			import tr.com.srdc.icardea.model.steps.recordAction.Duration;
+			import mx.managers.PopUpManager;
+			import tr.com.srdc.icardea.model.steps.WaitStep;
+			
+        [Bindable]
+        public var wStep:WaitStep = new WaitStep;
+        [Bindable]
+        public var durationTime:Duration;
+        [Bindable]
+        public var eStep:EventAction;
+       
+    
+        
+        
+        private function init():void{
+        	stack.selectedIndex = 0;
+        }
+        private function add():void {
+        	if(event_duration.selectedItem == "Event")
+        	{
+        		stack.selectedIndex = 2;
+        	}	
+        	if(event_duration.selectedItem == "Duration")
+        		stack.selectedIndex = 1;	
+        }
+        
+        private function save():void {
+        	if(eStep != null ){
+        		if(wStep == null)
+        			wStep = new WaitStep;
+        		wStep.eventAction = eStep;
+        		durationEventFlag.text = "Event Action is added";
+        	}
+        		
+        	else if (durationTime != null){
+        		if(wStep == null)
+        			wStep = new WaitStep;
+        		wStep.duration = durationTime;
+        		durationEventFlag.text = "Duration is added";
+        	}
+        	PopUpManager.removePopUp(this);	
+        }
+        private function cancel():void {
+        	PopUpManager.removePopUp(this);
+        }
+        private function cancelDuration():void {
+        	stack.selectedIndex = 0;
+        }
+        private function saveDuration():void {
+        	durationTime= new Duration;
+        	durationTime.amount = amount.text;
+        	durationTime.unit = unit.selectedLabel;
+        	stack.selectedIndex = 0;
+        }
+        private function cancelEvent():void {
+        	stack.selectedIndex = 0;
+        }
+        private function saveEvent():void {
+        	eStep = new EventAction;
+        
+        	if(dataSource.selectedLabel == "Cardiac Implantable Electronic Device")
+        	{
+        		var ds:DataSource = new DataSource;
+        		ds.code = "C0581396";
+        		ds.name = "Cardiac implant device";
+        		ds.schemeID = "UMLS";
+        		eStep.dataSources.addItem(ds);
+        	}
+        	if(dataSource.selectedLabel == "Electronic Health Records" || dataSource.selectedLabel == "Personal Health Records")
+        	{
+        		var ds:DataSource = new DataSource;
+        		if(ehrPhrSources.selectedLabel == "Problem")
+        		{
+        			ds.code = "C0033213";
+        			ds.name = "Problem";
+        		}
+        		else if(ehrPhrSources.selectedLabel == "Patient")
+        		{
+        			ds.code = "C1704791";
+        			ds.name = "Patient";
+        		}
+        		else if(ehrPhrSources.selectedLabel == "Procedure")
+        		{
+        			ds.code = "C1948041";
+        			ds.name = "Procedure";
+        		}
+        		else if(ehrPhrSources.selectedLabel == "Care plan")
+        		{
+        			ds.code = "C0178916";
+        			ds.name = "Care plan";
+        		}
+        		else if(ehrPhrSources.selectedLabel == "Imaging Result")
+        		{
+        			ds.code = "C1254595";
+        			ds.name = "ImagingResult";
+        		}
+        		else if(ehrPhrSources.selectedLabel == "Medication")
+        		{
+        			ds.code = "C2598133";
+        			ds.name = "Medication";
+        		}
+        		else
+        		{
+        			ds.code = "";
+        			ds.name = "";
+        		}
+        		ds.schemeID = "UMLS";
+        		eStep.dataSources.addItem(ds);
+        		
+        		var ds1:DataSource = new DataSource;
+        		ds1.code = "C1562065";
+        		ds1.name = "Record of health event";
+        		ds1.schemeID = "UMLS";
+        		eStep.dataSources.addItem(ds1);
+        		
+        	}
+        	stack.selectedIndex = 0;
+        }
+ 
+        private function changeSources():void{
+        	if(dataSource.selectedLabel == "Electronic Health Records" || dataSource.selectedItem == "Personal Health Records")
+        		ehrPhrSources.visible = true;
+        	else
+        		ehrPhrSources.visible = false;	
+        }
+    	        ]]>
+	</mx:Script>
+	<mx:Spacer height="5%"/>
+	<mx:ViewStack id="stack" width="250" height="172">
+		<mx:VBox id="waitStep">
+			<mx:TextInput id="waitName" text="{this.wStep.name}" width="161"/>
+		    <mx:Spacer height="5%"/>
+		    <mx:HBox width="239" height="52">
+		    	<mx:ComboBox id="event_duration">
+			    	<mx:ArrayCollection>
+						<mx:String>Event</mx:String>
+						<mx:String>Duration</mx:String>
+					</mx:ArrayCollection>
+		    	</mx:ComboBox>
+		    	<mx:Button label="Add" click="add()" width="59"/>
+		    </mx:HBox>
+		    <mx:Text id = "durationEventFlag" width="209"/>
+		    <mx:HBox width="239" height="28">
+		    	<mx:Button label="SAVE" click="save()" width="80"/>
+		    	<mx:Button label="CANCEL" click="cancel()" width="80"/>
+		    </mx:HBox>
+		</mx:VBox>
+		<mx:VBox id="duration">
+			<mx:Label text="Unit:"/>
+			<mx:ComboBox id="unit">
+				<mx:ArrayCollection>
+					<mx:String>nanosecond</mx:String>
+					<mx:String>microsecond</mx:String>
+					<mx:String>milisecond</mx:String>
+					<mx:String>second</mx:String>
+					<mx:String>minute</mx:String>
+					<mx:String>hour</mx:String>
+					<mx:String>day</mx:String>
+					<mx:String>week</mx:String>
+					<mx:String>month</mx:String>
+					<mx:String>year</mx:String>
+				</mx:ArrayCollection>
+			</mx:ComboBox>
+			<mx:Label text="Amount:"/>
+		    <mx:TextInput id="amount" width="158"/>
+		    <mx:Spacer height="5%"/>
+		    <mx:HBox width="177" height="28">
+		    	<mx:Button label="SAVE" click="saveDuration()" width="80"/>
+		    	<mx:Button label="CANCEL" click="cancelDuration()" width="80"/>
+		    </mx:HBox>
+		</mx:VBox>
+		<mx:VBox id="eventStep">
+		    <mx:Label text="Select Data Source:"/>
+		    <mx:ComboBox id="dataSource" width="219" change="changeSources()">
+			    <mx:ArrayCollection>
+					<mx:String>Cardiac Implantable Electronic Device</mx:String>
+					<mx:String>Electronic Health Records</mx:String>
+					<mx:String>Personal Health Records</mx:String>
+				</mx:ArrayCollection>
+		    </mx:ComboBox>
+		    <mx:Spacer height="6"/>
+		    <mx:ComboBox visible="false" id="ehrPhrSources">
+		    	<mx:ArrayCollection>
+					<mx:String>Problem</mx:String>
+					<mx:String>Patient</mx:String>
+					<mx:String>Procedure</mx:String>
+					<mx:String>Care plan</mx:String>
+					<mx:String>Imaging Result</mx:String>
+					<mx:String>Medication</mx:String>
+				</mx:ArrayCollection>
+		    </mx:ComboBox>
+		    <mx:Spacer height="20"/>
+		    <mx:HBox width="177" height="28">
+		    	<mx:Button label="SAVE" click="saveEvent()" width="80"/>
+		    	<mx:Button label="CANCEL" click="cancelEvent()" width="80"/>
+		    </mx:HBox>
+		</mx:VBox>
+	</mx:ViewStack>
+</mx:VBox>    
+</mx:TitleWindow>
+

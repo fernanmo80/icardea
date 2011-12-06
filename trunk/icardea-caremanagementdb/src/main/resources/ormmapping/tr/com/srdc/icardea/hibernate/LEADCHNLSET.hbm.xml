@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.LEADCHNLSET" table="LEADCHNLSET">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <property column="chamber" lazy="false" length="50" name="chamber" not-null="false" type="string"/>
+    <property column="subID" lazy="false" length="11" name="subID" not-null="false" type="integer"/>
+    <many-to-one access="field" cascade="lock" class="tr.com.srdc.icardea.hibernate.SET" column="SETID" lazy="no-proxy" name="sET" not-null="true">
+		</many-to-one>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.SENSINGSET" lazy="no-proxy" name="sENSINGSET" property-ref="lEADCHNLSET"/>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.PACING" lazy="no-proxy" name="pACING" property-ref="lEADCHNLSET"/>
+  </class>
+</hibernate-mapping>

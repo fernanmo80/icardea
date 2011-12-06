@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.careplanengine.entities.UserRole" table="ROLE">
+		<id name="roleID" column="ROLEID">
+			<generator class="assigned"/>
+		</id>
+		
+		<property name="roleName" column="ROLENAME"/>
+		<property name="information" column="INFORMATION"/>
+
+	</class>
+</hibernate-mapping>

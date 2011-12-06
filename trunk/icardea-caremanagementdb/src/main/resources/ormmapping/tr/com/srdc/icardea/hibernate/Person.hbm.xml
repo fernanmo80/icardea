@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.Person" table="Person">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <property column="Identifier" lazy="false" length="50" name="identifier" not-null="false" type="string"/>
+    <property column="AlternateIdentifier" lazy="false" length="50" name="alternateIdentifier" not-null="false" type="string"/>
+    <property column="Name" lazy="false" length="50" name="name" not-null="false" type="string"/>
+    <property column="Surname" lazy="false" length="50" name="surname" not-null="false" type="string"/>
+    <property column="MiddleName" lazy="false" length="50" name="middleName" not-null="false" type="string"/>
+    <property column="Title" lazy="false" length="50" name="title" not-null="false" type="string"/>
+    <property column="Role" lazy="false" length="50" name="role" not-null="false" type="string"/>
+    <property column="Username" lazy="false" length="50" name="username" not-null="false" type="string"/>
+    <property column="Password" lazy="false" length="50" name="password" not-null="false" type="string"/>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.Organization" lazy="no-proxy" name="organization" property-ref="person"/>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.Contact" lazy="no-proxy" name="contact" property-ref="person"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.System" table="System">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.Observation" lazy="no-proxy" name="observation" property-ref="system"/>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.PG" lazy="no-proxy" name="pG" property-ref="system"/>
+    <set cascade="save-update,lock" inverse="true" lazy="true" name="ORM_lEAD2">
+      <key column="SystemID" not-null="true"/>
+      <one-to-many class="tr.com.srdc.icardea.hibernate.LEAD2"/>
+    </set>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.SESS" lazy="no-proxy" name="sESS" property-ref="system"/>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.MSMT" lazy="no-proxy" name="mSMT" property-ref="system"/>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.SET" lazy="no-proxy" name="sET" property-ref="system"/>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.STAT" lazy="no-proxy" name="sTAT" property-ref="system"/>
+    <set cascade="save-update,lock" inverse="true" lazy="true" name="ORM_ePISODEROOT">
+      <key column="SystemID" not-null="true"/>
+      <one-to-many class="tr.com.srdc.icardea.hibernate.EPISODEROOT"/>
+    </set>
+  </class>
+</hibernate-mapping>

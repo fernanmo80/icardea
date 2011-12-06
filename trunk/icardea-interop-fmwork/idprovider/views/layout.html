@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+ <head>
+   <title>iCARDEA Identity Provider {% block htmlTitle %}{% endblock %}</title>
+<!--[if lt IE 9]>
+ <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+<![endif]-->
+  <link rel="stylesheet" type="text/css" href="static/main.css"/>
+  <link rel="stylesheet" type="text/css" href="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/themes/sunny/jquery-ui.css"/>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+  <link href="static/openid_favicon.png" rel="shortcut icon" type="image/x-icon" />
+  <!-- <link
+  href="//www.srdc.com.tr/icardea/templates/keepitsimple/favicon.ico"
+  rel="shortcut icon" type="image/x-icon" /> -->
+  {% block htmlHead %}{% endblock %}
+  <script type="text/javascript" src="static/jquery.cookie.js"></script>
+  <script type="text/javascript" charset="utf-8">
+          var show_flash = function() {
+              var cookie_name = "icardea_op_flash";
+              var cookie = $.cookie(cookie_name);
+              if (cookie) {
+                  var flash = $.parseJSON($.parseJSON(cookie.replace(/\+/g, ' ')));
+                  var div = $('#alerts');
+                  if (flash.errors) {
+                      var p = $('<p>');
+                      var e = flash.errors;
+                      p.attr('class', "ui-state-error ui-corner-all").append($('<span>').attr('class', "ui-icon ui-icon-alert").attr('style', "float: left; margin-right: 0.3em;")).append($('<strong>').text(e));
+                      div.append(p);
+                  }
+                  else if (flash.success) {
+                      var p = $('<p>');
+                      p.attr('class', "ui-state-highlight ui-corner-all").append($('<span>').attr('class', "ui-icon ui-icon-info").attr('style', "float: left; margin-right: 0.3em;")).append($('<strong>').text(flash.success));
+                      div.append(p);
+                  }
+                  $.cookie(cookie_name, null);
+              }
+          }
+
+
+          $(function() { show_flash(); });
+      </script>
+</head>
+<body>
+    <div id="container">
+        <div id="header">
+            <h1><a href="home">iCARDEA Identity Provider</a></h1>
+        </div>
+        <div id="nav">
+            <ul class="menu">
+                {% if userid %}
+                <li><a class="ui-corner-top" href="logout" id="logout_link">Logout</a> </li>
+                <li><a class="ui-corner-top" href="approved" >Approvals</a> </li>
+                {% else %}
+                <li><a class="ui-corner-top" href="login">Login</a></li>
+                <li><a class="ui-corner-top" href="signup">Sign Up</a></li>
+                {%endif%}
+            </ul>
+            {% if userid %}
+            <div id="myopid"><a class="opid" href="{{identity}}">{{userid}}</a></div>
+            {% endif %}
+        </div>
+        <div id="content">
+            <div id="alerts"> </div>
+            {% block htmlBody %}{% endblock %}
+        </div>
+    </div>
+    <div id="clearfooter"></div>
+    {% block footer %}
+    <div id="footer">
+        &copy; 2010-2011 <a href="http://www.ics.forth.gr/">FORTH-ICS</a> All rights reserved.
+    </div>
+    {% endblock %}
+    <form name="logout_form" id="logout_form" method="post" action="logout">
+        <input type="hidden" name="perform_logout" value="1">
+        <input type="submit" value="Logout" id="perform_logout_button">
+    </form>
+
+    <script type="text/javascript">
+        $('#perform_logout_button').hide();
+        $('#logout_link').click(function() {
+            document.logout_form.submit(); return false; });
+    </script>
+    
+</body>
+</html>

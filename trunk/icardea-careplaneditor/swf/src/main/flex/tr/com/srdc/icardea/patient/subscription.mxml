@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ //
+  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
+  ~ //   
+  ~ //  TERMS OF USE  
+  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
+  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
+  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
+  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
+  ~ //
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  -->
+<!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ // This tool can be used to change diagrammer mode (link creation, hand or selection mode)
+  ~ // It also reflect change to diagrammer mode, should this change be cause by this tool  
+  ~ // or an external cause.
+  ~ ////////////////////////////////////////////////////////////////////////////////
+ -->
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="Subscription" height="478" width="584" initialize="init()">
+
+    <mx:Script>
+		<![CDATA[
+			import mx.messaging.channels.SecureAMFChannel;
+			import mx.messaging.Channel;
+			import mx.messaging.ChannelSet;
+			import mx.rpc.remoting.RemoteObject;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import tr.com.srdc.icardea.model.userRoles.Patient;
+			
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+		import mx.collections.ArrayCollection;
+		
+				
+		[Bindable]
+		public var patientList:ArrayCollection = new ArrayCollection;
+		
+		[Bindable]
+		public var topicArr:ArrayCollection = new ArrayCollection;
+		
+		[Bindable]
+		public var registeredPatient:ArrayCollection = new ArrayCollection;
+	
+	    [Bindable]
+		public var sparent:patients;
+		
+		[Bindable]
+		public var topicsForEHR:ArrayCollection = new ArrayCollection;
+		
+		[Bindable]
+		public var topicsForPHR:ArrayCollection = new ArrayCollection;
+		
+		[Bindable]
+		public var patient:Patient;
+		
+		public function init():void
+		{
+			if(sparent.dgrid.selectedItem != null)
+			{
+				
+				patient.name = sparent.dgrid.selectedItem.name;
+				patientName.text = sparent.dgrid.selectedItem.name;
+				
+				patient.personID = sparent.dgrid.selectedItem.personID;
+				patientID.text = sparent.dgrid.selectedItem.personID;
+				
+				patient.surname = sparent.dgrid.selectedItem.surname;
+				patientSurname.text = sparent.dgrid.selectedItem.surname;
+				
+				patient.gender = sparent.dgrid.selectedItem.gender;
+				gender.text = sparent.dgrid.selectedItem.gender;
+				
+				patient.dateOfBirth = sparent.dgrid.selectedItem.dateOfBirth;
+				dateOfBirth.text = sparent.dgrid.selectedItem.dateOfBirth;
+							
+				topicsForEHR=patient.ehrSubscriptions;
+				topicsForPHR=patient.phrSubscriptions;
+			}
+			topicArr.addItem("COBSCAT: All Vital Signs");
+	        topicArr.addItem("MEDCCAT: All problem entries");
+	        topicArr.addItem("CONDLIST: All Concern Entries");
+	        topicArr.addItem("PROBLIST: All Problem Concerns");
+	        topicArr.addItem("INTOLIST: All Allergy Concerns");
+	        topicArr.addItem("RISKLIST: All Risks");
+	        topicArr.addItem("LABCAT: All Lab Results");
+	        topicArr.addItem("DICAT: All Imaging Results");
+	        topicArr.addItem("RXCAT: All Medications");
+	        topicArr.addItem("MEDLIST: All Medications");
+	        topicArr.addItem("CURMEDLIST: All active medications");
+	        topicArr.addItem("DISCHMEDLIST: Discharge Medications");
+	        topicArr.addItem("HISTMEDLIST: All Historical Medications");
+	        topicArr.addItem("IMMUCAT: All Immunizations");
+	        topicArr.addItem("PSVCCAT: All professional service entries");	
+			
+		
+		}
+		public function add():void
+		{
+			if(destination.selectedItem == "EHR")
+				topicsForEHR.addItem(topic.selectedItem);
+			if(destination.selectedItem == "PHR")
+				topicsForPHR.addItem(topic.selectedItem);	
+				
+		}
+		public function remove():void
+		{
+			if(topicListForEHR.selectedItem != null)
+				topicsForEHR.removeItemAt(topicListForEHR.selectedIndex);
+			if(topicListForPHR.selectedItem != null)
+				topicsForPHR.removeItemAt(topicListForPHR.selectedIndex);	
+		}
+		
+		public function subscribe():void
+		{
+			patient.ehrSubscriptions = topicsForEHR;
+			patient.phrSubscriptions = topicsForPHR;
+			
+			trace(patient.name);
+			//trace(patient.phrSubscriptions.getItemAt(0));
+			
+			var service : RemoteObject = new RemoteObject("subscriptionService");
+			var cs:ChannelSet = new ChannelSet();
+			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+			cs.addChannel(customChannel);
+			service.channelSet = cs;
+			service.addEventListener(ResultEvent.RESULT,onResultSubscription);
+			service.addEventListener(FaultEvent.FAULT, onFault);
+			
+		
+			
+			if(sparent.slist == null)
+				sparent.slist = new subscriptionList;
+			else
+			{	
+				sparent.slist.topicListForEHR = topicListForEHR;
+				sparent.slist.topicListForPHR = topicListForPHR;
+			}
+			service.setSubscriptions(patient);
+			//service.setPhrSubscriptions(patient);
+			
+			PopUpManager.removePopUp(this);
+		}
+		
+	   public function onResultSubscription(result:ResultEvent):void 
+       {
+       		
+       	
+       } 
+       
+       public function onFault(fault:FaultEvent):void 
+       {
+       		Alert.show(fault.fault.faultString);	
+       	
+       }
+		public function changeCombo():void
+		{
+			if(destination.selectedItem.toString() == "EHR")
+			{
+				if(topicArr != null)
+					topicArr.removeAll();
+					
+			   topicArr.addItem("COBSCAT: All Vital Signs");
+               topicArr.addItem("MEDCCAT: All problem entries");
+               topicArr.addItem("CONDLIST: All Concern Entries");
+               topicArr.addItem("PROBLIST: All Problem Concerns");
+               topicArr.addItem("INTOLIST: All Allergy Concerns");
+               topicArr.addItem("RISKLIST: All Risks");
+               topicArr.addItem("LABCAT: All Lab Results");
+               topicArr.addItem("DICAT: All Imaging Results");
+               topicArr.addItem("RXCAT: All Medications");
+               topicArr.addItem("MEDLIST: All Medications");
+               topicArr.addItem("CURMEDLIST: All active medications");
+               topicArr.addItem("DISCHMEDLIST: Discharge Medications");
+               topicArr.addItem("HISTMEDLIST: All Historical Medications");
+               topicArr.addItem("IMMUCAT: All Immunizations");
+               topicArr.addItem("PSVCCAT: All professional service entries");	
+				
+			}
+		}
+		
+        
+        ]]>
+	</mx:Script>
+		
+	<mx:Spacer height="5"/>
+	<mx:VBox width="554" height="419">
+		<mx:HBox>
+			<mx:Label text="Patient ID:" width="102"/>
+			<mx:Text id="patientID"/>
+		</mx:HBox>
+		<mx:HBox>
+			<mx:Label text="Patient Name:" width="102"/>
+			<mx:Text id="patientName"/>
+		</mx:HBox>
+		<mx:HBox>
+			<mx:Label text="Patient Surname:" width="102"/>
+			<mx:Text id="patientSurname"/>
+		</mx:HBox>
+		<mx:HBox>
+			<mx:Label text="Date of Birth:" width="102"/>
+			<mx:Text width="127" id="dateOfBirth"/>
+		</mx:HBox>
+		<mx:HBox width="238">
+			<mx:Label text="Gender:" width="102"/>
+			<mx:Text  id="gender"/>
+		</mx:HBox>
+			<mx:Spacer width="30"/>
+		<mx:HBox height="69" width="549">
+			<mx:Label text="To:" width="42"/>
+			<mx:ComboBox id="destination" change="changeCombo()" width="70">
+				<mx:ArrayCollection>
+					<mx:String>EHR</mx:String>
+				   		<mx:String>PHR</mx:String>
+				   	</mx:ArrayCollection>
+			</mx:ComboBox>
+			<mx:Label text="Topic:" width="45"/>
+			<mx:ComboBox id="topic" dataProvider="{topicArr}" width="233">
+			</mx:ComboBox>
+			<mx:Spacer width="19" height="0"/>
+			<mx:VBox height="62" width="88">
+				<mx:Button label="Add" click="add()" width="85"/>
+				<mx:Button label="Remove" click="remove()" width="85"/>
+			</mx:VBox>
+		</mx:HBox>
+		<mx:HBox>
+			<mx:Label text="EHR Subscriptions:" width="103"/>
+			<mx:Spacer width="159"/>
+			<mx:Label text="PHR Subscriptions:"/>
+		</mx:HBox>
+		<mx:HBox height="145" width="548">
+			<mx:List height="129" id="topicListForEHR" width="269" dataProvider="{topicsForEHR}"/>
+			<mx:List height="129" id="topicListForPHR" width="264" dataProvider="{topicsForPHR}"/>
+		</mx:HBox>
+		<mx:Button label="Subscribe" enabled="true" click="{subscribe();}" width="81" height="28"/>
+	</mx:VBox>
+</mx:TitleWindow>

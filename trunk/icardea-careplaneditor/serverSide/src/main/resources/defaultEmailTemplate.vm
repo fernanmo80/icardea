@@ -1,0 +1,25 @@
+<html>
+<body>
+<h3>Hi ${person.name},</h3>
+
+<h3>Welcome to the iCARDEA Platform!</h3>
+
+<div>
+   Your can find your credentials to login iCARDEA platform below.
+</div>
+
+ <div>
+	</br>
+    Username:${person.username}	
+</div>
+<div>
+   Password:${person.password}
+</div>
+
+<div>
+</br>
+   Your registered email address is <a href="mailto:${person.contact.email}">${person.contact.email}</a>.
+</div>
+</body>
+
+</html>

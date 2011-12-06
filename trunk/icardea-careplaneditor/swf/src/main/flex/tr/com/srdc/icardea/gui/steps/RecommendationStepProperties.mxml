@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+  
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="Recommendation Step Properties" width="324" height="500">
+	<mx:VBox xmlns="fr.kapit.skin.component.*" xmlns:mx="http://www.adobe.com/2006/mxml"
+           buttonMode="true" borderColor="#DBD6D1" alpha="1.0" backgroundColor="#cccccc" horizontalAlign="left"
+           verticalAlign="top" width="293" height="449" creationComplete="init()">
+    <mx:Script>
+		<![CDATA[
+			import tr.com.srdc.htmlEditor.WindowDesignMain;
+			import mx.controls.Alert;
+			import mx.core.Application;
+			import mx.managers.PopUpManager;
+			import tr.com.srdc.icardea.model.steps.RecommendationStep;
+		
+        [Bindable]
+        public var recommendationStep:RecommendationStep = new RecommendationStep();
+
+		
+ 		private var html:XML = null;	
+
+		private function init():void {
+        	//if (recommendationStep.html != null) htmlBlock = recommendationStep.html;
+        	trace(recommendationStep.display.html.body);
+        }
+
+        private function saveRecommendationChoices():void
+        {
+        	this.recommendationStep.name = recName.text;
+	    	//this.recommendationStep.html = htmlBlock;
+        	//this.recommendationStep.display.html = html;
+        	
+        	//TODO:Degisecek olan recommendation xml ine gore message gonderilecek
+        	//sendPatient
+        	//sendCaregivers
+        	//sendMedicalProfessional
+        	
+        	PopUpManager.removePopUp(this);
+            parentApplication.enabled=true;
+        }
+        
+        private function popHtmlEditor():void {
+        	/* var popBlock:BlockAndScreen = htmlBlock;
+        	popBlock.html = null;
+        	PopUpManager.addPopUp(popBlock, Application.application as DisplayObject,true);
+        	
+        	PopUpManager.centerPopUp(popBlock);
+        	popBlock.addEventListener(Event.CLOSE, htmlHandler); */
+        	var popup:WindowDesignMain = new WindowDesignMain;
+        	popup.display = recommendationStep.display;
+        	trace("popup.display: "+popup.display)
+        	PopUpManager.addPopUp(popup, Application.application as DisplayObject,true);
+        	PopUpManager.centerPopUp(popup);
+        }
+        
+        private function htmlHandler(event:Event):void {
+        	/* html = (event.currentTarget as BlockAndScreen).html;
+        	if (html != null)
+        		Alert.show("Design has been saved.");
+        	(event.currentTarget as BlockAndScreen).removeEventListener(Event.CLOSE, htmlHandler); */
+        }
+
+        ]]>
+	</mx:Script>
+    	<mx:Spacer height="10"/>
+   		<mx:VBox height="368" width="270">
+		    <mx:Label text="Recommendation Message: " width="153" height="28" fontWeight="bold"/>
+		    <mx:TextInput id="recName" text="{this.recommendationStep.name}" width="247" height="51"/>
+		    <mx:Spacer height="5%"/>
+		    <mx:Label text="Shall this message send to:" width="238" height="28" fontWeight="bold"/>
+		    <mx:HBox width="244" height="45">
+		    	<mx:Label text="Patient?" width="135" height="28" fontWeight="bold"/>
+		    	<mx:CheckBox id="sendPatient" label="Yes"/>
+		    </mx:HBox>
+		    <mx:HBox width="245" height="45">
+		    	<mx:Label text="Caregivers?" width="135" height="28" fontWeight="bold"/>
+		    	<mx:CheckBox id="sendCaregivers" label="Yes"/>
+		    </mx:HBox>
+		    <mx:HBox width="243" height="45">
+		    	<mx:Label text="Medical Professional?" width="133" height="28" fontWeight="bold"/>
+		    	<mx:CheckBox id="sendMedicalProfessional" label="Yes"/>
+		    </mx:HBox>
+			<mx:Label id="urgency" text="Urgency level?" width="94" height="28" fontWeight="bold"/>
+			<mx:HBox width="96" height="25">
+				<mx:RadioButtonGroup id="radiogroup1"/>
+				<mx:RadioButton groupName="radiogroup1" fillAlphas="[1.0, 1.0]" fillColors="[#F91313, #F91313]"/>
+				<mx:RadioButton groupName="radiogroup1" fillAlphas="[1.0, 1.0]" fillColors="[#E6EC3B, #E6EC4E]" selected="true"/>
+				<mx:RadioButton groupName="radiogroup1" fillAlphas="[1.0, 1.0]" fillColors="[#14EF28, #14EF28]"/>
+			</mx:HBox>
+		</mx:VBox>
+		<mx:HBox width="269" height="42">
+			<mx:Button label="OK" enabled="true" click="{saveRecommendationChoices()}" width="114" height="29"/>
+	    	<mx:Button label="HTML Design" enabled="true" click="{popHtmlEditor()}" width="114" height="28" />
+		</mx:HBox>
+    
+	</mx:VBox>
+</mx:TitleWindow>

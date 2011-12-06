@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.EHRPHRData" table="EHRPHRData">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <property column="pcc9QueryId" lazy="false" length="255" name="pcc9QueryId" not-null="false" type="string"/>
+    <property column="messageDateTime" lazy="false" length="255" name="messageDateTime" not-null="false" type="string"/>
+    <many-to-one access="field" cascade="lock" class="tr.com.srdc.icardea.hibernate.Patient" column="PatientID" lazy="no-proxy" name="patient" not-null="true">
+		</many-to-one>
+    <property column="isEHR" lazy="false" length="1" name="isEHR" not-null="false" type="integer"/>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.Concern" lazy="no-proxy" name="concern" property-ref="eHRPHRData"/>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.Medication" lazy="no-proxy" name="medication" property-ref="eHRPHRData"/>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.Immunization" lazy="no-proxy" name="immunization" property-ref="eHRPHRData"/>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.Problem" lazy="no-proxy" name="problem" property-ref="eHRPHRData"/>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.ImagingResult" lazy="no-proxy" name="imagingResult" property-ref="eHRPHRData"/>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.Procedure" lazy="no-proxy" name="procedure" property-ref="eHRPHRData"/>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.Encounter" lazy="no-proxy" name="encounter" property-ref="eHRPHRData"/>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.VitalSign" lazy="no-proxy" name="vitalSign" property-ref="eHRPHRData"/>
+  </class>
+</hibernate-mapping>

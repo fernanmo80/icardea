@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.SHOCKVECTOR" table="SHOCKVECTOR">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <property column="anode_location_1" lazy="false" length="50" name="anode_location_1" not-null="false" type="string"/>
+    <property column="anode_location_2" lazy="false" length="50" name="anode_location_2" not-null="false" type="string"/>
+    <property column="anode_location_3" lazy="false" length="50" name="anode_location_3" not-null="false" type="string"/>
+    <property column="anode_electrode_1" lazy="false" length="50" name="anode_electrode_1" not-null="false" type="string"/>
+    <property column="anode_electrode_2" lazy="false" length="50" name="anode_electrode_2" not-null="false" type="string"/>
+    <property column="anode_electrode_3" lazy="false" length="50" name="anode_electrode_3" not-null="false" type="string"/>
+    <property column="cathode_location_1" lazy="false" length="50" name="cathode_location_1" not-null="false" type="string"/>
+    <property column="cathode_location_2" lazy="false" length="50" name="cathode_location_2" not-null="false" type="string"/>
+    <property column="cathode_location_3" lazy="false" length="50" name="cathode_location_3" not-null="false" type="string"/>
+    <property column="cathode_electrode_1" lazy="false" length="50" name="cathode_electrode_1" not-null="false" type="string"/>
+    <property column="cathode_electrode_2" lazy="false" length="50" name="cathode_electrode_2" not-null="false" type="string"/>
+    <property column="cathode_electrode_3" lazy="false" length="50" name="cathode_electrode_3" not-null="false" type="string"/>
+    <many-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.LEADHVCHANNELSET" column="LEADHVCHANNELSETID" lazy="no-proxy" name="lEADHVCHANNELSET" not-null="true" unique="true">
+		</many-to-one>
+  </class>
+</hibernate-mapping>

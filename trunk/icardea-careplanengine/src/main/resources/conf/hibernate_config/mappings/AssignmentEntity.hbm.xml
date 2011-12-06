@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.careplanengine.entities.AssignmentEntity" table="ASSIGNMENT">
+		<id name="assignmentID" column="ID">
+			<generator class="increment"/>
+		</id>
+		
+		<many-to-one name="guidelineEntity" column="GID" unique="true" not-null="true" lazy="false" cascade="save-update"/>
+		
+		<property name="patientCode" column="PID" type="long"/>
+		<property name="status" column="STATUS" type="int"/>
+		
+		<property name="assignedByUserName" column="ASSIGNED_BY"/>
+		<property name="approvedByUserName" column="APPROVED_BY"/>
+		<property name="active" column="IS_ACTIVE"/>
+		<property name="processedGuidelineURL" column="ProcessedGuidelineURL"/>
+		
+		<property name="assignmentDate" column="ASSIGNMENT_DATE" type="timestamp" unique-key="Assignment" not-null="true"/>
+		<property name="approvalDate" column="APPROVAL_DATE" type="timestamp"/>
+		<property name="startToExecutionDate" column="START_DATE" type="timestamp"/>
+
+		<set name="sensorsSetInfos" table="ASSIGNMENT_SENSORS_SET" lazy="false" cascade="save-update">
+			<key column="ASSIGN_ID"/>
+			<many-to-many column="SENSOR_ID" class="tr.com.srdc.icardea.careplanengine.entities.SensorsSetInfo"/>
+		</set>
+
+		<!--No longer used-->
+		<!--set name="customizationInfos" table="ASSIGNMENT_CUSTOMIZATION" lazy="false" cascade="save-update">
+			<key column="ASSIGN_ID"/>
+			<many-to-many column="C_ID" class="de.offis.icardea.SensorDB.AlarmRuleType"/>
+		</set-->
+			
+	</class>	
+</hibernate-mapping>

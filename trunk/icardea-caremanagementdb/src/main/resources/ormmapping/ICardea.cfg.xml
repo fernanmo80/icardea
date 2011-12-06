@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC "-//Hibernate/Hibernate Configuration DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-configuration-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-configuration>
+  <session-factory>
+    <!-- properties -->
+    <property name="dialect">org.hibernate.dialect.MySQLInnoDBDialect</property>
+    <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
+    <property name="connection.url">jdbc:mysql://${mysql.host}:3306/icardea</property>
+    <property name="connection.username">${mysql.username}</property>
+    <property name="connection.password">${mysql.password}</property>
+    <property name="hibernate.connection.provider_class">org.hibernate.connection.C3P0ConnectionProvider</property>
+    <property name="hibernate.c3p0.acquire_increment">1</property>
+    <property name="hibernate.c3p0.idle_test_period">0</property>
+    <property name="hibernate.c3p0.min_size">1</property>
+    <property name="hibernate.c3p0.max_size">15</property>
+    <property name="hibernate.c3p0.timeout">0</property>
+    <property name="show_sql">false</property>
+    <property name="query.substitutions">true 1, false 0, yes 'Y', no 'N'</property>
+	<!-- Disable the second-level cache  -->
+    <property name="hibernate.cache.use_second_level_cache">false</property>
+    
+    <!-- mapping files -->
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/AT.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/BATTERY2.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/BRADYSET.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/BRADYSTAT.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/BinaryData.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/CAP.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/CIEDData.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/CRTSET.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/CRTSTAT.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/Concern.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/Contact.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/EHRPHRData.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/EPISODEROOT.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/EPISODESTAT.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/Encounter.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/HEART_RATE.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/IMPEDANCE.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/ImagingResult.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/Immunization.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/LEAD2.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/LEADCHNLMSMT.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/LEADCHNLSET.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/LEADHVCHANNELMSMT.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/LEADHVCHANNELSET.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/MAGNET.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/MSMT.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/MedicalCareplanTemplate.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/Medication.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/Observation.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/Organization.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/PACING.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/PACINGTHRESHOLD.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/PG.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/Patient.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/PatientHealthcareActorAssignment.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/Person.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/PersonalizedMedicalCareplan.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/PersonalizedMedicalCareplanInstance.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/Problem.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/Procedure.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/SENSINGMSMT.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/SENSINGSET.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/SESS.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/SET.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/SHOCKVECTOR.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/STAT.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/System.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/TACHYTHERAPYSET.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/TACHYTHERAPYSTAT.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/VitalSign.hbm.xml"/>
+    <mapping resource="ormmapping/tr/com/srdc/icardea/hibernate/ZONE.hbm.xml"/>
+  </session-factory>
+</hibernate-configuration>

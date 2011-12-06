@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.careplanengine.entities.GuidelineEntity" table="GUIDELINE_ENTITY">
+		<id name="guidelineID" column="GUIDELINE_ID">
+			<generator class="increment" />
+		</id>
+		<property name="title" column="TITLE"/>
+		<property name="version" column="VERSION"/>
+		<property name="developpingInstitute" column="INSTITUTE"/>
+		<property name="guidelineURL" column="GUIDELINE_URL"/>
+		<property name="internalGuideline" column="INTERNAL_GUIDELINE"/>
+		
+		<set name="diagnosisCodeList" table="GUIDELINE_DIAGNOSIS" lazy="false" cascade="save-update">
+			<key column="GUIDELINE_ID"/>
+			<many-to-many column="DIAGNOSIS_CODE" class="tr.com.srdc.icardea.careplanengine.entities.DiagnosisCode"/>
+		</set>
+		
+	</class>
+</hibernate-mapping>

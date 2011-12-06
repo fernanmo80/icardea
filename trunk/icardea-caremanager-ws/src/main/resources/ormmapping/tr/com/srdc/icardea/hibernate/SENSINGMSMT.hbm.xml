@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.hibernate.SENSINGMSMT" table="SENSINGMSMT" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="increment">
+			</generator>
+		</id>
+		<many-to-one name="lEADCHNLMSMT" column="LEADCHNLMSMTID" class="tr.com.srdc.icardea.hibernate.LEADCHNLMSMT" cascade="save-update,lock" unique="true" not-null="true" lazy="no-proxy" access="field">
+		</many-to-one>
+		<property name="intr_ampl_min" column="intr_ampl_min" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="intr_ampl_max" column="intr_ampl_max" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="intr_ampl_mean" column="intr_ampl_mean" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="polarity" column="polarity" type="string" length="50" not-null="false" lazy="false"/>
+		<property name="intr_ampl" column="intr_ampl" type="string" length="50" not-null="false" lazy="false"/>
+	</class>
+</hibernate-mapping>

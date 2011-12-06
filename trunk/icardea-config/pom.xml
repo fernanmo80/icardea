@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<version>1.0-SNAPSHOT</version>
+	<groupId>tr.com.srdc.icardea</groupId>
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>configuration</artifactId>
+	<name>iCARDEA Configuration Project</name>
+	<packaging>pom</packaging>
+	<properties>		
+		<icardea.home>D:/yildiray/codes/iCardea</icardea.home>
+		<mysql.host>localhost</mysql.host>
+		<mysql.username>root</mysql.username>
+		<mysql.password>icardea</mysql.password>		
+		<ehr.pcc9.endpoint>http://localhost:9080/pcc/</ehr.pcc9.endpoint>		
+		<phr.pcc9.endpoint>http://127.0.0.1:7070/pcc09ws/QUPCAR004040UV_Service</phr.pcc9.endpoint>		
+		<pcc10.endpoint>https://localhost:8080/icardea-caremanager-ws/services/QUPC_AR004030UV_Service.QUPC_AR004030UV_ServiceHttpSoap12Endpoint/</pcc10.endpoint>		
+		<use.ws.addressing.for.ehr>true</use.ws.addressing.for.ehr>		
+		<use.ws.addressing.for.phr>false</use.ws.addressing.for.phr>		
+		<cts.endpoint>https://localhost:8080/ctsWS/services/</cts.endpoint>		
+		<consent.ws.endpoint>https://localhost:8080/consenteditor/services/ConsentManagerImplService/</consent.ws.endpoint>		
+		<umls.mysql.host>localhost</umls.mysql.host>
+		<umls.mysql.username>root</umls.mysql.username>
+		<umls.mysql.password>icardea</umls.mysql.password>
+		<!-- eger sistem saatinin kullanilmasini istiyorsan -->
+		<!--current.date>system</current.date-->
+		<current.date>20101205</current.date>
+		<sms.provider>salk</sms.provider>
+		<atna.tls>true</atna.tls>
+		<atna.log>true</atna.log>
+		<eif.host>10.0.0.1</eif.host>
+		<eif.port>1111</eif.port>
+	</properties>
+</project>

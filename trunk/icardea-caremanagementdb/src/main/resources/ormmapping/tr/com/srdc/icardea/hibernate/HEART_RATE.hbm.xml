@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.HEART_RATE" table="HEART_RATE">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <many-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.STAT" column="STATID" lazy="no-proxy" name="sTAT" not-null="true" unique="true">
+		</many-to-one>
+    <property column="dtm_start" lazy="false" length="50" name="dtm_start" not-null="false" type="string"/>
+    <property column="dtm_end" lazy="false" length="50" name="dtm_end" not-null="false" type="string"/>
+    <property column="atrial_min" lazy="false" length="50" name="atrial_min" not-null="false" type="string"/>
+    <property column="atrial_max" lazy="false" length="50" name="atrial_max" not-null="false" type="string"/>
+    <property column="atrial_mean" lazy="false" length="50" name="atrial_mean" not-null="false" type="string"/>
+    <property column="ventricular_min" lazy="false" length="50" name="ventricular_min" not-null="false" type="string"/>
+    <property column="ventricular_max" lazy="false" length="50" name="ventricular_max" not-null="false" type="string"/>
+    <property column="ventricular_mean" lazy="false" length="50" name="ventricular_mean" not-null="false" type="string"/>
+  </class>
+</hibernate-mapping>

@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow initialize="init()" xmlns:mx="http://www.adobe.com/2006/mxml" title="Make List" xmlns:scriptEditor="tr.com.srdc.icardea.gui.scriptEditor.*" width="610" height="350">
+	<mx:Script>
+		<![CDATA[
+			import tr.com.srdc.icardea.model.variables.VariablesList;
+			import mx.controls.List;
+			import tr.com.srdc.icardea.model.variables.VariablesList;
+			import mx.collections.ArrayCollection;
+			import mx.managers.PopUpManager;
+			import tr.com.srdc.icardea.model.variables.Variable;
+		[Bindable]
+		public var varList:ArrayCollection = new ArrayCollection;
+		[Bindable]
+		public var varListNew:ArrayCollection = new ArrayCollection;
+		[Bindable]
+		public var sparent:ScriptEditor;
+		
+		
+		public function init():void
+		{
+			varList = sparent.script.variableList;
+		}
+		
+		public function addToList():void
+		{
+			varListNew.addItem(variableList.selectedItem as Variable);
+		}
+		
+		public function makeList():void
+		{
+			var newList:VariablesList = new VariablesList;
+			newList.listName = listName.text;
+			newList.listElements = varListNew;
+			sparent.definedVarLists.addItem(newList);
+			PopUpManager.removePopUp(this);
+		}
+		]]>
+	</mx:Script>
+	<mx:Spacer height="4"/>
+	<mx:HBox width="285" height="27">
+		<mx:Label text="List Name:" width="71"/>
+		<mx:TextInput id="listName" width="169"/>
+	</mx:HBox>
+	<mx:HBox width="100%" height="214">
+		<mx:VBox>
+			<mx:Label text="Please choose the variables to make list"/>
+			<mx:DataGrid dataProvider="{varList}" id="variableList" height="170" width="250">
+				<mx:columns>
+					<mx:DataGridColumn headerText="Name" dataField="name"/>
+					<mx:DataGridColumn headerText="Type" dataField="type" width="100"/>
+				</mx:columns>
+			</mx:DataGrid>
+		</mx:VBox>
+		
+		<mx:VBox width="49" height="88">
+			<mx:Spacer height="50"/>
+			<mx:Button label="&gt;&gt;" click="addToList()"/>
+		</mx:VBox>
+		<mx:VBox>
+			<mx:Label text="New list elements"/>
+			<mx:DataGrid dataProvider="{varListNew}" id="variableListNew" height="170" width="250">
+				<mx:columns>
+					<mx:DataGridColumn headerText="Name" dataField="name"/>
+					<mx:DataGridColumn headerText="Type" dataField="type" width="100"/>
+				</mx:columns>
+			</mx:DataGrid>
+		</mx:VBox>
+	</mx:HBox>
+	<mx:Button label="SAVE" click="makeList()" width="69" height="34"/>
+</mx:TitleWindow>

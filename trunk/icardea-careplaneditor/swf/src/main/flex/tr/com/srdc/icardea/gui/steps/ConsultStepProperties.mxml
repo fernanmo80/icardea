@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ //
+  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
+  ~ //   
+  ~ //  TERMS OF USE  
+  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
+  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
+  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
+  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
+  ~ //
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  -->
+<!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ // This tool can be used to change diagrammer mode (link creation, hand or selection mode)
+  ~ // It also reflect change to diagrammer mode, should this change be cause by this tool  
+  ~ // or an external cause.
+  ~ ////////////////////////////////////////////////////////////////////////////////
+ -->
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="Consult Step Properties" >
+<mx:VBox xmlns="fr.kapit.skin.component.*"
+          xmlns:groe_org="org.groe.html.*"
+           buttonMode="true" borderColor="#DBD6D1" alpha="1.0" backgroundColor="#cccccc" horizontalAlign="left"
+           verticalAlign="top" width="100%" height="100%"
+           creationComplete="init()">
+    <mx:Script>
+		<![CDATA[
+			import tr.com.srdc.htmlEditor.WindowDesignMain;
+			import tr.com.srdc.icardea.model.careplan.Script;
+			import tr.com.srdc.icardea.gui.variables.VariableProperties;
+			import tr.com.srdc.icardea.model.htmlEditor.HTML;
+			import tr.com.srdc.icardea.gui.scriptEditor.ScriptEditor;
+		
+		import mx.controls.TextArea;
+		import tr.com.srdc.icardea.model.variables.Variable;
+		import com.googlecode.flexxb.FlexXBEngine;
+		import tr.com.srdc.icardea.model.steps.ConsultStep;
+		import mx.core.Application;
+		import mx.controls.Alert;
+		import mx.managers.PopUpManager;
+		import mx.collections.ArrayCollection;
+		import com.kapit.diagram.DiagramEvent;
+        import com.kapit.diagram.view.DiagramView;
+        import mx.core.UIComponent;
+
+  		
+        
+        [Bindable]
+        public var types:ArrayCollection=new ArrayCollection();
+        [Bindable]
+        public var consultStep:ConsultStep = new ConsultStep();
+    	[Bindable]
+ 		public var consultVar:Variable;
+ 	    [Bindable]
+        public var refinementScript:ScriptEditor;
+        [Bindable]
+        public var script:Script;
+        
+ 	    private function init():void {
+        	trace("consultStep.display.html.body: "+consultStep.display.html.body)
+        }
+                      
+        public function popHtmlEditor():void {
+        	var popup:WindowDesignMain = new WindowDesignMain;
+        	popup.variablesList = consultStep.variable;
+        	popup.display = consultStep.display;
+        	popup.nextSteps = consultStep.nextStep;
+        	trace("popup.display: "+popup.display)
+        	PopUpManager.addPopUp(popup, Application.application as DisplayObject,true);
+        	PopUpManager.centerPopUp(popup);
+        }
+        
+        public function saveConsultChoices():void
+        {	
+        	this.consultStep.name = consultName.text;
+        	this.consultStep.variable = myGrid.dataProvider as ArrayCollection;
+        	this.consultStep.display = consultStep.display;
+        
+        	PopUpManager.removePopUp(this);
+            parentApplication.enabled=true;
+        }
+        
+        public function addVariable():void
+        {
+         	var apopup:VariableProperties= new VariableProperties;
+         	consultVar = new Variable;
+           	consultStep.variable.addItem(consultVar);
+         	apopup.csVariable = consultVar;
+         	apopup.cStep = this.consultStep;  	
+         	
+        	PopUpManager.addPopUp(apopup, Application.application as DisplayObject,true);
+        	PopUpManager.centerPopUp(apopup);
+        }
+        
+        public function editVariable():void
+        {
+        	if(myGrid.selectedItem == null){
+        		Alert.show("Please select a variable to edit", "No Variable Selected");
+        	}else{
+	        	var apopup:VariableProperties= new VariableProperties;
+	        	for(var i:int=0;i<consultStep.variable.length;i++)
+	        	{
+	        		if(myGrid.selectedItem.name==consultStep.variable.getItemAt(i).name && myGrid.selectedItem.type==consultStep.variable.getItemAt(i).type)
+	        		{
+	        			apopup.csVariable=consultStep.variable.getItemAt(i) as Variable;
+	        		}
+	        	}	
+	         	PopUpManager.addPopUp(apopup, Application.application as DisplayObject,true);
+	         	
+	            PopUpManager.centerPopUp(apopup);
+           }
+            
+        }
+        public function deleteVariable():void
+        {
+        	
+        	for(var i:int=0;i<consultStep.variable.length;i++)
+        	{
+        		if(myGrid.selectedItem == null)
+        			Alert.show("Please select a parameter to delete", "No Parameter Selected");
+        			
+        		if(myGrid.selectedItem != null)
+        		{
+	        		if(myGrid.selectedItem.name==consultStep.variable.getItemAt(i).name && myGrid.selectedItem.type==consultStep.variable.getItemAt(i).type)
+	        		{
+	        			consultStep.variable.removeItemAt(i);
+	        			Alert.show("Parameter is deleted successfully");
+	        		}
+	        	}
+        	}	
+        	
+        }
+        
+        public function whichVariable():Variable{
+        	var vrb:Variable = new Variable;
+        	for(var i:int = 0; i < consultStep.variable.length; i++){
+        		if(myGrid.selectedItem != null)
+        		{
+	        		if(myGrid.selectedItem.name==consultStep.variable.getItemAt(i).name && myGrid.selectedItem.type==consultStep.variable.getItemAt(i).type)
+	        		{
+	        			vrb=consultStep.variable.getItemAt(i) as Variable;
+	        		}
+	        	}
+        	}  
+        	return vrb;
+        }
+        public function writeScript():void
+        {
+        	refinementScript = new ScriptEditor;
+        	refinementScript.sparent=this;
+        	refinementScript.stepName="consultStep";
+        	script = new Script;
+        	refinementScript.script=script;
+        	var refVar:Variable = whichVariable();
+        	script.refineVar = refVar;
+        	
+        	PopUpManager.addPopUp(refinementScript, Application.application as DisplayObject,true);
+            PopUpManager.centerPopUp(refinementScript);
+        }
+        private function cancelConsultStep():void{
+        	PopUpManager.removePopUp(this);
+        }
+        
+        ]]>
+	</mx:Script>
+		<mx:VBox id="cont" width="100%" height="100%">
+		    <mx:Spacer height="5%"/>
+		    <mx:TextInput id="consultName" text="{this.consultStep.name}" width="100%" fontSize="12"/>
+		    <mx:Spacer height="5%"/>
+		    <mx:HBox>
+		    	 <mx:Label text="Parameters to be retrieved from external systems while execution:" width="100%" fontSize="12" fontWeight="bold"/>
+		    	 <mx:Spacer width="5%"/>
+		    	 <mx:LinkButton toolTip="Add New Parameter" icon="@Embed('/assets/careplaneditor/add.png')" click="addVariable()" width="20" height="20"/>
+		    </mx:HBox>
+		   
+		    <mx:HBox height="100%" width="100%">
+		    	<mx:DataGrid id="myGrid" width="100%" height="100%" dataProvider="{this.consultStep.variable}" >
+		    	   	<mx:columns>
+		    	   	   	<mx:DataGridColumn headerText="Name" dataField="name" />
+	    	   	    	<mx:DataGridColumn headerText="Type" dataField="type" />
+	    	   	    	<mx:DataGridColumn headerText="Operations" >
+		    	   	    	<mx:itemRenderer>
+								<mx:Component>
+									<mx:HBox width="100%" horizontalAlign="center">
+										<mx:LinkButton toolTip="Edit properties of this parameter" icon="@Embed('/assets/careplaneditor/edit.png')" click="outerDocument.editVariable()" width="20" height="20"/>
+										<mx:LinkButton toolTip="Delete this parameter" icon="@Embed('/assets/careplaneditor/delete.png')" click="outerDocument.deleteVariable()" width="20" height="20"/>
+										<mx:LinkButton toolTip="Mathematical operations with parameters" icon="@Embed('/assets/careplaneditor/scriptEditor/editor.png')" click="outerDocument.writeScript()" width="20" height="20"/>
+									</mx:HBox>
+								</mx:Component>
+							</mx:itemRenderer>
+						</mx:DataGridColumn>
+		    	   	 </mx:columns> 
+		    	  </mx:DataGrid>
+		    </mx:HBox>
+		</mx:VBox>
+		<mx:Spacer height="10%"/>
+		<mx:HBox >
+			<mx:Button icon="@Embed(source='/assets/careplaneditor/design.png')" label="Design Monitoring Window" enabled="true" click="{popHtmlEditor()}"  />
+		</mx:HBox>
+		<mx:Spacer height="10%"/>
+	<mx:HBox horizontalAlign="right" width="100%">
+    	<mx:Button icon="@Embed(source='/assets/save.png')" label="Save" click="saveConsultChoices()" />
+    	<mx:Button icon="@Embed(source='/assets/cancel.png')" label="Cancel" click="cancelConsultStep()"/>
+    </mx:HBox>
+	<mx:Spacer height="5%"/>
+</mx:VBox>
+</mx:TitleWindow>
+

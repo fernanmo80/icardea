@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.careplanengine.entities.GEHistory" table="GEHISTORY">
+		<id name="id" column="ID">
+			<generator class="increment"/>
+		</id>
+		
+		<property name="sessionID" column="SESSIONID" type="long"/>
+		<property name="messageReceivedTime" column="TSTAMP" type="timestamp"/>	
+		<property name="subguidelineID" column="SUBGUIDELINEID"/>
+		<property name="col1" column="COL1"/>
+		<property name="col2" column="COL2"/>
+		<property name="col3" column="COL3"/>
+		<property name="col4" column="COL4"/>
+		<property name="col5" column="COL5"/>
+		<property name="col6" column="COL6"/>
+		<property name="col7" column="COL7"/>
+		<property name="col8" column="COL8"/>
+		<property name="col9" column="COL9"/>
+
+	</class>	
+</hibernate-mapping>

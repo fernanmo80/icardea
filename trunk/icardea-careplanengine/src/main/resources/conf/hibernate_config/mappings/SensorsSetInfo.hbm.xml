@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.careplanengine.entities.SensorsSetInfo" table="SENSORS_SET_INFO">
+		<id name="sid" column="SENSOR_ID">
+			<generator class="assigned"/>
+		</id>
+		
+		<property name="name" column="NAME"/>
+		<property name="available" column="AVAILABLE" type="boolean"/>
+
+	</class>
+</hibernate-mapping>

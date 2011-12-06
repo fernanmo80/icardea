@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.hibernate.Organization" table="Organization" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="increment">
+			</generator>
+		</id>
+		<property name="name" column="Name" type="string" length="255" not-null="false" lazy="false"/>
+		<property name="identifier" column="Identifier" type="string" length="50" not-null="false" lazy="false"/>
+		<many-to-one name="person" column="PersonID" class="tr.com.srdc.icardea.hibernate.Person" cascade="save-update,lock" unique="true" not-null="false" lazy="no-proxy" access="field">
+		</many-to-one>
+		<one-to-one name="contact" class="tr.com.srdc.icardea.hibernate.Contact" cascade="save-update,lock" property-ref="organization" lazy="no-proxy" access="field"/>
+	</class>
+</hibernate-mapping>

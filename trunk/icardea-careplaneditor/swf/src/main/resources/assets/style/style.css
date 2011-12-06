@@ -1,0 +1,354 @@
+/* CSS file */
+.iCardeaPanelTitle {
+   color: #ffffff;
+   textAlign: left;
+   fontSize: 14;
+   fontWeight: bold;
+   font-family: Calibri;
+}
+
+.iCardeaFormPanel {
+   borderStyle: solid;
+   borderColor: #999999;
+   borderAlpha: 1;
+   borderThickness: 1;
+   borderThicknessLeft: 11;
+   borderThicknessTop: 5;
+   borderThicknessBottom: 5;
+   borderThicknessRight: 5;
+   roundedBottomCorners: true;
+   cornerRadius: 2;
+   headerHeight: 28;
+   highlightAlphas: 0.42, 0;
+   headerColors: #4f4f4f, #4f4f4f;
+   footerColors: #4f4f4f, #4f4f4f;
+   backgroundColor: #e7fdfd;
+   shadowDistance: 3;
+   shadowDirection: right;
+   titleStyleName: "iCardeaPanelTitle";
+}
+
+.mainLoginTextInput{
+	color: #000000;
+	paddingLeft: 0;
+	fontSize: 12;
+   	fontWeight: bold;
+   	disabledColor: #999999;
+   
+}
+
+.mainLoginFormItem {
+   backgroundAlpha:0;
+   borderStyle: none;
+   borderColor: #999999;
+   borderThickness: 0;
+   cornerRadius: 0;
+   paddingTop:3;
+   paddingBottom:3;
+   labelStyleName: "mainFormItemLabel";
+}
+
+.mainFormItemLabel {
+   fontSize: 12;
+   color: #000000;
+   fontWeight: bold;
+   fontStyle: normal;
+   textDecoration: none;
+   textAlign: left;
+   paddingLeft: 0;
+   leading: 0;
+}
+
+.mainText {
+	color: #000000;
+	font-weight: normal;
+	font-size: 14;
+}
+
+.mainLoginForm{
+	vertical-gap: 0;
+	font-weight: bold;
+	font-size: 11;
+	color: #000000;
+}
+
+.iCardeaCombo {
+	color: #000000;
+   borderColor: #b7babc;
+   fillColors: #eeeeee, #ffffff, #d5e2c8, #d5e2c8;
+   /*fillColors: #d5e2c8, #d5e2c8, #ffffff, #eeeeee;*/
+   /*selectionColor: #ff9900;*/
+   selectionColor: #ffffff;
+   textSelectedColor: #000000;
+   textRollOverColor: #ffffff;
+   rollOverColor: #fd0000;
+   /*rollOverColor: #d5e2c8;*/
+   themeColor: #b7babc;
+   /*themeColor: #ffffff;*/
+   fontSize: 11;
+   fontWeight: bold;
+   dropDownStyleName: "myComboBoxDropDowns";
+}
+
+
+
+.myComboBoxDropDowns {
+   cornerRadius: 0;
+   borderThickness: 0;
+   fontSize: 11;
+   shadowDirection: right;
+}
+
+.iCardeaLinkButton {
+   rollOverColor: #fd0000;
+   selectionColor: #016598;
+   color: #016598;
+   textSelectedColor: #ffffff;
+   textRollOverColor: #ffffff;
+   fontSize: 16;
+   fontWeight: bold;
+   corner-radius: 0;
+   text-align:center;
+   horizontal-align:center;
+}
+
+.iCardeaButton {
+   fillAlphas: 0.69, 0.7, 0.7, 0.73;
+   fillColors: #fe924b, #ff9900, #ff6600, #ff9900;
+   color: #ffffff;
+   textRollOverColor: #ffffff;
+   textSelectedColor: #000000;
+   borderColor: #999999;
+   themeColor: #999999;
+   fontSize: 11;
+   fontWeight: bold;
+}
+
+.linkButtonWindowShade {
+  	headerClass:ClassReference('mx.controls.LinkButton');
+  	header-style-name: iCardeaLinkButton;
+ 
+ 	drop-shadow-enabled:false;
+ 	
+  	corner-radius:0;
+  	border-style:solid;
+  	border-color:#00669a;
+	
+	background-color:#ffffff;
+	background-alpha:.7;
+}
+
+
+
+
+
+.linkButtonStyle {
+	fill-alphas:1,1;
+	text-align:left;
+	padding-left:10;
+	background-alpha:0.5;
+	color: #000000;
+    textRollOverColor: #ffffff;
+    textSelectedColor: #ffffff;
+    rollOverColor: #fd0000;
+   	selectionColor: #016598;
+   	corner-radius: 0;
+}
+
+.logoutStyle {
+	fill-alphas:1,1;
+	text-align:center;
+	background-alpha:0.0;
+	color: #000000;
+    textRollOverColor: #ffffff;
+    textSelectedColor: #ffffff;
+    rollOverColor: #016598;
+   	selectionColor: #016598;
+   	corner-radius: 0;
+}
+
+.formLinkButtonStyle {
+	textRollOverColor: #ffffff;
+	textSelectedColor: #000000;
+	rollOverColor: #777777;
+	selectionColor: #999999;
+	color: #000000;
+	text-align:center;
+}
+
+.mainApplicationControlBar {
+   borderStyle: solid;
+   borderThickness: 2;
+   borderColor: #ffffff;
+   backgroundColor: #016598;
+   backgroundAlpha: 1;
+   cornerRadius: 5;
+   shadowDirection: right;
+}
+
+
+.iCardeaTitle{
+	font-weight: bold;
+	font-size: 28;
+	color: #ffffff;
+	text-indent: 2;
+	font-family: tahoma;
+}
+
+.mainApplication {
+   
+	background-image: Embed("../background/background.gif");
+    background-repeat:   repeat;
+    background-position: center;
+    background-blend:    multiply;
+    borderSkin:			 ClassReference("com.degrafa.skins.CSSSkin");
+    
+		
+}
+
+.mainFrame {
+	border-style:solid;
+	border-color:#000000;
+	shadow-direction:right;
+}
+
+.menuBox {
+	border-style:solid;
+	shadow-color:right;
+	corner-radius:5;
+	background-alpha:1;
+	background-color:#ffffff;
+	shadow-distance:2;
+	padding-left:5;
+	padding-right:5;
+	padding-top:5;
+	padding-bottom:5;
+}
+
+.middleBox {
+	border-style:solid;
+	shadow-color:right;
+	corner-radius:5;
+	background-alpha:1;
+	background-color:#ffffff;
+	shadow-distance:2;
+	padding-left:30;
+	padding-right:30;
+	padding-top:30;
+	padding-bottom:30;
+}
+
+.homeText {
+	font-size:14;
+	font-weight:bold;
+	color:#000000;
+}
+
+.homeTitle {
+	font-size:16;
+	font-weight:bold;
+	color:#016598;
+	text-align:center;
+}
+
+.usersGrid {
+    selectionColor: #016598;
+   	textSelectedColor: #ffffff;
+   	fontSize: 14;
+   	fontWeight: normal;
+    color: #0b333c;
+	
+}
+
+.iCardeaGridHeader {
+	font-size:14;
+	header-height:20;
+}
+
+.adminButton {
+	font-size:13;
+	color:#000000;
+}
+
+.applicationBar {
+	fillAlphas: 1, 1;
+    fillColors: #016598, #005279;
+    corner-radius:0;
+;
+}
+
+.myAccordion {
+   borderStyle: none;
+   borderThickness: 0;
+   headerHeight: 32;
+   textIndent: 0;
+   openDuration: 318;
+   dropShadowEnabled: false;
+   shadowDistance: 20;
+   shadowDirection: right;
+   headerStyleName: "myAccordionHeader";
+}
+
+.myAccordionHeader {
+   letterSpacing: 0;
+   textAlign: left;
+   fontSize: 13;
+   fontWeight: bold;
+}
+	  
+TitleWindow { 
+   cornerRadius: 23;
+   headerHeight: 26;
+   borderThickness: 2;
+   shadowDistance: 0;
+   shadowDirection: left;
+   dropShadowColor: #000000;
+   roundedBottomCorners: true;
+   textAlign: left;
+   backgroundAlpha: 0.57;
+   highlightAlphas: 0.39, 0;
+   headerColors: #666666, #999999;
+   footerColors: #999999, #c7c7c7;
+   backgroundColor: #cccccc;
+   borderColor: #999999;
+   titleStyleName: "myTitleStyle";
+   fontFamily: Arial;
+   fontSize: 15;
+   fontWeight: bold;
+} 
+
+.myTitleStyle {
+   color: #000000;
+   }	  
+   
+   
+Button { 
+   cornerRadius: 10;
+   textIndent: 0;
+   paddingLeft: 5;
+   paddingRight: 5;
+   highlightAlphas: 0.25, 0;
+   fillAlphas: 0, 1, 0.7, 0.69;
+   fillColors: #666666, #cccccc, #999999, #cccccc;
+   color: #0b333c;
+}
+
+TextInput { 
+   backgroundColor: #eeeeee;
+   borderStyle: inset;
+   borderColor: #b7babc;
+   borderThickness: 2;
+   cornerRadius: 1;
+   textIndent: 0;
+   dropShadowEnabled: true;
+   shadowDirection: left;
+   shadowDistance: 1;
+   fontFamily: Arial;
+   fontSize: 10;
+}
+
+Label {
+   fontFamily: Arial;
+   fontSize: 10;
+}
+	  

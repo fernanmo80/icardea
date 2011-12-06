@@ -1,0 +1,9 @@
+{% extends "layout.html" %}
+{% block htmlBody %}
+<p>This is an OpenID server!</p>
+For more information about OpenId see <a href="http://openidexplained.com">here</a>
+{% if userid %}
+<p>You have been logged in as '{{userid}}' and your identity page is
+<a href='u={{userid}}'>here</a>
+{%endif%}
+{% endblock %}

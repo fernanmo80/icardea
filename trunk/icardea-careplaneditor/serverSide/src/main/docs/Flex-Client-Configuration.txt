@@ -1,0 +1,24 @@
+
+@author: Filippo di Pisa
+@info: filippo@dipisa.net
+
+
+Flex build path > Output folder
+
+$${workspaces}/platform/src/main/webapp/flex-client
+
+Flex Compiler > Additional compiler arguments
+
+-services "$${workspace}/platform/src/main/resources/flex-services.xml" -locale en_US
+
+Flex Server > Root  folder
+
+$${workspace}/platform/src/main/webapp
+
+Flex Server > Root URL
+
+http:/localhost:8080/platform
+
+Flex Server > Context root
+
+/platform

@@ -1,0 +1,463 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ //
+  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
+  ~ //   
+  ~ //  TERMS OF USE  
+  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
+  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
+  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
+  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
+  ~ //
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  -->
+
+<mx:HBox width="100%" xmlns:mx="http://www.adobe.com/2006/mxml" backgroundColor="#FFFFFF"
+           horizontalScrollPolicy="off" verticalScrollPolicy="off" dropShadowEnabled="false">
+
+    <mx:Script>
+		<![CDATA[
+			import com.kapit.diagram.DiagramEvent;
+			import mx.core.Application;
+		import com.kapit.diagram.view.DiagramLink;
+        import com.kapit.diagram.view.DiagramLinkType;
+        import com.kapit.diagram.view.DiagramObject;
+        import com.kapit.diagram.view.DiagramView;
+
+        // Definition of supported link types
+        private var _linktypes:Object =
+                [
+                    new DiagramLinkType(DiagramLinkType.FREE_BEHAVIOUR, DiagramLinkType.POLYLINE_GEOMETRY),
+                    new DiagramLinkType(DiagramLinkType.ORTHOGONAL_BEHAVIOUR, DiagramLinkType.POLYLINE_GEOMETRY),
+                    new DiagramLinkType(DiagramLinkType.FREE_BEHAVIOUR, DiagramLinkType.QUADRICS_GEOMETRY),
+                    new DiagramLinkType(DiagramLinkType.ORTHOGONAL_BEHAVIOUR, DiagramLinkType.QUADRICS_GEOMETRY)
+                ];
+
+        // Linked diagram view
+        private var _view:DiagramView;
+
+        public function get view():DiagramView
+        {
+            return _view;
+        }
+
+        public function set view(value:DiagramView):void
+        {
+            _view = value;
+        }
+
+        // When a link type button is clicked, change link type of either selected links, or current link type.
+        /* public function linkType_clickHandler(event:Event):void
+        {
+            var selection:Array = _view.getSelectedObjects() ;
+            var dob:DiagramObject;
+            var link:DiagramLink;
+            var behaviour:uint;
+            var geometry:uint;
+            if (selection && selection.length != 0 && currentState == "selectedLink")
+            {
+                for each(dob in selection)
+                {
+                    if (dob is DiagramLink)
+                    {
+                        link = dob as DiagramLink;
+                        if (event.currentTarget == selectedLinkType)
+                        {
+                            behaviour = (link.linktype.behaviour == DiagramLinkType.FREE_BEHAVIOUR) ? 0 : 1;
+                            geometry = (selectedLinkType.selectedIndex == 0) ? 0 : 2;
+                            link.linktype = _linktypes[geometry + behaviour];
+                        }
+                        else if (event.currentTarget == linkColor)
+                            link.lineColor = linkColor.value as Number;
+                        else if (event.currentTarget == linkWidth)
+                                link.lineWidth = linkWidth.value;
+                            else if (event.currentTarget == linkAlpha)
+                                    link.lineOpacity = linkAlpha.value;
+                                else if (event.currentTarget == dashArray || event.currentTarget == dashArray0 || event.currentTarget == dashArray1 || event.currentTarget == dashArray2)
+                                    {
+                                        updateDashs(event.currentTarget as DisplayObject)
+                                        var arr:Array = getDashArray();
+                                        if (arr)
+                                            link.dashOffsets = arr;
+                                    }
+                    }
+                }
+            }
+            else if (currentState == "link")
+            {
+                if (event.currentTarget == linkType)
+                    _view.defaultlinktype = _linktypes[linkType.selectedIndex];
+            }
+        } */
+
+        // Update dahs of a link
+       /*  private function updateDashs(focus:DisplayObject):void
+        {
+            if (dashArray.text.length == 0)
+            {
+                dashArray0.enabled = false;
+                dashArray1.enabled = false;
+                dashArray2.enabled = false;
+                return;
+            }
+
+            dashArray0.enabled = true;
+            if (dashArray0.text.length == 0)
+            {
+                if (focus != dashArray0 && focus != dashArray)
+                    dashArray0.enabled = false;
+                dashArray1.enabled = false;
+                dashArray2.enabled = false;
+                return;
+            }
+
+            dashArray1.enabled = true;
+            if (dashArray1.text.length == 0)
+            {
+                if (focus != dashArray1 && focus != dashArray0)
+                    dashArray1.enabled = false;
+                dashArray2.enabled = false;
+                return;
+            }
+            dashArray2.enabled = true;
+        } */
+
+        // Get dash array of a link
+        /* private function getDashArray():Array
+        {
+            var arr:Array = new Array();
+            if (dashArray.text.length == 0)
+                return null;
+            arr.push(Number(dashArray.text));
+            if (!dashArray0.enabled || dashArray0.text.length == 0)
+            {
+                arr.push(Number(dashArray.text));
+                dashArray0.text = dashArray.text;
+                return arr;
+            }
+            arr.push(Number(dashArray0.text));
+            if (!dashArray1.enabled || dashArray1.text.length == 0)
+                return arr;
+            arr.push(Number(dashArray1.text));
+            if (!dashArray2.enabled || dashArray2.text.length == 0)
+            {
+                arr.push(Number(dashArray1.text));
+                dashArray2.text = dashArray1.text;
+                return arr;
+            }
+            arr.push(Number(dashArray2.text));
+            return arr;
+        } */
+        private function fullScreenMode():void{
+        	stage.displayState = StageDisplayState.FULL_SCREEN;
+        }      
+
+        
+        
+        /*
+        * After creation, register to diagramer events to stay in sync et reset diagram to default mode
+        */ 
+        private function creationCompleteHandler():void
+        {
+            view.addEventListener(DiagramEvent.DIAGRAM_DEFAULT_MODE_SET, view_defaultModeHandler);
+            view.addEventListener(DiagramEvent.DIAGRAM_LINK_MODE_SET, view_linkModeHandler);
+            view.addEventListener(DiagramEvent.DIAGRAM_HAND_MODE_SET, view_handModeHandler);
+            selectionTool_clickHandler();
+        }
+ 
+        /*
+        * Set diagramer to hand mode
+        */         
+        private function handTool_clickHandler():void
+        {
+            view.handMode = true;
+        }
+        
+        /*
+        * Set diagramer to link mode
+        */   
+        private function linkTool_clickHandler():void
+        {
+            view.linkMode = DiagramView.MANUAL_LINK_MODE;
+        }
+        
+        /*
+        * Set diagramer to selection mode
+        */   
+        private function selectionTool_clickHandler():void
+        {
+            view.returnToDefaultMode();
+        }
+
+        /*
+        * When diagrammer enter link mode, highlight link icon
+        */   
+        private function view_linkModeHandler(event:DiagramEvent):void
+        {
+            selectionTool.alpha = 0.4;
+            linkTool.alpha = 1;
+            handTool.alpha = 0.4;
+        }
+
+        /*
+        * When diagrammer enter link mode, highlight hand icon
+        */   
+        private function view_handModeHandler(event:DiagramEvent):void
+        {
+            selectionTool.alpha = 0.4;
+            linkTool.alpha = 0.4;
+            handTool.alpha = 1;
+        }
+
+        /*
+        * When diagrammer enter default mode, highlight selection icon
+        */   
+        private function view_defaultModeHandler(event:DiagramEvent):void
+        {
+            selectionTool.alpha = 1;
+            linkTool.alpha = 0.4;
+            handTool.alpha = 0.4;
+        }
+		]]>
+	</mx:Script>
+
+    <mx:states>
+        <mx:State name="alignement">
+           <!-- <mx:RemoveChild target="{zoomRestore}"/>
+            <mx:RemoveChild target="{zoomOut}"/>
+            <mx:RemoveChild target="{zoomIn}"/>
+            <mx:AddChild position="lastChild">
+                <mx:Button click="{view.alignSelection(DiagramView.HORIZONTAL_ALIGNEMENT_LEFT)}"
+                           toolTip="Left alignement" x="47" y="10" width="24" height="24"
+                           icon="@Embed(source='/assets/careplaneditor/align/alignLeft.png')" id="alignLeft"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Button click="{view.alignSelection(DiagramView.HORIZONTAL_ALIGNEMENT_CENTERED)}"
+                           toolTip="Horizontal center alignement" x="79" y="10" width="24" height="24"
+                           icon="@Embed(source='/assets/careplaneditor/align/alignCenterH.png')" id="aliognCenterH"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Button click="{view.alignSelection(DiagramView.HORIZONTAL_ALIGNEMENT_RIGHT)}"
+                           toolTip="Right alignement" x="111" y="10" width="24" height="24"
+                           icon="@Embed(source='/assets/careplaneditor/align/alignRight.png')" id="alignRight"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Button click="{view.alignSelection(DiagramView.VERTICAL_ALIGNEMENT_BOTTOM)}" x="156" y="10"
+                           width="24" height="24" icon="@Embed(source='/assets/careplaneditor/align/alignBottom.png')" toolTip="Vertical Alignement"
+                           id="alignBottom"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:VRule x="143" y="10" height="24" width="5" id="vrule0"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Button click="{view.alignSelection(DiagramView.VERTICAL_ALIGNEMENT_CENTERED)}" x="188" y="10"
+                           width="24" height="24" id="alignCenterV" toolTip="Vertical Centred Alignement"
+                           icon="@Embed(source='/assets/careplaneditor/align/alignCenterV.png')"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Button click="{view.alignSelection(DiagramView.VERTICAL_ALIGNEMENT_TOP)}" x="220" y="10" width="24" toolTip="Top Vertical Alignement"
+                           height="24" icon="@Embed(source='/assets/careplaneditor/align/alignTop.png')" id="alignTop"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Button click="{view.alignSelection(DiagramView.HORIZONTAL_DISTRIBUTION_LEFT)}" x="265" y="10"
+                           width="24" height="24" icon="@Embed(source='/assets/careplaneditor/align/repartLeft.png')" id="repartLeft" toolTip="Left Horizontal Distribution"/>
+            </mx:AddChild>
+            <mx:AddChild relativeTo="{alignCenterV}" position="before">
+                <mx:VRule x="143" y="10" height="24" width="5" id="vrule2"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:VRule x="252" y="10" height="24" width="5" id="vrule3"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Button click="{view.alignSelection(DiagramView.HORIZONTAL_DISTRIBUTION_CENTERED)}" x="297" y="10"
+                           width="24" height="24" icon="@Embed(source='/assets/careplaneditor/align/repartCenterH.png')" toolTip="Horizontal Centred Distribution"
+                           id="repartCenterH"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Button click="{view.alignSelection(DiagramView.HORIZONTAL_DISTRIBUTION_RIGHT)}" x="329" y="10" toolTip="Horizontal Right Ditribution"
+                           width="24" height="24" icon="@Embed(source='/assets/careplaneditor/align/repartRight.png')"
+                           id="repartRight"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:VRule x="361" y="10" height="24" width="5" id="vrule4"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Button click="{view.alignSelection(DiagramView.VERTICAL_DISTRIBUTION_BOTTOM)}" x="374" y="10" toolTip="Bottom Vertical Distribution"
+                           width="24" height="24" icon="@Embed(source='/assets/careplaneditor/align/repartBottom.png')"
+                           id="repartBottom"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Button click="{view.alignSelection(DiagramView.VERTICAL_DISTRIBUTION_CENTERED)}" x="406" y="10" toolTip="Vertical Centred Distribution"
+                           width="24" height="24" icon="@Embed(source='/assets/careplaneditor/align/repartCenterV.png')"
+                           id="repartCenterV"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Button click="{view.alignSelection(DiagramView.VERTICAL_DISTRIBUTION_TOP)}" x="438" y="10" toolTip="Vertical Top Distribution"
+                           width="24" height="24" icon="@Embed(source='/assets/careplaneditor/align/repartTop.png')" id="repartTop"/>
+            </mx:AddChild>
+            <mx:SetProperty name="width" value="100%"/>
+            <mx:AddChild position="lastChild">
+                <mx:VRule x="470" y="10" height="24" width="5" id="vrule5"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Button click="{view.alignSelection(DiagramView.HORIZONTAL_EVEN_SPACING)}" x="483" y="10" width="24" toolTip="Horizontal Spacing"
+                           height="24" icon="@Embed(source='/assets/careplaneditor/align/spaceH.png')" id="spaceH"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Button click="{view.alignSelection(DiagramView.VERTICAL_EVEN_SPACING)}" x="515" y="10" width="24" toolTip="Vertical Spacing"
+                           height="24" icon="@Embed(source='/assets/careplaneditor/align/spaceV.png')" id="spaceV"/>
+            </mx:AddChild>
+            <mx:SetProperty target="{image1}" name="source"
+                            value="@Embed(source='/assets/careplaneditor/tools/Curseur - Selection.png')"/>
+            <mx:SetProperty target="{image1}" name="alpha" value="0.66"/>
+            <mx:SetProperty target="{image1}" name="width" value="12"/>
+            <mx:SetStyle target="{image1}" name="left"/>
+            <mx:SetProperty target="{image1}" name="x" value="12"/>
+            <mx:SetStyle target="{image1}" name="right"/>
+            <mx:SetProperty target="{image1}" name="height" value="18"/>
+            <mx:SetStyle target="{image1}" name="top"/>
+            <mx:SetProperty target="{image1}" name="y" value="10"/>
+            <mx:SetStyle target="{image1}" name="bottom"/>-->
+        </mx:State>
+        <mx:State name="link">
+            <!--<mx:RemoveChild target="{zoomOut}"/>
+            <mx:RemoveChild target="{zoomRestore}"/>
+            <mx:RemoveChild target="{zoomIn}"/>
+            <mx:AddChild position="lastChild">
+                <mx:ToggleButtonBar itemClick="linkType_clickHandler(event)" x="123" y="12" id="linkType">
+                    <mx:dataProvider>
+                        <mx:Object id="free_straight" icon="@Embed(source='/assets/careplaneditor/link/Bouton - Liens - 2.png')" toolTip="Straight Link"/>
+                        <mx:Object id="ortho_straight" icon="@Embed(source='/assets/careplaneditor/link/Bouton - Liens - 1.png')" toolTip="Orthogonal Straight Link"/>
+                        <mx:Object id="free_curved" icon="@Embed(source='/assets/careplaneditor/link/Bouton - Liens - 4.png')" toolTip="Curved Link"/>
+                        <mx:Object id="ortho_curved" icon="@Embed(source='/assets/careplaneditor/link/Bouton - Liens - 3.png')" toolTip="Orthogonal Curved Link"/>
+                    </mx:dataProvider>
+                </mx:ToggleButtonBar>
+            </mx:AddChild>
+            <mx:SetProperty target="{image1}" name="source"
+                            value="@Embed(source='/assets/careplaneditor/tools/Bouton - Liens - tool.png')"/>
+            <mx:SetProperty target="{image1}" name="alpha" value="0.66"/>
+            <mx:AddChild position="lastChild">
+                <mx:Label x="47" y="16" text="Link Type :"/>
+            </mx:AddChild>
+            <mx:SetProperty name="width" value="100%"/>
+            <mx:SetStyle name="borderColor" value="#FFFFFF"/>
+            <mx:SetStyle name="backgroundAlpha" value="1.0"/>
+            <mx:SetProperty target="{image1}" name="width" value="16"/>
+            <mx:SetStyle target="{image1}" name="left"/>
+            <mx:SetProperty target="{image1}" name="x" value="8"/>
+            <mx:SetStyle target="{image1}" name="right"/>
+            <mx:SetProperty target="{image1}" name="height" value="16"/>
+            <mx:SetStyle target="{image1}" name="top"/>
+            <mx:SetProperty target="{image1}" name="y" value="10"/>
+            <mx:SetStyle target="{image1}" name="bottom"/>-->
+        </mx:State>
+        <mx:State name="text">
+            <!--<mx:RemoveChild target="{zoomRestore}"/>
+            <mx:RemoveChild target="{zoomOut}"/>
+            <mx:RemoveChild target="{zoomIn}"/>
+            <mx:SetStyle target="{canvas1}" name="borderColor" value="#EDF0F1"/>
+            <mx:SetProperty target="{canvas1}" name="x" value="5"/>
+            <mx:SetStyle target="{canvas1}" name="left"/>
+            <mx:SetProperty target="{canvas1}" name="height" value="34"/>
+            <mx:SetStyle target="{canvas1}" name="top"/>
+            <mx:SetProperty target="{canvas1}" name="y" value="5"/>
+            <mx:SetStyle target="{canvas1}" name="bottom"/>-->
+        </mx:State>
+        <mx:State name="selectedLink" basedOn="link">
+            <!--<mx:RemoveChild target="{linkType}"/>
+            <mx:AddChild position="lastChild">
+                <mx:ToggleButtonBar itemClick="linkType_clickHandler(event)" x="123" y="12" id="selectedLinkType">
+                    <mx:dataProvider>
+                        <mx:Object id="straight" icon="@Embed(source='/assets/careplaneditor/link/Bouton - Liens - 2.png')" toolTip="Straight Link"/>
+                        <mx:Object id="curved" icon="@Embed(source='/assets/careplaneditor/link/Bouton - Liens - 4.png')" toolTip="Curved Link"/>
+                    </mx:dataProvider>
+                </mx:ToggleButtonBar>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:ColorPicker x="277" y="10" id="linkColor" change="linkType_clickHandler(event)"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Label x="226" y="14" text="Color :" id="label1" toolTip="set link color"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Label x="307" y="14" text="Alpha :" id="label2" toolTip="set link alpha"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:NumericStepper x="360" y="10" minimum="0" maximum="1" id="linkAlpha" value="0" stepSize="0.1"
+                                   change="linkType_clickHandler(event)"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Label x="443" y="14" text="Width :" id="label3" toolTip="set link width"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:NumericStepper x="497" y="10" minimum="1" maximum="30" id="linkWidth" value="1"
+                                   change="linkType_clickHandler(event)" stepSize="1"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:Label x="576" y="14" text="Dash Array :" id="label4" height="20" toolTip="set link dash array"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:TextInput x="658" y="10" width="25" id="dashArray" change="linkType_clickHandler(event)" />
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:VRule x="430" y="10" height="24" width="5" id="vrule8"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:VRule x="213" y="10" height="24" width="5" id="vrule1"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:VRule x="563" y="10" height="24" width="5" id="vrule7"/>
+            </mx:AddChild>
+            <mx:SetProperty target="{image1}" name="source"
+                            value="@Embed(source='/assets/careplaneditor/tools/Bouton - Liens - tool.png')"/>
+            <mx:SetProperty target="{image1}" name="width" value="18"/>
+            <mx:SetStyle target="{image1}" name="left"/>
+            <mx:SetProperty target="{image1}" name="x" value="10"/>
+            <mx:SetStyle target="{image1}" name="right"/>
+            <mx:SetProperty target="{image1}" name="height" value="18"/>
+            <mx:SetStyle target="{image1}" name="top"/>
+            <mx:SetProperty target="{image1}" name="y" value="10"/>
+            <mx:SetStyle target="{image1}" name="bottom"/>
+
+            <mx:AddChild position="lastChild">
+                <mx:TextInput x="691" y="10" width="25" id="dashArray0" change="linkType_clickHandler(event)" enabled="false"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:TextInput x="724" y="10" width="25" id="dashArray1" change="linkType_clickHandler(event)" enabled="false"/>
+            </mx:AddChild>
+            <mx:AddChild position="lastChild">
+                <mx:TextInput x="757" y="10" width="25" id="dashArray2" change="linkType_clickHandler(event)" enabled="false"/>
+            </mx:AddChild>-->
+        </mx:State>
+    </mx:states>
+    <mx:HBox width="100%" horizontalAlign="left">
+    	<mx:Spacer width="1%"/>   
+    	<mx:Label fontSize="12" fontWeight="bold" text="Diagram Tools:"/>
+	    <mx:Box id="selectionTool" toolTip="Selection tool" buttonMode="true" click="selectionTool_clickHandler()" >
+	        <mx:Image source="@Embed(source='/assets/careplaneditor/tools/Curseur - Selection.png')"/>
+	    </mx:Box>
+	    <mx:Spacer width="1%"/>   
+	    <mx:Box id="linkTool" toolTip="Link tool"  buttonMode="true" click="linkTool_clickHandler()" >
+	    	<mx:Image source="@Embed(source='/assets/careplaneditor/tools/Bouton - Liens - tool.png')"  />
+	    </mx:Box>
+	    <mx:Spacer width="1%"/>   
+	    <mx:Box id="handTool" toolTip="Hand tool" buttonMode="true" click="handTool_clickHandler()">
+	    	<mx:Image source="@Embed(source='/assets/careplaneditor/tools/Curseur - Hand.png')"/>
+	    </mx:Box> 
+    </mx:HBox>
+    
+    <mx:HBox width="100%" horizontalAlign="right">
+    	<mx:Label fontSize="12" fontWeight="bold" text="Resize Diagram:"/>
+    	<mx:Button click="{_view.centeredZoom(1.1,true)}" icon="@Embed(source='/assets/careplaneditor/zoom/Curseur - Zoom +.png')" id="zoomIn" toolTip="Zoom In"
+               fillAlphas="[0.4, 0.6, 0.4, 0.6]"/>
+	    <mx:Button click="{_view.centeredZoom(0.9,true)}" icon="@Embed(source='/assets/careplaneditor/zoom/Curseur - Zoom -.png')" id="zoomOut" toolTip="Zoom Out"/>
+	    <mx:Button click="{_view.centeredZoom(1, false)}" id="zoomRestore" toolTip="Restore Zoom"
+	               icon="@Embed(source='/assets/careplaneditor/zoom/Curseur - Zoom 1.png')" />
+	    <mx:Button icon="@Embed(source='/assets/careplaneditor/zoom/Curseur - ZoomFull.png')" id="zoomFull" toolTip="Full Screen" click="fullScreenMode()"/>
+	</mx:HBox>    
+	<mx:Spacer width="1%"/>   
+</mx:HBox>
+
+
+

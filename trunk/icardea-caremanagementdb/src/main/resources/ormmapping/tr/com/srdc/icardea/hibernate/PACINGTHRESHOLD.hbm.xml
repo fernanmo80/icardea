@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.PACINGTHRESHOLD" table="PACINGTHRESHOLD">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <many-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.LEADCHNLMSMT" column="LEADCHNLMSMTID" lazy="no-proxy" name="lEADCHNLMSMT" not-null="true" unique="true">
+		</many-to-one>
+    <property column="amplitude" lazy="false" length="50" name="amplitude" not-null="false" type="string"/>
+    <property column="pulsewidth" lazy="false" length="50" name="pulsewidth" not-null="false" type="string"/>
+    <property column="measurement_method" lazy="false" length="50" name="measurement_method" not-null="false" type="string"/>
+    <property column="polarity" lazy="false" length="50" name="polarity" not-null="false" type="string"/>
+  </class>
+</hibernate-mapping>

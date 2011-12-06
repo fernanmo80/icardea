@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+  <!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ //
+  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
+  ~ //   
+  ~ //  TERMS OF USE  
+  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
+  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
+  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
+  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
+  ~ //
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  -->
+<!--
+  ~ ////////////////////////////////////////////////////////////////////////////////
+  ~ // This tool can be used to change diagrammer mode (link creation, hand or selection mode)
+  ~ // It also reflect change to diagrammer mode, should this change be cause by this tool  
+  ~ // or an external cause.
+  ~ ////////////////////////////////////////////////////////////////////////////////
+ -->
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="Patient Registration" height="538" width="938">
+
+    <mx:Script>
+		<![CDATA[
+			import tr.com.srdc.icardea.model.careplan.MedicalCareplan;
+			import tr.com.srdc.icardea.control.PatientControl;
+			import mx.messaging.Channel;
+			import mx.messaging.channels.SecureAMFChannel;
+			import mx.messaging.ChannelSet;
+			import mx.rpc.remoting.RemoteObject;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import tr.com.srdc.icardea.model.userRoles.Patient;
+			
+			import mx.controls.Alert;
+			import mx.managers.PopUpManager;
+		import mx.collections.ArrayCollection;
+		
+		
+		public var control:PatientControl;
+		
+		[Bindable]
+        private var _newPatient:Patient;
+         private var _edit:Boolean = false;
+         
+        [Bindable]
+        public var guidelines:ArrayCollection=new ArrayCollection;
+       
+        
+        public function set newPatient(patient:Patient):void{
+        	this._newPatient = patient;
+        	if(patient.personID != ""){
+        		this._edit = true;
+        	}
+        }
+        
+        public function register():void
+        {
+        	this._newPatient.personID = patientID.text;
+			this._newPatient.name = patientName.text;
+			this._newPatient.surname = patientSurname.text;
+			if(gender.selectedItem.toString() == "Female")
+				this._newPatient.gender = "F";
+			else if(gender.selectedItem.toString() == "Male")
+				this._newPatient.gender = "M";
+			else
+				this._newPatient.gender = "U";
+		
+			this._newPatient.dateOfBirth = dateOfBirth.text;
+			this._newPatient.contact.addressLine = address.text;
+			this._newPatient.contact.phoneNumber = phone.text; 
+			this._newPatient.contact.email = email.text; 
+					
+			/* for(var i:int = 0;i<this._newPatient.idList.length;i++)
+			{
+				if(this._newPatient.idList.getItemAt(i).domain == "iCARDEA" )
+					this._newPatient.personID = this._newPatient.idList.getItemAt(i).patientID;
+			} */
+			
+			
+      		if(this._edit){
+      			this.control.updatePatient(this._newPatient); 
+      		}else{
+      			this.control.createPatient(this._newPatient);
+      		}
+        	       	
+            PopUpManager.removePopUp(this);
+            parentApplication.enabled=true;
+        }
+		
+	       
+       public function onFault(fault:FaultEvent):void 
+       {
+       		Alert.show(fault.fault.faultString);	
+       	
+       }
+		/* public function add():void
+		{
+			
+			var obj:Object = new Object;
+			obj.patientID=patientID.text;
+			obj.domain=domain.selectedItem;
+			
+			if(this._newPatient.idList ==null)
+				this._newPatient.idList = new ArrayCollection;
+			this._newPatient.idList.addItem(obj);
+			
+			
+		}
+		public function remove():void
+		{
+			if(this._newPatient.idList !=null)
+				this._newPatient.idList.removeItemAt(patientIDList.selectedIndex);
+			
+		} */
+		
+		public function addCareplan():void
+		{
+			//////null controlu yap
+			if(this._newPatient.assignedCareplans ==null)
+				this._newPatient.assignedCareplans = new ArrayCollection;
+			this._newPatient.assignedCareplans.addItem(assignGuideline.selectedItem as MedicalCareplan);
+		}
+		public function removeCareplan():void
+		{
+			//////null controlu yap
+			if(this._newPatient.assignedCareplans !=null){
+				for(var i:int =0; i< this._newPatient.assignedCareplans.length;i++)
+				{
+					if(patientGuidelines.selectedItem != null && this._newPatient.assignedCareplans.getItemAt(i).id == patientGuidelines.selectedItem.id){
+						this._newPatient.assignedCareplans.removeItemAt(i);
+						break;
+					}
+						
+				}
+				
+			}
+				
+		}
+		public function cancel():void
+		{
+			PopUpManager.removePopUp(this);
+		}
+		private function decideGender():int{
+			var result:int;
+			if(this._newPatient.gender == "F")
+				result=0;
+			else if(this._newPatient.gender == "M")
+				result=1;
+			else
+				result=2;
+			return result;
+			
+		}
+		/* private function initGridID():void{
+			for(var i:int = 0;i<this._newPatient.idList.length;i++)
+			{
+				patientList.addItem(this._newPatient.idList.getItemAt(i));
+			}
+		} */
+		private function initGuidelines():void
+		{
+			var service : RemoteObject = new RemoteObject("careplanService");
+			var cs:ChannelSet = new ChannelSet();
+			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+			cs.addChannel(customChannel);
+			service.channelSet = cs;
+			service.addEventListener(ResultEvent.RESULT,onResultListGuidelines);
+			service.addEventListener(FaultEvent.FAULT, onFault);
+			
+			service.listCareplans();
+       		//subscriptionService.listRegisteredPatients();
+       	
+       	}
+       	public function onResultListGuidelines(result:ResultEvent):void 
+       	{
+       		
+        	for(var i:int =0; i< (result.result as ArrayCollection).length;i++)
+        	{
+        		guidelines.addItem((result.result as ArrayCollection).getItemAt(i));
+        	}
+       		
+       	} 
+      
+      
+        
+        ]]>
+	</mx:Script>
+		
+	<mx:Spacer height="5"/>
+	<mx:VBox width="901" height="473">
+		<!--<mx:HBox height="142" width="729">
+			<mx:Label text="Patient ID:" width="102"/>
+			<mx:DataGrid height="127"  id="patientIDList" dataProvider="{this._newPatient.idList}" width="319">
+				<mx:columns>
+					<mx:DataGridColumn headerText="Patient ID" dataField="patientID"/>
+					<mx:DataGridColumn headerText="Domain" dataField="domain"/>
+				</mx:columns>
+			</mx:DataGrid>
+			<mx:VBox>
+				<mx:ComboBox  id="domain" width="140">
+				<mx:ArrayCollection>
+					<mx:String>CIED</mx:String>
+				   		<mx:String>iCARDEA</mx:String>
+				   		<mx:String>ORBIS</mx:String>
+				   		<mx:String>PHR</mx:String>
+				   	</mx:ArrayCollection>	
+				</mx:ComboBox>
+				<mx:TextInput id="patientID" width="170" />
+			</mx:VBox>
+			
+			
+				<mx:VBox height="82" width="102">
+					<mx:Button label="Add" click="add()" width="85"/>
+					<mx:Button label="Remove" click="remove()" width="85"/>
+				</mx:VBox>
+		
+		</mx:HBox>-->
+		<mx:HBox>
+			<mx:Label text="Patient ID:" width="102"/>
+			<mx:TextInput id="patientID" text="{this._newPatient.personID}"/>
+		</mx:HBox>
+		<mx:HBox>
+			<mx:Label text="Patient Name:" width="102"/>
+			<mx:TextInput id="patientName" text="{this._newPatient.name}"/>
+		</mx:HBox>
+		<mx:HBox>
+			<mx:Label text="Patient Surname:" width="102"/>
+			<mx:TextInput id="patientSurname" text="{this._newPatient.surname}"/>
+		</mx:HBox>
+		<mx:HBox>
+			<mx:Label text="Date of Birth:" width="102"/>
+			<mx:DateField yearNavigationEnabled="true" width="127" id="dateOfBirth" text="{this._newPatient.dateOfBirth}"/>
+		</mx:HBox>
+		<mx:HBox width="356" height="27">
+			<mx:Label text="Gender:" width="102"/>
+			<mx:ComboBox selectedIndex="{decideGender()}" id="gender" width="160">
+			<mx:ArrayCollection>
+				<mx:String>Female</mx:String>
+	     		<mx:String>Male</mx:String>
+	     		<mx:String>Unknown</mx:String>
+	     	</mx:ArrayCollection>	
+			</mx:ComboBox>
+		</mx:HBox>
+		<mx:HBox width="341">
+			<mx:Label text="Adress:" width="102"/>
+			<mx:TextArea id="address" text="{this._newPatient.contact.addressLine}" height="75" width="160"/>
+		</mx:HBox>
+		<mx:HBox width="276">
+			<mx:Label text="Phone:" width="102"/>
+			<mx:TextInput id="phone" text="{this._newPatient.contact.phoneNumber}"/>
+		</mx:HBox>
+		<mx:Spacer height="9"/>
+		<mx:HBox width="276">
+			<mx:Label text="Email:" width="102"/>
+			<mx:TextInput id="email" text="{this._newPatient.contact.email}"/>
+		</mx:HBox>
+		<mx:Label text="Assign guideline:" width="102"/>
+		<mx:HBox height="108" width="858">
+			<mx:DataGrid initialize="initGuidelines()" width="366" height="99" id="assignGuideline" dataProvider="{guidelines}" borderStyle="none">
+				<mx:columns>
+					<mx:DataGridColumn headerText="ICD-10" dataField="id" width="80" />
+					<mx:DataGridColumn headerText="Name" dataField="name"/>	
+					<mx:DataGridColumn headerText="Date" dataField="date" width="100"/>
+				</mx:columns>
+			</mx:DataGrid>
+				<mx:VBox height="82" width="102">
+					<mx:Button label="Add" click="addCareplan()" width="85"/>
+					<mx:Button label="Remove" click="removeCareplan()" width="85"/>
+				</mx:VBox>
+				<mx:DataGrid width="367" height="99" id="patientGuidelines" dataProvider="{this._newPatient.assignedCareplans}" borderStyle="none">
+					<mx:columns>
+						<mx:DataGridColumn headerText="ICD-10" dataField="id" width="80" />
+						<mx:DataGridColumn headerText="Name" dataField="name"/>	
+						<mx:DataGridColumn headerText="Date" dataField="date" width="100"/>
+					</mx:columns>
+				</mx:DataGrid>
+		</mx:HBox>
+		<mx:HBox width="199" height="33">
+			<mx:Button label="Register" enabled="true" click="{register();}" width="87" height="29"/>
+			<mx:Button label="Cancel" enabled="true" click="{cancel();}" width="90" height="30"/>
+		</mx:HBox>
+		</mx:VBox>
+</mx:TitleWindow>

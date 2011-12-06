@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Application xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" initialize="{init()}">
+
+
+
+	<mx:Script>
+		<![CDATA[
+			
+			import mx.collections.ArrayCollection;
+			import mx.controls.Alert;
+			import mx.messaging.Channel;
+			import mx.messaging.ChannelSet;
+			import mx.messaging.channels.AMFChannel;
+			import mx.rpc.AsyncResponder;
+			import mx.rpc.AsyncToken;
+			import mx.rpc.events.FaultEvent;
+			import mx.rpc.events.ResultEvent;
+			import tr.com.srdc.icardea.careplan.pojo.Patient;
+			//import mx.rpc.remoting.RemoteObject;
+			
+			//var service:RemoteObject;
+			var patient:Patient;
+			
+			public function init():void{
+				patient = new Patient();
+				patient.familyName = "cimen";
+				patient.givenName = "cihan";
+				patient.country = "turkey";
+				/*
+				service = new RemoteObject("helloWorldService");
+				var cs:ChannelSet = new ChannelSet();
+				var customChannel:Channel = new AMFChannel("my-amf","/careplan-repo/messagebroker/amf");
+				cs.addChannel(customChannel);
+				service.channelSet = cs;
+				service.addEventListener("fault", onFaultEvent);*/
+			
+			}
+			
+			private function onResultEvent(event:ResultEvent):void {
+				Alert.show(event.result as String);
+			}
+			
+			private function onFaultEvent(event:FaultEvent):void {
+				Alert.show(event.fault.faultString);
+			}
+			
+			private function onResultPatient(event:ResultEvent):void{
+				var patients: ArrayCollection = event.result as ArrayCollection;
+				Alert.show(patients.length as String);
+			}
+		]]>
+	</mx:Script>
+	
+	<mx:RemoteObject id="helloWorldService" destination="helloWorldService">
+		<mx:method name="say" result="onResultEvent(event)" fault="onFaultEvent(event)" />
+		
+	</mx:RemoteObject>
+	
+	<mx:RemoteObject id="patientDAO" destination="patientDAO">
+		<mx:method name="findAll" result="onResultPatient(event)" fault="onFaultEvent(event)"/>
+	</mx:RemoteObject>
+		
+	<mx:HBox horizontalCenter="0" verticalCenter="0">
+		<mx:Label text="Enter your name:" /> 
+		<mx:TextInput id="who" /> 
+		<mx:Button click="{helloWorldService.say(who.text)}" label="Say" />
+		<mx:Button click="{patientDAO.findAll()}" label="Find All" />
+		<mx:Button click="{patientDAO.save(patient)}" label="Save Patient" />
+	</mx:HBox>
+</mx:Application>

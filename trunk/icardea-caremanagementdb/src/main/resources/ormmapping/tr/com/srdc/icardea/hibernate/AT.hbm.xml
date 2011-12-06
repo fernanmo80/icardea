@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.AT" table="AT">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <many-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.STAT" column="STATID" lazy="no-proxy" name="sTAT" not-null="true" unique="true">
+		</many-to-one>
+    <property column="dtm_start" lazy="false" length="50" name="dtm_start" not-null="false" type="string"/>
+    <property column="dtm_end" lazy="false" length="50" name="dtm_end" not-null="false" type="string"/>
+    <property column="mode_sw_max_duration" lazy="false" length="50" name="mode_sw_max_duration" not-null="false" type="string"/>
+    <property column="burden_percent" lazy="false" length="50" name="burden_percent" not-null="false" type="string"/>
+    <property column="mode_sw_percent_time" lazy="false" length="50" name="mode_sw_percent_time" not-null="false" type="string"/>
+    <property column="mode_sw_percent_time_per_day" lazy="false" length="50" name="mode_sw_percent_time_per_day" not-null="false" type="string"/>
+    <property column="mode_sw_count" lazy="false" length="50" name="mode_sw_count" not-null="false" type="string"/>
+    <property column="mode_sw_count_per_day" lazy="false" length="50" name="mode_sw_count_per_day" not-null="false" type="string"/>
+  </class>
+</hibernate-mapping>

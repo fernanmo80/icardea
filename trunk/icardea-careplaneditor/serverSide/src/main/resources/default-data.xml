@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dataset>
+    <table name="CONTACT">
+    	<column>id</column>
+    	<column>addressline</column>
+    	<column>faxnumber</column>
+    	<column>email</column>
+    	<column>phonenumber</column>
+    	<column>mobilenumber</column>
+    	<column>gtalk</column>
+    	<row>
+    		<value description="id">id</value>
+    		<value description="address_line">Odtu</value>
+    		<value description="fax_number">03128676218</value>
+    		<value description="email">ozan@srdc.com.tr</value>
+    		<value description="phone_number">03122831766</value>
+    		<value description="mobile_number">05558676218</value>
+    		<value description="gtalk">ozantonkal@gmail.com</value>
+    	</row>
+    	<row>
+    		<value description="id">srdc</value>
+    		<value description="address_line">Odtü - Teknokent</value>
+    		<value description="fax_number">03122101837</value>
+    		<value description="email"></value>
+    		<value description="phone_number">03122101763</value>
+    		<value description="mobile_number"></value>
+    		<value description="gtalk"></value>
+    	</row>
+    	<row>
+    		<value description="id">id</value>
+    		<value description="address_line">Odtu</value>
+    		<value description="fax_number">03121321322</value>
+    		<value description="email">elif@srdc.com.tr</value>
+    		<value description="phone_number">03123212233</value>
+    		<value description="mobile_number">05553123321</value>
+    		<value description="gtalk">eliferylmz@gmail.com</value>
+    	</row>
+    </table>
+    <table name="ORGANIZATION">
+    	<column>id</column>
+    	<column>identifier</column>
+    	<column>name_</column>
+    	<column>contact_organization_hjid</column>
+    	<row>
+    		<value description="id">1</value>
+    		<value description="identifier">srdc</value>
+    		<value description="name_">SRDC</value>
+    		<value description="contact_organization_hjid">2</value>
+    	</row>
+    </table>
+    <table name="PERSON">
+    	<column>identifier</column>
+    	<column>alternateidentifier</column>
+    	<column>name_</column>
+    	<column>surname</column>
+    	<column>middlename</column>
+    	<column>title</column>
+    	<column>role_</column>
+    	<column>username</column>
+    	<column>password_</column>
+    	<column>organization_person_hjid</column>
+    	<column>contact_person_hjid</column>
+    	<row>
+    		<value description="identifier">identifier</value>
+    		<value description="alternate_identifier">alternate_identifier</value>
+    		<value description="name">admin</value>
+    		<value description="surname">admin</value>
+    		<value description="middle_name">Cagri</value>
+    		<value description="title">Mr.</value>
+    		<value description="role">ROLE_ADMIN</value>
+    		<value description="username">admin</value>
+    		<value description="password">admin</value>
+    		<value description="organization_person_hjid">1</value>
+    		<value description="contact_person_hjid">1</value>
+    	</row>
+    	<row>
+    		<value description="identifier">identifier</value>
+    		<value description="alternate_identifier">alternate_identifier</value>
+    		<value description="name">Elif</value>
+    		<value description="surname">Eryilmaz</value>
+    		<value description="middle_name"></value>
+    		<value description="title">Ms.</value>
+    		<value description="role">ROLE_USERS</value>
+    		<value description="username">elif</value>
+    		<value description="password">elif</value>
+    		<value description="organization_person_hjid">1</value>
+    		<value description="contact_person_hjid">3</value>
+    	</row>
+    </table>
+</dataset>

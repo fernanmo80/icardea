@@ -1,0 +1,260 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<xsd:element name="MedicalCareplan">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Header" type="Header" />
+				<xsd:element name="Body" type="Body" />
+			</xsd:sequence>
+			<xsd:attribute name="ID" type="xsd:ID" />
+			<xsd:attribute name="name" type="xsd:string" />
+			<xsd:attribute name="version" type="xsd:string" />
+			<xsd:attribute name="ICD10Code" type="xsd:string" />
+		</xsd:complexType>
+	</xsd:element>
+	<xsd:simpleType name="UUIDType">
+		<xsd:restriction base="xsd:ID">
+			<xsd:pattern
+				value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:complexType name="Header">
+		<xsd:sequence>
+			<xsd:element name="MedicalDomainExpert" type="Person"
+				maxOccurs="unbounded" />
+			<xsd:element name="CareplanReviewer" type="Person"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="HealthcareActor" type="Person"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xsd:element name="Patient" type="Person" minOccurs="0" />
+			<xsd:element name="History" type="History" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xsd:element name="CreatedBy" type="Reference" />
+			<xsd:element name="ApprovedBy" type="Reference"
+				minOccurs="0" />
+			<xsd:element name="PersonalizedBy" type="Reference"
+				minOccurs="0" />
+			<xsd:element name="PersonalizedForPatient" type="Reference"
+				minOccurs="0" />
+			<xsd:element name="InstanceInformation" type="InstanceInformation"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="InstanceInformation">
+		<xsd:sequence>
+			<xsd:element name="DateTime" type="xsd:dateTime" />
+			<xsd:element name="Description" type="xsd:string"
+				minOccurs="0" />
+			<xsd:element name="CreatedBy" type="Reference" />
+		</xsd:sequence>
+		<xsd:attribute name="UUID" type="UUIDType" />
+	</xsd:complexType>
+	<xsd:complexType name="History">
+		<xsd:sequence>
+			<xsd:element name="Version" type="xsd:string" />
+			<xsd:element name="DateTime" type="xsd:dateTime" />
+			<xsd:element name="Description" type="xsd:string"
+				minOccurs="0" />
+			<xsd:element name="ChangedBy" type="Reference" />
+		</xsd:sequence>
+		<xsd:attribute name="ID" type="xsd:ID" />
+	</xsd:complexType>
+	<xsd:complexType name="Person">
+		<xsd:sequence>
+			<xsd:element name="ID" type="ID" maxOccurs="unbounded" />
+			<xsd:element name="Name" type="xsd:string" />
+			<xsd:element name="Middlename" type="xsd:string"
+				minOccurs="0" />
+			<xsd:element name="Surname" type="xsd:string" />
+			<xsd:element name="Title" type="xsd:string" minOccurs="0" />
+			<xsd:element name="Contact" type="Contact" minOccurs="0" />
+			<xsd:element name="Organization" type="Organization" />
+		</xsd:sequence>
+		<xsd:attribute name="personID" type="xsd:ID" />
+	</xsd:complexType>
+	<xsd:complexType name="Reference">
+		<xsd:sequence>
+			<xsd:element name="EvaluationScript" type="xsd:string"
+				minOccurs="0" />			
+		</xsd:sequence>
+		<xsd:attribute name="ref" type="xsd:IDREF" />
+		<xsd:attribute name="name" type="xsd:string" />
+	</xsd:complexType>
+	<xsd:complexType name="ID">
+		<xsd:simpleContent>
+			<xsd:extension base="xsd:string">
+				<xsd:attribute name="schemeID" type="xsd:string" />
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="Contact">
+		<xsd:sequence>
+			<xsd:element name="AddressLine" type="xsd:string"
+				minOccurs="0" />
+			<xsd:element name="PhoneNumber" type="xsd:string"
+				minOccurs="0" />
+			<xsd:element name="MobilePhoneNumber" type="xsd:string"
+				minOccurs="0" />
+			<xsd:element name="Email" type="xsd:string" minOccurs="0" />
+			<xsd:element name="FaxNumber" type="xsd:string"
+				minOccurs="0" />
+			<xsd:element name="GTalk" type="xsd:string" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Organization">
+		<xsd:sequence>
+			<xsd:element name="Name" type="xsd:string" />
+			<xsd:element name="Contact" type="Contact" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Body">
+		<xsd:sequence>
+			<xsd:element name="EligibilityCriteria" type="EligibilityCriteria" />
+			<xsd:element name="Algorithm" type="Algorithm" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="EligibilityCriteria">
+		<xsd:sequence>
+			<xsd:element name="Variable" type="Variable" minOccurs="0" />
+			<xsd:element name="EvaluationScript" type="xsd:string" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Variable">
+		<xsd:sequence>
+			<xsd:element name="Concept" type="Code" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xsd:element name="DataSource" type="Code" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xsd:element name="RefinementScript" type="xsd:string"
+				minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" />
+		<xsd:attribute name="type" type="xsd:string" />
+	</xsd:complexType>
+	
+	<xsd:complexType name="Event">
+		<xsd:sequence>
+			<xsd:element name="DataSource" type="Code" minOccurs="0"
+				maxOccurs="unbounded" />
+				
+		</xsd:sequence>
+		
+	</xsd:complexType>
+	
+	<xsd:complexType name="Code">
+		<xsd:attribute name="code" type="xsd:string" />
+		<xsd:attribute name="name" type="xsd:string" />
+		<xsd:attribute name="schemeID" type="xsd:string" />
+		<xsd:attribute name="attribute" type="xsd:string" />
+	</xsd:complexType>
+	<xsd:complexType name="Value">
+		<xsd:attribute name="text" type="xsd:string" />
+	</xsd:complexType>
+	<xsd:complexType name="Duration">
+		<xsd:attribute name="unit" type="xsd:string" />
+		<xsd:attribute name="amount" type="xsd:string" />
+		
+	</xsd:complexType>
+	<xsd:complexType name="Algorithm">
+		<xsd:choice maxOccurs="unbounded">
+			<xsd:element name="StartStep" type="StartStep" />
+			<xsd:element name="FinalStep" type="FinalStep" />
+			<xsd:element name="DecisionStep" type="DecisionStep" />
+			<xsd:element name="RecommendationStep" type="RecommendationStep" />
+			<xsd:element name="ConsultStep" type="ConsultStep" />
+			<xsd:element name="WaitStep" type="WaitStep" />
+			<xsd:element name="RecordActionStep" type="RecordActionStep" />
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="StartStep">
+		<xsd:sequence>
+			<xsd:element name="NextStep" type="Reference" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xsd:element name="ExecutionLog" type="Log" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="ID" type="xsd:ID" />
+		<xsd:attribute name="name" type="xsd:string" />
+	</xsd:complexType>
+	<xsd:complexType name="FinalStep">
+		<xsd:sequence>
+			<xsd:element name="ExecutionLog" type="Log" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="ID" type="xsd:ID" />
+		<xsd:attribute name="name" type="xsd:string" />
+	</xsd:complexType>
+	<xsd:complexType name="DecisionStep">
+		<xsd:sequence>
+			<xsd:element name="Variable" type="Variable" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xsd:element name="NextStep" type="Reference" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xsd:element name="ExecutionLog" type="Log" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="ID" type="xsd:ID" />
+		<xsd:attribute name="name" type="xsd:string" />
+	</xsd:complexType>
+	<xsd:complexType name="WaitStep">
+		<xsd:sequence>
+			<xsd:element name="Event" type="Event" minOccurs="0"
+				maxOccurs="unbounded" />
+				<xsd:element name="Duration" type="Duration" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xsd:element name="NextStep" type="Reference" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xsd:element name="ExecutionLog" type="Log" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="ID" type="xsd:ID" />
+		<xsd:attribute name="name" type="xsd:string" />
+	</xsd:complexType>
+	<xsd:complexType name="RecordActionStep">
+		<xsd:sequence>
+			<xsd:element name="Concept" type="Code" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xsd:element name="DataSource" type="Code" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xsd:element name="Value" type="Value"
+				minOccurs="0" />
+				<xsd:element name="NextStep" type="Reference" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xsd:element name="ExecutionLog" type="Log" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="name" type="xsd:string" />
+		<xsd:attribute name="ID" type="xsd:ID" />
+	</xsd:complexType>
+	<xsd:complexType name="RecommendationStep">
+		<xsd:sequence>
+			<xsd:element name="Receiver" type="Reference" minOccurs="0" />
+			<xsd:element name="Urgency" type="xsd:string" minOccurs="0" />
+			<xsd:element name="Display" type="Display" minOccurs="0" />
+			<xsd:element name="NextStep" type="Reference" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xsd:element name="ExecutionLog" type="Log" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="ID" type="xsd:ID" />
+		<xsd:attribute name="name" type="xsd:string" />
+	</xsd:complexType>
+	<xsd:complexType name="ConsultStep">
+		<xsd:sequence>
+			<xsd:element name="Variable" type="Variable" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xsd:element name="Display" type="Display" minOccurs="0" />
+			<xsd:element name="NextStep" type="Reference" minOccurs="0"
+				maxOccurs="unbounded" />
+			<xsd:element name="ExecutionLog" type="Log" minOccurs="0" />
+		</xsd:sequence>
+		<xsd:attribute name="ID" type="xsd:ID" />
+		<xsd:attribute name="name" type="xsd:string" />
+	</xsd:complexType>
+	<xsd:complexType name="Display">
+		<xsd:sequence>
+			<xsd:any namespace="##any" processContents="skip" />
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="Log">
+		<xsd:sequence>
+			<xsd:element name="ExecutionStatus" type="xsd:string" />
+			<!-- Started, Aborted, Finished, etc... -->
+			<xsd:element name="DateTime" type="xsd:dateTime" />
+		</xsd:sequence>
+	</xsd:complexType>
+</xsd:schema>

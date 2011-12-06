@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.BATTERY2" table="BATTERY">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <many-to-one access="field" cascade="lock" class="tr.com.srdc.icardea.hibernate.MSMT" column="MSMTID" lazy="no-proxy" name="mSMT" not-null="false">
+		</many-to-one>
+    <property column="dtm" lazy="false" length="50" name="dtm" not-null="false" type="string"/>
+    <property column="status" lazy="false" length="50" name="status" not-null="false" type="string"/>
+    <property column="voltage" lazy="false" length="50" name="voltage" not-null="false" type="string"/>
+    <property column="impedance" lazy="false" length="50" name="impedance" not-null="false" type="string"/>
+    <property column="remaining_longevity" lazy="false" length="50" name="remaining_longevity" not-null="false" type="string"/>
+    <property column="remaining_percentage" lazy="false" length="50" name="remaining_percentage" not-null="false" type="string"/>
+    <property column="rrt_trigger" lazy="false" length="50" name="rrt_trigger" not-null="false" type="string"/>
+    <property column="subID" lazy="false" length="11" name="subID" not-null="false" type="integer"/>
+  </class>
+</hibernate-mapping>

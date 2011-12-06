@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.LEADHVCHANNELSET" table="LEADHVCHANNELSET">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <property column="subID" lazy="false" length="11" name="subID" not-null="false" type="integer"/>
+    <many-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.SET" column="SETID" lazy="no-proxy" name="sET" not-null="true" unique="true">
+		</many-to-one>
+    <one-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.SHOCKVECTOR" lazy="no-proxy" name="sHOCKVECTOR" property-ref="lEADHVCHANNELSET"/>
+  </class>
+</hibernate-mapping>

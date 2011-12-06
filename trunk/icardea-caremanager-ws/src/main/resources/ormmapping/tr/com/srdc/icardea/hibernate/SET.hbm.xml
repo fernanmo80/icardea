@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.hibernate.SET" table="`SET`" lazy="false">
+		<id name="ID" column="ID" type="integer" unsaved-value="0">
+			<generator class="increment">
+			</generator>
+		</id>
+		<many-to-one name="system" column="SystemID" class="tr.com.srdc.icardea.hibernate.System" cascade="save-update,lock" unique="true" not-null="true" lazy="no-proxy" access="field">
+		</many-to-one>
+		<one-to-one name="cRTSET" class="tr.com.srdc.icardea.hibernate.CRTSET" cascade="save-update,lock" property-ref="sET" lazy="no-proxy" access="field"/>
+		<one-to-one name="mAGNET" class="tr.com.srdc.icardea.hibernate.MAGNET" cascade="save-update,lock" property-ref="sET" lazy="no-proxy" access="field"/>
+		<one-to-one name="bRADYSET" class="tr.com.srdc.icardea.hibernate.BRADYSET" cascade="save-update,lock" property-ref="sET" lazy="no-proxy" access="field"/>
+		<one-to-one name="tACHYTHERAPYSET" class="tr.com.srdc.icardea.hibernate.TACHYTHERAPYSET" cascade="save-update,lock" property-ref="sET" lazy="no-proxy" access="field"/>
+		<set name="ORM_zONE" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="SETID" not-null="true"/>
+			<one-to-many class="tr.com.srdc.icardea.hibernate.ZONE"/>
+		</set>
+		<one-to-one name="lEADHVCHANNELSET" class="tr.com.srdc.icardea.hibernate.LEADHVCHANNELSET" cascade="save-update,lock" property-ref="sET" lazy="no-proxy" access="field"/>
+		<set name="ORM_lEADCHNLSET" lazy="true" cascade="save-update,lock" inverse="true">
+			<key column="SETID" not-null="true"/>
+			<one-to-many class="tr.com.srdc.icardea.hibernate.LEADCHNLSET"/>
+		</set>
+	</class>
+</hibernate-mapping>

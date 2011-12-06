@@ -1,0 +1,56 @@
+<h1>iCARDEA OpenID Provider</h1>
+<p>So this is an OpenID Provider for iCARDEA that supports the authentication of the
+users using the Windows 'Domain Controller'. </p>
+<h2>Install</h2>
+<p>We assume a Windows machine is used for the installation of this server since some
+windows specific APIs are used for authenticating users. Also the code is written in
+<a href="http://www.python.org/">Python</a> and therefore it should be the first to be
+installed. </p>
+<p>Now in addition to Python the following python modules should be installed (either
+using <a href="http://pypi.python.org/pypi/setuptools">easy_install</a>, or
+<a href="http://pypi.python.org/pypi/pip">pip</a> or even by finding a <a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/">Windows precompiled
+binary</a>):</p>
+<ul>
+<li><a href="http://pywin32.sourceforge.net/">pywin32</a></li>
+<li>bottle</li>
+<li>jinja2</li>
+<li>bottle_sqlite</li>
+<li>python-openid</li>
+<li>beaker</li>
+<li><a href="http://timgolden.me.uk/python/ad_cookbook.html">active_directory</a></li>
+</ul>
+<p>You can run the server either as a standalone server or by employing the
+ <a href="http://code.google.com/p/modwsgi/">mod_wsgi</a> module of Apache, which is the
+ preferred option. In the second case you need to do the following:</p>
+<ul>
+<li>
+<p>Download the <code>mod_wsgi.so</code> lib (the windows binary) from
+  <a href="http://code.google.com/p/modwsgi/wiki/DownloadTheSoftware">http://code.google.com/p/modwsgi/wiki/DownloadTheSoftware</a> and place it in the
+  modules dir of your Apache installation (normally this should be something like
+  <code>C:\Program Files\Apache Software Foundation\Apache2.2\modules</code>).</p>
+</li>
+<li>
+<p>Load the module in the Apache configuration file (i.e. httpd.conf):</p>
+<pre><code>LoadModule wsgi_module modules/mod_wsgi.so
+</code></pre>
+</li>
+<li>
+<p>In the Apache Configuration file write the following (assuming that you have unzip
+  the code in the <code>c:\iCARDEA\openid</code>):</p>
+<pre><code>Alias /idp/static C:/iCARDEA/openid/static
+&lt;Directory C:/iCARDEA/openid&gt;
+    Order allow,deny
+    Allow from all
+&lt;/Directory&gt;
+WSGIScriptAlias /idp C:/iCARDEA/openid/icardea_openid.py
+</code></pre>
+</li>
+<li>
+<p>Now visit <a href="http://localhost/idp/">http://localhost/idp/</a> and you should be welcomed by the iCARDEA
+  Openid Server!</p>
+</li>
+</ul>
+<p><small>
+Stelios Sfakianakis, 17/10/2011</p>
+<p>&copy; 2011 <a href="http://www.ics.forth.gr">ICS-FORTH</a>
+</small></p>

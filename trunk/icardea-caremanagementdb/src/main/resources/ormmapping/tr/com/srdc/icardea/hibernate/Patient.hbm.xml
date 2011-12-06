@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.Patient" table="Patient">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <property column="assigningAuthority" lazy="false" length="255" name="assigningAuthority" not-null="false" type="string"/>
+    <property column="identifierTypeCode" lazy="false" length="255" name="identifierTypeCode" not-null="false" type="string"/>
+    <property column="givenName" lazy="false" length="255" name="givenName" not-null="false" type="string"/>
+    <property column="familyName" lazy="false" length="255" name="familyName" not-null="false" type="string"/>
+    <property column="secondName" lazy="false" length="255" name="secondName" not-null="false" type="string"/>
+    <property column="dateTimeOfBirth" lazy="false" length="255" name="dateTimeOfBirth" not-null="false" type="string"/>
+    <property column="administrativeSex" lazy="false" length="255" name="administrativeSex" not-null="false" type="string"/>
+    <property column="street" lazy="false" length="255" name="street" not-null="false" type="string"/>
+    <property column="city" lazy="false" length="255" name="city" not-null="false" type="string"/>
+    <property column="postalCode" lazy="false" length="255" name="postalCode" not-null="false" type="string"/>
+    <property column="country" lazy="false" length="255" name="country" not-null="false" type="string"/>
+    <property column="patientIdentifier" lazy="false" length="255" name="patientIdentifier" not-null="false" type="string"/>
+    <property column="citizenshipNumber" lazy="false" length="255" name="citizenshipNumber" not-null="false" type="string"/>
+    <set cascade="save-update,lock" inverse="true" lazy="true" name="ORM_eHRPHRData">
+      <key column="PatientID" not-null="true"/>
+      <one-to-many class="tr.com.srdc.icardea.hibernate.EHRPHRData"/>
+    </set>
+    <set cascade="save-update,lock" inverse="true" lazy="true" name="ORM_cIEDData1">
+      <key column="PatientID" not-null="true"/>
+      <one-to-many class="tr.com.srdc.icardea.hibernate.CIEDData"/>
+    </set>
+  </class>
+</hibernate-mapping>

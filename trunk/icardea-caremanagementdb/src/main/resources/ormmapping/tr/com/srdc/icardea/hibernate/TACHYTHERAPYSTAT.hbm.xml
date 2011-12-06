@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.TACHYTHERAPYSTAT" table="TACHYTHERAPYSTAT">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <property column="shocks_delivered_recent" lazy="false" length="50" name="shocks_delivered_recent" not-null="false" type="string"/>
+    <property column="shocks_delivered_total" lazy="false" length="50" name="shocks_delivered_total" not-null="false" type="string"/>
+    <property column="shocks_aborted_recent" lazy="false" length="50" name="shocks_aborted_recent" not-null="false" type="string"/>
+    <property column="shocks_aborted_total" lazy="false" length="50" name="shocks_aborted_total" not-null="false" type="string"/>
+    <property column="atp_delivered_recent" lazy="false" length="50" name="atp_delivered_recent" not-null="false" type="string"/>
+    <property column="atp_delivered_total" lazy="false" length="50" name="atp_delivered_total" not-null="false" type="string"/>
+    <property column="total_dtm_start" lazy="false" length="50" name="total_dtm_start" not-null="false" type="string"/>
+    <property column="total_dtm_end" lazy="false" length="50" name="total_dtm_end" not-null="false" type="string"/>
+    <property column="recent_dtm_start" lazy="false" length="50" name="recent_dtm_start" not-null="false" type="string"/>
+    <property column="recent_dtm_end" lazy="false" length="50" name="recent_dtm_end" not-null="false" type="string"/>
+    <many-to-one access="field" cascade="save-update,lock" class="tr.com.srdc.icardea.hibernate.STAT" column="STATID" lazy="no-proxy" name="sTAT" not-null="true" unique="true">
+		</many-to-one>
+  </class>
+</hibernate-mapping>

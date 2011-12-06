@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.EPISODEROOT" table="EPISODEROOT">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <property column="identifier" lazy="false" length="50" name="identifier" not-null="false" type="string"/>
+    <property column="dtm" lazy="false" length="50" name="dtm" not-null="false" type="string"/>
+    <property column="atrial_interval_at_detection" lazy="false" length="50" name="atrial_interval_at_detection" not-null="false" type="string"/>
+    <property column="atrial_interval_at_termination" lazy="false" length="50" name="atrial_interval_at_termination" not-null="false" type="string"/>
+    <property column="ventricular_interval_at_detection" lazy="false" length="50" name="ventricular_interval_at_detection" not-null="false" type="string"/>
+    <property column="ventricular_interval_at_termination" lazy="false" length="50" name="ventricular_interval_at_termination" not-null="false" type="string"/>
+    <property column="detection_therapy_details" lazy="false" length="200" name="detection_therapy_details" not-null="false" type="string"/>
+    <property column="therapy_result" lazy="false" length="50" name="therapy_result" not-null="false" type="string"/>
+    <property column="duration" lazy="false" length="50" name="duration" not-null="false" type="string"/>
+    <property column="subID" lazy="false" length="11" name="subID" not-null="false" type="integer"/>
+    <many-to-one access="field" cascade="lock" class="tr.com.srdc.icardea.hibernate.System" column="SystemID" lazy="no-proxy" name="system" not-null="true">
+		</many-to-one>
+    <property column="type" lazy="false" length="50" name="type" not-null="false" type="string"/>
+    <property column="type_induced" lazy="false" length="50" name="type_induced" not-null="false" type="string"/>
+    <property column="vendor_type" lazy="false" length="50" name="vendor_type" not-null="false" type="string"/>
+  </class>
+</hibernate-mapping>

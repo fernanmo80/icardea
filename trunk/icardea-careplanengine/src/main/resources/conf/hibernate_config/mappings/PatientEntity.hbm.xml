@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping>
+	<class name="tr.com.srdc.icardea.careplanengine.entities.PatientEntity" table="PATIENT">
+		<id name="pid" column="PATIENTID">
+			<generator class="assigned"/>
+		</id>
+		
+		<property name="pcode" column="PATIENTCODE" type="long"/>
+		<property name="name" column="PATIENTNAME" type="string"/>
+		<property name="birthDate" column="BIRTHDATE" type="timestamp"/>
+		<property name="gender" column="GENDER" type="string"/>
+		<property name="height" column="HEIGHT" type="double"/>
+		<property name="weight" column="WEIGHT" type="double"/>
+		<property name="marital" column="MARITALSTATUS" type="string"/>
+		<property name="address" column="HOMEADDRESS" type="string"/>
+		<property name="hospFileNo" column="HOSPITALFILENO" type="int"/>
+
+	</class>
+</hibernate-mapping>

@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+{% block htmlBody %}
+<p>A new site has asked to confirm your identity.  If you approve, the
+site represented by the trust root below will be told that you control
+identity <span class="opid">{{identity}}</span>.</p>
+
+<table>
+    <tr><td>Identity:</td><td>{{identity}}</td></tr>
+    <tr><td>Site:</td>
+        <td><a href="{{trust_root}}" class="trustroot" target="_blank">{{trust_root}}</a></td></tr>
+</table>
+<form method="POST" action="allow">
+    <fieldset>
+        <legend>Do you want to allow this authentication to proceed?</legend> 
+        <input type="submit" name="yes" value="yes" /> 
+        <input type="submit" name="no" value="no" />
+        <p><label for="remember">Remember this decision</label>
+        <input type="checkbox" id="remember" name="remember" value="yes" /></p>
+    </fieldset>
+</form>
+{% endblock %}

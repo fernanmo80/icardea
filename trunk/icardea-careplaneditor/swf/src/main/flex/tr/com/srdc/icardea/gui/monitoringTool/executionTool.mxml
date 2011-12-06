@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" 
+	
+	creationComplete="init()" width="506" height="226"
+	  title="Monitoring">
+	<mx:Script>
+		<![CDATA[
+			import mx.controls.Alert;
+			import mx.rpc.events.FaultEvent;
+			import mx.messaging.channels.SecureAMFChannel;
+			import mx.messaging.Channel;
+			import mx.messaging.ChannelSet;
+			import mx.rpc.remoting.RemoteObject;
+			import mx.rpc.events.ResultEvent;
+			import tr.com.srdc.icardea.model.monitoring.ConsultMessage;
+			import tr.com.srdc.icardea.gui.CarePlanEditor;
+			import flash.utils.clearInterval;
+			import mx.managers.PopUpManager;
+			import mx.controls.Button;
+			
+			[Bindable]
+			public var pressedButton:Number;
+			
+			public var sparent:CarePlanEditor;
+			
+			[Bindable]
+			public var html:String;
+			[Bindable]
+			public var cm:ConsultMessage;
+			
+			
+			private function init():void {
+				
+				//var scriptContent:String =  "var btnWhichButton;"+"function ValidateData() {"+"if (btnWhichButton.value == 'The case is VT!' ) {"+"alert('VT Pressed');"+"} else if (btnWhichButton.value == 'There is Noise!' ){"+"alert('Noise Pressed');"+"} else if (btnWhichButton.value == 'Submit' ){"+"alert('Submit Pressed');"+"return true;}"+"return false;}";
+				var scriptContent:String =  "var btnWhichButton;"+"function ValidateData() {getFlexApp('iCardea').consultResult(btnWhichButton.value); window.close(); return true; }	"+"	function getFlexApp(appName){  if (navigator.appName.indexOf ('Microsoft') !=-1)  { return opener.window[appName];  }  else { return opener.document[appName];  }	}";
+				//var noscriptContent:String =	"<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' id='iCardea' width='100%' height='100%'	codebase='http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab'><param name='movie' value='iCardea.swf' />	<param name='quality' value='high' /><param name='bgcolor' value='#ececec' /><param name='allowScriptAccess' value='sameDomain' />	<embed src='iCardea.swf' quality='high' bgcolor='#ececec'	width='100%' height='100%' name='iCardea' align='middle' play='true' loop='false'	quality='high'	allowScriptAccess='sameDomain'	type='application/x-shockwave-flash'	pluginspage='http://www.adobe.com/go/getflashplayer'>	</embed></object>";	
+				//var st:String = "function(){" +"var pop_w = window.open( '', '', 'height = 750, width = 600,scrollbars=1' );"+	"var content = "+cm.consultHTMLString+";"+"pop_w.document.write(content);"+	"pop_w.document.close(); }";//var st2:String = "function ValidateData() {	if (btnWhichButton.value == 'The case is VT!' ) {	alert('VT Pressed');	} else if (btnWhichButton.value == 'There is Noise!' ){	alert('Noise Pressed');	} else if (btnWhichButton.value == 'Submit' ){	alert('Submit Pressed');return true;}return false;}";
+                //$('head').append("+scriptContent+");              
+                //ExternalInterface.call("st",cm.consultHTMLString,scriptContent);
+                //ExternalInterface.call(st);
+               
+                
+				
+                var arr:Array = cm.consultHTMLString.split("<body>");
+                var arr1:Array = (arr[1] as String).split("</body>");
+                var st2:String = arr1[0];
+                
+                trace("buraya bak: "+st2);
+                
+                ExternalInterface.call('openindex',st2,scriptContent);
+                
+    		    ExternalInterface.addCallback("consultResult",consultResult);
+			
+			}
+			
+			public function consultResult(result:String):void {
+				trace("result: "+result)
+				trace("cm.careplanProcessorID"+cm.careplanProcessorID)
+   				informConsultMessage(cm.careplanProcessorID, result);
+                closePopUp();
+				
+			}
+		
+			 public function loadButtons(options:Array):void {
+                
+                var length = options.length;
+                trace(length);
+                for (var i = 0; i < length; i++) {
+                        var button:Button = new Button;
+                        button.label = options[i];
+                        trace( "button.label"+ button.label)
+                        button.id = i;
+                        button.addEventListener(MouseEvent.CLICK, buttonClicked);
+                        infoBox.addChild(button); 
+                }
+                
+            }
+            
+            private function buttonClicked(event:MouseEvent):void {
+                //The order of the buttons here is important as they get their id from it.
+                sparent.nextDob = parseInt((event.currentTarget as Button).id);
+                
+                var choiceResult:String = ((event.currentTarget) as Button).label;
+                trace("choiceResult"+choiceResult)
+                trace("cm.careplanProcessorID"+cm.careplanProcessorID)
+   					
+   				informConsultMessage(cm.careplanProcessorID, choiceResult);
+               
+                closePopUp();
+            }
+            public function informConsultMessage(executionID:String, result:String):void{
+       			var service : RemoteObject = new RemoteObject("engineService");
+				var cs:ChannelSet = new ChannelSet();
+				var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+				cs.addChannel(customChannel);
+				service.channelSet = cs;
+				service.addEventListener(ResultEvent.RESULT,onResultInformConsultMessage);
+				service.addEventListener(FaultEvent.FAULT, onFault);
+				
+				service.informConsultMessage(executionID,result); 
+       		}
+       		public function onFault(fault:FaultEvent):void 
+	        {
+	       		Alert.show(fault.fault.faultString);	
+	       	}
+       		
+       		public function onResultInformConsultMessage(result:ResultEvent):void {
+       			
+       		}
+			
+			
+			public function closePopUp():void {
+				//Dispatch close event, so that the parent is able to recognize popup's been closed.
+				dispatchEvent(new Event(Event.CLOSE));
+				PopUpManager.removePopUp(this);		
+			} 
+			 public function callJavaScript():void {
+				//cm.consultHTMLString = "<HTML>"+"<head/><body>"+"<table cellspacing='10' style='background-color:#e1e1e1'><tbody><tr id='PatientBlock' name='PatientBlock'><td style='background-color:#eeeeee'><p align='center'><b>Brief Information about the patient </b></p><p>Patient Name:"+	"<b>Jane </b><b> </b><b>Mayr </b><br/>"+"Patient ID: "+	"<b>model:Maximo/serial:D284DRG </b><br/><a href='http://patient.parameter.monitor.link/a.php?patientID'>Access to EHR</a><br/>"+	"Implanted Device:"+"<b>CIED </b><b>Maximo </b><br/>"+	"Last Follow-up Date: <b> </b><a href='http://link.to.care.management.db'>Access to previous Remote follow-up results</a> </p><p><br/>"+ " </p>"+  " </td>"+ "</tr><tr name='CIEDBlock'><td style='background-color:#eeeeee'><p align='center'><b>Brief Information about the recent alarm </b></p>"+ "Received Date: <b>20110805105559 </b><br/>"+ "Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br/><a href='http://patient.parameter.monitor.link'>Access to Report Exported</a> </td>"+ "</tr><tr name='EHRBlock'><td style='background-color:#eeeeee'><p align='center'><b>Brief Information about the Patient History retrieved from EHR</b> </p><table width='100%'><tbody><tr><th>Active Medications</th><th>Does the patient regularly takes the medications?</th>"+ " </tr>"+"</tbody>"+  " </table>"+  "</td>"+  "</tr><tr name='ChoiceBlock'><td style='background-color:#eeeeee'><p align='center'><b><font color='#880015'>Recommendation and Next Step to follow </font></b> </p><p>Please select the appropriate case: </p>"+  "</td>"+  "</tr>"+"</tbody>"+ " </table>"+  "  </body>"+ " </HTML>";
+				trace("$$$$ consultHTMLString: "+cm.consultHTMLString);
+                var st:String = "function(){" +"var pop_w = window.open( '', '', 'height = 750, width = 600,scrollbars=1' );"+	"var content = "+cm.consultHTMLString+";"+"pop_w.document.write(content);"+	"pop_w.document.close();}";
+                ExternalInterface.call(st);
+                trace("OK");
+        
+            }
+      
+
+    
+			
+			
+		]]>
+	</mx:Script>
+	
+		<!-- This VBox is to show the images, html and other staff except the buttons -->
+		<!--<mx:Button label="Show Consultation Information" click="callJavaScript()" width="217" height="42"/>-->
+		<mx:Label text="Please choose next step to execute:" width="235" height="33"/>
+		<mx:HBox id="infoBox"  width="471" height="130">
+        </mx:HBox>
+         
+		
+</mx:TitleWindow>

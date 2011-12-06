@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "file:///${icardea.home}\icardea-caremanagementdb\src\main\resources\hibernate-mapping-3.0.dtd">
+<!--
+Licensee: Gokce  Laleci
+License Type: Evaluation
+-->
+<hibernate-mapping>
+  <class lazy="false" name="tr.com.srdc.icardea.hibernate.LEADHVCHANNELMSMT" table="LEADHVCHANNELMSMT">
+    <id column="ID" name="ID" type="integer" unsaved-value="0">
+      <generator class="increment">
+			</generator>
+    </id>
+    <many-to-one access="field" cascade="lock" class="tr.com.srdc.icardea.hibernate.MSMT" column="MSMTID" lazy="no-proxy" name="mSMT" not-null="true">
+		</many-to-one>
+    <property column="dtm_start" lazy="false" length="50" name="dtm_start" not-null="false" type="string"/>
+    <property column="dtm_end" lazy="false" length="50" name="dtm_end" not-null="false" type="string"/>
+    <property column="impedance" lazy="false" length="50" name="impedance" not-null="false" type="string"/>
+    <property column="measurement_type" lazy="false" length="50" name="measurement_type" not-null="false" type="string"/>
+    <property column="status" lazy="false" length="50" name="status" not-null="false" type="string"/>
+    <property column="subID" lazy="false" length="11" name="subID" not-null="false" type="integer"/>
+    <property column="dtm" lazy="false" length="50" name="dtm" not-null="false" type="string"/>
+  </class>
+</hibernate-mapping>

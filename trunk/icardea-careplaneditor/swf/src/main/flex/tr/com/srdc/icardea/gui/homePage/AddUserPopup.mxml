@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml" layout="absolute" width="420" height="316">
+	<mx:Script>
+		<![CDATA[
+			
+			import tr.com.srdc.icardea.control.EmailControlImpl;
+			import tr.com.srdc.icardea.control.EmailControl;
+			import tr.com.srdc.icardea.model.userControl.Contact;
+			import tr.com.srdc.icardea.model.userRoles.Person;
+			import tr.com.srdc.icardea.model.userControl.ModelImpl;
+			import mx.collections.ArrayCollection;
+			
+			[Bindable]
+			private var person:Person;
+			
+			[Bindable]
+			public var prnt:iCardea;
+			
+			private function doSave():void {
+				person = new Person();
+				person.name = nameusr.text;
+				person.surname = surname.text;
+				person.username = username.text;
+				person.contact = new Contact();
+				person.contact.email = useremail.text;
+				person.password = password.text;
+				if(roleList.selectedItem as String == "Administrator")
+					person.role = "ROLE_ADMIN";
+				else
+					person.role = "ROLE_USERS";	
+				prnt.control.addPerson(person);
+				var email:EmailControl = new EmailControlImpl();
+				email.sendEmail(person);   
+				prnt.closeAddUserPopup();
+			}
+			
+			private function doCancel():void {
+				prnt.closeAddUserPopup();
+			}
+			
+			
+		]]>
+	</mx:Script>
+	
+	
+	<mx:Form id="mainForm" width="100%"  styleName="mainLoginForm" >
+		<mx:FormItem label="Name:"  width="100%" styleName="mainLoginFormItem">
+			<mx:TextInput id="nameusr"  styleName="mainLoginTextInput"/> 
+		</mx:FormItem>		
+		<mx:FormItem label="Surname:"  width="100%" styleName="mainLoginFormItem">
+			<mx:TextInput id="surname"  styleName="mainLoginTextInput"/> 
+		</mx:FormItem>
+		<mx:FormItem label="Username:"  width="100%" styleName="mainLoginFormItem">
+			<mx:TextInput id="username"  styleName="mainLoginTextInput"/> 
+		</mx:FormItem>		
+		<mx:FormItem label="Password:" width="100%" styleName="mainLoginFormItem">
+			<mx:TextInput id="password"  displayAsPassword="true"  styleName="mainLoginTextInput"/> 
+		</mx:FormItem>		
+		<mx:FormItem label="Email:" width="100%" styleName="mainLoginFormItem">
+			<mx:TextInput id="useremail" styleName="mainLoginTextInput"/> 
+		</mx:FormItem>		
+		<mx:FormItem label="Register as:" width="100%" styleName="mainLoginFormItem">
+			<mx:ComboBox id="roleList" width="100%" dataProvider="{ModelImpl.typeList}" styleName="iCardeaCombo"  />
+		</mx:FormItem>		
+		<mx:ControlBar width="100%" horizontalAlign="right">
+			<mx:Button id="saveButton" label="Save" click="doSave()"/>	
+			<mx:Button id="cancelButton" label="Close" click="doCancel()"/>
+		</mx:ControlBar>
+	</mx:Form>		
+</mx:Panel>
