@@ -8,7 +8,7 @@
 	<name>iCARDEA Configuration Project</name>
 	<packaging>pom</packaging>
 	<properties>		
-		<icardea.home>D:/yildiray/codes/iCardea</icardea.home>
+		<icardea.home>D:/yildiray/codes/icardea</icardea.home>
 		<mysql.host>localhost</mysql.host>
 		<mysql.username>root</mysql.username>
 		<mysql.password>icardea</mysql.password>		
