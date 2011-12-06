@@ -372,8 +372,8 @@
 										<mkdir dir="${icardea.home}/tools/mongo/mongodb-win32-i386-1.8.3/bin/data"/>
 										<mkdir dir="data"/>
 										<copy file="${icardea.home}/tools_resources/xdstools2.135.war" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/xdstools2.135.war" overwrite="true"/>
-										<copy file="${icardea.home}/tools_resources/.keystore" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/conf/.keystore" overwrite="true"/>
-										<copy file="${icardea.home}/tools_resources/.truststore" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/conf/.truststore" overwrite="true"/>
+										<copy file="${icardea.home}/tools_resources/tomcatConfig/.keystore" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/conf/.keystore" overwrite="true"/>
+										<copy file="${icardea.home}/tools_resources/tomcatConfig/.truststore" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/conf/.truststore" overwrite="true"/>
 										<copy file="${icardea.home}/tools_resources/tomcatConfig/server.xml" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/conf/server.xml" overwrite="true"/>
 									</tasks>
 								</configuration>
