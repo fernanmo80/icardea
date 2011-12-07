@@ -19,6 +19,7 @@ import org.openid4java.message.ParameterList;
 import org.openid4java.message.sreg.SRegMessage;
 import org.openid4java.message.sreg.SRegRequest;
 import org.openid4java.message.sreg.SRegResponse;
+import org.apache.wicket.PageParameters;
 
 
 public class RegistrationService {
@@ -204,7 +205,7 @@ public class RegistrationService {
    */
 		
   public static String getReturnToUrl() {
-	String url = "https://localhost:8080/icardea_careplaneditor/servlet/loginServlet?https://localhost:8080/icardea_careplaneditor/flex-client/iCardea.html";
+	String url = "https://localhost:8443/icardea_careplaneditor/servlet/loginServlet?https://localhost:8080/icardea_careplaneditor/flex-client/iCardea.html";
 	
 	return url;
   }
