@@ -4,7 +4,6 @@ package tr.com.srdc.icardea.platform.service.login;
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.apache.wicket.PageParameters;
 import org.openid4java.consumer.ConsumerException;
 import org.openid4java.consumer.ConsumerManager;
 import org.openid4java.consumer.InMemoryConsumerAssociationStore;
@@ -22,18 +21,6 @@ import org.openid4java.message.sreg.SRegRequest;
 import org.openid4java.message.sreg.SRegResponse;
 
 
-/**
- * Consolidates business logic from the UI code for Registration activities.
- * 
- * Most of this code modeled after ConsumerServlet, part of the openid4java 
- * sample code available at 
- * http://code.google.com/p/openid4java/wiki/SampleConsumer.
- * Some of this code was outright copied :->.
- * 
- * @author J Steven Perry
- * @author http://makotoconsulting.com
- *
- */
 public class RegistrationService {
 	private static final Logger log = Logger.getLogger(RegistrationService.class);
 	
@@ -167,10 +154,10 @@ public class RegistrationService {
 						if (value != null) {
 						  ret.setFullName(value);
 						}
-						value = sRegResponse.getAttributeValue("postcode");
-						if (value != null) {
-						  ret.setZipCode(value);
-						}
+//						value = sRegResponse.getAttributeValue("postcode");
+//						if (value != null) {
+//						  ret.setZipCode(value);
+//						}
 					}
 				}
 			}
@@ -217,7 +204,7 @@ public class RegistrationService {
    */
 		
   public static String getReturnToUrl() {
-	String url = "https://localhost:8080/icardea_careplaneditor/servlet/loginServlet?";
+	String url = "https://localhost:8080/icardea_careplaneditor/servlet/loginServlet?https://localhost:8080/icardea_careplaneditor/flex-client/iCardea.html";
 	
 	return url;
   }
