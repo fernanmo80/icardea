@@ -30,7 +30,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
             //System.out.println(paramName + " = " + req.getParameter(paramName) + "\n");
             session.setAttribute(paramName, req.getParameter(paramName));
         }  		
-		resp.sendRedirect("https://localhost:8080/icardea_careplaneditor/flex-client/iCardea.html");
+		resp.sendRedirect("https://localhost:8443/icardea_careplaneditor/flex-client/iCardea.html");
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
