@@ -56,6 +56,8 @@
 		import tr.com.srdc.icardea.model.userControl.Model;
 		import mx.events.ItemClickEvent;
 		import mx.collections.ArrayCollection;
+		import tr.com.srdc.icardea.model.userControl.RegistrationModel;
+
 		[Bindable]
 		private var columnNameToSearch : String = "username";
 		[Bindable]
@@ -79,28 +81,35 @@
 		[Embed('/assets/monitoringTool/circle.png')] 
         public var markerCircle:Class; */
 		
-		private var is_verified:Boolean = false;
+		private var is_verified:String; 
 		public function init():void {
 			
 			//model = new ModelImpl();
 			//control = new UserControlImpl(model,this);
 			
-			/* var service : RemoteObject = new RemoteObject("loginService");
+			var service : RemoteObject = new RemoteObject("loginService");
 			var cs:ChannelSet = new ChannelSet();
 			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
 			cs.addChannel(customChannel);
 			service.channelSet = cs;
 			service.addEventListener(ResultEvent.RESULT,onResultLogin);
 			service.addEventListener(FaultEvent.FAULT, onFault);
-			service.handleReturnUrl(); */
-			/*profileModel = new ProfileModelImpl(2);
-			profileControl = new ProfileControlImpl(profileModel,this);*/		
-			
-//			homeText.setStyle('textAlign','justify');
+			service.handleValidation();
 		}
 		public function onResultLogin(result:ResultEvent):void 
        	{
+       		var model:RegistrationModel = new RegistrationModel();
+       		model = result.result as RegistrationModel;
        		
+       		if(model.is_verified == "true") {       			
+       			viewStack.selectedIndex = 2;
+       			authName.text = "Welcome "+ model.fullName;
+       			       			
+       		}       			
+       		else{
+       			viewStack.selectedIndex = 0;	
+       		}
+       			
        	} 
        
       	public function onFault(fault:FaultEvent):void 
@@ -216,6 +225,9 @@
 			viewStack.selectedIndex = 2;
 			userMain.selectedIndex = 3;
 		}
+		private function doLogout():void{
+			//TODO
+		}
 		
 		
 			
@@ -232,13 +244,13 @@
 				<mx:Image id="icardeaLogo" source="@Embed('/assets/careplaneditor/heart.png')" />
 			</mx:HBox>
 			<mx:ApplicationControlBar id="userBar" width="100%" height="15%" styleName="applicationBar" horizontalAlign="right" paddingRight="30">
-			 		<mx:Text id="authName" visible="{model.workFlowState == ModelImpl.WINDOW_USER_FORM || model.workFlowState == ModelImpl.WINDOW_LIST_USERS}" includeInLayout="{this.visible}" color="#ffffff" text="" fontSize="13" fontWeight="bold"/>
-					<mx:LinkButton id="logoutButton" color="white" styleName="logoutStyle" visible="{authName.visible}" includeInLayout="{this.visible}" click="{control.doLogout()}" label="Logout" />
+			 		<mx:Text visible="{viewStack.selectedIndex != 0}" includeInLayout="{this.visible}" id="authName" color="#ffffff" fontSize="13" fontWeight="bold"/>
+					<mx:LinkButton id="logoutButton" color="white" styleName="logoutStyle" visible="{authName.visible}" includeInLayout="{this.visible}" click="{doLogout()}" label="Logout" />
 					<mx:LinkButton id="homeButton" color="white" styleName="logoutStyle" visible="{authName.visible}" includeInLayout="{this.visible}" click="{doReturnHome()}" label="Homepage" />
 			</mx:ApplicationControlBar>
 		</mx:VBox>
 	</mx:ApplicationControlBar>
-	<mx:ViewStack id="viewStack" selectedIndex="{model.workFlowState}" width="100%" height="100%" creationPolicy="all">
+	<mx:ViewStack id="viewStack" width="100%" height="100%" creationPolicy="all">
 		<mx:HBox id="applicationContainer"
 					 width="100%"
 					 height="100%"
