@@ -14,11 +14,11 @@
 		<mysql.password>icardea</mysql.password>		
 		<ehr.pcc9.endpoint>http://localhost:9080/pcc/</ehr.pcc9.endpoint>		
 		<phr.pcc9.endpoint>http://127.0.0.1:7070/pcc09ws/QUPCAR004040UV_Service</phr.pcc9.endpoint>		
-		<pcc10.endpoint>https://localhost:8080/icardea-caremanager-ws/services/QUPC_AR004030UV_Service.QUPC_AR004030UV_ServiceHttpSoap12Endpoint/</pcc10.endpoint>		
+		<pcc10.endpoint>https://localhost:8443/icardea-caremanager-ws/services/QUPC_AR004030UV_Service.QUPC_AR004030UV_ServiceHttpSoap12Endpoint/</pcc10.endpoint>		
 		<use.ws.addressing.for.ehr>true</use.ws.addressing.for.ehr>		
 		<use.ws.addressing.for.phr>false</use.ws.addressing.for.phr>		
-		<cts.endpoint>https://localhost:8080/ctsWS/services/</cts.endpoint>		
-		<consent.ws.endpoint>https://localhost:8080/consenteditor/services/ConsentManagerImplService/</consent.ws.endpoint>		
+		<cts.endpoint>https://localhost:8443/ctsWS/services/</cts.endpoint>		
+		<consent.ws.endpoint>https://localhost:8443/consenteditor/services/ConsentManagerImplService/</consent.ws.endpoint>		
 		<umls.mysql.host>localhost</umls.mysql.host>
 		<umls.mysql.username>root</umls.mysql.username>
 		<umls.mysql.password>icardea</umls.mysql.password>

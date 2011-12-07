@@ -17,21 +17,21 @@ public class ConsentManagerInvokerTest {
 	
 	@Test
 	public void test1() {
-		ConsentManagerImplServiceTest.grantRequest("191", "doctor", "condition");	
+		ConsentManagerImplServiceTest.getInstance().grantRequest("191", "doctor", "condition");	
 	}
 
 	@Test
 	public void test2() {
-		ConsentManagerImplServiceTest.grantRequest("191", "doctor", "medication");	
+		ConsentManagerImplServiceTest.getInstance().grantRequest("191", "doctor", "medication");	
 	}
 
 	@Test
 	public void test3() {
-		ConsentManagerImplServiceTest.grantRequest("191", "nurse", "medication");	
+		ConsentManagerImplServiceTest.getInstance().grantRequest("191", "nurse", "medication");	
 	}
 
 	@Test
 	public void test4() {
-		ConsentManagerImplServiceTest.grantRequest("191", "nurse", "condition");	
+		ConsentManagerImplServiceTest.getInstance().grantRequest("191", "nurse", "condition");	
 	}
 }

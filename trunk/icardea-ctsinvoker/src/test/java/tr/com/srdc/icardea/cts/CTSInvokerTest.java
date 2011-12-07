@@ -26,7 +26,7 @@ import tr.com.srdc.icardea.cts.vocabruntime.TimeoutError;
 
 public class CTSInvokerTest {
 
-	private static String serviceAddress = "https://localhost:8080/ctsWS/services/";
+	private static String serviceAddress = "https://localhost:8443/ctsWS/services/";
 
 	private static String codeSystem = "ICD10";
 	private static String code = "F79";

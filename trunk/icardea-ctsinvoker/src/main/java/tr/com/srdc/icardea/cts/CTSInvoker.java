@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 
 public class CTSInvoker {
 
-	private String serviceAddress = "https://localhost:8080/ctsWS/services/";
+	private String serviceAddress = "https://localhost:8443/ctsWS/services/";
 	private static CTSInvoker instance = null;
 	
 	private CTSInvoker() {
