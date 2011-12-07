@@ -1,6 +1,7 @@
 package tr.com.srdc.icardea.platform.service.login;
 
 import java.io.IOException;
+import java.util.Enumeration;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -18,11 +19,18 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 		throws ServletException, IOException {
-		HttpSession session = req.getSession();
-		session.setAttribute("is_verified", "true");
 		
-		System.out.println("login servlet get");
-		
+		HttpSession session = req.getSession();	
+		resp.setContentType("text/html;charset=UTF-8");   
+	    Enumeration en = req.getParameterNames();        
+        
+        session.setAttribute("is_verified", "true");
+        while (en.hasMoreElements()) {
+            String paramName = ((String) en.nextElement()).trim();
+            //System.out.println(paramName + " = " + req.getParameter(paramName) + "\n");
+            session.setAttribute(paramName, req.getParameter(paramName));
+        }  		
+		resp.sendRedirect("https://localhost:8080/icardea_careplaneditor/flex-client/iCardea.html");
 	}
 
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)

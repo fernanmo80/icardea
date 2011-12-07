@@ -1,25 +1,11 @@
 package tr.com.srdc.icardea.platform.service.login;
 
-import java.util.List;
 
-import org.apache.http.HttpResponse;
-import org.apache.log4j.Logger;
-import org.apache.wicket.PageParameters;
-import org.openid4java.consumer.ConsumerException;
-import org.openid4java.consumer.ConsumerManager;
-import org.openid4java.consumer.InMemoryConsumerAssociationStore;
-import org.openid4java.consumer.InMemoryNonceVerifier;
-import org.openid4java.consumer.VerificationResult;
-import org.openid4java.discovery.DiscoveryException;
 import org.openid4java.discovery.DiscoveryInformation;
-import org.openid4java.discovery.Identifier;
 import org.openid4java.message.AuthRequest;
-import org.openid4java.message.AuthSuccess;
-import org.openid4java.message.MessageExtension;
-import org.openid4java.message.ParameterList;
-import org.openid4java.message.sreg.SRegMessage;
-import org.openid4java.message.sreg.SRegRequest;
-import org.openid4java.message.sreg.SRegResponse;
+
+import flex.messaging.FlexContext;
+import flex.messaging.FlexSession;
 
 
 
@@ -49,10 +35,17 @@ public class LoginServiceImpl implements LoginService {
 				
 		return redirectUrl;
 	}
-	public void handleReturnUrl(){
+	public RegistrationModel handleValidation(){
+		RegistrationModel model = new RegistrationModel();
+		FlexSession mySession= FlexContext.getFlexSession();
+		model.setIs_verified((String)mySession.getAttribute("is_verified"));
+		model.setEmailAddress((String)mySession.getAttribute("openid.sreg.email"));
+		model.setOpenId((String)mySession.getAttribute("openid.identity"));
+		model.setFullName((String)mySession.getAttribute("openid.sreg.fullname"));
 		
+		
+		return model;
 		
 	}
-
 	
 }
