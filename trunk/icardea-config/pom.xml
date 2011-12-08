@@ -18,6 +18,7 @@
 		<use.ws.addressing.for.ehr>true</use.ws.addressing.for.ehr>		
 		<use.ws.addressing.for.phr>false</use.ws.addressing.for.phr>		
 		<cts.endpoint>https://localhost:8443/ctsWS/services/</cts.endpoint>		
+		<epsos.endpoint>http://localhost:8080/tr-xca/services/RespondingGateway_Service/</epsos.endpoint>
 		<consent.ws.endpoint>https://localhost:8443/consenteditor/services/ConsentManagerImplService/</consent.ws.endpoint>		
 		<umls.mysql.host>localhost</umls.mysql.host>
 		<umls.mysql.username>root</umls.mysql.username>
