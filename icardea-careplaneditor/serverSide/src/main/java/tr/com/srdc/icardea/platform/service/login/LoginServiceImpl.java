@@ -29,9 +29,9 @@ public class LoginServiceImpl implements LoginService {
 	public String createRedirect(String username) {
 		ResourceBundle properties = ResourceBundle.getBundle("icardea");
 		String salkServer = properties.getString("salk.server");
-		String salkUsage = properties.getString("salk.usage");
 		
-		username=salkServer+"/idp="+username;
+		
+		username=salkServer+"/idp="+username; //only valid for SALK server
 		
 		DiscoveryInformation discovery = RegistrationService
 				.performDiscoveryOnUserSuppliedIdentifier(username);
