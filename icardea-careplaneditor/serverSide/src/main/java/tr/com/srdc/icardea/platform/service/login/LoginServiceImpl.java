@@ -31,10 +31,7 @@ public class LoginServiceImpl implements LoginService {
 		String salkServer = properties.getString("salk.server");
 		String salkUsage = properties.getString("salk.usage");
 		
-		if(salkUsage == "true"){
-			username=salkServer+"/idp="+username;
-			
-		}		
+		username=salkServer+"/idp="+username;
 		
 		DiscoveryInformation discovery = RegistrationService
 				.performDiscoveryOnUserSuppliedIdentifier(username);
