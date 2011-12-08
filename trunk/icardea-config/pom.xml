@@ -8,7 +8,7 @@
 	<name>iCARDEA Configuration Project</name>
 	<packaging>pom</packaging>
 	<properties>		
-		<icardea.home>D:/yildiray/codes/icardea</icardea.home>
+		<icardea.home>D:/icardea-google/icardea</icardea.home>
 		<mysql.host>localhost</mysql.host>
 		<mysql.username>root</mysql.username>
 		<mysql.password>icardea</mysql.password>		
@@ -30,5 +30,10 @@
 		<atna.log>true</atna.log>
 		<eif.host>10.0.0.1</eif.host>
 		<eif.port>1111</eif.port>
+		<!-- for SALK deployment start-->
+		<salk.usage>false</salk.usage>
+		<salk.server>https://localhost</salk.server>
+		<secure.port>8443</secure.port>
+		<!-- for SALK deployment end-->
 	</properties>
 </project>
