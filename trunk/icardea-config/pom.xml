@@ -31,7 +31,6 @@
 		<eif.host>10.0.0.1</eif.host>
 		<eif.port>1111</eif.port>
 		<!-- for SALK deployment start-->
-		<salk.usage>false</salk.usage>
 		<salk.server>https://localhost</salk.server>
 		<secure.port>8443</secure.port>
 		<!-- for SALK deployment end-->
