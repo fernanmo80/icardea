@@ -1,6 +1,8 @@
 package tr.com.srdc.icardea.platform.service.login;
 
 
+import java.util.ResourceBundle;
+
 import org.openid4java.discovery.DiscoveryInformation;
 import org.openid4java.message.AuthRequest;
 
@@ -25,6 +27,14 @@ import flex.messaging.FlexSession;
 public class LoginServiceImpl implements LoginService {
 
 	public String createRedirect(String username) {
+		ResourceBundle properties = ResourceBundle.getBundle("icardea");
+		String salkServer = properties.getString("salk.server");
+		String salkUsage = properties.getString("salk.usage");
+		
+		if(salkUsage == "true"){
+			username=salkServer+"/idp="+username;
+			
+		}		
 		
 		DiscoveryInformation discovery = RegistrationService
 				.performDiscoveryOnUserSuppliedIdentifier(username);
@@ -42,10 +52,14 @@ public class LoginServiceImpl implements LoginService {
 		model.setEmailAddress((String)mySession.getAttribute("openid.sreg.email"));
 		model.setOpenId((String)mySession.getAttribute("openid.identity"));
 		model.setFullName((String)mySession.getAttribute("openid.sreg.fullname"));
-		
+		//TODO sign and encrypt model
 		
 		return model;
 		
+	}
+	public void doLogout(){
+		FlexSession mySession= FlexContext.getFlexSession();
+		mySession.setAttribute("is_verified", "false");
 	}
 	
 }

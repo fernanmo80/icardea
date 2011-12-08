@@ -2,6 +2,7 @@ package tr.com.srdc.icardea.platform.service.login;
 
 
 import java.util.List;
+import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
 import org.openid4java.consumer.ConsumerException;
@@ -205,11 +206,11 @@ public class RegistrationService {
    */
 		
   public static String getReturnToUrl() {
-	String url = "https://localhost:8443/icardea_careplaneditor/servlet/loginServlet?https://localhost:8080/icardea_careplaneditor/flex-client/iCardea.html";
-	
-	return url;
+	  ResourceBundle properties = ResourceBundle.getBundle("icardea");
+	  String salkServer = properties.getString("salk.server");
+	  String securePort = properties.getString("secure.port");
+	  String url = salkServer+":"+securePort+"/icardea_careplaneditor/servlet/loginServlet?";
+	  return url;
   }
-  
-  
 }
 

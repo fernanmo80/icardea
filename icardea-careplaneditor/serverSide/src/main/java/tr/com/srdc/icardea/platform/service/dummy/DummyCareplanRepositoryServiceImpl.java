@@ -48,6 +48,11 @@ public class DummyCareplanRepositoryServiceImpl implements
 	@Override
 	public synchronized List<MedicalCareplan> listCareplans() {
 		MedicalCareplanTemplate[] careplans = null;
+		ResourceBundle properties = ResourceBundle.getBundle("icardea");
+		String homeDirectory = properties.getString("icardea.home");
+		String salkServer = properties.getString("salk.server");
+		String securePort = properties.getString("secure.port");
+		
 		try {
 			careplans = MedicalCareplanTemplate.listMedicalCareplanTemplateByQuery(null, null);
 
@@ -60,7 +65,7 @@ public class DummyCareplanRepositoryServiceImpl implements
 				System.out.println("Storing AF Careplan...");
 				mct.setIdentifier("1");
 				mct.setName("Management of AF");
-				mct.setContent("http://localhost:8080/icardea/guidelines/icardea/ManagementofAF-1.owl");
+				mct.setContent(salkServer+":"+securePort+"/icardea/guidelines/icardea/ManagementofAF-1.owl");
 				mct.save();
 				careplans[0] = mct;
 
@@ -69,17 +74,17 @@ public class DummyCareplanRepositoryServiceImpl implements
 				MedicalCareplanTemplate mct2 = new MedicalCareplanTemplate();
 				mct2.setIdentifier("2");
 				mct2.setName("Management of VT");
-				mct2.setContent("http://localhost:8080/icardea/guidelines/icardea/ManagementofVT-2.owl");
+				mct2.setContent(salkServer+":"+securePort+"/icardea/guidelines/icardea/ManagementofVT-2.owl");
 				//TODO
 				try {
-					mct2.setDiagram(readFile("D:\\yildiray\\codes\\iCardea\\icardea-careplanengine\\src\\main\\resources\\guideline\\diagram"));
+					mct2.setDiagram(readFile(homeDirectory+"\\icardea-careplanengine\\src\\main\\resources\\guideline\\diagram"));
 					//System.out.println("##diagram : "+mct2.getDiagram());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 				try {
-					mct2.setCareplan(readFile("D:\\yildiray\\codes\\iCardea\\icardea-careplanengine\\src\\main\\resources\\guideline\\careplan"));
+					mct2.setCareplan(readFile(homeDirectory+"\\icardea-careplanengine\\src\\main\\resources\\guideline\\careplan"));
 					//System.out.println("##careplan : "+mct2.getCareplan());
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
