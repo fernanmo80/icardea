@@ -31,7 +31,7 @@ public class LoginServiceImpl implements LoginService {
 		String salkServer = properties.getString("salk.server");
 		
 		
-		username=salkServer+"/idp="+username; //only valid for SALK server
+		username=salkServer+"/idp/u="+username; //only valid for SALK server
 		
 		DiscoveryInformation discovery = RegistrationService
 				.performDiscoveryOnUserSuppliedIdentifier(username);
