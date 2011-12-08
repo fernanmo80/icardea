@@ -200,136 +200,6 @@
 		</pluginManagement>
 	</build>
 	<profiles>
-		<!--profile>
-		<id>Configuration files creation</id>
-		<activation>
-			<activeByDefault>false</activeByDefault>
-			<property>
-				<name>createConfigurations</name>
-				<value>true</value>
-			</property>
-		</activation>
-		<build>
-			<plugins>
-				<plugin>
-					<groupId>org.codehaus.mojo</groupId>
-					<artifactId>properties-maven-plugin</artifactId>
-					<version>1.0-alpha-2</version>
-					<executions>
-						<execution>
-							<id>propertiesForEngine</id>
-							<phase>generate-resources</phase>
-							<goals>
-								<goal>write-project-properties</goal>
-							</goals>
-							<configuration>
-								<outputFile>
-									${basedir}/icardea-careplanengine/src/main/resources/icardea.properties
-								</outputFile>
-							</configuration>
-						</execution>
-						<execution>
-							<id>propertiesForCareManagementDB</id>
-							<phase>generate-resources</phase>
-							<goals>
-								<goal>write-project-properties</goal>
-							</goals>
-							<configuration>
-								<outputFile>
-									${basedir}/icardea-caremanagementdb/src/main/resources/icardea.properties
-								</outputFile>
-							</configuration>
-						</execution> 
-						<execution>
-							<id>propertiesForCarePlanEditor</id>
-							<phase>generate-resources</phase>
-							<goals>
-								<goal>write-project-properties</goal>
-							</goals>
-							<configuration>
-								<outputFile>
-									${basedir}/icardea-careplaneditor/serverSide/src/main/resources/icardea.properties
-								</outputFile>
-							</configuration>
-						</execution>
-						<execution>
-							<id>propertiesForCtsInvoker</id>
-							<phase>generate-resources</phase>
-							<goals>
-								<goal>write-project-properties</goal>
-							</goals>
-							<configuration>
-								<outputFile>
-									${basedir}/icardea-ctsinvoker/src/main/resources/icardea.properties
-								</outputFile>
-							</configuration>
-						</execution>
-						<execution>
-							<id>propertiesForCts</id>
-							<phase>generate-resources</phase>
-							<goals>
-								<goal>write-project-properties</goal>
-							</goals>
-							<configuration>
-								<outputFile>
-									${basedir}/icardea-cts-ws/src/main/resources/icardea.properties
-								</outputFile>
-							</configuration>
-						</execution>	
-						<execution>
-							<id>propertiesForCMWS</id>
-							<phase>generate-resources</phase>
-							<goals>
-								<goal>write-project-properties</goal>
-							</goals>
-							<configuration>
-								<outputFile>
-									${basedir}/icardea-caremanager-ws/src/main/resources/icardea.properties
-								</outputFile>
-							</configuration>
-						</execution>
-						<execution>
-							<id>propertiesForConsentEditor</id>
-							<phase>generate-resources</phase>
-							<goals>
-								<goal>write-project-properties</goal>
-							</goals>
-							<configuration>
-								<outputFile>
-									${basedir}/icardea-consenteditor/src/main/resources/icardea.properties
-								</outputFile>
-							</configuration>
-						</execution>
-						<execution>
-							<id>propertiesForEpsosClient</id>
-							<phase>generate-resources</phase>
-							<goals>
-								<goal>write-project-properties</goal>
-							</goals>
-							<configuration>
-								<outputFile>
-									${basedir}/icardea-epsos-client/src/main/resources/icardea.properties
-								</outputFile>
-							</configuration>
-						</execution>
-						<execution>
-							<id>propertiesForConsentInvoker</id>
-							<phase>generate-resources</phase>
-							<goals>
-								<goal>write-project-properties</goal>
-							</goals>
-							<configuration>
-								<outputFile>
-									${basedir}/icardea-consenteditor-invoker/src/main/resources/icardea.properties
-								</outputFile>
-							</configuration>
-						</execution>
-					</executions>
-					<inherited>false</inherited>
-				</plugin>
-			</plugins>
-		</build>
-	</profile-->
 	<profile>
 		<id>Apache and Mongo Installation</id>
 		<activation>
@@ -356,9 +226,9 @@
 									<copy file="${icardea.home}/tools_resources/tomcatConfig/.keystore" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/conf/.keystore" overwrite="true"/>
 									<copy file="${icardea.home}/tools_resources/tomcatConfig/.truststore" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/conf/.truststore" overwrite="true"/>
 									<copy file="${icardea.home}/tools_resources/tomcatConfig/server.xml" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/conf/server.xml" overwrite="true"/>
-									<copy file="${icardea.home}/tools_resources/EPSOS_CONFIG/tr-xca.war" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/tr-xca.war" overwrite="true"/>
+									<!--copy file="${icardea.home}/tools_resources/EPSOS_CONFIG/tr-xca.war" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/tr-xca.war" overwrite="true"/>
 									<copy file="${icardea.home}/tools_resources/EPSOS_CONFIG/tr-xcpd.war" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/tr-xcpd.war" overwrite="true"/>
-									<copy file="${icardea.home}/tools_resources/EPSOS_CONFIG/tr-xdr.war" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/tr-xdr.war" overwrite="true"/>
+									<copy file="${icardea.home}/tools_resources/EPSOS_CONFIG/tr-xdr.war" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/tr-xdr.war" overwrite="true"/-->
 								</tasks>
 							</configuration>
 							<goals>
@@ -446,13 +316,7 @@
 		</build>
 	</profile>
 </profiles>
-<!--dependencies>
-<dependency>
-	<groupId>org.twdata.maven</groupId>
-	<artifactId>maven-cli-plugin</artifactId>
-	<version>1.0.5</version>
-</dependency>
-</dependencies-->
+
 <pluginRepositories>
 	<pluginRepository>
 		<id>twdata.m2.repository</id>
@@ -470,7 +334,7 @@
 	<module>icardea-cts-ws</module>
 	<module>icardea-ctsinvoker</module>
 	<module>icardea-consenteditor-invoker</module>
-	<module>icardea-epsos-client</module>
+	<!--module>icardea-epsos-client</module-->
 </modules>
 <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
