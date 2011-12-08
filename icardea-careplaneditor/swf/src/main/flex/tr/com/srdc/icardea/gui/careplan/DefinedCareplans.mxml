@@ -149,7 +149,7 @@
  				mcp.diagram = diagramAF;
 				carePlanEditor.careplan = mcp;
 				
-	    		parentApplication.viewStack.selectedIndex = 1;
+	    		parentApplication.viewStack.selectedIndex = 3;
 	    		parentApplication.careplanDT.execute=false;
 	    		parentApplication.careplanDT.doSettings();   
         		}
@@ -164,7 +164,7 @@
  				mcp.diagram = diagramVT;
 				carePlanEditor.careplan = mcp;
 				
-	    		parentApplication.viewStack.selectedIndex = 1;
+	    		parentApplication.viewStack.selectedIndex = 3;
 	    		parentApplication.careplanDT.execute=false;
 	    		parentApplication.careplanDT.doSettings();   
 				}
@@ -174,7 +174,7 @@
  				mcp.diagram = "";  //TODO DB den cekilecek
  				carePlanEditor.control = this.control;
 				carePlanEditor.careplan = mcp;
-        		parentApplication.viewStack.selectedIndex = 1;
+        		parentApplication.viewStack.selectedIndex = 2;
 	    		parentApplication.careplanDT.execute=false;
 	    		parentApplication.careplanDT.doSettings();   
         	}
@@ -428,9 +428,9 @@
 			</mx:HBox>	
     	</mx:VBox>
       </mx:ViewStack>-->
-    <mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="careplanCallVT" url="https://localhost:8080/icardea/guidelines/icardea/ManagementofVT-2.cp" result="serviceResultForXMLVT(event)" fault="serviceFail( event)"/>
-	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="diagramCallVT" url="https://localhost:8080/icardea/guidelines/icardea/ManagementofVT-2.dgr" result="serviceResultForDiagramVT( event )" fault="serviceFail(event)"/>
-	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="careplanCallAF" url="https://localhost:8080/icardea/guidelines/icardea/ManagementofAF-1.cp" result="serviceResultForXMLAF(event)" fault="serviceFail( event)"/>
-	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="diagramCallAF" url="https://localhost:8080/icardea/guidelines/icardea/ManagementofAF-1.dgr" result="serviceResultForDiagramAF( event )" fault="serviceFail(event)"/>
+    <mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="careplanCallVT" url="https://localhost:8443/icardea/guidelines/icardea/ManagementofVT-2.cp" result="serviceResultForXMLVT(event)" fault="serviceFail( event)"/>
+	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="diagramCallVT" url="https://localhost:8443/icardea/guidelines/icardea/ManagementofVT-2.dgr" result="serviceResultForDiagramVT( event )" fault="serviceFail(event)"/>
+	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="careplanCallAF" url="https://localhost:8443/icardea/guidelines/icardea/ManagementofAF-1.cp" result="serviceResultForXMLAF(event)" fault="serviceFail( event)"/>
+	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="diagramCallAF" url="https://localhost:8443/icardea/guidelines/icardea/ManagementofAF-1.dgr" result="serviceResultForDiagramAF( event )" fault="serviceFail(event)"/>
 </mx:VBox>
 

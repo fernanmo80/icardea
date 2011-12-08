@@ -101,7 +101,7 @@
        		var model:RegistrationModel = new RegistrationModel();
        		model = result.result as RegistrationModel;
        		
-       		if(model.is_verified == "true") {       			
+       		if(model.is_verified == "true") { //TODO: Control also sign&encrypt      			
        			viewStack.selectedIndex = 2;
        			authName.text = "Welcome "+ model.fullName;
        			       			
@@ -226,8 +226,19 @@
 			userMain.selectedIndex = 3;
 		}
 		private function doLogout():void{
-			//TODO
+			var service : RemoteObject = new RemoteObject("loginService");
+			var cs:ChannelSet = new ChannelSet();
+			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+			cs.addChannel(customChannel);
+			service.channelSet = cs;
+			service.addEventListener(ResultEvent.RESULT,onResultLogout);
+			service.addEventListener(FaultEvent.FAULT, onFault);
+			service.doLogout();
 		}
+		private function onResultLogout(result:ResultEvent):void 
+       	{
+       		viewStack.selectedIndex = 0;
+       	} 
 		
 		
 			

@@ -35,7 +35,7 @@
 			
 				//servletCall.send(null);
 				
-				service.createRedirect(person.username);
+				service.createRedirect(person.username);//TODO configurable olacak
 				/* person.password = password.text;
 				var event : LoginEvent = new LoginEvent(person);
 				dispatchEvent(event);
