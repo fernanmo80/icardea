@@ -28,10 +28,14 @@ public class LoginServiceImpl implements LoginService {
 
 	public String createRedirect(String username) {
 		ResourceBundle properties = ResourceBundle.getBundle("icardea");
-		String salkServer = properties.getString("salk.server");
+		String salkServer = properties.getString("salk.server");		
 		
+		System.out.println("salkServer: "+salkServer);
+		if(!salkServer.equals("https://localhost")){
+			username=salkServer+"/idp/u="+username;
+		}
 		
-		username=salkServer+"/idp/u="+username; //only valid for SALK server
+		 //only valid for SALK server
 		
 		DiscoveryInformation discovery = RegistrationService
 				.performDiscoveryOnUserSuppliedIdentifier(username);
@@ -39,7 +43,7 @@ public class LoginServiceImpl implements LoginService {
 		AuthRequest authRequest = RegistrationService.createOpenIdAuthRequest(discovery, url);
 		
 		String redirectUrl = authRequest.getDestinationUrl(true);
-				
+		
 		return redirectUrl;
 	}
 	public RegistrationModel handleValidation(){
@@ -50,14 +54,14 @@ public class LoginServiceImpl implements LoginService {
 		model.setOpenId((String)mySession.getAttribute("user_openid"));
 		model.setFullName((String)mySession.getAttribute("user_fullname"));
 		model.setRole((String)mySession.getAttribute("user_role"));
-		//TODO sign and encrypt model
-		
+		//TODO sign and encrypt model		
 		return model;
 		
 	}
 	public void doLogout(){
 		FlexSession mySession= FlexContext.getFlexSession();
 		mySession.setAttribute("is_verified", "false");
+		//TODO control is_verified variable from Registration Model 
 	}
 	
 }
