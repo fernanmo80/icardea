@@ -1,25 +1,14 @@
 package tr.com.srdc.icardea.platform.service.login;
 
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.List;
 import java.util.ResourceBundle;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
 import org.openid4java.association.AssociationException;
-import org.openid4java.consumer.VerificationResult;
 import org.openid4java.discovery.DiscoveryException;
-import org.openid4java.discovery.DiscoveryInformation;
-import org.openid4java.discovery.Identifier;
-import org.openid4java.message.AuthSuccess;
 import org.openid4java.message.MessageException;
-import org.openid4java.message.ParameterList;
-import org.openid4java.message.ax.AxMessage;
-import org.openid4java.message.ax.FetchResponse;
 
 public class LoginServlet extends javax.servlet.http.HttpServlet {
 
