@@ -46,9 +46,10 @@ public class LoginServiceImpl implements LoginService {
 		RegistrationModel model = new RegistrationModel();
 		FlexSession mySession= FlexContext.getFlexSession();
 		model.setIs_verified((String)mySession.getAttribute("is_verified"));
-		model.setEmailAddress((String)mySession.getAttribute("openid.sreg.email"));
-		model.setOpenId((String)mySession.getAttribute("openid.identity"));
-		model.setFullName((String)mySession.getAttribute("openid.sreg.fullname"));
+		model.setEmailAddress((String)mySession.getAttribute("user_email"));
+		model.setOpenId((String)mySession.getAttribute("user_openid"));
+		model.setFullName((String)mySession.getAttribute("user_fullname"));
+		model.setRole((String)mySession.getAttribute("user_role"));
 		//TODO sign and encrypt model
 		
 		return model;

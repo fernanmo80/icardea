@@ -4,7 +4,11 @@ package tr.com.srdc.icardea.platform.service.login;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.http.auth.AUTH;
 import org.apache.log4j.Logger;
+import org.openid4java.association.AssociationException;
 import org.openid4java.consumer.ConsumerException;
 import org.openid4java.consumer.ConsumerManager;
 import org.openid4java.consumer.InMemoryConsumerAssociationStore;
@@ -15,12 +19,15 @@ import org.openid4java.discovery.DiscoveryInformation;
 import org.openid4java.discovery.Identifier;
 import org.openid4java.message.AuthRequest;
 import org.openid4java.message.AuthSuccess;
+import org.openid4java.message.MessageException;
 import org.openid4java.message.MessageExtension;
 import org.openid4java.message.ParameterList;
+import org.openid4java.message.ax.AxMessage;
+import org.openid4java.message.ax.FetchRequest;
+import org.openid4java.message.ax.FetchResponse;
 import org.openid4java.message.sreg.SRegMessage;
 import org.openid4java.message.sreg.SRegRequest;
 import org.openid4java.message.sreg.SRegResponse;
-import org.apache.wicket.PageParameters;
 
 
 public class RegistrationService {
@@ -90,11 +97,15 @@ public class RegistrationService {
 			ret = getConsumerManager().authenticate(discoveryInformation, returnToUrl);
 			// Create the Simple Registration Request
 			SRegRequest sRegRequest = SRegRequest.createFetchRequest();
+			FetchRequest ax = FetchRequest.createFetchRequest();
+			ax.addAttribute("http://www.w3.org/2006/vcard/ns#role",true);
+			
 			sRegRequest.addAttribute("email", false);
 			sRegRequest.addAttribute("fullname", false);
 			sRegRequest.addAttribute("dob", false);
 			sRegRequest.addAttribute("postcode", false);
 			ret.addExtension(sRegRequest);
+			ret.addExtension(ax);
 			
 		} catch (Exception e) {
 			String message = "Exception occurred while building AuthRequest object!";
@@ -127,46 +138,65 @@ public class RegistrationService {
 	 *  time what is returned is from your "Default" profile, so if you need more 
 	 *  information returned, make sure your Default profile is completely filled
 	 *  out.
+	 * @throws AssociationException 
+	 * @throws DiscoveryException 
+	 * @throws MessageException 
 	 */
-	public static RegistrationModel processReturn(DiscoveryInformation discoveryInformation, PageParameters pageParameters, String returnToUrl) {
+	public static RegistrationModel processReturn(HttpServletRequest req) throws MessageException, DiscoveryException, AssociationException {
 		RegistrationModel ret = null;
-		// Verify the Information returned from the OP
-		/// This is required according to the spec
-		ParameterList response = new ParameterList(pageParameters);
-		try {
-			VerificationResult verificationResult = getConsumerManager().verify(returnToUrl, response, discoveryInformation);
-			Identifier verifiedIdentifier = verificationResult.getVerifiedId();
-			if (verifiedIdentifier != null) {
-				AuthSuccess authSuccess = (AuthSuccess)verificationResult.getAuthResponse();
-				if (authSuccess.hasExtension(SRegMessage.OPENID_NS_SREG)) {
-					MessageExtension extension = authSuccess.getExtension(SRegMessage.OPENID_NS_SREG);
-					if (extension instanceof SRegResponse) {
-						ret = new RegistrationModel();
-						ret.setOpenId(verifiedIdentifier.getIdentifier());
-						SRegResponse sRegResponse = (SRegResponse)extension;
-						String value = sRegResponse.getAttributeValue("dob");
-						if (value != null) {
-						  ret.setDateOfBirth(value);
-						}
-						value = sRegResponse.getAttributeValue("email");
-						if (value != null) {
-						  ret.setEmailAddress(value);
-						}
-						value = sRegResponse.getAttributeValue("fullname");
-						if (value != null) {
-						  ret.setFullName(value);
-						}
-//						value = sRegResponse.getAttributeValue("postcode");
-//						if (value != null) {
-//						  ret.setZipCode(value);
-//						}
+		ParameterList response = new ParameterList(req.getParameterMap());
+		DiscoveryInformation discovered = (DiscoveryInformation)
+        req.getSession().getAttribute("openid-disc");
+
+		// extract the receiving URL from the HTTP request
+		StringBuffer receivingURL = req.getRequestURL();
+		String queryString = req.getQueryString();
+		if (queryString != null && queryString.length() > 0)
+		    receivingURL.append("?").append(req.getQueryString());
+		
+		// verify the response; ConsumerManager needs to be the same
+		// (static) instance used to place the authentication request
+		VerificationResult verification = getConsumerManager().verify(
+		        receivingURL.toString(),
+		        response, discovered);
+		
+		// examine the verification result and extract the verified identifier
+		Identifier verified = verification.getVerifiedId();
+		if (verified != null)
+		{
+			ret = new RegistrationModel();
+		    AuthSuccess authSuccess =
+		            (AuthSuccess) verification.getAuthResponse();
+		
+		    if (authSuccess.hasExtension(AxMessage.OPENID_NS_AX))
+		    {
+		        FetchResponse fetchResp = (FetchResponse) authSuccess
+		                .getExtension(AxMessage.OPENID_NS_AX);
+		
+		        List<String> roles = fetchResp.getAttributeValues("label");
+		        String role = (String) roles.get(0);
+		        ret.setRole(role);
+		    }
+		    if (authSuccess.hasExtension(SRegMessage.OPENID_NS_SREG)) {
+				MessageExtension extension = authSuccess.getExtension(SRegMessage.OPENID_NS_SREG);
+				if (extension instanceof SRegResponse) {
+					ret.setOpenId(verified.getIdentifier());
+					ret.setIs_verified("true");
+					SRegResponse sRegResponse = (SRegResponse)extension;
+					String value = sRegResponse.getAttributeValue("dob");
+					if (value != null) {
+					  ret.setDateOfBirth(value);
+					}
+					value = sRegResponse.getAttributeValue("email");
+					if (value != null) {
+					  ret.setEmailAddress(value);
+					}
+					value = sRegResponse.getAttributeValue("fullname");
+					if (value != null) {
+					  ret.setFullName(value);
 					}
 				}
-			}
-		} catch (Exception e) {
-			String message = "Exception occurred while verifying response!";
-			log.error(message, e);
-			throw new RuntimeException(message, e);
+			}	    
 		}
 		return ret;
 	}
