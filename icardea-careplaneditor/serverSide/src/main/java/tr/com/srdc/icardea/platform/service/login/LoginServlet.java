@@ -36,10 +36,10 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
 		try {
 			RegistrationModel model = RegistrationService.processReturn(req);
 			HttpSession session = req.getSession();
-//			System.out.println("model.getIs_verified(): "+model.getIs_verified());   
-//			System.out.println("model.getRole(): "+model.getRole());    
-//			System.out.println("model.getFullName(): "+model.getFullName());
-//			System.out.println("model.getOpenId(): "+ model.getOpenId());
+			System.out.println("is_verified: "+model.getIs_verified());   
+			System.out.println("user_role: "+model.getRole());    
+			System.out.println("user_fullname: "+model.getFullName());
+			System.out.println("user_openid: "+ model.getOpenId());
 			
 			session.setAttribute("is_verified", model.getIs_verified());
 			session.setAttribute("user_role", model.getRole());
