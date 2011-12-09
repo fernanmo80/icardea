@@ -238,6 +238,7 @@
 		private function onResultLogout(result:ResultEvent):void 
        	{
        		viewStack.selectedIndex = 0;
+       		Alert.show("You have successfully logged out");
        	} 
 		
 		
