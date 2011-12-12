@@ -98,7 +98,7 @@ public class RegistrationService {
 			// Create the Simple Registration Request
 			SRegRequest sRegRequest = SRegRequest.createFetchRequest();
 			FetchRequest ax = FetchRequest.createFetchRequest();
-			ax.addAttribute("http://www.w3.org/2006/vcard/ns#role",true);
+			//ax.addAttribute("http://www.w3.org/2006/vcard/ns#role",true);
 			ax.addAttribute("label", "http://www.w3.org/2006/vcard/ns#role",true, 0 );
 			
 			sRegRequest.addAttribute("email", false);
