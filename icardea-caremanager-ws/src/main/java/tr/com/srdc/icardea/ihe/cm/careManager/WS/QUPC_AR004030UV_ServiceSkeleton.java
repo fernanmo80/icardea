@@ -10,6 +10,7 @@ import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.StringReader;
+import java.net.UnknownHostException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -69,6 +70,7 @@ import tr.com.srdc.icardea.hibernate.Problem;
 import tr.com.srdc.icardea.hibernate.ProblemCriteria;
 import tr.com.srdc.icardea.hibernate.Procedure;
 import tr.com.srdc.icardea.hibernate.VitalSign;
+import tr.com.srdc.icardea.ihe.cm.careManager.Audit;
 
 /**
  *  QUPC_AR004030UV_ServiceSkeleton java skeleton for the axisService
@@ -156,6 +158,19 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 
 		// TODO: ATNA
 		if (atnalog) {
+
+			String xml = Audit.createMessage("PCC-10", patientID, careProvisionCode);
+			Audit a = null;
+			try {
+				a = new Audit("139.91.190.43", 2861);
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            a.send_udp( a.create_syslog_xml("caremanager", xml) );
+            
+			//byte[] msg = Audit.create_syslog_xml(appName, xml);
+			//Audit.send_udp(host, port, msg); 
 			// Send ATNA Message: Medical information (PCC-10) is received from "+senderName+" for "+patientID+"
 			// "+patientName+" "+patientSurname. And the information type is careProvisionCode.
 		}
