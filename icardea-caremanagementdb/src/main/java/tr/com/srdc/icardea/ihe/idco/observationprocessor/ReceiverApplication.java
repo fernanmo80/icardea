@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.Socket;
+import java.net.UnknownHostException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -37,6 +38,7 @@ import tr.com.srdc.icardea.hibernate.Patient;
 import tr.com.srdc.icardea.hibernate.PatientCriteria;
 import tr.com.srdc.icardea.hibernate.Person;
 import tr.com.srdc.icardea.hibernate.PersonCriteria;
+import tr.com.srdc.icardea.ihe.cm.careManager.Audit;
 import tr.com.srdc.icardea.ihe.cm.careManager.CareManager;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.app.ApplicationException;
@@ -210,6 +212,17 @@ public class ReceiverApplication extends Thread {
 
 		// TODO: ATNA
 		if (atnalog) {
+			
+			String xml = Audit.createMessage("PCD-09", patientID, "");
+			Audit a = null;
+			try {
+				a = new Audit("139.91.190.43", 2861);
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            a.send_udp( a.create_syslog_xml("caremanager", xml) );
+			
 			// Send ATNA Message: CIED Message is received for "+citizenshipID+"
 			// "+givenName+" "+familyName from CIEDDataExposureService
 		}
