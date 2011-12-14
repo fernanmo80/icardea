@@ -103,7 +103,7 @@ public class QUPC_AR004030UV_ServiceStub extends org.apache.axis2.client.Stub {
 
 		this(
 				configurationContext,
-				"https://localhost:8080/icardea-caremanager-ws/services/QUPC_AR004030UV_Service.QUPC_AR004030UV_ServiceHttpSoap12Endpoint/");
+				"https://localhost:8443/icardea-caremanager-ws/services/QUPC_AR004030UV_Service.QUPC_AR004030UV_ServiceHttpSoap12Endpoint/");
 
 	}
 
@@ -113,7 +113,7 @@ public class QUPC_AR004030UV_ServiceStub extends org.apache.axis2.client.Stub {
 	public QUPC_AR004030UV_ServiceStub() throws org.apache.axis2.AxisFault {
 
 		this(
-				"https://localhost:8080/icardea-caremanager-ws/services/QUPC_AR004030UV_Service.QUPC_AR004030UV_ServiceHttpSoap12Endpoint/");
+				"https://localhost:8443/icardea-caremanager-ws/services/QUPC_AR004030UV_Service.QUPC_AR004030UV_ServiceHttpSoap12Endpoint/");
 
 	}
 

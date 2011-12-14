@@ -1669,7 +1669,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 			throws java.lang.Exception {
 		sslSetup();
 		tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub(
-				"http://localhost:8080/icardea-caremanager-ws/services/QUPC_AR004030UV_Service.QUPC_AR004030UV_ServiceHttpSoap12Endpoint/");//
+				"http://localhost:8443/icardea-caremanager-ws/services/QUPC_AR004030UV_Service.QUPC_AR004030UV_ServiceHttpSoap12Endpoint/");//
 
 		org.hl7.v3.QUPCIN043200UV01 query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
 		InputStream is = this
