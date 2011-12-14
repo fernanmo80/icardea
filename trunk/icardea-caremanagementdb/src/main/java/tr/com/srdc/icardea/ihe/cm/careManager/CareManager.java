@@ -4,9 +4,11 @@
  */
 package tr.com.srdc.icardea.ihe.cm.careManager;
 
+import java.io.IOException;
 import java.io.InputStream;
 
 import java.math.BigInteger;
+import java.net.UnknownHostException;
 import java.security.Security;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -41,6 +43,7 @@ import org.hl7.v3.QUPCMT040300UV01PatientBirthTime;
 import org.hl7.v3.QUPCMT040300UV01PatientId;
 import org.hl7.v3.QUPCMT040300UV01PatientName;
 import org.hl7.v3.TS;
+;
 
 /**
  * 
@@ -346,7 +349,19 @@ public class CareManager {
 				+ ack.getAcknowledgement().get(0).getTypeCode().value() + "'");
 
 		// TODO: ATNA
+		System.out.println("atnaloggggg start: "+atnalog);
 		if (atnalog) {
+			String xml = Audit.createMessage("PCC-09", patientID, careProvisionCode);
+			Audit a = null;
+			try {
+				a = new Audit("139.91.190.43", 2861);
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            a.send_udp( a.create_syslog_xml("caremanager", xml) );
+			
+			
 			// Send ATNA Message: PCC-9 subscription message
 			// +"careProvisionCode"+ is sent to "+destination+" for
 			// "+patientID+"
