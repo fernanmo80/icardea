@@ -1,0 +1,15 @@
+<AuditMessage>
+    <EventIdentification EventActionCode="R" EventDateTime="{currentTimeStamp}" EventOutcomeIndicator="0">
+        <EventID code="{resource}" displayName="Grant Request Message"/>
+        <EventTypeCode code="GRM" codeSystemName="IHE Transactions"/>
+    </EventIdentification>
+    <ActiveParticipant UserID="Consent Manager">
+    </ActiveParticipant>
+    <ActiveParticipant UserID="{requesterRole}">
+    </ActiveParticipant>
+    <AuditSourceIdentification AuditSourceID="Consent Manager">
+    </AuditSourceIdentification>
+    <ParticipantObjectIdentification ParticipantObjectID="{patientID}">
+        <ParticipantObjectIDTypeCode code="iCardea"/>
+    </ParticipantObjectIdentification>
+</AuditMessage>

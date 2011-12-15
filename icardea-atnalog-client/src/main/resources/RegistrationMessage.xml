@@ -1,0 +1,15 @@
+<AuditMessage>
+	<EventIdentification EventActionCode="C" EventDateTime="{currentTimeStamp}" EventOutcomeIndicator="0">
+		<EventID code="Register" displayName="Registration of Patient"/>
+		<EventTypeCode code="register" codeSystemName="IHE Transactions"/>
+	</EventIdentification>
+	<ActiveParticipant UserID="HIS">
+	</ActiveParticipant>
+	<ActiveParticipant UserID="Adaptive Care Planner">
+	</ActiveParticipant>
+	<AuditSourceIdentification AuditSourceID="HIS">
+	</AuditSourceIdentification>
+	<ParticipantObjectIdentification ParticipantObjectID="{patientID}">
+	<ParticipantObjectIDTypeCode code="iCardea"/>
+	</ParticipantObjectIdentification>
+</AuditMessage>

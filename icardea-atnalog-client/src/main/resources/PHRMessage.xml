@@ -1,0 +1,15 @@
+<AuditMessage>
+	<EventIdentification EventActionCode="C" EventDateTime="{currentTimeStamp}" EventOutcomeIndicator="0">
+	<EventID code="COBSCAT" displayName="All Vital Signs"/>
+		<EventTypeCode code="PCC-10" codeSystemName="IHE Transactions"/>
+	</EventIdentification>
+	<ActiveParticipant UserID="PHR">
+	</ActiveParticipant>
+	<ActiveParticipant UserID="Adaptive Care Planner">
+	</ActiveParticipant>
+	<AuditSourceIdentification AuditSourceID="PHR">
+	</AuditSourceIdentification>
+	<ParticipantObjectIdentification ParticipantObjectID="{patientID}">
+	<ParticipantObjectIDTypeCode code="iCardea"/>
+	</ParticipantObjectIdentification>
+</AuditMessage>

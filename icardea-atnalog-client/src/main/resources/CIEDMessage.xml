@@ -1,0 +1,15 @@
+<AuditMessage>
+    <EventIdentification EventActionCode="C" EventDateTime="{currentTimeStamp}" EventOutcomeIndicator="0">
+        <EventID code="CIED" displayName="Cardiac Implantable Electronic Device"/>
+        <EventTypeCode code="PCD-9" codeSystemName="IHE Transactions"/>
+    </EventIdentification>
+    <ActiveParticipant UserID="CIED Data Exposure System">
+    </ActiveParticipant>
+    <ActiveParticipant  UserID="Adaptive Care Planner">
+    </ActiveParticipant>
+    <AuditSourceIdentification AuditSourceID="CIED Data Exposure System">
+    </AuditSourceIdentification>
+    <ParticipantObjectIdentification ParticipantObjectID="{patientID}">
+        <ParticipantObjectIDTypeCode code="iCardea"/>
+    </ParticipantObjectIdentification>
+</AuditMessage>
