@@ -91,9 +91,10 @@ public class ConsentManagerImplServiceTest {
 		// +"resource"+ is requested from "+requesterRole+" for
 		// "+patientID+" with result "+result.
 		if (atnalog) {
+			ResourceBundle properties = ResourceBundle.getBundle("icardea");
 			String atnalogServer = properties.getString("atna.log.server");
 			
-			String xml = Audit.createMessage("GRM", patientID, resource, requesterRole);//TODO: Grant Request Message
+			String xml = Audit.createMessage("GRM", patientId, resource, requesterRole);//TODO: Grant Request Message
 			Audit a = null;
 			try {
 				a = new Audit(atnalogServer, 2861);
