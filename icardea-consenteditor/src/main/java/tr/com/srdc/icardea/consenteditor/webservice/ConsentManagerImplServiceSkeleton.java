@@ -6,7 +6,10 @@
  */
 package tr.com.srdc.icardea.consenteditor.webservice;
 
+import java.net.UnknownHostException;
 import java.util.ResourceBundle;
+
+import org.icardea.atnalog.client.Audit;
 
 import tr.com.srdc.icardea.consenteditor.controller.ConsentManagerImpl;
 import tr.com.srdc.icardea.consenteditor.controller.ConsentManagerInterface;
@@ -52,13 +55,25 @@ public class ConsentManagerImplServiceSkeleton {
 		response.setGetDecisionReturn(result);
 		boolean atnalog = new Boolean(ResourceBundle.getBundle("icardea")
 				.getString("atna.tls")).booleanValue();
+		
 		// TODO: ATNA
+		// Send ATNA Message: Grant Request Message
+		// +"resource"+ is requested from "+requesterRole+" for
+		// "+patientID+" with result "+result.
 		if (atnalog) {
-			// Send ATNA Message: Grant Request Message
-			// +"resource"+ is requested from "+requesterRole+" for
-			// "+patientID+" with result "+result.
-			// 
+			String atnalogServer = properties.getString("atna.log.server");
+			
+			String xml = Audit.createMessage("GRM", patientID, resource, requesterRole);//TODO: Grant Request Message
+			Audit a = null;
+			try {
+				a = new Audit(atnalogServer, 2861);
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            a.send_udp( a.create_syslog_xml("caremanager", xml) );
 		}
+		
 		return response;
 	}
 

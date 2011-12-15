@@ -8,7 +8,7 @@
 	<name>iCARDEA Configuration Project</name>
 	<packaging>pom</packaging>
 	<properties>		
-		<icardea.home>D:/yildiray/codes/icardea</icardea.home>
+		<icardea.home>D:/icardea-google/icardea</icardea.home>
 		<mysql.host>localhost</mysql.host>
 		<mysql.username>root</mysql.username>
 		<mysql.password>icardea</mysql.password>		
@@ -27,6 +27,7 @@
 		<!--current.date>system</current.date-->
 		<current.date>20101205</current.date>
 		<sms.provider>salk</sms.provider>
+		<atna.log.server>127.0.0.1</atna.log.server>
 		<atna.tls>true</atna.tls>
 		<atna.log>true</atna.log>
 		<eif.host>10.0.0.1</eif.host>

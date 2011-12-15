@@ -87,13 +87,23 @@ public class ConsentManagerImplServiceTest {
 		boolean atnalog = new Boolean(ResourceBundle.getBundle("icardea")
 				.getString("atna.log")).booleanValue();
 		// TODO: ATNA
+		// Send ATNA Message: Grant Request Message
+		// +"resource"+ is requested from "+requesterRole+" for
+		// "+patientID+" with result "+result.
 		if (atnalog) {
-			// Send ATNA Message: Grant Request Message
-			// +"resource"+ is requested from "+requesterRole+" for
-			// "+patientID+" with result "+result.
-			// 
+			String atnalogServer = properties.getString("atna.log.server");
+			
+			String xml = Audit.createMessage("GRM", patientID, resource, requesterRole);//TODO: Grant Request Message
+			Audit a = null;
+			try {
+				a = new Audit(atnalogServer, 2861);
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            a.send_udp( a.create_syslog_xml("caremanager", xml) );
 		}
-
+		
 		return result;
 	}
 
