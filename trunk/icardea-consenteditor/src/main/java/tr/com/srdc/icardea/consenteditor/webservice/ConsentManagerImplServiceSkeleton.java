@@ -63,7 +63,7 @@ public class ConsentManagerImplServiceSkeleton {
 		if (atnalog) {
 			String atnalogServer = properties.getString("atna.log.server");
 			
-			String xml = Audit.createMessage("GRM", patientID, resource, requesterRole);//TODO: Grant Request Message
+			String xml = Audit.createMessage("GRM", patientID, "", "");//TODO: Grant Request Message
 			Audit a = null;
 			try {
 				a = new Audit(atnalogServer, 2861);
