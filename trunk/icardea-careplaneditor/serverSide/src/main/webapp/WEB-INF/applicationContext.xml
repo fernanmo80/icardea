@@ -57,9 +57,7 @@
 	</bean>
 	<bean id="loginService" class="tr.com.srdc.icardea.platform.service.login.LoginServiceImpl">
 	</bean>
-	<bean id="atnaService" class="tr.com.srdc.icardea.atnalog.SendMessage">
-		
-	</bean>
+	
 <!-- 	<bean class="tr.com.srdc.icardea.platform.service.login.LoginControllerImpl" /> -->
 
 	<!-- Add new Managers here -->

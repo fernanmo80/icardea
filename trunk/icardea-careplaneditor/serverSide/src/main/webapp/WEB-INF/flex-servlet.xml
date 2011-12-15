@@ -22,7 +22,5 @@
 	<flex:remoting-destination ref="subscriptionService" />
 	<flex:remoting-destination ref="engineService" />
 	<flex:remoting-destination ref="loginService" />
-	<flex:remoting-destination ref="atnaService" />
-
 
 </beans>
