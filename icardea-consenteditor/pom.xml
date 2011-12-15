@@ -321,6 +321,13 @@
 			<artifactId>axiom-api</artifactId>
 			<version>1.2.10</version>
 		</dependency>
+		<dependency>
+			<groupId>tr.com.srdc.icardea</groupId>
+			<artifactId>icardea-atnalog-client</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<type>jar</type>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 	<repositories>
 		<repository>
