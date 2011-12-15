@@ -61,6 +61,7 @@ public class ConsentManagerImplServiceSkeleton {
 		// +"resource"+ is requested from "+requesterRole+" for
 		// "+patientID+" with result "+result.
 		if (atnalog) {
+			ResourceBundle properties = ResourceBundle.getBundle("icardea");
 			String atnalogServer = properties.getString("atna.log.server");
 			
 			String xml = Audit.createMessage("GRM", patientID, "", "");//TODO: Grant Request Message
