@@ -43,6 +43,7 @@ import org.hl7.v3.QUPCMT040300UV01PatientBirthTime;
 import org.hl7.v3.QUPCMT040300UV01PatientId;
 import org.hl7.v3.QUPCMT040300UV01PatientName;
 import org.hl7.v3.TS;
+import org.icardea.atnalog.client.Audit;
 ;
 
 /**
@@ -348,24 +349,24 @@ public class CareManager {
 		logger.info("Ack TypeCode:'"
 				+ ack.getAcknowledgement().get(0).getTypeCode().value() + "'");
 
-		// TODO: ATNA
-		System.out.println("atnaloggggg start: "+atnalog);
+		// TODO: ATNA - DONE
+		// Send ATNA Message: PCC-9 subscription message
+		// +"careProvisionCode"+ is sent to "+destination+" for
+		// "+patientID+"
+		// "+patientName+" "+patientSurname from Hospital Information System
+		
 		if (atnalog) {
-			String xml = Audit.createMessage("PCC-09", patientID, careProvisionCode);
+			String atnalogServer = properties.getString("atna.log.server");
+			
+			String xml = Audit.createMessage("PCC-9", patientID, careProvisionCode, "");
 			Audit a = null;
 			try {
-				a = new Audit("139.91.190.43", 2861);
+				a = new Audit(atnalogServer, 2861);
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             a.send_udp( a.create_syslog_xml("caremanager", xml) );
-			
-			
-			// Send ATNA Message: PCC-9 subscription message
-			// +"careProvisionCode"+ is sent to "+destination+" for
-			// "+patientID+"
-			// "+patientName+" "+patientSurname from Hospital Information System
 		}
 	}
 

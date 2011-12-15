@@ -38,7 +38,7 @@ import tr.com.srdc.icardea.hibernate.Patient;
 import tr.com.srdc.icardea.hibernate.PatientCriteria;
 import tr.com.srdc.icardea.hibernate.Person;
 import tr.com.srdc.icardea.hibernate.PersonCriteria;
-import tr.com.srdc.icardea.ihe.cm.careManager.Audit;
+import org.icardea.atnalog.client.Audit;
 import tr.com.srdc.icardea.ihe.cm.careManager.CareManager;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.app.ApplicationException;
@@ -210,23 +210,25 @@ public class ReceiverApplication extends Thread {
 		person.save();
 		patient.cIEDData1.add(ciedData);
 
-		// TODO: ATNA
+		// TODO: ATNA - DONE
+		// Send ATNA Message: CIED Message is received for "+citizenshipID+"
+		// "+givenName+" "+familyName from CIEDDataExposureService
 		if (atnalog) {
+			ResourceBundle properties = ResourceBundle.getBundle("icardea");
+			String atnalogServer = properties.getString("atna.log.server");
 			
-			String xml = Audit.createMessage("PCD-09", patientID, "");
+			String xml = Audit.createMessage("PCD-9", patientID, "", "");
 			Audit a = null;
 			try {
-				a = new Audit("139.91.190.43", 2861);
+				a = new Audit(atnalogServer, 2861);
 			} catch (UnknownHostException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
             a.send_udp( a.create_syslog_xml("caremanager", xml) );
-			
-			// Send ATNA Message: CIED Message is received for "+citizenshipID+"
-			// "+givenName+" "+familyName from CIEDDataExposureService
-		}
+		}		
 	}
+	
 
 	private void processPV1(ORU_R01 oru, CIEDData ciedData) throws HL7Exception {
 		// PV1 Segment: Segment is OPTIONAL
@@ -645,12 +647,24 @@ public class ReceiverApplication extends Thread {
 		addContact(newPerson, email, mobilePhone, homePhone);
 
 		// TODO: ATNA
+		// Send ATNA Message: Patient registration message is received for
+		// "+citizenshipID+"
+		// "+givenName+" "+familyName from Hospital Information System
 		if (atnalog) {
-			// Send ATNA Message: Patient registration message is received for
-			// "+citizenshipID+"
-			// "+givenName+" "+familyName from Hospital Information System
+			ResourceBundle properties = ResourceBundle.getBundle("icardea");
+			String atnalogServer = properties.getString("atna.log.server");
+			
+			String xml = Audit.createMessage("register", patientID, "", "");//TODO:registration message
+			Audit a = null;
+			try {
+				a = new Audit(atnalogServer, 2861);
+			} catch (UnknownHostException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+            a.send_udp( a.create_syslog_xml("caremanager", xml) );
 		}
-
+		
 		// subscribe to EHR and PHR Data sources...
 		Subscriber subscriber = new Subscriber(patientID, givenName, familyName);
 		subscriber.start();

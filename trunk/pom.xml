@@ -334,6 +334,7 @@
 	<module>icardea-cts-ws</module>
 	<module>icardea-ctsinvoker</module>
 	<module>icardea-consenteditor-invoker</module>
+	<module>icardea-atnalog-client</module>
 	<!--module>icardea-epsos-client</module-->
 </modules>
 <properties>
