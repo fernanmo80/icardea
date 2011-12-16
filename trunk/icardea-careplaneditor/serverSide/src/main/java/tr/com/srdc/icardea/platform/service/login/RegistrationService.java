@@ -165,18 +165,24 @@ public class RegistrationService {
 		Identifier verified = verification.getVerifiedId();
 		if (verified != null)
 		{
+			
 			ret = new RegistrationModel();
 		    AuthSuccess authSuccess =
 		            (AuthSuccess) verification.getAuthResponse();
-		
+		    
 		    if (authSuccess.hasExtension(AxMessage.OPENID_NS_AX))
 		    {
 		        FetchResponse fetchResp = (FetchResponse) authSuccess
 		                .getExtension(AxMessage.OPENID_NS_AX);
 		
 		        List<String> roles = fetchResp.getAttributeValues("label");
-		        String role = (String) roles.get(0);
-		        ret.setRole(role);
+		        
+		        System.out.println("roles size: "+ roles.size());
+		        if(roles.size() > 0){
+		        	String role = (String) roles.get(0);
+			        ret.setRole(role);
+		        }
+		        
 		    }
 		    if (authSuccess.hasExtension(SRegMessage.OPENID_NS_SREG)) {
 				MessageExtension extension = authSuccess.getExtension(SRegMessage.OPENID_NS_SREG);
