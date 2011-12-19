@@ -1,0 +1,14 @@
+<entry>
+	<procedure classCode='PROC' moodCode='EVN'>
+		<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.19'/>
+		<templateId root='2.16.840.1.113883.10.20.1.29'/>
+		<templateId root='2.16.840.1.113883.10.20.1.25'/>
+		<code code='TMP_PROC_CODE' codeSystem='TMP_PROC_CODING_SYSTEM' codeSystemName='TMP_PROC_CODING_NAME' displayName='TMP_PROC_TEXT' />
+		<text><reference value='#xxx'/>TMP_PROC_TEXT</text>
+		<statusCode code='completed'/>
+		<effectiveTime>
+			<low value='TMP_PROC_LOW'/>
+			<high value='TMP_PROC_HIGH'/>
+		</effectiveTime>
+	</procedure>
+</entry>
