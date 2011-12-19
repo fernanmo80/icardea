@@ -34,7 +34,7 @@ public class ObservationProcessor {
 			if (atnatls) {
 				logger.info("Starting to listen secure port:" + port);
 				String keystoreFile = ResourceBundle.getBundle("icardea")
-						.getString("tomcat.home") + "conf/b.keystore";
+						.getString("tomcat.home") + "conf/.keystore";
 				String keystorePass = "srdcpass";
 				String truststoreFile = ResourceBundle.getBundle("icardea")
 						.getString("tomcat.home") + "conf/.truststore";
