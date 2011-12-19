@@ -1,97 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<?xml-stylesheet type="text/xsl" href="cda_qsg.xsl"?>
-<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:voc="urn:hl7-org:v3/voc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:hl7-org:v3 CDA.xsd">
-	<typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
-	<templateId root="2.16.840.1.113883.3.27.1776"/>
-	<id extension="c20111011131526" root="2.16.840.1.113883.19.4"/>
-	<code code="11492-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="History and Physical note"/>
-	<title>Good Health Clinic History and Physical Note</title>
-	<effectiveTime value="20111011131526"/>
-	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
-	<languageCode code="en-US"/>
-	<versionNumber value="2"/>
-	
-	<recordTarget>
-		<patientRole>
-			<id root='1.2.826.0.1.3680043.2.44.248240.1&amp;ISO' extension='p1'/>
-			<patient>
-				<name>
-					<given>Yannis</given>
-					<family>Petrakis</family>
-					<suffix></suffix>
-				</name>
-				<administrativeGenderCode code="M" codeSystem="2.16.840.1.113883.5.1"/>
-				<birthTime value="20111011"/>
-			</patient>
-			<providerOrganization>
-			</providerOrganization>
-		</patientRole>
-	</recordTarget>
-	<author>
-		<time value="20111011131526"/>
-		<assignedAuthor>
-			<id extension="KP00017" root="2.16.840.1.113883.19.5"/>
-			<assignedPerson>
-				<name>
-					<given>V1</given>
-					<family>CDA_EDITOR</family>
-					<suffix></suffix>
-				</name>
-			</assignedPerson>
-			<representedOrganization>
-				<id root="2.16.840.1.113883.19.5"/>
-			</representedOrganization>
-		</assignedAuthor>
-	</author>
-	<custodian>
-		<assignedCustodian>
-			<representedCustodianOrganization>
-				<id root="2.16.840.1.113883.19.5"/>
-				<name></name>
-			</representedCustodianOrganization>
-		</assignedCustodian>
-	</custodian>
-	<legalAuthenticator>
-		<time value="20111011131526"/>
-		<signatureCode code="S"/>
-		<assignedEntity>
-			<id extension="KP00017" root="2.16.840.1.113883.19.5"/>
-			<assignedPerson>
-				<name>
-					<given></given>
-					<family></family>
-					<suffix></suffix>
-				</name>
-			</assignedPerson>
-			<representedOrganization>
-				<id root="2.16.840.1.113883.19.5"/>
-				<name>SALK</name>
-			</representedOrganization>
-		</assignedEntity>
-	</legalAuthenticator>
-	<component>
-		<structuredBody>
-					<component>
-	<section>
-		<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.8"/>
-		<code code="11348-0" displayName="MEDICATIONS" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
-		<title>MEDICATIONS</title>
-		<text>
-			<list>
-				<item>Concor 5mg</item>
-<item>Methotrexat 20mg</item>
-<item>Aprednislon 12,5</item>
-<item>Convulex 300mg</item>
-
-			</list>
-		</text>
-		<entry>	<substanceAdministration classCode='SBADM' moodCode='EVN'>		<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.7.1'/>		<!--id root='' extension='12122'/-->		<text><reference value='#xxx'/></text>		<statusCode code='completed'/>		<effectiveTime  xsi:type='IVL_TS'><low value=''/><high value=''/></effectiveTime>		<!--routeCode code='TMP_ROUTECODE' codeSystem='2.16.840.1.113883.5.112' displayName='TMP_ROUTENAME' codeSystemName='HL7 RouteOfAdministration Vocabulary'/-->		<doseQuantity value='' unit=''/>		<consumable typeCode='CSM'>			<manufacturedProduct classCode='MANU'>				<manufacturedLabeledDrug classCode='MMAT' determinerCode='KIND'>					<code code='' displayName='Concor 5mg' codeSystem='' codeSystemName=''>						<originalText>Concor 5mg</originalText>					</code>				</manufacturedLabeledDrug>			</manufacturedProduct>		</consumable>	</substanceAdministration>	</entry>
-<entry>	<substanceAdministration classCode='SBADM' moodCode='EVN'>		<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.7.1'/>		<!--id root='' extension='12122'/-->		<text><reference value='#xxx'/></text>		<statusCode code='completed'/>		<effectiveTime  xsi:type='IVL_TS'><low value=''/><high value=''/></effectiveTime>		<!--routeCode code='TMP_ROUTECODE' codeSystem='2.16.840.1.113883.5.112' displayName='TMP_ROUTENAME' codeSystemName='HL7 RouteOfAdministration Vocabulary'/-->		<doseQuantity value='' unit=''/>		<consumable typeCode='CSM'>			<manufacturedProduct classCode='MANU'>				<manufacturedLabeledDrug classCode='MMAT' determinerCode='KIND'>					<code code='' displayName='Methotrexat 20mg' codeSystem='' codeSystemName=''>						<originalText>Methotrexat 20mg</originalText>					</code>				</manufacturedLabeledDrug>			</manufacturedProduct>		</consumable>	</substanceAdministration>	</entry>
-<entry>	<substanceAdministration classCode='SBADM' moodCode='EVN'>		<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.7.1'/>		<!--id root='' extension='12122'/-->		<text><reference value='#xxx'/></text>		<statusCode code='completed'/>		<effectiveTime  xsi:type='IVL_TS'><low value=''/><high value=''/></effectiveTime>		<!--routeCode code='TMP_ROUTECODE' codeSystem='2.16.840.1.113883.5.112' displayName='TMP_ROUTENAME' codeSystemName='HL7 RouteOfAdministration Vocabulary'/-->		<doseQuantity value='' unit=''/>		<consumable typeCode='CSM'>			<manufacturedProduct classCode='MANU'>				<manufacturedLabeledDrug classCode='MMAT' determinerCode='KIND'>					<code code='' displayName='Aprednislon 12,5' codeSystem='' codeSystemName=''>						<originalText>Aprednislon 12,5</originalText>					</code>				</manufacturedLabeledDrug>			</manufacturedProduct>		</consumable>	</substanceAdministration>	</entry>
-<entry>	<substanceAdministration classCode='SBADM' moodCode='EVN'>		<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.7.1'/>		<!--id root='' extension='12122'/-->		<text><reference value='#xxx'/></text>		<statusCode code='completed'/>		<effectiveTime  xsi:type='IVL_TS'><low value=''/><high value=''/></effectiveTime>		<!--routeCode code='TMP_ROUTECODE' codeSystem='2.16.840.1.113883.5.112' displayName='TMP_ROUTENAME' codeSystemName='HL7 RouteOfAdministration Vocabulary'/-->		<doseQuantity value='' unit=''/>		<consumable typeCode='CSM'>			<manufacturedProduct classCode='MANU'>				<manufacturedLabeledDrug classCode='MMAT' determinerCode='KIND'>					<code code='' displayName='Convulex 300mg' codeSystem='' codeSystemName=''>						<originalText>Convulex 300mg</originalText>					</code>				</manufacturedLabeledDrug>			</manufacturedProduct>		</consumable>	</substanceAdministration>	</entry>
-
-	</section>
-</component>
-		</structuredBody>
-	</component>
-</ClinicalDocument>
