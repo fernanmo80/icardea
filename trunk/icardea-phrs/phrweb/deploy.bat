@@ -6,12 +6,12 @@
 
 clear
 
-./package.bash
+call package.bat
 
-tomcat_home="/lab0/apache/tomcat/apache-tomcat-6.0.35/"
+set tomcat_home="D:\tomcat\apache-tomcat-6.0.20"
 
-mvn  cargo:deploy  -Dcatalina.home=$tomcat_home
+call mvn  cargo:deploy  -Dcatalina.home=%tomcat_home%
 
-echo ""
-echo "The phrweb is deployed on :"$tomcat_home
-echo ""
+echo "------------------------------------------"
+echo "The phrweb is deployed on :"%tomcat_home%
+echo "------------------------------------------"

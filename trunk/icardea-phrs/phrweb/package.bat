@@ -4,16 +4,22 @@ rem singular war file. The location of the file is target/ directory.
 
 cls
 
-del /s target
+rem del /s target
+
+call mvn clean
+
+echo "--------------------------------------------------------------------"
+echo "The environment is clean now (all the previous changes are removed)."
+echo "--------------------------------------------------------------------"
 
 mkdir   target
 
-tartool  zxf src\main\assembly\classes.tgz
+call tartool  zxf src\main\assembly\classes.tgz
 move /y classes  target\classes\
 
-mvn package -DskipTests=true
+call mvn package -DskipTests=true
 
 
-echo ""
+echo "--------------------------"
 echo "The phrs war file is ready."
-echo ""
+echo "---------------------------"
