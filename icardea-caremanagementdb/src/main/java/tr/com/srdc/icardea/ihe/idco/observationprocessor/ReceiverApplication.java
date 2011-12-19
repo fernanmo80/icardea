@@ -496,6 +496,8 @@ public class ReceiverApplication extends Thread {
 
 	private String processADTMessage(Message message) throws Exception {
 		// If it is not ADT_A01 then return
+		Logger.getLogger(ReceiverApplication.class).log(Level.INFO,
+		"Processing ADT Message... "+ message.getClass().getName());
 		if (!(message instanceof ADT_A01)) {
 			return "";
 		}
