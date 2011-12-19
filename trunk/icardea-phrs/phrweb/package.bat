@@ -4,12 +4,12 @@ rem singular war file. The location of the file is target/ directory.
 
 cls
 
-mvn clean
+del /s target
 
 mkdir   target
 
-tar  zxf src/main/assembly/classes.tgz
-mv classes  target/classes/
+tartool  zxf src\main\assembly\classes.tgz
+move /y classes  target\classes\
 
 mvn package -DskipTests=true
 
