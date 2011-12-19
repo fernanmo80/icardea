@@ -1,0 +1,6 @@
+#surefire
+#Thu Aug 04 15:50:10 EEST 2011
+user.dir=C\:\\PROJECTS\\ICARDEA\\Listener\\EHRListener
+netbeans.execution=true
+localRepository=C\:\\Documents and Settings\\petrakis\\.m2\\repository
+basedir=C\:\\PROJECTS\\ICARDEA\\Listener\\EHRListener

@@ -1,0 +1,13 @@
+<component>
+	<section>
+		<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.8"/>
+		<code code="11348-0" displayName="TMP_CONTENTS_TITLE" codeSystem="TMP_CONTENTS_CODESYSTEM" codeSystemName="TMP_CONTENTS_CODESYSTEMNAME"/>
+		<title>TMP_CONTENTS_TITLE</title>
+		<text>
+			<list>
+				TMP_CONTENTS_ITEMS
+			</list>
+		</text>
+		TMP_ENTRIES
+	</section>
+</component>
