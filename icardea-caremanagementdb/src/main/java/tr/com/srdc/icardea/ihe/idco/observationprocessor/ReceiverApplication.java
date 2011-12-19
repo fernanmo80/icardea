@@ -362,6 +362,9 @@ public class ReceiverApplication extends Thread {
 					"Socket read and closed");
 			Message message = null;
 			if (receivedMessage.trim().startsWith("MSH")) {
+				//if(receivedMessage.indexOf("2.3.1") != -1) {
+					receivedMessage = receivedMessage.replaceFirst("2\\.3\\.1", "2.5");
+				//}
 				inXML = false;
 				message = new PipeParser().parse(receivedMessage);
 			} else {

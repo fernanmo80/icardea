@@ -9,7 +9,7 @@ import tr.com.srdc.icardea.ihe.idco.observationprocessor.ObservationProcessor;
 public class IHEIDCOIntegrationTest {
 	private static ObservationProcessor processor = null;
 
-	//@Test
+	@Test
 	public void testADTMessage() throws java.lang.Exception {
 		String fileName = "idco/adt-a01.hl7";
 		ObservationCreator obsCreator = new ObservationCreator("localhost", 1011);
@@ -34,7 +34,7 @@ public class IHEIDCOIntegrationTest {
 		System.out.println(" $$$$ Sent....");
 	}*/
 
-	@Test
+	//@Test
 	public void testHL7EDI() throws java.lang.Exception {
 		String fileName = "idco/VTCareplan/VT_Scenario_Step_9.hl7";
 		ObservationCreator obsCreator = new ObservationCreator("localhost", 1011);
