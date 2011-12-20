@@ -1,10 +1,7 @@
-#!/bin/bash
-#set -xv
+rem this bash script is used to pack and deploy the phrweb project in to an
+rem existing Tomcat instance. 
 
-# this bash script is used to pack and deploy the phrweb project in to an
-# existing Tomcat instance. 
-
-clear
+cls
 
 call package.bat
 
