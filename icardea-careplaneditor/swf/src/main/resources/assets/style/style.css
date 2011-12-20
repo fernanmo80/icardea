@@ -7,6 +7,15 @@
    font-family: Calibri;
 }
 
+.iCardeaLabel {
+   	color: #000000;
+	paddingLeft: 0;
+	fontSize: 15;
+   	fontWeight: normal;
+   	disabledColor: #999999;
+   	font-family: Calibri;
+}
+
 .iCardeaFormPanel {
    borderStyle: solid;
    borderColor: #999999;

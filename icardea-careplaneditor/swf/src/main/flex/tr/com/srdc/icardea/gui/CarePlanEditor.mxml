@@ -1333,88 +1333,63 @@
 				<mx:VBox visible="false" styleName="toolPanelContainer" id="monitorStack" includeInLayout="false" height="100%">
 					<mx:Label text="Care Plan Execution" fontWeight="bold" enabled="true" fontFamily="Arial" fontSize="20"/>
 					<mx:Spacer height="5%"/>
-					<mx:Label text="Patient Health Record" textDecoration="underline" fontWeight="bold"/>
-					<mx:Spacer height="5%"/>
-					<!--<mx:HBox >
-						<mx:Spacer width="80"/>
-						<mx:Image horizontalAlign="center" source="{patientPic}"/>
-						<mx:TextArea editable="false" width="120" height="150" textAlign="center" text="NO IMAGE"/>
-					</mx:HBox>-->
+					<mx:Label styleName="iCardeaLabel" text="Patient Health Record" textDecoration="underline" fontWeight="bold"/>
 					<mx:Spacer height="5%"/>
 					<mx:HBox >
-						<mx:Label text="Patient ID:" fontWeight="bold"/>
-						<mx:Text id="patientID" text="{executeCareplanObj.personID}"/>
+						<mx:Label styleName="iCardeaLabel" text="Patient ID:" fontWeight="bold"/>
+						<mx:Text styleName="iCardeaLabel" id="patientID" text="{executeCareplanObj.personID}"/>
 					</mx:HBox>
 					<mx:HBox >
-						<mx:Label text="Patient Name:" fontWeight="bold"/>
-						<mx:Text id="patientName" text="{executeCareplanObj.name}" />
+						<mx:Label styleName="iCardeaLabel" text="Patient Name:" fontWeight="bold"/>
+						<mx:Text styleName="iCardeaLabel" id="patientName" text="{executeCareplanObj.name}" />
 					</mx:HBox>
 					<mx:HBox >
-						<mx:Label text="Gender:" fontWeight="bold"/>
-						<mx:Text id="gender" text="{executeCareplanObj.gender}" />
+						<mx:Label styleName="iCardeaLabel" text="Gender:" fontWeight="bold"/>
+						<mx:Text styleName="iCardeaLabel" id="gender" text="{executeCareplanObj.gender}" />
 					</mx:HBox>
 					<mx:HBox >
-						<mx:Label text="Date of Birth:" fontWeight="bold"/>
-						<mx:Text id="age" text="{executeCareplanObj.dateOfBirth}"  />
+						<mx:Label styleName="iCardeaLabel" text="Date of Birth:" fontWeight="bold"/>
+						<mx:Text styleName="iCardeaLabel" id="age" text="{executeCareplanObj.dateOfBirth}"  />
 					</mx:HBox>
 					<mx:Spacer height="5%"/>
-					<mx:Button label="Details"/>
+					<mx:Button styleName="iCardeaLabel" label="Details"/>
+					<mx:Spacer height="5%"/>
+					<mx:Label styleName="iCardeaLabel" text="Care Plan Details" textDecoration="underline" fontWeight="bold"/>
+					<mx:Spacer height="5%"/>
+					<mx:HBox >
+						<mx:Label styleName="iCardeaLabel" text="Care Plan ID:" fontWeight="bold"/>
+						<mx:Text styleName="iCardeaLabel" id="planId" text="{executeCareplanObj.careplanID}" />
+					</mx:HBox>
+					<mx:HBox >
+						<mx:Label styleName="iCardeaLabel" text="Title:" fontWeight="bold"/>
+						<mx:Text styleName="iCardeaLabel" id="planITitle" text="{executeCareplanObj.careplanName}" />
+					</mx:HBox>
+					<mx:Spacer height="5%"/>
+					<mx:Button styleName="iCardeaLabel" label="Details"/>
 					<mx:Spacer height="10%"/>
-					<mx:Label text="Care Plan Details" textDecoration="underline" fontWeight="bold"/>
-					<mx:Spacer height="5%"/>
-					<mx:HBox >
-						<mx:Label text="Care Plan ID:" fontWeight="bold"/>
-						<mx:Text id="planId" text="{executeCareplanObj.careplanID}" />
-					</mx:HBox>
-					<!--<mx:HBox >
-						<mx:Label text="Version:" fontWeight="bold"/>
-						<mx:Text id="planVersion" text="{executeCareplanObj.version}" />
-					</mx:HBox>-->
-					<mx:HBox >
-						<mx:Label text="Title:" fontWeight="bold"/>
-						<mx:Text id="planITitle" text="{executeCareplanObj.careplanName}" />
-					</mx:HBox>
-					<!--<mx:HBox >
-						<mx:Label text="Detailed info:" fontWeight="bold"/>
-						<mx:Text id="planInfo" text="{executeCareplanObj.careplanName}"/>
-					</mx:HBox>-->
-					<mx:Spacer height="5%"/>
-					<mx:Button label="Details"/>
-					<mx:Spacer height="10%"/>
-					<mx:HBox id="buttonBox" width="100%">
+					<mx:HBox styleName="iCardeaLabel" id="buttonBox" width="100%">
 					</mx:HBox>
 				</mx:VBox>	
-				
 			<mx:VBox styleName="toolPanelContainer" height="100%" id="editorStack" visible="false" includeInLayout="false">	
 				<mx:Label text="Care Plan Editor" fontWeight="bold" enabled="true" fontFamily="Arial" fontSize="20"/>	
 	 			<mx:Spacer height="5%"/>
-	 			<mx:Label text="Care Plan Details" textDecoration="underline" fontWeight="bold"/>
-				<mx:Spacer height="2%"/>
+	 			<mx:Label styleName="iCardeaLabel" text="Care Plan Details" textDecoration="underline" fontWeight="bold"/>
+				<mx:Spacer height="5%"/>
 				<mx:HBox >
-					<mx:Label text="Care Plan ID:" fontWeight="bold"/>
-					<mx:Text text="{_careplan.id}" />
+					<mx:Label styleName="iCardeaLabel" text="Care Plan ID:" fontWeight="bold"/>
+					<mx:Text styleName="iCardeaLabel" text="{_careplan.id}" />
 				</mx:HBox>
-				<!--<mx:HBox >
-					<mx:Label text="Version:" fontWeight="bold"/>
-					<mx:Text text="{_careplan.version}" />
-				</mx:HBox>-->
 				<mx:HBox >
-					<mx:Label text="Title:" fontWeight="bold"/>
-					<mx:Text text="{_careplan.name}" />
+					<mx:Label styleName="iCardeaLabel" text="Title:" fontWeight="bold"/>
+					<mx:Text styleName="iCardeaLabel" text="{_careplan.name}" />
 				</mx:HBox>
-				<!--<mx:HBox >
-					<mx:Label text="Detailed info:" fontWeight="bold"/>
-					<mx:Text text="{_careplan.name}"/>
-				</mx:HBox>-->
-				<mx:Spacer height="2%"/>
+				<mx:Spacer height="5%"/>
 				<mx:Box horizontalAlign="left" width="100%">
-					<mx:Button  id="updateCP" label="UPDATE" click="updateCareplan()"/>
+					<mx:Button styleName="iCardeaLabel" id="updateCP" label="Update" click="updateCareplan()"/>
 				</mx:Box>
-				<mx:Spacer height="2%"/>	
-				
+				<mx:Spacer height="5%"/>	
 				<component:ToolPanel id="groupNavigator" >
-					<component:GenericTitle title="STEPS"
-										 />
+					<component:GenericTitle title="Care Plan Steps"/>
 					<mx:HBox 
 							icon="{Group1_Icon}">
 						<diagctl:SVGAssetLibraryGroupTile id="stepGroupTile"
@@ -1429,28 +1404,9 @@
 							selectable="false" columnWidth="120" columnCount="1" rowCount="7"
 							rowHeight="39" textAlign="left" verticalAlign="middle" />
 					</mx:HBox>
-				</component:ToolPanel>
-				<!--<component:ToolPanel id="info" height="100%" width="100%">
-					<component:GenericTitle title="INFO"
-											 />
-					<mx:DataGrid id="objectsGrid"
-								 dataProvider="{myObjects}"
-								 itemEditEnd="objectsGrid_itemEditEndHandler(event);"
-								 itemClick="objectsGrid_itemClickHandler(event);"
-								 width="100%"
-								 editable="true">
-							<mx:columns>
-								<mx:DataGridColumn headerText="Step type"
-												   dataField="spriteid"
-												   editable="false"/>
-								<mx:DataGridColumn headerText="Comment"
-												   dataField="name"
-												   editable="true"/>
-							</mx:columns>
-					</mx:DataGrid>
-				</component:ToolPanel>-->
+				</component:ToolPanel>				
 				<mx:Spacer height="5%"/>
-				<mx:HBox id="buttonBox1" width="100%">
+				<mx:HBox styleName="iCardeaLabel" id="buttonBox1" width="100%">
 				</mx:HBox>
 		</mx:VBox>
 		<mx:VBox id="Links" 
