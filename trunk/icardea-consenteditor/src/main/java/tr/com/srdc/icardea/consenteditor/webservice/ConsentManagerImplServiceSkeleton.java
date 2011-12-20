@@ -9,7 +9,7 @@ package tr.com.srdc.icardea.consenteditor.webservice;
 import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
-import org.icardea.atnalog.client.Audit;
+import tr.com.srdc.icardea.atnalog.client.Audit;
 
 import tr.com.srdc.icardea.consenteditor.controller.ConsentManagerImpl;
 import tr.com.srdc.icardea.consenteditor.controller.ConsentManagerInterface;

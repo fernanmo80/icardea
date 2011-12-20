@@ -43,8 +43,8 @@ import org.hl7.v3.QUPCMT040300UV01PatientBirthTime;
 import org.hl7.v3.QUPCMT040300UV01PatientId;
 import org.hl7.v3.QUPCMT040300UV01PatientName;
 import org.hl7.v3.TS;
-import org.icardea.atnalog.client.Audit;
-;
+import tr.com.srdc.icardea.atnalog.client.Audit;
+
 
 /**
  * 

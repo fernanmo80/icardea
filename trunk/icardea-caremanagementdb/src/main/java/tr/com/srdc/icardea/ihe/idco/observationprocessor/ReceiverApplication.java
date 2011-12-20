@@ -30,6 +30,7 @@ import org.orm.PersistentTransaction;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+import tr.com.srdc.icardea.atnalog.client.Audit;
 
 import tr.com.srdc.icardea.hibernate.CIEDData;
 import tr.com.srdc.icardea.hibernate.ICardeaPersistentManager;
@@ -38,7 +39,6 @@ import tr.com.srdc.icardea.hibernate.Patient;
 import tr.com.srdc.icardea.hibernate.PatientCriteria;
 import tr.com.srdc.icardea.hibernate.Person;
 import tr.com.srdc.icardea.hibernate.PersonCriteria;
-import org.icardea.atnalog.client.Audit;
 import tr.com.srdc.icardea.ihe.cm.careManager.CareManager;
 import ca.uhn.hl7v2.HL7Exception;
 import ca.uhn.hl7v2.app.ApplicationException;
@@ -362,9 +362,8 @@ public class ReceiverApplication extends Thread {
 					"Socket read and closed");
 			Message message = null;
 			if (receivedMessage.trim().startsWith("MSH")) {
-				//if(receivedMessage.indexOf("2.3.1") != -1) {
-					receivedMessage = receivedMessage.replaceFirst("2\\.3\\.1", "2.5");
-				//}
+				receivedMessage = receivedMessage.replaceFirst("\\|ADT\\^A31\\^ADT_A31\\|", "\\|ADT\\^A01\\^ADT_A01\\|");
+				receivedMessage = receivedMessage.replaceFirst("\\|ADT\\^A31\\|", "\\|ADT\\^A01\\|");
 				inXML = false;
 				message = new PipeParser().parse(receivedMessage);
 			} else {
