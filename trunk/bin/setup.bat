@@ -54,3 +54,18 @@ echo Installing the databases
 
 call mvn install -DcreateDatabases=true -DinstallApacheAndMongo=true -Dmaven.test.skip=true -f ..\pom.xml
 call mvn -o install -f ..\icardea-careplanengine\pom.xml -DafCareplan=true
+
+
+echo 
+echo Install the HL7 PCC related libraries (required by phrweb)
+echo  
+
+call mvn install:install-file  -Dfile=..\tools_resources\external-lib\for-phrs\QUPC_AR004040UV_Service.jar  -Dsource=..\tools_resources\external-lib\for-phrs\QUPC_AR004040UV_Service-sources.jar -DgroupId=org.hl7.v3 -DartifactId=QUPC_AR004040UV_Service -Dversion=0.1 -Dpackaging=jar
+echo QUPC_AR004040UV_Service (binary and sources) was install
+
+call mvn install:install-file  -Dfile=..\tools_resources\external-lib\for-phrs\QUPC_AR004030UV_Service.jar  -Dsource=..\tools_resources\external-lib\for-phrs\QUPC_AR004030UV_Service-sources.jar -DgroupId=org.hl7.v3 -DartifactId=QUPC_AR004030UV_Service -Dversion=0.1 -Dpackaging=jar
+echo QUPC_AR004030UV_Service (binary and sources) was install
+
+call ..\icardea-phrs\phrweb\package.bat
+echo The phrweb was installed.
+
