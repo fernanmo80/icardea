@@ -70,7 +70,7 @@ import tr.com.srdc.icardea.hibernate.Problem;
 import tr.com.srdc.icardea.hibernate.ProblemCriteria;
 import tr.com.srdc.icardea.hibernate.Procedure;
 import tr.com.srdc.icardea.hibernate.VitalSign;
-import org.icardea.atnalog.client.Audit;
+import tr.com.srdc.icardea.atnalog.client.Audit;
 
 /**
  *  QUPC_AR004030UV_ServiceSkeleton java skeleton for the axisService
