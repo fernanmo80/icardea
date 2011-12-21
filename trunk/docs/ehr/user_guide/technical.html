@@ -1,0 +1,145 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <!--[if lte IE 8]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <title>EHR Interoperability Framework - Technical Details</title>
+        <meta name="author" content="Stelios Sfakianakis"/>
+        <meta http-equiv="X-UA-Compatible" content="chrome=1"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" href="style.css" media="screen">
+    </head>
+    <body>
+        <div id="content">
+            <nav id="sidebar">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="start.html">How to start</a></li>
+                <li><a href="install.html">How to install</a></li>
+                <li><a href="use.html">How to use</a>
+                <ul>
+                    <li><a href="use.html#idp">Id Provider &#171;</a></li>
+                    <li><a href="use.html#pixm">PIX Manager &#171;</a></li>
+                    <li><a href="use.html#cded">CDA Editor &#171;</a></li>
+                </ul>
+                </li>
+                <li><a href="technical.html">Technical Details</a></li>
+            </ul>
+            </nav>
+            <div id="main">
+                <h2 id="technical-details">Technical Details</h2>
+
+<p>The following picture shows the major components of the EHR Interoperability
+Framework and the TCP ports used:</p>
+
+<figure id="fig">
+<img src="imgs/arch_2.png" alt="Basic Components and TCP ports" />
+<figcaption>Fig. 1 Basic Components and TCP ports</figcaption>
+</figure>
+
+<h3 id="definitions">Definitions</h3>
+
+<!-- Shamelessly copied from
+http://www.research.ibm.com/jam/IHII_DeploymentGuide.pdf -->
+
+<dl>
+  <dt><strong>XDS</strong></dt>
+  <dd>
+    <p><a href="http://wiki.ihe.net/index.php?title=Cross_Enterprise_Document_Sharing">Cross-Enterprise Document Sharing
+(XDS)</a> is
+focused on providing a standards-based specification for managing the sharing of
+documents between any healthcare enterprise, ranging from a private physician
+office to a clinic to an acute care in-patient facility and personal health
+record systems.</p>
+  </dd>
+  <dt><strong>XDS Affinity domain</strong></dt>
+  <dd>
+    <p>An XDS Affinity Domain is a group of healthcare enterprises that have agreed
+to work together using a common set of policies and share a common
+infrastructure. An XDS Affinity Domain is equivalent to a Regional Healthcare
+Information Organization (RHIO) in that it defines a group of enterprises which
+will have an agreed method of sharing medical data. An XDS Affinity Domain does
+imply the exact method for sharing medical data. That method is the XDS profile
+which is document based and includes a single, generally accessible Document
+Registry which contains a document entry for every registered document. The
+document entry contains a defined set of metadata elements. Part of the task of
+setting up an XDS Affinity Domain is identifying the location of the single
+Document Registry (there can only be one for the XDS Affinity Domain).  Another
+is defining a set of policy decisions which must be agreed to and abided by all
+participating enterprises. The policies include document format, acceptable
+values for some of the metadata elements of the document entries, coding systems
+and terminology. In the iCARDEA project the whole iCARDEA platform consists a
+single XDS Affinity domain.</p>
+  </dd>
+  <dt><strong>XDS Document Registry</strong></dt>
+  <dd>
+    <p>The Document Registry is one of the central entities needed for an XDS
+Affinity Domain. There can only be one per domain. It receives and manages the
+metadata about each available document. The Registry normally holds a URL to a
+repository where document actually stored but in the case of iCARDEA the
+Registry is “colocated” with the Repository.</p>
+  </dd>
+  <dt><strong>XDS Document Repository</strong></dt>
+  <dd>
+    <p>The Document Repository persists documents, registers those documents with the
+registry and supports retrieval of the documents. An XDS Affinity Domain can and
+typically will have multiple Document Repositories. Again in the case of iCARDEA
+a single component is both the XDS Registry and Repository as shown in the
+figure <a href="#fig">above</a></p>
+  </dd>
+  <dt><strong>PIX/PDQ Server</strong></dt>
+  <dd>
+    <p>The PIX/PDQ Server (iCARDEA’s Patient Index) provides the server side of PIX
+<a href="http://wiki.ihe.net/index.php?title=Patient_Identifier_Cross-Referencing">Patient Identity
+Cross-Referencing</a>
+and <a href="http://wiki.ihe.net/index.php?title=Patient_Demographics_Query">PDQ Patient Demographics
+Query</a>
+transactions.  Acting as a Patient Identifier Cross Reference Manager the PIX
+Manager provides cross-referencing of patient identifiers from multiple Patient
+Identifier Domains. It is responsible for creating, maintaining and providing
+lists of identifiers that are aliases of one another across different Patient
+Identifier Domains.  Acting as a Patient Demographic Supplier the PIX manager
+provides ways for multiple distributed applications to query a central patient
+information server for a list of patients based on user-defined search criteria
+and retrieve a patient’s demographic information directly into the application.</p>
+  </dd>
+</dl>
+
+<h3 id="references">References</h3>
+
+<ul>
+  <li>
+    <p>Integrating the Healthcare Enterprise (IHE), <a href="http://www.ihe.net">http://www.ihe.net</a></p>
+  </li>
+  <li>
+    <p>IHE IT Infrastructure Technical Framework, <a href="http://www.ihe.net/Technical_Framework/upload/IHE_ITI_TF_Rev8-0_Vol1_FT_2011-08-19.pdf">Vol1. Integration
+Profiles</a>,
+<a href="http://www.ihe.net/Technical_Framework/upload/IHE_ITI_TF_Rev8-0_Vol2a_FT_2011-08-19.pdf">Vol. 2a</a>,
+<a href="http://www.ihe.net/Technical_Framework/upload/IHE_ITI_TF_Rev8-0_Vol2b_FT_2011-08-19.pdf">Vol.
+2b</a></p>
+  </li>
+</ul>
+
+                <footer id="footer">
+                &copy; 2011 <a href="http://www.ics.forth.gr/">Institute of Computer Science, FORTH</a>
+                </footer>
+            </div>
+        </div>
+
+        <!-- 
+        <script type="text/javascript" 
+            src="//ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+
+        <script>
+            window.onload = function() {
+                CFInstall.check({
+                    mode: "overlay"
+                });
+            };
+        </script>
+        -->
+    </body>
+</html>
