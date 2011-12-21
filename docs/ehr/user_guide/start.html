@@ -1,0 +1,93 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <!--[if lte IE 8]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <title>EHR Interoperability Framework - How to start</title>
+        <meta name="author" content="Stelios Sfakianakis"/>
+        <meta http-equiv="X-UA-Compatible" content="chrome=1"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" href="style.css" media="screen">
+    </head>
+    <body>
+        <div id="content">
+            <nav id="sidebar">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="start.html">How to start</a></li>
+                <li><a href="install.html">How to install</a></li>
+                <li><a href="use.html">How to use</a>
+                <ul>
+                    <li><a href="use.html#idp">Id Provider &#171;</a></li>
+                    <li><a href="use.html#pixm">PIX Manager &#171;</a></li>
+                    <li><a href="use.html#cded">CDA Editor &#171;</a></li>
+                </ul>
+                </li>
+                <li><a href="technical.html">Technical Details</a></li>
+            </ul>
+            </nav>
+            <div id="main">
+                <h2 id="how-to-start">How to start</h2>
+
+<p>First of all you have to launch the mongoDB database server. You have
+to launch a command prompt and <code>cd</code> to the folder where you have
+unzipped the distribution. For the now on I am assuming that you have
+unzip MongoDB in the <code>c:\mongodb</code> directory. In the home directory of
+the MongoDB you can find a <code>bin</code> subdirectory that contains various
+executable files</p>
+
+<ul>
+  <li>
+    <p>Launch (in the command line, after <code>cd</code> to the <code>bin</code> directory of the
+mongoDB) the <code>mongod</code> executable by issuing:</p>
+
+    <pre><code>mongod -f mongodb.conf
+</code></pre>
+
+    <p>You can now check the web interface of MongoDB at
+<a href="http://localhost:28017/">http://localhost:28017/</a> to see its status.</p>
+  </li>
+  <li>
+    <p>Start XDS by issuing (in a command line window):</p>
+
+    <pre><code>python xds.py
+</code></pre>
+  </li>
+  <li>
+    <p>Start Update Broker by issuing (in a command line window):</p>
+
+    <pre><code>python ub.py
+</code></pre>
+  </li>
+  <li>
+    <p>Start the iCARDEA Patient Index in a command line window (after <code>cd</code> in the <code>pixpdq</code> directory) 
+by launching maven as follows:</p>
+
+    <pre><code>maven run
+</code></pre>
+  </li>
+</ul>
+
+                <footer id="footer">
+                &copy; 2011 <a href="http://www.ics.forth.gr/">Institute of Computer Science, FORTH</a>
+                </footer>
+            </div>
+        </div>
+
+        <!-- 
+        <script type="text/javascript" 
+            src="//ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+
+        <script>
+            window.onload = function() {
+                CFInstall.check({
+                    mode: "overlay"
+                });
+            };
+        </script>
+        -->
+    </body>
+</html>

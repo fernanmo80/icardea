@@ -1,0 +1,346 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <!--[if lte IE 8]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <title>EHR Interoperability Framework - How to install</title>
+        <meta name="author" content="Stelios Sfakianakis"/>
+        <meta http-equiv="X-UA-Compatible" content="chrome=1"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" href="style.css" media="screen">
+    </head>
+    <body>
+        <div id="content">
+            <nav id="sidebar">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="start.html">How to start</a></li>
+                <li><a href="install.html">How to install</a></li>
+                <li><a href="use.html">How to use</a>
+                <ul>
+                    <li><a href="use.html#idp">Id Provider &#171;</a></li>
+                    <li><a href="use.html#pixm">PIX Manager &#171;</a></li>
+                    <li><a href="use.html#cded">CDA Editor &#171;</a></li>
+                </ul>
+                </li>
+                <li><a href="technical.html">Technical Details</a></li>
+            </ul>
+            </nav>
+            <div id="main">
+                <h2 id="how-to-install">How to install</h2>
+
+<p>In this section we describe the installation instructions for the EHR
+Interoperability Framework. Please keep in mind that even if the code is
+portable and operating system independent to a large extent, we assume that the
+installation is performed in a MS Windows (32bit) server machine. We have
+tested the instructions on Windows XP but they should be valid also for newer
+versions like Vista and Windows 7.</p>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<p>Before we install the EHR Interoperability Framework we need to make
+sure that we have installed the following prerequisites:</p>
+
+<ul>
+  <li>
+    <p><a href="http://www.oracle.com/technetwork/java/javase/downloads/index.html">Java JDK</a>. 
+You need to install version 6 and above.</p>
+  </li>
+  <li>
+    <p>Also in relation to Java you need to install <a href="http://maven.apache.org/download.html">Apache
+Maven</a> software version 3 as well.</p>
+  </li>
+  <li>
+    <p>The <a href="http://httpd.apache.org/">Apache HTTPd</a> web server with
+<a href="http://php.net/">PHP</a> support is also needed. Some documentation about how to
+install PHP and Apache on MS Windows can be found
+<a href="http://www.thesitewizard.com/php/install-php-5-apache-windows.shtml">here</a>.</p>
+  </li>
+  <li>
+    <p><a href="http://www.mongodb.org/">mongoDB</a> is the database management system
+(of the <a href="http://en.wikipedia.org/wiki/NoSQL">noSQL</a> genre) used to store the
+EHR data. At the <code>tools_resources</code> directory you can find a
+<a href="https://www.srdc.com.tr/svn/iCardea/tools_resources/python/mongodb-win32-i386-1.8.3.zip">zip</a>
+file of the most recent stable version of mongoDB for Windows 32bit.</p>
+  </li>
+  <li>
+    <p><a href="http://www.python.org/getit/">Python</a>. You need to install Python
+version 2.6 or 2.7 which is the most current (in the 2.x branch<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>) at the
+time of this writing. You can find the
+<a href="https://www.srdc.com.tr/svn/iCardea/tools_resources/python/python-2.7.1.msi">setup</a>
+of the most recent Python version (2.7.1, at the for time of this writing)
+for Windows 32bit in the <code>tools_resources/python</code> directory.</p>
+  </li>
+  <li>
+    <p>The python code requires some additional libraries. Most of them can be found
+in Windows installable form in the <a href="https://www.srdc.com.tr/svn/iCardea">iCARDEA SVN
+repository</a> inside the
+<a href="https://www.srdc.com.tr/svn/iCardea/tools_resources/python">tools_resources/python</a>
+directory.</p>
+
+    <ul>
+      <li>
+        <p><a href="http://pypi.python.org/pypi/setuptools">EasyInstall</a> will make
+more easy the installation of the additional libraries. You can find a
+<a href="https://www.srdc.com.tr/svn/iCardea/tools_resources/python/setuptools-0.6c11.win32-py2.7.exe">setup</a>
+for Windows 32bit in <code>tools_resources/python</code> directory.</p>
+      </li>
+      <li>
+        <p><a href="http://lxml.de/installation.html">lxml</a> You can find a
+<a href="https://www.srdc.com.tr/svn/iCardea/tools_resources/python/lxml-2.3.win32-py2.7.exe">setup</a>
+for Windows 32bit in <code>tools_resources/python</code> directory. Alternatively
+you can install it by issuing<sup id="fnref:2"><a href="#fn:2" rel="footnote">2</a></sup>:</p>
+
+        <pre><code>easy_install lxml
+</code></pre>
+      </li>
+      <li>
+        <p><a href="http://pypi.python.org/pypi/greenlet">greenlet</a> and
+<a href="http://pypi.python.org/pypi/gevent">gevent</a><sup id="fnref:3"><a href="#fn:3" rel="footnote">3</a></sup> You can find a setup for
+each of these lib
+(<a href="https://www.srdc.com.tr/svn/iCardea/tools_resources/python/greenlet-0.3.1.win32-py2.7.exe">greenlet</a>
+and
+<a href="https://www.srdc.com.tr/svn/iCardea/tools_resources/python/gevent-0.13.3.win32-py2.7.exe">gevent</a>)
+for Windows 32bit in <code>tools_resources/python</code> directory. Alternatively
+you can install them by issuing</p>
+
+        <pre><code>easy_install greenlet gevent
+</code></pre>
+      </li>
+      <li>
+        <p><a href="http://www.cherrypy.org/">cherrypy</a> (version 3.1.2) You can find a
+<a href="https://www.srdc.com.tr/svn/iCardea/tools_resources/python/CherryPy-3.1.2.win32.exe">setup</a>
+for Windows 32bit in <code>tools_resources/python</code> directory.  Alternatively
+you can install it by issuing</p>
+
+        <pre><code>easy_install cherrypy
+</code></pre>
+      </li>
+      <li>
+        <p><a href="http://pypi.python.org/pypi/pymongo/">pymongo</a> using this
+<a href="https://www.srdc.com.tr/svn/iCardea/tools_resources/python/pymongo-2.0.1.win32-py2.7.exe">setup</a>
+or by issuing</p>
+
+        <pre><code>easy_install pymongo
+</code></pre>
+      </li>
+      <li>
+        <p><a href="http://pypi.python.org/pypi/Jinja2">Jinja2</a> (for the templates) by issuing</p>
+
+        <pre><code>easy_install MarkupSafe bottle Jinja2
+</code></pre>
+      </li>
+    </ul>
+  </li>
+</ul>
+
+<h3 id="installation">Installation</h3>
+
+<p>The code can be downloaded from the <a href="https://www.srdc.com.tr/svn/iCardea">iCARDEA SVN
+server</a>, and in particular it can be found
+in the
+<a href="https://www.srdc.com.tr/svn/iCardea/icardea-interop-fmwork">icardea-interop-fmwork</a>
+directory. In order to download the code, for the current being, you need an SVN
+client and a good one for MS Windows is the
+<a href="http://tortoisesvn.tigris.org/">TortoiseSVN</a>.</p>
+
+<h4 id="xds">XDS Registry, Update Broker, and Patient Index</h4>
+
+<p>The “installatation” of these two components is a plain copy of the
+contents of the SVN repository in some folder – there’s no need for
+running setup or other installation bundle. You just need to create two
+new folders (e.g. in <code>c:\</code>) called (for example): <code>c:\xds</code> and
+<code>c:\pixpdq</code> and put there the relevant code as downloaded from the SVN
+repository. (The code for the XDS Registry and the Update Broker should
+be in the same folder – they are in the same folder in the SVN as well)</p>
+
+<h4 id="pixm">PIX Manager</h4>
+
+<p>The PIX Manager interface is a PHP application and needs to be put in
+the <code>&lt;htdocs&gt;</code> directory of the Apache web server. In this so called
+<code>document_root</code> directory, you can extract the PIX manager archive in a
+folder named <code>PIXPDQ</code> (any folder will do, but for the <a href="use.html">user
+guide</a> this is the assumed installation folder).</p>
+
+<h4 id="cdaed">CDA Editor</h4>
+
+<p>The CDA editor is a MS Windows desktop application and you need to run
+the setup program in order to install it.</p>
+
+<h3 id="conf">Configuration</h3>
+
+<p>First of all the MongoDB database needs to be setup correctly, as follows:</p>
+
+<ul>
+  <li>
+    <p>Create a <code>data</code> subdirectory inside the <code>bin</code> folder. This is the <strong>dbpath</strong> and all the
+MongoDB databases will be persisted there.</p>
+  </li>
+  <li>
+    <p>Create a <code>mongodb.conf</code> with the following contents (you need to
+adjust properly for the <strong>dbpath</strong> variable, see
+<a href="http://www.mongodb.org/display/DOCS/File+Based+Configuration">here</a> for more
+details):</p>
+
+    <pre><code>journal = true
+dbpath = C:\mongodb\bin\data
+directoryperdb = true
+rest = true
+</code></pre>
+  </li>
+</ul>
+
+<div class="aside">
+  <h3 id="notes">Notes</h3>
+
+  <h4 id="cautionimgscautionpng-caution"><img src="imgs/caution.png" alt="caution" /> Caution</h4>
+  <p>As described <a href="http://blog.mongodb.org/post/137788967">here</a>,</p>
+
+  <blockquote>
+    <p>MongoDB uses memory-mapped files for data storage, so for
+servers managing more than 2GB of data you will definitely need the 64 bit
+version (and a 64 bit version of Windows)</p>
+  </blockquote>
+
+  <h4 id="tipimgstippng-running-mongodb-as-windows-service"><img src="imgs/tip.png" alt="tip" /> Running MongoDB as Windows Service</h4>
+
+  <p>In Windows you can install MongoDB to <a href="http://www.mongodb.org/display/DOCS/Windows+Service">run as a
+service</a> by launching the
+following command in a single line):</p>
+
+  <pre><code> mongod --journal --rest
+        --dbpath &lt;full path to the data folder&gt;
+        --logpath &lt;full path to a log file&gt;
+        --logappend --directoryperdb --install
+</code></pre>
+
+  <p>You can then start it from the Windows Services settings application or by
+issuing:</p>
+
+  <pre><code>mongod --service
+</code></pre>
+
+  <h4 id="tipimgstippng-testing-mongodb"><img src="imgs/tip.png" alt="tip" /> Testing MongoDB</h4>
+
+  <p>The <a href="http://www.mongodb.org/display/DOCS/Http+Interface#HttpInterface-SimpleRESTInterface">REST interface of
+MongoDB</a>
+allows querying the database from your browser and it’s a quick and dirty
+approach to test things..</p>
+
+</div>
+
+<p>After this, the basic configuration for the EHR Interoperability Framework includes the
+following:</p>
+
+<ul>
+  <li>
+    <p>Change the line “MONGO_HOST=…” in <code>xds_config.py</code> if mongodb is
+installed in a different machine instead of localhost. There are also
+various settings like the ports that the XDS Registry and the Update
+Broker are listening etc.</p>
+  </li>
+  <li>
+    <p>For the Patient Index component you can change the configuration in
+the file <code>config.ini</code> in the <code>hl7</code> folder. This file follows the <a href="http://en.wikipedia.org/wiki/INI_file">INI
+format</a> and in section
+<code>[server]</code> you can change the mongodb host, the TCP port of the
+Patient Index, etc: </p>
+
+    <pre><code>[server]
+port=2575
+mongo_host=localhost
+application_name=NISTManager_SGSFAK
+facility_name=NIST
+</code></pre>
+
+    <p>The rest of the “sections” correspond to identification (affinity)
+domains. For each domain there’s a namespace (i.e. a short name), a
+<em>universal id</em> (the long unique name), and the <a href="http://www.med.mun.ca/tedhoekman/medinfo/hl7/ch200038.htm#I8"><em>universal
+type</em></a>
+specifying the type of the universal id used (it can be one of ISO,
+UUID, and DNS). For example for the iCARDEA domain we have chosen to
+use the following:</p>
+
+    <pre><code>[icardea]
+namespace=icardea.pix
+universal_id=1.2.826.0.1.3680043.2.44.248240.1
+universal_type=ISO
+</code></pre>
+  </li>
+</ul>
+
+<p>For the configuration of the PIX Manager web application two files need
+to be configured (<code>&lt;home&gt;</code> is PIX manager’s root directory in the web
+server):</p>
+
+<ul>
+  <li><code>&lt;home&gt;\user\config\config.txt</code>:  contains the available domains</li>
+  <li><code>&lt;home&gt;\user\config\server.txt</code>:  contains the PIX server ip and port</li>
+</ul>
+
+<p>For the configuration of the CDA Editor, in the installation directory
+there is a configuration file <code>app.config.xml</code>. The following parameters
+need to be configured in this file:</p>
+
+<ul>
+  <li>
+    <p><code>sharedDir</code>: the directory path that CDA EDITOR stores the CDA
+documents created. It is also the directory CDA EDITOR watches and
+presents the existing CDA documents</p>
+  </li>
+  <li>
+    <p><code>xds</code>: the url of the XDS service</p>
+  </li>
+  <li>
+    <p><code>PIX_ip</code>: the IP of the machine the Patient Index (PIX) server is
+running on</p>
+  </li>
+  <li>
+    <p><code>PIX_port</code>: the port the Patient Index (PIX) server is running on</p>
+  </li>
+</ul>
+
+<h2 id="footnotes">Footnotes</h2>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:1">
+      <p>The Python code has not been tested with 3.x branch<a href="#fnref:1" rev="footnote">&#8617;</a></p>
+    </li>
+    <li id="fn:2">
+      <p>NOTE: In Linux <code>lxml</code> requires <code>libxml2</code> and <code>libxslt</code> to be properly
+  installed so you ‘d better install these with the package
+  management tool of your Linux distribution (e.g. <code>apt-get</code> in
+  Debian/Ubuntu) to look for packages like <code>libxml2-dev</code> or
+  <code>libxslt-devel</code> if the build with the <code>easy_install</code> fails.<a href="#fnref:2" rev="footnote">&#8617;</a></p>
+    </li>
+    <li id="fn:3">
+      <p>In Linux (and other <a href="http://en.wikipedia.org/wiki/Unix-like">*nix</a> systems) it also requires the
+  installation of libevent.<a href="#fnref:3" rev="footnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+                <footer id="footer">
+                &copy; 2011 <a href="http://www.ics.forth.gr/">Institute of Computer Science, FORTH</a>
+                </footer>
+            </div>
+        </div>
+
+        <!-- 
+        <script type="text/javascript" 
+            src="//ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+
+        <script>
+            window.onload = function() {
+                CFInstall.check({
+                    mode: "overlay"
+                });
+            };
+        </script>
+        -->
+    </body>
+</html>

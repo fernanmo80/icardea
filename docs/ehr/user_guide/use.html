@@ -1,0 +1,332 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <!--[if lte IE 8]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <title>EHR Interoperability Framework - How to use</title>
+        <meta name="author" content="Yiannis Petrakis, Stelios Sfakianakis"/>
+        <meta http-equiv="X-UA-Compatible" content="chrome=1"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" href="style.css" media="screen">
+    </head>
+    <body>
+        <div id="content">
+            <nav id="sidebar">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="start.html">How to start</a></li>
+                <li><a href="install.html">How to install</a></li>
+                <li><a href="use.html">How to use</a>
+                <ul>
+                    <li><a href="use.html#idp">Id Provider &#171;</a></li>
+                    <li><a href="use.html#pixm">PIX Manager &#171;</a></li>
+                    <li><a href="use.html#cded">CDA Editor &#171;</a></li>
+                </ul>
+                </li>
+                <li><a href="technical.html">Technical Details</a></li>
+            </ul>
+            </nav>
+            <div id="main">
+                <h2 id="user-guide">User Guide</h2>
+
+<p>Most of the EHR Interoperability Framework are background services, i.e.
+programs that the user does not (directly) interact with. The user
+applications that the users “see” are the <a href="#cded">CDA Editor</a>, and the <a href="#pixm">PIX
+Manager</a>. In the following sections we describe the use of these two
+applications.</p>
+
+<p>But before any (web-based) application like PIX Manager is used you need to “sign up”
+to the <a href="#idp">iCARDEA ID Provider</a> as a new iCARDEA user. This is required so as to
+guarantee that no patient data are “leaked” to the general public and that all access
+to the data is audited and we know who is the person that requests it.</p>
+
+<h3 id="idp">iCARDEA Id Provider</h3>
+
+<p>The idea of the Id Provider is to have a single place where the authentication of the
+iCARDEA users happens so that the rest of the iCARDEA user applications do not bother
+storing passwords and other authentication information. From the technical side under
+the covers it uses the <a href="http://openidexplained.com">OpenId</a> protocol but the user
+does not really need to know anything about it.</p>
+
+<h4 id="ca">Prerequisite for secure communication</h4>
+
+<p>The communication with the Id Provider should be encrypted so no one is able to
+intercept it and gain access for example to the users’ passwords. The general
+solution on the Web is to use the <a href="http://en.wikipedia.org/wiki/HTTP_Secure">HTTPS</a>
+protocol, the one that you use for example when you visit your Bank’s web site for
+online transactions. So all the iCARDEA web applications use the same method so the
+same level of security is achieved. But before accessing the secure HTTPS protected
+Id Provider (or other iCARDEA web application) the user needs to import the iCARDEA
+Root Certificate in their browser.  In order to do this please visit the following
+URL <a href="http://icardea-server.lksdom21.lks.local/CA/cacert.crt">http://icardea-server.lksdom21.lks.local/CA/cacert.crt</a> with your browser and do
+the following (it is assumed that you use MS Internet Explorer but the process is
+more or less the same with the other browsers):</p>
+
+<ul>
+  <li>After you visit the <a href="http://icardea-server.lksdom21.lks.local/CA/cacert.crt">URL given
+above</a> Internet Explorer
+will show a dialog window similar to the following:</li>
+</ul>
+
+<figure id="figca1">
+<img src="imgs/ca1.png" />
+</figure>
+
+<ul>
+  <li>Please click the “Open” button and you get the following information:</li>
+</ul>
+
+<figure id="figca2">
+<img src="imgs/ca2.png" />
+</figure>
+
+<ul>
+  <li>When you click the “Install certificate” a wizard similar to the following appears:</li>
+</ul>
+
+<figure id="figca3">
+<img src="imgs/ca3.png" />
+</figure>
+
+<ul>
+  <li>Please choose “Next”</li>
+</ul>
+
+<figure id="figca4">
+<img src="imgs/ca4.png" />
+</figure>
+
+<ul>
+  <li>Please choose “Next” once more and then “Finish”</li>
+</ul>
+
+<figure id="figca5">
+<img src="imgs/ca5.png" />
+</figure>
+
+<ul>
+  <li>After pressing “Finish” a warning will appear</li>
+</ul>
+
+<figure id="figca6">
+<img src="imgs/ca6.png" />
+</figure>
+
+<p>You need now to click the “Yes” button and the certificate will be successfully
+imported into the browser’s trusted authorities. After this procedure you can visit
+the Id Provider to register as a new iCARDEA user.</p>
+
+<h4 id="registering-in-the-icardea-id-provider">Registering in the iCARDEA Id Provider</h4>
+
+<p>The user needs to do the following steps:</p>
+
+<ul>
+  <li>A new user of iCARDEA needs first of all to visit the iCARDEA Id Provider at
+<a href="https://icardea-server.lksdom21.lks.local/idp/">https://icardea-server.lksdom21.lks.local/idp/</a> and select the “Sign Up” menu option: </li>
+</ul>
+
+<figure id="figidp1">
+<img src="imgs/idp1_small.png" />
+<figcaption>Fig. 1 The initial "welcome" page of the Id Provider</figcaption>
+</figure>
+
+<ul>
+  <li>After selecting the “sign up” menu option, at the next screen, she is asked
+whether she’s an existing SALK (hospital) user or not:</li>
+</ul>
+
+<figure id="figidp2">
+<img src="imgs/idp2_small.png" />
+<figcaption>Fig. 2 "Signing up" to the Id Provider</figcaption>
+</figure>
+
+<ul>
+  <li>When she declares that she’s an existing Hospital user by choosing “yes”, she is
+requested to give her user name and password i.e. the same credentials that she uses
+to log into the SALK windows machines<sup id="fnref:idp1"><a href="#fn:idp1" rel="footnote">1</a></sup>:</li>
+</ul>
+
+<figure id="figidp3">
+<img src="imgs/idp3_small.png" />
+<figcaption>Fig. 3 The user is asked to give the same username and password that
+he/she uses for logging into the SALK MS Windows machines</figcaption>
+</figure>
+
+<ul>
+  <li>
+    <p>After the successful validation of the SALK credentials the user is a valid
+iCARDEA user with his identifier constructed based on his windows user name, i.e. the
+iCARDEA username will be the same username the user has in the Hospital machines.</p>
+  </li>
+  <li>
+    <p>The user can then log into the id provider giving his/her existing (SALK’s) user
+name / password information and use the rest of iCARDEA applications.</p>
+  </li>
+</ul>
+
+<figure id="figidp4">
+<img src="imgs/idp4_small.png" />
+<figcaption>Fig. 4 The login page of the Id Provider</figcaption>
+</figure>
+
+<ul>
+  <li>After the successful login the user is presented with a page similar to the one
+shown in the <a href="#figidp5">next</a> figure.</li>
+</ul>
+
+<figure id="figidp5">
+ <img src="imgs/idp5_small.png" />
+ <figcaption>Fig. 5 The initial page of the Id Provider after the user has
+ successfully logged in.</figcaption>
+ </figure>
+
+<p>In the menu on the right side the user should see his/her username (<code>ssfak</code> as
+   shown in the example figure above) but there are also some new menu options. The
+   first is for “logging out” of the iCARDEA and the second one is about the current
+   “Approvals”. Basically the “approvals” are the list of iCARDEA applications that
+   the user has allowed to be silently “logged into” immediately. An example of this
+   “approval” mechanism is shown in the next paragraph when we try to log into the
+   PIX Manager.</p>
+
+<h3 id="pixm">PIX Manager</h3>
+
+<p>The PIX Manager application is a web based graphical user interface and
+you can launch it by visiting <a href="https://icardea-server.lksdom21.lks.local/PIXPDQ2/">https://icardea-server.lksdom21.lks.local/PIXPDQ2/</a>.
+Its main purpose is to register new patients in the iCARDEA platform and manage their
+“ids” and demographic information<sup id="fnref:pix1"><a href="#fn:pix1" rel="footnote">2</a></sup>.</p>
+
+<p><!--  where `<server_ip>` is the [IP
+address](http://en.wikipedia.org/wiki/IP_address) (e.g. 127.0.0.1) or
+[DNS name](http://en.wikipedia.org/wiki/Hostname) of the web server that
+the installation has taken place as described in the [installation
+guide](install.html#pixm)  --></p>
+
+<p>A new icardea patient can be registered following the <em>Registration</em> link
+from the menu (see figure below). The user fills patient ids (protocol, HIS and
+implant) and demographics data and submits the form.</p>
+
+<figure id="fig1">
+<img src="imgs/pix_ui1_2.png" alt="Registering a new patient in the PIX Manager interface" />
+<figcaption>Fig. 6 Registering a new patient in the PIX Manager interface</figcaption>
+</figure>
+
+<p>The <em>PIX Query</em> menu link opens the form in figure below where the user selects id
+and authority (domain).</p>
+
+<figure id="fig2">
+<img src="imgs/pix_ui2_2.png" alt="Querying for patients" />
+<figcaption>Fig. 7 Querying for patients</figcaption>
+</figure>
+
+<p>The result of the id mapping is shown in the next figure:</p>
+
+<figure id="fig3">
+<img src="imgs/pix_ui3_2.png" alt="Results of the query" />
+<figcaption>Fig. 8 Results of the query</figcaption>
+</figure>
+
+<p>The <em>Demographics Query</em> menu link opens the form in the next figure where the user
+gives as input any of the ids or demographics data </p>
+
+<figure id="fig4">
+<img src="imgs/pix_ui4_2.png" alt="" />
+<figcaption>Fig. 9 Demographics Query</figcaption>
+</figure>
+
+<p>..and all the records matching the criteria are presented (see <a href="#fig5">Fig. 10</a>).
+User can edit the patient demographics data by clicking on the last column of
+the demographics query results table.</p>
+
+<figure id="fig5">
+<img src="imgs/pix_ui5_2.png" alt="" />
+<figcaption>Fig. 10 The results of the query</figcaption>
+</figure>
+
+<h3 id="cded">CDA Editor</h3>
+
+<p>In the tab <em>View CDAs</em>, the existing CDA files are listed. By clicking on a list
+item the CDA content appears (in XML and HTML format). By pushing Register
+Document  button, the selected CDA is registered into XDS. By double clicking on
+a list item or pushing Create CDA, the user can edit the selected CDA file or
+create a new one (see <a href="#fig6">figure 6</a>).</p>
+
+<figure id="fig6">
+<img src="imgs/cda_ed1_2.png" alt="" />
+<figcaption>Fig. 11 Selecting and viewing existing CDA files</figcaption>
+</figure>
+
+<p>The next figure presents the interface for creating/editing CDA files.</p>
+
+<figure id="fig7">
+<img src="imgs/cda_ed2_2.png" alt="" />
+<figcaption>Fig. 12 Creating or editing CDA files</figcaption>
+</figure>
+
+<p>The button <em>Ask PIX</em> shows the form of the next figure where the user
+gets the mapping between HIS id and protocol id and fills the patient
+info data.  </p>
+
+<figure id="fig8">
+<img src="imgs/cda_ed3.png" alt="" />
+<figcaption>Fig. 13 Asking for a mapping between patient identifiers</figcaption>
+</figure>
+
+<p>For each type of medical data categories (lab exams, problems,
+procedures, vital signs, medications) there is a list with the current
+CDA records. The user can add/edit/remove any of them. The form for
+add/edit is shown below. The user selects the lab exam from a list of
+the available exams (search can be done by code and description) and
+fills the required attributes (value, unit, date)</p>
+
+<figure id="fig9">
+<img src="imgs/cda_ed4.png" alt="" />
+<figcaption>Fig. 14 Creating a new (lab., in this example) entry</figcaption>
+</figure>
+
+<p>Finally in tab <em>Import EDF</em> the user selects an EDF file from the disk,
+selects the patient the EDF refers to, and creates the corresponding CDA
+by pushing <em>Create CDA</em> button.</p>
+
+<figure id="fig10">
+<img src="imgs/cda_ed5_2.png" alt="" />
+<figcaption>Fig. 15 Importing Edifact files</figcaption>
+</figure>
+
+<h3 id="footnotes">Footnotes</h3>
+
+<div class="footnotes">
+  <ol>
+    <li id="fn:idp1">
+      <p>This is required only for making sure that she really is an existing user.
+     The password is sent to the Windows domain controller and it’s not stored 
+     in any way!<a href="#fnref:idp1" rev="footnote">&#8617;</a></p>
+    </li>
+    <li id="fn:pix1">
+      <p>By the way, the acronym PIX means “Patient Index”.<a href="#fnref:pix1" rev="footnote">&#8617;</a></p>
+    </li>
+  </ol>
+</div>
+
+                <footer id="footer">
+                &copy; 2011 <a href="http://www.ics.forth.gr/">Institute of Computer Science, FORTH</a>
+                </footer>
+            </div>
+        </div>
+
+        <!-- 
+        <script type="text/javascript" 
+            src="//ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+
+        <script>
+            window.onload = function() {
+                CFInstall.check({
+                    mode: "overlay"
+                });
+            };
+        </script>
+        -->
+    </body>
+</html>
