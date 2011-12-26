@@ -1,0 +1,281 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head>
+<meta http-equiv="Content-Type" content="application/xhtml+xml; charset=iso-8859-1" />
+<meta name="generator" content="AsciiDoc 8.6.4" />
+<link rel="stylesheet" href="http://twister.ics.forth.gr/ehr-icardea/manual/css/style.css"/>
+<link rel="stylesheet" href="http://twister.ics.forth.gr/ehr-icardea/manual/css/icardea_style.css"/>
+<title>iCARDEA Setup & Development Guide</title>
+</head>
+<body class="article">
+<div id="header">
+<p style="text-align: center; ">
+	<strong style="font-size: 24px; ">iCARDEA Setup &amp; Development Guide</strong></p>
+<h1 style="text-align: justify; ">
+	<span style="font-size:18px;">Project Tree</span></h1>
+<p style="text-align: justify; ">
+	iCARDEA contains several different tools and services. Some of them are inter-related with or depends on each other and some of them are stand-alone. Current project tree is provided below.</p>
+<p style="text-align: justify; ">
+	iCARDEA Project:</p>
+<ul>
+	<li style="text-align: justify; ">
+		iCARDEA Care Management DB</li>
+	<li style="text-align: justify; ">
+		iCARDEA Care Manager-WS</li>
+	<li style="text-align: justify; ">
+		iCARDEA Care Plan Engine</li>
+	<li style="text-align: justify; ">
+		iCARDEA Consent Editor/Manager</li>
+	<li style="text-align: justify; ">
+		iCARDEA Consent Manager Invoker</li>
+	<li style="text-align: justify; ">
+		iCARDEA Care Plan Editor
+		<ul>
+			<li style="text-align: justify; ">
+				iCARDEA Platform /Server side</li>
+			<li style="text-align: justify; ">
+				SWF /Client Side</li>
+			<li style="text-align: justify; ">
+				API</li>
+			<li style="text-align: justify; ">
+				Care Plan Parent</li>
+		</ul>
+	</li>
+	<li style="text-align: justify; ">
+		iCARDEA CTS WS</li>
+	<li style="text-align: justify; ">
+		iCARDEA CTS Invoker</li>
+	<li style="text-align: justify; ">
+		iCARDEA Config</li>
+</ul>
+<h1 style="text-align: justify; ">
+	<span style="font-size:18px;">Project Summaries</span></h1>
+<ul>
+	<li style="text-align: justify; ">
+		iCARDEA Care Management DB provides connection with the database which is storing all the data and information related with EHR, PHR and CIED.</li>
+	<li style="text-align: justify; ">
+		iCARDEA Care Manager-WS provides several services to store data into Care Management DB.
+		<ul>
+			<li style="text-align: justify; ">
+				iCARDEA Care Manager-WS depends on iCARDEA Care Management DB</li>
+		</ul>
+	</li>
+	<li style="text-align: justify; ">
+		iCARDEA Care Plan Engine generates and runs the generated guidelines which are in GLIF format.
+		<ul>
+			<li style="text-align: justify; ">
+				iCARDEA Care Plan Engine depends on iCARDEA Care Management DB</li>
+		</ul>
+	</li>
+	<li style="text-align: justify; ">
+		iCARDEA Consent Editor provides a user interface for patients to set their consents and iCARDEA Consent Manager evaluates the incoming request for accessing an object.</li>
+	<li style="text-align: justify; ">
+		&nbsp;iCARDEA Consent Manager Invoker is a simple test project for calling the web services of Consent Manager.
+		<ul>
+			<li style="text-align: justify; ">
+				&nbsp;iCARDEA Consent Manager Invoker depends on iCARDEA Consent Manager.</li>
+		</ul>
+	</li>
+	<li style="text-align: justify; ">
+		iCARDEA Care Plan Editor provides a user interface to create guideline templates. It also provides another interface which will be used as main gate of the iCARDEA Platform.</li>
+	<li style="text-align: justify; ">
+		iCARDEA Common Terminology Services WS is providing a web service for validating and translating codes of different code systems.</li>
+	<li style="text-align: justify; ">
+		iCARDEA Common Terminology Services Invoker is a simple test project for calling the web services of Common Terminology Services WS.
+		<ul>
+			<li style="text-align: justify; ">
+				iCARDEA Common Terminology Services Invoker depends on iCARDEA Common Terminology Services WS.</li>
+		</ul>
+	</li>
+	<li style="text-align: justify; ">
+		iCARDEA Config is just a simple project to set apart the general configuration of the project which changes from user to user (and computer to computer).</li>
+</ul>
+<h1 style="text-align: justify; ">
+	<span style="font-size:18px;">Project File Structure</span></h1>
+<p style="text-align: justify; ">
+	Maven 2 is used for project management of iCARDEA. Before starting, let me explain a few basic configuration details of the Maven convention for whom is not familiar with it.</p>
+<p style="text-align: justify; ">
+	All projects (the parent project and the other sub-module projects) have pom.xml files in their root folders. This file contains all the configurations and dependencies of the project.</p>
+<ul>
+	<li style="text-align: justify; ">
+		Source files are located under src/main/java (or src/main/flex,etc..)</li>
+	<li style="text-align: justify; ">
+		Resource files are located under src/main/resources</li>
+	<li style="text-align: justify; ">
+		Test source files are located under src/test/java</li>
+	<li style="text-align: justify; ">
+		Test resource files are located under src/test/resources</li>
+</ul>
+<h1 style="text-align: justify; ">
+	<span style="font-size:18px;">Project Setup</span></h1>
+<p style="text-align: justify; ">
+	After fetching the project from SVN to a local folder, first open the pom.xml file under &ldquo;config&rdquo; folder and make the necessary updates.</p>
+<ul>
+	<li style="text-align: justify; ">
+		Set you icardea.home folder to the folder that you fetched the project.</li>
+	<li style="text-align: justify; ">
+		Set your MySQL username and password.</li>
+	<li style="text-align: justify; ">
+		Set max_allowed_packet to 16M in the mysql.ini configuration file</li>
+</ul>
+<p style="text-align: justify; ">
+	Then set the following environment variables (you can use setenv.bat, but we recommend to set them permanently):</p>
+<ul>
+	<li style="text-align: justify; ">
+		MAVEN_OPTS=-Xms256m &ndash;Xmx512m</li>
+	<li style="text-align: justify; ">
+		CATALINA_OPTS=-Xms 256m &ndash;Xmx1024m &ndash;XX:PermSize=256m &ndash;XX:MaxPermSize=512m</li>
+</ul>
+<p style="text-align: justify; ">
+	If you prefer to start tomcat without using the &ldquo;start_tomcat.bat&rdquo;, CATALINA_HOME variable should be set to {ICARDEA_HOME_PATH}/tools/apache-tomcat-6.0.30</p>
+<p style="text-align: justify; ">
+	Then open a console and go to the directory that you set as &ldquo;icardea.home&rdquo;.</p>
+<p style="text-align: justify; ">
+	Now we are ready for installation&hellip; There are two options for installing and using iCARDEA system.</p>
+<ol>
+	<li style="text-align: justify; ">
+		This one is directly from command line and using maven commands.</li>
+</ol>
+<p style="text-align: justify; margin-left: 40px; ">
+	To start installation for the first time we need to enter following line into console (you can use setup.bat):</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	icardea.home&gt; <strong>mvn install -DcreateDatabases=true -Dmaven.test.skip=true</strong></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>mvn install</strong> command (when run from icardea.home) is compiling all resources, creating WAR and JAR packages, putting this packages into local maven repository (to make them available for other projects to access it), deploying WAR files under tomcat (which is located under icardea.home/tools) and running tests.</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	We used the <strong>&ndash;Dmaven.test.skip=true</strong> parameter to skip tests, since we had not started tomcat and some of our tests depends on the services provided by the WAR files deployed under tomcat.</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	We used the <strong>&ndash;DcreateDatabases=true</strong> parameter to tell to the maven that database creation processes should be run.&nbsp; (This command drops all current databases).</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>mvn install </strong>command does the same job whether it is called under sub-module projects. For example, when we run <strong>mvn install </strong>under icardea-consenteditor folder, it compiles the sources of consent editor, creates WAR package and deploys it under tomcat (and also into maven local repository).</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	If you want to skip deployment of WAR packages under tomcat, there is another parameter:</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>-DskipDeploy=true </strong></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	After a successful installation, you need to start Tomcat using the start_tomcat.bat located under icardea.home folder. You cannot start Tomcat before installing, since it is being unpackaged into tools folder during installation. &nbsp;After Tomcat started, Consent Editor and Care Plan Editor should be available at the following address. You can check them.</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	Consent Editor: <a href="http://localhost:8080/consenteditor/ConsentEditor/ConsentEditor.html">http://localhost:8080/consenteditor/ConsentEditor/ConsentEditor.html</a></p>
+<p style="margin-left: 40px; ">
+	<span style="text-align: justify; ">Care Plan Editor: </span><a href="https://localhost:8443/icardea_careplaneditor/flex-client/iCardea.html" style="text-align: justify; ">https://localhost:8443/icardea_careplaneditor/flex-client/iCardea.html</a></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	Also two web services are ready to be used from the following URLs:</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	Consent Manager: <a href="http://localhost:8080/consenteditor/services/ConsentManagerImplService?wsdl">http://localhost:8080/consenteditor/services/ConsentManagerImplService?wsdl</a></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	Care Manager:&nbsp;<a href="http://localhost:8080/icardea-caremanager-ws/services/QUPC_AR004030UV_Service">http://localhost:8080/icardea-caremanager-ws/services/QUPC_AR004030UV_Service</a></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	CTS WS is not deployed because it requires to access CTS repository which is huge in size, hence we are providing this service from SRDC servers. This service can be invoked/tested with the CTS Invoker.</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	Other tools can be run as following tasks through command line.</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<u>Care Management DB</u></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	observation.processor &ndash; Listens for incoming CIED Data</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	observation.creator &ndash; Sends a sample CIED Data to the listener</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<u>Care Plan Engine</u></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	run.engine &ndash; Runs care plan engine (or you can use careplan-engine.bat)</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	generate.glif &ndash; Generates GLIF document from the provided internal XML document of Care Plan Editor</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<u>Consent Manager Invoker</u></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	invoke.consent &ndash; invokes the four method of the web service with preset values</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<u>CTS Invoker</u></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	Invoke.cts &ndash; invokes the four method of the web service with preset values</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	To run these tasks, you need to either go to related directory, or set the pom.xml of that directory using -f parameter of Maven, then run the exec:java command of the &ldquo;exec&rdquo; plugin of maven. This plugin invokes java classes.</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	Ex:</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	To run care plan engine under icardea.home:</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	icardea.home&gt; <strong>mvn -f icardea-careplanengine/pom.xml exec:java -Dtask=run.engine </strong></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	To run care plan engine under icardea-careplanengine folder:</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	icardea.home/icardea-careplanengine&gt; <strong>mvn exec:java -Dtask=run.engine</strong></p>
+<ol start="2">
+	<li style="text-align: justify; ">
+		As mentioned before, there is another way to install and run these tasks: &ldquo;maven cli plugin&rdquo;</li>
+</ol>
+<p style="text-align: justify; margin-left: 40px; ">
+	This plugin is providing a console for calling maven goals and lifecycles.</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	To start &ldquo;maven cli plugin&rdquo;, enter the following code into console:</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>mvn cli:execute-phase </strong></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	This will make the initial process of maven and then provide you a new console.</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	maven2&gt;</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	You can use this console as a normal console and run the commands omitting the first &ldquo;mvn&rdquo; command. For example to start installation you can type</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	maven2&gt; <strong>install -DcreateDatabases=true -Dmaven.test.skip=true</strong></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	However, if you think it is still too long, you can use the useful feature of cli plugin: &ldquo;aliases&rdquo;.</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	New aliases can be defined in the pom.xml in icardea.home. Several aliases have already been defined. For example to start installation with createDatabases option true and skip test option true, you can type <strong>setup</strong> to cli console.</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	maven2&gt; <strong>setup</strong></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>setup</strong> is an alias to the <strong>install -DcreateDatabases=true -Dmaven.test.skip=true</strong>.</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	Another useful feature of the &ldquo;cli plugin&rdquo; is you can directly call the tasks that are in sub-modules. Just enter the name of the sub-module then the command. Here are several useful examples:</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	maven2&gt; <strong>icardea-careplanengine exec:java &ndash;Dtask=run.engine</strong></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	maven2&gt; <strong>icardea-ctsinvoker exec:java &ndash;Dtask=invoke.cts</strong></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	Of course we can use aliases for these too:</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	maven2&gt; <strong>run.engine</strong></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	maven2&gt; <strong>invoke.cts</strong></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<u>Full list of created aliases</u></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>run.engine</strong> -&gt; icardea-careplanengine install -Dtask=run.engine</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>obs.creator</strong> -&gt; icardea-caremanagementdb install -Dtask=observation.creator</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>obs.processor</strong> -&gt; icardea-caremanagementdb install -Dtask=observation.processor</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>invoke.consent</strong> -&gt; icardea-consenteditor-invoker install -Dtask=invoke.consent</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>invoke.cts</strong> -&gt; icardea-ctsinvoker install -Dtask=invoke.cts</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>create.db</strong> -&gt; install -DcreateDatabase=true</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>generate.glif</strong> -&gt; icardea-careplanengine install -Dtask=generate.glif</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>setup</strong> -&gt; install -DcreateDatabases=true -S</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>test.run</strong> -&gt; install -DskipDeploy=true</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	New aliases can be added to the pom.xml under icardea.home.</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<u>Other useful commands of cli plugin</u></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	Exit commands:</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>&nbsp;quit, exit, bye</strong></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	List module commands:</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>&nbsp;list, ls</strong></p>
+<p style="text-align: justify; margin-left: 40px; ">
+	Help commands:</p>
+<p style="text-align: justify; margin-left: 40px; ">
+	<strong>&nbsp;help, ?</strong></p>
+
+
+</body>
+</html>
