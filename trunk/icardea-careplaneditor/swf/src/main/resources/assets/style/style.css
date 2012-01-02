@@ -360,4 +360,12 @@ Label {
    fontFamily: Arial;
    fontSize: 10;
 }
+.ExtendedDividerBoxButtonV{
+	buttonWidth:			30;
+	barBorderColor:			#f2f2f2;
+	barFillColors: 			#f2f2f2, #f2f2f2;
+	dividerThickness: 		8;
+	dividerSkin:			Embed(source="../dividedbox/NavGrip.png"); 
+	cornerRadius:			0;
+}
 	  

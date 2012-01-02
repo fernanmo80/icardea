@@ -12,7 +12,8 @@
   ~ //
   ~ ////////////////////////////////////////////////////////////////////////////////
   -->
-<mx:Panel xmlns:mx="http://www.adobe.com/2006/mxml"
+<mx:VBox xmlns:mx="http://www.adobe.com/2006/mxml"				
+				xmlns:extended="tr.com.srdc.icardea.gui.dividedbox.*"
 				xmlns:diagctl="com.kapit.diagram.controls.*"
 				xmlns:diagview="com.kapit.diagram.view.*"
 				xmlns:component="fr.kapit.skin.component.*"
@@ -21,17 +22,17 @@
 				xmlns:diagrammingTools = "tr.com.srdc.icardea.gui.diagrammingTools.*"
 				preinitialize="preInitializeHandler()"
 				creationComplete="creationCompleteHandler()"
-				horizontalAlign="left"
-				layout="absolute"
+				horizontalAlign="center"
 				backgroundColor="#ffffff"
 				width="100%"
 				height="100%"
 				addedToStage="addedToStageHandler()"
 				xmlns:local="tr.com.srdc.icardea.gui.*" xmlns:ui="com.kapit.diagram.ui.*" xmlns:graphics="com.qs.graphics.*">
-
+				
 	<mx:Style source="/assets/style/style.css"/>
 	<mx:Script>
 		<![CDATA[
+			import mx.graphics.codec.JPEGEncoder;
 			import mx.messaging.channels.SecureAMFChannel;
 			import flash.sampler.getSize;
 			import mx.controls.PopUpButton;
@@ -41,7 +42,6 @@
 			import mx.rpc.events.FaultEvent;
 			import mx.rpc.events.ResultEvent;
 			import mx.messaging.Channel;
-			import mx.messaging.channels.AMFChannel;
 			import mx.messaging.ChannelSet;
 			import mx.rpc.remoting.RemoteObject;
 			import tr.com.srdc.icardea.model.steps.NextStep;
@@ -111,6 +111,13 @@
 			
 			import flash.net.navigateToURL;
 			import flash.utils.getTimer;
+			import flash.events.*;
+		
+			[Bindable]
+			public var NavContainerIsVisable:Boolean = true;
+				
+			[Bindable]
+			public var SubToolsContainerIsVisable:Boolean = false;
 			
 
 			import mx.collections.ArrayCollection;
@@ -437,27 +444,51 @@
 					monitorStack.includeInLayout = false;
 					var bt1:Button = new Button();
 					var bt2:Button = new Button();
-					var bt3:Button = new Button();					
+					var bt3:Button = new Button();
+					var bt4:Button = new Button();					
 					bt1.addEventListener(MouseEvent.CLICK, editTheProperties);
 					bt2.addEventListener(MouseEvent.CLICK, writeToXML);
 					bt3.addEventListener(MouseEvent.CLICK, getFromXML);
+					bt4.addEventListener(MouseEvent.CLICK, saveImageToDisk);
 					bt1.label="Edit";
 					bt2.label="Export";
 					bt3.label="Import";
-					bt1.width = bt2.width = bt3.width = 92;
-					bt1.height = bt2.height = bt3.height = 30;
+					bt4.label="Save Image";					
+					//bt1.width = bt2.width = bt3.width = 92;
+					//bt1.height = bt2.height = bt3.height = 30;
 					bt1.id = "edit";
 					bt2.id = "exportXML";
 					bt3.id = "importXML";
+					bt4.id = "image";
+					
 					buttonBox1.addChild(bt1);
 					buttonBox1.addChild(bt2);
 					buttonBox1.addChild(bt3);
+					buttonBox1.addChild(bt4);
 					//iPopUp.visible = true;
 					//iPopUp.includeInLayout = true;
 					
 				}
 				
 			}
+			private function saveImageToDisk(event:MouseEvent):void
+			{
+				var bitmapData:BitmapData = new BitmapData(diagram.width, diagram.height, true, 0x00FFFFFF);
+				bitmapData.draw(diagram, new Matrix());
+				var imageWidth:int = diagram.width;
+				var imageHeight:int = diagram.height;
+				//var bitmapData:BitmapData = new BitmapData(imageWidth, imageHeight, true, 0x00FFFFFF);
+				//bitmapData = diagram.getBitmapData(imageWidth, imageHeight);
+				//var bitmap : Bitmap = new Bitmap(bitmapData);
+				var jpg:JPEGEncoder = new JPEGEncoder();
+				var baSave:ByteArray = jpg.encode(bitmapData);
+							 
+			    reference = new FileReference();
+                reference.save(baSave, DEFAULT_FILE_NAME);
+                reference.addEventListener(Event.COMPLETE, cleareFileReference);
+			}
+			 
+			
 			
 			public function set careplan(careplan:MedicalCareplan):void{
 				this._careplan = careplan;
@@ -604,7 +635,7 @@
 				
        			var service : RemoteObject = new RemoteObject("engineService");
 				var cs:ChannelSet = new ChannelSet();
-				var customChannel:Channel = new AMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+				var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
 				cs.addChannel(customChannel);
 				service.channelSet = cs;
 				service.addEventListener(ResultEvent.RESULT,onResultConsultQueue);
@@ -1321,109 +1352,164 @@
 				
 			}
 			
+
+			private function handleSliderParentReSize(event:Event):void{
+			   	
+			   	if(event.currentTarget.name=="editorStack" || event.currentTarget.name=="monitorStack"){
+			   		if (event.currentTarget.width > 5 && DivNav.ButtonSelected != false){
+			   			DivNav.ButtonSelected=false;
+			   			NavContainerIsVisable = true;
+			   		}
+			   		else{
+			   			if (event.currentTarget.width < 5){
+			   				DivNav.ButtonSelected=true;
+			   				NavContainerIsVisable = false;
+			   				event.currentTarget.width = 0;
+			   			}
+			   		}
+			   	}
+			    else{
+			    	
+			    }
+		    }
+        	
+	
+	
+			private function setNavContainerVisible():void{
+				if (NavContainerIsVisable==true){
+					CloseNavContainer.play();
+					CloseNavContainer1.play();
+					NavContainerIsVisable=false;
+				}
+				else{
+					OpenNavContainer.play();
+					OpenNavContainer1.play();
+					NavContainerIsVisable=true;
+				}
+			}
+	
+			private function HandleDividerClick(event:Event):void{
+				
+				if (event.currentTarget.name == "DivNav"){
+					setNavContainerVisible();
+				}
+				
+				
+				
+			}
+			
 			
 		]]>
 	</mx:Script>
 	
-	
+	<mx:Resize id="CloseNavContainer" targets="{[editorStack]}" duration="400" widthTo="0"/>
+	<mx:Resize id="CloseNavContainer1" targets="{[monitorStack]}" duration="400" widthTo="0"/>
+	<mx:Resize id="OpenNavContainer" targets="{[editorStack]}" duration="400" widthTo="300"/>
+	<mx:Resize id="OpenNavContainer1" targets="{[monitorStack]}" duration="400" widthTo="300"/>
+
+
+
 	<mx:HBox id="applicationContainer" 
 			 width="100%"
 			 height="100%"
 			 styleName="applicationContainer">
-				<mx:VBox visible="false" styleName="toolPanelContainer" id="monitorStack" includeInLayout="false" height="100%">
-					<mx:Label text="Care Plan Execution" fontWeight="bold" enabled="true" fontFamily="Arial" fontSize="20"/>
-					<mx:Spacer height="5%"/>
-					<mx:Label styleName="iCardeaLabel" text="Patient Health Record" textDecoration="underline" fontWeight="bold"/>
-					<mx:Spacer height="5%"/>
-					<mx:HBox >
-						<mx:Label styleName="iCardeaLabel" text="Patient ID:" fontWeight="bold"/>
-						<mx:Text styleName="iCardeaLabel" id="patientID" text="{executeCareplanObj.personID}"/>
-					</mx:HBox>
-					<mx:HBox >
-						<mx:Label styleName="iCardeaLabel" text="Patient Name:" fontWeight="bold"/>
-						<mx:Text styleName="iCardeaLabel" id="patientName" text="{executeCareplanObj.name}" />
-					</mx:HBox>
-					<mx:HBox >
-						<mx:Label styleName="iCardeaLabel" text="Gender:" fontWeight="bold"/>
-						<mx:Text styleName="iCardeaLabel" id="gender" text="{executeCareplanObj.gender}" />
-					</mx:HBox>
-					<mx:HBox >
-						<mx:Label styleName="iCardeaLabel" text="Date of Birth:" fontWeight="bold"/>
-						<mx:Text styleName="iCardeaLabel" id="age" text="{executeCareplanObj.dateOfBirth}"  />
-					</mx:HBox>
-					<mx:Spacer height="5%"/>
-					<mx:Button styleName="iCardeaLabel" label="Details"/>
-					<mx:Spacer height="5%"/>
-					<mx:Label styleName="iCardeaLabel" text="Care Plan Details" textDecoration="underline" fontWeight="bold"/>
+	
+		<extended:ExtendedDividedBox styleName="ExtendedDividerBoxButtonV" id="DivNav" showButton="true" buttonClick="HandleDividerClick(event);" xmlns="tr.com.srdc.icardea.gui.dividedbox.*" direction="horizontal" resizeToContent="true" liveDragging="true" width="100%" height="100%">
+			<mx:VBox horizontalScrollPolicy="off" verticalScrollPolicy="off" resize="handleSliderParentReSize(event);" verticalGap="0" horizontalGap="0" visible="false" styleName="toolPanelContainer" id="monitorStack" includeInLayout="false" height="100%">
+						<mx:Label text="Care Plan Execution" fontWeight="bold" enabled="true" fontFamily="Arial" fontSize="20"/>
+						<mx:Spacer height="5%"/>
+						<mx:Label styleName="iCardeaLabel" text="Patient Health Record" textDecoration="underline" fontWeight="bold"/>
+						<mx:Spacer height="5%"/>
+						<mx:HBox >
+							<mx:Label styleName="iCardeaLabel" text="Patient ID:" fontWeight="bold"/>
+							<mx:Text styleName="iCardeaLabel" id="patientID" text="{executeCareplanObj.personID}"/>
+						</mx:HBox>
+						<mx:HBox >
+							<mx:Label styleName="iCardeaLabel" text="Patient Name:" fontWeight="bold"/>
+							<mx:Text styleName="iCardeaLabel" id="patientName" text="{executeCareplanObj.name}" />
+						</mx:HBox>
+						<mx:HBox >
+							<mx:Label styleName="iCardeaLabel" text="Gender:" fontWeight="bold"/>
+							<mx:Text styleName="iCardeaLabel" id="gender" text="{executeCareplanObj.gender}" />
+						</mx:HBox>
+						<mx:HBox >
+							<mx:Label styleName="iCardeaLabel" text="Date of Birth:" fontWeight="bold"/>
+							<mx:Text styleName="iCardeaLabel" id="age" text="{executeCareplanObj.dateOfBirth}"  />
+						</mx:HBox>
+						<mx:Spacer height="5%"/>
+						<mx:Button styleName="iCardeaLabel" label="Details"/>
+						<mx:Spacer height="5%"/>
+						<mx:Label styleName="iCardeaLabel" text="Care Plan Details" textDecoration="underline" fontWeight="bold"/>
+						<mx:Spacer height="5%"/>
+						<mx:HBox >
+							<mx:Label styleName="iCardeaLabel" text="Care Plan ID:" fontWeight="bold"/>
+							<mx:Text styleName="iCardeaLabel" id="planId" text="{executeCareplanObj.careplanID}" />
+						</mx:HBox>
+						<mx:HBox >
+							<mx:Label styleName="iCardeaLabel" text="Title:" fontWeight="bold"/>
+							<mx:Text styleName="iCardeaLabel" id="planITitle" text="{executeCareplanObj.careplanName}" />
+						</mx:HBox>
+						<mx:Spacer height="5%"/>
+						<mx:Button styleName="iCardeaLabel" label="Details"/>
+						<mx:Spacer height="10%"/>
+						<mx:HBox styleName="iCardeaLabel" id="buttonBox" width="100%">
+						</mx:HBox>
+					</mx:VBox>	
+				<mx:VBox horizontalScrollPolicy="off" verticalScrollPolicy="off" resize="handleSliderParentReSize(event);" verticalGap="0" horizontalGap="0" styleName="toolPanelContainer" height="100%" id="editorStack" visible="false" includeInLayout="false">	
+					<mx:Label text="Care Plan Editor" fontWeight="bold" enabled="true" fontFamily="Arial" fontSize="20"/>	
+		 			<mx:Spacer height="5%"/>
+		 			<mx:Label styleName="iCardeaLabel" text="Care Plan Details" textDecoration="underline" fontWeight="bold"/>
 					<mx:Spacer height="5%"/>
 					<mx:HBox >
 						<mx:Label styleName="iCardeaLabel" text="Care Plan ID:" fontWeight="bold"/>
-						<mx:Text styleName="iCardeaLabel" id="planId" text="{executeCareplanObj.careplanID}" />
+						<mx:Text styleName="iCardeaLabel" text="{_careplan.id}" />
 					</mx:HBox>
 					<mx:HBox >
 						<mx:Label styleName="iCardeaLabel" text="Title:" fontWeight="bold"/>
-						<mx:Text styleName="iCardeaLabel" id="planITitle" text="{executeCareplanObj.careplanName}" />
+						<mx:Text styleName="iCardeaLabel" text="{_careplan.name}" />
 					</mx:HBox>
 					<mx:Spacer height="5%"/>
-					<mx:Button styleName="iCardeaLabel" label="Details"/>
-					<mx:Spacer height="10%"/>
-					<mx:HBox styleName="iCardeaLabel" id="buttonBox" width="100%">
+					<mx:Box horizontalAlign="left" width="100%">
+						<mx:Button styleName="iCardeaLabel" id="updateCP" label="Update" click="updateCareplan()"/>
+					</mx:Box>
+					<mx:Spacer height="5%"/>	
+					<component:ToolPanel id="groupNavigator" >
+						<component:GenericTitle title="Care Plan Steps"/>
+						<mx:HBox 
+								icon="{Group1_Icon}">
+							<diagctl:SVGAssetLibraryGroupTile id="stepGroupTile"
+															  backgroundColor="0xf4f4f4"
+															  width="15%"
+															  height="100%"
+															  groupid="{firstGroupId}"
+															  borderThickness="0" 
+															  direction="vertical" rowCount="7" scaleX="1.5" scaleY="1.5"/>
+															  
+							<mx:TileList dataProvider="{tileSteps}" direction="vertical" borderThickness="0"
+								selectable="false" columnWidth="120" columnCount="1" rowCount="7"
+								rowHeight="39" textAlign="left" verticalAlign="middle" />
+						</mx:HBox>
+					</component:ToolPanel>				
+					<mx:Spacer height="5%"/>
+					<mx:HBox styleName="iCardeaLabel" id="buttonBox1" width="100%">
 					</mx:HBox>
-				</mx:VBox>	
-			<mx:VBox styleName="toolPanelContainer" height="100%" id="editorStack" visible="false" includeInLayout="false">	
-				<mx:Label text="Care Plan Editor" fontWeight="bold" enabled="true" fontFamily="Arial" fontSize="20"/>	
-	 			<mx:Spacer height="5%"/>
-	 			<mx:Label styleName="iCardeaLabel" text="Care Plan Details" textDecoration="underline" fontWeight="bold"/>
-				<mx:Spacer height="5%"/>
-				<mx:HBox >
-					<mx:Label styleName="iCardeaLabel" text="Care Plan ID:" fontWeight="bold"/>
-					<mx:Text styleName="iCardeaLabel" text="{_careplan.id}" />
-				</mx:HBox>
-				<mx:HBox >
-					<mx:Label styleName="iCardeaLabel" text="Title:" fontWeight="bold"/>
-					<mx:Text styleName="iCardeaLabel" text="{_careplan.name}" />
-				</mx:HBox>
-				<mx:Spacer height="5%"/>
-				<mx:Box horizontalAlign="left" width="100%">
-					<mx:Button styleName="iCardeaLabel" id="updateCP" label="Update" click="updateCareplan()"/>
-				</mx:Box>
-				<mx:Spacer height="5%"/>	
-				<component:ToolPanel id="groupNavigator" >
-					<component:GenericTitle title="Care Plan Steps"/>
-					<mx:HBox 
-							icon="{Group1_Icon}">
-						<diagctl:SVGAssetLibraryGroupTile id="stepGroupTile"
-														  backgroundColor="0xf4f4f4"
-														  width="15%"
-														  height="100%"
-														  groupid="{firstGroupId}"
-														  borderThickness="0" 
-														  direction="vertical" rowCount="7" scaleX="1.5" scaleY="1.5"/>
-														  
-						<mx:TileList dataProvider="{tileSteps}" direction="vertical" borderThickness="0"
-							selectable="false" columnWidth="120" columnCount="1" rowCount="7"
-							rowHeight="39" textAlign="left" verticalAlign="middle" />
-					</mx:HBox>
-				</component:ToolPanel>				
-				<mx:Spacer height="5%"/>
-				<mx:HBox styleName="iCardeaLabel" id="buttonBox1" width="100%">
-				</mx:HBox>
-		</mx:VBox>
-		<mx:VBox id="Links" 
-				 width="100%"
-				 height="100%"
-				 styleName="toolPanelContainer">
-			<diagrammingTools:Menu id="contextualMenu"
-						view="{diagram}"
-						width="100%"
-						height="8%">
-			</diagrammingTools:Menu>
-			<diagview:DiagramView id="diagram"
-								  width="100%" height="100%"
-								  creationComplete="diagram_creationCompleteHandler()">
-			</diagview:DiagramView>
-		</mx:VBox>
-	</mx:HBox>
-</mx:Panel>
+			</mx:VBox>
+			<mx:VBox id="Links" horizontalScrollPolicy="off" verticalScrollPolicy="off" resize="handleSliderParentReSize(event);" verticalGap="0" horizontalGap="0"
+					 width="100%"
+					 height="100%"
+					 styleName="toolPanelContainer">
+				<diagrammingTools:Menu id="contextualMenu"
+							view="{diagram}"
+							width="100%"
+							height="8%">
+				</diagrammingTools:Menu>
+				<diagview:DiagramView id="diagram"
+									  width="100%" height="100%"
+									  creationComplete="diagram_creationCompleteHandler()">
+				</diagview:DiagramView>
+			</mx:VBox>
+		</extended:ExtendedDividedBox>	
+	</mx:HBox>	
+</mx:VBox>
 
 
