@@ -24,6 +24,7 @@
 	<mx:Style source="/assets/style/style.css"/>
 	<mx:Script>
 	<![CDATA[
+		import flash.utils.setTimeout;
 		import mx.utils.URLUtil;
 		import mx.events.BrowserChangeEvent;
 		import mx.managers.BrowserManager;
@@ -101,7 +102,7 @@
        	{
        		var model:RegistrationModel = new RegistrationModel();
        		model = result.result as RegistrationModel;
-       		
+     
        		if(model.is_verified == "true") { //TODO: Control also sign&encrypt      			
        			viewStack.selectedIndex = 2;
        			authName.text = "Welcome "+ model.fullName;
@@ -240,9 +241,24 @@
        	{
        		viewStack.selectedIndex = 0;
        		Alert.show("You have successfully logged out");
+       	}
+       	private function redirectPPM():void{
+       		
+			var service : RemoteObject = new RemoteObject("loginService");
+			var cs:ChannelSet = new ChannelSet();
+			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+			cs.addChannel(customChannel);
+			service.channelSet = cs;
+			service.addEventListener(ResultEvent.RESULT,onResultRedirectPPM);
+			service.addEventListener(FaultEvent.FAULT, onFault);
+		
+			service.redirectPPM();
+       	}
+       	public function onResultRedirectPPM(result:ResultEvent):void 
+       	{
+       		navigateToURL(new URLRequest(result.result as String),"_self");
        	} 
-		
-		
+       
 			
 	]]>
 	</mx:Script>
@@ -375,6 +391,7 @@
 						          
 						          <!-- TODO This was used for testing -->
 						          <mx:LinkButton label="Care Plan Monitoring Tool" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{ userMain.selectedIndex = 5}" />
+						          <mx:LinkButton label="Patient Parameter Monitor" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{ redirectPPM()}" />
 						          <!-- careplanDT.execute=true; careplanDT.doSettings(); careplans.isMonitoring = true; -->
 						           
 						          <!--<mx:LinkButton label="Patient Management" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{userMain.selectedIndex = 4}" />-->
