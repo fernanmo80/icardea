@@ -73,15 +73,15 @@
 		
 		
        public function sendCalls():void {
-       		var service1 : RemoteObject = new RemoteObject("loginService");
-			var cs1:ChannelSet = new ChannelSet();
-			var customChannel1:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
-			cs1.addChannel(customChannel1);
-			service1.channelSet = cs1;
-			service1.addEventListener(ResultEvent.RESULT,onResultGetIP);
-			service1.addEventListener(FaultEvent.FAULT, onFault);
+       		var service : RemoteObject = new RemoteObject("loginService");
+			var cs:ChannelSet = new ChannelSet();
+			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+			cs.addChannel(customChannel);
+			service.channelSet = cs;
+			service.addEventListener(ResultEvent.RESULT,onResultGetIP);
+			service.addEventListener(FaultEvent.FAULT, onFault);
 			
-       		
+       		service.getCurrentIP();
        	
        } 
        public function init():void
@@ -100,13 +100,13 @@
 			
        }
        public function onResultGetIP(result:ResultEvent):void {
-       		careplanCallVT.url = "https://"+currentIP+":8443/icardea/guidelines/icardea/ManagementofVT-2.cp";
-       		diagramCallVT.url = "https://"+currentIP+":8443/icardea/guidelines/icardea/ManagementofVT-2.dgr";
+       		careplanCallVT.url = "https://"+result.result+":8443/icardea/guidelines/icardea/ManagementofVT-2.cp";
+       		diagramCallVT.url = "https://"+result.result+":8443/icardea/guidelines/icardea/ManagementofVT-2.dgr";
        		careplanCallVT.send(null);
 	       	diagramCallVT.send(null);
 	       	
-	       	careplanCallAF.url = "https://"+currentIP+":8443/icardea/guidelines/icardea/ManagementofAF-1.cp";
-       		diagramCallAF.url = "https://"+currentIP+":8443/icardea/guidelines/icardea/ManagementofAF-1.dgr";
+	       	careplanCallAF.url = "https://"+result.result+":8443/icardea/guidelines/icardea/ManagementofAF-1.cp";
+       		diagramCallAF.url = "https://"+result.result+":8443/icardea/guidelines/icardea/ManagementofAF-1.dgr";
 	       	careplanCallAF.send(null);
 	       	diagramCallAF.send(null);
        }
