@@ -25,6 +25,7 @@
            verticalAlign="top" width="100%" height="100%" initialize="init()" creationComplete="sendCalls()">
     <mx:Script>
 		<![CDATA[
+			import mx.netmon.NetworkMonitor;
 			import mx.rpc.http.mxml.HTTPService;
 			import tr.com.srdc.icardea.gui.CarePlanEditor;
 			import tr.com.srdc.icardea.model.careplan.MedicalCareplan;
@@ -57,6 +58,8 @@
         public var diagramAF:String;
         [Bindable]
         public var careplanAF:String;
+        [Bindable]
+        public var currentIP:String;
 
         
             
@@ -70,11 +73,15 @@
 		
 		
        public function sendCalls():void {
-       		careplanCallVT.send(null);
-	       	diagramCallVT.send(null);
-	       	
-	       	careplanCallAF.send(null);
-	       	diagramCallAF.send(null);
+       		var service1 : RemoteObject = new RemoteObject("loginService");
+			var cs1:ChannelSet = new ChannelSet();
+			var customChannel1:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+			cs1.addChannel(customChannel1);
+			service1.channelSet = cs1;
+			service1.addEventListener(ResultEvent.RESULT,onResultGetIP);
+			service1.addEventListener(FaultEvent.FAULT, onFault);
+			
+       		
        	
        } 
        public function init():void
@@ -85,10 +92,23 @@
 			cs.addChannel(customChannel);
 			service.channelSet = cs;
 			service.addEventListener(ResultEvent.RESULT,onResultRegisteredPatients);
-			service.addEventListener(FaultEvent.FAULT, onFault);
-			
+			service.addEventListener(FaultEvent.FAULT, onFault);			
 			service.listRegisteredPatients();
 			
+			
+			
+			
+       }
+       public function onResultGetIP(result:ResultEvent):void {
+       		careplanCallVT.url = "https://"+currentIP+":8443/icardea/guidelines/icardea/ManagementofVT-2.cp";
+       		diagramCallVT.url = "https://"+currentIP+":8443/icardea/guidelines/icardea/ManagementofVT-2.dgr";
+       		careplanCallVT.send(null);
+	       	diagramCallVT.send(null);
+	       	
+	       	careplanCallAF.url = "https://"+currentIP+":8443/icardea/guidelines/icardea/ManagementofAF-1.cp";
+       		diagramCallAF.url = "https://"+currentIP+":8443/icardea/guidelines/icardea/ManagementofAF-1.dgr";
+	       	careplanCallAF.send(null);
+	       	diagramCallAF.send(null);
        }
        public function onResultRegisteredPatients(result:ResultEvent):void {
        	trace("patients: "+ (result.result as ArrayCollection).length);
@@ -266,6 +286,8 @@
 	        {
 	        	Alert.show("Please select a care plan to execute", "No Care Plan Selected");
 	        }
+	      
+	      
         }  
      
 	 
@@ -285,8 +307,8 @@
     <mx:HBox>
 		<mx:Button id="openDiagram" label="OPEN" enabled="true" click="openSelected()" styleName="adminButton"/>		
 	</mx:HBox>	
-	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="careplanCallVT" url="https://localhost:8443/icardea/guidelines/icardea/ManagementofVT-2.cp" result="serviceResultForXMLVT(event)" fault="serviceFail( event)"/>
-	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="diagramCallVT" url="https://localhost:8443/icardea/guidelines/icardea/ManagementofVT-2.dgr" result="serviceResultForDiagramVT( event )" fault="serviceFail(event)"/>
-	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="careplanCallAF" url="https://localhost:8443/icardea/guidelines/icardea/ManagementofAF-1.cp" result="serviceResultForXMLAF(event)" fault="serviceFail( event)"/>
-	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="diagramCallAF" url="https://localhost:8443/icardea/guidelines/icardea/ManagementofAF-1.dgr" result="serviceResultForDiagramAF( event )" fault="serviceFail(event)"/>
+	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="careplanCallVT" result="serviceResultForXMLVT(event)" fault="serviceFail( event)"/>
+	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="diagramCallVT" result="serviceResultForDiagramVT( event )" fault="serviceFail(event)"/>
+	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="careplanCallAF" result="serviceResultForXMLAF(event)" fault="serviceFail( event)"/>
+	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="diagramCallAF" result="serviceResultForDiagramAF( event )" fault="serviceFail(event)"/>
 </mx:VBox>
