@@ -1,6 +1,8 @@
 package tr.com.srdc.icardea.platform.service.login;
 
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -246,7 +248,18 @@ public class RegistrationService {
 	  ResourceBundle properties = ResourceBundle.getBundle("icardea");
 	  String salkServer = properties.getString("salk.server");
 	  String securePort = properties.getString("secure.port");
-	  String url = salkServer+":"+securePort+"/icardea_careplaneditor/servlet/loginServlet?";
+	  String url="";
+	  try {
+		    InetAddress addr = InetAddress.getLocalHost();
+
+		    // Get IP Address
+		    byte[] ipAddr = addr.getAddress();
+		    String ipadd = ipAddr.toString();	
+		    // Get hostname
+		    String hostname = addr.getHostAddress();
+		    url = "https://"+ hostname + ":"+securePort+"/icardea_careplaneditor/servlet/loginServlet?";
+		} catch (UnknownHostException e) {
+		}
 	  return url;
   }
 }
