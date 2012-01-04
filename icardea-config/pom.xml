@@ -36,5 +36,6 @@
 		<salk.server>https://localhost</salk.server>
 		<secure.port>8443</secure.port>
 		<!-- for SALK deployment end-->
+		<ppm.end>http://192.168.1.37/PatientParameterMonitor</ppm.end>
 	</properties>
 </project>
