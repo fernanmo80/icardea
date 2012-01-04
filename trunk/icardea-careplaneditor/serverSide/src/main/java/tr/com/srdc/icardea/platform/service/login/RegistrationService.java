@@ -248,8 +248,8 @@ public class RegistrationService {
 	  ResourceBundle properties = ResourceBundle.getBundle("icardea");
 	  String salkServer = properties.getString("salk.server");
 	  String securePort = properties.getString("secure.port");
-	  String url="";
-	  try {
+	  String url = salkServer + ":"+securePort+"/icardea_careplaneditor/servlet/loginServlet?"; //only valid for SALK server
+	  /*try {
 		    InetAddress addr = InetAddress.getLocalHost();
 
 		    // Get IP Address
@@ -259,7 +259,7 @@ public class RegistrationService {
 		    String hostname = addr.getHostAddress();
 		    url = "https://"+ hostname + ":"+securePort+"/icardea_careplaneditor/servlet/loginServlet?";
 		} catch (UnknownHostException e) {
-		}
+		}*/
 	  return url;
   }
 }
