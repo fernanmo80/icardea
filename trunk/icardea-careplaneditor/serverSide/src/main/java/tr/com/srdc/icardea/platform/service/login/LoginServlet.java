@@ -52,7 +52,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
 		ResourceBundle properties = ResourceBundle.getBundle("icardea");
 		String salkServer = properties.getString("salk.server");
 		String securePort = properties.getString("secure.port");
-		String url = salkServer + ":"+securePort+"/icardea_careplaneditor/flex-client/iCardea.html"; //only valid for SALK server
+		resp.sendRedirect(salkServer + ":"+securePort+"/icardea_careplaneditor/flex-client/iCardea.html"); //only valid for SALK server
 		
         
 //        while (en.hasMoreElements()) {
