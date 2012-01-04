@@ -1,6 +1,8 @@
 package tr.com.srdc.icardea.platform.service.login;
 
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 
 import org.openid4java.discovery.DiscoveryInformation;
@@ -30,7 +32,7 @@ public class LoginServiceImpl implements LoginService {
 		ResourceBundle properties = ResourceBundle.getBundle("icardea");
 		String salkServer = properties.getString("salk.server");		
 		 
-		username=salkServer+"/idp/u="+username; //only valid for SALK server
+		//username=salkServer+"/idp/u="+username; //only valid for SALK server
 		
 		DiscoveryInformation discovery = RegistrationService
 				.performDiscoveryOnUserSuppliedIdentifier(username);
@@ -57,6 +59,28 @@ public class LoginServiceImpl implements LoginService {
 		FlexSession mySession= FlexContext.getFlexSession();
 		mySession.setAttribute("is_verified", "false");
 		//TODO control is_verified variable from Registration Model 
+	}
+	
+	public String redirectPPM() {
+		String redirectUrl = "";
+		ResourceBundle properties = ResourceBundle.getBundle("icardea");
+		String ppmEndPoint = properties.getString("ppm.end");		
+		 
+		//username=salkServer+"/idp/u="+username; //only valid for SALK server
+	
+		return ppmEndPoint;
+		
+	}
+
+	public String getCurrentIP() {
+		String hostname="";
+		try {
+		    InetAddress addr = InetAddress.getLocalHost();
+		     hostname = addr.getHostAddress();
+		   
+		} catch (UnknownHostException e) {
+		}
+		return hostname;
 	}
 	
 }

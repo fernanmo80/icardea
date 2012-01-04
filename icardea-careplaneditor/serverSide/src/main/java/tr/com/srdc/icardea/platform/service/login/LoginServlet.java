@@ -1,6 +1,8 @@
 package tr.com.srdc.icardea.platform.service.login;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ResourceBundle;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -57,8 +59,20 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
 //            String paramName = ((String) en.nextElement()).trim();
 //            System.out.println(paramName + " = " + req.getParameter(paramName) + "\n");
 //            session.setAttribute(paramName, req.getParameter(paramName));
-//        }  		
-		resp.sendRedirect(salkServer+":"+securePort+"/icardea_careplaneditor/flex-client/iCardea.html");
+//        } 
+		try {
+		    InetAddress addr = InetAddress.getLocalHost();
+
+		    // Get IP Address
+		    byte[] ipAddr = addr.getAddress();
+		    String ipadd = ipAddr.toString();	
+		    // Get hostname
+		    String hostname = addr.getHostAddress();
+		    resp.sendRedirect("https://"+hostname+":"+securePort+"/icardea_careplaneditor/flex-client/iCardea.html");
+		  
+		} catch (UnknownHostException e) {
+		}
+		
 	}
 	
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
