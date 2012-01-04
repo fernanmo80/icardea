@@ -52,7 +52,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
 		ResourceBundle properties = ResourceBundle.getBundle("icardea");
 		String salkServer = properties.getString("salk.server");
 		String securePort = properties.getString("secure.port");
-		
+		String url = salkServer + ":"+securePort+"/icardea_careplaneditor/flex-client/iCardea.html"; //only valid for SALK server
 		
         
 //        while (en.hasMoreElements()) {
@@ -60,18 +60,18 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
 //            System.out.println(paramName + " = " + req.getParameter(paramName) + "\n");
 //            session.setAttribute(paramName, req.getParameter(paramName));
 //        } 
-		try {
-		    InetAddress addr = InetAddress.getLocalHost();
-
-		    // Get IP Address
-		    byte[] ipAddr = addr.getAddress();
-		    String ipadd = ipAddr.toString();	
-		    // Get hostname
-		    String hostname = addr.getHostAddress();
-		    resp.sendRedirect("https://"+hostname+":"+securePort+"/icardea_careplaneditor/flex-client/iCardea.html");
-		  
-		} catch (UnknownHostException e) {
-		}
+//		try {
+//		    InetAddress addr = InetAddress.getLocalHost();
+//
+//		    // Get IP Address
+//		    byte[] ipAddr = addr.getAddress();
+//		    String ipadd = ipAddr.toString();	
+//		    // Get hostname
+//		    String hostname = addr.getHostAddress();
+//		    resp.sendRedirect("https://"+hostname+":"+securePort+"/icardea_careplaneditor/flex-client/iCardea.html");
+//		  
+//		} catch (UnknownHostException e) {
+//		}
 		
 	}
 	
