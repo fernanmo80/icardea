@@ -32,6 +32,7 @@
 	<mx:Style source="/assets/style/style.css"/>
 	<mx:Script>
 		<![CDATA[
+			import mx.graphics.codec.PNGEncoder;
 			import mx.graphics.codec.JPEGEncoder;
 			import mx.messaging.channels.SecureAMFChannel;
 			import flash.sampler.getSize;
@@ -78,6 +79,7 @@
 			import fr.kapit.demo.data.MyLink;
 			import com.kapit.diagram.view.AnchorPoint;
 			import tr.com.srdc.icardea.model.steps.EligibilityCriteria;
+		
 			
 			import tr.com.srdc.icardea.model.steps.StartStep;
 			import tr.com.srdc.icardea.model.steps.DecisionStep;
@@ -486,6 +488,33 @@
 			    reference = new FileReference();
                 reference.save(baSave, DEFAULT_FILE_NAME);
                 reference.addEventListener(Event.COMPLETE, cleareFileReference);
+                
+                /* var bmpS:Number = 16000000;
+ 
+				var printWidth:Number;
+				var printHeight:Number;
+				var fileReference:FileReference = new FileReference();
+				var bitmapData:BitmapData;
+				var bounds:Rectangle;
+				var w:Number = diagram.width;
+				var h:Number = diagram.height;
+                var zone:String
+				
+				bounds = diagram.getVisualizerBounds();
+				printHeight = Math.min(Math.sqrt(bmpS*bounds.height/bounds.width),8000);
+				printWidth = Math.min(bmpS/printHeight,8000);
+				bitmapData = new BitmapData(printWidth,printHeight, true, 0xFFFFFF);
+				bitmapData.draw(diagram.getBitmapData(printWidth,printHeight,true,true));
+						
+				var encoder:Object = new Object();
+				var pe:PNGEncoder = new PNGEncoder();
+				var defaultName:String = 'Untitled.png';
+				encoder.encode = pe.encode;
+				var imageBytes:ByteArray = encoder.encode(bitmapData);
+ 
+ 				fileReference.save(imageBytes, defaultName); */
+				
+				
 			}
 			 
 			

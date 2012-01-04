@@ -256,7 +256,7 @@
        	}
        	public function onResultRedirectPPM(result:ResultEvent):void 
        	{
-       		navigateToURL(new URLRequest(result.result as String),"_self");
+       		navigateToURL(new URLRequest(result.result as String),'quote');
        	} 
        
 			
