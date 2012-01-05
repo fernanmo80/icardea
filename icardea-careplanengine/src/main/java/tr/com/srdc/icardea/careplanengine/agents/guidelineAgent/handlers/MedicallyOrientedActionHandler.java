@@ -36,6 +36,8 @@ import tr.com.srdc.icardea.ihe.idco.observationprocessor.CIEDDataRetriever;
 import tr.com.srdc.icardea.ihe.cm.careManager.EHRPHRDataRetriever;
 import java.io.File;
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -811,8 +813,16 @@ public class MedicallyOrientedActionHandler {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			String link = "<a href=\"http://localhost:8080/icardea/pdfReports/" + fileName + ".pdf"
-				+ "\">Exported CIED document<br/><IMG src=\"http://localhost:8080/icardea/pdfReports/" + fileName + ".pdf." + suffix
+			String hostname="";
+			try {
+			    InetAddress addr = InetAddress.getLocalHost();
+			    hostname = addr.getHostAddress();
+			   
+			} catch (UnknownHostException e) {
+			}
+			
+			String link = "<a href=\\"+"http://"+hostname+":8080"+"/icardea/pdfReports/" + fileName + ".pdf"
+				+ "\">Exported CIED document<br/><IMG src=\"http://"+hostname+":8080/icardea/pdfReports/" + fileName + ".pdf." + suffix
 				+ "\" width=\"240\" height=\"330\"/></a>";
 			/*String link = "<center><a href=\"http://localhost:"
 			+ ICARDEAConfigurationUtil.TOMCAT_PORT + "/icardea/pdfReports/" + fileName + ".pdf"
