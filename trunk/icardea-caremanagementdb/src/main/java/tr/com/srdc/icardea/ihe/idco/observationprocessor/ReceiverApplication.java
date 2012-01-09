@@ -363,6 +363,8 @@ public class ReceiverApplication extends Thread {
 			Message message = null;
 			if (receivedMessage.trim().startsWith("MSH")) {
 				receivedMessage = receivedMessage.replaceFirst("\\|ADT\\^A31\\^ADT_A31\\|", "\\|ADT\\^A01\\^ADT_A01\\|");
+				receivedMessage = receivedMessage.replaceFirst("\\|ADT\\^A31\\^ADT_05\\|", "\\|ADT\\^A01\\^ADT_A01\\|");
+				receivedMessage = receivedMessage.replaceFirst("\\|ADT\\^A31\\^ADT_A05\\|", "\\|ADT\\^A01\\^ADT_A01\\|");
 				receivedMessage = receivedMessage.replaceFirst("\\|ADT\\^A31\\|", "\\|ADT\\^A01\\|");
 				inXML = false;
 				message = new PipeParser().parse(receivedMessage);
