@@ -384,10 +384,11 @@ public class CareManager {
 		Enumeration keys = careProvisionCodes.keys();
 		while (keys.hasMoreElements()) {
 			String key = (String) keys.nextElement();
+			logger.info("Sending " + key + " subscription for patient: "+patientID+" "+patientName+" "+patientSurname);
 			careManagementDataQuery(patientID, key, patientName,
 					patientSurname, "EHR");
-			careManagementDataQuery(patientID, key, patientName,
-					patientSurname, "PHR");
+			/*careManagementDataQuery(patientID, key, patientName,
+					patientSurname, "PHR");*/
 		}
 	}
 

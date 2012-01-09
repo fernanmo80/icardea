@@ -227,7 +227,7 @@ public class QUPC_AR004040UV_ServiceStub extends org.apache.axis2.client.Stub {
 				throw f;
 			}
 		} finally {
-			_messageContext.getTransportOut().getSender().cleanup(_messageContext);
+			//_messageContext.getTransportOut().getSender().cleanup(_messageContext);
 		}
 	}
 
