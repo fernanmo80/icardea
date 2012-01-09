@@ -3,13 +3,14 @@
         <EventID code="COBSCAT" displayName="All Vital Signs"/>
         <EventTypeCode code="PCC-9" codeSystemName="IHE Transactions"/>
     </EventIdentification>
-    <ActiveParticipant UserID="Adaptive Care Planner">
+    <ActiveParticipant UserIsRequestor="true" UserID="Adaptive Care Planner">
     </ActiveParticipant>
-    <ActiveParticipant UserID="EHR">
+    <ActiveParticipant UserIsRequestor="false" UserID="EHR">
     </ActiveParticipant>
     <AuditSourceIdentification AuditSourceID="Adaptive Care Planner">
     </AuditSourceIdentification>
-    <ParticipantObjectIdentification ParticipantObjectID="{patientID}">
-        <ParticipantObjectIDTypeCode code="iCardea"/>
+    <ParticipantObjectIdentification ParticipantObjectTypeCodeRole="1" ParticipantObjectTypeCode="1" ParticipantObjectID="%(patid)s">
+        <ParticipantObjectIDTypeCode code="2"/>
+        <ParticipantObjectName>PatientIdentifier</ParticipantObjectName>
     </ParticipantObjectIdentification>
 </AuditMessage>

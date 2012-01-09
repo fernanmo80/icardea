@@ -1,15 +1,17 @@
 <AuditMessage>
-    <EventIdentification EventActionCode="R" EventDateTime="{currentTimeStamp}" EventOutcomeIndicator="0">
+    <EventIdentification EventActionCode="R" EventDateTime="2011-12-14T14:30:13" EventOutcomeIndicator="0">
         <EventID code="{resource}" displayName="Grant Request Message"/>
-        <EventTypeCode code="GRM" codeSystemName="IHE Transactions"/>
+        <EventTypeCode code="Consent Request" codeSystemName="IHE Transactions"/>
     </EventIdentification>
-    <ActiveParticipant UserID="Consent Manager">
+    <ActiveParticipant UserIsRequestor="true" UserID="Care Management DB">
     </ActiveParticipant>
-    <ActiveParticipant UserID="{requesterRole}">
+    <ActiveParticipant UserIsRequestor="false" UserID="{requesterRole}">
     </ActiveParticipant>
-    <AuditSourceIdentification AuditSourceID="Consent Manager">
+    <AuditSourceIdentification AuditSourceID="Care Management DB">
     </AuditSourceIdentification>
-    <ParticipantObjectIdentification ParticipantObjectID="{patientID}">
-        <ParticipantObjectIDTypeCode code="iCardea"/>
+    <ParticipantObjectIdentification ParticipantObjectTypeCodeRole="1" ParticipantObjectTypeCode="1" ParticipantObjectID="%(patid)s">
+        <ParticipantObjectIDTypeCode code="2"/>
+        <ParticipantObjectName>PatientIdentifier</ParticipantObjectName>
     </ParticipantObjectIdentification>
 </AuditMessage>
+

@@ -1,15 +1,20 @@
 <AuditMessage>
-	<EventIdentification EventActionCode="C" EventDateTime="{currentTimeStamp}" EventOutcomeIndicator="0">
+	<EventIdentification EventActionCode="C" EventDateTime="2011-12-14T14:30:13" EventOutcomeIndicator="0">
 		<EventID code="Register" displayName="Registration of Patient"/>
-		<EventTypeCode code="register" codeSystemName="IHE Transactions"/>
+		<EventTypeCode code="ADT-31" codeSystemName="IHE Transactions"/>
 	</EventIdentification>
-	<ActiveParticipant UserID="HIS">
+	<ActiveParticipant UserIsRequestor="true" UserID="PIX Manager">
 	</ActiveParticipant>
-	<ActiveParticipant UserID="Adaptive Care Planner">
+	<ActiveParticipant UserIsRequestor="false" UserID="Adaptive Care Planner">
 	</ActiveParticipant>
-	<AuditSourceIdentification AuditSourceID="HIS">
+	<AuditSourceIdentification AuditSourceID="PIX Manager">
 	</AuditSourceIdentification>
-	<ParticipantObjectIdentification ParticipantObjectID="{patientID}">
-	<ParticipantObjectIDTypeCode code="iCardea"/>
-	</ParticipantObjectIdentification>
+	<ParticipantObjectIdentification ParticipantObjectTypeCodeRole="1" ParticipantObjectTypeCode="1" ParticipantObjectID="%(patid)s">
+        <ParticipantObjectIDTypeCode code="2"/>
+        <ParticipantObjectName>PatientIdentifier</ParticipantObjectName>
+    </ParticipantObjectIdentification>
 </AuditMessage>
+
+
+
+
