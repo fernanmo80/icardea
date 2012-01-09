@@ -366,6 +366,7 @@ public class ReceiverApplication extends Thread {
 				receivedMessage = receivedMessage.replaceFirst("\\|ADT\\^A31\\^ADT_05\\|", "\\|ADT\\^A01\\^ADT_A01\\|");
 				receivedMessage = receivedMessage.replaceFirst("\\|ADT\\^A31\\^ADT_A05\\|", "\\|ADT\\^A01\\^ADT_A01\\|");
 				receivedMessage = receivedMessage.replaceFirst("\\|ADT\\^A31\\|", "\\|ADT\\^A01\\|");
+				receivedMessage = receivedMessage.replaceFirst("\\|P\\|2.3\\.1", "\\|P\\|2\\.5");
 				inXML = false;
 				message = new PipeParser().parse(receivedMessage);
 			} else {
@@ -503,6 +504,8 @@ public class ReceiverApplication extends Thread {
 		Logger.getLogger(ReceiverApplication.class).log(Level.INFO,
 		"Processing ADT Message... "+ message.getClass().getName());
 		if (!(message instanceof ADT_A01)) {
+		Logger.getLogger(ReceiverApplication.class).log(Level.INFO,
+		"Message is not A05 or A31 message... "+ message.getClass().getName());
 			return "";
 		}
 
@@ -770,6 +773,7 @@ public class ReceiverApplication extends Thread {
 				Connection conn = DriverManager.getConnection(jdbcURL,
 						username, password);
 				Statement s = conn.createStatement();
+				System.out.println("Query:"+ "select patientcode from patient where patientcode = " + pid);
 				ResultSet resultSet = s
 						.executeQuery("select patientcode from patient where patientcode = "
 								+ pid);
@@ -807,7 +811,7 @@ public class ReceiverApplication extends Thread {
 	public tr.com.srdc.icardea.hibernate.Person addPerson(String id,
 			String name, String surname) throws Exception {
 		PersistentTransaction transaction = ICardeaPersistentManager.instance()
-				.getSession().beginTransaction();
+			.getSession().beginTransaction();
 		System.out.println(" $$$ Adding person:" + name);
 		tr.com.srdc.icardea.hibernate.Person personInDB = null;
 		PersonCriteria personCriteria = null;
@@ -819,7 +823,7 @@ public class ReceiverApplication extends Thread {
 		}
 		personCriteria.identifier.eq(id);
 		tr.com.srdc.icardea.hibernate.Person[] persons = tr.com.srdc.icardea.hibernate.Person
-				.listPersonByCriteria(personCriteria);
+			.listPersonByCriteria(personCriteria);
 		if (persons.length > 0) {
 			System.out.println(" $$$ Person already in the DB:" + name);
 			personInDB = persons[0];
@@ -836,10 +840,10 @@ public class ReceiverApplication extends Thread {
 	}
 
 	public String processCIEDMessage(Message message)
-			throws ApplicationException, HL7Exception {
+		throws ApplicationException, HL7Exception {
 		// printMessage(message);
-		// System.out.println("ReceiverApplication got the message..." + new
-		// DefaultXMLParser().encode(message));
+	// System.out.println("ReceiverApplication got the message..." + new
+// DefaultXMLParser().encode(message));
 		System.out.println("ReceiverApplication processCIEDMessage");
 		Logger.getLogger(ReceiverApplication.class).log(Level.INFO,
 				"Receiving the message");
@@ -849,7 +853,7 @@ public class ReceiverApplication extends Thread {
 		PersistentTransaction transaction = null;
 		try {
 			transaction = ICardeaPersistentManager.instance().getSession()
-					.beginTransaction();
+				.beginTransaction();
 			CIEDData ciedData = CIEDData.createCIEDData();
 			Logger.getLogger(ReceiverApplication.class).log(Level.INFO,
 					"Processing MSH");
@@ -893,7 +897,7 @@ public class ReceiverApplication extends Thread {
 	}
 
 	private static byte[] decodeAndWriteToFile(byte[] b, String fileName)
-			throws Exception {
+		throws Exception {
 		ByteArrayInputStream bais = new ByteArrayInputStream(b);
 		InputStream b64is = MimeUtility.decode(bais, "base64");
 		byte[] tmp = new byte[b.length];
