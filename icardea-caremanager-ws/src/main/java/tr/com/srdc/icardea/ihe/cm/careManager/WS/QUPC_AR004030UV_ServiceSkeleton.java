@@ -586,7 +586,9 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 				IVLTS effectiveTime = (IVLTS) effectiveTimeSXCMTS;
 				String effectiveTimeLow = ((IVXBTS) effectiveTime.getRest().get(0).getValue()).getValue();
 				String effectiveTimeHigh = ((IVXBTS) effectiveTime.getRest().get(1).getValue()).getValue();
-				String routeCode = substanceAdm.getRouteCode().getCode();
+				String routeCode = "";
+				if(substanceAdm != null && substanceAdm.getRouteCode() != null)
+					routeCode = substanceAdm.getRouteCode().getCode();
 				//String approachSiteCode = substanceAdm.getApproachSiteCode().get(0).getCode();
 				String approachSiteCode = "";
 				String doseQuantity = substanceAdm.getDoseQuantity().getValue();
