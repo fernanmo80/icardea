@@ -344,10 +344,16 @@ public class CareManager {
 
 		QUPC_AR004040UV_ServiceStub stub = new QUPC_AR004040UV_ServiceStub(
 				endpoint);
+		try {
 		org.hl7.v3.MCCIIN000002UV01 ack = stub.qUPC_AR004040UV_QUPC_IN043100UV(
 				query, wsaReplyTo);
+
 		logger.info("Ack TypeCode:'"
 				+ ack.getAcknowledgement().get(0).getTypeCode().value() + "'");
+		} catch(Exception ex) {
+			//ex.printStackTrace();
+		}
+		logger.info("Sending ATNA Log message....");
 
 		// TODO: ATNA - DONE
 		// Send ATNA Message: PCC-9 subscription message
@@ -379,16 +385,21 @@ public class CareManager {
 	}
 
 	public void subscribeToDataSources(String patientID, String patientName,
-			String patientSurname) throws Exception {
+			String patientSurname) {
 
 		Enumeration keys = careProvisionCodes.keys();
 		while (keys.hasMoreElements()) {
 			String key = (String) keys.nextElement();
 			logger.info("Sending " + key + " subscription for patient: "+patientID+" "+patientName+" "+patientSurname);
+			try { 
 			careManagementDataQuery(patientID, key, patientName,
 					patientSurname, "EHR");
 			/*careManagementDataQuery(patientID, key, patientName,
 					patientSurname, "PHR");*/
+			} catch(Exception ex) {
+				ex.printStackTrace();
+				continue;
+			}
 		}
 	}
 
