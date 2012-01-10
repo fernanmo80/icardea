@@ -36,7 +36,7 @@ public class SendHL7Message {
 		String gender = assignmentEntity.getPatientEntity().getGender();
 		String address = assignmentEntity.getPatientEntity().getAddress();
 
-		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmm");
+		DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
 		String birthDateString = dateFormat.format(birthDate);
 
 		String messageTime = dateFormat.format(new Date());
@@ -62,10 +62,16 @@ public class SendHL7Message {
 				+ guidelineTitle + "\r";
 		logger.info(" $$$ Sending message to EHR Interoperability Framework:"
 				+ messageToSend);
+		try {
+		send(messageToSend);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+		logger.info(" $$$ Sent message to EHR Interoperability Framework:");
 
 	}
 
-	private void send(String messageToSend) throws Exception {
+	private static void send(String messageToSend) throws Exception {
 		byte SB = 0x0b;
 		byte ACK = 0x06;
 		byte EB = 0x1c;
@@ -82,6 +88,9 @@ public class SendHL7Message {
 
 		logger.info(" Sending HL7 message to host:" + host + ":" + port);
 
+		// TODO: For the time being the port is regarded as insecure. In the future 
+		// // it will be secure. For this comment the following line.
+		atnatls = false;
 		if (atnatls) {
 			Security.addProvider(new Provider());
 
