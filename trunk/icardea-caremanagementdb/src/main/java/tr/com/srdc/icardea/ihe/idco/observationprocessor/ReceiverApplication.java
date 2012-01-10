@@ -529,7 +529,7 @@ public class ReceiverApplication extends Thread {
 			String namespace = patientIdentifier.getAssigningAuthority()
 					.getNamespaceID().getValue();
 			String identifier = patientIdentifier.getIDNumber().getValue();
-			if (namespace.equalsIgnoreCase("icardea")) {
+			if (namespace.equalsIgnoreCase("icardea.pix")) {
 				citizenshipID = identifier;
 			} else if (namespace.equalsIgnoreCase("orbis")) {
 				orbisID = identifier;
@@ -675,7 +675,7 @@ public class ReceiverApplication extends Thread {
 		}
 		
 		// subscribe to EHR and PHR Data sources...
-		Subscriber subscriber = new Subscriber(patientID, givenName, familyName);
+		Subscriber subscriber = new Subscriber(citizenshipID, givenName, familyName);
 		subscriber.start();
 
 		return adt.getMSH().getMessageControlID().getValue();
