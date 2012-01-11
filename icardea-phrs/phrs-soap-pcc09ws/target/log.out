@@ -1,0 +1,3 @@
+DEBUG main at.srfg.kmt.ehealth.phrs.ws.soap.pcc9.QueryFactoryUnitTest - Care Provision Code : Code : MEDLIST 
+DEBUG main at.srfg.kmt.ehealth.phrs.ws.soap.pcc9.QueryFactoryUnitTest - PatientID : Extension (UUID) : 14920263490
+DEBUG main at.srfg.kmt.ehealth.phrs.ws.soap.pcc9.QueryFactoryUnitTest - Patient Names : Mopuffus, Lumpkins 
