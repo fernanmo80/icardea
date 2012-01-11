@@ -16,7 +16,7 @@
 		<phr.pcc9.endpoint>http://127.0.0.1:7070/pcc09ws/QUPCAR004040UV_Service</phr.pcc9.endpoint>		
 		<pcc10.endpoint>https://localhost:8443/icardea-caremanager-ws/services/QUPC_AR004030UV_Service.QUPC_AR004030UV_ServiceHttpSoap12Endpoint/</pcc10.endpoint>		
 		<use.ws.addressing.for.ehr>true</use.ws.addressing.for.ehr>		
-		<use.ws.addressing.for.phr>false</use.ws.addressing.for.phr>		
+		<use.ws.addressing.for.phr>true</use.ws.addressing.for.phr>		
 		<cts.endpoint>https://localhost:8443/ctsWS/services/</cts.endpoint>		
 		<epsos.endpoint>http://localhost:8080/tr-xca/services/RespondingGateway_Service/</epsos.endpoint>
 		<consent.ws.endpoint>https://localhost:8443/consenteditor/services/ConsentManagerImplService/</consent.ws.endpoint>		
