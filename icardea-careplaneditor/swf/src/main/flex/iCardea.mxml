@@ -109,7 +109,7 @@
        			       			
        		}       			
        		else{
-       			viewStack.selectedIndex = 0;	
+       			viewStack.selectedIndex = 0;	///TODO: fix for openid
        		}
        			
        	} 

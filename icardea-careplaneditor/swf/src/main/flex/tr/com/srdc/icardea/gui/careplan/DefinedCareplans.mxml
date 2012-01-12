@@ -22,10 +22,10 @@
 <mx:VBox xmlns="fr.kapit.skin.component.*" xmlns:mx="http://www.adobe.com/2006/mxml"
            paddingTop="5" paddingLeft="5" paddingRight="5"
            buttonMode="true" alpha="1.0" horizontalAlign="left"
-           verticalAlign="top" width="100%" height="100%" initialize="initializeGrid()">
+           verticalAlign="top" width="100%" height="100%" creationComplete="sendCalls()" initialize="initializeGrid()">
     <mx:Script>
 		<![CDATA[
-			import mx.controls.List;
+			import mx.rpc.http.mxml.HTTPService;
 			import tr.com.srdc.icardea.gui.CarePlanEditor;
 			import tr.com.srdc.icardea.gui.steps.EligibilityCriteriaProperties;
 			import tr.com.srdc.icardea.patient.assignPatient;
@@ -59,14 +59,48 @@
 		public var mcp:MedicalCareplan;
 		[Bindable]
 		public var carePlanEditor:CarePlanEditor;
-		
-		
+		private var isFirstCallCompletedVT:Boolean = false;
+		private var isSecondCallCompletedVT:Boolean = false;
+		private var isFirstCallCompletedAF:Boolean = false;
+		private var isSecondCallCompletedAF:Boolean = false;
+		[Bindable]
+        public var diagramVT:String;
+        [Bindable]
+        public var careplanVT:String;
+        
+        [Bindable]
+        public var diagramAF:String;
+        [Bindable]
+        public var careplanAF:String;
+
         
         [Bindable]
         public var elCriteria:EligibilityCriteriaProperties;
         
         
-       
+        public function sendCalls():void {
+	       	var service : RemoteObject = new RemoteObject("loginService");
+			var cs:ChannelSet = new ChannelSet();
+			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+			cs.addChannel(customChannel);
+			service.channelSet = cs;
+			service.addEventListener(ResultEvent.RESULT,onResultGetIP);
+			service.addEventListener(FaultEvent.FAULT, onFault);
+			
+       		service.getCurrentIP();
+       	
+       }
+       public function onResultGetIP(result:ResultEvent):void {
+       		careplanCallVT.url = "https://"+result.result+":8443/icardea/guidelines/icardea/ManagementofVT-2.cp";
+       		diagramCallVT.url = "https://"+result.result+":8443/icardea/guidelines/icardea/ManagementofVT-2.dgr";
+       		careplanCallVT.send(null);
+	       	diagramCallVT.send(null);
+	       	
+	       	careplanCallAF.url = "https://"+result.result+":8443/icardea/guidelines/icardea/ManagementofAF-1.cp";
+       		diagramCallAF.url = "https://"+result.result+":8443/icardea/guidelines/icardea/ManagementofAF-1.dgr";
+	       	careplanCallAF.send(null);
+	       	diagramCallAF.send(null);
+       }         
         public function initializeGrid():void
         {
         	if(!isMonitoring){
@@ -85,14 +119,81 @@
         	this.control.listCareplans();
         	 
         }
-       
+        public function serviceResultForDiagramVT(event:ResultEvent):void
+	    {
+			isSecondCallCompletedVT = true;
+
+			diagramVT = event.result as String;
+			
+			   
+	    }
+        public function serviceResultForXMLVT(event:ResultEvent):void
+	    {
+			isFirstCallCompletedVT = true;
+
+			careplanVT = event.result as String;
+	    }
 	    
+	    public function serviceResultForDiagramAF(event:ResultEvent):void
+	    {
+			isSecondCallCompletedAF = true;
+
+			diagramAF = event.result as String;
+			
+			   
+	    }
+        public function serviceResultForXMLAF(event:ResultEvent):void
+	    {
+			isFirstCallCompletedAF = true;
+
+			careplanAF = event.result as String;
+	    }
 		
 	    public function serviceFail(event:FaultEvent):void
 	    {
 			trace(event.fault.faultString)
 	    }
-            
+        private function checkIfStateCanBeChanged():void {
+        	if(dgrid.selectedItem.id == 1){
+        		if(isFirstCallCompletedAF == true && isSecondCallCompletedAF == true) {
+				//trace("buraaaaaa: "+careplan)
+				//trace("buraaaaaa1: "+diagram)
+				isFirstCallCompletedAF = false;
+ 				isSecondCallCompletedAF = false;
+ 				mcp.careplan = careplanAF;
+ 				mcp.diagram = diagramAF;
+				carePlanEditor.careplan = mcp;
+				
+	    		parentApplication.viewStack.selectedIndex = 3;
+	    		parentApplication.careplanDT.execute=false;
+	    		parentApplication.careplanDT.doSettings();   
+        		}
+        	}
+        	else if(dgrid.selectedItem.id == 2){
+        		if(isFirstCallCompletedVT == true && isSecondCallCompletedVT == true) {
+				//trace("buraaaaaa: "+careplan)
+				//trace("buraaaaaa1: "+diagram)
+				isFirstCallCompletedVT = false;
+ 				isSecondCallCompletedVT = false;
+ 				mcp.careplan = careplanVT;
+ 				mcp.diagram = diagramVT;
+				carePlanEditor.careplan = mcp;
+				
+	    		parentApplication.viewStack.selectedIndex = 3;
+	    		parentApplication.careplanDT.execute=false;
+	    		parentApplication.careplanDT.doSettings();   
+				}
+        	}
+        	else {
+        		mcp.careplan = ""; //TODO DB den cekilecek
+ 				mcp.diagram = "";  //TODO DB den cekilecek
+ 				carePlanEditor.control = this.control;
+				carePlanEditor.careplan = mcp;
+        		parentApplication.viewStack.selectedIndex = 2;
+	    		parentApplication.careplanDT.execute=false;
+	    		parentApplication.careplanDT.doSettings();   
+        	}
+	   }        
         
         public function openSelected():void
         {
@@ -106,28 +207,37 @@
 	    		mcp.id =dgrid.selectedItem.id;
 	    		mcp.name = dgrid.selectedItem.name;
 	    		mcp.url =(dgrid.selectedItem as MedicalCareplan).url;
+	    		//trace("careplanurl: "+mcp.url)
 	    		
-	    		
-				for(var i:int = 0; i < model.careplans.length; i++){
-					if(mcp.name == (model.careplans.getItemAt(i) as MedicalCareplan).name){
-						mcp.careplan = (model.careplans.getItemAt(i) as MedicalCareplan).careplan;
-						mcp.diagram = (model.careplans.getItemAt(i) as MedicalCareplan).diagram;
-						
-						trace("mcp.careplan: "+mcp.careplan)
-						trace("mcp.diagram: "+mcp.diagram)
-						trace("mcp.name: "+ (model.careplans.getItemAt(i) as MedicalCareplan).name)
-						carePlanEditor.careplan = mcp;
-						parentApplication.viewStack.selectedIndex = 3;
-		    			parentApplication.careplanDT.execute=false;
-		    			parentApplication.careplanDT.doSettings(); 	
-						break;
-					}
-				}
-					
-			
+        		
+        		checkIfStateCanBeChanged();
+        		
+        		//trace("cp: "+mcp.careplan)
+	    		//trace("dgr: "+mcp.diagram)
+        		
+        		/* var hs:HTTPService = new HTTPService();
+				hs.showBusyCursor = true;
+				hs.method = "GET";
+				hs.url = "http://localhost:8080/icardea/guidelines/icardea/ManagementofVT-2.cp";
+				hs.resultFormat = "text";
+				hs.useProxy = false;
+				hs.send(null);
 				
-	    		
-	    		
+				hs.addEventListener(ResultEvent.RESULT,serviceResultForXML);
+				hs.addEventListener(FaultEvent.FAULT,serviceFail); 
+				
+				var hs1:HTTPService = new HTTPService();
+				hs1.showBusyCursor = true;
+				hs1.method = "GET";
+				hs1.url = "http://localhost:8080/icardea/guidelines/icardea/ManagementofVT-2.dgr";
+				hs1.resultFormat = "text";
+				hs1.useProxy = false;
+				hs1.send(null);
+				
+				hs1.addEventListener(ResultEvent.RESULT,serviceResultForDiagram);
+				hs1.addEventListener(FaultEvent.FAULT,serviceFail); */
+        		
+	        	   	
 	        }
 	        if(dgrid.selectedItem == null)
 	        {
@@ -135,7 +245,13 @@
 	        }
         }
         
-        
+        public function openSelected2():void
+        {
+        	      	
+           
+            
+            
+        }
         public function newCP():void
         {
         	var newPop:CareplanProperties = new CareplanProperties;
@@ -327,9 +443,9 @@
 			</mx:HBox>	
     	</mx:VBox>
       </mx:ViewStack>-->
-   <!-- <mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="careplanCallVT" url="https://localhost:8443/icardea/guidelines/icardea/ManagementofVT-2.cp" result="serviceResultForXMLVT(event)" fault="serviceFail( event)"/>
-	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="diagramCallVT" url="https://localhost:8443/icardea/guidelines/icardea/ManagementofVT-2.dgr" result="serviceResultForDiagramVT( event )" fault="serviceFail(event)"/>
-	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="careplanCallAF" url="https://localhost:8443/icardea/guidelines/icardea/ManagementofAF-1.cp" result="serviceResultForXMLAF(event)" fault="serviceFail( event)"/>
-	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="diagramCallAF" url="https://localhost:8443/icardea/guidelines/icardea/ManagementofAF-1.dgr" result="serviceResultForDiagramAF( event )" fault="serviceFail(event)"/>-->
+    <mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="careplanCallVT" result="serviceResultForXMLVT(event)" fault="serviceFail( event)"/>
+	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="diagramCallVT" result="serviceResultForDiagramVT( event )" fault="serviceFail(event)"/>
+	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="careplanCallAF" result="serviceResultForXMLAF(event)" fault="serviceFail( event)"/>
+	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="diagramCallAF" result="serviceResultForDiagramAF( event )" fault="serviceFail(event)"/>
 </mx:VBox>
 
