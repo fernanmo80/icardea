@@ -110,8 +110,6 @@ package fr.kapit.demo.data
 				for(var i:int=0; i < _links.length; i++)
 					if (_links.getItemAt(i).uid == el.dataobjectid)
 					{
-						
-						
 						if(dict[sourceid].ownName=="consultStep" ||  dict[sourceid].ownName=="decisionStep" || dict[sourceid].ownName=="recommendationStep")
 						{
 							

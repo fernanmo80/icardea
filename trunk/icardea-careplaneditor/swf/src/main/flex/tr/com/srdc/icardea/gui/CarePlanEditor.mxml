@@ -520,8 +520,9 @@
 			
 			
 			public function set careplan(careplan:MedicalCareplan):void{
-				this._careplan = careplan;
+				
 				//diagram.clearAll();
+				this._careplan = careplan;
 				//trace("careplan.diagram: "+careplan.diagram)
 				//trace("careplan.careplan: "+careplan.careplan)
 				

@@ -61,9 +61,7 @@
         [Bindable]
         public var currentIP:String;
 
-        
-            
-		[Bindable]
+        [Bindable]
 		public var assignments:ArrayCollection = new ArrayCollection;
 		[Bindable]
 		public var mcp:MedicalCareplan;
@@ -109,6 +107,7 @@
        		diagramCallAF.url = "https://"+result.result+":8443/icardea/guidelines/icardea/ManagementofAF-1.dgr";
 	       	careplanCallAF.send(null);
 	       	diagramCallAF.send(null);
+	       	
        }
        public function onResultRegisteredPatients(result:ResultEvent):void {
        	trace("patients: "+ (result.result as ArrayCollection).length);
@@ -177,6 +176,7 @@
 			careplanAF = event.result as String;
 	    }
 	   private function checkIfStateCanBeChanged():void {
+	   	trace("patients.selectedItem.personID: "+patients.selectedItem.personID);
 			if(patients.selectedItem.personID == 190){
         		if(isFirstCallCompletedAF == true && isSecondCallCompletedAF == true) {
 					
@@ -192,7 +192,7 @@
 		    		parentApplication.careplanDT.doSettings();
         		}
 			}
-			if(patients.selectedItem.personID == 191){
+			else if(patients.selectedItem.personID == 191){
         		if(isFirstCallCompletedVT == true && isSecondCallCompletedVT == true) {
         			
         			isFirstCallCompletedVT = false;
@@ -233,54 +233,20 @@
 				var url:String = arr[0]+".mcpd";
 				trace("new url: "+url)*/
 				
+				
+	    		
+        		
+        		
+				
 				mcp = new MedicalCareplan;
-	    		mcp.id =patients.selectedItem.careplanID;
 	    		mcp.name = patients.selectedItem.careplanName;
-	    		mcp.body = patients.selectedItem.body;
-	    		mcp.header = patients.selectedItem.header;
-	    		//mcp.careplan = patients.selectedItem.careplan;
-	    		//mcp.diagram = patients.selectedItem.diagram;
-	    		mcp.version = patients.selectedItem.version;
-	    		mcp.status = patients.selectedItem.status;
-	    		mcp.url =patients.selectedItem.url;
+	    		
 	    		
 	    		checkIfStateCanBeChanged();
-	    		/* var hs:HTTPService = new HTTPService();
-				hs.showBusyCursor = true;
-				hs.method = "GET";
-				hs.url = "http://localhost:8080/icardea/guidelines/icardea/ManagementofVT-2.cp";
-				hs.resultFormat = "text";
-				hs.useProxy = false;
-				hs.send(null);
-				
-				hs.addEventListener(ResultEvent.RESULT,serviceResultForXML);
-				hs.addEventListener(FaultEvent.FAULT,serviceFail); 
-				
-				var hs1:HTTPService = new HTTPService();
-				hs1.showBusyCursor = true;
-				hs1.method = "GET";
-				hs1.url = "http://localhost:8080/icardea/guidelines/icardea/ManagementofVT-2.dgr";
-				hs1.resultFormat = "text";
-				hs1.useProxy = false;
-				hs1.send(null);
-				
-				hs1.addEventListener(ResultEvent.RESULT,serviceResultForDiagram);
-				hs1.addEventListener(FaultEvent.FAULT,serviceFail); */
 	    		
-	    		/*var urlLoader:URLLoader = new URLLoader;
-				urlLoader.load(new URLRequest("http://www.google.com.tr/"));
-				
-				
-				
-				mcp.careplan = urlLoader.data;*/
-	    		trace("cp: "+mcp.careplan)
-	    		trace("dgr: "+mcp.diagram)
+	    		//trace("cp: "+mcp.careplan)
+	    		//trace("dgr: "+mcp.diagram)
 	    		
-	    		
-	    		
-	        	
-	        	//TODO:Engine interface service
-	        	     	
 	        }
 	       else
 	        {
