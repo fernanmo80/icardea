@@ -8,7 +8,6 @@
 package at.srfg.kmt.ehealth.phrs.ws.soap.pcc9;
 
 
-import at.srfg.kmt.ehealth.phrs.ws.soap.pcc9.WSAdressingHeaderEnricher;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -107,6 +106,12 @@ final class SendPcc09Message {
         LOGGER.info("Acknowledge : {} ", ack);
 
         return ack;
+    }
+    
+    static MCCIIN000002UV01 sendSecureMessage(QUPCIN043100UV01 query,
+            String endpointURI, String responseEndpointURI)
+            throws MalformedURLException {
+        return null;
     }
 
     /**
