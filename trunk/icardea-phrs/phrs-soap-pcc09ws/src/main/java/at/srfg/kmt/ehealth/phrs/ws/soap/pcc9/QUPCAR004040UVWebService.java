@@ -21,6 +21,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * The IHE CM PCC9 web SOAP based web service.
+ * <b>Note : </b> This WS is according with the 
+ * <a href="http://www.w3.org/TR/soap12-part0/">SOAP 1.2</a> specifications.
  *
  * @author mihai
  * @version 1.0-SNAPSHOT
