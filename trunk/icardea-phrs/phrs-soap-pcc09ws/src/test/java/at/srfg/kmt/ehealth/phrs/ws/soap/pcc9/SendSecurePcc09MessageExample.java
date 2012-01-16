@@ -23,12 +23,11 @@ import org.slf4j.LoggerFactory;
  * maven use the following command :
  * <pre>
  * mvn exec:java -Dexec.mainClass=at.srfg.kmt.ehealth.phrs.ws.soap.pcc9.SendSecurePcc09MessageExample -Dexec.classpathScope=test -Dexec.args="http://localhost:8080/testpcc9ws http://localhost:8080/responsews"
- * </pre> 
- * <b>Note : </b> the first argument (for the main method) is the end-point,
- * this is the URI where the PCC9 request will send. 
- * <b>Note : </b> the second argument (for the main method) is the
- * response-end-point, this is the URI where the PCC10 response will send. <br/>
- * This class is not design to be extended.
+ * </pre> <b>Note : </b> the first argument (for the main method) is the
+ * end-point, this is the URI where the PCC9 request will send. <b>Note : </b>
+ * the second argument (for the main method) is the response-end-point, this is
+ * the URI where the PCC10 response will send. <br/> This class is not design to
+ * be extended.
  *
  * @author mihai
  * @version 1.0-SNAPSHOT
@@ -66,7 +65,7 @@ public final class SendSecurePcc09MessageExample {
      */
     public static void main(String... args)
             throws JAXBException, MalformedURLException {
-        if (args == null || args.length != 2) {
+        if (args == null || args.length != 4) {
             final IllegalArgumentException exception =
                     new IllegalArgumentException("One argument expected (the PCC9 end point URI).");
             LOGGER.error(exception.getMessage(), exception);
