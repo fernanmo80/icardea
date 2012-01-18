@@ -1,6 +1,11 @@
 package gr.forth.ics.icardea.pid.test;
 
 import java.io.IOException;
+import java.net.Socket;
+import java.security.Security;
+
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 import gr.forth.ics.icardea.pid.HL7Utils;
 import gr.forth.ics.icardea.pid.PatientIndex;
@@ -25,12 +30,9 @@ import ca.uhn.hl7v2.parser.PipeParser;
 
 public class  PatientIndexTest {
 	private static PatientIndex pid = null;
-	private static ConnectionHub connectionHub = null;
-
+	private static Connection connection = null;
+	
 	private Message sendAndRecv(Message msg) throws LLPException, HL7Exception, IOException {
-		// The connection hub connects to listening servers
-		// A connection object represents a socket attached to an HL7 server
-		Connection connection = connectionHub.attach("localhost", pid.port(), new PipeParser(), MinLowerLayerProtocol.class);
 		// The initiator is used to transmit unsolicited messages
 		Initiator initiator = connection.getInitiator();
 		Message response = initiator.sendAndReceive(msg);
@@ -114,13 +116,23 @@ public class  PatientIndexTest {
 		a.getRCP().getRcp1_QueryPriority().setValue("I"); // immediate mode response
 		return this.sendAndRecv(a);
 	}
-
 	@BeforeClass
 	public static void setup() throws Exception {
 		pid = new PatientIndex();
 		pid.run(new String[]{"../../icardea-config/config.ini"});
+		
+		PipeParser p = new PipeParser();
+		Socket socket = null;
 
-		connectionHub = ConnectionHub.getInstance();
+		if (pid.usesTLS()) {
+			SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
+			SSLSocket sslsocket = (SSLSocket) sslsocketfactory.createSocket("localhost", pid.port());
+			sslsocket.startHandshake();
+			socket = sslsocket;
+		}
+		else
+			socket = new Socket("localhost", pid.port());
+		connection = new Connection(p, new MinLowerLayerProtocol(), socket);
 	}
 
 	@AfterClass
@@ -128,6 +140,7 @@ public class  PatientIndexTest {
 		pid.stop();
 	}
 	public static void main(String args[]) {
+
 		org.junit.runner.JUnitCore.main("gr.forth.ics.icardea.pid.test.PatientIndexTest");
 	}
 }
