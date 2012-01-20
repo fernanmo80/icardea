@@ -1002,7 +1002,7 @@
 	</Display>
 	<NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09"/>
       </RecommendationStep> 
-      <ConsultStep ID="SDB90A900-17C5-021C-3979-67BE0CE1D4A7"   name="Present Medications Compliance">
+      <ConsultStep ID="SDB90A900-17C5-021C-3979-67BE0CE1D4A7" name="Present Medications Compliance and Medication Change">
 	<Variable name="MedicationsEHR" type="String[]">
 	  <DataSource code="C2362543" name="Electronic Health Records" schemeID="UMLS"/>
 	  <DataSource code="C2598133" name="Medication" schemeID="UMLS"/>
@@ -1089,7 +1089,7 @@
 		      <p>Please select the appropriate case: </p>
 		      <form onsubmit="return ValidateData();" action="null" method="post">
 			<input type="submit" name="F6Choice" value="The patient regulary takes her medications" onclick="btnWhichButton=this"/>
-			<input type="submit" name="F6Choice" value="There is medication incompliance" onclick="btnWhichButton=this"/>
+			<input type="submit" name="F6Choice" value="There is medication incompliance/medication change" onclick="btnWhichButton=this"/>
 		      </form>
 		    </td>
 		  </tr>
@@ -1098,115 +1098,11 @@
 	    </body>
 	  </HTML>
 	</Display>
-	<NextStep ref="S4105C271-9A29-9749-DF2F-67CDEBA6879B" name="There is medication incompliance">
-	  <EvaluationScript>function check(SDB90A90017C5021C397967BE0CE1D4A7Choice) { if(SDB90A90017C5021C397967BE0CE1D4A7Choice.getValue().getText() == "There is medication incompliance") return true; else return false; }</EvaluationScript>
+	<NextStep ref="S4105C271-9A29-9749-DF2F-67CDEBA6879B" name="There is medication incompliance/medication change">
+	  <EvaluationScript>function check(SDB90A90017C5021C397967BE0CE1D4A7Choice) { if(SDB90A90017C5021C397967BE0CE1D4A7Choice.getValue().getText() == "There is medication incompliance/medication change") return true; else return false; }</EvaluationScript>
 	</NextStep>
-	<NextStep ref="SA3C434EA-7528-8DF6-B0C4-67CDDE4882FA" name="There is no medication incompliance">
+	<NextStep ref="S3020C9A9-10AC-0EB5-EEAC-680FDC81033E" name="The patient regulary takes her medications">
 	  <EvaluationScript>function check(SDB90A90017C5021C397967BE0CE1D4A7Choice) { if(SDB90A90017C5021C397967BE0CE1D4A7Choice.getValue().getText() == "The patient regulary takes her medications") return true; else return false; }</EvaluationScript>
-	</NextStep>
-      </ConsultStep>
-      <ConsultStep ID="SA3C434EA-7528-8DF6-B0C4-67CDDE4882FA" name="Present Medications Change">
-	<Variable name="MedicationsEHR" type="String[]">
-	  <DataSource code="C2362543" name="Electronic Health Records" schemeID="UMLS"/>
-	  <DataSource code="C2598133" name="Medication" schemeID="UMLS"/>
-	</Variable>
-	<Variable name="MedicationsPHR" type="String[]">
-	  <DataSource code="C0018739" name="Health Records, Personal" schemeID="UMLS"/>
-	  <DataSource code="C2598133" name="Medication" schemeID="UMLS"/>
-	</Variable>
-
-	<Display>
-	  <HTML>
-	    <head/>
-	    <body>
-
-	      <table  cellspacing="10" style="background-color:#e1e1e1">
-		<tbody>
-		  <tr name="PatientBlock" id="PatientBlock">
-		    <td style="background-color:#eeeeee"><!--The following HTML will be populated automatically in the execution phase-->
-
-		      <p align="center"><b>Brief Information about the patient </b></p>
-
-		      <p>Patient Name: 
-			<data src="caremanagementdb://Patient/@givenName"/>
-			<data src="caremanagementdb://Patient/@secondName"/>
-			<data src="caremanagementdb://Patient/@familyName"/>
-			<br />
-			Patient ID: 
-			<data src="caremanagementdb://Patient/@patientIdentifier"/>
-			<br />
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
-			Implanted Device:
-			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
-			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
-			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
-			  to previous Remote follow-up results</a> </p>
-
-		      <p><br />
-		      </p>
-		    </td>
-		  </tr>
-		  <!--tr name="CIEDBlock">
-		    <td style="background-color:#eeeeee">
-
-		      <p align="center"><b>Brief Information about the recent alarm </b></p>
-		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
-		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
-			Exported</a> </td>
-		  </tr-->
-		  <tr name="CIEDBlock">
-		    <td style="background-color:#eeeeee">
-
-		      <p align="center"><b>Brief Information about the recent alarm </b></p>
-		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
-		      VT Episode <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
-			Exported</a> </td>
-		  </tr>
-		  <tr name="EHRBlock">
-		    <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
-		      <p align="center"><b>Brief Information about the Patient History retrieved from EHR
-		      </b> </p>
-
-		      <table  width="100%">
-			<tbody>
-			  <tr>
-			    <th>Active Medications</th>
-			    <th>Does the patient regularly takes the medications?</th>
-			  </tr>
-			  <script>
-			    <arguments>$MedicationsEHR, $MedicationsPHR</arguments>
-			    <content>function generate(ehrMeds, phrMeds) { var e; var p; var output = ''; for(e=0; e&lt;ehrMeds.length;e++) { var ehrMed = ehrMeds[e]; var effectiveTimeHighEHR = ehrMed.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHighEHR)) continue; output = output + '&lt;tr&gt;'; var useIt = 'No'; for(p=0; p&lt;phrMeds.length;p++) { var phrMed = phrMeds[p];	var effectiveTimeHighPHR = phrMed.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHighPHR)) continue; if(ehrMed.getDrugCode().equals(phrMed.getDrugCode())) { useIt = '&lt;font color=\"#880015\"&gt;&lt;b&gt;Yes: ' + phrMed.getDoseQuantity() + ' mg&lt;/b&gt;&lt;/font&gt;'; }  } var line = '&lt;td&gt;' + ehrMed.getText() + ':' + ehrMed.getDoseQuantity() + ' mg&lt;/td&gt;' + '&lt;td&gt;' + useIt + '&lt;/td&gt;' + '&lt;td&gt;'; output = output + line; output = output + '&lt;/tr&gt;'; }  return output; }</content>
-			  </script>
-
-			</tbody>
-		      </table>
-		    </td>
-		  </tr>
-		  <tr name="ChoiceBlock">
-		    <td style="background-color:#eeeeee"><p align="center"><b><font color="#880015">Recommendation
-			    and Next Step to follow </font></b> </p>
-		      <p>Please select the appropriate case: </p>
-		      <form onsubmit="return ValidateData();" action="null" method="post">
-			<input type="submit" name="S62Choice" value="There is medication change" onclick="btnWhichButton=this"/>
-			<input type="submit" name="S62Choice" value="There is no medication change" onclick="btnWhichButton=this" />
-		      </form>
-		    </td>
-		  </tr>
-		</tbody>
-	      </table>
-	    </body>
-	  </HTML>
-	</Display>
-	<NextStep ref="S2742F174-2A18-DA5C-07B8-680FFD3A2E78" name="There is medication change">
-	  <EvaluationScript>function check(SA3C434EA75288DF6B0C467CDDE4882FAChoice) { if(SA3C434EA75288DF6B0C467CDDE4882FAChoice.getValue().getText() == "There is medication change") return true; else return false; }</EvaluationScript>
-	</NextStep>
-	<NextStep ref="S3020C9A9-10AC-0EB5-EEAC-680FDC81033E" name="There is no medication change">
-	  <EvaluationScript>function check(SA3C434EA75288DF6B0C467CDDE4882FAChoice) { if(SA3C434EA75288DF6B0C467CDDE4882FAChoice.getValue().getText() == "There is no medication change") return true; else return false; }</EvaluationScript>
 	</NextStep>
       </ConsultStep>
       <ConsultStep ID="S3020C9A9-10AC-0EB5-EEAC-680FDC81033E" name="Check patient reported Symptoms">
@@ -1433,7 +1329,6 @@
 		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
-
 		  <tr name="RecommendationBlock">
 		    <td style="background-color:#eeeeee">
 		      <p align="center"><b><font color="#880015">Recommendation and Next Step to follow </font></b> </p>
@@ -1579,6 +1474,30 @@
 	  <DataSource code="C0178916" name="Care plan" schemeID="UMLS"/>
 	  <RefinementScript>function refine()	{ var y = $Sodium &lt; 135 || $Sodium > 148 || $Chloride &lt; 97 || $Chloride > 108 || $Potassium &lt; 3.9 || $Potassium > 5.4 || $Hemoglobin &lt; 11.7 || $Hemoglobin > 15.7 || $Creatinine &lt; 0.5 || $Creatinine > 1.1 || $Troponin >14; return y;}</RefinementScript>
 	</Variable>
+	<Variable name="RenalInsufficiency" type="boolean">
+	  <Concept code="C2709206" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="HeartFailure" type="boolean">
+	  <Concept code="C0018801" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="Diabetes" type="boolean">
+	  <Concept code="C0011847" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="AtrialArrhythmia" type="boolean">
+	  <Concept code="C0085611" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
 	<Display>
 	  <HTML>
 	    <head/>
@@ -1696,6 +1615,47 @@
 		    </table>
 		  </td>
 		</tr>
+		<tr name="EHRBlock">
+			<td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
+
+			  <p align="center"><b>Brief Information about the Comorbid diseases
+			  </b> </p>
+			  <table  width="100%">
+			<tbody>
+
+			  <tr>
+				<td>Renal insufficiency or renal failure:</td>
+				<td>
+				  $RenalInsufficiency
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Heart failure:</td>
+				<td>
+				  $HeartFailure
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Diabetes:</td>
+				<td>
+				  $Diabetes
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Atrial arrhythmia:</td>
+				<td>
+				  $AtrialArrhythmia
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>			  
+			</tbody>
+			  </table>
+
+			</td>
+			</tr>
 		<tr name="ChoiceBlock">
 		  <td style="background-color:#eeeeee"><p align="center"><b><font color="#880015">Recommendation
 			  and Next Step to follow </font></b> </p>
@@ -1778,77 +1738,6 @@
 		  <td style="background-color:#eeeeee">
 		    <p align="center"><b><font color="#880015">Recommendation and Next Step to follow </font> </b></p>
 		    <p>Based on the data retrieved from the PHR, Medication incompliance has been observed, this could be the underlying reason for the CIED Alert, Please take the corrective action.</p>
-
-		    <form onsubmit="return ValidateData();" action="null" method="post">
-		      <input type="submit" name="D5Choice" value="Continue" onclick="btnWhichButton=this"/>
-		  </form></td>
-		</tr>
-	      </tbody>
-	    </table>
-	  </body>
-	</HTML>
-      </Display>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09"/>
-    </RecommendationStep>
-      <RecommendationStep ID="S2742F174-2A18-DA5C-07B8-680FFD3A2E78" name="Take Corrective Action about Medication change">
-      <Receiver ref="P3"/>
-      <Urgency>2</Urgency>
-      <Display>
-	<HTML>
-	  <head/>
-	  <body>
-
-	    <table  cellspacing="10" style="background-color:#e1e1e1">
-	      <tbody>
-		<tr name="PatientBlock" id="PatientBlock">
-		  <td style="background-color:#eeeeee"><!--The following HTML will be populated automatically in the execution phase-->
-
-		    <p align="center"><b>Brief Information about the patient </b></p>
-
-		    <p>Patient Name: 
-		      <data src="caremanagementdb://Patient/@givenName"/>
-		      <data src="caremanagementdb://Patient/@secondName"/>
-		      <data src="caremanagementdb://Patient/@familyName"/>
-		      <br />
-		      Patient ID: 
-		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
-		      <br />
-		      <a
-			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			EHR</a> <br />
-		      Implanted Device:
-		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
-		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
-		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
-			to previous Remote follow-up results</a> </p>
-
-		    <p><br />
-		    </p>
-		  </td>
-		</tr>
-		<!--tr name="CIEDBlock">
-		  <td style="background-color:#eeeeee">
-
-		    <p align="center"><b>Brief Information about the recent alarm </b></p>
-		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
-		    Alarms Detected: VT detected.. <br />
-		    <a href="http://patient.parameter.monitor.link">Access to Report
-		      Exported</a> </td>
-		</tr-->
-		 <tr name="CIEDBlock">
-		    <td style="background-color:#eeeeee">
-
-		      <p align="center"><b>Brief Information about the recent alarm </b></p>
-		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
-		      VT Episode <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
-			Exported</a> </td>
-		  </tr>
-		<tr name="RecommendationBlock">
-		  <td style="background-color:#eeeeee">
-		    <p align="center"><b><font color="#880015">Recommendation and Next Step to follow </font> </b></p>
-		    <p>Based on the data retrieved from the PHR, Medication change has been observed, this could be the underlying reason for the CIED Alert, Please take the corrective action.</p>
 
 		    <form onsubmit="return ValidateData();" action="null" method="post">
 		      <input type="submit" name="D5Choice" value="Continue" onclick="btnWhichButton=this"/>
@@ -2145,7 +2034,7 @@
 	<Concept code="C0242698" name="Ventricular Dysfunction, Left" schemeID="UMLS"/>
 	<DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
 	<DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
-	<RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	<RefinementScript>function refine(list) { var x; var y="false"; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y="&lt;font color=\"#880015\"&gt;&lt;b&gt;true&lt;/b&gt;&lt;/font&gt;"; } return y; }</RefinementScript>
       </Variable>
       <Variable name="DilatedCardiomyopathy" type="boolean">
 	<Concept code="C0007193" name="Cardiomyopathy, Dilated" schemeID="UMLS"/>
