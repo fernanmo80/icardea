@@ -1,0 +1,87 @@
+<diagram version="0" width="2879" height="2879" id="1FC6FA9B-A96A-69FF-F242-48717975CE5F">
+  <columns id="AC07C308-3DB0-ECF6-DC5C-4871797A19A8" multicolumn="true">
+    <column id="DB87DE79-B846-65ED-E5DA-48717D2DE656" width="2817" height="30" title="Default column"/>
+    <column id="6C7F737C-BBAA-3C29-937D-679A3D5338CD" width="80" height="30" title="Default column"/>
+    <column id="EEE2CF53-02AE-0D45-B5F8-679E497B8B48" width="80" height="30" title="Default column"/>
+    <column id="2949543B-5B13-6652-8459-687E59D1FB51" width="80" height="30" title="Default column"/>
+    <column id="7E635F7A-6D59-93D1-2830-6885EE7BE66F" width="80" height="30" title="Default column"/>
+    <column id="7FD8B64C-4662-56AA-0D72-871EFE8D8D10" width="80" height="30" title="Default column"/>
+    <column id="86633DFF-92D0-B2AD-2559-90223EA8BCF4" width="80" height="30" title="Default column"/>
+    <column id="77F6BB54-9C88-E07A-6FAB-C3013ADB77C8" width="80" height="30" title="Default column"/>
+    <column id="F7EA15A1-E5AA-8427-83E3-C31E84A7A764" width="80" height="30" title="Default column"/>
+    <column id="52C94491-5830-3F0B-96D7-FA10E22FF75A" width="80" height="30" title="Default column"/>
+    <column id="883FC50C-AC64-8203-274B-FB0CB5844040" width="80" height="30" title="Default column"/>
+  </columns>
+  <panels id="F0207783-4242-E352-D697-4871797A36D1" multipanel="true">
+    <panel id="4D7AE67A-5644-19CD-B252-4871797C1E78" height="2879" title="Default title">
+      <lane id="EF033DF5-91CB-3D5F-3A01-4871797D66FC" height="2879" title="Default title">
+        <links id="3D4DF2FE-2123-57AE-E406-4871797EAADC">
+          <link id="D12D05ED-DA10-7787-F1FA-FA169EB68EAC" dataid="621BFBBC-FE2C-E10C-25D2-FA16A663AA87" master="E783E63D-9DF2-6E21-D7AF-FA169EB69607" annotation="6748E5C6-E939-E5B8-1535-FA16AF5EEF63" behaviour="1" geometry="0" styleclass=".lanescope-link" x="245" y="71" points="-131,-9.25 243,-8" target="DF1D1D5D-F06A-9FF7-B46B-FA169EB6CF5A">
+            <anchor id="95A566EF-FFDB-5F21-3E50-FA16AF636A01" dx="0" dy="0" target="6748E5C6-E939-E5B8-1535-FA16AF5EEF63"/>
+          </link>
+          <link id="3135E8FD-FAC6-4801-0E8E-FA18CF9FA9A7" dataid="B5EFFFF5-8309-F3B6-E084-FA18DCC50916" master="2DD1BA25-0331-FEAE-9FEC-FA18CF9FA4F7" annotation="CDE3450B-C572-E61F-6C8B-FA1C24FCAB94" behaviour="1" geometry="0" styleclass=".lanescope-link" x="519" y="32" points="-31,31 -22,290" target="04F5F028-7102-D610-5B7F-FA18CF9F6378">
+            <anchor id="8F0F229B-D152-F458-534D-FA1C25014DBA" dx="0" dy="0" target="CDE3450B-C572-E61F-6C8B-FA1C24FCAB94"/>
+          </link>
+          <link id="75AD703D-F1DC-3FF2-54E3-FA18EA2EF85E" dataid="AA1DF348-2207-0B4B-5DDA-FA18F4FFE3B3" master="169103FE-7FCC-5716-9D77-FA18EA2E6E92" annotation="6E3C879C-A3D2-7D8B-5CEB-FA20536FD97D" behaviour="1" geometry="0" styleclass=".lanescope-link" x="519" y="29" points="-31,34 187,298" target="A1B541CB-008A-110B-1EB2-FA18EA2E672C">
+            <anchor id="E5E54838-A897-1BD5-C7A3-FA205375C126" dx="0" dy="0" target="6E3C879C-A3D2-7D8B-5CEB-FA20536FD97D"/>
+          </link>
+          <link id="6293B4E4-ADBC-4B36-57F0-FA19E9DC58E3" dataid="ACEA34A2-C570-B6D9-E76A-FA19F645020B" master="FD73F2BE-39B1-AC1E-10D8-FA19E9DCFDB1" annotation="31154CF8-0412-5922-1DE5-FA22412BC16F" behaviour="1" geometry="0" styleclass=".lanescope-link" x="309" y="276" points="188,46 -70,208" target="782E6F23-BE7F-987A-0377-FA19E9DCB250">
+            <anchor id="DE528885-2D4F-A3B7-83A1-FA22413001BA" dx="0" dy="0" target="31154CF8-0412-5922-1DE5-FA22412BC16F"/>
+          </link>
+          <link id="2F8EC48F-6130-B9EC-1FDB-FA1A15AA9E26" dataid="FD08AF3B-9335-D821-21F6-FA1A15AB23F2" master="ACDC41F7-30DA-4C12-A8F7-FA1A15AA256C" annotation="D30CCF06-9281-49A3-61CF-FA2295E23719" behaviour="1" geometry="0" styleclass=".lanescope-link" x="477" y="283" points="223,51 -232,213" target="A6ADF9ED-403A-CA08-A5BA-FA1A15AA6B0D">
+            <anchor id="8E03F1A4-7CD7-C9AB-6FD3-FA2295E71485" dx="0" dy="0" target="D30CCF06-9281-49A3-61CF-FA2295E23719"/>
+          </link>
+          <link id="097E0FA3-2C46-7E65-DC64-FA1A2336916C" dataid="D862810E-3CDD-0011-2DD8-FA1A23377ACD" master="F4410553-F076-DD4A-79B2-FA1A23367787" annotation="49C5CE7E-F2F3-4A59-5B7F-FB0CE9D6DF71" behaviour="1" geometry="0" styleclass=".lanescope-link" x="464" y="77" points="22,0 -232,408" target="6FBCE701-5614-3A46-045D-FA1A23366E5E">
+            <anchor id="18015C12-DBAD-510F-810D-FB0CE9DC0830" dx="0" dy="0" target="49C5CE7E-F2F3-4A59-5B7F-FB0CE9D6DF71"/>
+          </link>
+        </links>
+        <sprites id="2165558B-CAFE-3F68-244B-4871797EAB5B">
+          <sprite id="3186183B-7688-F62E-CC76-FA161C7371F8" dataid="S82293105DAA9A6873318FA161C7DD868" annotation="B5B943AF-2D94-E28F-108F-FA163C59BC69" dx="NaN" dy="NaN" box="84,31.75,60,60" spriteid="startStep">
+            <anchor id="7FCA78C3-4EB8-E497-1516-FA163C6327F1" dx="0" dy="0" target="B5B943AF-2D94-E28F-108F-FA163C59BC69"/>
+            <anchor id="E783E63D-9DF2-6E21-D7AF-FA169EB69607" dx="30" dy="30" target="D12D05ED-DA10-7787-F1FA-FA169EB68EAC"/>
+          </sprite>
+          <sprite id="21C5A506-B8D4-99CF-B095-FA169EA4910A" dataid="S421ECAFA67518F987871FA16A6619BE7" annotation="BF3A5852-E1C3-B6B2-6248-FA17228E0E80" dx="NaN" dy="NaN" box="458,33,60,60" spriteid="consultStep">
+            <anchor id="2DD1BA25-0331-FEAE-9FEC-FA18CF9FA4F7" dx="30" dy="30" target="3135E8FD-FAC6-4801-0E8E-FA18CF9FA9A7"/>
+            <anchor id="F4410553-F076-DD4A-79B2-FA1A23367787" dx="28" dy="44" target="097E0FA3-2C46-7E65-DC64-FA1A2336916C"/>
+            <anchor id="EA2103D5-9F7F-3341-385A-FA172298BAFC" dx="0" dy="0" target="BF3A5852-E1C3-B6B2-6248-FA17228E0E80"/>
+            <anchor id="169103FE-7FCC-5716-9D77-FA18EA2E6E92" dx="30" dy="30" target="75AD703D-F1DC-3FF2-54E3-FA18EA2EF85E"/>
+            <anchor id="DF1D1D5D-F06A-9FF7-B46B-FA169EB6CF5A" dx="30" dy="30" target="D12D05ED-DA10-7787-F1FA-FA169EB68EAC"/>
+          </sprite>
+          <sprite id="EDB7D9C0-3C1C-D2D1-60BB-FA18EA22942C" dataid="S7EAEE8180FAEF9D0E073FA18F4FE3B84" annotation="F060CCB1-3A24-7C21-ECA2-FA197A1094F8" dx="NaN" dy="NaN" box="676,297,60,60" spriteid="recommendationStep">
+            <anchor id="ACDC41F7-30DA-4C12-A8F7-FA1A15AA256C" dx="24" dy="37" target="2F8EC48F-6130-B9EC-1FDB-FA1A15AA9E26"/>
+            <anchor id="3285CD7F-33CF-4FAA-C984-FA197A1A5DA9" dx="0" dy="0" target="F060CCB1-3A24-7C21-ECA2-FA197A1094F8"/>
+            <anchor id="A1B541CB-008A-110B-1EB2-FA18EA2E672C" dx="30" dy="30" target="75AD703D-F1DC-3FF2-54E3-FA18EA2EF85E"/>
+          </sprite>
+          <sprite id="2FB84E04-068A-DE49-5CC9-FA18CF94A472" dataid="SF28FB7A1C13017A266EDFA18DCC46098" annotation="5EE2C0F9-4645-6778-55A1-FA1924A5ED9E" dx="NaN" dy="NaN" box="467,292,60,60" spriteid="recommendationStep">
+            <anchor id="FD73F2BE-39B1-AC1E-10D8-FA19E9DCFDB1" dx="30" dy="30" target="6293B4E4-ADBC-4B36-57F0-FA19E9DC58E3"/>
+            <anchor id="04F5F028-7102-D610-5B7F-FA18CF9F6378" dx="30" dy="30" target="3135E8FD-FAC6-4801-0E8E-FA18CF9FA9A7"/>
+            <anchor id="F5C1EBB8-B320-2220-BA49-FA1924AF35C8" dx="0" dy="0" target="5EE2C0F9-4645-6778-55A1-FA1924A5ED9E"/>
+          </sprite>
+          <sprite id="093D0D8F-73EC-4A69-9C94-FA19E9D3BA0E" dataid="S75A153A047C15D07C8C0FA19F6442AE3" annotation="B0443CDD-E04E-B202-8C15-FA1A31E13FC9" dx="NaN" dy="NaN" box="199,474,60,60" spriteid="finalStep">
+            <anchor id="6FBCE701-5614-3A46-045D-FA1A23366E5E" dx="33" dy="11" target="097E0FA3-2C46-7E65-DC64-FA1A2336916C"/>
+            <anchor id="782E6F23-BE7F-987A-0377-FA19E9DCB250" dx="40" dy="10" target="6293B4E4-ADBC-4B36-57F0-FA19E9DC58E3"/>
+            <anchor id="EED9A36A-F0EE-9AF0-0C5F-FA1A31EB2696" dx="0" dy="0" target="B0443CDD-E04E-B202-8C15-FA1A31E13FC9"/>
+            <anchor id="A6ADF9ED-403A-CA08-A5BA-FA1A15AA6B0D" dx="46" dy="22" target="2F8EC48F-6130-B9EC-1FDB-FA1A15AA9E26"/>
+          </sprite>
+        </sprites>
+        <annotations id="42E26B5A-F12A-C9EB-AC45-4871797E0893">
+          <linkannotation id="6748E5C6-E939-E5B8-1535-FA16AF5EEF63" master="95A566EF-FFDB-5F21-3E50-FA16AF636A01" dx="-72" dy="-21" box="229,41.4,100,62" spriteid="link-annotation" segmentindex="0"><![CDATA[Care plan algorithm is initiated]]></linkannotation>
+          <linkannotation id="6E3C879C-A3D2-7D8B-5CEB-FA20536FD97D" master="E5E54838-A897-1BD5-C7A3-FA205375C126" dx="-1" dy="-36" box="596,159,171.5,82.5" spriteid="link-annotation" segmentindex="0"><![CDATA[Case of emergency based on the battery voltage and capacitor charge time]]></linkannotation>
+          <annotation id="B0443CDD-E04E-B202-8C15-FA1A31E13FC9" master="EED9A36A-F0EE-9AF0-0C5F-FA1A31EB2696" dx="-20" dy="60" box="179,534,100,53" spriteid="annotation"><![CDATA[Guideline finalized!]]></annotation>
+          <annotation id="BF3A5852-E1C3-B6B2-6248-FA17228E0E80" master="EA2103D5-9F7F-3341-385A-FA172298BAFC" dx="61" dy="-2" box="519,31,179,76" spriteid="annotation"><![CDATA[Present the CIED Data and EGM to the Medical Professional]]></annotation>
+          <annotation id="5EE2C0F9-4645-6778-55A1-FA1924A5ED9E" master="F5C1EBB8-B320-2220-BA49-FA1924AF35C8" dx="-28" dy="60" box="439,352,105,48" spriteid="annotation"><![CDATA[Urgent in person control]]></annotation>
+          <annotation id="F060CCB1-3A24-7C21-ECA2-FA197A1094F8" master="3285CD7F-33CF-4FAA-C984-FA197A1A5DA9" dx="-30" dy="59" box="646,356,128,36" spriteid="annotation"><![CDATA[Emergency in person control]]></annotation>
+          <annotation id="B5B943AF-2D94-E28F-108F-FA163C59BC69" master="7FCA78C3-4EB8-E497-1516-FA163C6327F1" dx="-20" dy="60" box="64,91.75,100,60" spriteid="annotation"><![CDATA[Detection of Technical Problem!]]></annotation>
+          <linkannotation id="CDE3450B-C572-E61F-6C8B-FA1C24FCAB94" master="8F0F229B-D152-F458-534D-FA1C25014DBA" dx="-70.5" dy="-5" box="422,187.5,151,86" spriteid="link-annotation" segmentindex="0"><![CDATA[Case of urgency based on the battery voltage and capacitor charge time]]></linkannotation>
+          <linkannotation id="49C5CE7E-F2F3-4A59-5B7F-FB0CE9D6DF71" master="18015C12-DBAD-510F-810D-FB0CE9DC0830" dx="-95" dy="-14" box="264,267,129,76" spriteid="link-annotation" segmentindex="0"><![CDATA[Battery voltage and capacitor charge times are normal]]></linkannotation>
+          <linkannotation id="31154CF8-0412-5922-1DE5-FA22412BC16F" master="DE528885-2D4F-A3B7-83A1-FA22413001BA" dx="-57" dy="-17" box="311,386,100,42.5" spriteid="link-annotation" segmentindex="0"><![CDATA[Guideline finalized!]]></linkannotation>
+          <linkannotation id="D30CCF06-9281-49A3-61CF-FA2295E23719" master="8E03F1A4-7CD7-C9AB-6FD3-FA2295E71485" dx="-50" dy="-8" box="422.5,407,100,46.5" spriteid="link-annotation" segmentindex="0"><![CDATA[Guideline finalized!]]></linkannotation>
+        </annotations>
+      </lane>
+      <links id="4079E548-30E5-DF2A-85C9-487179841884"/>
+      <annotations id="1764082C-6E8A-F494-0E44-487179842E6C"/>
+    </panel>
+    <links id="4C1B1F9D-CCE0-39A0-1C5A-48717987C3EA"/>
+    <annotations id="485BDF4F-0A5D-CB8F-033B-48717987878A"/>
+  </panels>
+</diagram>

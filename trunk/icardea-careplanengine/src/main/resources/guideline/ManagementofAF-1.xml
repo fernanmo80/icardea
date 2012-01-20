@@ -106,6 +106,30 @@
 	  <DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
 	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { if(names[i] == "Epis_SVT") y=true; } return y; }</RefinementScript>
 	</Variable>
+	<Variable name="RenalInsufficiency" type="boolean">
+	  <Concept code="C2709206" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="HeartFailure" type="boolean">
+	  <Concept code="C0018801" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="Diabetes" type="boolean">
+	  <Concept code="C0011847" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="AtrialArrhythmia" type="boolean">
+	  <Concept code="C0085611" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
 	<Display>
 	  <HTML>
 	    <head>						
@@ -187,6 +211,47 @@
 		      </table>
 		    </td>
 		  </tr>
+		  <tr name="EHRBlock">
+			<td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
+
+			  <p align="center"><b>Brief Information about the Comorbid diseases
+			  </b> </p>
+			  <table  width="100%">
+			<tbody>
+
+			  <tr>
+				<td>Renal insufficiency or renal failure:</td>
+				<td>
+				  $RenalInsufficiency
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Heart failure:</td>
+				<td>
+				  $HeartFailure
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Diabetes:</td>
+				<td>
+				  $Diabetes
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Atrial arrhythmia:</td>
+				<td>
+				  $AtrialArrhythmia
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>			  
+			</tbody>
+			  </table>
+
+			</td>
+			</tr>
 		  <tr name="ChoiceBlock">
 		    <td style="background-color:#eeeeee">
 			    <p align="center"><b><font color="#880015">Recommendation and Next Step to follow </font> </b></p>
@@ -225,6 +290,8 @@
 	  <Concept code="737824" name="MDC_IDC_STAT_TACHYTHERAPY_SHOCKS_DELIVERED_RECENT" schemeID="MDC_IDC"/>
 	  <DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
 	</Variable>
+	
+	
 	<Display>
 	  <HTML>
 	    <head>						
@@ -303,6 +370,47 @@
 			  </tr>
 			</tbody>
 		      </table>
+		    </td>
+		  </tr>
+		  <tr name="EHRBlock">
+		    <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
+
+		      <p align="center"><b>Brief Information about the Comorbid diseases
+		      </b> </p>
+		      <table  width="100%">
+			<tbody>
+
+			  <tr>
+			    <td>Renal insufficiency or renal failure:</td>
+			    <td>
+			      $RenalInsufficiency
+			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+			    </td>
+			  </tr>
+			  <tr>
+			    <td>Heart failure:</td>
+			    <td>
+			      $HeartFailure
+			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+			    </td>
+			  </tr>
+			  <tr>
+			    <td>Diabetes:</td>
+			    <td>
+			      $Diabetes
+			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+			    </td>
+			  </tr>
+			  <tr>
+			    <td>Atrial arrhythmia:</td>
+			    <td>
+			      $AtrialArrhythmia
+			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+			    </td>
+			  </tr>			  
+			</tbody>
+		      </table>
+
 		    </td>
 		  </tr>
 		  <tr name="ChoiceBlock">
@@ -944,6 +1052,30 @@
 	  <DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
 	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { if(names[i] == "Epis_AT_AF") y=true; } return y; }</RefinementScript>
 	</Variable>
+	<Variable name="RenalInsufficiency" type="boolean">
+	  <Concept code="C2709206" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="HeartFailure" type="boolean">
+	  <Concept code="C0018801" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="Diabetes" type="boolean">
+	  <Concept code="C0011847" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="AtrialArrhythmia" type="boolean">
+	  <Concept code="C0085611" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
 	<Display>
 	  <HTML>
 	    <head/>
@@ -1025,6 +1157,47 @@
 		      </table>
 		    </td>
 		  </tr>
+		  <tr name="EHRBlock">
+			<td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
+
+			  <p align="center"><b>Brief Information about the Comorbid diseases
+			  </b> </p>
+			  <table  width="100%">
+			<tbody>
+
+			  <tr>
+				<td>Renal insufficiency or renal failure:</td>
+				<td>
+				  $RenalInsufficiency
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Heart failure:</td>
+				<td>
+				  $HeartFailure
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Diabetes:</td>
+				<td>
+				  $Diabetes
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Atrial arrhythmia:</td>
+				<td>
+				  $AtrialArrhythmia
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>			  
+			</tbody>
+			  </table>
+
+			</td>
+			</tr>
 		  <tr name="ChoiceBlock">
 		    <td style="background-color:#eeeeee">
 			    <p align="center"><b><font color="#880015">Recommendation and Next Step to follow </font></b> </p>
@@ -1316,6 +1489,30 @@
 	  <Concept code="737824" name="MDC_IDC_STAT_TACHYTHERAPY_SHOCKS_DELIVERED_RECENT" schemeID="MDC_IDC"/>
 	  <DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
 	</Variable>
+	<Variable name="RenalInsufficiency" type="boolean">
+	  <Concept code="C2709206" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="HeartFailure" type="boolean">
+	  <Concept code="C0018801" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="Diabetes" type="boolean">
+	  <Concept code="C0011847" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="AtrialArrhythmia" type="boolean">
+	  <Concept code="C0085611" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
 	<Display>
 	   <HTML>
 	    <head>						
@@ -1395,6 +1592,47 @@
 		  </tr>
 		<tr name="SummaryBlock">
 		  <data src="summary"/>
+		</tr>
+		<tr name="EHRBlock">
+			<td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
+
+			  <p align="center"><b>Brief Information about the Comorbid diseases
+			  </b> </p>
+			  <table  width="100%">
+			<tbody>
+
+			  <tr>
+				<td>Renal insufficiency or renal failure:</td>
+				<td>
+				  $RenalInsufficiency
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Heart failure:</td>
+				<td>
+				  $HeartFailure
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Diabetes:</td>
+				<td>
+				  $Diabetes
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Atrial arrhythmia:</td>
+				<td>
+				  $AtrialArrhythmia
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>			  
+			</tbody>
+			  </table>
+
+			</td>
 		</tr>
 		<tr name="ChoiceBlock">
 		  <td style="background-color:#eeeeee">
