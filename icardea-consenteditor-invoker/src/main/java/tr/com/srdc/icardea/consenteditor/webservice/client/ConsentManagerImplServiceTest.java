@@ -1,5 +1,6 @@
 package tr.com.srdc.icardea.consenteditor.webservice.client;
 
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.security.Security;
 import java.util.ResourceBundle;
@@ -22,6 +23,7 @@ import org.w3c.dom.bootstrap.DOMImplementationRegistry;
 import org.w3c.dom.ls.DOMImplementationLS;
 import org.w3c.dom.ls.LSSerializer;
 
+import tr.com.srdc.icardea.atnalog.client.Audit;
 import tr.com.srdc.icardea.consenteditor.saml.SAML;
 import tr.com.srdc.icardea.consenteditor.webservice.client.ConsentManagerImplServiceStub.ArrayOf_xsd_anyType;
 import tr.com.srdc.icardea.consenteditor.webservice.client.ConsentManagerImplServiceStub.GenerateRequest;
@@ -133,6 +135,7 @@ public class ConsentManagerImplServiceTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+	
 		return "<?xml version=\"1.0\" encoding=\"UTF-16\"?><xacml-saml:XACMLAuthzDecisionStatement xmlns:xacml-saml=\"urn:oasis:names:tc:xacml:2.0:profile:saml2.0:v2:schema:assertion\"><xacml-context:Response xmlns:xacml-context=\"urn:oasis:names:tc:xacml:2.0:context:schema:os\"><xacml-context:Result><xacml-context:Decision>Deny</xacml-context:Decision></xacml-context:Result></xacml-context:Response></xacml-saml:XACMLAuthzDecisionStatement>";
 	}
 
