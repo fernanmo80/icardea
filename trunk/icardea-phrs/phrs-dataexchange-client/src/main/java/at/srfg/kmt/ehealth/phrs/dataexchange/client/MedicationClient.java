@@ -7,29 +7,27 @@
  */
 package at.srfg.kmt.ehealth.phrs.dataexchange.client;
 
-import at.srfg.kmt.ehealth.phrs.persistence.api.Triple;
-import at.srfg.kmt.ehealth.phrs.persistence.api.ValueType;
-import at.srfg.kmt.ehealth.phrs.persistence.util.MultiIterable;
-import java.util.HashMap;
-import java.util.Map;
-import static at.srfg.kmt.ehealth.phrs.persistence.api.ValueType.*;
+
 import at.srfg.kmt.ehealth.phrs.Constants;
 import at.srfg.kmt.ehealth.phrs.dataexchange.util.DateUtil;
-import at.srfg.kmt.ehealth.phrs.persistence.api.GenericRepositoryException;
-import at.srfg.kmt.ehealth.phrs.persistence.api.GenericTriplestore;
-import at.srfg.kmt.ehealth.phrs.persistence.api.GenericTriplestoreLifecycle;
-import at.srfg.kmt.ehealth.phrs.persistence.api.TripleException;
+import at.srfg.kmt.ehealth.phrs.persistence.api.*;
+import static at.srfg.kmt.ehealth.phrs.persistence.api.ValueType.LITERAL;
+import static at.srfg.kmt.ehealth.phrs.persistence.api.ValueType.RESOURCE;
 import at.srfg.kmt.ehealth.phrs.persistence.impl.sesame.LoadRdfPostConstruct;
 import at.srfg.kmt.ehealth.phrs.persistence.impl.sesame.SesameTriplestore;
+import at.srfg.kmt.ehealth.phrs.persistence.util.MultiIterable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+
 /**
-/**
- * Used to persist and retrieve medicine related information. <br/>
- * This class can not be extended. 
- * 
+ * /**
+ * Used to persist and retrieve medicine related information. <br/> This class
+ * can not be extended.
+ *
  * @version 0.1
  * @since 0.1
  * @author Miahi
@@ -37,21 +35,24 @@ import org.slf4j.LoggerFactory;
 public final class MedicationClient {
 
     /**
-     * The Logger instance. All log messages from this class
-     * are routed through this member. The Logger name space
-     * is <code>at.srfg.kmt.ehealth.phrs.dataexchange.client.MedicinClient</code>.
+     * The Logger instance. All log messages from this class are routed through
+     * this member. The Logger name space is
+     * <code>at.srfg.kmt.ehealth.phrs.dataexchange.client.MedicinClient</code>.
      */
     private static final Logger LOGGER =
             LoggerFactory.getLogger(MedicationClient.class);
+
     /**
-     * Holds the name for the creator, the instance responsible to create 
-     * medication instances with this client. 
+     * Holds the name for the creator, the instance responsible to create
+     * medication instances with this client.
      */
     private static final String CREATORN_NAME = MedicationClient.class.getName();
+
     /**
      * Used to persist/retrieve informations from the persistence layer.
      */
     private final GenericTriplestore triplestore;
+
     private final SchemeClient schemeClient;
 
     public MedicationClient() throws GenericRepositoryException, TripleException {
@@ -65,11 +66,12 @@ public final class MedicationClient {
     }
 
     /**
-     * Builds a <code>MedicinClient</code> instance for a given triplestrore.
-     * 
+     * Builds a
+     * <code>MedicinClient</code> instance for a given triplestrore.
+     *
      * @param triplestore the triplestore instance, it can not be null.
-     * @throws NullPointerException if the <code>triplestore</code> 
-     * argument is null. 
+     * @throws NullPointerException if the
+     * <code>triplestore</code> argument is null.
      */
     public MedicationClient(GenericTriplestore triplestore) {
 
@@ -118,15 +120,7 @@ public final class MedicationClient {
         // template root id.
         triplestore.persist(subject,
                 Constants.HL7V3_TEMPLATE_ID_ROOT,
-                Constants.IMUNISATION,
-                LITERAL);
-
-        // HL7 specific informations.
-        // according with the specification the medcation requires this 
-        // template root id.
-        triplestore.persist(subject,
-                Constants.HL7V3_TEMPLATE_ID_ROOT,
-                Constants.MEDICATION,
+                Constants.MEDICATION_NORMAL_DOSING,
                 LITERAL);
 
         triplestore.persist(subject,
@@ -163,7 +157,7 @@ public final class MedicationClient {
         triplestore.persist(subject,
                 Constants.HL7V3_DOSAGE,
                 dosage,
-                LITERAL);
+                RESOURCE);
 
         triplestore.persist(subject,
                 Constants.HL7V3_DRUG_NAME,
@@ -177,8 +171,8 @@ public final class MedicationClient {
 
         final String subject =
                 triplestore.persist(Constants.HL7V3_DOSAGE_VALUE, value, LITERAL);
-        
-       // this can help to find a medication, there are alos other way 
+
+        // this can help to find a medication, there are alos other way 
         // to do this (e.g. using the know templateRootID, for more )
         // information about this please consult the documentation)
         triplestore.persist(subject,
@@ -197,7 +191,7 @@ public final class MedicationClient {
 
     /**
      * Returns all the medication for all the users.
-     * 
+     *
      * @return all the medication for all the users.
      * @throws TripleException by any kind of triplestore related error.
      */
@@ -218,10 +212,10 @@ public final class MedicationClient {
 
     /**
      * Returns all the medication for a given user.
-     * 
+     *
      * @param userId
      * @return
-     * @throws TripleException 
+     * @throws TripleException
      */
     public Iterable<Triple> getMedicationTriplesForUser(String userId) throws TripleException {
 
@@ -324,5 +318,74 @@ public final class MedicationClient {
         }
 
         triplestore.deleteForSubject(resourceURI);
+    }
+
+    public String buildFrequency(String event, int offset, int value, 
+            String unitURI) throws TripleException {
+
+        final String subject = triplestore.persist(Constants.RDFS_TYPE,
+                Constants.HL7_FREQUECY_CLASS,
+                LITERAL);
+
+        triplestore.persist(subject,
+                Constants.CREATOR,
+                CREATORN_NAME,
+                LITERAL);
+
+        if (event != null) {
+            triplestore.persist(subject,
+                    Constants.HL7_FREQUECY_EVENT,
+                    event,
+                    LITERAL);
+        }
+
+        if (offset > 0) {
+            // with which offset
+            triplestore.persist(subject,
+                    Constants.HL7_FREQUECY_OFFSET,
+                    String.valueOf(offset),
+                    LITERAL);
+        }
+
+        if (value > 0) {
+            // how offen will the the medication repeated (e.g. every 8 hour)
+            triplestore.persist(subject,
+                    Constants.HL7_FREQUECY_REPEAT,
+                    buildValueObject(value, unitURI),
+                    RESOURCE);
+        }
+
+        return subject;
+    }
+
+    public String buildValueObject(int value, String unitURI) throws TripleException {
+        final String subject =
+                triplestore.persist(Constants.RDFS_TYPE,
+                Constants.PHRS_VALUE_OBJECT_CLASS,
+                LITERAL);
+
+        triplestore.persist(subject,
+                Constants.CREATOR,
+                CREATORN_NAME,
+                LITERAL);
+
+        // generic informarion (beside the 'OWNER' they are not really relevant 
+        // for the HL7 V3 message)
+        triplestore.persist(subject,
+                Constants.CREATE_DATE,
+                DateUtil.getFormatedDate(new Date()),
+                LITERAL);
+
+        triplestore.persist(subject,
+                Constants.HL7V3_VALUE,
+                String.valueOf(value),
+                LITERAL);
+
+        triplestore.persist(subject,
+                Constants.HL7V3_UNIT,
+                unitURI,
+                RESOURCE);
+
+        return subject;
     }
 }

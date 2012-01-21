@@ -49,12 +49,12 @@ public class MedicationClientExample {
                 owner,
                 "Free text note for the medication.",
                 Constants.STATUS_COMPELETE,
-                "201006010000",
-                "201006010000",
-                "MyFreqency",
+                "200812010000",
+                "201106101010",
+                client.buildFrequency("morgen", -1, 8, Constants.HOUR),
                 Constants.HL7V3_ORAL_ADMINISTRATION,
-                "1",
-                Constants.PILL,
+                "25",
+                Constants.MILLIGRAM,
                 "MyDrug");
 
         final Iterable<String> uris = client.getMedicationURIsForUser(owner);
@@ -65,7 +65,7 @@ public class MedicationClientExample {
             beans.add(dynaBean);
         }
 
-        final QUPCIN043200UV01 pCC10Message = ProblemEntryPCC10.getPCC10Message(beans);
+        final QUPCIN043200UV01 pCC10Message = MedicationSignPCC10.getPCC10Message(beans);
         QUPCAR004030UVUtil.toWriteInTemp(pCC10Message, "medication");
 
         // TAKE CARE !!!!!!
