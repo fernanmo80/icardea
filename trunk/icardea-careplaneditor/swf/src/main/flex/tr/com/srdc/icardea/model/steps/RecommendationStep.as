@@ -23,7 +23,7 @@ package tr.com.srdc.icardea.model.steps{
 		public  var urgency : String = "";
         [XmlElement(alias="Display", order="3")]
 		public  var display : Display = new Display;
-		[XmlArray(alias="*", order="3", type = "tr.com.srdc.icardea.model.steps.NextStep")]
+		[XmlArray(alias="*", order="4", type = "tr.com.srdc.icardea.model.steps.NextStep")]
 		public  var nextStep : ArrayCollection = new ArrayCollection;
 		}
 }
