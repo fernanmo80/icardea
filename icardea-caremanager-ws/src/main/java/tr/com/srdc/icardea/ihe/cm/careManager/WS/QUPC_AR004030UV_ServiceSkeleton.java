@@ -577,7 +577,9 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 			} else if (careProvisionCode.equals("RXCAT") || careProvisionCode.equals("MEDLIST") || careProvisionCode.equals("CURMEDLIST")
 				|| careProvisionCode.equals("DISCHMEDLIST") || careProvisionCode.equals("HISTMEDLIST") || careProvisionCode.equals("IMMUCAT")) {
 				POCDMT000040SubstanceAdministration substanceAdm = pertinentInformation.getSubstanceAdministration().getValue();
-				String text = substanceAdm.getText().getContent();
+				String text = "";
+				if(substanceAdm.getText() != null)
+					text = substanceAdm.getText().getContent();
 				//String effectiveTime = substanceAdm.getEffectiveTime().get(0).getValue();
 				//String effectiveTime = substanceAdm.getEffectiveTime().get(0).getValue();
 				//String effectiveTimeHigh = substanceAdm.getEffectiveTime().get(1).getValue();
@@ -598,7 +600,8 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 				String drugCodeSystem = drug.getCode().getCodeSystem();
 				String drugCodeSystemName = drug.getCode().getCodeSystemName();
 				drugCode = translateCode(drugCode, drugCodeSystem, drugCodeSystemName);
-				text = drug.getCode().getOriginalText().getContent();
+				if(drug.getCode() != null && drug.getCode().getOriginalText() != null)
+					text = drug.getCode().getOriginalText().getContent();
 
 				MedicationCriteria criteria = new MedicationCriteria();
 				criteria.drugCode.eq(drugCode);
