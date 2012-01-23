@@ -81,8 +81,8 @@
     <mx:TextInput id="pname" text="{this._medicalCareplan.name}"/>
     <mx:Spacer height="5%"/>
     <mx:HBox>
-    	<mx:Button label="SAVE" click="saveCarePlan()"/>
-   		<mx:Button label="CANCEL" click="cancelCarePlan()"/>
+    	<mx:Button label="Save" click="saveCarePlan()"/>
+   		<mx:Button label="Cancel" click="cancelCarePlan()"/>
     </mx:HBox>
 </mx:VBox>
 </mx:TitleWindow>
