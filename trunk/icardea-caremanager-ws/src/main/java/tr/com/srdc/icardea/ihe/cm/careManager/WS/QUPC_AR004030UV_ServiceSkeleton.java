@@ -252,7 +252,9 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 			} else if (careProvisionCode.equals("MEDCCAT")) {
 				POCDMT000040Observation observation = pertinentInformation.getObservation().getValue();
 				String problemCode = observation.getCode().getCode();
-				String problemText = observation.getText().getContent();
+				String problemText = "";
+				if(observation.getText() != null)
+					problemText = observation.getText().getContent();
 				String effectiveTimeLow = ((IVXBTS) observation.getEffectiveTime().getRest().get(0).getValue()).getValue();
 				String effectiveTimeHigh = " ";
 				if (observation.getEffectiveTime().getRest().size() > 1) {
