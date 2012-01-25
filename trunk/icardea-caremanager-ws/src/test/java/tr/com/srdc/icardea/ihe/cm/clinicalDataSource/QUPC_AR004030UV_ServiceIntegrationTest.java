@@ -1111,7 +1111,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 	// @Test
 	public void testGroup1() throws java.lang.Exception {
 		sslSetup();
-		/*
+		
 		tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
 
 		org.hl7.v3.QUPCIN043200UV01 query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
@@ -1237,7 +1237,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 		query = (org.hl7.v3.QUPCIN043200UV01) unmarshaller.unmarshal(is);
 
 		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
-		*/
+		
 
 		stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
 
@@ -1354,7 +1354,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 	// @Test
 	public void testGroup2() throws java.lang.Exception {
 		sslSetup();
-		/*
+		
 		tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
 
 		org.hl7.v3.QUPCIN043200UV01 query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
@@ -1369,7 +1369,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 		query = (org.hl7.v3.QUPCIN043200UV01) unmarshaller.unmarshal(is);
 
 		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
-		*/
+		
 
 		stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
 
@@ -1446,7 +1446,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 
 		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
 
-		/*
+		
 		stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
 
 		query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
@@ -1491,7 +1491,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 		}
 
 		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
-		*/
+		
 
 		/*
 		 * // ALT TARAF KALKTI CUNKU AYNI MESAJ EHR icinde gidiyormus. Gokce
