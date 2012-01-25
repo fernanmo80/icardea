@@ -158,23 +158,20 @@ public class GlifGenerator {
 					.newInstance("tr.com.srdc.icardea.careplanengine.xmlmodel");
 			Unmarshaller unmarshaller = jc.createUnmarshaller();
 
-			SchemaFactory factory = SchemaFactory
+			/*SchemaFactory factory = SchemaFactory
 					.newInstance("http://www.w3.org/2001/XMLSchema");
 			File schemaLocation = new File(this.getClass().getClassLoader()
 					.getResource("guideline/Careplan.xsd").getFile());
 
 			Schema schema = factory.newSchema(schemaLocation);
-			unmarshaller.setSchema(schema);
+			unmarshaller.setSchema(schema);*/
 			ByteArrayInputStream input = new ByteArrayInputStream(
 					xmlContent.getBytes());
 			mc = (MedicalCareplan) unmarshaller.unmarshal(input);
-		} catch (JAXBException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		} 
 		return mc;
 	}
 
@@ -1125,7 +1122,7 @@ public class GlifGenerator {
 			origin.close();
 			out.close();
 
-			String output = TOMCAT_HOME + path;
+			String output = path;
 			InputStream is = this.getClass().getClassLoader()
 					.getResourceAsStream(input);
 			owlModel = ProtegeOWL.createJenaOWLModelFromInputStream(is);
