@@ -51,7 +51,7 @@ public class LoginServiceImpl implements LoginService {
 		model.setOpenId((String)mySession.getAttribute("user_openid"));
 		model.setFullName((String)mySession.getAttribute("user_fullname"));
 		model.setRole((String)mySession.getAttribute("user_role"));
-		//TODO sign and encrypt model		
+		//TODO sign and encrypt model
 		return model;
 		
 	}
