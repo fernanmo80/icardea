@@ -35,21 +35,21 @@
 		class="tr.com.srdc.icardea.platform.ExampleService"> <property
 		name="exampleDao" ref="exampleDao"></property> </bean
 	-->
-	<bean id="userService" class="tr.com.srdc.icardea.platform.service.UserServiceImpl">
+	<bean id="userService" class="tr.com.srdc.icardea.platform.service.user.UserServiceImpl">
 		<property name="personDao" ref="personDao"></property>
 		<property name="contactDao" ref="contactDao"></property>
 		<property name="organizationDao" ref="organizationDao"></property>
 	</bean>
 
-	<bean id="emailService" class="tr.com.srdc.icardea.platform.service.EmailServiceImpl">
+	<bean id="emailService" class="tr.com.srdc.icardea.platform.service.email.EmailServiceImpl">
 		<property name="mailSender" ref="mailSender" />
 		<property name="velocityEngine" ref="velocityEngine" />
 	</bean>
 	
-	<bean id="careplanService" class="tr.com.srdc.icardea.platform.service.dummy.DummyCareplanRepositoryServiceImpl">
+	<bean id="careplanService" class="tr.com.srdc.icardea.platform.service.careplan.CareplanRepositoryServiceImpl">
 	</bean>
 	
-	<bean id="subscriptionService" class="tr.com.srdc.icardea.platform.service.DummyPatientSubscriptionServiceImp">
+	<bean id="subscriptionService" class="tr.com.srdc.icardea.platform.service.subscription.PatientSubscriptionServiceImp">
 		
 	</bean>
 	<bean id="engineService" class="tr.com.srdc.icardea.careplanengine.agents.afAgent.EngineInterface">

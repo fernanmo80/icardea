@@ -17,7 +17,7 @@
      </http>
 
      <authentication-provider user-service-ref="personUserDetailsService"/>
-     <beans:bean id="personUserDetailsService" class="tr.com.srdc.icardea.platform.service.PersonUserDetailsService">
+     <beans:bean id="personUserDetailsService" class="tr.com.srdc.icardea.platform.service.user.PersonUserDetailsService">
         <beans:constructor-arg ref="userService"/>   
      </beans:bean>
 	
