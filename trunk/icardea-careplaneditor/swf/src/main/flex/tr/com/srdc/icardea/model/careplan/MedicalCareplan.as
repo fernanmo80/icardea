@@ -17,7 +17,7 @@ package tr.com.srdc.icardea.model.careplan{
 		public  var header : Header = new Header;
 		[XmlAttribute(alias="ID")]	
 		public  var id : String = "";
-		[XmlAttribute(alias="Status")]	
+		[XmlAttribute(alias="status")]	
 		public  var status : String = "no";
 		[XmlAttribute(alias="name")]	
 		public  var name : String = "";
