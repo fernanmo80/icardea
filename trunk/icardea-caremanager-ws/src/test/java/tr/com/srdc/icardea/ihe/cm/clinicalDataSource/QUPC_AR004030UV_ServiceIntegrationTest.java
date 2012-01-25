@@ -192,7 +192,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
 	}
 
-	@Test
+	//@Test
 	public void testqUPC_AR004030UV_QUPC_IN043200UV_EHR_Problems1()
 			throws java.lang.Exception {
 		sslSetup();
@@ -1108,7 +1108,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
 	}
 
-	// @Test
+	@Test
 	public void testGroup1() throws java.lang.Exception {
 		sslSetup();
 		
