@@ -13,7 +13,7 @@ package tr.com.srdc.icardea.model.steps{
 		public  var ownName : String = "eligibilityCriteria";
 		
 		[XmlElement(alias="EvaluationScript")]
-		public  var evaluationScript : String = "";
+		public  var evaluationScript : String = "function EligibleToGuidelineCriterion() { return true; }";
 		[XmlArray(alias="*", type = "tr.com.srdc.icardea.model.variables.Variable")]
 		public  var variable : ArrayCollection = new ArrayCollection;
 		}

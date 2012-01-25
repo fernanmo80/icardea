@@ -38,7 +38,9 @@
         }        
         private function openSelected():void
         {	
+        	
         	carePlanEditor = parentApplication.careplanDT;
+        	//carePlanEditor.diagram.clearAll();
            	if (dgrid.selectedItem != null) { 
         		mcp = new MedicalCareplan;
 	    		mcp.id =dgrid.selectedItem.id;
@@ -46,6 +48,10 @@
 	    	
 	    		mcp.careplan = (dgrid.selectedItem as MedicalCareplan).careplan;
  				mcp.diagram = (dgrid.selectedItem as MedicalCareplan).diagram;
+ 			
+ 			    trace("mcp.careplan: "+mcp.careplan)
+ 				trace("mcp.diagram: "+mcp.diagram)     
+ 			
  				carePlanEditor.control = this.control;
 				carePlanEditor.careplan = mcp;
         		parentApplication.viewStack.selectedIndex = 3;

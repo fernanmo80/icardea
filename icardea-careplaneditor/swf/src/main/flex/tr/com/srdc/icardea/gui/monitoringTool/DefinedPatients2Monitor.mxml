@@ -22,7 +22,7 @@
 <mx:VBox xmlns="fr.kapit.skin.component.*" xmlns:mx="http://www.adobe.com/2006/mxml"
            paddingTop="5" paddingLeft="5" paddingRight="5"
            buttonMode="true" alpha="1.0" horizontalAlign="left"
-           verticalAlign="top" width="100%" height="100%" initialize="init()" creationComplete="sendCalls()">
+           verticalAlign="top" width="100%" height="100%" initialize="init()">
     <mx:Script>
 		<![CDATA[
 			import mx.netmon.NetworkMonitor;
@@ -44,23 +44,6 @@
 		import com.kapit.diagram.DiagramEvent;
         import com.kapit.diagram.view.DiagramView;
         
-        
-        private var isFirstCallCompletedVT:Boolean = false;
-		private var isSecondCallCompletedVT:Boolean = false;
-		private var isFirstCallCompletedAF:Boolean = false;
-		private var isSecondCallCompletedAF:Boolean = false;
-		[Bindable]
-        public var diagramVT:String;
-        [Bindable]
-        public var careplanVT:String;
-        
-        [Bindable]
-        public var diagramAF:String;
-        [Bindable]
-        public var careplanAF:String;
-        [Bindable]
-        public var currentIP:String;
-
         [Bindable]
 		public var assignments:ArrayCollection = new ArrayCollection;
 		[Bindable]
@@ -68,20 +51,7 @@
 		[Bindable]
 		public var carePlanEditor:CarePlanEditor;
 		
-		
-		
-       public function sendCalls():void {
-       		var service : RemoteObject = new RemoteObject("loginService");
-			var cs:ChannelSet = new ChannelSet();
-			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
-			cs.addChannel(customChannel);
-			service.channelSet = cs;
-			service.addEventListener(ResultEvent.RESULT,onResultGetIP);
-			service.addEventListener(FaultEvent.FAULT, onFault);
-			
-       		service.getCurrentIP();
-       	
-       } 
+      
        public function init():void
        {
        		var service : RemoteObject = new RemoteObject("subscriptionService");
@@ -93,26 +63,12 @@
 			service.addEventListener(FaultEvent.FAULT, onFault);			
 			service.listRegisteredPatients();
 			
-			
-			
-			
-       }
-       public function onResultGetIP(result:ResultEvent):void {
-       		careplanCallVT.url = "https://"+result.result+":8443/icardea/guidelines/icardea/ManagementofVT-2.cp";
-       		diagramCallVT.url = "https://"+result.result+":8443/icardea/guidelines/icardea/ManagementofVT-2.dgr";
-       		careplanCallVT.send(null);
-	       	diagramCallVT.send(null);
-	       	
-	       	careplanCallAF.url = "https://"+result.result+":8443/icardea/guidelines/icardea/ManagementofAF-1.cp";
-       		diagramCallAF.url = "https://"+result.result+":8443/icardea/guidelines/icardea/ManagementofAF-1.dgr";
-	       	careplanCallAF.send(null);
-	       	diagramCallAF.send(null);
-	       	
-       }
+	   }
+      
        public function onResultRegisteredPatients(result:ResultEvent):void {
        	trace("patients: "+ (result.result as ArrayCollection).length);
        	
-       	trace("assignedCareplans"+((result.result as ArrayCollection).getItemAt(0) as Patient).assignedCareplans.length);
+       	trace("assignedCareplans"+((((result.result as ArrayCollection).getItemAt(1) as Patient).assignedCareplans.getItemAt(0)) as MedicalCareplan).careplan);
        	//assignments = result.result as ArrayCollection;
        	
      	for(var i:int = 0; i< (result.result as ArrayCollection).length;i++)
@@ -146,74 +102,6 @@
    			Alert.show(fault.fault.faultString);	
    	   } 
    	   
-   	   public function serviceResultForDiagramVT(event:ResultEvent):void
-	    {
-			isSecondCallCompletedVT = true;
-
-			diagramVT = event.result as String;
-			
-			   
-	    }
-        public function serviceResultForXMLVT(event:ResultEvent):void
-	    {
-			isFirstCallCompletedVT = true;
-
-			careplanVT = event.result as String;
-	    }
-	    
-	    public function serviceResultForDiagramAF(event:ResultEvent):void
-	    {
-			isSecondCallCompletedAF = true;
-
-			diagramAF = event.result as String;
-			
-			   
-	    }
-        public function serviceResultForXMLAF(event:ResultEvent):void
-	    {
-			isFirstCallCompletedAF = true;
-
-			careplanAF = event.result as String;
-	    }
-	   private function checkIfStateCanBeChanged():void {
-	   	trace("patients.selectedItem.personID: "+patients.selectedItem.personID);
-			if(patients.selectedItem.personID == 190){
-        		if(isFirstCallCompletedAF == true && isSecondCallCompletedAF == true) {
-					
-					isFirstCallCompletedAF = false;
-	 				isSecondCallCompletedAF = false;
-	 				mcp.careplan = careplanAF;
-	 				mcp.diagram = diagramAF;
-					carePlanEditor.careplan = mcp;
-					carePlanEditor.executeCareplanObj = patients.selectedItem as Object;
-			       
-		    		parentApplication.viewStack.selectedIndex = 3;
-		    		parentApplication.careplanDT.execute=true;
-		    		parentApplication.careplanDT.doSettings();
-        		}
-			}
-			else if(patients.selectedItem.personID == 191){
-        		if(isFirstCallCompletedVT == true && isSecondCallCompletedVT == true) {
-        			
-        			isFirstCallCompletedVT = false;
-	 				isSecondCallCompletedVT = false;
-	 				mcp.careplan = careplanVT;
-	 				mcp.diagram = diagramVT;
-					carePlanEditor.careplan = mcp;
-					carePlanEditor.executeCareplanObj = patients.selectedItem as Object;
-			       
-		    		parentApplication.viewStack.selectedIndex = 3;
-		    		parentApplication.careplanDT.execute=true;
-		    		parentApplication.careplanDT.doSettings();
-        		}
-   			}
-   			else {
-   				parentApplication.viewStack.selectedIndex = 2;
-		    	parentApplication.careplanDT.execute=true;
-		    	parentApplication.careplanDT.doSettings();
-   			}
-	   }
-		
 	   public function serviceFail(event:FaultEvent):void
 	   {
 			trace(event.fault.faultString)
@@ -221,42 +109,26 @@
        
        public function openSelected():void
         {
-        	 carePlanEditor= parentApplication.careplanDT;
-        	
-        	
+        	carePlanEditor= parentApplication.careplanDT;
         	
         	if (patients.selectedItem != null) { 
         		
-        		/*
-	        	trace("CP url: "+(patients.selectedItem as Object).url);
-	        	var arr:Array = ((patients.selectedItem as Object).url as String).split(".owl");
-				var url:String = arr[0]+".mcpd";
-				trace("new url: "+url)*/
-				
-				
-	    		
-        		
-        		
-				
-				mcp = new MedicalCareplan;
+        		mcp = new MedicalCareplan;
 	    		mcp.name = patients.selectedItem.careplanName;
-	    		
-	    		
-	    		checkIfStateCanBeChanged();
-	    		
-	    		//trace("cp: "+mcp.careplan)
-	    		//trace("dgr: "+mcp.diagram)
-	    		
+	    		mcp.careplan = patients.selectedItem.careplan;
+	 		    mcp.diagram = patients.selectedItem.diagram;
+				carePlanEditor.careplan = mcp;
+				carePlanEditor.executeCareplanObj = patients.selectedItem as Object;
+			       
+		    	parentApplication.viewStack.selectedIndex = 3;
+		    	parentApplication.careplanDT.execute=true;
+		    	parentApplication.careplanDT.doSettings();
 	        }
 	       else
 	        {
 	        	Alert.show("Please select a care plan to execute", "No Care Plan Selected");
-	        }
-	      
-	      
-        }  
-     
-	 
+	        }	      	      
+        }  	 
        
         ]]>
 	</mx:Script>
@@ -273,8 +145,4 @@
     <mx:HBox>
 		<mx:Button id="openDiagram" label="OPEN" enabled="true" click="openSelected()" styleName="adminButton"/>		
 	</mx:HBox>	
-	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="careplanCallVT" result="serviceResultForXMLVT(event)" fault="serviceFail( event)"/>
-	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="diagramCallVT" result="serviceResultForDiagramVT( event )" fault="serviceFail(event)"/>
-	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="careplanCallAF" result="serviceResultForXMLAF(event)" fault="serviceFail( event)"/>
-	<mx:HTTPService resultFormat = "text" showBusyCursor = "true" useProxy = "false" method = "GET" id="diagramCallAF" result="serviceResultForDiagramAF( event )" fault="serviceFail(event)"/>
 </mx:VBox>

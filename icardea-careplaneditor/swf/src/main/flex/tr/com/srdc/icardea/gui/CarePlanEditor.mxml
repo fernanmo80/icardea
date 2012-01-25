@@ -32,6 +32,10 @@
 	<mx:Style source="/assets/style/style.css"/>
 	<mx:Script>
 		<![CDATA[
+			import tr.com.srdc.icardea.model.variables.DataSource;
+			import com.adobe.protocols.dict.Database;
+			import tr.com.srdc.icardea.model.variables.Concept;
+			import tr.com.srdc.icardea.model.variables.Variable;
 			import mx.graphics.codec.PNGEncoder;
 			import mx.graphics.codec.JPEGEncoder;
 			import mx.messaging.channels.SecureAMFChannel;
@@ -521,7 +525,7 @@
 			
 			public function set careplan(careplan:MedicalCareplan):void{
 				
-				//diagram.clearAll();
+				diagram.clearAll();
 				this._careplan = careplan;
 				//trace("careplan.diagram: "+careplan.diagram)
 				//trace("careplan.careplan: "+careplan.careplan)
@@ -529,7 +533,7 @@
 				if(careplan.diagram != null && careplan.diagram != ""){
 	               
 	
-	                var body:Body = (FlexXBEngine.instance.deserialize(new XML(careplan.careplan), Body) as Body);
+	                var body:Body = (FlexXBEngine.instance.deserialize(new XML(careplan.careplan), MedicalCareplan) as MedicalCareplan).body;
 	                trace("body"+body)
 	                
 	                var algo:Algorithm = body.algorithm;
@@ -1196,7 +1200,9 @@
 
                 diagram.fromXML(new XML(content.diagram));
 
-                var body:Body = (FlexXBEngine.instance.deserialize(new XML(content.careplan), Body) as Body);
+                var medicalcp:MedicalCareplan = (FlexXBEngine.instance.deserialize(new XML(content.careplan), MedicalCareplan) as MedicalCareplan);
+                var body:Body = medicalcp.body;
+                
                 trace("careplan: "+content.careplan);
                 var algo:Algorithm = body.algorithm;
                 trace("Algo: "+body.algorithm);
@@ -1339,8 +1345,9 @@
 				var xml:String;
 				var algo:Algorithm = new Algorithm;
 				var body:Body = new Body;
+				var cp:MedicalCareplan = new MedicalCareplan;
 				
-			    for each (var value:Object in object_dic)
+				for each (var value:Object in object_dic)
 			    {
 			      	if(value is StartStep)
 			      		algo.startStep = value as StartStep;
@@ -1358,9 +1365,26 @@
 			      		algo.addRecord(value as RecordActionStep);			
 			      			
 			    }
+			    var dummyVar:Variable = new Variable;
+			    var dummyCon:Concept = new Concept;
+			    var dummySou:DataSource = new DataSource;
+			    dummyCon.name = "MDC_IDC_EPISODE_TYPE";
+			    dummyCon.code = "739568";
+			    dummyCon.schemeID = "MDC_IDC";
 			    
+			    dummySou.name = "Cardiac implant device";
+			    dummySou.code = "C0581396";
+			    dummySou.schemeID = "UMLS";
+			    
+			    dummyVar.name = "VTStatus";
+			    dummyVar.type = "boolean";
+			    dummyVar.concept.addItem(dummyCon);
+			    dummyVar.dataSource.addItem(dummySou);
+			   
+			    body.eligibilityCriteria.variable.addItem(dummyVar);
 			    body.algorithm=algo;
-			    xml = FlexXBEngine.instance.serialize(body);
+			    cp.body = body;
+			    xml = FlexXBEngine.instance.serialize(cp);
 			    trace("XMLemel: "+xml)
 			    trace("Diagram: "+diagram.toXML().toXMLString())
 			    
