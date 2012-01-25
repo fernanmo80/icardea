@@ -158,13 +158,14 @@ public class CareplanRepositoryServiceImpl implements
 			toBeFilledCareplan.setUrl(careplan.getContent());
 			String content = careplan.getContent();
 			if(content != null){
-				st = content.split("\\.");	
-				String cname = st[0]+".cp";
-				cname = cname.replace("https", "http");
-				cname = cname.replace("8443", "8080");
-				String dname = st[0]+".dgr";
-				dname = dname.replace("https", "http");
-				dname = dname.replace("8443", "8080");
+				st = content.split("owl");	
+				String cname = st[0]+"cp";
+				String dname = st[0]+"dgr";
+//				cname = cname.replace("https", "http");
+//				cname = cname.replace("8443", "8080");
+//				String dname = st[0]+".dgr";
+//				dname = dname.replace("https", "http");
+//				dname = dname.replace("8443", "8080");
 				URL url;
 				try {
 					url = new URL(cname);
