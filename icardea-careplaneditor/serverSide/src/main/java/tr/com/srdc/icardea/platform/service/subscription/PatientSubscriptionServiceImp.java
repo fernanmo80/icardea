@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.Security;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -32,9 +33,28 @@ import org.orm.PersistentException;
 public class PatientSubscriptionServiceImp implements
 	PatientSubscriptionService {
 
+	private void sslSetup() {
+		boolean atnatls = new Boolean(ResourceBundle.getBundle("icardea")
+				.getString("atna.tls")).booleanValue();
+		if (atnatls) {
+			// Properties for SSL Security Provider
+			System.out.println(" $$$$ SECURE COMMUNICATION .....");
+			String protocolProp = "java.protocol.handler.pkgs";
+			String sunSSLProtocol = "com.sun.net.ssl.internal.www.protocol";
+			String sslStoreProp = "javax.net.ssl.trustStore";
+			String certPath = ResourceBundle.getBundle("icardea").getString("icardea.home") + "/icardea-caremanager-ws/src/test/resources/jssecacerts";
+
+			// Enable SSL communication
+			System.setProperty(protocolProp, sunSSLProtocol);
+			Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+			System.setProperty(sslStoreProp, certPath);
+			System.setProperty("javax.net.ssl.trustStorePassword", "srdcpass");
+		}
+	}
 	@Override
 	public synchronized void registerPatient(Patient patient) {
 		// Patient
+		sslSetup();
 		try {
 			System.out.println(" $$$ Registering patrient:" + patient.getName());
 			tr.com.srdc.icardea.hibernate.Patient patientInDB = addPatient(
@@ -164,6 +184,7 @@ public class PatientSubscriptionServiceImp implements
 	public tr.com.srdc.icardea.hibernate.Patient addPatient(String pid,
 		String name, String surname, String birthDate, String gender)
 		throws Exception {
+		
 
 		/*if (birthDate.indexOf("-") < 0) {
 		String[] parts = birthDate.split("/");
@@ -237,6 +258,7 @@ public class PatientSubscriptionServiceImp implements
 
 	public tr.com.srdc.icardea.hibernate.Person addPerson(String id,
 		String name, String surname) throws Exception {
+		
 		PersistentTransaction transaction = ICardeaPersistentManager.instance().getSession().beginTransaction();
 		System.out.println(" $$$ Adding person:" + name);
 		tr.com.srdc.icardea.hibernate.Person personInDB = null;
@@ -266,6 +288,7 @@ public class PatientSubscriptionServiceImp implements
 
 	private PersonalizedMedicalCareplan[] assignCareplan2Patient(
 		List<MedicalCareplan> assignedCareplans, String patientId) {
+		sslSetup();
 		try {
 			PersistentTransaction transaction = ICardeaPersistentManager.instance().getSession().beginTransaction();
 			PersonalizedMedicalCareplanCriteria careplanCriteria = new PersonalizedMedicalCareplanCriteria();
@@ -329,6 +352,7 @@ public class PatientSubscriptionServiceImp implements
 //					dname = dname.replace("8443", "8080");
 					URL url;
 					try {
+						System.out.println("cname: "+cname);
 						url = new URL(cname);
 						BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 						String inputLine = "";
@@ -422,6 +446,7 @@ public class PatientSubscriptionServiceImp implements
 	}
 
 	private Patient patientFromDB(tr.com.srdc.icardea.hibernate.Patient patient) {
+		
 		Patient patientToBeFilled = new Patient();
 		patientToBeFilled.setGender(patient.getAdministrativeSex());
 		patientToBeFilled.setPersonID(patient.getCitizenshipNumber());
@@ -433,6 +458,7 @@ public class PatientSubscriptionServiceImp implements
 
 	private Contact contactFromDB(
 		tr.com.srdc.icardea.hibernate.Contact contactInDB) {
+		
 		Contact contact = new Contact();
 		contact.setEmail(contactInDB.getEmail());
 		contact.setMobileNumber(contactInDB.getMobileNumber());
@@ -446,6 +472,7 @@ public class PatientSubscriptionServiceImp implements
 	public tr.com.srdc.icardea.hibernate.Contact addContact(
 		tr.com.srdc.icardea.hibernate.Person personInDB, Contact contact)
 		throws Exception {
+		
 		System.out.println(" $$$ Adding contact for:"
 			+ personInDB.getIdentifier());
 		PersistentTransaction transaction = ICardeaPersistentManager.instance().getSession().beginTransaction();
@@ -475,6 +502,7 @@ public class PatientSubscriptionServiceImp implements
 
 	@Override
 	public synchronized List<Patient> listRegisteredPatients() {
+		sslSetup();
 		tr.com.srdc.icardea.hibernate.Patient[] patients = null;
 		try {
 			patients = tr.com.srdc.icardea.hibernate.Patient.listPatientByQuery(null, null);
@@ -600,7 +628,7 @@ public class PatientSubscriptionServiceImp implements
 
 	@Override
 	public synchronized void setSubscriptions(Patient p) {
-
+		
 		System.out.println("*****PATIENT SUBSCRIPTIONS*****");
 		System.out.println("Patient id(iCARDEA id): " + p.getPersonID());
 		System.out.println("EHR Subscriptions: " + p.getEhrSubscriptions());
@@ -652,6 +680,7 @@ public class PatientSubscriptionServiceImp implements
 		// } else {
 		// throw new IllegalArgumentException("Key does not exist" + id);
 		// }
+		
 		try {
 			System.out.println(" $$$ Deleting patient:" + patient.getPersonID());
 			PersistentTransaction transaction = ICardeaPersistentManager.instance().getSession().beginTransaction();
@@ -693,6 +722,7 @@ public class PatientSubscriptionServiceImp implements
 	@Override
 	public synchronized ArrayList<MedicalCareplan> listGuidelines(Patient p) {
 		// TODO Auto-generated method stub
+		sslSetup();
 		try {
 			System.out.println(" $$$ Listing careplans for patient:"
 				+ p.getPersonID());
@@ -702,6 +732,7 @@ public class PatientSubscriptionServiceImp implements
 			PersonalizedMedicalCareplanCriteria careplanCriteria = new PersonalizedMedicalCareplanCriteria();
 			careplanCriteria.patientIdentifier.eq(p.getPersonID());
 			PersonalizedMedicalCareplan[] careplansInDB = PersonalizedMedicalCareplan.listPersonalizedMedicalCareplanByCriteria(careplanCriteria);
+			String[] st;
 			for (int j = 0; j < careplansInDB.length; j++) {
 				MedicalCareplanTemplate medicalCareplanTemplate = careplansInDB[j].getMedicalCareplanTemplate();
 				MedicalCareplan medicalCareplan = new MedicalCareplan();
@@ -710,21 +741,21 @@ public class PatientSubscriptionServiceImp implements
 				medicalCareplan.setId(medicalCareplanTemplate.getIdentifier());
 				medicalCareplan.setName(medicalCareplanTemplate.getName());
 				medicalCareplan.setUrl(medicalCareplanTemplate.getContent());
-				String[] st;
+				
 				String content = medicalCareplanTemplate.getContent();
 				
 				if(content != null){
-					
 					st = content.split("owl");	
 					String cname = st[0]+"cp";
 					String dname = st[0]+"dgr";
 //					cname = cname.replace("https", "http");
 //					cname = cname.replace("8443", "8080");
-//					String dname = st[0]+".dgr";
 //					dname = dname.replace("https", "http");
 //					dname = dname.replace("8443", "8080");
 					URL url;
 					try {
+						//System.out.println("cname: "+cname);
+						//System.out.println("dname: "+dname);
 						url = new URL(cname);
 						BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 						String inputLine = "";
@@ -787,6 +818,7 @@ public class PatientSubscriptionServiceImp implements
 		// ////////Patient in caregiverslarini listeleyecek
 		// ////////patient.getCaregivers();
 		// Fill the caregivers
+		
 		System.out.println(" Listing the caregivers..." + patient);
 		List<Person> caregiversToBeFilled = new ArrayList();
 		System.out.println(" Listing the caregivers for patient:" + patient.getPersonID());
@@ -840,6 +872,7 @@ public class PatientSubscriptionServiceImp implements
 		Person caregiver) {
 		// ////////Yeni caregiver, patient in caregivers larina eklenecek
 		// ////////Normalde bu caregiver patient da bulunmuyor
+		
 		System.out.println(" $$$ Caregivers length:" + patient.getCaregivers().size());
 		patient.getCaregivers().add(caregiver);
 		registerPatient(patient);
@@ -852,6 +885,7 @@ public class PatientSubscriptionServiceImp implements
 		Person caregiver) {
 		// ////////Caregiver update edilecek
 		// ////////Normalde bu caregiver patient da bulunuyor
+		
 		ArrayList<Person> caregivers = patient.getCaregivers();
 		for (int i = 0; i < caregivers.size(); i++) {
 			Person currCareGiver = caregivers.get(i);
@@ -873,6 +907,7 @@ public class PatientSubscriptionServiceImp implements
 		Person caregiver) {
 		// ////////Caregiver delete edilecek
 		// ////////Normalde bu caregiver patient da bulunuyor
+		
 		ArrayList<Person> caregivers = patient.getCaregivers();
 		System.out.println("Patient caregiver size: " + patient.getCaregivers().size());
 		for (int i = 0; i < caregivers.size(); i++) {
