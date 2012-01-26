@@ -32,7 +32,10 @@ public class LoginServiceImpl implements LoginService {
 		ResourceBundle properties = ResourceBundle.getBundle("icardea");
 		String salkServer = properties.getString("salk.server");		
 		 
-		username=salkServer+"/idp/u="+username; //only valid for SALK server
+		boolean salkUsage = new Boolean(ResourceBundle.getBundle("icardea")
+				.getString("salk.usage")).booleanValue();
+		if(salkUsage == true)
+			username=salkServer+"/idp/u="+username; //only valid for SALK server
 		
 		DiscoveryInformation discovery = RegistrationService
 				.performDiscoveryOnUserSuppliedIdentifier(username);

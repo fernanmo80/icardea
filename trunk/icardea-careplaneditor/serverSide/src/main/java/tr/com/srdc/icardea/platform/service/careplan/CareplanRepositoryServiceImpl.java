@@ -161,9 +161,11 @@ public class CareplanRepositoryServiceImpl implements
 				st = content.split("owl");	
 				String cname = st[0]+"cp";
 				String dname = st[0]+"dgr";
+				//System.out.println("cname: " + cname);
+				//System.out.println("dname: " + dname);
+				
 //				cname = cname.replace("https", "http");
 //				cname = cname.replace("8443", "8080");
-//				String dname = st[0]+".dgr";
 //				dname = dname.replace("https", "http");
 //				dname = dname.replace("8443", "8080");
 				URL url;
@@ -215,6 +217,7 @@ public class CareplanRepositoryServiceImpl implements
 	@Override
 	public synchronized List<MedicalCareplan> createCareplan(
 		MedicalCareplan careplan) {
+		
 		try {
 			System.out.println(" $$$ Creating careplan in DB:"
 				+ careplan.getName());
@@ -279,6 +282,7 @@ public class CareplanRepositoryServiceImpl implements
 	@Override
 	public synchronized List<MedicalCareplan> updateCareplan(
 		MedicalCareplan careplan) {
+		
 		try {
 			System.out.println(" $$$ Updating careplan in DB:"
 				+ careplan.getName());
@@ -311,6 +315,7 @@ public class CareplanRepositoryServiceImpl implements
 	@Override
 	public synchronized List<MedicalCareplan> deleteCareplan(
 		MedicalCareplan careplan) {
+		
 		try {
 			System.out.println(" $$$ Deleting careplan in DB:"
 				+ careplan.getName());
