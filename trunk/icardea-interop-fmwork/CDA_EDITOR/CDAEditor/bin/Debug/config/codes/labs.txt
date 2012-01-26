@@ -1,0 +1,37 @@
+Potasium|2823-3|LOINC  
+Potassium measurement|C0202194|UMLS
+Hemoglobin measurement|C0518015|UMLS
+Hemoglobin measurement|16931-8|LOINC
+Platelet Count measurement|26515-7|LOINC
+Platelet Count measurement|C0032181|UMLS
+White Blood Cell Count procedure|804-5|LOINC
+White Blood Cell Count procedure|C0023508|UMLS
+Creatinine measurement|C0201975|UMLS
+Creatinine|2160-0|LOINC
+INR|6301-6|LOINC
+INR|C0525032|UMLS
+High density lipoprotein cholesterol measurement|C0392885|UMLS
+Low density lipoprotein cholesterol measurement|C0202117|UMLS
+Cholesterol measurement test|C0201950|UMLS
+Total Cholesterol|14647-2|LOINC
+Triglycerides|2571-8|LOINC
+Triglycerides measurement|C0202236|UMLS
+Hematocrit|20570-8|LOINC
+Hematocrit level|C0518014|UMLS
+Lactate dehydrogenase|C0202113|UMLS
+LDH|2527-0|LOINC
+Alkaline phosphatase measurement|15112-6|LOINC
+Alkaline phosphatase measurement|C0201850|UMLS
+Gamma-GT|2322-6|LOINC
+Gamma glutamyl transferase measurement|C0202035|UMLS
+Prothrombin time|3244-1|LOINC
+Prothrombin time assay|C0033707|UMLS
+GOT (AST)|26091008|SNOMEDCT
+GOT (AST)|C0004002|UMLS
+GPT (ALT)|1741-8|LOINC
+GPT (ALT)|C0201836|UMLS
+Sodium measurement|C0037473|UMLS
+Chloride Measurement|C0201952|UMLS
+Troponin T Measurement|C0077404|UMLS
+Fibrinogen measurement|3255-7|LOINC
+Activated Partial Thromboplastin Time measurement|42525009|SNOMEDCT
