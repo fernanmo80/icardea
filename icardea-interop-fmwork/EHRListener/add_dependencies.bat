@@ -1,3 +1,0 @@
-mvn install:install-file -Dfile=libs\HL7MLLPServer.jar -DgroupId=gr.ics.forth.icardea.mllp -DartifactId=HL7MLLPServer -Dversion=1.0 -DgeneratePom=true -Dpackaging=jar
-mvn install:install-file -Dfile=libs\cts-client-1.0-SNAPSHOT.jar -DgroupId=gr.ics.forth.icardea -DartifactId=cts-client -Dversion=1.0-SNAPSHOT -DgeneratePom=true -Dpackaging=jar
-mvn install:install-file -Dfile=libs\jpathwatch-0-94.jar -DgroupId=gr.ics.forth.icardea -DartifactId=jpathwatch -Dversion=0.94 -DgeneratePom=true -Dpackaging=jar
