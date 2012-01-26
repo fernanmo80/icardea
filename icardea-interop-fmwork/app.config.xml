@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+    <CDA_DIR>C:\PROJECTS\ICARDEA\CDA_EDITOR\src\CDAEditor\SharedDir</CDA_DIR>
+    <config>C:\PROJECTS\ICARDEA\Listener\EHRListener\config</config>
+    <!--config>C:\PROJECTS\ICARDEA\Listener\EHRListener\config</config-->
+    <xds>http://139.91.190.45:9080/xds/</xds>
+    <!--PIX_ip>localhost</PIX_ip>
+    <PIX_port>2004</PIX_port-->
+    <PIX_ip>139.91.190.45</PIX_ip>
+    <PIX_port>2575</PIX_port>
+    <VISIT2ID_ip>192.168.202.188</VISIT2ID_ip>
+    <VISIT2ID_port>11010</VISIT2ID_port>
+    <EDF_DIR>C:\PROJECTS\ICARDEA\Listener\EHRListener\EDF_DIR</EDF_DIR>
+    <CTS_URL>http://195.142.27.185:8080/ctsWS/services/RuntimeOperationsService/</CTS_URL>
+    <ATNA_ip>127.0.0.1</ATNA_ip>
+    <ATNA_port>2861</ATNA_port>
+</configuration>
