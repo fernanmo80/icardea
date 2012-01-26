@@ -1,5 +1,0 @@
-Insertion of drug-eluting coronary artery stent(s)|36,07|ICD09
-Defibrillators, Implantable|72506001|Snomedct
-Resuscitation: [external] or [DC shock (& defibrillation)]|180324004|Snomedct
-ICD Implanted (Medtronic Maximo II DR)|C0162589|UMLS
-CPR after sudden death|C0007203|UMLS
