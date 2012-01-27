@@ -536,6 +536,8 @@ public class ReceiverApplication extends Thread {
 			} else if (namespace.equalsIgnoreCase("cied")) {
 				patientID = identifier;
 			}
+			
+			// TODO: burada epsos identifier ve homecommunity id alip epsosclient ile register et....
 
 		}
 

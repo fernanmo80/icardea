@@ -8,7 +8,7 @@
 	<name>iCARDEA Configuration Project</name>
 	<packaging>pom</packaging>
 	<properties>		
-        <icardea.home>D:/srdc/codes/icardea-google/icardea</icardea.home>
+        <icardea.home>D:/yildiray/codes/icardea</icardea.home>
 		<mysql.host>localhost</mysql.host>
 		<mysql.username>root</mysql.username>
 		<mysql.password>icardea</mysql.password>		
@@ -38,5 +38,6 @@
 		<secure.port>8443</secure.port>
 		<!-- for SALK deployment end-->
 		<ppm.end>https://icardea-server.lksdom21.lks.local</ppm.end>
+		<xds.endpoint>https://icardea-server.lksdom21.lks.local/ehrif/xds/</xds.endpoint>
 	</properties>
 </project>
