@@ -126,6 +126,19 @@
 							</outputFile>
 						</configuration>
 					</execution>
+					<execution>
+						<id>propertiesForConsentInvoker</id>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>write-project-properties</goal>
+						</goals>
+						<configuration>
+							<outputFile>
+								${basedir}/icardea-phrs/phrweb/src/main/resources/icardea.properties
+							</outputFile>
+						</configuration>
+					</execution>
+
 				</executions>
 				<inherited>false</inherited>
 			</plugin>
