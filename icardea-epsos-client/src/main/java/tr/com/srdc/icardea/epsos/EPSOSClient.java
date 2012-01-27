@@ -41,7 +41,7 @@ public class EPSOSClient {
 	
 	public String retrieveDocument() {
 		// TODO: Burayi secure yap
-		this.epsosEndpoint = "http://localhost:8080/tr-xca/services/RespondingGateway_Service/";
+		//this.epsosEndpoint = "http://localhost:8080/tr-xca/services/RespondingGateway_Service/";
 		Test test = new Test(patientID, homeCommunityID, epsosEndpoint);
 		try {
 			return test.retrieveDocument(false);
@@ -50,13 +50,23 @@ public class EPSOSClient {
 		}
 		return null;
 	}
-	
+
+	public void registerDocument(String cda) {
+		try {
+			FORTHListener.Provide_Register("Document01", cda);
+		} catch(Exception ex) {
+			ex.printStackTrace();
+		}
+	}
+
 	public static void main(String argv[]) {
 		String homeCommunityID = "2.16.17.710.813.1000.990.1";
 		String patientID = "91982382558";
 
 		EPSOSClient test = new EPSOSClient(patientID, homeCommunityID);
-		System.out.println(test.retrieveDocument());
+		String cda = test.retrieveDocument();
+		test.registerDocument(cda);
+		System.out.println(cda);
 	}
 }
 
