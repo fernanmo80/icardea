@@ -1,3 +1,0 @@
-Age|1|LOINC
-Height|8302-2|LOINC
-Weight|3141-9|LOINC
