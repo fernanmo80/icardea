@@ -348,7 +348,7 @@
 	<module>icardea-ctsinvoker</module>
 	<module>icardea-consenteditor-invoker</module>
 	<module>icardea-atnalog-client</module>
-	<!--module>icardea-epsos-client</module-->
+	<module>icardea-epsos-client</module>
 </modules>
 <properties>
 	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
