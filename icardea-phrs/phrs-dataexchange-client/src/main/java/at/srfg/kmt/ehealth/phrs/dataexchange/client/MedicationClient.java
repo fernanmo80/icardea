@@ -46,7 +46,7 @@ public final class MedicationClient {
      * Holds the name for the creator, the instance responsible to create
      * medication instances with this client.
      */
-    private static final String CREATORN_NAME = MedicationClient.class.getName();
+    private String creator;
 
     /**
      * Used to persist/retrieve informations from the persistence layer.
@@ -63,6 +63,7 @@ public final class MedicationClient {
         ((GenericTriplestoreLifecycle) triplestore).init();
 
         schemeClient = new SchemeClient(triplestore);
+        creator = MedicationClient.class.getName();
     }
 
     /**
@@ -82,12 +83,33 @@ public final class MedicationClient {
         this.triplestore = triplestore;
 
         schemeClient = new SchemeClient(triplestore);
+        creator = MedicationClient.class.getName();
     }
 
     public String addMedicationSign(String user, String note, String statusURI,
             String startDate, String endDate, String frequencyURI,
             String adminRouteURI, String dosageValue, String dosageUnit,
-            String drugName, 
+            String drugName) throws TripleException {
+
+        final String result = addMedicationSign(user,
+                note,
+                statusURI,
+                startDate,
+                endDate,
+                frequencyURI,
+                adminRouteURI,
+                dosageValue,
+                dosageUnit,
+                drugName,
+                null);
+        LOGGER.debug("New medication  was added, the new added URI is : {}", result);
+        return result;
+    }
+
+    public String addMedicationSign(String user, String note, String statusURI,
+            String startDate, String endDate, String frequencyURI,
+            String adminRouteURI, String dosageValue, String dosageUnit,
+            String drugName,
             String drugCode) throws TripleException {
 
         final String subject =
@@ -113,7 +135,7 @@ public final class MedicationClient {
         // resource. 
         triplestore.persist(subject,
                 Constants.CREATOR,
-                CREATORN_NAME,
+                creator,
                 LITERAL);
 
         // HL7 specific informations.
@@ -134,14 +156,21 @@ public final class MedicationClient {
                 statusURI,
                 RESOURCE);
 
+
+        final String startDateStr = startDate == null
+                ? DateUtil.getFormatedDate(new Date())
+                : startDate;
         triplestore.persist(subject,
                 Constants.HL7V3_DATE_START,
-                startDate,
+                startDateStr,
                 LITERAL);
 
+        final String endDateStr = endDate == null
+                ? DateUtil.getFormatedDate(new Date())
+                : endDate;
         triplestore.persist(subject,
                 Constants.HL7V3_DATE_END,
-                endDate,
+                endDateStr,
                 LITERAL);
 
         triplestore.persist(subject,
@@ -160,9 +189,11 @@ public final class MedicationClient {
                 dosage,
                 RESOURCE);
 
+        final String buildManufacturedProduct =
+                buildManufacturedProduct(drugName, drugCode);
         triplestore.persist(subject,
                 "http://www.icardea.at/phrs/hl7V3#manufacturedProduct",
-                buildManufacturedProduct(drugName, drugCode),
+                buildManufacturedProduct,
                 RESOURCE);
 
         return subject;
@@ -321,6 +352,20 @@ public final class MedicationClient {
         triplestore.deleteForSubject(resourceURI);
     }
 
+    /**
+     * Frequency graph used when the frequency information is now sufficent to
+     * build a meningfully Frequency graph.
+     *
+     * @return
+     * @throws TripleException
+     */
+    public String buildNullFrequency() throws TripleException {
+        // TODO : build a singular instance of this and sore it in the rdf file.
+        final String result =
+                buildFrequency("No Event", -1, 0, Constants.MILLIGRAM);
+        return result;
+    }
+
     public String buildFrequency(String event, int offset, int value,
             String unitURI) throws TripleException {
 
@@ -330,7 +375,7 @@ public final class MedicationClient {
 
         triplestore.persist(subject,
                 Constants.CREATOR,
-                CREATORN_NAME,
+                creator,
                 LITERAL);
 
         if (event != null) {
@@ -367,7 +412,7 @@ public final class MedicationClient {
 
         triplestore.persist(subject,
                 Constants.CREATOR,
-                CREATORN_NAME,
+                creator,
                 LITERAL);
 
         // generic informarion (beside the 'OWNER' they are not really relevant 
@@ -395,12 +440,12 @@ public final class MedicationClient {
 
         final String result =
                 triplestore.persist(Constants.RDFS_TYPE,
-                "http://www.icardea.at/phrs/types/1.0/ManufacturedProduct",
+                Constants.MANUFACTURED_PRODUCT_CLASS,
                 LITERAL);
 
         triplestore.persist(result,
                 Constants.CREATOR,
-                CREATORN_NAME,
+                creator,
                 LITERAL);
 
         // generic informarion (beside the 'OWNER' they are not really relevant 
@@ -411,29 +456,29 @@ public final class MedicationClient {
                 LITERAL);
 
         triplestore.persist(result,
-                "http://www.icardea.at/phrs/hl7V3#classCode",
+                Constants.HL7_CLASS_CODE,
                 "MANU",
                 LITERAL);
 
         triplestore.persist(result,
-                "http://www.icardea.at/phrs/hl7V3#manufacturedLabeledDrug",
+                Constants.MANUFACTURED_LABEL_DRUG,
                 buildManufacturedLabeledDrug(drugName, drugCode),
                 RESOURCE);
-
 
         return result;
     }
 
-    public String buildManufacturedLabeledDrug(String drugName, String drugCode) throws TripleException {
+    public String buildManufacturedLabeledDrug(String drugName, String drugCode)
+            throws TripleException {
 
         final String result =
                 triplestore.persist(Constants.RDFS_TYPE,
-                "http://www.icardea.at/phrs/types/1.0/ManufacturedLabeledDrug",
+                Constants.MANUFACTURED_LABEL_DRUG_CLASS,
                 LITERAL);
 
         triplestore.persist(result,
                 Constants.CREATOR,
-                CREATORN_NAME,
+                creator,
                 LITERAL);
 
         // generic informarion (beside the 'OWNER' they are not really relevant 
@@ -444,20 +489,27 @@ public final class MedicationClient {
                 LITERAL);
 
         triplestore.persist(result,
-                "http://www.icardea.at/phrs/hl7V3#classCode",
+                Constants.HL7_CLASS_CODE,
                 "MANU",
                 LITERAL);
 
         triplestore.persist(result,
-                "http://www.icardea.at/phrs/hl7V3#determinerCode",
+                Constants.HL7_DETERMINER_CODE,
                 "KIND",
                 LITERAL);
 
-        triplestore.persist(result,
-                Constants.HL7V3_CODE,
-                buildCode(drugName, drugCode),
-                RESOURCE);
+        if (drugCode != null) {
 
+            triplestore.persist(result,
+                    Constants.HL7V3_CODE,
+                    buildCode(drugName, drugCode),
+                    RESOURCE);
+        } else {
+            triplestore.persist(result,
+                    Constants.HL7V3_DRUG_NAME,
+                    drugName,
+                    LITERAL);
+        }
 
         return result;
     }
@@ -467,20 +519,43 @@ public final class MedicationClient {
                 triplestore.persist(Constants.HL7V3_VALUE,
                 code,
                 LITERAL);
-        
+
         triplestore.persist(result,
                 Constants.SKOS_PREFLABEL,
                 name,
                 LITERAL);
-        
+
         triplestore.persist(result,
                 Constants.CODE_SYSTEM,
                 "http://www.icardea.at/phrs/instances/codeSystem/Ulms",
                 RESOURCE);
-        
-        
+
+
         return result;
     }
-    
-    
+
+    /**
+     * Registers a new creator for all the resources generated with this client.
+     * All the generated resources will gain a triple with the predicate :
+     * <code>Constants.CREATOR</code> and the value specified with the argument
+     * <code>creator</code>.
+     *
+     * @param creator the new owner for this client, it can not be null.
+     * @throws NullPointerException if the
+     * <code>creator</code> argument is null.
+     */
+    public void setCreator(String creator) {
+        if (creator == null) {
+            final NullPointerException exception =
+                    new NullPointerException("The creator argument can not be null.");
+            LOGGER.error(exception.getMessage(), exception);
+            throw exception;
+        }
+
+        this.creator = creator;
+    }
+
+    public String getCreator() {
+        return creator;
+    }
 }

@@ -8,19 +8,14 @@
 package at.srfg.kmt.ehealth.phrs.dataexchange.client;
 
 
-import at.srfg.kmt.ehealth.phrs.persistence.api.Triple;
-import at.srfg.kmt.ehealth.phrs.persistence.api.ValueType;
-import java.util.HashSet;
-import java.util.Set;
-import static org.junit.Assert.*;
 import at.srfg.kmt.ehealth.phrs.Constants;
-import at.srfg.kmt.ehealth.phrs.persistence.api.GenericRepositoryException;
-import at.srfg.kmt.ehealth.phrs.persistence.api.GenericTriplestore;
-import at.srfg.kmt.ehealth.phrs.persistence.api.GenericTriplestoreLifecycle;
-import at.srfg.kmt.ehealth.phrs.persistence.api.TripleException;
+import at.srfg.kmt.ehealth.phrs.persistence.api.*;
 import at.srfg.kmt.ehealth.phrs.persistence.impl.TriplestoreConnectionFactory;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Set;
 import org.junit.After;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.slf4j.Logger;
@@ -133,8 +128,6 @@ public class MedicationClientUnitTest {
                 rootIds.add(value);
             }
 
-
-
             if (predicate.equals(Constants.SKOS_NOTE)) {
                 assertEquals(NOTE, value);
             }
@@ -144,12 +137,11 @@ public class MedicationClientUnitTest {
 
         final Set<String> expectedRootId = new HashSet<String>();
         // all this three describes a medication
-        expectedRootId.add(Constants.IMUNISATION);
-        expectedRootId.add(Constants.MEDICATION);
+        expectedRootId.add(Constants.MEDICATION_NORMAL_DOSING);
         assertEquals(expectedRootId, rootIds);
 
-        // the medication has 13 tripels, see the documentaion for VitalSignClient
-        assertEquals(14, count);
+        // the medication has 13 tripels, see the documentaion for Medication
+        assertEquals(13, count);
 
         final boolean exists = triplestore.exists(resourceURI);
         assertTrue(exists);
@@ -183,7 +175,7 @@ public class MedicationClientUnitTest {
                 "MyFreqency",
                 Constants.HL7V3_ORAL_ADMINISTRATION,
                 "1",
-                "pillURI",
+                Constants.PILL,
                 "MyDrug",
                 "MyDrugCode");
         assertNotNull(resourceURI);
@@ -196,7 +188,7 @@ public class MedicationClientUnitTest {
 
         // update the existentn dosage
         medicationClient.updateMedication(resourceURI,
-                Constants.PHRS_MEDICATION_DOSAGE,
+                Constants.HL7V3_DOSAGE,
                 newDosageURI);
 
         final Iterable<String> medicationURIForUser =
@@ -206,7 +198,7 @@ public class MedicationClientUnitTest {
         assertTrue(iterator.hasNext());
         final String medicationURI = iterator.next();
         final Iterable<String> dosageURIs =
-                triplestore.getForSubjectAndPredicate(medicationURI, Constants.PHRS_MEDICATION_DOSAGE);
+                triplestore.getForSubjectAndPredicate(medicationURI, Constants.HL7V3_DOSAGE);
         
         proveDosage(dosageURIs.iterator().next(), newDossageValue, newDosageUnit);
     }
