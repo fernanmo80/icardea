@@ -164,10 +164,10 @@ public class CareplanRepositoryServiceImpl implements
 				//System.out.println("cname: " + cname);
 				//System.out.println("dname: " + dname);
 				
-//				cname = cname.replace("https", "http");
-//				cname = cname.replace("8443", "8080");
-//				dname = dname.replace("https", "http");
-//				dname = dname.replace("8443", "8080");
+				cname = cname.replace("https", "http");
+				cname = cname.replace("8443", "8080");
+				dname = dname.replace("https", "http");
+				dname = dname.replace("8443", "8080");
 				URL url;
 				try {
 					url = new URL(cname);
