@@ -345,11 +345,11 @@ public class PatientSubscriptionServiceImp implements
 					st = content.split("owl");	
 					String cname = st[0]+"cp";
 					String dname = st[0]+"dgr";
-//					cname = cname.replace("https", "http");
-//					cname = cname.replace("8443", "8080");
+					cname = cname.replace("https", "http");
+					cname = cname.replace("8443", "8080");
 //					String dname = st[0]+".dgr";
-//					dname = dname.replace("https", "http");
-//					dname = dname.replace("8443", "8080");
+					dname = dname.replace("https", "http");
+					dname = dname.replace("8443", "8080");
 					URL url;
 					try {
 						System.out.println("cname: "+cname);
@@ -748,10 +748,10 @@ public class PatientSubscriptionServiceImp implements
 					st = content.split("owl");	
 					String cname = st[0]+"cp";
 					String dname = st[0]+"dgr";
-//					cname = cname.replace("https", "http");
-//					cname = cname.replace("8443", "8080");
-//					dname = dname.replace("https", "http");
-//					dname = dname.replace("8443", "8080");
+					cname = cname.replace("https", "http");
+					cname = cname.replace("8443", "8080");
+					dname = dname.replace("https", "http");
+					dname = dname.replace("8443", "8080");
 					URL url;
 					try {
 						//System.out.println("cname: "+cname);
