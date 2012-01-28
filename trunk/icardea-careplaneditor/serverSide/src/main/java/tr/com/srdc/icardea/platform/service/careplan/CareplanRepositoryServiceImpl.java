@@ -161,13 +161,14 @@ public class CareplanRepositoryServiceImpl implements
 				st = content.split("owl");	
 				String cname = st[0]+"cp";
 				String dname = st[0]+"dgr";
-				//System.out.println("cname: " + cname);
-				//System.out.println("dname: " + dname);
-				
-				cname = cname.replace("https", "http");
-				cname = cname.replace("8443", "8080");
-				dname = dname.replace("https", "http");
-				dname = dname.replace("8443", "8080");
+				boolean salkUsage = new Boolean(ResourceBundle.getBundle("icardea")
+						.getString("salk.usage")).booleanValue();
+				if(salkUsage == false){
+					cname = cname.replace("https", "http");
+					cname = cname.replace("8443", "8080");
+					dname = dname.replace("https", "http");
+					dname = dname.replace("8443", "8080"); 
+				}
 				URL url;
 				try {
 					url = new URL(cname);
