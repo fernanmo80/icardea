@@ -34,9 +34,9 @@ public class LoginServiceImpl implements LoginService {
 		 
 		boolean salkUsage = new Boolean(ResourceBundle.getBundle("icardea")
 				.getString("salk.usage")).booleanValue();
-		if(salkUsage == true)
+		if(salkUsage == true){
 			username=salkServer+"/idp/u="+username; //only valid for SALK server
-		
+		}
 		DiscoveryInformation discovery = RegistrationService
 				.performDiscoveryOnUserSuppliedIdentifier(username);
 		String url = RegistrationService.getReturnToUrl();
