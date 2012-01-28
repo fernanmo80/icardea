@@ -1,3 +1,86 @@
+<MedicalCareplan name="VT Careplan" ID="VTCareplan" version="2.0" xsi:noNamespaceSchemaLocation="Careplan.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Header>
+    <MedicalDomainExpert personID="P1">
+      <ID schemeID="TCKN">14920263490</ID>
+      <Name>Yildiray</Name>
+      <Surname>Kabak</Surname>
+      <Title>Doctor</Title>
+      <Organization>
+	<Name>SRDC Ltd.</Name>
+	<Contact>
+	  <AddressLine>ODTU Technopolis, Silicon Block, No:14, 06531, Cankaya, Ankara</AddressLine>
+	  <PhoneNumber>+90 312 2101763</PhoneNumber>
+	  <FaxNumber>+90 312 2101763</FaxNumber>
+	</Contact>
+      </Organization>
+    </MedicalDomainExpert>
+    <CareplanReviewer personID="P2">
+      <ID schemeID="TCKN">14920263555</ID>
+      <Name>Gokce</Name>
+      <Surname>Laleci</Surname>
+      <Title>Doctor</Title>
+      <Organization>
+	<Name>SRDC Ltd.</Name>
+	<Contact>
+	  <AddressLine>ODTU Technopolis, Silicon Block, No:14, 06531, Cankaya, Ankara</AddressLine>
+	  <PhoneNumber>+90 312 2101763</PhoneNumber>
+	  <FaxNumber>+90 312 2101763</FaxNumber>
+	</Contact>
+      </Organization>
+    </CareplanReviewer>
+    <HealthcareActor personID="P3">
+      <ID schemeID="TCKN">14920263556</ID>
+      <Name>Tuncay</Name>
+      <Surname>Namli</Surname>
+      <Title>Doctor</Title>
+      <Contact>
+	<PhoneNumber>+90 312 2101763</PhoneNumber>
+	<MobilePhoneNumber>+90 532 2101763</MobilePhoneNumber>
+	<Email>tuncay@srdc.com.tr</Email>
+	<FaxNumber>+90 312 2101763</FaxNumber>
+	<GTalk>tuncay.namli@gmail.com</GTalk>
+      </Contact>
+      <Organization>
+	<Name>SRDC Ltd.</Name>
+	<Contact>
+	  <AddressLine>ODTU Technopolis, Silicon Block, No:14, 06531, Cankaya, Ankara</AddressLine>
+	  <PhoneNumber>+90 312 2101763</PhoneNumber>
+	  <FaxNumber>+90 312 2101763</FaxNumber>
+	</Contact>
+      </Organization>
+    </HealthcareActor>
+    <!--The patient information will be inserted here at the personalization step-->
+    <Patient personID="P4">
+      <ID schemeID="TCKN">149202063491</ID>
+      <ID schemeID="CIED">MODEL:XXX/SERIAL:YYY</ID>
+      <Name>Jane</Name>
+      <Middlename>Mayr</Middlename>
+      <Surname>Mayr</Surname>
+      <Organization>
+	<Name>SRDC Ltd.</Name>
+	<Contact>
+	  <AddressLine>ODTU Technopolis, Silicon Block, No:14, 06531, Cankaya, Ankara</AddressLine>
+	  <PhoneNumber>+90 312 2101763</PhoneNumber>
+	  <FaxNumber>+90 312 2101763</FaxNumber>
+	</Contact>
+      </Organization>
+    </Patient>
+    <History ID="H1">
+      <Version>1.0</Version>
+      <DateTime>2001-10-26T21:32:52</DateTime>
+      <Description>The following changes are performed because....</Description>
+      <ChangedBy ref="P1"/>
+    </History>
+    <History ID="H2">
+      <Version>2.0</Version>
+      <DateTime>2001-10-26T21:32:52</DateTime>
+      <ChangedBy ref="P2"/>
+    </History>
+    <CreatedBy ref="P1"/>
+    <ApprovedBy ref="P2"/>
+    <PersonalizedBy ref="P3"/>
+    <PersonalizedForPatient ref="P4"/>
+  </Header>
 <Body>
     <EligibilityCriteria>
       <Variable name="VTStatus" type="boolean">
@@ -3971,3 +4054,4 @@
     </ConsultStep>
   </Algorithm>
 </Body>
+</MedicalCareplan>
