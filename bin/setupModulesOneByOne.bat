@@ -9,4 +9,4 @@ call mvn -o install -f ..\icardea-caremanager-ws\pom.xml -Dmaven.test.skip=true
 call mvn -o install -f ..\icardea-careplanengine\pom.xml -Dmaven.test.skip=true 
 call mvn -o install -f ..\icardea-careplaneditor\pom.xml -Dmaven.test.skip=true
 call mvn -o install -f ..\icardea-atnalog-client\pom.xml -Dmaven.test.skip=true
-rem call mvn -o install -f ..\icardea-epsos-client\pom.xml -Dmaven.test.skip=true
+call mvn -o install -f ..\icardea-epsos-client\pom.xml -Dmaven.test.skip=true
