@@ -523,22 +523,32 @@ public class ReceiverApplication extends Thread {
 		String email = "";
 		String mobilePhone = "";
 		String homePhone = "";
+		String epSOSID = null;
+		String homeCommunityID = null;
 
 		for (int i = 0; i < patientIdentifierList.length; i++) {
 			CX patientIdentifier = patientIdentifierList[i];
 			String namespace = patientIdentifier.getAssigningAuthority()
 					.getNamespaceID().getValue();
+			String identifierTypeCode = patientIdentifier.getIdentifierTypeCode() != null ? patientIdentifier.getIdentifierTypeCode().getValue() : "" ; 
 			String identifier = patientIdentifier.getIDNumber().getValue();
-			if (namespace.equalsIgnoreCase("icardea.pix")) {
+			if (namespace.equalsIgnoreCase("icardea.pix") || namespace.indexOf("icardea") != -1) {
 				citizenshipID = identifier;
 			} else if (namespace.equalsIgnoreCase("orbis")) {
 				orbisID = identifier;
 			} else if (namespace.equalsIgnoreCase("cied")) {
 				patientID = identifier;
+			} else if (identifierTypeCode.equalsIgnoreCase("epsos")) {
+				epSOSID = identifier;
+				homeCommunityID = namespace;
 			}
 			
-			// TODO: burada epsos identifier ve homecommunity id alip epsosclient ile register et....
-
+		}
+		
+		if(epSOSID != null) {
+			tr.com.srdc.icardea.epsos.EPSOSClient epsosClient = new tr.com.srdc.icardea.epsos.EPSOSClient(epSOSID, homeCommunityID);
+			String cda = epsosClient.retrieveDocument();
+			epsosClient.registerDocument(cda);
 		}
 
 		PatientCriteria patientCriteria = null;
