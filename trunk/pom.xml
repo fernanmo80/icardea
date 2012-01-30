@@ -127,7 +127,7 @@
 						</configuration>
 					</execution>
 					<execution>
-						<id>propertiesForConsentInvoker</id>
+						<id>propertiesForPHRS</id>
 						<phase>generate-resources</phase>
 						<goals>
 							<goal>write-project-properties</goal>
