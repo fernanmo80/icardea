@@ -54,6 +54,7 @@ echo Installing the databases
 
 call mvn install -DcreateDatabases=true -DinstallApacheAndMongo=true -Dmaven.test.skip=true -f ..\pom.xml
 call mvn -o install -f ..\icardea-careplanengine\pom.xml -DafCareplan=true
+call mvn -o install -f ..\icardea-careplanengine\pom.xml -DtechCareplan=true
 
 
 echo 
