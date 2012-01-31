@@ -546,9 +546,9 @@ public class ReceiverApplication extends Thread {
 		}
 		
 		if(epSOSID != null) {
-			tr.com.srdc.icardea.epsos.EPSOSClient epsosClient = new tr.com.srdc.icardea.epsos.EPSOSClient(epSOSID, homeCommunityID);
+			/*tr.com.srdc.icardea.epsos.EPSOSClient epsosClient = new tr.com.srdc.icardea.epsos.EPSOSClient(epSOSID, homeCommunityID);
 			String cda = epsosClient.retrieveDocument();
-			epsosClient.registerDocument(cda);
+			epsosClient.registerDocument(cda);*/
 		}
 
 		PatientCriteria patientCriteria = null;

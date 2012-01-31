@@ -239,11 +239,11 @@
 			<version>1.0-SNAPSHOT</version>
 			<type>jar</type>
 		</dependency>
-		<dependency>
+		<!--dependency>
 			<groupId>tr.com.srdc.icardea</groupId>
 			<artifactId>icardea-epsos-client</artifactId>
 			<version>1.0-SNAPSHOT</version>
-		</dependency>
+		</dependency-->
 		<dependency>
 			<groupId>org.vp</groupId>
 			<artifactId>vp</artifactId>
