@@ -45,10 +45,10 @@ call mvn install:install-file -DgroupId=org.wicket -DartifactId=wicket -Dversion
 
 echo Installing additional libraries for Epsos
 
-call mvn install:install-file -DgroupId=tr.com.srdc.epsos -DartifactId=epsos-util -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar -Dfile=..\tools_resources\EPSOS_CONFIG\epsos-util-0.0.1-SNAPSHOT.jar
-call mvn install:install-file -DgroupId=tr.com.srdc.epsos -DartifactId=epsos-data-model -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar -Dfile=..\tools_resources\EPSOS_CONFIG\epsos-data-model-0.0.1-SNAPSHOT.jar
-call mvn install:install-file -DgroupId=tr.com.srdc.epsos -DartifactId=epsos-security-man -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar -Dfile=..\tools_resources\EPSOS_CONFIG\epsos-security-man-0.0.1-SNAPSHOT.jar
-call mvn install:install-file -DgroupId=tr.com.srdc.epsos -DartifactId=epsos-xca-ws-client -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar -Dfile=..\tools_resources\EPSOS_CONFIG\epsos-xca-ws-client-0.0.1-SNAPSHOT.jar
+rem call mvn install:install-file -DgroupId=tr.com.srdc.epsos -DartifactId=epsos-util -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar -Dfile=..\tools_resources\EPSOS_CONFIG\epsos-util-0.0.1-SNAPSHOT.jar
+rem call mvn install:install-file -DgroupId=tr.com.srdc.epsos -DartifactId=epsos-data-model -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar -Dfile=..\tools_resources\EPSOS_CONFIG\epsos-data-model-0.0.1-SNAPSHOT.jar
+rem call mvn install:install-file -DgroupId=tr.com.srdc.epsos -DartifactId=epsos-security-man -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar -Dfile=..\tools_resources\EPSOS_CONFIG\epsos-security-man-0.0.1-SNAPSHOT.jar
+rem call mvn install:install-file -DgroupId=tr.com.srdc.epsos -DartifactId=epsos-xca-ws-client -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar -Dfile=..\tools_resources\EPSOS_CONFIG\epsos-xca-ws-client-0.0.1-SNAPSHOT.jar
 
 echo Installing the databases
 
