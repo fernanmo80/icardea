@@ -11,6 +11,7 @@ package at.srfg.kmt.ehealth.phrs.ws.soap.pcc10;
 import at.srfg.kmt.ehealth.phrs.Constants;
 import at.srfg.kmt.ehealth.phrs.dataexchange.client.DynaBeanClient;
 import at.srfg.kmt.ehealth.phrs.dataexchange.client.MedicationClient;
+import at.srfg.kmt.ehealth.phrs.dataexchange.util.DynaBeanUtil;
 import at.srfg.kmt.ehealth.phrs.persistence.api.GenericTriplestore;
 import at.srfg.kmt.ehealth.phrs.persistence.api.GenericTriplestoreLifecycle;
 import at.srfg.kmt.ehealth.phrs.persistence.api.TripleException;
@@ -79,7 +80,7 @@ final class MedicationTask implements PCCTask {
         // TODO : use constants here
         final boolean isMedication = CARE_PROVISION_CODE.equals(code);
         if (!isMedication) {
-            LOGGER.debug("This code : {} is not a medication code.");
+            LOGGER.debug("This code : {} is not a medication code.", code);
             return false;
         }
 
@@ -117,7 +118,7 @@ final class MedicationTask implements PCCTask {
         final String responseURI = (String) properties.get("responseEndpointURI");
 
         try {
-            final QUPCIN043200UV01 request = buildMessage();
+            final QUPCIN043200UV01 request = buildMessage(responseURI);
             LOGGER.info("Tries to send this {} PCC10 query to the endpoint {}",
                     request, responseURI);
 
@@ -163,37 +164,34 @@ final class MedicationTask implements PCCTask {
         LOGGER.debug("{} = {}", passwdProp, passwd);
     }
 
-    private QUPCIN043200UV01 buildMessage()
+    private QUPCIN043200UV01 buildMessage(String wsAddress)
             throws TripleException, IllegalAccessException, InstantiationException {
 
-               final String owner = "testOwner";
+        final String owner = Constants.PROTOCOL_ID_UNIT_TEST;
         final TriplestoreConnectionFactory connectionFactory =
                 TriplestoreConnectionFactory.getInstance();
         final GenericTriplestore triplestore = connectionFactory.getTriplestore();
-
         final MedicationClient client = new MedicationClient(triplestore);
-        client.addMedicationSign(
-                owner,
-                "Free text note for the medication.",
-                Constants.STATUS_COMPELETE,
-                "200812010000",
-                "201106101010",
-                client.buildFrequency("morgen", -1, 8, Constants.HOUR),
-                Constants.HL7V3_ORAL_ADMINISTRATION,
-                "25",
-                Constants.MILLIGRAM,
-                "Drug-Eluting Stents",
-                "C1322815");
-
         final Iterable<String> uris = client.getMedicationURIsForUser(owner);
         final DynaBeanClient dynaBeanClient = new DynaBeanClient(triplestore);
         final Set<DynaBean> beans = new HashSet<DynaBean>();
         for (String uri : uris) {
             final DynaBean dynaBean = dynaBeanClient.getDynaBean(uri);
-            beans.add(dynaBean);
+            final boolean wasDistpached = wasDistpachedTo(dynaBean, wsAddress);
+            if (!wasDistpached) {
+                beans.add(dynaBean);
+                client.setDispathedTo(uri, wsAddress);
+            }
         }
 
-         // TAKE CARE !!!!!!
+        final int medicationCount = beans.size();
+        LOGGER.debug("The total amount of Medication Entries for user {} is {}",
+                owner, medicationCount);
+        if (medicationCount == 0) {
+            LOGGER.warn("No Medication  for this user {}, the HL7 V3 message will be empty.", owner);
+        }
+
+        // TAKE CARE !!!!!!
         // This lines wipe out the triple store repository files.
         try {
             ((GenericTriplestoreLifecycle) triplestore).shutdown();
@@ -201,9 +199,25 @@ final class MedicationTask implements PCCTask {
         } catch (Exception exception) {
             LOGGER.warn(exception.getMessage(), exception);
         }
-        
+
         final QUPCIN043200UV01 pcc10Message = MedicationSignPCC10.getPCC10Message(beans);
         return pcc10Message;
+    }
+
+    private boolean wasDistpachedTo(DynaBean dynaBean, String wsAddress) {
+        final String distpachedTo;
+        try {
+            distpachedTo = (String) dynaBean.get(Constants.DISTPATCH_TO);
+        } catch (IllegalArgumentException exception) {
+            LOGGER.debug("This bean {} was not distpached at all.", 
+                    DynaBeanUtil.toString(dynaBean));
+            return false;
+        }
+
+        final boolean wasDispathed = wsAddress.equals(distpachedTo);
+        LOGGER.debug("This bean {} was already distpached to {}.",
+                DynaBeanUtil.toString(dynaBean), wsAddress);
+        return wasDispathed;
     }
 
     /**

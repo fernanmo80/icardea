@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+    Document   : generic_triplestore_file_local.xml.xml
+    Created on : August 19, 2011, 2:04 PM
+    Author     : The M1s
+    Description:
+       Example for the Generic triple store configurartion for memory sail
+       reporitory.
+-->
+
+<triplestore-definition>
+    <!--
+    <memorysail>
+     
+        <filedump>
+      
+            ${HOME_DIR}/.icardea/test/sesame
+        </filedump>
+    </memorysail>
+
+    <postconstruct>
+    
+        
+        <loadfiles>
+    
+            startup.test.rdf
+        </loadfiles>
+    </postconstruct>
+    -->
+        <remote>
+        <uri>http://localhost:6060/openrdf-sesame</uri>
+        
+        <repository-id>phrs1</repository-id>
+    </remote>
+
+    <postconstruct>
+      
+        <loadfiles>
+ 
+            startup.core.rdf
+        </loadfiles>
+    </postconstruct>
+</triplestore-definition>
