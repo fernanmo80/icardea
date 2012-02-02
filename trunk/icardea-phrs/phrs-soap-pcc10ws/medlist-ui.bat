@@ -1,5 +1,5 @@
 cls
-call title Medcatlist Drone UI
+call title Drone UI Medcatlist 
 
 call mvn clean compile
 call mvn test-compile
