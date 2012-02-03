@@ -546,6 +546,7 @@ public class ReceiverApplication extends Thread {
 		}
 		
 		if(epSOSID != null) {
+			Logger.getLogger(ReceiverApplication.class).log(Level.INFO, "epSOS ID: "+ epSOSID + " homeCommunityID: " +homeCommunityID);
 			tr.com.srdc.icardea.epsos.EPSOSClient epsosClient = new tr.com.srdc.icardea.epsos.EPSOSClient(epSOSID, homeCommunityID);
 			String cda = epsosClient.retrieveDocument();
 			Logger.getLogger(ReceiverApplication.class).log(Level.INFO, "Retrieved CDA document... "+ cda);
