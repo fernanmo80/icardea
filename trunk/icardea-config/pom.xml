@@ -9,6 +9,7 @@
 	<packaging>pom</packaging>
 	<properties>		
         <icardea.home>D:/srdc/codes/icardea-google/icardea</icardea.home>
+        <xds.endpoint>https://icardea-server.lksdom21.lks.local/ehrif/xds/</xds.endpoint>
 		<mysql.host>localhost</mysql.host>
 		<mysql.username>root</mysql.username>
 		<mysql.password>icardea</mysql.password>		
@@ -37,6 +38,6 @@
 		<salk.server>https://icardea-server.lksdom21.lks.local</salk.server>
 		<secure.port>8443</secure.port>
 		<!-- for SALK deployment end-->
-		<ppm.end>https://icardea-server.lksdom21.lks.local</ppm.end>
+		<ppm.end>https://icardea-server.lksdom21.lks.local:8443/ppm_v2/view?startup=de.offis.health.icardea.ppm.viewapp</ppm.end>
 	</properties>
 </project>
