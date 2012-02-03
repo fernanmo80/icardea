@@ -67,6 +67,7 @@ public class CareManager {
 			String sslStoreProp = "javax.net.ssl.trustStore";
 			String truststoreFile = ResourceBundle.getBundle("icardea")
 					.getString("tomcat.home") + "conf/.truststore";
+			System.out.println(" $$$ Trust store file path:"+truststoreFile);
 
 			// Enable SSL communication
 			System.setProperty(protocolProp, sunSSLProtocol);
