@@ -2,32 +2,61 @@
 <p>So this is an OpenID Provider for iCARDEA that supports the authentication of the
 users using the Windows 'Domain Controller'. </p>
 <h2>Install</h2>
-<p>We assume a Windows machine is used for the installation of this server since some
-windows specific APIs are used for authenticating users. Also the code is written in
-<a href="http://www.python.org/">Python</a> and therefore it should be the first to be
-installed. </p>
-<p>Now in addition to Python the following python modules should be installed (either
-using <a href="http://pypi.python.org/pypi/setuptools">easy_install</a>, or
-<a href="http://pypi.python.org/pypi/pip">pip</a> or even by finding a <a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/">Windows precompiled
-binary</a>):</p>
+<p>We assume a Windows machine is used for the installation of this server
+since some windows specific APIs are used for authenticating users. Also
+the code is written in <a href="http://www.python.org/">Python</a> and therefore it
+should be the first to be installed.  Please keep in mind that we
+support Python 2.x
+(<a href="http://www.python.org/download/releases/2.7.2/">2.7.2</a> at the time of
+this writting), i.e. <strong>not the 3.x</strong> version thereof!!</p>
+<p>Now in addition to Python the following python modules should be installed:</p>
 <ul>
-<li><a href="http://pywin32.sourceforge.net/">pywin32</a></li>
-<li>bottle</li>
-<li>jinja2</li>
-<li>bottle_sqlite</li>
-<li>python-openid</li>
-<li>beaker</li>
-<li><a href="http://timgolden.me.uk/python/ad_cookbook.html">active_directory</a></li>
+<li>
+<p><a href="http://starship.python.net/crew/mhammond/win32/Downloads.html">pywin32</a>.
+   You can find a setup for Python 2.7 in the
+   <a href="http://icardea.googlecode.com/svn/trunk/tools_resources/python/">tools_resources/python</a>
+   directory in the Google Code repository.</p>
+</li>
+<li>
+<p>Various python libs: bottle, jinja2, bottle_sqlite, python-openid,
+   beaker. You can install them all together either using
+   <a href="http://pypi.python.org/pypi/setuptools">easy_install</a>, or
+   <a href="http://pypi.python.org/pypi/pip">pip</a> or even by finding a <a href="http://www.lfd.uci.edu/~gohlke/pythonlibs/">Windows
+   precompiled binary</a>. For
+   example, you can use <code>easy_install</code> by issuing (assuming you have used
+   the default settings when installed Python 2.7): </p>
+<pre><code>c:\Python27\Scripts\easy_install bottle jinja2 bottle_sqlite python-openid beaker
+</code></pre>
+</li>
+<li>
+<p><a href="http://timgolden.me.uk/python/active_directory.html">active_directory</a>.
+   You can find a zip file containing the code in the
+   <a href="http://icardea.googlecode.com/svn/trunk/tools_resources/python/">tools_resources/python</a>
+   directory in the Google Code repository. You will need to unzip it in
+   a temporary file and then issue: <code>c:\Python27\python setup.py
+   install</code> in this directory.</p>
+</li>
 </ul>
+<p>The source code can be found in the <a href="http://code.google.com/p/icardea/">Google Code
+ repository</a> of iCARDEA . You need to
+ have an svn client (<a href="http://tortoisesvn.tigris.org/">TortoiseSVN</a> is a
+ good one on Windows) and you need to checkout (read only) the
+ <code>trunk/icardea-interop-fmwork/idprovider</code> path. You can check it out in
+ the <code>c:\icardea\openid</code>  or similar directory.</p>
 <p>You can run the server either as a standalone server or by employing the
  <a href="http://code.google.com/p/modwsgi/">mod_wsgi</a> module of Apache, which is the
  preferred option. In the second case you need to do the following:</p>
 <ul>
 <li>
+<p>Download and install <a href="http://httpd.apache.org/download.cgi#apache22">Apache 2.2</a>. 
+  The SSL version is preferred if you plan to secure the server (as you should!!).</p>
+</li>
+<li>
 <p>Download the <code>mod_wsgi.so</code> lib (the windows binary) from
-  <a href="http://code.google.com/p/modwsgi/wiki/DownloadTheSoftware">http://code.google.com/p/modwsgi/wiki/DownloadTheSoftware</a> and place it in the
-  modules dir of your Apache installation (normally this should be something like
-  <code>C:\Program Files\Apache Software Foundation\Apache2.2\modules</code>).</p>
+  <a href="http://code.google.com/p/modwsgi/downloads/detail?name=mod_wsgi-win32-ap22py27-3.3.so">http://code.google.com/p/modwsgi/downloads/detail?name=mod_wsgi-win32-ap22py27-3.3.so</a>
+  and place it in the modules dir of your Apache installation (normally
+  this should be something like <code>C:\Program Files\Apache Software
+  Foundation\Apache2.2\modules</code>).</p>
 </li>
 <li>
 <p>Load the module in the Apache configuration file (i.e. httpd.conf):</p>
@@ -51,6 +80,6 @@ WSGIScriptAlias /idp C:/iCARDEA/openid/icardea_openid.py
 </li>
 </ul>
 <p><small>
-Stelios Sfakianakis, 17/10/2011</p>
-<p>&copy; 2011 <a href="http://www.ics.forth.gr">ICS-FORTH</a>
+Stelios Sfakianakis, 02/02/2012</p>
+<p>&copy; 2012 <a href="http://www.ics.forth.gr">ICS-FORTH</a>
 </small></p>
