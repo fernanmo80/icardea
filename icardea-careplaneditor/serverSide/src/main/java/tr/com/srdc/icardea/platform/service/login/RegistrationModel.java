@@ -1,4 +1,4 @@
-package de.offis.health.icardea.ppm.login;
+package tr.com.srdc.icardea.platform.service.login;
 
 
 public class RegistrationModel {

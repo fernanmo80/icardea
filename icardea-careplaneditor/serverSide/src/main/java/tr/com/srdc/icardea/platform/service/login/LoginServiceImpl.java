@@ -1,4 +1,4 @@
-package de.offis.health.icardea.ppm.login;
+package tr.com.srdc.icardea.platform.service.login;
 
 
 import java.net.InetAddress;
@@ -8,8 +8,8 @@ import java.util.ResourceBundle;
 import org.openid4java.discovery.DiscoveryInformation;
 import org.openid4java.message.AuthRequest;
 
-//import flex.messaging.FlexContext;
-//import flex.messaging.FlexSession;
+import flex.messaging.FlexContext;
+import flex.messaging.FlexSession;
 
 
 
@@ -34,16 +34,12 @@ public class LoginServiceImpl implements LoginService {
 		 
 		boolean salkUsage = new Boolean(ResourceBundle.getBundle("icardea")
 				.getString("salk.usage")).booleanValue();
-
 		if(salkUsage == true){
 			username=salkServer+"/idp/u="+username; //only valid for SALK server
 		}
-		System.out.println("##############AT Discovery for: "+username);
 		DiscoveryInformation discovery = RegistrationService
 				.performDiscoveryOnUserSuppliedIdentifier(username);
 		String url = RegistrationService.getReturnToUrl();
-		System.out.println("##############AT return url:"+url);
-	
 		AuthRequest authRequest = RegistrationService.createOpenIdAuthRequest(discovery, url);
 		
 		String redirectUrl = authRequest.getDestinationUrl(true);
@@ -51,29 +47,20 @@ public class LoginServiceImpl implements LoginService {
 		return redirectUrl;
 	}
 	public RegistrationModel handleValidation(){
-		System.out.println("##############AT HANDLEVALIDATION");
 		RegistrationModel model = new RegistrationModel();
-//		FlexSession mySession= FlexContext.getFlexSession();
-//		model.setIs_verified((String)mySession.getAttribute("is_verified"));
-//		model.setEmailAddress((String)mySession.getAttribute("user_email"));
-//		model.setOpenId((String)mySession.getAttribute("user_openid"));
-//		model.setFullName((String)mySession.getAttribute("user_fullname"));
-//		model.setRole((String)mySession.getAttribute("user_role"));
-		
-		model.setIs_verified(("is_verified"));
-		model.setEmailAddress(("user_email"));
-		model.setOpenId(("user_openid"));
-		model.setFullName(("user_fullname"));
-		model.setRole(("user_role"));
-	
-		
+		FlexSession mySession= FlexContext.getFlexSession();
+		model.setIs_verified((String)mySession.getAttribute("is_verified"));
+		model.setEmailAddress((String)mySession.getAttribute("user_email"));
+		model.setOpenId((String)mySession.getAttribute("user_openid"));
+		model.setFullName((String)mySession.getAttribute("user_fullname"));
+		model.setRole((String)mySession.getAttribute("user_role"));
 		//TODO sign and encrypt model
 		return model;
 		
 	}
 	public void doLogout(){
-//		FlexSession mySession= FlexContext.getFlexSession();
-//		mySession.setAttribute("is_verified", "false");
+		FlexSession mySession= FlexContext.getFlexSession();
+		mySession.setAttribute("is_verified", "false");
 		//TODO control is_verified variable from Registration Model 
 	}
 	
@@ -98,10 +85,5 @@ public class LoginServiceImpl implements LoginService {
 		}
 		return hostname;
 	}
-	void main(){
-		LoginServiceImpl logserv= new LoginServiceImpl();
-		String redirect=logserv.createRedirect("http://134.106.52.9:4545/idp/u=athiel");
-		System.out.println(redirect);
-		
-	}
+	
 }
