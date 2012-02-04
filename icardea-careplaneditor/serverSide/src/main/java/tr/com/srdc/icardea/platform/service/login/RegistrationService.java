@@ -1,4 +1,4 @@
-package tr.com.srdc.icardea.platform.service.login;
+package de.offis.health.icardea.ppm.login;
 
 
 import java.net.InetAddress;
@@ -58,11 +58,15 @@ public class RegistrationService {
 	public static DiscoveryInformation performDiscoveryOnUserSuppliedIdentifier(String userSuppliedIdentifier) {
 		DiscoveryInformation ret = null;
 		//
+		System.out.println("##############AT performDiscoveryOnUserSuppliedIdentifier: "+userSuppliedIdentifier);
 		ConsumerManager consumerManager = getConsumerManager();
 		try {
 		// Perform discover on the User-Supplied Identifier
 		List<DiscoveryInformation> discoveries = consumerManager.discover(userSuppliedIdentifier);
 		// Pass the discoveries to the associate() method...
+		System.out.println("##############AT got "+discoveries.size());
+		
+		
 		ret = consumerManager.associate(discoveries);
 
 		} catch (DiscoveryException e) {

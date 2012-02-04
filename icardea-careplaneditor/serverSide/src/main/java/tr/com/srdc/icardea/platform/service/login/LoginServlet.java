@@ -1,4 +1,4 @@
-package tr.com.srdc.icardea.platform.service.login;
+package de.offis.health.icardea.ppm.login;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -14,12 +14,10 @@ import org.openid4java.message.MessageException;
 
 public class LoginServlet extends javax.servlet.http.HttpServlet {
 
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
-	final static String YAHOO_ENDPOINT = "https://me.yahoo.com";
-	final static String GOOGLE_ENDPOINT = "https://www.google.com/accounts/o8/id";
+//	final static String YAHOO_ENDPOINT = "https://me.yahoo.com";
+//	final static String GOOGLE_ENDPOINT = "https://www.google.com/accounts/o8/id";
 
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 		throws ServletException, IOException {
