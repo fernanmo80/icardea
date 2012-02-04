@@ -1,4 +1,4 @@
-package tr.com.srdc.icardea.platform.service.login;
+package de.offis.health.icardea.ppm.login;
 
 
 
