@@ -1,1 +1,1 @@
-java -cp D:\yildiray\codes\icardea\tools_resources\email\;D:\yildiray\codes\icardea\tools_resources\email\mail-1.4.jar SendEmail %1 %2 %3
+java -cp D:\srdc\codes\icardea-google\icardea\tools_resources\email\;D:\srdc\codes\icardea-google\icardea\tools_resources\email\mail-1.4.jar SendEmail %1 %2 %3
