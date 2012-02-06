@@ -10,7 +10,7 @@ public class EPSOSClient {
 	private String epsosEndpoint;
 	private String patientID;
 	private String homeCommunityID = "2.16.17.710.813.1000.990.1";
-	
+
 	private void sslSetup() {
 		if (atnatls) {
 			// Properties for SSL Security Provider
@@ -28,23 +28,32 @@ public class EPSOSClient {
 			System.setProperty("javax.net.ssl.trustStorePassword", "srdcpass");
 		}
 	}
-	
+
 	public EPSOSClient(String pid, String homeCommunityID) {
+		System.out.println(" Initializing EPSOS Client...");
 		this.atnatls = new Boolean(ResourceBundle.getBundle("icardea")
 				.getString("atna.tls")).booleanValue();
-		this.epsosEndpoint = ResourceBundle.getBundle("icardea")
-				.getString("epsos.endpoint");
+		System.out.println(" Is security enabled? -->" + atnatls);
+		this.epsosEndpoint = ResourceBundle.getBundle("icardea").getString(
+				"epsos.endpoint");
 		this.patientID = pid;
 		this.homeCommunityID = homeCommunityID;
+
+		System.out.println(" Epsos Endpoint:" + epsosEndpoint + " Patient ID:"
+				+ pid + " Home Community ID:" + homeCommunityID);
 		sslSetup();
 	}
-	
+
 	public String retrieveDocument() {
 		// TODO: Burayi secure yap
-		//this.epsosEndpoint = "http://localhost:8080/tr-xca/services/RespondingGateway_Service/";
+		// this.epsosEndpoint =
+		// "http://localhost:8080/tr-xca/services/RespondingGateway_Service/";
+		System.out.println(" Retrieving document...");
 		Test test = new Test(patientID, homeCommunityID, epsosEndpoint);
 		try {
-			return test.retrieveDocument(false);
+			String cda = test.retrieveDocument(false);
+			System.out.println(" Document retrieved...");
+			return cda;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -54,7 +63,7 @@ public class EPSOSClient {
 	public void registerDocument(String cda) {
 		try {
 			FORTHListener.Provide_Register("Document01", cda);
-		} catch(Exception ex) {
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 	}
@@ -69,4 +78,3 @@ public class EPSOSClient {
 		System.out.println(cda);
 	}
 }
-
