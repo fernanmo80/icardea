@@ -64,9 +64,6 @@ public class  InteropAccessService implements Serializable{
     b. Constants.HL7V3_FINDING ?
     c. ??
     4. Meds
-    No adminRoute asked...know about Pills, tablets, mg
-    What are other codes for adminroute?
-    I changed my local git copy : Problem client constructors are now "public", they were package scoped
      */
     PhrsStoreClient phrsStoreClient
 
@@ -109,8 +106,6 @@ public class  InteropAccessService implements Serializable{
     public void registerUser(String ownerUri, String protocolId){
         //ownerUri = phrId
         getInteropClients().getActorClient().register(ownerUri,protocolId)
-
-        return
 
     }
     /**
@@ -181,9 +176,8 @@ public class  InteropAccessService implements Serializable{
      * @return
      */
     public String transformStatus(String status){
-        String out=status
-
-        return out
+    
+        return InteropTermTransformer.transformStatus(status)
     }
 
     /**
@@ -244,7 +238,7 @@ public class  InteropAccessService implements Serializable{
     }
      */
     public  String createReferenceNote(String resourceUri){   
-        return InteropProcessor.createReferenceNote()
+        return InteropProcessor.createReferenceNote(resourceUri)
     }
     /**
      *
@@ -269,7 +263,7 @@ public class  InteropAccessService implements Serializable{
 
                 String status 	= this.transformStatus(res.status)
                 //status = status?: null
-                status = status!=null ? status : Constants.STATUS_RUNNING;
+                status = status!=null ? status : Constants.STATUS_COMPELETE//Constants.STATUS_RUNNING;
 
                 String categoryCode 	= this.transformCategory(res.category,resourceType)
                 categoryCode = categoryCode?: null
@@ -572,7 +566,7 @@ public class  InteropAccessService implements Serializable{
                 LOGGER.error('Interop client error sending message for resource= '+resourceType, e)
             
             } catch (java.lang.Error e) {
-                LOGGER.error("sesame throws errors not exception..."+resourceType,,e);
+                LOGGER.error("sesame throws errors not exception..."+resourceType,e);
                 e.printStackTrace();
             }
         }
@@ -682,7 +676,7 @@ This cannot not be used for the dosage and dosage units because these are separa
      *
      */
     public static Date transformDateFromMessage(String dateMessage, Date defaultDate){
-        Date theDate
+        Date theDate =null
         try{
             if(dateMessage){
                 theDate= DateUtil.getFormatedDate( dateMessage)
@@ -766,8 +760,6 @@ This cannot not be used for the dosage and dosage units because these are separa
         //evaluate result
         if( pixIdentifier.status  == PhrsConstants.IDENTIFIER_STATUS_VALID) {
             validated=true;
-        } else {
-
         }
 
 

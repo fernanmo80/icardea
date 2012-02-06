@@ -1,46 +1,28 @@
 package at.srfg.kmt.ehealth.phrs.presentation.services;
 
-import at.srfg.kmt.ehealth.phrs.security.services.*;
 import at.srfg.kmt.ehealth.phrs.PhrsConstants;
 import at.srfg.kmt.ehealth.phrs.dataexchange.client.ActorClient;
 import at.srfg.kmt.ehealth.phrs.dataexchange.util.DateUtil;
-import at.srfg.kmt.ehealth.phrs.persistence.api.Triple;
-import at.srfg.kmt.ehealth.phrs.persistence.api.ValueType;
 import at.srfg.kmt.ehealth.phrs.presentation.utils.DynaUtil;
 import at.srfg.kmt.ehealth.phrs.support.test.CoreTestData;
-import com.google.code.morphia.query.Query;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import org.joda.time.DateTime;
-import org.junit.After;
-import org.junit.Ignore;
 import static org.junit.Assert.*;
 import at.srfg.kmt.ehealth.phrs.Constants;
 import at.srfg.kmt.ehealth.phrs.dataexchange.client.DynaBeanClient;
 import at.srfg.kmt.ehealth.phrs.dataexchange.client.MedicationClient;
-import at.srfg.kmt.ehealth.phrs.dataexchange.util.DynaBeanUtil;
 import at.srfg.kmt.ehealth.phrs.model.baseform.BasePhrsModel;
-import at.srfg.kmt.ehealth.phrs.persistence.api.GenericRepositoryException;
-import at.srfg.kmt.ehealth.phrs.persistence.api.GenericTriplestore;
-import at.srfg.kmt.ehealth.phrs.persistence.api.GenericTriplestoreLifecycle;
 import at.srfg.kmt.ehealth.phrs.persistence.api.TripleException;
 import at.srfg.kmt.ehealth.phrs.persistence.client.PhrsStoreClient;
-import org.junit.Before;
-import org.junit.Test;
 import at.srfg.kmt.ehealth.phrs.model.baseform.MedicationTreatment;
 import org.apache.commons.beanutils.DynaBean;
-import at.srfg.kmt.ehealth.phrs.model.baseform.MedicationTreatmentMatrix;
-import at.srfg.kmt.ehealth.phrs.persistence.util.MultiIterable;
-import at.srfg.kmt.ehealth.phrs.presentation.services.InteropAccessService;
 import java.util.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import at.srfg.kmt.ehealth.phrs.presentation.services.InteropTermTransformer;
 import at.srfg.kmt.ehealth.phrs.presentation.utils.HealthyUtils;
-import org.junit.*;
 import at.srfg.kmt.ehealth.phrs.persistence.client.CommonDao;
 import at.srfg.kmt.ehealth.phrs.persistence.client.InteropClients;
 
@@ -51,13 +33,10 @@ public class InteropProcessor {
     public final static String REFERENCE_NOTE_PREFIX = "resourcephr=";
     public static final String USER_PROTOCOL_ID = Constants.PROTOCOL_ID_UNIT_TEST;
     public static final String PROTOCOL_ID_NAMESPACE = Constants.ICARDEA_DOMAIN_PIX_OID;
-    
- 
     private MedicationClient medicationClient;
     private ActorClient actorClient;
     private PhrsStoreClient phrsClient;
     private InteropAccessService iaccess;
-
     private boolean printDynabean = false;
 
     public InteropProcessor() {
@@ -74,7 +53,7 @@ public class InteropProcessor {
         if (phrsClient == null) {
             phrsClient = PhrsStoreClient.getInstance();
         }
-        
+
         iaccess = phrsClient.getInteropService();
 
         //get this one, we set the creator differently
@@ -272,6 +251,66 @@ public class InteropProcessor {
         return value;
     }
 
+    public static Double convertDouble(String value) {
+
+        Double newValue = null;
+        if (value != null && !value.isEmpty()) {
+            try {
+                newValue = Double.parseDouble(value);
+            } catch (NumberFormatException numberFormatException) {
+            }
+        }
+        if (newValue == null) {
+            newValue = 0d;
+        }
+        return newValue;
+    }
+
+    public static Integer convertInteger(String value) {
+
+        Integer newValue = null;
+        if (value != null && !value.isEmpty()) {
+            try {
+                newValue = Integer.valueOf(value);
+            } catch (NumberFormatException numberFormatException) {
+            }
+        }
+        if (newValue == null) {
+            newValue = 0;
+        }
+        return newValue;
+    }
+
+    public static String convertDouble(Double value) {
+
+        String newValue = null;
+        if (value != null) {
+            try {
+                newValue = Double.toString(value);
+            } catch (Exception e) {
+            }
+        }
+        if (newValue == null) {
+            newValue = "0";
+        }
+        return newValue;
+    }
+
+    public static String convertInteger(Integer value) {
+
+        String newValue = null;
+        if (value != null) {
+            try {
+                newValue = Integer.toString(value);
+            } catch (Exception e) {
+            }
+        }
+        if (newValue == null) {
+            newValue = "0";
+        }
+        return newValue;
+    }
+
     public Map<String, String> sendMedicationMessage(MedicationTreatment domain) {
         //MedicationTreatment domain = (MedicationTreatment) resource;
 
@@ -314,8 +353,9 @@ public class InteropProcessor {
 
             String freqCode = domain.getFrequencyCode();
             //String dosageValue = domain.getTreatmentMatrix().getDosage() != null ? domain.getTreatmentMatrix().getDosage().toString() : "0";
-            String dosageQuantity = domain.getTreatmentMatrix().getDosageQuantity();
-            String dosageValue = domain.getTreatmentMatrix().getDosage() != null ? domain.getTreatmentMatrix().getDosage().toString() : "0";
+            //String dosageQuantity = domain.getTreatmentMatrix().getDosageQuantity();
+
+            String dosageValue = domain.getTreatmentMatrix().getDosage() != null ? convertDouble(domain.getTreatmentMatrix().getDosage()) : "0";
 
             String doseUnits = domain.getTreatmentMatrix().getDosageUnits();
 
@@ -341,7 +381,7 @@ public class InteropProcessor {
                         dateStringEnd,//dateStringEnd,
                         medicationclient.buildNullFrequency(),//doseInterval, frequency,
                         adminRoute,
-                        dosageQuantity,//dosageValue,
+                        dosageValue,
                         doseUnits,
                         name);
                 if (messageId != null && messageId.length() > 0) {
@@ -731,11 +771,15 @@ public class InteropProcessor {
                     //ISSUE check DOSAGE is QUANTITY but we do not need double? Keep as String
                     //ISSUE check dosage per unit not received from EHR, but web form no longer asks.
 
-                    med.getTreatmentMatrix().setDosage(0d);
+                    //med.getTreatmentMatrix().setDosage(0d);
 
                     Map<String, String> doseAttrs = getMedicationDosageAttributes(dynabean);
+
                     String doseQuantity = getMapValue(doseAttrs, Constants.HL7V3_DOSAGE_VALUE, "0");
-                    med.getTreatmentMatrix().setDosageQuantity(doseQuantity);
+
+                    Double dosage = convertDouble(doseQuantity);
+                    med.getTreatmentMatrix().setDosage(dosage != null ? dosage : 0d);
+                    //med.getTreatmentMatrix().setDosageQuantity(doseQuantity);
 
                     String doseUnits = getMapValue(doseAttrs, Constants.HL7V3_DOSAGE_UNIT, "http://www.icardea.at/phrs/instances/pills");
                     med.getTreatmentMatrix().setDosageUnits(doseUnits);
@@ -767,7 +811,7 @@ public class InteropProcessor {
                     theObject = med;
 
                     if (med != null) {
-                        System.out.println("medication imported resourceUri=" + med.getResourceUri() + " name=" + med.getTitle() + " code=" + med.getProductCode());
+                        //System.out.println("medication imported resourceUri=" + med.getResourceUri() + " name=" + med.getTitle() + " code=" + med.getProductCode());
                         LOGGER.debug("medication imported  name=" + med.getTitle() + " code=" + med.getProductCode());
                     }
                 }
