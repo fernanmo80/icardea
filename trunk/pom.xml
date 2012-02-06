@@ -239,9 +239,9 @@
 									<copy file="${icardea.home}/tools_resources/tomcatConfig/.keystore" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/conf/.keystore" overwrite="true"/>
 									<copy file="${icardea.home}/tools_resources/tomcatConfig/.truststore" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/conf/.truststore" overwrite="true"/>
 									<copy file="${icardea.home}/tools_resources/tomcatConfig/server.xml" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/conf/server.xml" overwrite="true"/>
-									<!--copy file="${icardea.home}/tools_resources/EPSOS_CONFIG/tr-xca.war" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/tr-xca.war" overwrite="true"/>
+									<copy file="${icardea.home}/tools_resources/EPSOS_CONFIG/tr-xca.war" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/tr-xca.war" overwrite="true"/>
 									<copy file="${icardea.home}/tools_resources/EPSOS_CONFIG/tr-xcpd.war" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/tr-xcpd.war" overwrite="true"/>
-									<copy file="${icardea.home}/tools_resources/EPSOS_CONFIG/tr-xdr.war" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/tr-xdr.war" overwrite="true"/-->
+									<copy file="${icardea.home}/tools_resources/EPSOS_CONFIG/tr-xdr.war" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/tr-xdr.war" overwrite="true"/>
 								</tasks>
 							</configuration>
 							<goals>

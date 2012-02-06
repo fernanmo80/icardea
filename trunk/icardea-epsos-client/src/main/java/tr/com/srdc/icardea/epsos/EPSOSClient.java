@@ -36,7 +36,7 @@ public class EPSOSClient {
 				.getString("epsos.endpoint");
 		this.patientID = pid;
 		this.homeCommunityID = homeCommunityID;
-		//sslSetup();
+		sslSetup();
 	}
 	
 	public String retrieveDocument() {

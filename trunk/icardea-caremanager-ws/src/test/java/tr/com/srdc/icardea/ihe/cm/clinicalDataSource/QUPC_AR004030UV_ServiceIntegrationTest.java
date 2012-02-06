@@ -1108,7 +1108,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
 	}
 
-	@Test
+	//@Test
 	public void testGroup1() throws java.lang.Exception {
 		sslSetup();
 		
@@ -1536,7 +1536,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 		 */
 	}
 
-	// @Test
+	 @Test
 	public void testGroup3() throws java.lang.Exception {
 		sslSetup();
 		tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
