@@ -90,22 +90,79 @@ public class Audit {
 						"        <EventTypeCode codeSystemName=\"DCM\" displayName=\"Login\" code=\"110122\"/>"+
 						"    </EventIdentification>"+
 						"<ActiveParticipant UserIsRequestor=\"true\" UserID="+"\"athiel\""+  " UserName="+"\"Andreas Thiel\"/>"+
-//						"</ActiveParticipant>"+
+						//						"</ActiveParticipant>"+
 						"    <AuditSourceIdentification AuditSourceID=\"PPM\" AuditEnterpriseSiteID=\"PPM iCardea\"/>"+
 						"</AuditMessage>";
-
 		try {
 			Audit a = new Audit("127.0.0.1", 2861);
+			xml=Audit.createMessage("login", "", "0", "athiel"); //login ok
 			a.send_udp( a.create_syslog_xml("testapp", xml) );
+			xml=Audit.createMessage("login", "", "8", "athiel"); //login failed
+			a.send_udp( a.create_syslog_xml("testapp", xml) );
+			xml=Audit.createMessage("logout", "", "0", "athiel"); //logout ok
+			a.send_udp( a.create_syslog_xml("testapp", xml) );
+			xml=Audit.createMessage("ppmaccess", "userid", "0", "athiel"); //access ok
+			a.send_udp( a.create_syslog_xml("testapp", xml) );
+
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+
+
+
 	}
 
 	public static String createMessage(String messageType, String patientID, String code, String requesterRole){
 		String xml = "";
 		String date = ISO8601Local.format (new Date());
-		if(messageType == "PCC-9"){		
+		if(messageType == "login"){
+			xml=
+					"<AuditMessage>"+
+							"    <EventIdentification EventOutcomeIndicator=\""+code+"\" EventDateTime=\"" + date + "\" EventActionCode=\"E\">"+
+							"        <EventID codeSystemName=\"DCM\" displayName=\"User Authentication\" code=\"110114\"/>"+
+							"        <EventTypeCode codeSystemName=\"DCM\" displayName=\"Login\" code=\"110122\"/>"+
+							"    </EventIdentification>"+
+							"<ActiveParticipant UserIsRequestor=\"true\" UserID=\""+requesterRole+  "\"/>"+
+							//							"</ActiveParticipant>"+
+							"    <AuditSourceIdentification AuditSourceID=\"PPM\" AuditEnterpriseSiteID=\"PPM iCardea\" AuditSourceTypeCode=\"1\" />"+
+							"</AuditMessage>";
+		}
+		 else if(messageType == "logout"){
+				xml=
+						"<AuditMessage>"+
+								"    <EventIdentification EventOutcomeIndicator=\""+code+"\" EventDateTime=\"" + date + "\" EventActionCode=\"E\">"+
+								"        <EventID codeSystemName=\"DCM\" displayName=\"User Authentication\" code=\"110114\"/>"+
+								"        <EventTypeCode codeSystemName=\"DCM\" displayName=\"Logout\" code=\"110123\"/>"+
+								"    </EventIdentification>"+
+								"<ActiveParticipant UserIsRequestor=\"true\" UserID=\""+requesterRole+  "\"/>"+
+								//							"</ActiveParticipant>"+
+								"    <AuditSourceIdentification AuditSourceID=\"PPM\" AuditEnterpriseSiteID=\"PPM iCardea\" AuditSourceTypeCode=\"1\" />"+
+								"</AuditMessage>";
+		 }
+		
+		 else if(messageType == "ppmaccess"){
+				xml=
+						"<AuditMessage>"+
+		"<EventIdentification EventActionCode="+"\"R\""+" EventDateTime="+"\""+date+"\""+" EventOutcomeIndicator="+"\"0\""+">"+
+			"<EventID code="+"\"PPM\""+" displayName="+"\"Patient Parameter System\""+"/>"+
+			"<EventTypeCode code="+"\"ITI-22\""+" codeSystemName=\"IHE Transactions\" displayName=\"Patient Demographics and Visit Query\"/>"+
+		"</EventIdentification>"+
+		"<ActiveParticipant UserIsRequestor="+"\"true\""+" UserID="+"\""+requesterRole+"\""+">"+
+		"</ActiveParticipant>"+
+		"<AuditSourceIdentification AuditSourceID="+"\"PPM\""+">"+
+		"</AuditSourceIdentification>"+
+		"<ParticipantObjectIdentification ParticipantObjectTypeCodeRole="+"\"1\""+" ParticipantObjectTypeCode="+"\"1\""
+		+" ParticipantObjectID="+"\""+patientID+"\""+">"+
+		"<ParticipantObjectIDTypeCode code="+"\"2\""+"/>"+
+		"<ParticipantObjectName>PatientIdentifier</ParticipantObjectName>"+
+	"</ParticipantObjectIdentification>"+
+	"</AuditMessage>";
+	}
+//	       <Code code="ITI-22" codingScheme="IHE Transactions" display="Patient Demographics and Visit Query"/>
+		 	
+		  else if(messageType == "PCC-9"){		
 			xml = 
 					"<AuditMessage>"+
 							"<EventIdentification EventActionCode="+"\"R\""+" EventDateTime="+"\""+date+"\""+" EventOutcomeIndicator="+"\"0\""+">"+
@@ -206,6 +263,7 @@ public class Audit {
 							"<ParticipantObjectName>PatientIdentifier</ParticipantObjectName>"+
 							"</ParticipantObjectIdentification>"+
 							"</AuditMessage>";
+
 			//TODO
 			// Send ATNA Message: Patient registration message is received for
 			// "+citizenshipID+"
