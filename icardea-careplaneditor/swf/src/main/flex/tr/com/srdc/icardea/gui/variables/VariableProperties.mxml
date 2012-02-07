@@ -101,6 +101,7 @@
         	csVariable.name=varName.text;
         	csVariable.type=varType.selectedItem.toString();
         	csVariable.refValue = refValue.text;
+        	PopUpManager.removePopUp(this);
         	
         	//TODO:Variable ların concept ve datasource ları save edilecek
             
