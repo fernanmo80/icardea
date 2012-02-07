@@ -94,19 +94,20 @@ authenticating using the <code>openatna</code> user with <code>openatna</code> p
 your container is not running on the same host as the database server
 you need to alter this properties file appropriately.</p>
 
-<h4 id="tipimgstippng-consistent-time-the-atna-profile-requires"><img src="imgs/tip.png" alt="tip" /> Consistent time The ATNA profile requires</h4>
-<p>“consistent time” (ITI-1) everywhere, i.e. the clocks of the machines
-that participate in the transactions to be synchronized. Usually this
-can be achieved by using
+<h4 id="tipimgstippng-consistent-time"><img src="imgs/tip.png" alt="tip" /> Consistent time</h4>
+
+<p>The ATNA profile requires “consistent time” (ITI-1) everywhere, i.e. the
+clocks of the machines that participate in the transactions to be
+synchronized. Usually this can be achieved by using
 <a href="http://en.wikipedia.org/wiki/Network_Time_Protocol">NTP</a> time servers
 to have a correct synchronization (and while you are at it, please
-consider using a <a href="http://www.pool.ntp.org/en/">pool</a>). Another
-thing to look at though is that the Java machine uses the correct
-timezone. In order to change the default timezone (e.g. for Austria) for
-a single instance of a Java VM, you can set the <code>user.timezone</code> system
-property as follows:</p>
+consider using a <a href="http://www.pool.ntp.org/en/">pool</a>). Another thing to
+look at though is that the Java machine uses the correct timezone. In
+order to change the default timezone (e.g. for Austria) for a single
+instance of a Java VM, you can set the <code>user.timezone</code> system property
+as follows:</p>
 
-<pre><code>java -Dusr.timezone=Europe/Vienna ...
+<pre><code>java -Duser.timezone=Europe/Vienna ...
 </code></pre>
 
                 <footer id="footer">
