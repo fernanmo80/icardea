@@ -1,0 +1,131 @@
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf-8"/>
+        <!--[if lte IE 8]>
+        <script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <title>EHR Interoperability Framework - How to install OpenATNA</title>
+        <meta name="author" content="Stelios Sfakianakis"/>
+        <meta http-equiv="X-UA-Compatible" content="chrome=1"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" type="text/css" href="style.css" media="screen">
+    </head>
+    <body>
+        <div id="content">
+            <nav id="sidebar">
+            <h2>Table of Contents</h2>
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="start.html">How to start</a></li>
+                <li><a href="install.html">How to install</a></li>
+                <li><a href="use.html">How to use</a>
+                <ul>
+                    <li><a href="use.html#idp">Id Provider &#171;</a></li>
+                    <li><a href="use.html#pixm">PIX Manager &#171;</a></li>
+                    <li><a href="use.html#cded">CDA Editor &#171;</a></li>
+                </ul>
+                </li>
+                <li><a href="technical.html">Technical Details</a></li>
+            </ul>
+            </nav>
+            <div id="main">
+                <h2 id="how-to-install-openatna">How to install OpenATNA</h2>
+
+<p>For audit purposes in compliance to the IHE requirements we use the
+<a href="https://www.projects.openhealthtools.org/sf/projects/openatna/">OpenATNA</a>
+component which implements an Audit Record Repository of the IHE Audit
+Trail Node Authentication (ATNA) profile. The complete installation
+guidelines can be found in the <a href="https://www.projects.openhealthtools.org/sf/go/page1071">OpenATNA Quick start
+guide</a> but here
+it is a somewhat shorter version: </p>
+
+<ul>
+  <li>
+    <p>Install <a href="http://www.postgresql.org/download/">PostgreSQL</a>. We assume
+that you are going to install both Postgres and OpenATNA in the same
+machine. If that’s not the case you need to correctly modify the
+<a href="http://www.postgresql.org/docs/8.3/static/auth-pg-hba-conf.html">pg_hba.conf</a>
+file so that the database server accepts connections from other
+machines.</p>
+  </li>
+  <li>
+    <p>Create the database user and the OpenATNA database either through
+<a href="http://www.pgadmin.org/">PGAdmin III</a> or from the command line client
+<code>psql</code> as shown here:</p>
+
+    <pre><code>CREATE USER openatna WITH PASSWORD 'openatna'; 
+CREATE DATABASE openatna WITH OWNER = openatna 
+          ENCODING = 'UTF8' CONNECTION LIMIT = -1;
+</code></pre>
+
+    <p>(By default the OpenATNA server assumes these settings, although it
+can be configured otherwise..)</p>
+  </li>
+  <li>
+    <p>Download the OpenATNA code. You can find it in the <a href="http://icardea.googlecode.com/svn/trunk/tools_resources/openatna/openatna.zip">iCARDEA Google
+code</a>
+repository or you can download the source from their <a href="https://www.projects.openhealthtools.org/sf/scm/do/listRepositories/projects.openatna/scm">openatna
+repository</a>.
+In the first case you can unzip the file in a directory and then run
+the <code>openatna-1.2.1-SNAPSHOT.jar</code> as follows (You do have
+<a href="http://www.java.com/en/download/index.jsp">Java</a>, don’t you?): </p>
+
+    <pre><code>java -jar openatna-1.2.1-SNAPSHOT.jar
+</code></pre>
+  </li>
+  <li>
+    <p>The installation of the server now is complete! By default the server
+listens on UDP port 2861, and on 2862 for TLS connections.</p>
+  </li>
+</ul>
+
+<p>There is also a web application for OpenATNA that allows you to search
+the openatna database and see its audit records. Again, for speeding up
+things, you can find a <a href="http://icardea.googlecode.com/svn/trunk/tools_resources/openatna/openatnaweb.war">Java WAR
+file</a>
+in the Google code repository.  You can put this file in the <code>webapps</code>
+directory of a <a href="http://tomcat.apache.org/">Tomcat</a> or
+<a href="http://jetty.codehaus.org/jetty/">Jetty</a> container and then start the
+container. In this WAR file we have put a <code>openatna.properties</code> file
+that instructs the web application to connect to the PostgreSQL server
+running on the <code>localhost</code> (<code>127.0.0.1</code> to be specific) and
+authenticating using the <code>openatna</code> user with <code>openatna</code> password. So if
+your container is not running on the same host as the database server
+you need to alter this properties file appropriately.</p>
+
+<h4 id="tipimgstippng-consistent-time-the-atna-profile-requires"><img src="imgs/tip.png" alt="tip" /> Consistent time The ATNA profile requires</h4>
+<p>“consistent time” (ITI-1) everywhere, i.e. the clocks of the machines
+that participate in the transactions to be synchronized. Usually this
+can be achieved by using
+<a href="http://en.wikipedia.org/wiki/Network_Time_Protocol">NTP</a> time servers
+to have a correct synchronization (and while you are at it, please
+consider using a <a href="http://www.pool.ntp.org/en/">pool</a>). Another
+thing to look at though is that the Java machine uses the correct
+timezone. In order to change the default timezone (e.g. for Austria) for
+a single instance of a Java VM, you can set the <code>user.timezone</code> system
+property as follows:</p>
+
+<pre><code>java -Dusr.timezone=Europe/Vienna ...
+</code></pre>
+
+                <footer id="footer">
+                &copy; 2011 - 2012 <a href="http://www.ics.forth.gr/">Institute of Computer Science, FORTH</a>
+                </footer>
+            </div>
+        </div>
+
+        <!-- 
+        <script type="text/javascript" 
+            src="//ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js"></script>
+
+        <script>
+            window.onload = function() {
+                CFInstall.check({
+                    mode: "overlay"
+                });
+            };
+        </script>
+        -->
+    </body>
+</html>
