@@ -2130,8 +2130,42 @@
 		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
+		  
+		<!--tr name="EHRBlock">
+		    <td style="background-color:#eeeeee">
+		      <p align="center"><b>Brief Information about the Patient History retrieved from EHR
+		      </b> </p>
+
+		      <table  width="100%">
+			<tbody>
+			  <tr>
+			    <th>Status of associated Diseases</th>
+			    <th>EHR values</th>
+			  </tr>
+			  <script>
+			    <arguments>$LVDysfunction</arguments>
+			    <content></content>
+			  </script>
+			  
+			  
+			  
+			  <script>
+				<arguments>$LVDysfunction, $DilatedCardiomyopathy, $HypertrophicCardiomyopathy, $HypertrophicCardiomyopathy, $ArrhythmogenicRightVentricular, $LongQTSyndrome, $BrugadaSyndrome, $ValvularHeartDisease, $HeartFailure</arguments>
+			  <content>
+			  function generate(ehrDis) { var useIt = 'false'; var output = ''; if(ehrDis.equals('true')) { useIt = '&lt;font color=\"#880015\"&gt;&lt;b&gt;true&lt;b&gt;' }output = output + ehrDis + useIt +'&lt;/tr&gt;';   return output; }
+			  </content>
+			  </script>
+			  
+			  
+			   
+			
+			</tbody>
+		      </table>
+		    </td>
+		  </tr-->  
+		  
 		<tr name="EHRBlock">
-		  <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
+		  <td style="background-color:#eeeeee">
 		    <p align="center"><b>Brief Information about the Patient History retrieved from EHR
 		    </b> </p>
 
@@ -2143,9 +2177,11 @@
 			</tr>
 
 			<tr>
-			  <td>LV Dysfunction</td>
 			  <td>
+			  LV Dysfunction </td> 
+			  <td> <font color="#880015">
 			    $LVDysfunction
+				</font>
 			    <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0041582">Link to EHR</a>
 			  </td>
 			</tr>

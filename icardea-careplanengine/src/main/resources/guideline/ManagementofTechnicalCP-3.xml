@@ -83,7 +83,13 @@
   </Header>
 <Body>
     <EligibilityCriteria>
-		<EvaluationScript>function EligibleToGuidelineCriterion() {  return true; }</EvaluationScript>
+      <Variable name="VTStatus" type="boolean">
+	<Concept code="739568" name="MDC_IDC_EPISODE_TYPE" schemeID="MDC_IDC"/>
+	<DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
+	<RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x] == "Epis_VT") y=true; } return y; }</RefinementScript>
+      </Variable>
+      <!--Scriptler degisecek. Ayrica burada input girilen AFStatus objesini incele. Nasil olusturuluyor.-->
+      <EvaluationScript>function EligibleToGuidelineCriterion(VTStatus) { return true; }</EvaluationScript>
     </EligibilityCriteria>
 	<Algorithm>
     <StartStep ID="S82293105DAA9A6873318FA161C7DD868">
@@ -180,11 +186,11 @@
 				<p align="left">
 					<font color="#880015">Warning: Capacitor Charge Time threshold values vary from the manufacturers!</font><br/>
 					<b>Medtronic: </b><br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Capacitor Charge Time low threshold: 16 <br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Capacitor Charge Time high threshold: 30 <br/>
+						&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Capacitor Charge Time low threshold: 16 <br/>
+						&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Capacitor Charge Time high threshold: 30 <br/>
 					<b>St.Jude: </b><br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Capacitor Charge Time low threshold: Not provided<br/>
-						&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Capacitor Charge Time high threshold: 28<br/>
+						&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Capacitor Charge Time low threshold: Not provided<br/>
+						&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Capacitor Charge Time high threshold: 28<br/>
 				  </p>
 			      </p>
 			    </td>
@@ -223,9 +229,7 @@
     <RecommendationStep ID="SF28FB7A1C13017A266EDFA18DCC46098" name="Urgent in person control">
       <Receiver ref="P3"/>
 	  <Urgency>2</Urgency>
-      <NextStep name="Guideline finalized!" ref="S75A153A047C15D07C8C0FA19F6442AE3">
-        <EvaluationScript>function check(SF28FB7A1C13017A266EDFA18DCC46098Choice) { if(SF28FB7A1C13017A266EDFA18DCC46098Choice.getValue().getText() == "Guideline finalized!") return true; else return false; }</EvaluationScript>
-      </NextStep>
+      
       <Display>
 	  <HTML>
 	    <head/>
@@ -284,13 +288,14 @@
 	    </body>
 	  </HTML>
 	</Display>
+	<NextStep name="Guideline finalized!" ref="S75A153A047C15D07C8C0FA19F6442AE3">
+        <EvaluationScript>function check(SF28FB7A1C13017A266EDFA18DCC46098Choice) { if(SF28FB7A1C13017A266EDFA18DCC46098Choice.getValue().getText() == "Guideline finalized!") return true; else return false; }</EvaluationScript>
+      </NextStep>
     </RecommendationStep>
 	<RecommendationStep ID="S7EAEE8180FAEF9D0E073FA18F4FE3B84" name="Emergency in person control">
       <Receiver ref="P3"/>
 	  <Urgency>2</Urgency>
-      <NextStep name="Guideline finalized!" ref="S75A153A047C15D07C8C0FA19F6442AE3">
-        <EvaluationScript>function check(S7EAEE8180FAEF9D0E073FA18F4FE3B84Choice) { if(S7EAEE8180FAEF9D0E073FA18F4FE3B84Choice.getValue().getText() == "Guideline finalized!") return true; else return false; }</EvaluationScript>
-      </NextStep>
+      
       <Display>
 	  <HTML>
 	    <head/>
@@ -350,6 +355,9 @@
 	    </body>
 	  </HTML>
 	</Display>
+	<NextStep name="Guideline finalized!" ref="S75A153A047C15D07C8C0FA19F6442AE3">
+        <EvaluationScript>function check(S7EAEE8180FAEF9D0E073FA18F4FE3B84Choice) { if(S7EAEE8180FAEF9D0E073FA18F4FE3B84Choice.getValue().getText() == "Guideline finalized!") return true; else return false; }</EvaluationScript>
+      </NextStep>
     </RecommendationStep>
    </Algorithm>
   </Body>
