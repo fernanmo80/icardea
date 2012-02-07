@@ -142,8 +142,8 @@
 		    <mx:HBox width="100%" height="50%">
 			    <mx:DataGrid resizableColumns="true" styleName="usersGrid" width="100%" height="100%" id="dgrid" dataProvider="{this.model.careplans}" borderStyle="none">
 					<mx:columns>
-						<mx:DataGridColumn dataField="id" headerText="ID"  />
-						<mx:DataGridColumn dataField="name" headerText="Name" />	
+						<mx:DataGridColumn dataField="id" headerText="Care Plan ID"  />
+						<mx:DataGridColumn dataField="name" headerText="Care Plan Name" />	
 						<mx:DataGridColumn dataField="edit" headerText="Edit" >
 							<mx:itemRenderer>
 								<mx:Component>
@@ -162,7 +162,7 @@
 								</mx:Component>
 							</mx:itemRenderer>	
 						</mx:DataGridColumn>
-						<mx:DataGridColumn dataField="assign" headerText="Assign to patient">
+						<mx:DataGridColumn dataField="assign" headerText="Assign to Patient">
 							<mx:itemRenderer>
 								<mx:Component>
 									<mx:HBox width="100%" horizontalAlign="center">
