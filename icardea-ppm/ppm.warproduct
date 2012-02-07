@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?pde version="3.5"?>
+
+<product name="Patient Parameter Monitoring" uid="PPM" version="0.9" useFeatures="false" includeLaunchers="false">
+   <plugins>
+      <plugin id="com.ibm.icu.base"/>
+      <plugin id="de.offis.health.icardea.ppm"/>
+      <plugin id="org.eclipse.core.commands"/>
+      <plugin id="org.eclipse.core.contenttype"/>
+      <plugin id="org.eclipse.core.databinding"/>
+      <plugin id="org.eclipse.core.databinding.observable"/>
+      <plugin id="org.eclipse.core.databinding.property"/>
+      <plugin id="org.eclipse.core.expressions"/>
+      <plugin id="org.eclipse.core.jobs"/>
+      <plugin id="org.eclipse.core.runtime"/>
+      <plugin id="org.eclipse.equinox.app"/>
+      <plugin id="org.eclipse.equinox.common"/>
+      <plugin id="org.eclipse.equinox.http.registry"/>
+      <plugin id="org.eclipse.equinox.http.servlet"/>
+      <plugin id="org.eclipse.equinox.http.servletbridge"/>
+      <plugin id="org.eclipse.equinox.preferences"/>
+      <plugin id="org.eclipse.equinox.registry"/>
+      <plugin id="org.eclipse.equinox.servletbridge"/>
+      <plugin id="org.eclipse.equinox.servletbridge.extensionbundle" fragment="true"/>
+      <plugin id="org.eclipse.help"/>
+      <plugin id="org.eclipse.osgi"/>
+      <plugin id="org.eclipse.osgi.services"/>
+      <plugin id="org.eclipse.rap.design.example"/>
+      <plugin id="org.eclipse.rap.jface"/>
+      <plugin id="org.eclipse.rap.jface.databinding"/>
+      <plugin id="org.eclipse.rap.rwt"/>
+      <plugin id="org.eclipse.rap.rwt.q07" fragment="true"/>
+      <plugin id="org.eclipse.rap.rwt.theme.classic"/>
+      <plugin id="org.eclipse.rap.ui"/>
+      <plugin id="org.eclipse.rap.ui.cheatsheets"/>
+      <plugin id="org.eclipse.rap.ui.forms"/>
+      <plugin id="org.eclipse.rap.ui.views"/>
+      <plugin id="org.eclipse.rap.ui.workbench"/>
+   </plugins>
+
+   <configurations>
+      <plugin id="com.ibm.icu.base" autoStart="true" startLevel="0" />
+      <plugin id="de.offis.health.icardea.ppm" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.core.commands" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.core.contenttype" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.core.databinding" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.core.databinding.observable" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.core.databinding.property" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.core.expressions" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.core.jobs" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.core.runtime" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.app" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.common" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.http.registry" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.http.servlet" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.http.servletbridge" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.preferences" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.registry" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.equinox.servletbridge" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.help" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.osgi" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.osgi.services" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.rap.design.example" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.rap.jface" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.rap.jface.databinding" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.rap.rwt" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.rap.rwt.theme.classic" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.rap.ui" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.rap.ui.cheatsheets" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.rap.ui.forms" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.rap.ui.views" autoStart="true" startLevel="0" />
+      <plugin id="org.eclipse.rap.ui.workbench" autoStart="true" startLevel="0" />
+   </configurations>
+
+   <warConfiguration webXml="/de.offis.health.icardea.ppm/WEB-INF/web.xml" launchIni="/de.offis.health.icardea.ppm/WEB-INF/launch.ini">
+   <libraries>
+      <library path="/de.offis.health.icardea.ppm/lib/hapi-structures-v251-1.2.jar" fromTarget="false"/>
+      <library path="/de.offis.health.icardea.ppm/lib/hapi-structures-v26-1.2.jar" fromTarget="false"/>
+      <library path="/de.offis.health.icardea.ppm/lib/commons-logging-1.1.1.jar" fromTarget="false"/>
+      <library path="/de.offis.health.icardea.ppm/lib/log4j-1.2.16.jar" fromTarget="false"/>
+      <library path="/de.offis.health.icardea.ppm/lib/hapi-base-1.2.jar" fromTarget="false"/>
+      <library path="/de.offis.health.icardea.ppm/lib/hapi-structures-v25-1.2.jar" fromTarget="false"/>
+      <library path="/de.offis.health.icardea.ppm/lib/mysql-connector-java-5.1.13.jar" fromTarget="false"/>
+      <library path="org.eclipse.equinox.servletbridge_1.2.100.v20110502.jar" fromTarget="true"/>
+   </libraries>
+   </warConfiguration>
+</product>

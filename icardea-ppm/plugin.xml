@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+
+   <extension
+         id="viewapp"
+         point="org.eclipse.core.runtime.applications">
+      <application
+            thread="main"
+            cardinality="singleton-global"
+            visible="true">
+         <run
+               class="de.offis.health.icardea.ppm.Application">
+         </run>
+      </application>
+   </extension>
+   <extension
+         point="org.eclipse.ui.perspectives">
+      <perspective
+            name="PPM"
+            class="de.offis.health.icardea.ppm.Perspective"
+            id="de.offis.health.icardea.ppm.perspective">
+      </perspective>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            class="de.offis.health.icardea.ppm.GeneralView"
+            fastViewWidthRatio="0.20"
+            id="de.offis.health.icardea.ppm.GeneralView"
+            name="General Information"
+            restorable="false">
+      </view>
+      <view
+            class="de.offis.health.icardea.ppm.PPMMain"
+            fastViewWidthRatio="0.60"
+            id="de.offis.health.icardea.ppm.PPMMain"
+            name="PPM Main"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         point="org.eclipse.rap.ui.branding">
+      <branding
+            servletName="view"
+            themeId="org.eclipse.rap.design.example.business.theme"
+            defaultEntrypointId="de.offis.health.icardea.ppm.viewapp"
+            title="PPM Data View"
+            id="de.offis.health.icardea.ppm.branding">
+      </branding>
+   </extension>
+   <extension
+         id="de.offis.health.icardea.ppm.theme"
+         point="org.eclipse.rap.ui.themes">
+      <theme
+            file="theme/icardea.css"
+            id="de.offis.health.icardea.ppm.theme1"
+            name="icardeaTheme">
+      </theme>
+   </extension>
+
+</plugin>
