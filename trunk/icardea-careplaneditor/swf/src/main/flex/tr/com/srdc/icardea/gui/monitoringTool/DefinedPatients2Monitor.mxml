@@ -132,17 +132,17 @@
        
         ]]>
 	</mx:Script>
-	<mx:Label text="Execution" width="100%" fontWeight="bold" enabled="true" fontFamily="Arial" fontSize="20"/>
+	<mx:Label text="Care Plan Execution" width="100%" fontWeight="bold" enabled="true" fontFamily="Arial" fontSize="20"/>
     <mx:DataGrid resizableColumns="true" styleName="usersGrid" width="100%" height="50%" id="patients" dataProvider="{assignments}" borderStyle="none">
     	<mx:columns>
 			<mx:DataGridColumn headerText="Patient ID" dataField="personID" />
 			<mx:DataGridColumn headerText="Patient Name" dataField="name"/>	
 			<mx:DataGridColumn headerText="Patient Surname" dataField="surname" />
-			<mx:DataGridColumn headerText="Careplan Name" dataField="careplanName" />
+			<mx:DataGridColumn headerText="Care Plan Name" dataField="careplanName" />
 			<!--<mx:DataGridColumn headerText="Careplan ID" dataField="careplanID" />-->
 		</mx:columns>
     </mx:DataGrid>	
     <mx:HBox>
-		<mx:Button id="openDiagram" label="OPEN" enabled="true" click="openSelected()" styleName="adminButton"/>		
+		<mx:Button id="openDiagram" label="Open Care Plan Execution" enabled="true" click="openSelected()" styleName="adminButton"/>		
 	</mx:HBox>	
 </mx:VBox>

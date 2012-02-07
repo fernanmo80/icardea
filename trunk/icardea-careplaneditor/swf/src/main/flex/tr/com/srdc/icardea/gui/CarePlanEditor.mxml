@@ -274,7 +274,7 @@
 
 			private var reference:FileReference;
 			
-			private var steps:Array = ["Start Step", "Consult Step", "Decision Step", "Recommendation Step", "Final Step", "Wait Step", "Record Action Step"];
+			private var steps:Array = ["Start", "Consult", "Decision", "Recommendation", "Final", "Wait", "Record Action"];
 			[Bindable]
 			private var tileSteps:ArrayCollection = new ArrayCollection(steps);
 			
@@ -424,21 +424,19 @@
 					bt1.addEventListener(MouseEvent.CLICK, executeGuideline);
 					bt2.addEventListener(MouseEvent.CLICK, getFromXML);
 					bt3.addEventListener(MouseEvent.CLICK, restartGuideline);
-					bt1.width = 105;
-					bt1.height = 30;
-					bt3.width = 80;
-					bt3.height = 30;
-					bt2.width = 93;
-					bt2.height = 30;
+					
 					bt1.label = "Start";
 					bt1.setStyle("color", "Green");
 					bt3.label = "Clear";
-					bt2.label = "Import XML";
+					bt2.label = "Import";
 					bt1.id = "executeButton";
 					bt2.id = "importXML";
 					bt3.id = "restartButton";
 					//iPopUp.visible = false;
 					//iPopUp.includeInLayout = false;
+					bt1.styleName = bt2.styleName = bt3.styleName = "iCardeaGeneralButton";
+					bt1.width = bt2.width = bt3.width = 90;
+					bt1.height = bt2.height = bt3.height = 30; 
 					buttonBox.addChild(bt1);
 					buttonBox.addChild(bt2);
 					buttonBox.addChild(bt3);
@@ -451,33 +449,34 @@
 					var bt1:Button = new Button();
 					var bt2:Button = new Button();
 					var bt3:Button = new Button();
-					var bt4:Button = new Button();					
+					//var bt4:Button = new Button();					
 					bt1.addEventListener(MouseEvent.CLICK, editTheProperties);
 					bt2.addEventListener(MouseEvent.CLICK, writeToXML);
 					bt3.addEventListener(MouseEvent.CLICK, getFromXML);
-					bt4.addEventListener(MouseEvent.CLICK, saveImageToDisk);
+					//bt4.addEventListener(MouseEvent.CLICK, saveImageToDisk);
 					bt1.label="Edit";
 					bt2.label="Export";
 					bt3.label="Import";
-					bt4.label="Save Image";					
-					//bt1.width = bt2.width = bt3.width = 92;
-					//bt1.height = bt2.height = bt3.height = 30;
+					//bt4.label="Save Image";					
+					bt1.styleName = bt2.styleName = bt3.styleName = "iCardeaGeneralButton";
+					bt1.width = bt2.width = bt3.width = 90;
+					bt1.height = bt2.height = bt3.height = 30; 
 					bt1.id = "edit";
 					bt2.id = "exportXML";
 					bt3.id = "importXML";
-					bt4.id = "image";
+					
 					
 					buttonBox1.addChild(bt1);
 					buttonBox1.addChild(bt2);
 					buttonBox1.addChild(bt3);
-					buttonBox1.addChild(bt4);
+					//buttonBox1.addChild(bt4);
 					//iPopUp.visible = true;
 					//iPopUp.includeInLayout = true;
 					
 				}
 				
 			}
-			private function saveImageToDisk(event:MouseEvent):void
+			private function saveImageToDisk():void
 			{
 				var bitmapData:BitmapData = new BitmapData(diagram.width, diagram.height, true, 0x00FFFFFF);
 				bitmapData.draw(diagram, new Matrix());
@@ -1523,9 +1522,10 @@
 						<mx:Text styleName="iCardeaLabel" text="{_careplan.name}" />
 					</mx:HBox>
 					<mx:Spacer height="5%"/>
-					<mx:Box horizontalAlign="left" width="100%">
-						<mx:Button styleName="iCardeaLabel" id="updateCP" label="Update" click="updateCareplan()"/>
-					</mx:Box>
+					<mx:HBox horizontalAlign="left" width="100%">
+						<mx:Button styleName="iCardeaGeneralButton" width="110" height="30" id="updateCP" label="Update" click="updateCareplan()"/>
+						<mx:Button styleName="iCardeaGeneralButton" width="110" height="30" id="saveAsImage" label="Save as Image" click="saveImageToDisk()"/>
+					</mx:HBox>
 					<mx:Spacer height="5%"/>	
 					<component:ToolPanel id="groupNavigator" >
 						<component:GenericTitle title="Care Plan Steps"/>
@@ -1539,7 +1539,7 @@
 															  borderThickness="0" 
 															  direction="vertical" rowCount="7" scaleX="1.5" scaleY="1.5"/>
 															  
-							<mx:TileList dataProvider="{tileSteps}" direction="vertical" borderThickness="0"
+							<mx:TileList fontSize="13" dataProvider="{tileSteps}" direction="vertical" borderThickness="0"
 								selectable="false" columnWidth="120" columnCount="1" rowCount="7"
 								rowHeight="39" textAlign="left" verticalAlign="middle" />
 						</mx:HBox>
@@ -1561,6 +1561,7 @@
 									  width="100%" height="100%"
 									  creationComplete="diagram_creationCompleteHandler()">
 				</diagview:DiagramView>
+				
 			</mx:VBox>
 		</extended:ExtendedDividedBox>	
 	</mx:HBox>	

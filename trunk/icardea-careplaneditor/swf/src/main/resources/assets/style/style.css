@@ -10,7 +10,7 @@
 .iCardeaLabel {
    	color: #000000;
 	paddingLeft: 0;
-	fontSize: 15;
+	fontSize: 16;
    	fontWeight: normal;
    	disabledColor: #999999;
    	font-family: Calibri;
@@ -131,6 +131,16 @@
    themeColor: #999999;
    fontSize: 11;
    fontWeight: bold;
+}
+.iCardeaGeneralButton {
+	color: #000000;
+	paddingLeft: 0;
+	fontSize: 16;
+   	fontWeight: normal;
+   	disabledColor: #999999;
+   	font-family: Calibri;
+    fontSize: 16;
+    
 }
 
 .linkButtonWindowShade {
