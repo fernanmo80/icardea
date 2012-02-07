@@ -39,7 +39,21 @@ installation is performed in a MS Windows (32bit) server machine. We have
 tested the instructions on Windows XP but they should be valid also for newer
 versions like Vista and Windows 7.</p>
 
-<h3 id="prerequisites">Prerequisites</h3>
+<p>This section contains the following installation instructions:</p>
+
+<ul>
+  <li><a href="#pre">Prerequisites</a> that are used by more than one component,</li>
+  <li><a href="#xds">XDS Registry, Update Broker, and Patient Index</a>,</li>
+  <li><a href="#pixm">PIX Manager</a>, the web based user interface for managing PIX,</li>
+  <li><a href="#cdaed">CDA Editor</a> for constructing from scratch or editing CDA
+documents, and</li>
+  <li><a href="#audit">OpenATNA audit repository</a>, an optional component, for
+logging purposes</li>
+</ul>
+
+<p>Finally there is some <a href="#conf">configuration</a> information.</p>
+
+<h3 id="pre">Prerequisites</h3>
 
 <p>Before we install the EHR Interoperability Framework we need to make
 sure that we have installed the following prerequisites:</p>
@@ -241,13 +255,15 @@ Openid Server!</p>
 
 <h4 id="xds">XDS Registry, Update Broker, and Patient Index</h4>
 
-<p>The “installatation” of these two components is a plain copy of the
+<p>The “installation” of these two components is a plain copy of the
 contents of the SVN repository in some folder – there’s no need for
-running setup or other installation bundle. You just need to create two
-new folders (e.g. in <code>c:\</code>) called (for example): <code>c:\xds</code> and
-<code>c:\pixpdq</code> and put there the relevant code as downloaded from the SVN
-repository. (The code for the XDS Registry and the Update Broker should
-be in the same folder – they are in the same folder in the SVN as well)</p>
+running setup or other installation bundle, assuming that you have
+installed Python and the rest of the <a href="#pre">prerequisites</a>. You just
+need to create two new folders (e.g. in <code>c:\</code>) called (for example):
+<code>c:\xds</code> and <code>c:\pixpdq</code> and put there the relevant code as downloaded
+from the SVN repository. (The code for the XDS Registry and the Update
+Broker should be in the same folder – they are in the same folder in
+the SVN as well)</p>
 
 <h4 id="pixm">PIX Manager</h4>
 
@@ -261,6 +277,12 @@ guide</a> this is the assumed installation folder).</p>
 
 <p>The CDA editor is a MS Windows desktop application and you need to run
 the setup program in order to install it.</p>
+
+<h4 id="audit">OpenATNA audit repository</h4>
+
+<p>This is an optional component in the sense that all the components will
+work even if it is not installed. More details about its installation
+can be found <a href="audit.html">here</a>.</p>
 
 <h3 id="conf">Configuration</h3>
 
@@ -417,7 +439,7 @@ running on</p>
 </div>
 
                 <footer id="footer">
-                &copy; 2011 <a href="http://www.ics.forth.gr/">Institute of Computer Science, FORTH</a>
+                &copy; 2011 - 2012 <a href="http://www.ics.forth.gr/">Institute of Computer Science, FORTH</a>
                 </footer>
             </div>
         </div>
