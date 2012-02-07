@@ -546,12 +546,12 @@ public class ReceiverApplication extends Thread {
 		}
 		
 		if(epSOSID != null) {
-			Logger.getLogger(ReceiverApplication.class).log(Level.INFO, "epSOS ID: "+ epSOSID + " homeCommunityID: " +homeCommunityID);
+			/*Logger.getLogger(ReceiverApplication.class).log(Level.INFO, "epSOS ID: "+ epSOSID + " homeCommunityID: " +homeCommunityID);
 			tr.com.srdc.icardea.epsos.EPSOSClient epsosClient = new tr.com.srdc.icardea.epsos.EPSOSClient(epSOSID, homeCommunityID);
 			String cda = epsosClient.retrieveDocument();
 			Logger.getLogger(ReceiverApplication.class).log(Level.INFO, "Retrieved CDA document... "+ cda);
 			epsosClient.registerDocument(cda);
-			Logger.getLogger(ReceiverApplication.class).log(Level.INFO, "Registration to XDS Reg/Rep complete... ");
+			Logger.getLogger(ReceiverApplication.class).log(Level.INFO, "Registration to XDS Reg/Rep complete... ");*/
 		}
 
 		PatientCriteria patientCriteria = null;

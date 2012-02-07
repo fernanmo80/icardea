@@ -9,7 +9,7 @@ import tr.com.srdc.icardea.ihe.idco.observationprocessor.ObservationProcessor;
 public class IHEIDCOIntegrationTest {
 	private static ObservationProcessor processor = null;
 
-	@Test
+	//@Test
 	public void testADTMessage() throws java.lang.Exception {
 		String fileName = "idco/adt-a01.hl7";
 		ObservationCreator obsCreator = new ObservationCreator("localhost", 1011);
@@ -24,7 +24,7 @@ public class IHEIDCOIntegrationTest {
 	}
 
 	//@Test
-	/*public void testIHEIDCOObservationServerXMLMessage() throws java.lang.Exception {
+	public void testIHEIDCOObservationServerXMLMessage() throws java.lang.Exception {
 		// TODO: Eger message size buyukse parse etmiyor...
 		System.out.println(" $$$$ Sending HL7_ORU.xml....");
 		System.out.println(" $$$$ If the message size is large, most probably it can not parse the message....");
@@ -32,7 +32,7 @@ public class IHEIDCOIntegrationTest {
 		ObservationCreator obsCreator = new ObservationCreator("localhost", 1011);
 		obsCreator.run(true, true, fileName);
 		System.out.println(" $$$$ Sent....");
-	}*/
+	}
 
 	//@Test
 	public void testHL7EDI() throws java.lang.Exception {
@@ -48,7 +48,7 @@ public class IHEIDCOIntegrationTest {
 		obsCreator.run(true, true, fileName);
 	}
 
-	//@Test
+	@Test
 	public void test2() throws java.lang.Exception {
 		String fileName = "idco/VTCareplan/VT_Scenario_Step_9.hl7";
 		ObservationCreator obsCreator = new ObservationCreator("localhost", 1011);
