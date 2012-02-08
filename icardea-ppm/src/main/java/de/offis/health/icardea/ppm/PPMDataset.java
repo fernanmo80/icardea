@@ -149,7 +149,7 @@ public class PPMDataset {
 					exec_stmt.execute(nextStmt);
 
 					try {
-					
+
 						nextStmt="create or replace view "+tablename+"_test as "
 								+ " select  diffvalue/diffdate changeperday, diffvalue, newvalue, diffdate, oldtime , newtime from "
 								+tablename+"_order c where oldtime < newtime limit 1";
@@ -567,12 +567,16 @@ public class PPMDataset {
 			}
 
 		}
+
 		String insertString="insert into ppmpending (source,status,SerialID,dataset,FULLREFID,timelow,timehigh) values ('CIED','P',";
+		logger.info("add CIED Pending:"+ciedSerial+":"+fullRefID+":"+timeLow+":"+timeHigh);
+		if (data.length()<200){
+			logger.info(data);
+		}
 		insertString=insertString+"'"+ciedSerial+"','"+data+"','"+fullRefID+"','"+timeLow.trim().substring(0,13)+"','"+timeHigh.trim().substring(0,13)+"')";
-		logger.warn("TRY:"+insertString);
 		try {
 			rs= getStmt().executeUpdate(insertString);
-			logger.debug(rs+":" +insertString);
+			logger.trace(rs+":" +insertString);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			logger.error(rs+":" +insertString);
@@ -596,6 +600,8 @@ public class PPMDataset {
 		ResultSet checkrs;
 		String statmentString="";
 		String id="1";
+		String dataset="";
+		String datatype="";
 		try {
 			rs = createStmt().executeQuery("SELECT  source,status,SerialID,dataset,fullrefid,w.timelow,w.timehigh,ID,w.localid FROM ppmpending w,patient p "+
 					"where w.status='P' and trim(w.SerialID)=trim(p.patientIdentifier)"
@@ -609,7 +615,7 @@ public class PPMDataset {
 					logger.info("New Patient found");
 					newPPMPatient(id);
 				}
-				statmentString="select id, timelow,timehigh from ppmdataset where patid=trim('"+id+"') and fullrefid='"+rs.getString("fullrefid")+"'";
+				statmentString="select id, timelow,timehigh,TYPE_OF_VARIABLE from ppmdataset where patid=trim('"+id+"') and fullrefid='"+rs.getString("fullrefid")+"'";
 				//				System.out.println(statmentString);
 				logger.debug(statmentString);
 				checkrs=getStmt().executeQuery(statmentString);
@@ -629,15 +635,33 @@ public class PPMDataset {
 							logger.debug(statmentString);
 						}else{
 							//new value inserting
-							statmentString="update ppmdataset set dataset='"+rs.getString("dataset")+"',timelow='"+rs.getString("timelow")
+							dataset=rs.getString("dataset");
+							if (dataset==null) {
+								logger.error("Null Dataset");
+								return;
+							}
+							datatype=checkrs.getString("TYPE_OF_VARIABLE");
+							if (datatype.equals("Image")){
+								dataset="";
+							}else if (datatype.equals("Time")){
+								if (dataset.length()>9){
+									dataset=dataset.substring(8);
+								}
+							}else if (datatype.equals("Date")){
+								if (dataset.length()>=8){
+									dataset=dataset.substring(0,8);
+								}
+
+							}
+							logger.debug("datatype:"+datatype+" :"+dataset+"  pre:"+rs.getString("dataset"));
+							statmentString="update ppmdataset set dataset='"+dataset+"',timelow='"+rs.getString("timelow")
 									+"',timehigh='"+rs.getString("timehigh")+
 									"' where id="+checkrs.getInt("id");
 							createStmt().executeUpdate(statmentString);
-							System.out.println(statmentString);
+							logger.trace(statmentString);
 							statmentString="update ppmpending set status='I' where localid="+rs.getInt("localid");
 							createStmt().executeUpdate(statmentString);
-							System.out.println(statmentString);
-							logger.debug(statmentString);
+							logger.trace(statmentString);
 						}
 
 				}
@@ -662,7 +686,7 @@ public class PPMDataset {
 		ResultSet rs;
 		String ppmROW= "SHEET,PARAMETER,DATASET,TYPE_OF_VARIABLE,EXPLANATION,SOURCE,fullrefid,PPMDATASOURCE,TIME_FRAME,FORMAT,VALIDATION,COMMENTS,SJM_COMMENTS,SORTNUMBER,SUBTITEL,BUTTONTITEL,BUTTONTABLE,USERPREF,SQLCAREPLAN,DEMODATASET_AF,TIMELOW,TIMEHIGH,PATID";
 		String insertROW ="";
-//		System.out.println("Add PPMDataset for patid="+patid);
+		//		System.out.println("Add PPMDataset for patid="+patid);
 		logger.info("Add PPMDataset for patid="+patid);
 		try {
 			//			System.out.println("SELECT  "+ppmROW+ " FROM ppmdataset where trim(patid)='0' " );
@@ -674,7 +698,7 @@ public class PPMDataset {
 				}
 				insertROW=insertROW+"'"+patid+"')";
 				getStmt().executeUpdate(insertROW);
-//				System.out.println(insertROW);
+				//				System.out.println(insertROW);
 				logger.debug(insertROW);
 			}
 			updatePPM_EHR_Data(patid);
@@ -682,7 +706,7 @@ public class PPMDataset {
 		}
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
-//			System.out.println("ERROR:"+insertROW);
+			//			System.out.println("ERROR:"+insertROW);
 			logger.error("ERROR:"+insertROW);
 			e.printStackTrace();
 		}
@@ -710,7 +734,7 @@ public class PPMDataset {
 		String updateString="update ppmdataset set dataset='"+dataset+"' where Parameter='"+dataitem+"' and patid="+patid;
 		try {
 			getStmt().executeUpdate(updateString);
-			logger.debug(updateString);
+			logger.trace(updateString);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			logger.error("ERROR:"+updateString);
@@ -728,23 +752,23 @@ public class PPMDataset {
 		String[] testStrings;
 		List<String>  mySheetsList = new ArrayList<String>();
 		String[] mysheetStrings;
-		
+
 		System.out.println("Start Login getInstance ");
 		String username="http://134.106.52.9:4545/idp/u="+"user";
-		 username="https://www.google.com/accounts/o8/id";
-		 
-//		 username="http://athiel.meinguter.name";
-											System.out.println("##############AT Discovery for: "+username);
-											DiscoveryInformation discovery = RegistrationService
-													.performDiscoveryOnUserSuppliedIdentifier(username);
-											System.out.println("##############AT GOT Discovery for:");
-											String url = RegistrationService.getReturnToUrl();
-											System.out.println("##############AT return url:"+url);
-										
-											AuthRequest authRequest = RegistrationService.createOpenIdAuthRequest(discovery, url);
-											System.out.println("##############AT authrequested");
-											String redirectUrl = authRequest.getDestinationUrl(true);
-											System.out.println("##############AT authrequested redirect url:"+redirectUrl);
+		username="https://www.google.com/accounts/o8/id";
+
+		//		 username="http://athiel.meinguter.name";
+		System.out.println("##############AT Discovery for: "+username);
+		DiscoveryInformation discovery = RegistrationService
+				.performDiscoveryOnUserSuppliedIdentifier(username);
+		System.out.println("##############AT GOT Discovery for:");
+		String url = RegistrationService.getReturnToUrl();
+		System.out.println("##############AT return url:"+url);
+
+		AuthRequest authRequest = RegistrationService.createOpenIdAuthRequest(discovery, url);
+		System.out.println("##############AT authrequested");
+		String redirectUrl = authRequest.getDestinationUrl(true);
+		System.out.println("##############AT authrequested redirect url:"+redirectUrl);
 
 		System.out.println("Start PPMDataset getInstance ");
 		PPMDataset ppmDataset =PPMDataset.getInstance();
@@ -797,8 +821,8 @@ public class PPMDataset {
 
 	private String dropPPMDataset="drop table  if exists icardea.PPMDATASET; ";
 	private String dropPPMPending="drop table  if exists icardea.PPMPENDING; ";
-	
-	private String createPPMDataset = "CREATE TABLE icardea.PPMDATASET (   SHEET VARCHAR(20),   PARAMETER VARCHAR(50),   DATASET TEXT,   TYPE_OF_VARIABLE TEXT,   EXPLANATION TEXT,   SOURCE TEXT,   FULLREFID TEXT,   PPMDATASOURCE TEXT,   TIME_FRAME TEXT,   FORMAT TEXT,   VALIDATION TEXT,   COMMENTS TEXT,   SJM_COMMENTS TEXT,   PATID TEXT,   SORTNUMBER INTEGER,   SUBTITEL TEXT,   BUTTONTITEL TEXT,   BUTTONTABLE TEXT,   USERPREF TEXT,   SQLCAREPLAN TEXT,   DEMODATASET_AF TEXT,   TIMELOW TEXT,   TIMEHIGH TEXT,   ID INTEGER NOT NULL  AUTO_INCREMENT,   PRIMARY KEY (ID) );";
+
+	private String createPPMDataset = "CREATE TABLE icardea.PPMDATASET (   SHEET VARCHAR(20),   PARAMETER VARCHAR(50),   DATASET LONGTEXT,   TYPE_OF_VARIABLE TEXT,   EXPLANATION TEXT,   SOURCE TEXT,   FULLREFID TEXT,   PPMDATASOURCE TEXT,   TIME_FRAME TEXT,   FORMAT TEXT,   VALIDATION TEXT,   COMMENTS TEXT,   SJM_COMMENTS TEXT,   PATID TEXT,   SORTNUMBER INTEGER,   SUBTITEL TEXT,   BUTTONTITEL TEXT,   BUTTONTABLE TEXT,   USERPREF TEXT,   SQLCAREPLAN TEXT,   DEMODATASET_AF TEXT,   TIMELOW TEXT,   TIMEHIGH TEXT,   ID INTEGER NOT NULL  AUTO_INCREMENT,   PRIMARY KEY (ID) );";
 	private String createPPMPending = "CREATE TABLE icardea.PPMPENDING (   SerialID TEXT,   DATASET LONGTEXT,   SOURCE TEXT,   FULLREFID TEXT,   PATID TEXT,   TIMELOW TEXT,   TIMEHIGH TEXT,   STATUS CHAR,   localid MEDIUMINT NOT NULL AUTO_INCREMENT,    PRIMARY KEY (localid)   );";
 	private String createVIEWS="create OR REPLACE view icardea.medications as select  m.doseQuantity val, m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh,concat(m.text ,' ', m.doseQuantity,' mg') text,ehr.isEHR ,p.id patid from Medication m,Patient p, EHRPHRData ehr where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and careProvisionCode=\"MEDLIST\" and ehr.isEHR=1 order by m.text,m.effectiveTime,m.effectiveTimeHigh ;"
 			+" create  OR REPLACE view icardea.Compliance as   select  0 val,  m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh, concat(m.text, ' taken ',m.doseQuantity,' mg prescribed ' ,m2.doseQuantity,' mg') text, ehr.isEHR ,ehr2.isEHR isEHr2,p.id patid from Medication m, Medication m2,Patient p, EHRPHRData ehr, EHRPHRData ehr2 where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and ehr2.id=m2.EHRPHRDataID and  m.text=m2.text  and ehr.isEHR=0 and ehr2.isEHR=1 and m.doseQuantity<>m2.doseQuantity order by m.text,m.effectiveTime,m.effectiveTimeHigh ;  "
