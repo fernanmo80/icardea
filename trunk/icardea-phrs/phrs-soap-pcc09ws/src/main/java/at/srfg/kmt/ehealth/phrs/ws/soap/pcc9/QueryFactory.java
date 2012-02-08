@@ -367,12 +367,12 @@ final class QueryFactory {
 
             // IVLTS - time interval
             final IVXBTS beginTimeIterval = new IVXBTS();
-            beginTimeIterval.setValue(clinicalStatementTimePeriodEnd);
+            beginTimeIterval.setValue(clinicalStatementTimePeriodBegin);
             final JAXBElement<IVXBTS> ivltsLow =
                     OBJECT_FACTORY.createIVLTSLow(beginTimeIterval);
 
             final IVXBTS endTimeIterval = new IVXBTS();
-            endTimeIterval.setValue(clinicalStatementTimePeriodBegin);
+            endTimeIterval.setValue(clinicalStatementTimePeriodEnd);
             final JAXBElement<IVXBTS> ivltsHigh =
                     OBJECT_FACTORY.createIVLTSHigh(endTimeIterval);
 
@@ -380,7 +380,7 @@ final class QueryFactory {
             // TODO : why you use rest here ? search in the specs.
             ivlts.getRest().add(ivltsLow);
             ivlts.getRest().add(ivltsHigh);
-
+            
             final QUPCMT040300UV01ClinicalStatementTimePeriod period =
                     new QUPCMT040300UV01ClinicalStatementTimePeriod();
             period.setValue(ivlts);
