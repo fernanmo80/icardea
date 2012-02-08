@@ -4,6 +4,7 @@
 package de.offis.health.icardea.ppm;
 
 import java.text.MessageFormat;
+import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -87,6 +88,8 @@ public class GeneralView extends ViewPart {
 	public void createPartControl(Composite parent) {
 		{
 			{
+				HttpServletRequest request = RWT.getRequest();
+
 				{
 					{
 						patientTop = new Composite(parent, SWT.NONE);
@@ -137,7 +140,7 @@ public class GeneralView extends ViewPart {
 										ppmDataset.setCurrentPatID(ppmDataset.patientList.get(comboPatientlist.getSelectionIndex()).getId());
 
 										updatePatientLabels();
-										
+
 										//FIXME Audit logging here
 
 										patientTopLayout.topControl=patient;
@@ -193,12 +196,21 @@ public class GeneralView extends ViewPart {
 									//################## HACK
 									logger.debug("Start Login Instance ");
 									String username;
-									//FIXME correct id provider from config
-									username = "http://134.106.52.9:4545/idp/u="+ uname.getText();
-									//username="https://www.google.com/accounts/o8/id";
-									uname.setText(username);
-									username=uname.getText();
-									//									 username="http://openid-provider.appspot.com/thiel.offis@googlemail.com";
+									ResourceBundle properties = ResourceBundle.getBundle("icardea");
+								  boolean isSalkUsage = Boolean.parseBoolean(properties.getString("salk.usage"));
+									  																	
+								//username = "http://134"+"."+"106"+"."+"52"+"."+"9:4545/idp/u="+ uname.getText();
+								//username="https://www.google.com/accounts/o8/id";
+								  username=uname.getText();
+
+									if(isSalkUsage){
+										String salkServer = properties.getString("salk.server");
+										username=salkServer+"/idp/u="+username; //only valid for SALK server
+									}
+									else{//(isSalkUsage) NoSalkUsage Local Testing assumed
+										username = "http://134"+"."+"106"+"."+"52"+"."+"9:4545/idp/u="+ uname.getText();										
+									}
+
 									logger.debug("Discovery for: "+username);
 									//FIXME Audit logging here
 									DiscoveryInformation discovery = RegistrationService
@@ -213,26 +225,26 @@ public class GeneralView extends ViewPart {
 									}
 									else{//Discovery Null false
 										//FIXME Audit logging here
-										
+
 										logger.debug("GOT Discovery for:" + discovery.getDelegateIdentifier());
 										logger.debug("GOT Discovery for:" + discovery.getClaimedIdentifier());
 										logger.debug("GOT Discovery for:" + discovery.getOPEndpoint());
 
 
 
-//									AuthRequest authRequest = RegistrationService.createOpenIdAuthRequest(discovery, url);
-//									logger.debug("GeneralView ##############AT authrequested");
-//									String redirectUrl = authRequest.getDestinationUrl(true);
-//									logger.debug("GeneralView ##############AT authrequested redirect url:"+redirectUrl);
-//																																
+										//									AuthRequest authRequest = RegistrationService.createOpenIdAuthRequest(discovery, url);
+										//									logger.debug("GeneralView ##############AT authrequested");
+										//									String redirectUrl = authRequest.getDestinationUrl(true);
+										//									logger.debug("GeneralView ##############AT authrequested redirect url:"+redirectUrl);
+										//																																
 
 										String url = RegistrationService.getReturnToUrl();
-//										logger.debug("GeneralView ##############AT return url:"+url);
+										//										logger.debug("GeneralView ##############AT return url:"+url);
 
 										AuthRequest authRequest = RegistrationService.createOpenIdAuthRequest(discovery, url);
-//										logger.debug("GeneralView ##############AT authrequested");
+										//										logger.debug("GeneralView ##############AT authrequested");
 										String redirectUrl = authRequest.getDestinationUrl(true);
-//										logger.debug("GeneralView ##############AT authrequested redirect url:"+redirectUrl);
+										//										logger.debug("GeneralView ##############AT authrequested redirect url:"+redirectUrl);
 										HttpServletResponse resp = RWT.getResponse();
 										HttpServletRequest req = RWT.getRequest();
 										final String browserText =
@@ -274,10 +286,6 @@ public class GeneralView extends ViewPart {
 
 					}
 
-					patientTopLayout.topControl=patientChooser;
-					patientTopLayout.topControl=login;
-
-					patientTop.layout();
 
 					user = new Composite(parent, SWT.NONE);
 					user.setLayout(new GridLayout(2, false));
@@ -304,8 +312,18 @@ public class GeneralView extends ViewPart {
 							//						}
 						}
 					});
-					HttpServletRequest request = RWT.getRequest();
 					//logger.debug("Startdate: "+request.getParameter("startdate"));
+					ParameterList paralist = new ParameterList(request.getParameterMap());
+					String retval=paralist.getParameterValue("openid.mode");
+					logger.debug("RETURN STATE "+retval);
+					patientTopLayout.topControl=login;
+					if (retval!=null){
+						if (retval.equalsIgnoreCase("id_res")){
+							//						logger.debug("User:"+rm.getOpenId()+"\n is verified "+rm.getIs_verified());
+							patientTopLayout.topControl=patientChooser;
+						}}
+					patientTop.layout();	
+
 					int startdate=0;
 					if (request==null)
 						startdate=0;
@@ -318,36 +336,8 @@ public class GeneralView extends ViewPart {
 							ppmDataset.setRole(role);
 						}
 						if (request.getParameter("startview")!=null){
-							Integer startview=Integer.parseInt(request.getParameter("startview").toString());
-							logger.debug("Manuell set Startview to "+startview);
-							RegistrationModel rm=null;
-							if (startview==1){
-								//FIXME Audit logging here
 
-//								try {
-									ParameterList paralist = new ParameterList(request.getParameterMap());
-									String retval=paralist.getParameterValue("openid.mode");
-											logger.debug("RETURN STATE "+retval);
-
-//									rm=RegistrationService.processReturn(request);
-									if (retval.equalsIgnoreCase("id_res")){
-//										logger.debug("User:"+rm.getOpenId()+"\n is verified "+rm.getIs_verified());
-										patientTopLayout.topControl=patientChooser;
-										patientTop.layout();	
-									}
-
-//								} catch (MessageException e2) {
-//									// TODO Auto-generated catch block
-//									e2.printStackTrace();
-//								} catch (DiscoveryException e2) {
-//									// TODO Auto-generated catch block
-//									e2.printStackTrace();
-//								} catch (AssociationException e2) {
-//									// TODO Auto-generated catch block
-//									e2.printStackTrace();
-//								}
-
-							}
+							//empty
 						}
 
 

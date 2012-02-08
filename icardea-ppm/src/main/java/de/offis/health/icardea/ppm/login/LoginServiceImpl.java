@@ -37,6 +37,7 @@ public class LoginServiceImpl implements LoginService {
 		 
 		boolean salkUsage = new Boolean(ResourceBundle.getBundle("icardea")
 				.getString("salk.usage")).booleanValue();
+		System.out.println("SAlk Usage" + salkUsage);
 
 		if(salkUsage == true){
 			username=salkServer+"/idp/u="+username; //only valid for SALK server
