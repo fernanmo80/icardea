@@ -192,7 +192,7 @@ public class RegistrationService {
 		else if (verification.getAuthResponse() instanceof org.openid4java.message.AuthSuccess){
 			log.debug("Evtl. erfolgreicher Auth");
 		}
-		else {log.debug("Das klappt ja gar nicht");}
+		else {log.debug("Kein Positiver und kein negativer Auth. Fehler!");}
 		log.debug("Verification:"+verification.getStatusMsg());
 		// examine the verification result and extract the verified identifier
 		Identifier verified = verification.getVerifiedId();
@@ -278,12 +278,23 @@ public class RegistrationService {
 		
   public static String getReturnToUrl() {
 	  ResourceBundle properties = ResourceBundle.getBundle("icardea");
-	  String salkServer = properties.getString("salk.server");
-	  String securePort = properties.getString("secure.port");
-	  String url = salkServer + ":"+securePort+"/icardea_careplaneditor/servlet/loginServlet?"; //only valid for SALK server
-	  url = salkServer + ":"+securePort+"/ppm_v2/view?startup=de.offis.health.icardea.ppm.viewapp"; //only valid for SALK server
-	//FIXME correct url  
-	  url="http://127.0.0.1:10101/view?startup=de.offis.health.icardea.ppm.viewapp&startview=1";
+	  boolean isSalkUsage = Boolean.parseBoolean(properties.getString("salk.usage"));
+	  String server =""; 
+	  String port ="";
+	  String url = "";
+	  if(isSalkUsage){
+	  server = properties.getString("salk.server");
+	  port = properties.getString("secure.port");
+	  url = server + ":"+port+"/ppm_v2/";
+	  }
+	  else{// (isSalkUSage) NoSalkUsage, we assume localhost testing
+		 log.info("Localhost testing. salk.usage was not 'true'");
+		  server = "http://127.0.0.1";
+		  port= "10101";
+		  url = server + ":"+port+"/";
+		  }
+	   url= url + "view?startup=de.offis.health.icardea.ppm.viewapp";
+	  
 	  /*try {
 		    InetAddress addr = InetAddress.getLocalHost();
 

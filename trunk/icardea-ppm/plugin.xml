@@ -43,7 +43,7 @@
          point="org.eclipse.rap.ui.branding">
       <branding
             servletName="view"
-            themeId="org.eclipse.rap.design.example.business.theme"
+            themeId="de.offis.health.icardea.ppm.theme1"
             defaultEntrypointId="de.offis.health.icardea.ppm.viewapp"
             title="PPM Data View"
             id="de.offis.health.icardea.ppm.branding">
