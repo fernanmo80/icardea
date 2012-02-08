@@ -25,7 +25,6 @@
                     <li><a href="use.html#pixm">PIX Manager &#171;</a></li>
                     <li><a href="use.html#cded">CDA Editor &#171;</a></li>
                 </ul>
-
                 </li>
                 <li><a href="technical.html">Technical Details</a></li>
             </ul>
@@ -75,25 +74,10 @@ the <code>openatna-1.2.1-SNAPSHOT.jar</code> as follows (You do have
     <pre><code>java -jar openatna-1.2.1-SNAPSHOT.jar
 </code></pre>
   </li>
-  <li>
-    <p>The installation of the server now is complete! By default the server
-listens on UDP port 2861, and on 2862 for TLS connections.</p>
-  </li>
 </ul>
 
-<p>There is also a web application for OpenATNA that allows you to search
-the openatna database and see its audit records. Again, for speeding up
-things, you can find a <a href="http://icardea.googlecode.com/svn/trunk/tools_resources/openatna/openatnaweb.war">Java WAR
-file</a>
-in the Google code repository.  You can put this file in the <code>webapps</code>
-directory of a <a href="http://tomcat.apache.org/">Tomcat</a> or
-<a href="http://jetty.codehaus.org/jetty/">Jetty</a> container and then start the
-container. In this WAR file we have put a <code>openatna.properties</code> file
-that instructs the web application to connect to the PostgreSQL server
-running on the <code>localhost</code> (<code>127.0.0.1</code> to be specific) and
-authenticating using the <code>openatna</code> user with <code>openatna</code> password. So if
-your container is not running on the same host as the database server
-you need to alter this properties file appropriately.</p>
+<p>The installation of the server now is complete! By default the server
+listens on UDP port 2861, and on 2862 for TLS connections.</p>
 
 <h4 id="tipimgstippng-consistent-time"><img src="imgs/tip.png" alt="tip" /> Consistent time</h4>
 
@@ -110,6 +94,34 @@ as follows:</p>
 
 <pre><code>java -Duser.timezone=Europe/Vienna ...
 </code></pre>
+
+<h2 id="testing-the-installation">Testing the installation</h2>
+<p>There is also a web application for OpenATNA that allows you to search
+the openatna database and see its audit records. Again, for speeding up
+things, you can find a <a href="http://icardea.googlecode.com/svn/trunk/tools_resources/openatna/atna.war">Java WAR
+file</a>
+in the Google code repository.  You can put this file in the <code>webapps</code>
+directory of a <a href="http://tomcat.apache.org/">Tomcat</a> or
+<a href="http://jetty.codehaus.org/jetty/">Jetty</a> container and then start the
+container. In this WAR file we have put a <code>openatna.properties</code> file
+that instructs the web application to connect to the PostgreSQL server
+running on the <code>localhost</code> (<code>127.0.0.1</code> to be specific) and
+authenticating using the <code>openatna</code> user with <code>openatna</code> password. So if
+your container is not running on the same host as the database server
+you need to alter this properties file accordingly.</p>
+
+<p>The Audit Message viewer of this we application is shown in the figure
+below. Basically you can provide a lot of criteria for selecting only
+the messages that you want to see. For example in the Event Type Code
+you can provide the code of the IHE transaction that the messages
+selected should be related with (In the example below “ITI-41” is the
+code for the XDS “Provide and Register Document Set-b” transaction).
+Then by clicking on the little plus (<code>+</code>) sign shown next to each
+message you see more details about the specific message.</p>
+
+<figure id="fig1">
+<img src="imgs/atna_vwr_small.png" />
+</figure>
 
                 <footer id="footer">
                 &copy; 2011 - 2012 <a href="http://www.ics.forth.gr/">Institute of Computer Science, FORTH</a>
