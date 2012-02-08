@@ -46,8 +46,8 @@ import org.eclipse.swt.widgets.Group;
  *
  */
 public class GeneralView extends ViewPart {
-	public Composite patient;
-	public Composite user;
+	public Composite patientInfos;
+	public Composite userComposit;
 	public Label lblPatient;
 	public Label lblDiagnosis;
 	public Label lblImplantation;
@@ -87,18 +87,20 @@ public class GeneralView extends ViewPart {
 	private Composite logoComp;
 	private Composite headerComposite;
 	private Composite dataComposite;
+	private GridData gd_headerComposite ;
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
 	public void createPartControl(Composite parent) {
-		{
+		{		
 			{
 				HttpServletRequest request = RWT.getRequest();
 				parent.setLayout(new GridLayout(1, true));
+
 				{
 					headerComposite = new Composite(parent, SWT.NONE);
-					GridData gd_headerComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+					gd_headerComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 					gd_headerComposite.heightHint = 171;
 					gd_headerComposite.minimumHeight = 170;
 					gd_headerComposite.minimumWidth = 570;
@@ -127,22 +129,22 @@ public class GeneralView extends ViewPart {
 						patientTopLayout=new StackLayout();
 						patientTop.setLayout(patientTopLayout);
 						{
-							patient = new Composite(patientTop, SWT.NONE);
-							patient.setLayout(new GridLayout(1, false));
+							patientInfos = new Composite(patientTop, SWT.NONE);
+							patientInfos.setLayout(new GridLayout(1, false));
 							{
-								lblPatient = new Label(patient, SWT.NONE);
+								lblPatient = new Label(patientInfos, SWT.NONE);
 								//								lblPatient.setText("Patient: " + ppmDataset.getPatiennameBirthdateString());
 							}
 							{
-								lblDiagnosis = new Label(patient, SWT.NONE);
+								lblDiagnosis = new Label(patientInfos, SWT.NONE);
 								//								lblDiagnosis.setText("Diagnosis: "+ ppmDataset.getDiagnosesString());
 							}
 							{
-								lblImplantation = new Label(patient, SWT.NONE);
+								lblImplantation = new Label(patientInfos, SWT.NONE);
 								//								lblImplantation.setText("Implantation: "+ ppmDataset.getImplantationString());
 							}
 							{
-								lblIcd = new Label(patient, SWT.NONE);
+								lblIcd = new Label(patientInfos, SWT.NONE);
 								//								lblIcd.setText("ICD: "+ ppmDataset.getIcdString());
 							}
 							//							updatePatient();
@@ -173,15 +175,30 @@ public class GeneralView extends ViewPart {
 										updatePatientLabels();
 
 										//FIXME Audit logging here
-
-										patientTopLayout.topControl=patient;
+										// hiding image
+										
 										logger.info("Switch Topcontrol to Patient");
+										//										gd_headerComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+										gd_headerComposite.heightHint = 1;
+										gd_headerComposite.minimumHeight = 1;
+										gd_headerComposite.minimumWidth = 570;
+										gd_headerComposite.widthHint = 570;
+										headerComposite.setLayoutData(gd_headerComposite);
+										//										headerComposite.setLocation(10, 10);
+										//headerComposite.setSize(100, 100);
+										//										headerComposite.setData( WidgetUtil.CUSTOM_VARIANT, "bannerLogo" );
+										headerComposite.setLayout(null);
+
+										headerComposite.layout();
+										headerComposite.pack();
+										
+										patientTopLayout.topControl=patientInfos;
 										patientTop.layout();
 										patientTop.pack(true);
 										IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 										try {
 											activePage.showView("de.offis.health.icardea.ppm.PPMMain");
-											user.setVisible(true);
+											userComposit.setVisible(true);
 
 										} catch (PartInitException e1) {
 											// TODO Auto-generated catch block
@@ -320,18 +337,18 @@ public class GeneralView extends ViewPart {
 					}
 
 
-					user = new Composite(dataComposite, SWT.NONE);
-					user.setBounds(290, 3, 177, 87);
-					user.setLayout(new GridLayout(2, false));
-					user.setVisible(false);
+					userComposit = new Composite(dataComposite, SWT.NONE);
+					userComposit.setBounds(290, 3, 177, 87);
+					userComposit.setLayout(new GridLayout(2, false));
+					userComposit.setVisible(false);
 					{
-						lblWelcome = new Label(user, SWT.NONE);
+						lblWelcome = new Label(userComposit, SWT.NONE);
 						if (ppmDataset.isDemoMode) //FIXME demohack
 							lblWelcome.setText("Welcome "+ ppmDataset.getUserString());
 						else
 							lblWelcome.setText("Welcome ");
 					}
-					chooseDate = new Combo(user, SWT.READ_ONLY);
+					chooseDate = new Combo(userComposit, SWT.READ_ONLY);
 					chooseDate.addSelectionListener(new SelectionAdapter() {
 						@Override
 						public void widgetSelected(SelectionEvent e) {
@@ -388,11 +405,11 @@ public class GeneralView extends ViewPart {
 					chooseDate.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 					chooseDate.select(startdate);
 					{
-						lblChooseView = new Label(user, SWT.NONE);
+						lblChooseView = new Label(userComposit, SWT.NONE);
 						lblChooseView.setText("Choose View:");
 					}
 					{
-						btnLogout = new Button(user, SWT.NONE);
+						btnLogout = new Button(userComposit, SWT.NONE);
 						btnLogout.addSelectionListener(new SelectionAdapter() {
 							@Override
 							public void widgetSelected(SelectionEvent e) {
@@ -401,7 +418,7 @@ public class GeneralView extends ViewPart {
 								IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
 								IViewPart ivPart=activePage.findView("de.offis.health.icardea.ppm.PPMMain");
 								activePage.hideView(ivPart);
-								user.setVisible(false);
+								userComposit.setVisible(false);
 
 							}
 						});
@@ -411,7 +428,7 @@ public class GeneralView extends ViewPart {
 					}
 
 					{
-						chooseViews = new Combo(user, SWT.READ_ONLY);
+						chooseViews = new Combo(userComposit, SWT.READ_ONLY);
 						chooseViews.addSelectionListener(new SelectionAdapter() {
 							@Override
 							public void widgetSelected(SelectionEvent e) {
@@ -424,7 +441,7 @@ public class GeneralView extends ViewPart {
 						chooseViews.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
 						chooseViews.select(0);
 					}
-					btnDact = new Button(user, SWT.CENTER);
+					btnDact = new Button(userComposit, SWT.CENTER);
 					btnDact.setGrayed(true);
 					btnDact.setText("DACT");
 
