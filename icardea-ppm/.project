@@ -31,4 +31,11 @@
 		<nature>org.eclipse.pde.PluginNature</nature>
 		<nature>org.eclipse.jdt.core.javanature</nature>
 	</natures>
+	<linkedResources>
+		<link>
+			<name>images</name>
+			<type>2</type>
+			<location>D:/Daten/icardeaWSRap14/de.offis.health.icardea.ppm/theme/images</location>
+		</link>
+	</linkedResources>
 </projectDescription>

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.log4j.Logger;
 import org.eclipse.rwt.RWT;
 import org.eclipse.rwt.internal.widgets.JSExecutor;
+import org.eclipse.rwt.lifecycle.WidgetUtil;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.StackLayout;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -37,6 +38,8 @@ import org.openid4java.message.ParameterList;
 
 import de.offis.health.icardea.ppm.login.RegistrationModel;
 import de.offis.health.icardea.ppm.login.RegistrationService;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.widgets.Group;
 
 /**
  * @author thiel
@@ -61,7 +64,7 @@ public class GeneralView extends ViewPart {
 	 * 
 	 */
 	public GeneralView() {
-		//		setTitleImage(ResourceManager.getPluginImage("de.offis.health.icardea.ppm", "iCARDEA-logo.png"));
+				//setTitleImage(ResourceManager.getPluginImage("de.offis.health.icardea.ppm", "iCARDEA-logo.png"));
 		// TODO Auto-generated constructor stub
 		ppmDataset=PPMDataset.getInstance();
 	}
@@ -81,6 +84,9 @@ public class GeneralView extends ViewPart {
 
 
 	private String role="doctor";
+	private Composite logoComp;
+	private Composite headerComposite;
+	private Composite dataComposite;
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
@@ -89,10 +95,35 @@ public class GeneralView extends ViewPart {
 		{
 			{
 				HttpServletRequest request = RWT.getRequest();
+				parent.setLayout(new GridLayout(1, true));
+				{
+					headerComposite = new Composite(parent, SWT.NONE);
+					GridData gd_headerComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+					gd_headerComposite.heightHint = 171;
+					gd_headerComposite.minimumHeight = 170;
+					gd_headerComposite.minimumWidth = 570;
+					gd_headerComposite.widthHint = 570;
+					headerComposite.setLayoutData(gd_headerComposite);
+					headerComposite.setLocation(10, 10);
+					//headerComposite.setSize(100, 100);
+					headerComposite.setData( WidgetUtil.CUSTOM_VARIANT, "bannerLogo" );
+					headerComposite.setLayout(null);
+								
+					headerComposite.layout();
+				}
+				{
+					dataComposite = new Composite(parent, SWT.NONE);
+					dataComposite.setLayout(new GridLayout(2, false));
+					GridData gd_dataComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
+					gd_dataComposite.heightHint = 314;
+					dataComposite.setLayoutData(gd_dataComposite);
+				//	dataComposite.setLayoutData(new RowData(573, 325));
+				}
 
 				{
 					{
-						patientTop = new Composite(parent, SWT.NONE);
+						patientTop = new Composite(dataComposite, SWT.NONE);
+						patientTop.setBounds(3, 3, 284, 77);
 						patientTopLayout=new StackLayout();
 						patientTop.setLayout(patientTopLayout);
 						{
@@ -180,6 +211,7 @@ public class GeneralView extends ViewPart {
 							lblpwd = new Label(login, SWT.NONE);
 							lblpwd.setText("Info");
 						}
+						
 						{
 							pwd = new Label(login, SWT.NONE);
 							GridData gd_pwd = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -210,7 +242,8 @@ public class GeneralView extends ViewPart {
 									else{//(isSalkUsage) NoSalkUsage Local Testing assumed
 										username = "http://134"+"."+"106"+"."+"52"+"."+"9:4545/idp/u="+ uname.getText();										
 									}
-
+//FIXME Zugtesting
+									username=uname.getText();
 									logger.debug("Discovery for: "+username);
 									//FIXME Audit logging here
 									DiscoveryInformation discovery = RegistrationService
@@ -287,7 +320,8 @@ public class GeneralView extends ViewPart {
 					}
 
 
-					user = new Composite(parent, SWT.NONE);
+					user = new Composite(dataComposite, SWT.NONE);
+					user.setBounds(290, 3, 177, 87);
 					user.setLayout(new GridLayout(2, false));
 					user.setVisible(false);
 					{
@@ -317,6 +351,7 @@ public class GeneralView extends ViewPart {
 					String retval=paralist.getParameterValue("openid.mode");
 					logger.debug("RETURN STATE "+retval);
 					patientTopLayout.topControl=login;
+					// Hier war das Logo
 					if (retval!=null){
 						if (retval.equalsIgnoreCase("id_res")){
 							//						logger.debug("User:"+rm.getOpenId()+"\n is verified "+rm.getIs_verified());
@@ -335,10 +370,16 @@ public class GeneralView extends ViewPart {
 							role=(request.getParameter("role").toString());
 							ppmDataset.setRole(role);
 						}
+						//TODO Snippet
 						if (request.getParameter("startview")!=null){
+                            logger.debug("Startview="+request.getParameter("startview")+" is "+request.getParameter("startview").toString().compareToIgnoreCase("zhjgdewer"));
 
-							//empty
-						}
+                            //empty
+if (request.getParameter("startview").toString().compareToIgnoreCase("zhjgdewer")==0){
+                            patientTopLayout.topControl=patientChooser;
+                            patientTop.layout();   
+} 
+}
 
 
 					}
@@ -386,7 +427,7 @@ public class GeneralView extends ViewPart {
 					btnDact = new Button(user, SWT.CENTER);
 					btnDact.setGrayed(true);
 					btnDact.setText("DACT");
-
+					
 					btnDact.addSelectionListener(new PPMButtonSelectionAdaptor("DACT",PPMMain.mainTabFolder) );
 				}
 			}
@@ -409,5 +450,4 @@ public class GeneralView extends ViewPart {
 		lblImplantation.setText("Implantation: "+ ppmDataset.getImplantationString());
 		lblIcd.setText("ICD: "+ ppmDataset.getIcdString());
 	}
-
 }

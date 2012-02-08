@@ -2,3 +2,7 @@
     backgound-color: yellow;
     color: black;
   }
+Composite.bannerLogo
+{
+    background-image: url('theme/images/iCARDEA-logo.png');
+}
