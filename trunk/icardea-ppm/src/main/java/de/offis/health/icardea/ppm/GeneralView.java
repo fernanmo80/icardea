@@ -64,7 +64,7 @@ public class GeneralView extends ViewPart {
 	 * 
 	 */
 	public GeneralView() {
-				//setTitleImage(ResourceManager.getPluginImage("de.offis.health.icardea.ppm", "iCARDEA-logo.png"));
+		//setTitleImage(ResourceManager.getPluginImage("de.offis.health.icardea.ppm", "iCARDEA-logo.png"));
 		// TODO Auto-generated constructor stub
 		ppmDataset=PPMDataset.getInstance();
 	}
@@ -108,7 +108,7 @@ public class GeneralView extends ViewPart {
 					//headerComposite.setSize(100, 100);
 					headerComposite.setData( WidgetUtil.CUSTOM_VARIANT, "bannerLogo" );
 					headerComposite.setLayout(null);
-								
+
 					headerComposite.layout();
 				}
 				{
@@ -117,7 +117,7 @@ public class GeneralView extends ViewPart {
 					GridData gd_dataComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 					gd_dataComposite.heightHint = 314;
 					dataComposite.setLayoutData(gd_dataComposite);
-				//	dataComposite.setLayoutData(new RowData(573, 325));
+					//	dataComposite.setLayoutData(new RowData(573, 325));
 				}
 
 				{
@@ -211,7 +211,7 @@ public class GeneralView extends ViewPart {
 							lblpwd = new Label(login, SWT.NONE);
 							lblpwd.setText("Info");
 						}
-						
+
 						{
 							pwd = new Label(login, SWT.NONE);
 							GridData gd_pwd = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
@@ -229,11 +229,11 @@ public class GeneralView extends ViewPart {
 									logger.debug("Start Login Instance ");
 									String username;
 									ResourceBundle properties = ResourceBundle.getBundle("icardea");
-								  boolean isSalkUsage = Boolean.parseBoolean(properties.getString("salk.usage"));
-									  																	
-								//username = "http://134"+"."+"106"+"."+"52"+"."+"9:4545/idp/u="+ uname.getText();
-								//username="https://www.google.com/accounts/o8/id";
-								  username=uname.getText();
+									boolean isSalkUsage = Boolean.parseBoolean(properties.getString("salk.usage"));
+
+									//username = "http://134"+"."+"106"+"."+"52"+"."+"9:4545/idp/u="+ uname.getText();
+									//username="https://www.google.com/accounts/o8/id";
+									username=uname.getText();
 
 									if(isSalkUsage){
 										String salkServer = properties.getString("salk.server");
@@ -242,7 +242,7 @@ public class GeneralView extends ViewPart {
 									else{//(isSalkUsage) NoSalkUsage Local Testing assumed
 										username = "http://134"+"."+"106"+"."+"52"+"."+"9:4545/idp/u="+ uname.getText();										
 									}
-//FIXME Zugtesting
+									//FIXME Zugtesting
 									username=uname.getText();
 									logger.debug("Discovery for: "+username);
 									//FIXME Audit logging here
@@ -372,14 +372,14 @@ public class GeneralView extends ViewPart {
 						}
 						//TODO Snippet
 						if (request.getParameter("startview")!=null){
-                            logger.debug("Startview="+request.getParameter("startview")+" is "+request.getParameter("startview").toString().compareToIgnoreCase("zhjgdewer"));
+							logger.debug("Startview="+request.getParameter("startview")+" is "+request.getParameter("startview").toString().compareToIgnoreCase("zhjgdewer"));
 
-                            //empty
-if (request.getParameter("startview").toString().compareToIgnoreCase("zhjgdewer")==0){
-                            patientTopLayout.topControl=patientChooser;
-                            patientTop.layout();   
-} 
-}
+							//empty
+							if (request.getParameter("startview").toString().compareToIgnoreCase("zhjgdewer")==0){
+								patientTopLayout.topControl=patientChooser;
+								patientTop.layout();   
+							} 
+						}
 
 
 					}
@@ -427,7 +427,7 @@ if (request.getParameter("startview").toString().compareToIgnoreCase("zhjgdewer"
 					btnDact = new Button(user, SWT.CENTER);
 					btnDact.setGrayed(true);
 					btnDact.setText("DACT");
-					
+
 					btnDact.addSelectionListener(new PPMButtonSelectionAdaptor("DACT",PPMMain.mainTabFolder) );
 				}
 			}
