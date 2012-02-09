@@ -336,6 +336,8 @@ final public class iCARDEA_Patient extends PrimKV {
 			cx.getCx4_AssigningAuthority().getHd1_NamespaceID().setValue(d.namespace);
 			cx.getCx4_AssigningAuthority().getHd2_UniversalID().setValue(auth.universal_id);
 			cx.getCx4_AssigningAuthority().getHd3_UniversalIDType().setValue(auth.universal_type);
+			if (auth.epsos_authority)
+				cx.getCx5_IdentifierTypeCode().setValue("EPSOS");
 			cx.getCx1_IDNumber().setValue(d.id);
 			++i;
 		}
