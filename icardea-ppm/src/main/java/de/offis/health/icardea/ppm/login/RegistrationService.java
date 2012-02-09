@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.http.auth.AUTH;
 import org.apache.log4j.Logger;
-import org.eclipse.core.internal.expressions.InstanceofExpression;
+//import org.eclipse.core.internal.expressions.InstanceofExpression;
 import org.openid4java.association.AssociationException;
 import org.openid4java.consumer.ConsumerAssociationStore;
 import org.openid4java.consumer.ConsumerException;

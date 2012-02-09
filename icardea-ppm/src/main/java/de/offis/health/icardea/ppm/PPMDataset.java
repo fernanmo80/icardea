@@ -23,6 +23,7 @@ import com.mysql.jdbc.Driver;
 
 import de.offis.health.icardea.ppm.login.LoginServiceImpl;
 import de.offis.health.icardea.ppm.login.RegistrationService;
+import tr.com.srdc.icardea.consenteditor.webservice.client.ConsentManagerImplServiceTest;
 
 
 /**
@@ -522,7 +523,7 @@ public class PPMDataset {
 				cPatient.setCitizenshipNumber(rs.getString(6));
 
 				boolean isAllowed=true;
-				//				boolean isAllowed = tr.com.srdc.icardea.consenteditor.webservice.client.ConsentManagerImplServiceTest.grantRequest(patientID, role, "CIEDREPORT");
+				isAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(cPatient.getCitizenshipNumber(), role, "CIEDREPORT");
 				if (!isAllowed) {
 					System.out.println("DENY FillList:"+cPatient);
 					logger.info("DENY!!!!:"+cPatient);
