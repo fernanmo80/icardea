@@ -6,6 +6,7 @@ final class AssigningAuthority {
 	public final String namespace;
 	public final String universal_id;
 	public final String universal_type;
+	public boolean epsos_authority;
 	
 	static Hashtable<String, AssigningAuthority> authorities = new Hashtable<String, AssigningAuthority>();
 	static Hashtable<String, AssigningAuthority> authorities_by_uid = new Hashtable<String, AssigningAuthority>();
@@ -14,6 +15,7 @@ final class AssigningAuthority {
 		this.namespace = namespace;
 		this.universal_id = universal_id;
 		this.universal_type = universal_type;
+		this.epsos_authority = false;
 		
 	}
 

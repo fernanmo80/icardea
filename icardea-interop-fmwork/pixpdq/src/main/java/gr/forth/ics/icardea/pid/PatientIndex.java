@@ -113,7 +113,10 @@ public class PatientIndex {
 			}
 			String uid = cfg.getKeyValue(sec, "universal_id", "");
 			String uid_type = cfg.getKeyValue(sec, "universal_type", "");
-			AssigningAuthority.add(new AssigningAuthority(ns, uid, uid_type));
+			AssigningAuthority auth = new AssigningAuthority(ns, uid, uid_type);
+			if (sec.startsWith("epsos"))
+				auth.epsos_authority  = true;
+			AssigningAuthority.add(auth);
 			
 		}
 		this.mllpServer = new HL7MLLPServer();
