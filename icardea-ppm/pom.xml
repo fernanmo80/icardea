@@ -19,8 +19,8 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<build>
-	<!-- testing with finalname -->
-	  <finalName>${project.name}</finalName>
+		<!-- testing with finalname -->
+		<finalName>${project.name}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -44,7 +44,7 @@
 					</execution>
 				</executions>
 				<configuration>
-				  <finalName>PPM_HL7Receiver</finalName>
+					<finalName>PPM_HL7Receiver</finalName>
 					<archive>
 						<index>false</index>
 						<manifest>
@@ -97,6 +97,23 @@
 					</execution>
 				</executions>
 			</plugin>
+						<!-- Copy required *.jar files into ./lib directory of output folder -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-dependency-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>copy-dependencies</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${project.build.directory}/lib</outputDirectory>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			
 		</plugins>
 	</build>
 	<dependencies>
@@ -163,6 +180,20 @@
 			<version>3.3.0-I20070608-1100</version>
 			<type>jar</type>
 			<scope>compile</scope>
+		</dependency>
+		<dependency>
+			<groupId>tr.com.srdc.icardea</groupId>
+			<artifactId>icardea-consenteditor-invoker</artifactId>
+			<version>1.0-SNAPSHOT</version>
+			<type>jar</type>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.axis2</groupId>
+			<artifactId>axis2</artifactId>
+			<version>1.6.1</version>
+			<type>pom</type>
+			<scope>runtime</scope>
 		</dependency>
 	</dependencies>
 </project>
