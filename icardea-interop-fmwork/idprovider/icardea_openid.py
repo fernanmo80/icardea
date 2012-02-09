@@ -30,6 +30,88 @@ APP_HOME = os.path.dirname(__file__)
 
 bottle.TEMPLATE_PATH.append(os.path.join(APP_HOME, 'views'))
 
+#### Audit messages for Login / Logout
+import time
+import socket
+import codecs
+from xml.sax.saxutils import escape
+AUDIT_HOST = "127.0.0.1"
+AUDIT_PORT = 2861
+
+def __timestamp():
+    return time.strftime("%Y-%m-%dT%H:%M:%SZ", time.gmtime())
+
+def __udp_send(host, port, data):
+    s = socket.socket(family=socket.AF_INET, type=socket.SOCK_DGRAM)
+    return s.sendto(data, (host, port))
+
+def __syslog_msg(msg, appname = "OpenIDServer"):
+    """This creates a Syslog formatted message (RFC 5424)
+      
+      SYSLOG-MSG      = HEADER SP STRUCTURED-DATA [SP MSG]
+
+      PRI             = "<" PRIVAL ">"
+    """
+    def header():
+        ## The PRI field shall be set using the facility value of 10
+        ## (security/authorization messages).  Most messages should have the
+        ## severity value of 5 (normal but significant), although applications
+        ## may choose values of 4 (Warning condition) if that is appropriate to
+        ## the more detailed information in the audit message. This means
+        ## that for most audit messages the PRI field will contain the value
+        ## "<85>". Audit repositories shall be prepared to deal appropriately
+        ## with any incoming PRI value.
+        ## 
+        facility = 10
+        severity = 5
+        pri = "<%s>" % (facility * 8 + severity,)
+        version = '1'
+        tm = __timestamp()
+        hostname = socket.gethostbyname(socket.gethostname())
+        procid = str ( os.getpid() )
+        msgid = "IHE+RFC-3881"
+        # HEADER          = PRI VERSION SP TIMESTAMP SP HOSTNAME
+        #                   SP APP-NAME SP PROCID SP MSGID
+        return pri + version + ' ' + tm + ' ' + hostname + ' ' + appname + ' ' + procid + ' ' + msgid
+    structured_data = "-"
+    BOM = codecs.BOM_UTF8
+    return header() + ' ' + structured_data + ' ' + BOM + msg.encode("utf8")
+
+def __audit_action(usr, action):
+    from datetime import datetime
+    now = datetime.utcnow().isoformat() + 'Z'
+    dst_ip = socket.gethostbyname(socket.gethostname())
+    msg = """<AuditMessage>
+   <EventIdentification EventDateTime="%(now)s" 
+      EventOutcomeIndicator="0" 
+      EventActionCode="E">
+      <EventID code="110114" codeSystemName="DCM" 
+         displayName="UserAuthenticated" />
+      <EventTypeCode code="110122" codeSystemName="DCM" 
+         displayName="%(act)s" />
+	</EventIdentification>
+   <ActiveParticipant UserID="OpenIDServer" 
+      UserIsRequestor="true" 
+      NetworkAccessPointTypeCode="1" 
+      NetworkAccessPointID="%(dst)s">
+      <RoleIDCode code="110150" codeSystemName="DCM" 
+         displayName="Application" />
+   </ActiveParticipant>
+   <ActiveParticipant UserID="%(usr)s" UserIsRequestor="true"/>
+   <AuditSourceIdentification AuditEnterpriseSiteID="End User" 
+      AuditSourceID="%(usr)s">
+      <AuditSourceTypeCode code="1" />
+   </AuditSourceIdentification>
+</AuditMessage>""" % {'now':now, 'act': action, 'usr':escape(usr), 'dst':dst_ip}
+    s = __udp_send(AUDIT_HOST, AUDIT_PORT, __syslog_msg(msg))
+    return s
+
+def audit_login(usr):
+    return __audit_action(usr, "Login")
+def audit_logout(usr):
+    return __audit_action(usr, "Logout")
+#####
+
 def check_win_user(uid, pwd):
     try:
         hdl = win32security.LogonUser(uid, ad.root().dc, pwd,
@@ -136,6 +218,7 @@ def do_login(db):
     c = db.execute ('SELECT * FROM auth WHERE uid=? and pwd=?',
             (uid,sha256(pwd).hexdigest())).fetchone()
     if c or check_win_user(uid, pwd):
+        audit_login(uid)
         set_user(uid)
         where = request.forms['continue']
         if where == '':
@@ -147,6 +230,7 @@ def do_login(db):
 @post('/logout')
 def do_logout():
     session = request.environ['beaker.session']
+    audit_logout(user())
     session.delete()
     redirect('home')
 
@@ -184,7 +268,7 @@ def approve_id(identity, req, prof):
     sreg_req = sreg.SRegRequest.fromOpenIDRequest(req)
     if sreg_req:
         sreg_data = {
-                'nickname':prof['nickname'],
+                'nickname': prof['nickname'],
                 'fullname': prof.get('fullName', '')
                 }
         sreg_resp = sreg.SRegResponse.extractResponse(sreg_req, sreg_data)
@@ -359,7 +443,7 @@ app = bottle.default_app.pop()
 sql_plugin = sqlite.Plugin(dbfile=os.path.join(APP_HOME, 'users.db'))
 app.install(sql_plugin)
 
-MY_HOST = '139.91.190.45'
+MY_HOST = socket.gethostbyname(socket.gethostname())
 try:
     from mod_wsgi import version
     # Running as wsgi application!
