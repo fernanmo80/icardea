@@ -28,6 +28,10 @@ import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
 import org.eclipse.ui.part.ViewPart;
+
+import tr.com.srdc.icardea.consenteditor.webservice.client.ConsentManagerImplServiceTest;
+//import org.apache.axis2.AxisFault;
+
 /**
  * @author thiel
  *
@@ -69,7 +73,7 @@ public class PPMMain extends ViewPart {
 			//			buttonList=new ArrayList();
 			mainTabFolder = new TabFolder(parent, SWT.NONE);
 			String[] header ={"Description","Current Values","Subitems"};
-			boolean useTable=true;
+			final boolean useTable=true;
 			boolean fullView=false;//FIXME FULLVIEW CHANGEABLE
 
 
@@ -132,68 +136,97 @@ public class PPMMain extends ViewPart {
 				for (int i=0;i<allRows.length;i++){
 
 					if (!allRows[i].getContent().equalsIgnoreCase("--") |allRows[i].isHasSubcontent() |fullView){
-						if (allRows[i].isHasSubcontent())
-						{
-							TableItem tableItem = new TableItem(table, SWT.NONE);
-							boolean subrows=false;
-							tableItem.setText(0,allRows[i].getName());
-							//							tableItem.setText(1,allRows[i].getContent());
-							//						tableItem.setText(2,allRows[i].getSubContentName());
-							allSubRows= ppmDataset.getSubItems(allRows[i].getSubContentName());
+						boolean isAllowed=true;
+						/*
+						 * if (informationType.equals("Problem") || informationType.equals("C0033213")) {
+							resource = "Condition";
+						} else if (informationType.equals("Medication") || informationType.equals("C2598133")) {
+							resource = "Medication";
+						} else if (informationType.equals("Procedure") || informationType.equals("C1948041")) {
+							resource = "Operation";
+						} else if (informationType.equals("ImagingResult") || informationType.equals("C1254595")
+							|| informationType.equals("LaboratoryResult")) {
+							resource = "TestResult";
+						} else if (informationType.equals("VitalSign") || informationType.equals("C0518766")) {
+							resource = "BasicHealth";
+						} else if (informationType.equals("Concern") || informationType.equals("C2699424")) {
+							resource = "Condition";
+						} else if (informationType.equals("Encounter") || informationType.equals("C1947978")) {
+							resource = "Operation";
+						} else if (informationType.equals("Immunization") || informationType.equals("C0020971")) {
+							resource = "Immunization";
+						}
+						 */
+						/*										
+			isAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(cPatient.getCitizenshipNumber(), role, allRows[i].getSubContentName());
 
-							if (allSubRows!=null){
-								if (allSubRows.length>0){
-									subrows=true;
-								}}
-							if (subrows){
-								tableItem.setText(1,allSubRows[allSubRows.length-1].getText());
-								//just for testing
-								// FARBE COLOR
-								{
-									Display display = Display.getCurrent();
-									//									 display.getSystemColor(SWT.COLOR_DARK_RED);
-									logger.trace("Subitem:"+allRows[i].getSubContentName());
-									if (ppmDataset.isDemoMode & allRows[i].getSubContentName().equalsIgnoreCase("Compliance")){
+						 */
+						if (isAllowed){
+							if (allRows[i].isHasSubcontent() )
+							{
 
-										tableItem.setForeground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
-										tableItem.setBackground(display.getSystemColor(SWT.COLOR_DARK_RED));
+								TableItem tableItem = new TableItem(table, SWT.NONE);
+								boolean subrows=false;
+								tableItem.setText(0,allRows[i].getName());
+								//							tableItem.setText(1,allRows[i].getContent());
+								//						tableItem.setText(2,allRows[i].getSubContentName());
+								allSubRows= ppmDataset.getSubItems(allRows[i].getSubContentName());
+
+								if (allSubRows!=null){
+									if (allSubRows.length>0){
+										subrows=true;
+									}}
+								if (subrows){
+									tableItem.setText(1,allSubRows[allSubRows.length-1].getText());
+									//just for testing
+									// FARBE COLOR
+									{
+										Display display = Display.getCurrent();
+										//									 display.getSystemColor(SWT.COLOR_DARK_RED);
+										logger.trace("Subitem:"+allRows[i].getSubContentName());
+										if (allRows[i].getSubContentName().equalsIgnoreCase("Compliance")){
+
+											tableItem.setForeground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
+											tableItem.setBackground(display.getSystemColor(SWT.COLOR_DARK_RED));
+										}
+										//FIXME more rules for color management
 									}
+
+								}else{
+									tableItem.setText(1,allRows[i].getContent());
+
+								}
+								tableItem.setText(2,"");
+
+
+
+								TableEditor editor = new TableEditor(table);
+								Button button = new Button(table, SWT.PUSH);
+								button.setText(allRows[i].getSubContentName());
+								button.addSelectionListener(
+										new PPMButtonSelectionAdaptor(allRows[i].getSubContentName(),this.mainTabFolder) 
+										);
+
+								button.pack();
+								button.setEnabled(subrows);
+								editor.minimumWidth = button.getSize().x;
+								editor.horizontalAlignment = SWT.LEFT;
+								editor.setEditor(button, tableItem, 2);
+								//						buttonList.add(button);
+
+
+							}else {
+								//						if (!allRows[i].getContent().equalsIgnoreCase("--"))
+								{
+									TableItem tableItem = new TableItem(table, SWT.NONE);
+									tableItem.setText(0,allRows[i].getName());
+									tableItem.setText(1,allRows[i].getContent());
+									tableItem.setText(2,""); //allRows[i].getExplanation();
+									// FARBE COLOR herer
+
 								}
 
-							}else{
-								tableItem.setText(1,allRows[i].getContent());
-
 							}
-							tableItem.setText(2,"");
-
-
-
-							TableEditor editor = new TableEditor(table);
-							Button button = new Button(table, SWT.PUSH);
-							button.setText(allRows[i].getSubContentName());
-							button.addSelectionListener(
-									new PPMButtonSelectionAdaptor(allRows[i].getSubContentName(),this.mainTabFolder) 
-									);
-
-							button.pack();
-							button.setEnabled(subrows);
-							editor.minimumWidth = button.getSize().x;
-							editor.horizontalAlignment = SWT.LEFT;
-							editor.setEditor(button, tableItem, 2);
-							//						buttonList.add(button);
-
-
-						}else {
-							//						if (!allRows[i].getContent().equalsIgnoreCase("--"))
-							{
-								TableItem tableItem = new TableItem(table, SWT.NONE);
-								tableItem.setText(0,allRows[i].getName());
-								tableItem.setText(1,allRows[i].getContent());
-								tableItem.setText(2,""); //allRows[i].getExplanation();
-								// FARBE COLOR herer
-								
-							}
-
 						}
 					}
 				}

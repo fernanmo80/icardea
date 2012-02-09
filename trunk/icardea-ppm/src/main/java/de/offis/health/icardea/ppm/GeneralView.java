@@ -3,6 +3,7 @@
  */
 package de.offis.health.icardea.ppm;
 
+import java.net.UnknownHostException;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
 
@@ -88,6 +89,7 @@ public class GeneralView extends ViewPart {
 	private Composite headerComposite;
 	private Composite dataComposite;
 	private GridData gd_headerComposite ;
+	private Audit audit;
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
@@ -97,6 +99,17 @@ public class GeneralView extends ViewPart {
 			{
 				HttpServletRequest request = RWT.getRequest();
 				parent.setLayout(new GridLayout(1, true));
+				try {
+					audit=new Audit("127.0.0.1", 2861);
+				} catch (UnknownHostException e2) {
+					logger.error("Audit Server Unkown Host");
+					try {
+						audit=new Audit("127.0.0.1", 2861);
+					} catch (UnknownHostException e) {
+						logger.fatal("Even local Audit Server Unkown Host");
+						return;
+					}
+				}
 
 				{
 					headerComposite = new Composite(parent, SWT.NONE);
@@ -171,6 +184,7 @@ public class GeneralView extends ViewPart {
 
 
 										ppmDataset.setCurrentPatID(ppmDataset.patientList.get(comboPatientlist.getSelectionIndex()).getId());
+										audit.send_udp( audit.create_syslog_xml("PPM", Audit.createMessage("ppmaccess", ppmDataset.getCurrentPatID(), "0", uname.getText())) );
 
 										updatePatientLabels();
 
@@ -187,7 +201,7 @@ public class GeneralView extends ViewPart {
 										//										headerComposite.setLocation(10, 10);
 										//headerComposite.setSize(100, 100);
 										//										headerComposite.setData( WidgetUtil.CUSTOM_VARIANT, "bannerLogo" );
-										headerComposite.setLayout(null);
+//										headerComposite.setLayout(null);
 
 										headerComposite.layout();
 										headerComposite.pack();
@@ -272,6 +286,8 @@ public class GeneralView extends ViewPart {
 										pwd.setText("Unkown User Try Again");
 										patientTopLayout.topControl=login;
 										patientTop.layout();
+										audit.send_udp( audit.create_syslog_xml("PPM", Audit.createMessage("login", "", "8", username)) );
+
 									}
 									else{//Discovery Null false
 										//FIXME Audit logging here
@@ -327,7 +343,7 @@ public class GeneralView extends ViewPart {
 									activePage.hideView(ivPart);
 									ivPart=activePage.findView("de.offis.health.icardea.ppm.GeneralView");
 									activePage.hideView(ivPart);	
-
+									
 								}
 							});
 							btnAbort.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
@@ -373,6 +389,9 @@ public class GeneralView extends ViewPart {
 						if (retval.equalsIgnoreCase("id_res")){
 							//						logger.debug("User:"+rm.getOpenId()+"\n is verified "+rm.getIs_verified());
 							patientTopLayout.topControl=patientChooser;
+							audit.send_udp( audit.create_syslog_xml("PPM", Audit.createMessage("login", "", "0", uname.getText())) );
+
+
 						}}
 					patientTop.layout();	
 
@@ -419,6 +438,8 @@ public class GeneralView extends ViewPart {
 								IViewPart ivPart=activePage.findView("de.offis.health.icardea.ppm.PPMMain");
 								activePage.hideView(ivPart);
 								userComposit.setVisible(false);
+								audit.send_udp( audit.create_syslog_xml("PPM", Audit.createMessage("logout", "", "0", uname.getText())) );
+
 
 							}
 						});
