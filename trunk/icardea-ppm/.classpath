@@ -3,24 +3,110 @@
 	<classpathentry kind="src" output="target/classes" path="src/main/java"/>
 	<classpathentry excluding="**" kind="src" output="target/classes" path="src/main/resources"/>
 	<classpathentry excluding="**" kind="src" output="target/test-classes" path="src/test/resources"/>
-	<classpathentry kind="src" path="images"/>
-	<classpathentry exported="true" kind="lib" path="lib/"/>
-	<classpathentry exported="true" kind="lib" path="lib/xercesImpl-2.8.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="lib/openid4java-nodeps-0.9.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/icardea-atnalog-client-1.0-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib/icardea-consenteditor-invoker-1.0-SNAPSHOT.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/ant-1.7.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/ant-launcher-1.7.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/app-1.0.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/axiom-api-1.2.10.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/axiom-dom-1.2.10.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/axiom-impl-1.2.10.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/axis-wsdl4j-1.5.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/axis2-1.5.3-jar.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/axis2-kernel-1.5.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/axis2-transport-http-1.5.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/axis2-transport-local-1.5.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/bcprov-ext-jdk15-1.40.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/commands-3.5.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/commands-3.6.0-I20110111-0800.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/common-3.5.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/common-3.6.0-v20110523.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/commons-beanutils-1.7.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/commons-cli-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/commons-codec-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/commons-collections-3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/commons-fileupload-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/commons-httpclient-3.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/commons-io-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/commons-lang-2.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/commons-logging-1.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/contenttype-3.4.100-v20110423-0524.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/databinding-1.4.0-I20110111-0800.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/databinding-1.5.0-I20100907-0800.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/expressions-3.4.300-v20110228.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/geronimo-activation_1.1_spec-1.0.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/geronimo-javamail_1.4_spec-1.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/geronimo-jta_1.1_spec-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/geronimo-stax-api_1.0_spec-1.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/geronimo-ws-metadata_2.0_spec-1.1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/guice-2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/hapi-base-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/hapi-structures-v25-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/hapi-structures-v251-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/hapi-structures-v26-1.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/help-3.5.100-v20110426.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/httpclient-4.2-alpha1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/httpcore-4.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/hyperjaxb3-ejb-roundtrip-0.5.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/hyperjaxb3-ejb-runtime-0.5.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/jargs-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/jaxb2-basics-runtime-0.5.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/jaxb2-basics-testing-0.5.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/jaxb2-basics-tools-0.5.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/jaxen-1.1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/jaxrpc-api-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/jcip-annotations-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/jdom-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/jface-3.7.0-I20110522-1430.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/jobs-3.5.100-v20110404.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/joda-time-1.5.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/junit-4.8.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/log4j-1.2.16.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/mysql-connector-java-5.1.18.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/neethi-2.0.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/neethi-2.0.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/not-yet-commons-ssl-0.3.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/observable-1.4.0-I20110222-0800.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/openid4java-nodeps-0.9.6.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/opensaml-2.2.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/openws-1.2.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/org.eclipse.equinox.common-3.6.0.v20100503.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/org.eclipse.osgi-3.7.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/org.eclipse.rap.jface-1.4.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/org.eclipse.rap.rwt-1.4.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/org.eclipse.rap.rwt.q07-1.4.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/osgi-3.7.1-R37x_v20110808-1106.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/persistence-api-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/preferences-3.4.1-R37x_v20110725.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/property-1.4.0-I20110222-0800.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/registry-3.5.101-R37x_v20110810-1611.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/resolver-2.9.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/runtime-3.7.0-v20110110.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/serializer-2.9.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/servlet-api-2.4.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/slf4j-api-1.5.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/slf4j-simple-1.5.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/stax-api-1.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/swt-3.7.1-v3738a.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/velocity-1.5.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/woden-api-1.0M8.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/woden-impl-dom-1.0M8.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/workbench-3.3.0-I20070608-1100.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/wsdl4j-1.6.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/wstx-asl-3.2.9.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/xalan-2.7.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/xalan-2.7.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/xercesImpl-2.4.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/xercesImpl-2.9.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/xml-apis-1.0.b2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/xml-apis-2.9.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/XmlSchema-1.1.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/XmlSchema-1.4.3.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/xmlsec-1.4.2.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/xmltooling-1.2.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="lib_mvn/xmlunit-1.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.6"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="lib" path="lib/httpclient-4.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/guice-2.0.jar"/>
-	<classpathentry kind="lib" path="lib/httpcore-4.1.3.jar"/>
-	<classpathentry kind="lib" path="lib/nekohtml-1.9.10.jar"/>
-	<classpathentry kind="lib" path="lib/commons-codec-1.3.jar"/>
-	<classpathentry kind="lib" path="lib/icardea-consenteditor-invoker-1.0-SNAPSHOT.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="lib/hapi-base-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/hapi-structures-v25-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/hapi-structures-v251-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/hapi-structures-v26-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/log4j-1.2.16.jar"/>
-	<classpathentry kind="lib" path="lib/mysql-connector-java-5.1.13.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
