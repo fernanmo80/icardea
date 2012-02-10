@@ -157,10 +157,10 @@ public class PPMMain extends ViewPart {
 							resource = "Immunization";
 						}
 						 */
-						/*										
-			isAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(cPatient.getCitizenshipNumber(), role, allRows[i].getSubContentName());
+						if (ppmDataset.testConsent){
+							isAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(ppmDataset.getCurrentPatID(), ppmDataset.getRole(), allRows[i].getSubContentName());
+						}
 
-						 */
 						if (isAllowed){
 							if (allRows[i].isHasSubcontent() )
 							{

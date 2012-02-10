@@ -195,6 +195,7 @@ public class PPMDataset {
 	private String implantationString="02.12.2008";
 	private String icdString="Medtronic";
 	private String icdIDString="model:Maximo/serial:D284DRG";
+	public boolean testConsent=false;
 	public List<Patient> patientList = new ArrayList();
 
 
@@ -523,7 +524,9 @@ public class PPMDataset {
 				cPatient.setCitizenshipNumber(rs.getString(6));
 
 				boolean isAllowed=true;
-				isAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(cPatient.getCitizenshipNumber(), role, "CIEDREPORT");
+				if (testConsent){
+					isAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(cPatient.getCitizenshipNumber(), role, "CIEDREPORT");
+				}
 				if (!isAllowed) {
 					System.out.println("DENY FillList:"+cPatient);
 					logger.info("DENY!!!!:"+cPatient);
