@@ -39,6 +39,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 			String sunSSLProtocol = "com.sun.net.ssl.internal.www.protocol";
 			String sslStoreProp = "javax.net.ssl.trustStore";
 			String certPath = ResourceBundle.getBundle("icardea").getString("icardea.home") + "/icardea-caremanager-ws/src/test/resources/jssecacerts";
+			System.out.println(" Keystore path:"+certPath);
 
 			// Enable SSL communication
 			System.setProperty(protocolProp, sunSSLProtocol);
@@ -494,7 +495,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 				effectiveTimeHigh = "201106101010";
 			} else if (drugCode.equals("C0012010")) {
 				effectiveTimeLow = "199910101010";
-				effectiveTimeHigh = "201010101010";
+				effectiveTimeHigh = "201106101010";//201010101010
 			} else if (drugCode.equals("C0591288")) {
 				effectiveTimeLow = "198010101010";
 				effectiveTimeHigh = "20110601010";
@@ -561,7 +562,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 				effectiveTimeHigh = "201106101010";
 			} else if (drugCode.equals("C0012010")) {
 				effectiveTimeLow = "199910101010";
-				effectiveTimeHigh = "2010072500";
+				effectiveTimeHigh = "201106101010";//2010072500
 			} else if (drugCode.equals("C0591288")) {
 				effectiveTimeLow = "198010101010";
 				effectiveTimeHigh = "20110601010";
@@ -1108,7 +1109,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
 	}
 
-	//@Test
+	@Test
 	public void testGroup1() throws java.lang.Exception {
 		sslSetup();
 		
@@ -1165,7 +1166,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 				effectiveTimeHigh = "201106101010";
 			} else if (drugCode.equals("C0012010")) {
 				effectiveTimeLow = "199910101010";
-				effectiveTimeHigh = "201010101010";
+				effectiveTimeHigh = "201106101010";//201010101010
 			} else if (drugCode.equals("C0591288")) {
 				effectiveTimeLow = "198010101010";
 				effectiveTimeHigh = "201106101010";
@@ -1536,7 +1537,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 		 */
 	}
 
-	 @Test
+	 //@Test
 	public void testGroup3() throws java.lang.Exception {
 		sslSetup();
 		tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
