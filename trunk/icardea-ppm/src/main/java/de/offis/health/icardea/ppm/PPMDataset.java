@@ -41,6 +41,7 @@ public class PPMDataset {
 	private	  Connection conn = null;
 	private   Statement stmt =null;
 	boolean isDemoMode=true;
+
 	private static Logger logger = Logger.getLogger(PPMDataset.class);
 
 	public PPMDataset() {
@@ -53,6 +54,13 @@ public class PPMDataset {
 					"mysql.username");
 			password = ResourceBundle.getBundle("icardea").getString(
 					"mysql.password");
+			ResourceBundle properties = ResourceBundle.getBundle("icardea");
+			//			boolean isSalkUsage = Boolean.parseBoolean(properties.getString("salk.usage"));
+			testConsent=Boolean.parseBoolean(properties.getString("consent.usage"));
+			logger.debug("Testing consent="+testConsent);
+
+
+
 		} catch (java.util.MissingResourceException e) {
 			// TODO: handle exception
 			logger.error("Missing Ressource bundle:"+e.getMessage());
@@ -98,7 +106,7 @@ public class PPMDataset {
 	private void checkDB(){
 		logger.info("Check PPM DB"); 
 		ResultSet rs;
-		ResultSet rs2;
+//		ResultSet rs2;
 
 		try {
 			rs = stmt.executeQuery("SELECT  sheet FROM ppmdataset");
@@ -173,6 +181,15 @@ public class PPMDataset {
 			e1.printStackTrace();
 			return;
 		}
+		try {
+			rs.close();
+//			rs2.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	
+		
 	}
 	private String role="doctor"; //current user role
 	/**
@@ -195,6 +212,7 @@ public class PPMDataset {
 	private String implantationString="02.12.2008";
 	private String icdString="Medtronic";
 	private String icdIDString="model:Maximo/serial:D284DRG";
+	private String iCardeaID="191";
 	public boolean testConsent=false;
 	public List<Patient> patientList = new ArrayList();
 
@@ -443,7 +461,34 @@ public class PPMDataset {
 	public void setIcdIDString(String icdIDString) {
 		this.icdIDString = icdIDString;
 	}
+	/**
+	 * @return the iCardeaID
+	 */
+	public String getiCardeaID() {
+		return iCardeaID;
+	}
 
+	/**
+	 * @param iCardeaID the iCardeaID to set
+	 */
+	public void setiCardeaID(String iCardeaID) {
+		this.iCardeaID = iCardeaID;
+		ResultSet rs;
+		try {
+			rs = getStmt().executeQuery("SELECT  ID, patientIdentifier, citizenshipNumber FROM patient "+
+					" where trim(citizenshipNumber)=trim("+iCardeaID+")");
+			if (rs.next()) {
+				this.currentPatID=rs.getString(1);
+				logger.debug("Changes currrentID="+this.currentPatID);
+			}
+			rs.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		updateDataset();
+
+	}
 
 	/**
 	 * @return the sheetStrings
@@ -502,6 +547,7 @@ public class PPMDataset {
 				bez = rs.getString(1);
 				logger.info(parameter+": "+bez);
 			}
+			rs.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -522,7 +568,7 @@ public class PPMDataset {
 				cPatient.setDateOfBirth(rs.getString(4));
 				cPatient.setCiedIdentifier(rs.getString(5));
 				cPatient.setCitizenshipNumber(rs.getString(6));
-
+				this.iCardeaID=cPatient.getCitizenshipNumber();
 				boolean isAllowed=true;
 				if (testConsent){
 					isAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(cPatient.getCitizenshipNumber(), role, "CIEDREPORT");
@@ -537,6 +583,7 @@ public class PPMDataset {
 					logger.info("FillList:"+cPatient);
 				}
 			}
+			rs.close();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -757,22 +804,22 @@ public class PPMDataset {
 		List<String>  mySheetsList = new ArrayList<String>();
 		String[] mysheetStrings;
 
-		System.out.println("Start Login getInstance ");
-		String username="http://134.106.52.9:4545/idp/u="+"user";
-		username="https://www.google.com/accounts/o8/id";
-
-		//		 username="http://athiel.meinguter.name";
-		System.out.println("##############AT Discovery for: "+username);
-		DiscoveryInformation discovery = RegistrationService
-				.performDiscoveryOnUserSuppliedIdentifier(username);
-		System.out.println("##############AT GOT Discovery for:");
-		String url = RegistrationService.getReturnToUrl();
-		System.out.println("##############AT return url:"+url);
-
-		AuthRequest authRequest = RegistrationService.createOpenIdAuthRequest(discovery, url);
-		System.out.println("##############AT authrequested");
-		String redirectUrl = authRequest.getDestinationUrl(true);
-		System.out.println("##############AT authrequested redirect url:"+redirectUrl);
+		//		System.out.println("Start Login getInstance ");
+		//		String username="http://134.106.52.9:4545/idp/u="+"user";
+		//		username="https://www.google.com/accounts/o8/id";
+		//
+		//		//		 username="http://athiel.meinguter.name";
+		//		System.out.println("##############AT Discovery for: "+username);
+		//		DiscoveryInformation discovery = RegistrationService
+		//				.performDiscoveryOnUserSuppliedIdentifier(username);
+		//		System.out.println("##############AT GOT Discovery for:");
+		//		String url = RegistrationService.getReturnToUrl();
+		//		System.out.println("##############AT return url:"+url);
+		//
+		//		AuthRequest authRequest = RegistrationService.createOpenIdAuthRequest(discovery, url);
+		//		System.out.println("##############AT authrequested");
+		//		String redirectUrl = authRequest.getDestinationUrl(true);
+		//		System.out.println("##############AT authrequested redirect url:"+redirectUrl);
 
 		System.out.println("Start PPMDataset getInstance ");
 		PPMDataset ppmDataset =PPMDataset.getInstance();
@@ -984,5 +1031,7 @@ public class PPMDataset {
 			+"REPLACE INTO ppmdataset (SHEET,PARAMETER,DATASET,TYPE_OF_VARIABLE,EXPLANATION,SOURCE,FULLREFID,PPMDATASOURCE,TIME_FRAME,FORMAT,VALIDATION,COMMENTS,SJM_COMMENTS,PATID,SORTNUMBER,SUBTITEL,BUTTONTITEL,BUTTONTABLE,USERPREF,SQLCAREPLAN,DEMODATASET_AF,TIMELOW,TIMEHIGH) VALUES ( 'ProPara','VT1 therapy','--','Text','VT1 therapy programmed','CIED','739680^MDC_IDC_EPISODE_DETECTION_THERAPY_DETAILS^MDC','','latest value','','','','','0','156','Tachycardia parameters','','','','','','19000101120000','21000101120000'); "
 			+"REPLACE INTO ppmdataset (SHEET,PARAMETER,DATASET,TYPE_OF_VARIABLE,EXPLANATION,SOURCE,FULLREFID,PPMDATASOURCE,TIME_FRAME,FORMAT,VALIDATION,COMMENTS,SJM_COMMENTS,PATID,SORTNUMBER,SUBTITEL,BUTTONTITEL,BUTTONTABLE,USERPREF,SQLCAREPLAN,DEMODATASET_AF,TIMELOW,TIMEHIGH) VALUES ( 'ProPara','VT2 therapy','--','Text','VT2 therapy programmed','CIED','739680^MDC_IDC_EPISODE_DETECTION_THERAPY_DETAILS^MDC','','latest value','','','','','0','157','Tachycardia parameters','','','','','','19000101120000','21000101120000'); " 
 			+"REPLACE INTO ppmdataset (SHEET,PARAMETER,DATASET,TYPE_OF_VARIABLE,EXPLANATION,SOURCE,FULLREFID,PPMDATASOURCE,TIME_FRAME,FORMAT,VALIDATION,COMMENTS,SJM_COMMENTS,PATID,SORTNUMBER,SUBTITEL,BUTTONTITEL,BUTTONTABLE,USERPREF,SQLCAREPLAN,DEMODATASET_AF,TIMELOW,TIMEHIGH) VALUES ( 'ProPara','VF therapy','--','Text','VF therapy programmed','CIED','739680^MDC_IDC_EPISODE_DETECTION_THERAPY_DETAILS^MDC','','latest value','','','','','0','158','Tachycardia parameters','','','','','','19000101120000','21000101120000');";
+
+
 
 }

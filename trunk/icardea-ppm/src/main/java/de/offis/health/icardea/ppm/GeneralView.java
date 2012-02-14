@@ -83,7 +83,8 @@ public class GeneralView extends ViewPart {
 	private Button btnAbort;
 	private Composite login;
 
-
+	private int choosenTab=0;
+	private boolean startScaled=false;
 	private String role="doctor";
 	private Composite logoComp;
 	private Composite headerComposite;
@@ -100,7 +101,8 @@ public class GeneralView extends ViewPart {
 				HttpServletRequest request = RWT.getRequest();
 				parent.setLayout(new GridLayout(1, true));
 				try {
-					audit=new Audit("127.0.0.1", 2861);
+					audit=new Audit(ResourceBundle.getBundle("icardea").getString(
+							"atna.log.server"), 2861);
 				} catch (UnknownHostException e2) {
 					logger.error("Audit Server Unkown Host");
 					try {
@@ -190,7 +192,7 @@ public class GeneralView extends ViewPart {
 
 										//FIXME Audit logging here
 										// hiding image
-										
+
 										logger.info("Switch Topcontrol to Patient");
 										//										gd_headerComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 										gd_headerComposite.heightHint = 1;
@@ -201,15 +203,19 @@ public class GeneralView extends ViewPart {
 										//										headerComposite.setLocation(10, 10);
 										//headerComposite.setSize(100, 100);
 										//										headerComposite.setData( WidgetUtil.CUSTOM_VARIANT, "bannerLogo" );
-//										headerComposite.setLayout(null);
+										//										headerComposite.setLayout(null);
 
 										headerComposite.layout();
 										headerComposite.pack();
-										
+
 										patientTopLayout.topControl=patientInfos;
 										patientTop.layout();
 										patientTop.pack(true);
 										IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
+										if (startScaled){
+											IViewPart ivPart=activePage.findView("de.offis.health.icardea.ppm.GeneralView");
+											activePage.hideView(ivPart);
+										}
 										try {
 											activePage.showView("de.offis.health.icardea.ppm.PPMMain");
 											userComposit.setVisible(true);
@@ -218,6 +224,8 @@ public class GeneralView extends ViewPart {
 											// TODO Auto-generated catch block
 											e1.printStackTrace();
 										}
+										//										PPMMain.setTabbedFocus(choosenTab);
+
 									}
 								});
 								btnPatientOKButton.setText("Choose Patient");
@@ -343,7 +351,7 @@ public class GeneralView extends ViewPart {
 									activePage.hideView(ivPart);
 									ivPart=activePage.findView("de.offis.health.icardea.ppm.GeneralView");
 									activePage.hideView(ivPart);	
-									
+
 								}
 							});
 							btnAbort.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
@@ -402,20 +410,43 @@ public class GeneralView extends ViewPart {
 						if (request.getParameter("startdate")!=null){
 							startdate=Integer.parseInt(request.getParameter("startdate").toString());
 						}
-						if (request.getParameter("role")!=null){
-							role=(request.getParameter("role").toString());
-							ppmDataset.setRole(role);
-						}
+//						if (request.getParameter("role")!=null){
+//							role=(request.getParameter("role").toString());
+//							ppmDataset.setRole(role);
+//						}
+//						if (request.getParameter("scaled")!=null){
+//							//FIXME
+//							if (request.getParameter("scaled").toString().equals("true")){
+//
+//								startScaled=true;
+//								logger.debug("Choose scaled view!");
+//							}
+//						}
+//						if (request.getParameter("tab")!=null){
+//							choosenTab=Integer.parseInt(request.getParameter("tab").toString());
+//							logger.debug("Choose Tab#"+choosenTab);
+//						}
+
 						//TODO Snippet
 						if (request.getParameter("startview")!=null){
 							logger.debug("Startview="+request.getParameter("startview")+" is "+request.getParameter("startview").toString().compareToIgnoreCase("zhjgdewer"));
 
 							//empty
 							if (request.getParameter("startview").toString().compareToIgnoreCase("zhjgdewer")==0){
-								patientTopLayout.topControl=patientChooser;
+								{
+									patientTopLayout.topControl=patientChooser;
+								}
 								patientTop.layout();   
 							} 
 						}
+//						if (request.getParameter("patientid")!=null){
+//
+//							ppmDataset.setiCardeaID(request.getParameter("patientid").toString());
+//							logger.debug("!!!Choose Patient from Careplaner "+ppmDataset.getiCardeaID());
+////							patientTopLayout.topControl=patientTop;
+//							patientTop.layout();   
+//						}
+
 
 
 					}
@@ -456,11 +487,12 @@ public class GeneralView extends ViewPart {
 								int index=chooseViews.getSelectionIndex();
 								PPMMain.setTabbedFocus(index);
 
+
 							}
 						});
 						chooseViews.setItems(ppmDataset.getSheetStrings());
 						chooseViews.setLayoutData(new GridData(SWT.FILL, SWT.CENTER, true, false, 1, 1));
-						chooseViews.select(0);
+						chooseViews.select(choosenTab);
 					}
 					btnDact = new Button(userComposit, SWT.CENTER);
 					btnDact.setGrayed(true);
