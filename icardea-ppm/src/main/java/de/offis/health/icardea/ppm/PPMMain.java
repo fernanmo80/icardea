@@ -8,11 +8,14 @@ package de.offis.health.icardea.ppm;
 
 import java.util.ArrayList;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.eclipse.jface.layout.TableColumnLayout;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TableViewerColumn;
+import org.eclipse.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.TableEditor;
@@ -50,6 +53,7 @@ public class PPMMain extends ViewPart {
 	public TabItem tbtmTest;
 	public ScrolledComposite scrolledComposite;
 	public ArrayList<Button> buttonList;
+	private static int currenttab=0;
 
 	public TableViewer tableViewer;
 	private static Logger logger = Logger.getLogger(PPMMain.class);
@@ -157,9 +161,11 @@ public class PPMMain extends ViewPart {
 							resource = "Immunization";
 						}
 						 */
+
 						if (ppmDataset.testConsent){
-							isAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(ppmDataset.getCurrentPatID(), ppmDataset.getRole(), allRows[i].getSubContentName());
+							isAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(ppmDataset.getiCardeaID(), ppmDataset.getRole(), allRows[i].getSubContentName());
 						}
+
 
 						if (isAllowed){
 							if (allRows[i].isHasSubcontent() )
@@ -189,6 +195,18 @@ public class PPMMain extends ViewPart {
 											tableItem.setForeground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
 											tableItem.setBackground(display.getSystemColor(SWT.COLOR_DARK_RED));
 										}
+										if (allRows[i].getSubContentName().equalsIgnoreCase("Medications")){
+											boolean MedAllowed =true;
+											if (ppmDataset.testConsent){
+												MedAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(ppmDataset.getiCardeaID(), ppmDataset.getRole(), "Medication");
+												logger.debug(MedAllowed+" for REQUEST MEDICATION for "+ppmDataset.getiCardeaID()+" for ROLE:"+ppmDataset.getRole());
+											}
+											if (!MedAllowed){
+												tableItem.setForeground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
+												tableItem.setBackground(display.getSystemColor(SWT.COLOR_DARK_RED));
+											}
+										}
+
 										//FIXME more rules for color management
 									}
 
@@ -209,6 +227,7 @@ public class PPMMain extends ViewPart {
 
 								button.pack();
 								button.setEnabled(subrows);
+								button.setGrayed(subrows);
 								editor.minimumWidth = button.getSize().x;
 								editor.horizontalAlignment = SWT.LEFT;
 								editor.setEditor(button, tableItem, 2);
@@ -216,6 +235,7 @@ public class PPMMain extends ViewPart {
 
 
 							}else {
+								//no subcontent
 								//						if (!allRows[i].getContent().equalsIgnoreCase("--"))
 								{
 									TableItem tableItem = new TableItem(table, SWT.NONE);
@@ -231,53 +251,58 @@ public class PPMMain extends ViewPart {
 					}
 				}
 			}
+			HttpServletRequest request = RWT.getRequest();
 
-
-			if(!useTable)	for (int is=0;is<numSheets;is++){
-				tbtmTest = new TabItem(mainTabFolder, SWT.NONE);
-				tbtmTest.setText(ppmDataset.getSheetStrings()[is]);
-
-				composite_1 = new Composite(mainTabFolder, SWT.V_SCROLL);
-				tbtmTest.setControl(composite_1);
-				GridLayout gl=new GridLayout(3, false);
-
-				composite_1.setLayout(gl);
-
-
-				PPMRowModel[] allRows= ppmDataset.getRows(ppmDataset.getSheetStrings()[is]);
-
-				new Label(composite_1, SWT.NONE).setText(header[0]);
-				//		new Label(composite_1,SWT.SEPARATOR);
-				new Label(composite_1, SWT.NONE).setText(header[1]);
-				new Label(composite_1, SWT.NONE).setText(header[2]);
-
-
-				for (int i=0;i<allRows.length;i++){
-					if (!allRows[i].getContent().equalsIgnoreCase("--") |allRows[i].isHasSubcontent() |fullView ){
-						Label l1 = new Label(composite_1, SWT.NONE);
-						//			new Label(composite_1,SWT.SEPARATOR);
-						Label l2 = new Label(composite_1, SWT.LEFT);
-						l1.setText(allRows[i].getName()+":");
-						l1.setToolTipText(allRows[i].getExplanation());
-						l1.setAlignment(SWT.LEFT);
-						l2.setText(allRows[i].getContent());
-						l2.setToolTipText(allRows[i].getExplanation());
-						if (allRows[i].isHasSubcontent())
-						{   Button l3 = new Button( composite_1, SWT.PUSH);
-						l3.setText(allRows[i].getSubContentName());
-						l3.setToolTipText("Press to see further and history data");
-						l3.addSelectionListener(
-								new PPMButtonSelectionAdaptor(allRows[i].getSubContentName(),this.mainTabFolder) 
-								);
-						}else {
-							Label l3 = new Label(composite_1, SWT.NONE);
-							l3.setText("");
-						}
-					}
-					//							System.out.println(allRows[i].getName()+":\t"+allRows[i].getContent());
-					//							System.out.println(aktsheet+"#"+i+":"+allRows[i]);
-				}
+			if (request.getParameter("tab")!=null){
+				mainTabFolder.setSelection(Integer.parseInt(request.getParameter("tab").toString()));
+				logger.debug("Choose Tab#"+Integer.parseInt(request.getParameter("tab").toString()));
 			}
+			
+			//			if(!useTable)	for (int is=0;is<numSheets;is++){
+			//				tbtmTest = new TabItem(mainTabFolder, SWT.NONE);
+			//				tbtmTest.setText(ppmDataset.getSheetStrings()[is]);
+			//
+			//				composite_1 = new Composite(mainTabFolder, SWT.V_SCROLL);
+			//				tbtmTest.setControl(composite_1);
+			//				GridLayout gl=new GridLayout(3, false);
+			//
+			//				composite_1.setLayout(gl);
+			//
+			//
+			//				PPMRowModel[] allRows= ppmDataset.getRows(ppmDataset.getSheetStrings()[is]);
+			//
+			//				new Label(composite_1, SWT.NONE).setText(header[0]);
+			//				//		new Label(composite_1,SWT.SEPARATOR);
+			//				new Label(composite_1, SWT.NONE).setText(header[1]);
+			//				new Label(composite_1, SWT.NONE).setText(header[2]);
+			//
+			//
+			//				for (int i=0;i<allRows.length;i++){
+			//					if (!allRows[i].getContent().equalsIgnoreCase("--") |allRows[i].isHasSubcontent() |fullView ){
+			//						Label l1 = new Label(composite_1, SWT.NONE);
+			//						//			new Label(composite_1,SWT.SEPARATOR);
+			//						Label l2 = new Label(composite_1, SWT.LEFT);
+			//						l1.setText(allRows[i].getName()+":");
+			//						l1.setToolTipText(allRows[i].getExplanation());
+			//						l1.setAlignment(SWT.LEFT);
+			//						l2.setText(allRows[i].getContent());
+			//						l2.setToolTipText(allRows[i].getExplanation());
+			//						if (allRows[i].isHasSubcontent())
+			//						{   Button l3 = new Button( composite_1, SWT.PUSH);
+			//						l3.setText(allRows[i].getSubContentName());
+			//						l3.setToolTipText("Press to see further and history data");
+			//						l3.addSelectionListener(
+			//								new PPMButtonSelectionAdaptor(allRows[i].getSubContentName(),this.mainTabFolder) 
+			//								);
+			//						}else {
+			//							Label l3 = new Label(composite_1, SWT.NONE);
+			//							l3.setText("");
+			//						}
+			//					}
+			//					//							System.out.println(allRows[i].getName()+":\t"+allRows[i].getContent());
+			//					//							System.out.println(aktsheet+"#"+i+":"+allRows[i]);
+			//				}
+			//			}
 
 
 		}
@@ -286,9 +311,11 @@ public class PPMMain extends ViewPart {
 
 
 	static void setTabbedFocus(int index){
-		if (index<mainTabFolder.getItemCount()){
-			mainTabFolder.setSelection(index);
-		}
+		currenttab=index;
+		if (mainTabFolder!=null)
+			if (index<mainTabFolder.getItemCount()){
+				mainTabFolder.setSelection(index);
+			}
 	}
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
