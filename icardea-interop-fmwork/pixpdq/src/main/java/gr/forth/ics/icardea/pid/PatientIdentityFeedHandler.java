@@ -1,12 +1,20 @@
 package gr.forth.ics.icardea.pid;
 import gr.forth.ics.icardea.mllp.HL7MLLPClient;
 import gr.forth.ics.icardea.mllp.HL7MLLPServer;
+import gr.forth.ics.icardea.mllp.HL7RequestContext;
 import gr.forth.ics.icardea.pid.iCARDEA_Patient.ID;
 
-import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.UnknownHostException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
+import org.apache.commons.codec.binary.Base64;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.commons.lang.text.StrSubstitutor;
 import org.apache.log4j.Logger;
 
 import ca.uhn.hl7v2.HL7Exception;
@@ -17,12 +25,11 @@ import ca.uhn.hl7v2.model.Segment;
 import ca.uhn.hl7v2.model.Type;
 import ca.uhn.hl7v2.model.primitive.CommonTS;
 import ca.uhn.hl7v2.model.v231.segment.MRG;
+import ca.uhn.hl7v2.model.v231.segment.MSH;
 import ca.uhn.hl7v2.model.v231.segment.PID;
 import ca.uhn.hl7v2.model.v231.datatype.CX;
 import ca.uhn.hl7v2.model.v231.message.ACK;
 import ca.uhn.hl7v2.model.v231.message.ADT_A39;
-import ca.uhn.hl7v2.model.v25.message.ADT_A05;
-import ca.uhn.hl7v2.model.v25.message.RSP_K21;
 import ca.uhn.hl7v2.util.Terser;
 
 /**
@@ -46,6 +53,30 @@ final class PatientIdentityFeedHandler extends DefaultApplication {
 	static Logger logger = Logger.getLogger(PatientIdentityFeedHandler.class);
 	public static String[] trigEvents = new String[] {"A01", "A04", "A05", "A08", "A40"};
 	private HL7MLLPClient forwarder_;
+
+	public static String ITI_8_LOGMSG = "<?xml version='1.0' encoding='UTF-8'?>" +
+	"<AuditMessage>" +
+	"  <EventIdentification EventOutcomeIndicator='${evtInd}' EventDateTime='${timeStamp}' EventActionCode='${evtActionCode}'>" +
+	"        <EventID codeSystemName='DCM' displayName='Patient Record' code='110110'/>" +
+	"        <EventTypeCode codeSystemName='IHE Transactions' displayName='Patient Identity Feed' code='ITI-8'/>" +
+	"    </EventIdentification>" +
+	" <ActiveParticipant NetworkAccessPointTypeCode='"+Audit.NetworkAccessPointTypeCode.IP_ADDRESS+"' NetworkAccessPointID='${clntIPaddr}' UserIsRequestor='true' UserID='${clntApp}'>" +
+	"        <RoleIDCode codeSystemName='DCM' displayName='Source' code='110153'/>" +
+	"  </ActiveParticipant>" +
+	"  <ActiveParticipant NetworkAccessPointTypeCode='"+Audit.NetworkAccessPointTypeCode.IP_ADDRESS+"' NetworkAccessPointID='${srvIPaddr}' UserIsRequestor='false' AlternativeUserID='0' UserID='${srvApp}'>" +
+	"        <RoleIDCode codeSystemName='DCM' displayName='Destination' code='110152'/>" +
+	"    </ActiveParticipant>    " +
+	"  <AuditSourceIdentification AuditEnterpriseSiteID='"+ Audit.AUDIT_ENTERPRISE_ID +"' AuditSourceID='" + Audit.AUDIT_SOURCE_ID + "'>" +
+	"		<AuditSourceTypeCode code='" + Audit.AuditSourceTypeCode.APP_SRV_PROC + "'/>" +
+	"	</AuditSourceIdentification>" +
+	"  <ParticipantObjectIdentification ParticipantObjectTypeCodeRole='"+Audit.ParticipantObjectTypeCodeRole.PATIENT + 
+	"' ParticipantObjectTypeCode='"+Audit.ParticipantObjectTypeCode.PERSON +"' ParticipantObjectID='${patId}'>" +
+	"        <ParticipantObjectIDTypeCode code='"+Audit.ParticipantObjectIDTypeCode.PATIENT_NBR+"' codeSystemName='RFC-3881' displayName='Patient Number'/>" +
+	"        <ParticipantObjectName>${patName}</ParticipantObjectName>" +
+	"        <ParticipantObjectDetail value='${msh10B64}' type='MSH-10'/>" +
+	"    </ParticipantObjectIdentification>" +
+	"</AuditMessage>";
+	
 	public void register(HL7MLLPServer s, HL7MLLPClient forwarder) {
 		for (String ev: trigEvents)
 			s.registerApplication("ADT", ev, this);
@@ -80,6 +111,36 @@ final class PatientIdentityFeedHandler extends DefaultApplication {
 		return namespace;
 	}
 
+	private void auditFeedMsg(MSH msh, Audit.EventOutcomeIndicator evtInd, String pidHL7, String patNameHL7) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("timeStamp", new SimpleDateFormat ("yyyy-MM-dd'T'HH:mm:ss").format(new Date()));
+		map.put("evtInd", evtInd.getCode()+"");
+		map.put("evtActionCode", 
+				msh.getMsh9_MessageType().getMsg2_TriggerEvent().getValue().equals("A08") ? "U" : "C");
+		map.put("clntIPaddr", HL7RequestContext.getRemoteAddress());
+		map.put("clntApp", 
+				msh.getSendingFacility().getNamespaceID().getValue() + "|" + msh.getSendingApplication().getNamespaceID().getValue());
+		map.put("srvApp", PatientIndex.fac_name + "|" + PatientIndex.app_name);
+		map.put("srvIPaddr", HL7RequestContext.getLocalAddress());
+		map.put("patId", StringEscapeUtils.escapeXml(pidHL7));
+		map.put("patName", StringEscapeUtils.escapeXml(patNameHL7));
+		String msh10 = msh.getMsh10_MessageControlID().getValue();
+		try {
+			map.put("msh10B64", Base64.encodeBase64String(msh10.getBytes("UTF-8")));
+		} catch (UnsupportedEncodingException e) {
+			// "Every implementation of the Java platform is required to support UTF-8"!!
+		}
+		
+		StrSubstitutor sub = new StrSubstitutor(map);
+		String audit_msg = sub.replace(ITI_8_LOGMSG);
+		try {
+			Audit a = new Audit();
+			byte[] sysl_msg = a.create_syslog_xml(PatientIndex.app_name, audit_msg);
+			a.send_udp(sysl_msg);
+		} catch (UnknownHostException e) {
+			logger.info(e.getMessage());
+		}
+	}
 	/**
 	 * See ITI-vol2a, 3.10
 	 * @throws HL7Exception 
@@ -97,7 +158,7 @@ final class PatientIdentityFeedHandler extends DefaultApplication {
 		GregorianCalendar now = new GregorianCalendar();
 		now.setTime(new Date());
 		b.getEVN().getRecordedDateTime().parse(CommonTS.toHl7TSFormat(now));
-		tr.toPidv25(b.getPID(), true);
+		tr.toPidv25(b.getPID());
 		b.getPID().getPid5_PatientName(0).parse(" "); 
 		
 		b.getPV1().getPatientClass().parse("N");
@@ -107,16 +168,20 @@ final class PatientIdentityFeedHandler extends DefaultApplication {
 	 * See ITI-vol2a, 3.8
 	 */
 	public Message processMessage(Message msg) throws ApplicationException{
+		String remoteAddr = HL7RequestContext.getRemoteAddress();
 		try {
-			logger.debug("Received:"+msg.encode());
+			logger.debug("Received (from "+ remoteAddr + "): "+msg.encode());
 		} catch (HL7Exception e) {
 		}
 		Terser terser = new Terser(msg);
 		ACK a = null;
+		MSH msh = null;
+		CX patId = null;
+		Audit.EventOutcomeIndicator evtInd = Audit.EventOutcomeIndicator.SERIOUS_FAILURE;
 		try {
 
 			String trigEvent = terser.get("/MSH-9-2");
-			Segment msh = (Segment) terser.getSegment("/MSH");
+			msh = (MSH) terser.getSegment("/MSH");
 			a = (ACK) makeACK( msh );
 			a.getMSH().getMsh9_MessageType().parse("ACK^"+trigEvent);
 
@@ -135,6 +200,7 @@ final class PatientIdentityFeedHandler extends DefaultApplication {
 						throw ex;
 					}
 					surv_id = new ID(namespace, id);
+					patId = cx;
 					break;					
 				}
 				// par. 3.8.4.2
@@ -153,10 +219,12 @@ final class PatientIdentityFeedHandler extends DefaultApplication {
 				}
 				// XXX: Here we use the first (and only?) ID to find what entry to update!
 				StorageManager.getInstance().merge_pid(surv_id, old_id);
+				evtInd = Audit.EventOutcomeIndicator.SUCCESS;
 			}
 			else {
 				Segment s = terser.getSegment("/PID");
 				PID pid = (PID) s;
+				patId = pid.getPid3_PatientIdentifierList(0);
 				Type[] tt = pid.getField(3);
 				for (Type t: tt) {
 					AssigningAuthority auth = null;
@@ -189,10 +257,10 @@ final class PatientIdentityFeedHandler extends DefaultApplication {
 							throw new HL7Exception("Patient exists already!", HL7Exception.DATA_TYPE_ERROR);
 					}
 					StorageManager.getInstance().insert_pid(tr);
-					
 					Message notification = update_notification(tr);
 					this.forwarder_.send(notification);
 				}
+				evtInd = Audit.EventOutcomeIndicator.SUCCESS;
 			}
 			a.getMSA().getMsa2_MessageControlID().setValue(terser.get("/MSH-10"));
 			a.getMSA().getMsa1_AcknowledgementCode().setValue("AA");
@@ -210,6 +278,12 @@ final class PatientIdentityFeedHandler extends DefaultApplication {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new ApplicationException(e.getMessage(), e);
+		}
+		finally {
+			try {
+				this.auditFeedMsg(msh, evtInd, patId.encode(), "");
+			} catch (HL7Exception e) {
+			}
 		}
 		try {
 			logger.debug("Sending:"+a.encode());

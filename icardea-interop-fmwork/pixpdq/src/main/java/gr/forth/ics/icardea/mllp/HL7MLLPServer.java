@@ -1,4 +1,5 @@
 package gr.forth.ics.icardea.mllp;
+
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.concurrent.Executors;
@@ -44,6 +45,7 @@ import nu.xom.converters.DOMConverter;
 
 
 class HL7MsgHandler extends SimpleChannelUpstreamHandler {	
+	static Logger logger = Logger.getLogger(HL7MsgHandler.class);
 	private MessageTypeRouter router_;
 	private ChannelGroup chanGrp_;
 	public HL7MsgHandler(MessageTypeRouter router, ChannelGroup chanGrp) {
@@ -84,7 +86,8 @@ class HL7MsgHandler extends SimpleChannelUpstreamHandler {
 	}
 	@Override
 	public void messageReceived(ChannelHandlerContext ctx, MessageEvent ev) {
-		
+		HL7RequestContext.setAddresses(getLocalIPAddress(ctx), getRemoteIPAddress(ctx));
+		logger.debug("RECEIVED MSG FROM "+HL7RequestContext.getRemoteAddress());
 		Message res = null;
 		Message msg = (Message) ev.getMessage();
 		try {
@@ -129,6 +132,31 @@ class HL7MsgHandler extends SimpleChannelUpstreamHandler {
 	      }
 	  }
 
+	 // Taken from <http://goo.gl/QL31y>
+	 static String getRemoteIPAddress(ChannelHandlerContext ctx) {
+		 String fullAddress = ((InetSocketAddress) ctx.getChannel().getRemoteAddress()).getAddress().getHostAddress();
+		 // Address resolves to /x.x.x.x:zzzz we only want x.x.x.x
+		 if (fullAddress.startsWith("/")) {
+			 fullAddress = fullAddress.substring(1);
+		 }
+		 int i = fullAddress.indexOf(":");
+		 if (i != -1) {
+			 fullAddress = fullAddress.substring(0, i);
+		 }
+		 return fullAddress;
+	 }
+	 static String getLocalIPAddress(ChannelHandlerContext ctx) {
+		 String fullAddress = ((InetSocketAddress) ctx.getChannel().getLocalAddress()).getAddress().getHostAddress();
+		 // Address resolves to /x.x.x.x:zzzz we only want x.x.x.x
+		 if (fullAddress.startsWith("/")) {
+			 fullAddress = fullAddress.substring(1);
+		 }
+		 int i = fullAddress.indexOf(":");
+		 if (i != -1) {
+			 fullAddress = fullAddress.substring(0, i);
+		 }
+		 return fullAddress;
+	 }
 }
 
 class TestApp extends ca.uhn.hl7v2.app.DefaultApplication {
