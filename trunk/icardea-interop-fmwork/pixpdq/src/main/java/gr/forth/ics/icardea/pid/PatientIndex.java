@@ -68,6 +68,10 @@ public class PatientIndex {
 		cfg.load(args[0]);
 
 		int port = cfg.getKeyIntValue("server", "port", 2575);
+		
+		Audit.DEFAULT_AUDIT_HOST = cfg.getKeyValue("server", "audit_host", "localhost");
+		Audit.DEFAULT_AUDIT_PORT = cfg.getKeyIntValue("server", "audit_port", 2861);
+
 		boolean useSSL = cfg.getKeyBoolValue("server", "secure", false);
 		String keystore = null, keystorePass = null;
 		if (useSSL) {
