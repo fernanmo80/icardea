@@ -85,6 +85,10 @@ public class GeneralView extends ViewPart {
 
 	private int choosenTab=0;
 	private boolean startScaled=false;
+	// Role can be RZ-iCARDEA-Admin , RZ-iCARDEA-Doctor-Cardiologist, RZ-iCARDEA-Doctor-Electrophysiologist, RZ-iCARDEA-Doctor-Physician, RZ-iCARDEA-Nurse
+	// That are the roles from OpenID
+	// TODO Ask yildiray for roles fo consenteditor: ROLECODE:DOCTOR , ROLECODE:NURSE ... PHRS has a lot definied like family member 
+	// Somewhere the roles must be mapped from LDAP to consenteditor
 	private String role="doctor";
 	private Composite logoComp;
 	private Composite headerComposite;
@@ -184,7 +188,7 @@ public class GeneralView extends ViewPart {
 									@Override
 									public void widgetSelected(SelectionEvent e) {
 
-
+										//FIXME: ArrayOutOfBoundsException 
 										ppmDataset.setCurrentPatID(ppmDataset.patientList.get(comboPatientlist.getSelectionIndex()).getId());
 										audit.send_udp( audit.create_syslog_xml("PPM", Audit.createMessage("ppmaccess", ppmDataset.getCurrentPatID(), "0", uname.getText())) );
 
@@ -274,6 +278,8 @@ public class GeneralView extends ViewPart {
 									//username="https://www.google.com/accounts/o8/id";
 									username=uname.getText();
 
+									System.out.println("GV Salkuser OpneidServer Secure :" + isSalkUsage);
+									properties.toString();
 									if(isSalkUsage){
 										String salkServer = properties.getString("salk.server");
 										username=salkServer+"/idp/u="+username; //only valid for SALK server
@@ -386,10 +392,23 @@ public class GeneralView extends ViewPart {
 							//								 tbarray[i].notifyListeners(eventType, event)
 							//						}
 						}
-					});
+					}
+							);
+
 					//logger.debug("Startdate: "+request.getParameter("startdate"));
 					ParameterList paralist = new ParameterList(request.getParameterMap());
 					String retval=paralist.getParameterValue("openid.mode");
+					System.out.println("OpenID mode at parameterlist"+retval);
+					System.out.println("Labeltype" + paralist.getParameterValue("openid.ax.type.label"));
+
+					//FIXME NullEX Hier muss dann der PPMDataset gefuellt werden
+					if (paralist.getParameterValue("openid.ax.count.label") != null){
+						if(Integer.parseInt(paralist.getParameterValue("openid.ax.count.label"))>0){
+							System.out.println("Roletype available" + paralist.getParameterValue("openid.ax.value.label.1"));
+
+						}
+					}
+
 					logger.debug("RETURN STATE "+retval);
 					patientTopLayout.topControl=login;
 					// Hier war das Logo
@@ -410,22 +429,22 @@ public class GeneralView extends ViewPart {
 						if (request.getParameter("startdate")!=null){
 							startdate=Integer.parseInt(request.getParameter("startdate").toString());
 						}
-//						if (request.getParameter("role")!=null){
-//							role=(request.getParameter("role").toString());
-//							ppmDataset.setRole(role);
-//						}
-//						if (request.getParameter("scaled")!=null){
-//							//FIXME
-//							if (request.getParameter("scaled").toString().equals("true")){
-//
-//								startScaled=true;
-//								logger.debug("Choose scaled view!");
-//							}
-//						}
-//						if (request.getParameter("tab")!=null){
-//							choosenTab=Integer.parseInt(request.getParameter("tab").toString());
-//							logger.debug("Choose Tab#"+choosenTab);
-//						}
+						//						if (request.getParameter("role")!=null){
+						//							role=(request.getParameter("role").toString());
+						//							ppmDataset.setRole(role);
+						//						}
+						//						if (request.getParameter("scaled")!=null){
+						//							//FIXME
+						//							if (request.getParameter("scaled").toString().equals("true")){
+						//
+						//								startScaled=true;
+						//								logger.debug("Choose scaled view!");
+						//							}
+						//						}
+						//						if (request.getParameter("tab")!=null){
+						//							choosenTab=Integer.parseInt(request.getParameter("tab").toString());
+						//							logger.debug("Choose Tab#"+choosenTab);
+						//						}
 
 						//TODO Snippet
 						if (request.getParameter("startview")!=null){
@@ -439,14 +458,13 @@ public class GeneralView extends ViewPart {
 								patientTop.layout();   
 							} 
 						}
-//						if (request.getParameter("patientid")!=null){
-//
-//							ppmDataset.setiCardeaID(request.getParameter("patientid").toString());
-//							logger.debug("!!!Choose Patient from Careplaner "+ppmDataset.getiCardeaID());
-////							patientTopLayout.topControl=patientTop;
-//							patientTop.layout();   
-//						}
-
+						//						if (request.getParameter("patientid")!=null){
+						//
+						//							ppmDataset.setiCardeaID(request.getParameter("patientid").toString());
+						//							logger.debug("!!!Choose Patient from Careplaner "+ppmDataset.getiCardeaID());
+						////							patientTopLayout.topControl=patientTop;
+						//							patientTop.layout();   
+						//						}
 
 
 					}
