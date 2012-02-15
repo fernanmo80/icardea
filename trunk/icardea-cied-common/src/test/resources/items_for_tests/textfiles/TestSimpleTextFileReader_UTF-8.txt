@@ -1,0 +1,17 @@
+  ###START###  
+
+[Tue Aug 30 03:29:01 CEST 2011] DatabaseProductName=PostgreSQL
+DatabaseProductVersion=9.0.4
+DriverName=PostgreSQL Native Driver
+DriverVersion=PostgreSQL 8.4 JDBC3 (build 701)
+DriverMajorAndMinorVersion=8.4
+URL=jdbc:postgresql://localhost:5432/postgres
+UserName=postgres
+
+[Tue Aug 30 03:29:10 CEST 2011] Hotlist file quickNavHotlist.dat successfully written.
+[Tue Aug 30 03:29:10 CEST 2011] Exiting JMDB
+[Tue Aug 30 03:29:10 CEST 2011] =============================================
+
+Umlauts üäöß
+
+  ###END###  
