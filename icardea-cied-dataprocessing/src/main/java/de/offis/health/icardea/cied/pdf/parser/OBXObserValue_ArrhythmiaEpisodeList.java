@@ -114,28 +114,30 @@ public class OBXObserValue_ArrhythmiaEpisodeList extends AbstractPDFParser imple
 	public String getMDC_IDC_EPISODE_DETECTION_THERAPY_DETAILS()
 	throws PropertyNotFoundException {
 		String mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS=null;
+		String mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS_ATP="";
+		String mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS_Shock="";
+		
 		Pattern pattern_ATP = Pattern.compile(getProperty(this.PROPERTY_KEY_EPISODE_THERAPY_DETAILS_ATP), Pattern.MULTILINE | Pattern.DOTALL);
 		Matcher matcher_ATP = pattern_ATP.matcher(getPdfContent());
 		if (matcher_ATP.find()){
-			mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS="ATP*"+matcher_ATP.group(2).trim();
-		}
-		
-		Pattern pattern_shock = Pattern.compile(getProperty(this.PROPERTY_KEY_EPISODE_THERAPY_DETAILS_Shock), Pattern.MULTILINE | Pattern.DOTALL);
-		Matcher matcher_schock = pattern_shock.matcher(getPdfContent());
-		/*
-		if (matcher_schock.find()){
-			mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS=mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS+" Shock ";
-		}
-		*/
-		while(matcher_schock.find()){
-			mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS=mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS+ " Shock " + matcher_schock.group().trim();
+			mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS_ATP="ATP*"+matcher_ATP.group(2).trim()+" ";
 		}
 
-		/*
-		if (matcher.find()){
-			mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS=mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS+"Shock "
-			+matcher.group().trim();
-		}*/
+		Pattern pattern_shock = Pattern.compile(getProperty(this.PROPERTY_KEY_EPISODE_THERAPY_DETAILS_Shock), Pattern.MULTILINE | Pattern.DOTALL);
+		Matcher matcher_schock = pattern_shock.matcher(getPdfContent());
+		
+		if (mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS_ATP!="") {
+			mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS=mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS_ATP;
+		}
+
+		while(matcher_schock.find()){
+			mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS_Shock=mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS_Shock+ " " + matcher_schock.group().trim();
+		}
+		
+		if (mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS_Shock!="") {
+			mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS=mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS_ATP+ "Shock" +mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS_Shock;
+		}
+
 		return mdc_IDC_EPISODE_DETECTION_THERAPY_DETAILS;
 	}
 	
