@@ -1,0 +1,35 @@
+<assembly>
+  <id>zipped-dist-package</id>
+  <formats>
+    <format>zip</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+<!--  
+  <dependencySets>
+    <dependencySet>
+      <unpack>false</unpack>
+      <scope>runtime</scope>
+	  <outputDirectory>lib/</outputDirectory>
+    </dependencySet>
+  </dependencySets>
+-->
+  <fileSets>
+    <fileSet>
+	  <!-- ${project.build.outputDirectory} = './target/classes' -->
+      <directory>target</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>${project.build.finalName}.jar</include>
+        <include>lib/*.jar</include>
+      </includes>
+    </fileSet>
+	
+    <fileSet>
+      <directory>/</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>start*.cmd</include>
+      </includes>
+    </fileSet>
+  </fileSets>  
+</assembly>
