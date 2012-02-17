@@ -36,8 +36,8 @@ public class PPMDataset {
 	private	  String url = "jdbc:mysql://localhost:3306/";
 	private	  String dbName = "icardea";
 	private	  String driver = "com.mysql.jdbc.Driver";
-	private	  String userName = "root"; 
-	private	  String password = "icardea";
+	private	  String dbUserName = "root"; 
+	private	  String dbPassword = "icardea";
 	private	  Connection conn = null;
 	private   Statement stmt =null;
 	boolean isDemoMode=true;
@@ -50,9 +50,9 @@ public class PPMDataset {
 		try {
 			driver = ResourceBundle.getBundle("icardea").getString(
 					"jdbc.driverClassName");
-			userName = ResourceBundle.getBundle("icardea").getString(
+			dbUserName = ResourceBundle.getBundle("icardea").getString(
 					"mysql.username");
-			password = ResourceBundle.getBundle("icardea").getString(
+			dbPassword = ResourceBundle.getBundle("icardea").getString(
 					"mysql.password");
 			ResourceBundle properties = ResourceBundle.getBundle("icardea");
 			//			boolean isSalkUsage = Boolean.parseBoolean(properties.getString("salk.usage"));
@@ -69,7 +69,7 @@ public class PPMDataset {
 		try {
 			Class.forName(driver).newInstance();
 			logger.info("Connect to "+url+dbName);
-			conn = DriverManager.getConnection(url+dbName,userName,password);
+			conn = DriverManager.getConnection(url+dbName,dbUserName,dbPassword);
 
 			stmt=conn.createStatement();
 			//			System.out.println("Connected to the database");
@@ -193,19 +193,20 @@ public class PPMDataset {
 	}
 	private String role="doctor"; //current user role
 	/**
-	 * @return the role
+	 * @return OpenID Role of the user
 	 */
 	public String getRole() {
 		return role;
 	}
 	/**
-	 * @param role the role to set
+	 * @param role The role to set of the user
 	 */
 	public void setRole(String role) {
 		this.role = role;
 	}
 
-	private String userString = "";
+	// userFullName = The name of the user from OpenID
+	private String userFullName = "";
 	private String currentPatID = "1";
 	private String patiennameBirthdateString = "Mayr, Jane (22.04.1973)";
 	private String diagnosesString="Sudden Cardiac Death";
@@ -265,11 +266,11 @@ public class PPMDataset {
 	public String getDriver() {
 		return driver;
 	}
-	public String getUserName() {
-		return userName;
+	public String getDbUserName() {
+		return dbUserName;
 	}
-	public String getPassword() {
-		return password;
+	public String getDbPassword() {
+		return dbPassword;
 	}
 	public Connection getConn() {
 		return conn;
@@ -347,18 +348,18 @@ public class PPMDataset {
 
 
 	/**
-	 * @return the userString
+	 * @return The userFullName
 	 */
-	public String getUserString() {
-		return userString;
+	public String getUserFullName() {
+		return userFullName;
 	}
 
 
 	/**
-	 * @param userString the userString to set
+	 * @param userFullName The userFullName to set with OpenID value
 	 */
-	public void setUserString(String userString) {
-		this.userString = userString;
+	public void setUserFullName(String userFullName) {
+		this.userFullName = userFullName;
 	}
 
 
@@ -504,7 +505,7 @@ public class PPMDataset {
 		try {
 			if (!conn.isValid(2)){
 				logger.warn("JDBC Connection is invalid, try to get a new");
-				conn = DriverManager.getConnection(url+dbName,userName,password);
+				conn = DriverManager.getConnection(url+dbName,dbUserName,dbPassword);
 				stmt=conn.createStatement();
 			}
 		} catch (SQLException e) {

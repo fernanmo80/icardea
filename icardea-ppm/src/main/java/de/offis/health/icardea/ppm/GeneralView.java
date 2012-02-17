@@ -174,6 +174,7 @@ public class GeneralView extends ViewPart {
 							comboPatientlist = new Combo(patientChooser, SWT.NONE);
 
 							{
+								
 								ppmDataset.fillPatientList();
 
 								for (int i=0;i<ppmDataset.patientList.size();i++){
@@ -274,21 +275,20 @@ public class GeneralView extends ViewPart {
 									ResourceBundle properties = ResourceBundle.getBundle("icardea");
 									boolean isSalkUsage = Boolean.parseBoolean(properties.getString("salk.usage"));
 
-									//username = "http://134"+"."+"106"+"."+"52"+"."+"9:4545/idp/u="+ uname.getText();
+									
 									//username="https://www.google.com/accounts/o8/id";
 									username=uname.getText();
 
-									System.out.println("GV Salkuser OpneidServer Secure :" + isSalkUsage);
+									logger.debug("Salkuser OpenId Server Secure :" + isSalkUsage);
 									properties.toString();
 									if(isSalkUsage){
 										String salkServer = properties.getString("salk.server");
 										username=salkServer+"/idp/u="+username; //only valid for SALK server
 									}
 									else{//(isSalkUsage) NoSalkUsage Local Testing assumed
-										username = "http://134"+"."+"106"+"."+"52"+"."+"9:4545/idp/u="+ uname.getText();										
+										//username has to be real OpenID Name like 	abcde.myopenid.com									
 									}
-									//FIXME Zugtesting
-									username=uname.getText();
+									
 									logger.debug("Discovery for: "+username);
 									//FIXME Audit logging here
 									DiscoveryInformation discovery = RegistrationService
@@ -325,8 +325,7 @@ public class GeneralView extends ViewPart {
 										//										logger.debug("GeneralView ##############AT authrequested");
 										String redirectUrl = authRequest.getDestinationUrl(true);
 										//										logger.debug("GeneralView ##############AT authrequested redirect url:"+redirectUrl);
-										HttpServletResponse resp = RWT.getResponse();
-										HttpServletRequest req = RWT.getRequest();
+										
 										final String browserText =
 												MessageFormat.format("parent.window.location.href = \"{0}\";",redirectUrl);
 
@@ -374,7 +373,7 @@ public class GeneralView extends ViewPart {
 					{
 						lblWelcome = new Label(userComposit, SWT.NONE);
 						if (ppmDataset.isDemoMode) //FIXME demohack
-							lblWelcome.setText("Welcome "+ ppmDataset.getUserString());
+							lblWelcome.setText("Welcome "+ ppmDataset.getUserFullName());
 						else
 							lblWelcome.setText("Welcome ");
 					}
@@ -398,20 +397,40 @@ public class GeneralView extends ViewPart {
 					//logger.debug("Startdate: "+request.getParameter("startdate"));
 					ParameterList paralist = new ParameterList(request.getParameterMap());
 					String retval=paralist.getParameterValue("openid.mode");
-					System.out.println("OpenID mode at parameterlist"+retval);
-					System.out.println("Labeltype" + paralist.getParameterValue("openid.ax.type.label"));
-
-					//FIXME NullEX Hier muss dann der PPMDataset gefuellt werden
+					logger.debug("OpenID mode at parameterlist: "+retval);
+					logger.debug("OpenID Labeltype: " + paralist.getParameterValue("openid.ax.type.label"));
+	
+					
+					//Accessing data returned from the OpenID authentication and integrate  them into PPMdataset
 					if (paralist.getParameterValue("openid.ax.count.label") != null){
 						if(Integer.parseInt(paralist.getParameterValue("openid.ax.count.label"))>0){
-							System.out.println("Roletype available" + paralist.getParameterValue("openid.ax.value.label.1"));
+							if(Integer.parseInt(paralist.getParameterValue("openid.ax.count.label"))>1){
+								logger.warn("OpenID returnes multiples roles for the current user. Selecting first");
+							}
+							String roleOpenID = paralist.getParameterValue("openid.ax.value.label.1");
+							
+							logger.debug("Roletype available. Selecting first: " + roleOpenID);
+							ppmDataset.setRole(roleOpenID);
 
 						}
 					}
+					if (paralist.getParameterValue("openid.sreg.fullname") != null){
+							String fullnameOpenID = paralist.getParameterValue("openid.sreg.fullname");
+							logger.debug("Fullname available: " + fullnameOpenID);
+							if(fullnameOpenID.trim().isEmpty()){
+								fullnameOpenID =  paralist.getParameterValue("openid.identity");
+								logger.debug("Fullname was empty. Taking Identity: " + fullnameOpenID);
+							}
+							
+							ppmDataset.setUserFullName(fullnameOpenID);
 
+						}
+					
+					
+					
 					logger.debug("RETURN STATE "+retval);
 					patientTopLayout.topControl=login;
-					// Hier war das Logo
+
 					if (retval!=null){
 						if (retval.equalsIgnoreCase("id_res")){
 							//						logger.debug("User:"+rm.getOpenId()+"\n is verified "+rm.getIs_verified());
@@ -419,12 +438,14 @@ public class GeneralView extends ViewPart {
 							audit.send_udp( audit.create_syslog_xml("PPM", Audit.createMessage("login", "", "0", uname.getText())) );
 
 
-						}}
+						}
+					}
 					patientTop.layout();	
 
 					int startdate=0;
-					if (request==null)
+					if (request==null){
 						startdate=0;
+					}
 					else{
 						if (request.getParameter("startdate")!=null){
 							startdate=Integer.parseInt(request.getParameter("startdate").toString());
