@@ -60,7 +60,7 @@ public class RegistrationService {
 	public static DiscoveryInformation performDiscoveryOnUserSuppliedIdentifier(String userSuppliedIdentifier) {
 		DiscoveryInformation ret = null;
 		//
-		log.debug("##############AT performDiscoveryOnUserSuppliedIdentifier: "+userSuppliedIdentifier);
+		log.debug(" performDiscoveryOnUserSuppliedIdentifier: "+userSuppliedIdentifier);
 		ConsumerManager consumerManager = getConsumerManager();
 		try {
 			
@@ -73,7 +73,7 @@ public class RegistrationService {
 		}
 		
 		// Pass the discoveries to the associate() method...
-		log.debug("##############AT got "+discoveries.size());
+		log.debug(" got "+discoveries.size());
 		
 		
 		ret = consumerManager.associate(discoveries);
