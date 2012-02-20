@@ -83,7 +83,7 @@ public class IHEIDCOIntegrationTest {
 		obsCreator.run(true, false, fileName);
 	}
 
-	//@Test
+	@Test
 	public void test6_2() throws java.lang.Exception {
 		String fileName = "idco/VTCareplan/VT_Scenario_Step_18-2.hl7";
 		ObservationCreator obsCreator = new ObservationCreator("localhost", 1011);
