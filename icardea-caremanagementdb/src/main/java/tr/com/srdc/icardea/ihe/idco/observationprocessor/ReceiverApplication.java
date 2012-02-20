@@ -538,13 +538,13 @@ public class ReceiverApplication extends Thread {
 				orbisID = identifier;
 			} else if (namespace.equalsIgnoreCase("cied")) {
 				patientID = identifier;
-			} else if (identifierTypeCode.equalsIgnoreCase("epsos")) {
+			} else if (identifierTypeCode != null && identifierTypeCode.equalsIgnoreCase("epsos")) {
 				epSOSID = identifier;
 				homeCommunityID = namespace;
 			}
 			
 		}
-		
+		Logger.getLogger(ReceiverApplication.class).log(Level.INFO, "epSOS ID: "+ epSOSID + " homeCommunityID: " +homeCommunityID);
 		if(epSOSID != null) {
 			/*Logger.getLogger(ReceiverApplication.class).log(Level.INFO, "epSOS ID: "+ epSOSID + " homeCommunityID: " +homeCommunityID);
 			tr.com.srdc.icardea.epsos.EPSOSClient epsosClient = new tr.com.srdc.icardea.epsos.EPSOSClient(epSOSID, homeCommunityID);

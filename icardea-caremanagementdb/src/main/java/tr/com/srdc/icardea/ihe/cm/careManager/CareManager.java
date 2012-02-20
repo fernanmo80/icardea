@@ -346,6 +346,14 @@ public class CareManager {
 		QUPC_AR004040UV_ServiceStub stub = new QUPC_AR004040UV_ServiceStub(
 				endpoint);
 		try {
+			DateFormat dateFormatForLog = new SimpleDateFormat("yyyyMMddHHmmss");
+		Date dateForLog = new Date();
+		String logFile = "logs/"+careProvisionCode + "-" + patientID +"-"+ dateFormatForLog.format(dateForLog)+".xml" ;
+		logger.info(" Marshalling to file "+logFile);	
+		javax.xml.bind.JAXBContext jc = javax.xml.bind.JAXBContext.newInstance("org.hl7.v3");
+            	javax.xml.bind.Marshaller marsh = jc.createMarshaller();
+	        marsh.marshal( query, new java.io.FileOutputStream(logFile) );
+
 		org.hl7.v3.MCCIIN000002UV01 ack = stub.qUPC_AR004040UV_QUPC_IN043100UV(
 				query, wsaReplyTo);
 
@@ -395,8 +403,8 @@ public class CareManager {
 			try { 
 			careManagementDataQuery(patientID, key, patientName,
 					patientSurname, "EHR");
-			/*careManagementDataQuery(patientID, key, patientName,
-					patientSurname, "PHR");*/
+			careManagementDataQuery(patientID, key, patientName,
+					patientSurname, "PHR");
 			} catch(Exception ex) {
 				ex.printStackTrace();
 				continue;

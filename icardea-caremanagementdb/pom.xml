@@ -78,16 +78,25 @@
 						<configuration>
 							<mainClass>tr.com.srdc.icardea.ihe.cm.careManager.CareManager</mainClass>
 							<arguments>
-								<argument>149202063490</argument>
-								<argument>Andreas</argument>
-								<argument>Schmidt</argument>
+								<argument>191</argument>
+								<argument>Suzie</argument>
+								<argument>Mayr</argument>
 								<argument>EHR</argument>
 								<argument>COBSCAT</argument>
-								<argument>PSVCCAT</argument>
-								<argument>MEDLIST</argument>
 								<argument>MEDCCAT</argument>
+								<argument>CONDLIST</argument>
+								<argument>PROBLIST</argument>
+								<argument>INTOLIST</argument>
+								<argument>RISKLIST</argument>
 								<argument>LABCAT</argument>
+								<argument>DICAT</argument>
+								<argument>RXCAT</argument>
+								<argument>MEDLIST</argument>
+								<argument>CURMEDLIST</argument>
+								<argument>DISCHMEDLIST</argument>
+								<argument>HISTMEDLIST</argument>
 								<argument>IMMUCAT</argument>
+								<argument>PSVCCAT</argument>
 							</arguments>
 						</configuration>
 					</plugin>
@@ -122,13 +131,25 @@
 						<configuration>
 							<mainClass>tr.com.srdc.icardea.ihe.cm.careManager.CareManager</mainClass>
 							<arguments>
-								<argument>149202063490</argument>
-								<argument>Andreas</argument>
-								<argument>Schmidt</argument>
+								<argument>191</argument>
+								<argument>Suzie</argument>
+								<argument>Mayr</argument>
 								<argument>PHR</argument>
 								<argument>COBSCAT</argument>
-								<argument>MEDLIST</argument>
 								<argument>MEDCCAT</argument>
+								<argument>CONDLIST</argument>
+								<argument>PROBLIST</argument>
+								<argument>INTOLIST</argument>
+								<argument>RISKLIST</argument>
+								<argument>LABCAT</argument>
+								<argument>DICAT</argument>
+								<argument>RXCAT</argument>
+								<argument>MEDLIST</argument>
+								<argument>CURMEDLIST</argument>
+								<argument>DISCHMEDLIST</argument>
+								<argument>HISTMEDLIST</argument>
+								<argument>IMMUCAT</argument>
+								<argument>PSVCCAT</argument>
 							</arguments>
 						</configuration>
 					</plugin>
