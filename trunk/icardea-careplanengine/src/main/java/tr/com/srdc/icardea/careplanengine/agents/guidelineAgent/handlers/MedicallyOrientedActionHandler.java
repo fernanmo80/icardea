@@ -166,6 +166,8 @@ public class MedicallyOrientedActionHandler {
 									ImagingResult imagingResult = (ImagingResult) objects[i];
 									String imagingResultTime = imagingResult.getEffectiveTime();
 									//String currentDateString = dateFormat.format(currentDate);
+									if(imagingResultTime == null)
+										continue;
 									imagingResultTime = imagingResultTime.substring(0, 8);
 									Date imagingResultDate = simpleDateFormat.parse(imagingResultTime);
 									logger.info("Lab result (" + imagingResult.getLabResultText() + ") date in the database:" + imagingResultDate.toString());
