@@ -630,109 +630,137 @@ public class PDF2HL7_HAPI_Parser {
 			 */
 			mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START();
 			mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END();
-
+			
 			int index=0;
-			observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_AF();
-			if (observationValue!= null) {
-				index=index+1;
-				obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));	
-				
-				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_AF();
-				if (observationValue!= null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
-				}
-				if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
-				}
-				if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
-				}
-			}
 			
-			observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_SVT();
-			if (observationValue!= null) {
-				index=index+1;
-				obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
-				
-				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_SVT();
-				if (observationValue!= null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
-				}
-				if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
-				}
-				if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
-				}
-			}
+			String minVT=AppConfig.getProperty("minHL7");
 			
-			observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_VT();
-			if (observationValue!= null) {
-				index=index+1;
-				obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
+			if (!minVT.toLowerCase().equals("yes")) {
 				/*
-				 * observationValue for VT is default "0", because VT number is essential by Careplan Engine required 
+				 * For VT NS-VT FVT
 				 */
-				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_VT();
+				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_AF();
 				if (observationValue!= null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
+					index=index+1;
+					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));	
+					
+					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_AF();
+					if (observationValue!= null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
+					}
 				}
-				if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
+				
+				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_SVT();
+				if (observationValue!= null) {
+					index=index+1;
+					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
+					
+					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_SVT();
+					if (observationValue!= null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
+					}
 				}
-				if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
+				
+				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_VT();
+				if (observationValue!= null) {
+					index=index+1;
+					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
+					/*
+					 * observationValue for VT is default "0", because VT number is essential by Careplan Engine required 
+					 */
+					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_VT();
+					if (observationValue!= null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
+					}
+				}
+				
+				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_FVT();
+				if (observationValue!= null) {
+					index=index+1;
+					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
+					
+					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_FVT();
+					if (observationValue!= null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
+					}
+				}
+				
+				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_NSVT();
+				if (observationValue!= null) {
+					index=index+1;
+					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
+					
+					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_NSVT();
+					if (observationValue!= null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
+					}
+				}
+				
+				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_VF();
+				if (observationValue!= null) {
+					index=index+1;
+					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
+					
+					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_VF();
+					if (observationValue!= null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
+					}
 				}
 			}
-			
-			observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_FVT();
-			if (observationValue!= null) {
-				index=index+1;
-				obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
-				
-				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_FVT();
+			else {
+				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_VT();
 				if (observationValue!= null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
-				}
-				if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
-				}
-				if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
-				}
-			}
-			
-			observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_NSVT();
-			if (observationValue!= null) {
-				index=index+1;
-				obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
-				
-				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_NSVT();
-				if (observationValue!= null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
-				}
-				if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
-				}
-				if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
-				}
-			}
-			
-			observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_VF();
-			if (observationValue!= null) {
-				index=index+1;
-				obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
-				
-				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_VF();
-				if (observationValue!= null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
-				}
-				if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
-				}
-				if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
+					index=index+1;
+					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
+					/*
+					 * observationValue for VT is default "0", because VT number is essential by Careplan Engine required 
+					 */
+					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_VT();
+					if (observationValue!= null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
+					}
 				}
 			}
 			
