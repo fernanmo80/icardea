@@ -28,6 +28,10 @@ import os
 # from sqlalchemy import 
 APP_HOME = os.path.dirname(__file__)
 
+# If set to True then no MS Windows Domain controler and active
+# directory communication will be performed
+STANDALONE = False
+
 bottle.TEMPLATE_PATH.append(os.path.join(APP_HOME, 'views'))
 
 #### Audit messages for Login / Logout
@@ -148,9 +152,11 @@ def index():
             'op_server_url': server_base_url+'/openidserver'}
 
 @get('/signup')
-@view('signup.html')
 def signup():
-    return {'op_server_url': server_base_url+'/openidserver'}
+    data = {'op_server_url': server_base_url+'/openidserver'}
+    if STANDALONE is True:
+        return template('signup_nowin.html', data)
+    return template('signup.html', data)
 
 @post('/signup')
 def do_signup(db):
@@ -164,16 +170,18 @@ def do_signup(db):
         flash('errors', 'Please choose another username')
         redirect('signup')
     if 'hospital_user' not in params:
-        # Check if there's already a Hospital user with the same name
-        # Hospital users will reuse their user name so we d better
-        # check!!
-        for p in ad.search(objectCategory='Person', objectClass='user', sAMAccountName=uid):
-            flash('errors', 'Please choose another username')
-            redirect('signup')
+        if not STANDALONE:
+            # Check if there's already a Hospital user with the same name
+            # Hospital users will reuse their user name so we d better
+            # check!!
+            for p in ad.search(objectCategory='Person', objectClass='user', sAMAccountName=uid):
+                flash('errors', 'Please choose another username')
+                redirect('signup')
         if pwd != params.get('pwd2'):
             flash('errors', 'Not correct password')
             redirect('signup')
-        prof = {'nickname': uid}
+        prof = {'nickname': uid, 'givenName': params.get('given'),
+                'fullName': "%s %s" % (params.get('given'), params.get('surname')) }
         db.execute('INSERT INTO users(uid, prof) values(?,?)', (uid,json.dumps(prof)))
         db.execute('INSERT INTO auth(uid, pwd) values(?,?)', (uid,
             sha256(pwd).hexdigest()))
@@ -470,6 +478,15 @@ session_opts = {
 application = SessionMiddleware(idp_app, session_opts)
 
 def run_standalone_server():
+    print """=======================================================
+iCARDEA OpenID Provider is about to launch...
+It will %s contact the Windows Domain Controller and Active Directory
+for authenticating local MS Windows users. Please change the STANDALONE
+cariable in the code to alter this behaviour.
+
+You can visit it at http://127.0.0.1:4545/idp/ (don't miss the slash!!)
+=======================================================
+""" % ("NOT" if STANDALONE else "")
     bottle.debug(True)
     bottle.run(app=application, host='0.0.0.0', port=PORT)
 

@@ -1,0 +1,25 @@
+{% extends "layout.html" %}
+{% block htmlTitle%}Sign Up{% endblock %}
+{% block htmlBody %}
+
+<form action='signup' method="post" id="uf">
+    <fieldset>
+        <legend>Access Information</legend>
+        <p><label for="username">Username:</label> <input type="text" class="required" id="username" name="user" /></p>
+        <p> <label for="pwd">Password:</label> <input class="required" id="pwd" type="password" name="pwd"/> </p>
+        <p> <label for="pwd2">Repeat your password:</label> <input
+        class="required" id="pwd2" type="password" name="pwd2"/> </p>
+    </fieldset>
+    <fieldset>
+        <legend>Profile Information</legend>
+        <p><label for="surname">Family Name:</label> 
+        <input type="text" class="required" id="surname" name="surname" /></p>
+        <p><label for="given">Other/Given Name:</label> 
+        <input type="text" class="required" id="given" name="given" /></p>
+    </fieldset>
+    <div class="formctrls">
+        <input type="reset" value="Clear" />
+        <input type="submit" value="Submit!" />
+    </div>
+</form>
+{% endblock %}
