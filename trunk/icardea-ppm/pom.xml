@@ -4,12 +4,12 @@
 	<groupId>de.offis.health.icardea.ppm</groupId>
 	<artifactId>de.offis.health.icardea.ppm</artifactId>
 	<version>0.8-TEST</version>
-	<packaging>war</packaging>
 
+	<packaging>war</packaging>
 	<name>iCARDEA-PPM</name>
 	<description>This project covers the PPM Processing part of the iCARDEA project.</description>
 	<url>http://www.offis.de/</url>
-	<inceptionYear>20101</inceptionYear>
+	<inceptionYear>2011</inceptionYear>
 	<organization>
 		<name>OFFIS e.V.</name>
 		<url>http://www.offis.de/</url>
@@ -22,6 +22,41 @@
 		<!-- testing with finalname -->
 		<finalName>${project.name}</finalName>
 		<plugins>
+
+
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>6.1.10</version>
+				<configuration>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<stopKey>foo</stopKey>
+					<stopPort>9999</stopPort>
+				</configuration>
+				<executions>
+					<execution>
+						<id>start-jetty</id>
+						<phase>pre-integration-test</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<scanIntervalSeconds>0</scanIntervalSeconds>
+							<daemon>true</daemon>
+						</configuration>
+					</execution>
+					<execution>
+						<id>stop-jetty</id>
+						<phase>post-integration-test</phase>
+						<goals>
+							<goal>stop</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+
+
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -97,7 +132,7 @@
 					</execution>
 				</executions>
 			</plugin>
-						<!-- Copy required *.jar files into ./lib directory of output folder -->
+			<!-- Copy required *.jar files into ./lib directory of output folder -->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-dependency-plugin</artifactId>
@@ -113,7 +148,7 @@
 					</execution>
 				</executions>
 			</plugin>
-			
+
 		</plugins>
 	</build>
 	<dependencies>
