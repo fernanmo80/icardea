@@ -199,21 +199,15 @@ public class PPMDataset {
 
 	}
 	private String role="doctor"; //current user role
-	/**
-	 * @return OpenID Role of the user
-	 */
-	public String getRole() {
-		return role;
-	}
-	/**
-	 * @param role The role to set of the user
-	 */
-	public void setRole(String role) {
-		this.role = role;
-	}
 
 	// userFullName = The name of the user from OpenID
 	private String userFullName = "";
+	// userOpenID = the openID of the user
+	private String userOpenID = ""; 
+	// Is the userOpenId successfull verified? 
+	private boolean userOpenIdVerified = false;
+	
+
 	private String currentPatID = "1";
 	private String patiennameBirthdateString = "Mayr, Jane (22.04.1973)";
 	private String diagnosesString="Sudden Cardiac Death";
@@ -369,6 +363,21 @@ public class PPMDataset {
 		this.userFullName = userFullName;
 	}
 
+	/**
+	 * @return The userOpenID
+	 */
+	
+	public String getUserOpenID() {
+		return userOpenID;
+	}
+	/**
+	 * @param userOpenID The userOpenID to set. Should be like abcde.myopenid.com
+	 */
+	
+	public void setUserOpenID(String userOpenID) {
+		this.userOpenID = userOpenID;
+	}
+
 
 	/**
 	 * @return the currentPatID
@@ -436,6 +445,33 @@ public class PPMDataset {
 	 */
 	public void setImplantationString(String implantationString) {
 		this.implantationString = implantationString;
+	}
+
+	/**
+	 * @return OpenID Role of the user
+	 */
+	public String getRole() {
+		return role;
+	}
+	/**
+	 * @param role The role to set of the user
+	 */
+	public void setRole(String role) {
+		this.role = role;
+	}
+
+	/**
+	 * @return Status, if the OpenID User is verified
+	 */
+	public boolean isUserOpenIdVerified() {
+		return userOpenIdVerified;
+	}
+	/**
+	 * @param userOpenIdVerified The status of the OpenIDUSer
+	 */
+
+	public void setUserOpenIdVerified(boolean userOpenIdVerified) {
+		this.userOpenIdVerified = userOpenIdVerified;
 	}
 
 
@@ -586,7 +622,8 @@ public class PPMDataset {
 					logger.info("DENY!!!!:"+cPatient);
 
 					//			retrieveCIEDDataByPatientID(patientID);
-				}else{	
+				}else{//Local testting assumed	
+					logger.debug("consentmager would be asked for: CitizenChip"+ cPatient.getCitizenshipNumber() + " and with Role "+ role +" for openid user ");
 					patientList.add(cPatient);
 					logger.info("FillList:"+cPatient);
 				}
