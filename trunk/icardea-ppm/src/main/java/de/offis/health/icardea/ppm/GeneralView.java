@@ -101,6 +101,8 @@ public class GeneralView extends ViewPart {
 	private Audit audit;
 	// Parameterlist for exchanging openid Infos
 	private ParameterList paralist;
+	//Url indicating calling machine
+	String url ="";
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
@@ -112,6 +114,9 @@ public class GeneralView extends ViewPart {
 				HttpServletRequest request = RWT.getRequest();
 				//for every refresh also update the available parameters
 				updatePPmDataset(request);
+				//create caller url
+				url = getUrlUsedPara(request);
+				
 				System.out.println("getLocal: " + request.getLocalAddr());
 				System.out.println("getLocalUri: " + request.getRequestURI());
 				//TODO: Here print lognSTatus from PPMDATASet for andreas
@@ -360,18 +365,17 @@ public class GeneralView extends ViewPart {
 										//																																
 
 										//2. Authentication
-										String url = RegistrationService.getReturnToUrl();
+										//String url = RegistrationService.getReturnToUrl();
 										// DynamicURL doesn't function stable
 										//String url = RegistrationService.getReturnToUrl(request);
-
-
+										
 
 										//										logger.debug("GeneralView ##############AT return url:"+url);
 
 										AuthRequest authRequest = RegistrationService.createOpenIdAuthRequest(discovery, url);
-										logger.debug("GeneralView ##############AT authrequested");
+										logger.debug("Authrequested");
 										String redirectUrl = authRequest.getDestinationUrl(true);
-										logger.debug("GeneralView ##############AT authrequested redirect url:"+redirectUrl);
+										logger.debug("Authrequested redirect url:"+redirectUrl);
 
 										final String browserText =
 												MessageFormat.format("parent.window.location.href = \"{0}\";",redirectUrl);
@@ -666,11 +670,13 @@ public class GeneralView extends ViewPart {
 	private String getUrlUsedPara(HttpServletRequest req) {
 		List<Parameter> test = new ParameterList(req.getParameterMap()).getParameters();
 		String reqUrl = req.getRequestURL().toString();
-		String queryString = req.getQueryString();   // d=789
-		if (queryString != null && queryString.length()>0) {
-			reqUrl += "?"+queryString;
-		}
+		//String queryString = req.getQueryString();   // d=789
+		//if (queryString != null && queryString.length()>0) {
+		//	reqUrl += "?"+queryString;
+		//}
+		reqUrl +=  "?d=0" ;
 		for (Parameter p:test) {
+			
 			if(p.getKey().equalsIgnoreCase("patientid")|| 
 					p.getKey().equalsIgnoreCase("openid")||
 					p.getKey().equalsIgnoreCase("startup")||
