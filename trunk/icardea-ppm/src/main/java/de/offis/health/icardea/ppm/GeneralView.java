@@ -668,22 +668,37 @@ public class GeneralView extends ViewPart {
 	 */
 
 	private String getUrlUsedPara(HttpServletRequest req) {
-		List<Parameter> test = new ParameterList(req.getParameterMap()).getParameters();
+		List<Parameter> paramList = new ParameterList(req.getParameterMap()).getParameters();
 		String reqUrl = req.getRequestURL().toString();
 		//String queryString = req.getQueryString();   // d=789
 		//if (queryString != null && queryString.length()>0) {
 		//	reqUrl += "?"+queryString;
 		//}
-		reqUrl +=  "?d=0" ;
-		for (Parameter p:test) {
-			
+
+		boolean paramExist = false;
+		String paramUrl = "";
+
+		for (Parameter p:paramList) {
+
 			if(p.getKey().equalsIgnoreCase("patientid")|| 
 					p.getKey().equalsIgnoreCase("openid")||
 					p.getKey().equalsIgnoreCase("startup")||
 					p.getKey().equalsIgnoreCase("scaled")
 					){
-				reqUrl+="&"+p.getKey()+"="+p.getValue();}
+				paramExist = true;
+				paramUrl+="&"+p.getKey()+"="+p.getValue();}
+			else{// Not used parameters 
+				logger.debug("Following URL Parameter was ignored: "+p.getKey()+"="+p.getValue());
+			}
+
 		}
+		// remove first "&" and make it "?" if parameterlist exists
+		if(paramExist){ 
+			paramUrl= paramUrl.substring(1);
+			paramUrl = "?"+paramUrl;
+			reqUrl = reqUrl + paramUrl;
+		}
+
 		return reqUrl;
 	}
 
