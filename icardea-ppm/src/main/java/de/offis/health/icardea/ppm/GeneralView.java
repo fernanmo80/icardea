@@ -5,6 +5,7 @@ package de.offis.health.icardea.ppm;
 
 import java.net.UnknownHostException;
 import java.text.MessageFormat;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,12 +36,14 @@ import org.openid4java.discovery.DiscoveryException;
 import org.openid4java.discovery.DiscoveryInformation;
 import org.openid4java.message.AuthRequest;
 import org.openid4java.message.MessageException;
+import org.openid4java.message.Parameter;
 import org.openid4java.message.ParameterList;
 
 import de.offis.health.icardea.ppm.login.RegistrationModel;
 import de.offis.health.icardea.ppm.login.RegistrationService;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Group;
+import de.offis.health.icardea.ppm.login.*;
 
 /**
  * @author thiel
@@ -89,12 +92,16 @@ public class GeneralView extends ViewPart {
 	// That are the roles from OpenID
 	// TODO Ask yildiray for roles fo consenteditor: ROLECODE:DOCTOR , ROLECODE:NURSE ... PHRS has a lot definied like family member 
 	// Somewhere the roles must be mapped from LDAP to consenteditor
+	// First agreement was to use LDAP Roles directly
 	private String role="doctor";
 	private Composite logoComp;
 	private Composite headerComposite;
 	private Composite dataComposite;
 	private GridData gd_headerComposite ;
 	private Audit audit;
+	// Parameterlist for exchanging openid Infos
+	private ParameterList paralist;
+
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
@@ -103,6 +110,37 @@ public class GeneralView extends ViewPart {
 		{		
 			{
 				HttpServletRequest request = RWT.getRequest();
+				//for every refresh also update the available parameters
+				updatePPmDataset(request);
+				System.out.println("getLocal: " + request.getLocalAddr());
+				System.out.println("getLocalUri: " + request.getRequestURI());
+				//TODO: Here print lognSTatus from PPMDATASet for andreas
+				System.out.println("Name of user: " + ppmDataset.getUserFullName());
+				System.out.println("is the user verified? " + ppmDataset.isUserOpenIdVerified());
+
+				//				try {
+				//					System.out.println("for procesSretung");
+				//					//RegistrationModel testRM2 = RegistrationService.processReturn(request);
+				//					System.out.println("Nach Register");
+				//					//System.out.println(testRM2.getIs_verified());
+				//				} catch (MessageException e1) {
+				//					// TODO Auto-generated catch block
+				//					e1.printStackTrace();
+				//				} catch (DiscoveryException e1) {
+				//					// TODO Auto-generated catch block
+				//					e1.printStackTrace();
+				//				} catch (AssociationException e1) {
+				//					// TODO Auto-generated catch block
+				//					e1.printStackTrace();
+				//				}
+
+
+				System.out.println("Test getURL: " + getUrl(request));
+				System.out.println("Test getLongUrl: " + getUrlInkPara(request));
+				System.out.println("Test getUsedUrl: " + getUrlUsedPara(request));
+
+
+
 				parent.setLayout(new GridLayout(1, true));
 				try {
 					audit=new Audit(ResourceBundle.getBundle("icardea").getString(
@@ -174,7 +212,7 @@ public class GeneralView extends ViewPart {
 							comboPatientlist = new Combo(patientChooser, SWT.NONE);
 
 							{
-								
+								//System.out.println("call of ppmdataset.fillPatientlist" + ppmDataset.getRole());
 								ppmDataset.fillPatientList();
 
 								for (int i=0;i<ppmDataset.patientList.size();i++){
@@ -240,29 +278,29 @@ public class GeneralView extends ViewPart {
 							login = new Composite(patientTop, SWT.NONE);
 							login.setLayout(new GridLayout(2, false));
 						}
-						{
+						{//UserName Label at LoginScreen
 							lblUsername = new Label(login, SWT.NONE);
 							lblUsername.setText("OID_Username:");
 						}
-						{
+						{//Field for UserName at LoginScreen
 							uname = new Text(login, SWT.BORDER);
 							uname.setText("abcde");
 							GridData gd_uname = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 							gd_uname.widthHint = 180;
 							uname.setLayoutData(gd_uname);
 						}
-						{
+						{//Info Label for Problems with Login
 							lblpwd = new Label(login, SWT.NONE);
 							lblpwd.setText("Info");
 						}
 
-						{
+						{//Info Text for LoginScreen
 							pwd = new Label(login, SWT.NONE);
 							GridData gd_pwd = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 							gd_pwd.widthHint = 180;
 							pwd.setLayoutData(gd_pwd);
 						}
-						{
+						{// ActionButton for LoginScreen starting the loginprocess
 							btnOK = new Button(login, SWT.NONE);
 							btnOK.setLayoutData(new GridData(SWT.CENTER, SWT.CENTER, false, false, 1, 1));
 							btnOK.addSelectionListener(new SelectionAdapter() {
@@ -270,17 +308,17 @@ public class GeneralView extends ViewPart {
 								public void widgetSelected(SelectionEvent e) {
 									//FIXME login control
 									//################## HACK
+
 									logger.debug("Start Login Instance ");
 									String username;
 									ResourceBundle properties = ResourceBundle.getBundle("icardea");
 									boolean isSalkUsage = Boolean.parseBoolean(properties.getString("salk.usage"));
 
-									
 									//username="https://www.google.com/accounts/o8/id";
 									username=uname.getText();
 
 									logger.debug("Salkuser OpenId Server Secure :" + isSalkUsage);
-									properties.toString();
+
 									if(isSalkUsage){
 										String salkServer = properties.getString("salk.server");
 										username=salkServer+"/idp/u="+username; //only valid for SALK server
@@ -288,9 +326,12 @@ public class GeneralView extends ViewPart {
 									else{//(isSalkUsage) NoSalkUsage Local Testing assumed
 										//username has to be real OpenID Name like 	abcde.myopenid.com									
 									}
-									
+
 									logger.debug("Discovery for: "+username);
 									//FIXME Audit logging here
+									//1. Perform discover on the user suplieed identifier
+									// Done be RegistationService
+									// 2. and Assocication. Done at performdiscovery
 									DiscoveryInformation discovery = RegistrationService
 											.performDiscoveryOnUserSuppliedIdentifier(username);
 
@@ -318,20 +359,28 @@ public class GeneralView extends ViewPart {
 										//									logger.debug("GeneralView ##############AT authrequested redirect url:"+redirectUrl);
 										//																																
 
+										//2. Authentication
 										String url = RegistrationService.getReturnToUrl();
+										// DynamicURL doesn't function stable
+										//String url = RegistrationService.getReturnToUrl(request);
+
+
+
 										//										logger.debug("GeneralView ##############AT return url:"+url);
 
 										AuthRequest authRequest = RegistrationService.createOpenIdAuthRequest(discovery, url);
-										//										logger.debug("GeneralView ##############AT authrequested");
+										logger.debug("GeneralView ##############AT authrequested");
 										String redirectUrl = authRequest.getDestinationUrl(true);
-										//										logger.debug("GeneralView ##############AT authrequested redirect url:"+redirectUrl);
-										
+										logger.debug("GeneralView ##############AT authrequested redirect url:"+redirectUrl);
+
 										final String browserText =
 												MessageFormat.format("parent.window.location.href = \"{0}\";",redirectUrl);
-
+										// Now everything is handled by the OPenID provider
 										JSExecutor.executeJS(browserText);
-
-
+										// there should be now information about the process in the request.
+										System.out.println("Discovertype "+discovery.getTypes());
+										
+										
 										if (true) return;
 
 
@@ -343,7 +392,8 @@ public class GeneralView extends ViewPart {
 									}//End IF Disocvery Null
 									//################## HACK
 								}
-							});
+							}
+									);
 							btnOK.setText("OK");
 						}
 						{
@@ -395,46 +445,24 @@ public class GeneralView extends ViewPart {
 							);
 
 					//logger.debug("Startdate: "+request.getParameter("startdate"));
-					ParameterList paralist = new ParameterList(request.getParameterMap());
+					//				ParameterList paralist = new ParameterList(request.getParameterMap());
 					String retval=paralist.getParameterValue("openid.mode");
 					logger.debug("OpenID mode at parameterlist: "+retval);
 					logger.debug("OpenID Labeltype: " + paralist.getParameterValue("openid.ax.type.label"));
-	
-					
-					//Accessing data returned from the OpenID authentication and integrate  them into PPMdataset
-					if (paralist.getParameterValue("openid.ax.count.label") != null){
-						if(Integer.parseInt(paralist.getParameterValue("openid.ax.count.label"))>0){
-							if(Integer.parseInt(paralist.getParameterValue("openid.ax.count.label"))>1){
-								logger.warn("OpenID returnes multiples roles for the current user. Selecting first");
-							}
-							String roleOpenID = paralist.getParameterValue("openid.ax.value.label.1");
-							
-							logger.debug("Roletype available. Selecting first: " + roleOpenID);
-							ppmDataset.setRole(roleOpenID);
-
-						}
-					}
-					if (paralist.getParameterValue("openid.sreg.fullname") != null){
-							String fullnameOpenID = paralist.getParameterValue("openid.sreg.fullname");
-							logger.debug("Fullname available: " + fullnameOpenID);
-							if(fullnameOpenID.trim().isEmpty()){
-								fullnameOpenID =  paralist.getParameterValue("openid.identity");
-								logger.debug("Fullname was empty. Taking Identity: " + fullnameOpenID);
-							}
-							
-							ppmDataset.setUserFullName(fullnameOpenID);
-
-						}
-					
-					
-					
 					logger.debug("RETURN STATE "+retval);
+					
+					
 					patientTopLayout.topControl=login;
-
+ 
 					if (retval!=null){
-						if (retval.equalsIgnoreCase("id_res")){
+						if (retval.equalsIgnoreCase("id_res")){ // The ID was checked and verified. 
 							//						logger.debug("User:"+rm.getOpenId()+"\n is verified "+rm.getIs_verified());
+							ppmDataset.setUserOpenIdVerified(true);
 							patientTopLayout.topControl=patientChooser;
+							// Here the ppmdataset is updated with the information from the autenification process and call
+							// it sets the fullname of the user and if he is logged in
+							//updatePPmDataset(request);
+							 
 							audit.send_udp( audit.create_syslog_xml("PPM", Audit.createMessage("login", "", "0", uname.getText())) );
 
 
@@ -542,6 +570,115 @@ public class GeneralView extends ViewPart {
 			}
 		}
 
+	}
+
+	/*
+	 * This Method gets the parameters from the openID request and updates them in Ppmdataset
+	 */
+	private void updatePPmDataset(HttpServletRequest request) {
+		//TODO Set Login true or false
+		paralist = new ParameterList(request.getParameterMap());
+		//Accessing data returned from the OpenID authentication and integrate  them into PPMdataset
+		{if (paralist.getParameterValue("openid.ax.count.label") != null){
+			if(Integer.parseInt(paralist.getParameterValue("openid.ax.count.label"))>0){
+				if(Integer.parseInt(paralist.getParameterValue("openid.ax.count.label"))>1){
+					logger.warn("OpenID returnes multiples roles for the current user. Selecting first");
+				}
+				String roleOpenID = paralist.getParameterValue("openid.ax.value.label.1");
+
+				logger.debug("Roletype available. Selecting first: " + roleOpenID);
+				ppmDataset.setRole(roleOpenID);
+
+			}
+		}
+		if (paralist.getParameterValue("openid.sreg.fullname") != null){
+			String fullnameOpenID = paralist.getParameterValue("openid.sreg.fullname");
+			logger.debug("Fullname available: " + fullnameOpenID);
+			String userOpenID = paralist.getParameterValue("openid.identity");
+			if(fullnameOpenID.trim().isEmpty()){
+				fullnameOpenID =  userOpenID;
+				logger.debug("Fullname was empty. Taking Identity: " + fullnameOpenID);
+			}
+			ppmDataset.setUserOpenID(userOpenID);
+			ppmDataset.setUserFullName(fullnameOpenID);
+
+		}
+		if (paralist.getParameterValue("openid.mode") != null){
+			if (paralist.getParameterValue("openid.mode").equalsIgnoreCase("id_res"))
+			{
+				ppmDataset.setUserOpenIdVerified(true);
+			}
+			else{
+				ppmDataset.setUserOpenIdVerified(false);
+			}
+		}
+
+		//		List<Parameter> allParameters = paralist.getParameters();
+		//		if(!allParameters.isEmpty()){
+		//			logger.debug("String of parameters: ");
+		//		for (int i = 0; i < allParameters.size(); i++) {
+		//			
+		//			logger.debug("Key: " + allParameters.get(i).getKey());
+		//			logger.debug("Value: " + allParameters.get(i).getValue());
+		//			logger.debug(allParameters.get(i));
+		//		}
+		//			
+		//		}
+		}// End of filling ppmdataset 
+	}
+
+	/*
+	 * http://www.exampledepot.com/egs/javax.servlet/GetReqUrl.html
+	 */
+	// http://hostname.com/mywebapp/servlet/MyServlet/a/b;c=123?d=789
+	private String getUrl(HttpServletRequest req) {
+
+		String reqUrl = req.getRequestURL().toString();
+		String queryString = req.getQueryString();   // d=789
+		if (queryString != null && queryString.length()>0) {
+			reqUrl += "?"+queryString;
+		}
+		return reqUrl;
+	}
+
+	/*
+	 Improved to get all parameters and the whole URL
+	 This is the long URL version.
+	 
+	 */
+
+	private String getUrlInkPara(HttpServletRequest req) {
+		List<Parameter> test = new ParameterList(req.getParameterMap()).getParameters();
+		String reqUrl = req.getRequestURL().toString();
+		String queryString = req.getQueryString();   // d=789
+		if (queryString != null && queryString.length()>0) {
+			reqUrl += "?"+queryString;
+		}
+		for (Parameter p:test) {
+			reqUrl+="&"+p.getKey()+"="+p.getValue();
+		}
+		return reqUrl;
+	}
+	/*
+	 Improved to get the parameters and the URL wich are used
+	 */
+
+	private String getUrlUsedPara(HttpServletRequest req) {
+		List<Parameter> test = new ParameterList(req.getParameterMap()).getParameters();
+		String reqUrl = req.getRequestURL().toString();
+		String queryString = req.getQueryString();   // d=789
+		if (queryString != null && queryString.length()>0) {
+			reqUrl += "?"+queryString;
+		}
+		for (Parameter p:test) {
+			if(p.getKey().equalsIgnoreCase("patientid")|| 
+					p.getKey().equalsIgnoreCase("openid")||
+					p.getKey().equalsIgnoreCase("startup")||
+					p.getKey().equalsIgnoreCase("scaled")
+					){
+				reqUrl+="&"+p.getKey()+"="+p.getValue();}
+		}
+		return reqUrl;
 	}
 
 	/* (non-Javadoc)
