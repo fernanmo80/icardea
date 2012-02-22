@@ -75,7 +75,7 @@ public class RegistrationService {
 		// Pass the discoveries to the associate() method...
 		log.debug(" got "+discoveries.size());
 		
-		
+		// Exchanges a share secret
 		ret = consumerManager.associate(discoveries);
 
 		} catch (DiscoveryException e) {
@@ -294,6 +294,48 @@ public class RegistrationService {
 		  url = server + ":"+port+"/";
 		  }
 	   url= url + "view?startup=de.offis.health.icardea.ppm.viewapp";
+	  
+	  /*try {
+		    InetAddress addr = InetAddress.getLocalHost();
+
+		    // Get IP Address
+		    byte[] ipAddr = addr.getAddress();
+		    String ipadd = ipAddr.toString();	
+		    // Get hostname
+		    String hostname = addr.getHostAddress();
+		    url = "https://"+ hostname + ":"+securePort+"/icardea_careplaneditor/servlet/loginServlet?";
+		} catch (UnknownHostException e) {
+		}*/
+	  return url;
+  }
+  
+  // Should provide the local called URL for testing. But sometimes fails on the requestvalues. 
+  public static String getReturnToUrl(HttpServletRequest request) {
+	  ResourceBundle properties = ResourceBundle.getBundle("icardea");
+	  boolean isSalkUsage = Boolean.parseBoolean(properties.getString("salk.usage"));
+	  String server =""; 
+	  String port ="";
+	  String url = "";
+	   log.debug("getReturnUrl. Salk Status: "+isSalkUsage);
+	  if(isSalkUsage){
+		  server = properties.getString("salk.server");
+		  port = properties.getString("secure.port");
+		  url = server + ":"+port+"/ppm_v2";
+	  }
+	  
+	  else{// (isSalkUSage) NoSalkUsage, we assume localhost testing
+		 // request.get... sometime fails
+		  log.info("Localhost testing. salk.usage was not 'true'");
+		 String scheme = request.getScheme();             // http
+		   String serverName = request.getLocalAddr();     // hostname.com
+		   int serverPort = request.getServerPort();        // 80 
+		server = scheme+"://"+serverName+":"+serverPort;
+		 //server = request.getRequestURL().toString();
+		 
+		  url =  server;
+		  log.info("Localhost adress: "+ url);
+		  }
+	   url= url + "/view?startup=de.offis.health.icardea.ppm.viewapp";
 	  
 	  /*try {
 		    InetAddress addr = InetAddress.getLocalHost();
