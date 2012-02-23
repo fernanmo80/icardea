@@ -76,8 +76,6 @@ Bundle-ClassPath: lib/mysql-connector-java-5.1.13.jar,
  lib_mvn/hapi-structures-v251-1.2.jar,
  lib_mvn/hapi-structures-v26-1.2.jar,
  lib_mvn/help-3.5.100-v20110426.jar,
- lib_mvn/httpclient-4.2-alpha1.jar,
- lib_mvn/httpcore-4.0.jar,
  lib_mvn/hyperjaxb3-ejb-roundtrip-0.5.5.jar,
  lib_mvn/hyperjaxb3-ejb-runtime-0.5.5.jar,
  lib_mvn/jargs-1.0.jar,
@@ -137,4 +135,8 @@ Bundle-ClassPath: lib/mysql-connector-java-5.1.13.jar,
  lib_mvn/xmltooling-1.2.0.jar,
  lib_mvn/xmlunit-1.0.jar,
  lib/icardea-consenteditor-invoker-1.0-SNAPSHOT.jar,
- lib/icardea-atnalog-client-1.0-SNAPSHOT.jar
+ lib/icardea-atnalog-client-1.0-SNAPSHOT.jar,
+ lib/,
+ lib_mvn/
+Export-Package: de.offis.health.icardea.ppm,
+ de.offis.health.icardea.ppm.login
