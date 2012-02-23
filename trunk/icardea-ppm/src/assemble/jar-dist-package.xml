@@ -1,0 +1,35 @@
+<assembly>
+  <id>jar-dist-package</id>
+  <formats>
+    <format>jar</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+<!--  
+  <dependencySets>
+    <dependencySet>
+      <unpack>false</unpack>
+      <scope>runtime</scope>
+	  <outputDirectory>lib/</outputDirectory>
+    </dependencySet>
+  </dependencySets>
+-->
+  <fileSets>
+    <fileSet>
+	  <!-- ${project.build.outputDirectory} = './target/classes' -->
+      <directory>target</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>PPM_HL7Receiver.jar</include>
+        <include>lib/*.jar</include>
+      </includes>
+    </fileSet>
+	
+    <fileSet>
+      <directory>/</directory>
+      <outputDirectory>/</outputDirectory>
+      <includes>
+        <include>start*.cmd</include>
+      </includes>
+    </fileSet>
+  </fileSets>  
+</assembly>
