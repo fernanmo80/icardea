@@ -85,7 +85,9 @@ public class PPMDataset {
 			setCurrentDate(PPMDataset.convPointToTime(this.dateStrings[0] ));
 			checkDB();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.fatal("Database is missing");
+			logger.fatal(e.getMessage());
+//			throw new RuntimeException("Database is missing");
 		}
 	}
 
@@ -544,8 +546,12 @@ public class PPMDataset {
 	 * @return the stmt
 	 */
 	public Statement getStmt() {
-
+//fixme con =null means no DB connection, exception through
 		try {
+			if (conn==null){
+				conn = DriverManager.getConnection(url+dbName,dbUserName,dbPassword);
+				stmt=conn.createStatement();
+			}else
 			if (!conn.isValid(2)){
 				logger.warn("JDBC Connection is invalid, try to get a new");
 				conn = DriverManager.getConnection(url+dbName,dbUserName,dbPassword);
@@ -554,6 +560,10 @@ public class PPMDataset {
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		if (stmt==null) {
+			logger.fatal("No Statement created");
+			throw new RuntimeException("Database is missing");
 		}
 		return stmt;
 	}
