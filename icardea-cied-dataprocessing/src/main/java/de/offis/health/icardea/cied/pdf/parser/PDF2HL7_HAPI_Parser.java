@@ -449,36 +449,41 @@ public class PDF2HL7_HAPI_Parser {
 				/*
 				 * Sequence is from newest episode to early episode
 				 *MDC_IDC_EPISODE_ID 739536
-				 *MDC_IDC_EPISODE_DTM 739552
 				 *MDC_IDC_EPISODE_TYPE 739568
+				 *MDC_IDC_EPISODE_DTM 739552
+				 *MDC_IDC_EPISODE_DURATION 739712
 				 *MDC_IDC_EPISODE_DETECTION_THERAPY_DETAILS 739680
 				 *MDC_IDC_EPISODE_THERAPY_RESULT 739696
-				 *MDC_IDC_EPISODE_DURATION 739712
 				 */
-
+				
 				obxParser_arrhythmiaepisodelist.setPdfContent(episodeList.get(i));
-
+				
 				observationSubID_EPISODE=observationSubID_EPISODE+1;
 				observationValue=obxParser_arrhythmiaepisodelist.getMDC_IDC_EPISODE_ID();
 				if (observationValue!= null) {
 					obx_list.add(obxparser_nomenclature_mdt.parse_obx_ArrhythmiaEpisodeList(observationSubID_EPISODE, observationValue, 739536));
 				}
-				observationValue=obxParser_arrhythmiaepisodelist.getMDC_IDC_EPISODE_DTM();
-				if (observationValue!= null) {
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_ArrhythmiaEpisodeList(observationSubID_EPISODE, observationValue, 739552));
-				}
+				
 				observationValue=obxParser_arrhythmiaepisodelist.getMDC_IDC_EPISODE_TYPE();
 				if (observationValue!= null) {
 					obx_list.add(obxparser_nomenclature_mdt.parse_obx_ArrhythmiaEpisodeList(observationSubID_EPISODE, observationValue, 739568));
 				}
+				
+				observationValue=obxParser_arrhythmiaepisodelist.getMDC_IDC_EPISODE_DTM();
+				if (observationValue!= null) {
+					obx_list.add(obxparser_nomenclature_mdt.parse_obx_ArrhythmiaEpisodeList(observationSubID_EPISODE, observationValue, 739552));
+				}
+				
 				observationValue=obxParser_arrhythmiaepisodelist.getMDC_IDC_EPISODE_DURATION();
 				if (observationValue!= null) {
 					obx_list.add(obxparser_nomenclature_mdt.parse_obx_ArrhythmiaEpisodeList(observationSubID_EPISODE, observationValue, 739712));
 				}
+				
 				observationValue=obxParser_arrhythmiaepisodelist.getMDC_IDC_EPISODE_DETECTION_THERAPY_DETAILS();
 				if (observationValue!= null) {
 					obx_list.add(obxparser_nomenclature_mdt.parse_obx_ArrhythmiaEpisodeList(observationSubID_EPISODE, observationValue, 739680));
 				}
+				
 				observationValue=obxParser_arrhythmiaepisodelist.getMDC_IDC_EPISODE_THERAPY_RESULT();
 				if (observationValue!= null) {
 					obx_list.add(obxparser_nomenclature_mdt.parse_obx_ArrhythmiaEpisodeList(observationSubID_EPISODE, observationValue, 739696));
@@ -632,19 +637,142 @@ public class PDF2HL7_HAPI_Parser {
 			mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END();
 			
 			int index=0;
+			/*
+			 * For VT SVT NS-VT FVT VF AF scenario/episode
+			 * VT is essential and with high priority for Careplan Engine
+			 * switch_XX such as switch_VT/switch_NSVT is used to filter episode type
+			 */
+			String switch_VT=AppConfig.getProperty("VT_Moitoring");
+			if (switch_VT.toLowerCase().equals("on")) {
+				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_VT();
+				if (observationValue!= null) {
+					index=index+1;
+					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
+					
+					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_VT();
+					if (observationValue!= null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
+					}
+				}
+			}
 			
-			String minVT=AppConfig.getProperty("minHL7");
+			String switch_SVT=AppConfig.getProperty("SVT_Moitoring");
+			if (switch_SVT.toLowerCase().equals("on")) {
+				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_SVT();
+				if (observationValue!= null) {
+					index=index+1;
+					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
+					
+					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_SVT();
+					if (observationValue!= null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
+					}
+				}
+			}
 			
-			if (!minVT.toLowerCase().equals("yes")) {
-				/*
-				 * For VT NS-VT FVT
-				 */
+			String switch_AF=AppConfig.getProperty("AF_Moitoring");
+			if (switch_AF.toLowerCase().equals("on")) {
 				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_AF();
 				if (observationValue!= null) {
 					index=index+1;
 					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));	
 					
 					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_AF();
+					if (observationValue!= null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
+					}
+				}
+			}
+			
+			String switch_NSVT=AppConfig.getProperty("NSVT_Moitoring");
+			if (switch_NSVT.toLowerCase().equals("on")) {
+				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_NSVT();
+				if (observationValue!= null) {
+					index=index+1;
+					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
+					
+					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_NSVT();
+					if (observationValue!= null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
+					}
+				}
+			}
+			
+			String switch_FVT=AppConfig.getProperty("FVT_Moitoring");
+			if (switch_FVT.toLowerCase().equals("on")) {
+				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_FVT();
+				if (observationValue!= null) {
+					index=index+1;
+					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
+					
+					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_FVT();
+					if (observationValue!= null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
+					}
+				}
+			}
+			
+			String switch_VF=AppConfig.getProperty("VF_Moitoring");
+			if (switch_VF.toLowerCase().equals("on")) {
+				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_VF();
+				if (observationValue!= null) {
+					index=index+1;
+					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
+					
+					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_VF();
+					if (observationValue!= null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_START, 738017));	
+					}
+					if (mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END!=null) {
+						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, mdc_IDC_STAT_EPISODE_RECENT_COUNT_DTM_END, 738018));	
+					}
+				}
+			}
+			
+			/*
+			String minVT=AppConfig.getProperty("minHL7");
+			
+			if (!minVT.toLowerCase().equals("yes")) {
+
+				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_VT();
+				if (observationValue!= null) {
+					index=index+1;
+					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
+
+					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_VT();
 					if (observationValue!= null) {
 						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
 					}
@@ -673,14 +801,12 @@ public class PDF2HL7_HAPI_Parser {
 					}
 				}
 				
-				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_VT();
+				observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_TYPE_AF();
 				if (observationValue!= null) {
 					index=index+1;
-					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
-					/*
-					 * observationValue for VT is default "0", because VT number is essential by Careplan Engine required 
-					 */
-					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_VT();
+					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));	
+					
+					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_AF();
 					if (observationValue!= null) {
 						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
 					}
@@ -748,9 +874,7 @@ public class PDF2HL7_HAPI_Parser {
 				if (observationValue!= null) {
 					index=index+1;
 					obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 737952));
-					/*
-					 * observationValue for VT is default "0", because VT number is essential by Careplan Engine required 
-					 */
+
 					observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_EPISODE_RECENT_COUNT_VT();
 					if (observationValue!= null) {
 						obx_list.add(obxparser_nomenclature_mdt.parse_obx_VTVFCounters(index, observationValue, 738000));	
@@ -763,6 +887,7 @@ public class PDF2HL7_HAPI_Parser {
 					}
 				}
 			}
+			 */
 			
 			observationValue=obxParser_vtvfcounters.getMDC_IDC_STAT_TACHYTHERAPY_SHOCKS_DELIVERED_RECENT();
 			if (observationValue!= null) {
@@ -776,7 +901,7 @@ public class PDF2HL7_HAPI_Parser {
 		
 		if (singlePageTitle=="Battery and Lead Measurements" || singlePageTitle=="Batterie- und Elektrodenmessungen") {
 			String observationValue=null;
-
+			
 			OBXObserValue_BatteryandLead obxParser_batteryandlead=
 				new OBXObserValue_BatteryandLead(AppConfig.getProperty("PDFPARSER_LANGUAGE_SETTING"));
 			obxParser_batteryandlead.setPdfContent(singlePageContent);
