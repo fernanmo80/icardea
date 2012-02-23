@@ -30,6 +30,29 @@ public class EMail {
 
 	public static void sendEMail(String contactNumber, String messageSubject,
 			String messageBody) {
+		
+		ResourceBundle properties = ResourceBundle.getBundle("icardea");
+		String smsProvider = properties.getString("sms.provider");
+		if(smsProvider.equals("salk")) {
+			try {
+				System.out.println(" $$$ Sending email to:" + contactNumber
+						+ ", \nmessage subject:" + messageSubject + ", \nmessage body:"
+						+ messageBody+" with SALK blat script...");
+				String command = "D:\\blat.exe bodyEmail.txt -html -try 3 -tf recipientsEmail.txt -subject  "+messageSubject+"  -f iCARDEA@salk.at -server smtp.lks.local -port 25";
+				FileOutputStream body = new FileOutputStream("bodyEmail.txt");
+				FileOutputStream recipients = new FileOutputStream("recipientsEmail.txt");
+				String receiver = contactNumber;
+				body.write(messageBody.getBytes());					
+				recipients.write(receiver.getBytes());
+				body.close();
+				recipients.close();
+				Process p = Runtime.getRuntime().exec(command);
+				return ;
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		
 		// TODO: alt taraftaki if blogu sil
 
 		if (true) {
