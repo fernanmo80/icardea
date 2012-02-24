@@ -81,6 +81,11 @@ public class OBXParser_Nomenclature_ICARDEA extends AbstractPDFParser {
 		oru_obx=ORU_SetValue(idc_nomenclature_index, oru_obx);
 		switch(idc_nomenclature_index) {
 		
+		case 180999://ICARDEA_IDC_SET_NCAP
+			oru_obx.setObservationValue(observationValue);
+			oru_obx.setObservationSubID(String.valueOf(observation_Sub_ID));
+			break;
+			
 		case 180406:
 			oru_obx.setObservationValue(observationValue);
 			oru_obx.setObservationSubID(String.valueOf(observation_Sub_ID));

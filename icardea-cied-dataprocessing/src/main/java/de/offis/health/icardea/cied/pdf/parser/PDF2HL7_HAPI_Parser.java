@@ -498,6 +498,14 @@ public class PDF2HL7_HAPI_Parser {
 				new OBXObserValue_Parameters(AppConfig.getProperty("PDFPARSER_LANGUAGE_SETTING"));
 			obxParser_parameters.setPdfContent(singlePageContent);
 			
+			/*
+			 * Example to show how add new parameters
+			 */
+			observationValue=obxParser_parameters.getICARDEA_IDC_SET_NCAP();
+			if (observationValue!= null) { 
+				obx_list.add(obxparser_nomenclature_icardea.parse_obx_Parameters(observationSubID, observationValue, 180999));
+			}
+			
 			observationValue=obxParser_parameters.getMDC_IDC_PG_IMPLANT_DT();
 			if (observationValue!= null) { 
 				obx_list.add(obxparser_nomenclature_mdt.parse_obx_Parameters(observationSubID, observationValue, 720901));
