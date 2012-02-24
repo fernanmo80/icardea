@@ -15,16 +15,6 @@ import de.offis.health.icardea.common.exception.PropertyNotFoundException;
 public class OBXObserValue_Parameters extends AbstractPDFParser implements OBXParserInterface_Parameters {
 	private static Logger logger = Logger.getLogger(OBXObserValue_Parameters.class);
 	
-	private final String PROPERTY_KEY_REGEX_DEVICE_LEADCHNL_CHAMBER_PACING_AMPLITUDE
-		="PDFPARSER_REGEX_DEVICE_LEADCHNL_CHAMBER_PACING_AMPLITUDE";
-	private final String PROPERTY_KEY_REGEX_DEVICE_LEADCHNL_CHAMBER_PACING_AMPLITUDE_Cluster
-		="PDFPARSER_REGEX_DEVICE_LEADCHNL_CHAMBER_PACING_AMPLITUDE_Cluster";
-	
-	private final String PROPERTY_KEY_REGEX_MDC_IDC_PG_IMPLANT_DT
-	="PDFPARSER_REGEX_MDC_IDC_PG_IMPLANT_DT";
-	private final String PROPERTY_KEY_REGEX_MDC_IDC_PG_IMPLANT_DT_Cluster
-	="PDFPARSER_REGEX_MDC_IDC_PG_IMPLANT_DT_Cluster";
-	
 	private OBXObserValue_Parameters() throws InvalidParameterValueException, PropertyFileNotFoundException {
 		super("OBXSegmentParameters", "en");
 	}
@@ -32,7 +22,12 @@ public class OBXObserValue_Parameters extends AbstractPDFParser implements OBXPa
 	public OBXObserValue_Parameters(String languageCode) throws InvalidParameterValueException, PropertyFileNotFoundException {
 		super("OBXSegmentParameters", languageCode);
 	}
-	
+
+	private final String PROPERTY_KEY_REGEX_DEVICE_LEADCHNL_CHAMBER_PACING_AMPLITUDE
+	="PDFPARSER_REGEX_DEVICE_LEADCHNL_CHAMBER_PACING_AMPLITUDE";
+	private final String PROPERTY_KEY_REGEX_DEVICE_LEADCHNL_CHAMBER_PACING_AMPLITUDE_Cluster
+	="PDFPARSER_REGEX_DEVICE_LEADCHNL_CHAMBER_PACING_AMPLITUDE_Cluster";
+
 	public String getMDC_IDC_SET_LEADCHNL_RA_PACING_AMPLITUDE()
 	throws PropertyNotFoundException {
 		String[] mdc_IDC_SET_LEADCHNL_CHAMBER_PACING_AMPLITUDE = {null,null,null};
@@ -135,6 +130,11 @@ public class OBXObserValue_Parameters extends AbstractPDFParser implements OBXPa
 		return mdc_IDC_SET_LEADCHNL_LV_PACING_AMPLITUDE;
 	}
 
+	private final String PROPERTY_KEY_REGEX_MDC_IDC_PG_IMPLANT_DT
+	="PDFPARSER_REGEX_MDC_IDC_PG_IMPLANT_DT";
+	private final String PROPERTY_KEY_REGEX_MDC_IDC_PG_IMPLANT_DT_Cluster
+	="PDFPARSER_REGEX_MDC_IDC_PG_IMPLANT_DT_Cluster";
+	
 	public String getMDC_IDC_PG_IMPLANT_DT() throws PropertyNotFoundException {
 		String mdc_IDC_PG_IMPLANT_DT = null;
 		
@@ -325,5 +325,21 @@ public class OBXObserValue_Parameters extends AbstractPDFParser implements OBXPa
 			cluster=matcher.group();
 		}
 		return cluster;
+	}
+
+	/*
+	 * Example to show how add new parameters
+	 */
+	private final String PROPERTY_KEY_REGEX_ICARDEA_IDC_SET_NCAP
+	="PDFPARSER_REGEX_ICARDEA_IDC_SET_NCAP";
+	public String getICARDEA_IDC_SET_NCAP() throws PropertyNotFoundException {
+		String icardea_IDC_SET_NCAP = null;
+		
+		Pattern pattern = Pattern.compile(getProperty(this.PROPERTY_KEY_REGEX_ICARDEA_IDC_SET_NCAP), Pattern.MULTILINE);
+		Matcher matcher = pattern.matcher(getPdfContent());
+		if (matcher.find()) {
+			icardea_IDC_SET_NCAP = matcher.group().trim();
+		}
+		return icardea_IDC_SET_NCAP;
 	}
 }

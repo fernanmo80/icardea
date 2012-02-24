@@ -49,4 +49,9 @@ public interface OBXParserInterface_Parameters {
 	//public String getICARDEA_IDC_SET_LIMIT_VT2() throws PropertyNotFoundException;
 	//VF
 	//public String getICARDEA_IDC_SET_LIMIT_VF() throws PropertyNotFoundException;
+	
+	/*
+	 * Example to show how add new parameters
+	 */
+	public String getICARDEA_IDC_SET_NCAP() throws PropertyNotFoundException;
 }
