@@ -1,15 +1,56 @@
 package tr.com.srdc.icardea.ihe.idco;
 
+import java.io.OutputStream;
+import java.net.Socket;
+import java.security.Security;
+import java.util.ResourceBundle;
+
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
+
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import com.sun.net.ssl.internal.ssl.Provider;
+
 import tr.com.srdc.icardea.ihe.idco.observationcreator.ObservationCreator;
 import tr.com.srdc.icardea.ihe.idco.observationprocessor.ObservationProcessor;
 
 public class IHEIDCOIntegrationTest {
 	private static ObservationProcessor processor = null;
-
+	
 	//@Test
+	public void testEPSOSMessage() throws java.lang.Exception {
+		String homeCommunityID = "2.16.17.710.813.1000.990.1";
+		String patientID = "91982382558";
+		Socket epsosSocket = null;
+		boolean atnatls = new Boolean(ResourceBundle.getBundle("icardea")
+				.getString("atna.tls")).booleanValue();
+		if (atnatls) {
+			Security.addProvider(new Provider());
+
+			// Specifying the Keystore details
+			System.setProperty("javax.net.ssl.keyStore", ResourceBundle.getBundle("icardea").getString("icardea.home") + "/icardea-caremanagementdb/src/test/resources/sampleSSL/client.ks");
+			System.setProperty("javax.net.ssl.keyStorePassword", "client");
+			System.setProperty("javax.net.ssl.trustStore", ResourceBundle.getBundle("icardea").getString("icardea.home") + "/icardea-caremanagementdb/src/test/resources/sampleSSL/client.ts");
+			System.setProperty("javax.net.ssl.trustStorePassword", "srdcpass");
+
+			SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory
+					.getDefault();
+			epsosSocket = (SSLSocket) sslsocketfactory.createSocket(
+					"localhost", 1012);
+		} else {
+			epsosSocket = new Socket("localhost", 1012);
+		}
+		
+		OutputStream dos = epsosSocket.getOutputStream();
+		dos.write((patientID+":"+homeCommunityID+"\n").getBytes());
+		dos.flush();
+		dos.close();
+	}
+
+	@Test
 	public void testADTMessage() throws java.lang.Exception {
 		String fileName = "idco/adt-a01.hl7";
 		ObservationCreator obsCreator = new ObservationCreator("localhost", 1011);
@@ -48,7 +89,7 @@ public class IHEIDCOIntegrationTest {
 		obsCreator.run(true, true, fileName);
 	}
 
-	@Test
+	//@Test
 	public void test2() throws java.lang.Exception {
 		String fileName = "idco/VTCareplan/VT_Scenario_Step_9.hl7";
 		ObservationCreator obsCreator = new ObservationCreator("localhost", 1011);
@@ -83,7 +124,7 @@ public class IHEIDCOIntegrationTest {
 		obsCreator.run(true, false, fileName);
 	}
 
-	@Test
+	//@Test
 	public void test6_2() throws java.lang.Exception {
 		String fileName = "idco/VTCareplan/VT_Scenario_Step_18-2.hl7";
 		ObservationCreator obsCreator = new ObservationCreator("localhost", 1011);

@@ -9,6 +9,7 @@ import java.io.StringReader;
 import java.io.StringWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.security.Security;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -19,6 +20,10 @@ import java.util.Date;
 import java.util.ResourceBundle;
 
 import javax.mail.internet.MimeUtility;
+import javax.net.ssl.SSLServerSocket;
+import javax.net.ssl.SSLServerSocketFactory;
+import javax.net.ssl.SSLSocket;
+import javax.net.ssl.SSLSocketFactory;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
@@ -30,6 +35,9 @@ import org.orm.PersistentTransaction;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
+
+import com.sun.net.ssl.internal.ssl.Provider;
+
 import tr.com.srdc.icardea.atnalog.client.Audit;
 
 import tr.com.srdc.icardea.hibernate.CIEDData;
@@ -216,7 +224,7 @@ public class ReceiverApplication extends Thread {
 		if (atnalog) {
 			ResourceBundle properties = ResourceBundle.getBundle("icardea");
 			String atnalogServer = properties.getString("atna.log.server");
-			
+
 			String xml = Audit.createMessage("PCD-9", patientID, "", "");
 			Audit a = null;
 			try {
@@ -225,10 +233,9 @@ public class ReceiverApplication extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            a.send_udp( a.create_syslog_xml("caremanager", xml) );
-		}		
+			a.send_udp(a.create_syslog_xml("caremanager", xml));
+		}
 	}
-	
 
 	private void processPV1(ORU_R01 oru, CIEDData ciedData) throws HL7Exception {
 		// PV1 Segment: Segment is OPTIONAL
@@ -362,11 +369,19 @@ public class ReceiverApplication extends Thread {
 					"Socket read and closed");
 			Message message = null;
 			if (receivedMessage.trim().startsWith("MSH")) {
-				receivedMessage = receivedMessage.replaceFirst("\\|ADT\\^A31\\^ADT_A31\\|", "\\|ADT\\^A01\\^ADT_A01\\|");
-				receivedMessage = receivedMessage.replaceFirst("\\|ADT\\^A31\\^ADT_05\\|", "\\|ADT\\^A01\\^ADT_A01\\|");
-				receivedMessage = receivedMessage.replaceFirst("\\|ADT\\^A31\\^ADT_A05\\|", "\\|ADT\\^A01\\^ADT_A01\\|");
-				receivedMessage = receivedMessage.replaceFirst("\\|ADT\\^A31\\|", "\\|ADT\\^A01\\|");
-				receivedMessage = receivedMessage.replaceFirst("\\|P\\|2.3\\.1", "\\|P\\|2\\.5");
+				receivedMessage = receivedMessage.replaceFirst(
+						"\\|ADT\\^A31\\^ADT_A31\\|",
+						"\\|ADT\\^A01\\^ADT_A01\\|");
+				receivedMessage = receivedMessage
+						.replaceFirst("\\|ADT\\^A31\\^ADT_05\\|",
+								"\\|ADT\\^A01\\^ADT_A01\\|");
+				receivedMessage = receivedMessage.replaceFirst(
+						"\\|ADT\\^A31\\^ADT_A05\\|",
+						"\\|ADT\\^A01\\^ADT_A01\\|");
+				receivedMessage = receivedMessage.replaceFirst(
+						"\\|ADT\\^A31\\|", "\\|ADT\\^A01\\|");
+				receivedMessage = receivedMessage.replaceFirst(
+						"\\|P\\|2.3\\.1", "\\|P\\|2\\.5");
 				inXML = false;
 				message = new PipeParser().parse(receivedMessage);
 			} else {
@@ -502,10 +517,12 @@ public class ReceiverApplication extends Thread {
 	private String processADTMessage(Message message) throws Exception {
 		// If it is not ADT_A01 then return
 		Logger.getLogger(ReceiverApplication.class).log(Level.INFO,
-		"Processing ADT Message... "+ message.getClass().getName());
+				"Processing ADT Message... " + message.getClass().getName());
 		if (!(message instanceof ADT_A01)) {
-		Logger.getLogger(ReceiverApplication.class).log(Level.INFO,
-		"Message is not A05 or A31 message... "+ message.getClass().getName());
+			Logger.getLogger(ReceiverApplication.class).log(
+					Level.INFO,
+					"Message is not A05 or A31 message... "
+							+ message.getClass().getName());
 			return "";
 		}
 
@@ -530,28 +547,79 @@ public class ReceiverApplication extends Thread {
 			CX patientIdentifier = patientIdentifierList[i];
 			String namespace = patientIdentifier.getAssigningAuthority()
 					.getNamespaceID().getValue();
-			String identifierTypeCode = patientIdentifier.getIdentifierTypeCode() != null ? patientIdentifier.getIdentifierTypeCode().getValue() : "" ; 
+			String identifierTypeCode = patientIdentifier
+					.getIdentifierTypeCode() != null ? patientIdentifier
+					.getIdentifierTypeCode().getValue() : "";
 			String identifier = patientIdentifier.getIDNumber().getValue();
-			if (namespace.equalsIgnoreCase("icardea.pix") || namespace.indexOf("icardea") != -1) {
+			if (namespace.equalsIgnoreCase("icardea.pix")
+					|| namespace.indexOf("icardea") != -1) {
 				citizenshipID = identifier;
 			} else if (namespace.equalsIgnoreCase("orbis")) {
 				orbisID = identifier;
 			} else if (namespace.equalsIgnoreCase("cied")) {
 				patientID = identifier;
-			} else if (identifierTypeCode != null && identifierTypeCode.equalsIgnoreCase("epsos")) {
+			} else if (identifierTypeCode != null
+					&& identifierTypeCode.equalsIgnoreCase("epsos")) {
 				epSOSID = identifier;
 				homeCommunityID = namespace;
 			}
-			
+
 		}
-		Logger.getLogger(ReceiverApplication.class).log(Level.INFO, "epSOS ID: "+ epSOSID + " homeCommunityID: " +homeCommunityID);
-		if(epSOSID != null) {
-			/*Logger.getLogger(ReceiverApplication.class).log(Level.INFO, "epSOS ID: "+ epSOSID + " homeCommunityID: " +homeCommunityID);
-			tr.com.srdc.icardea.epsos.EPSOSClient epsosClient = new tr.com.srdc.icardea.epsos.EPSOSClient(epSOSID, homeCommunityID);
-			String cda = epsosClient.retrieveDocument();
-			Logger.getLogger(ReceiverApplication.class).log(Level.INFO, "Retrieved CDA document... "+ cda);
-			epsosClient.registerDocument(cda);
-			Logger.getLogger(ReceiverApplication.class).log(Level.INFO, "Registration to XDS Reg/Rep complete... ");*/
+		Logger.getLogger(ReceiverApplication.class)
+				.log(Level.INFO,
+						"epSOS ID: " + epSOSID + " homeCommunityID: "
+								+ homeCommunityID);
+		if (epSOSID != null) {
+			Logger.getLogger(ReceiverApplication.class).log(
+					Level.INFO,
+					"epSOS ID: " + epSOSID + " homeCommunityID: "
+							+ homeCommunityID);
+			Socket epsosSocket = null;
+			if (atnatls) {
+				Security.addProvider(new Provider());
+
+				// Specifying the Keystore details
+				System.setProperty("javax.net.ssl.keyStore", ResourceBundle.getBundle("icardea").getString("icardea.home") + "/icardea-caremanagementdb/src/test/resources/sampleSSL/client.ks");
+				System.setProperty("javax.net.ssl.keyStorePassword", "client");
+				System.setProperty("javax.net.ssl.trustStore", ResourceBundle.getBundle("icardea").getString("icardea.home") + "/icardea-caremanagementdb/src/test/resources/sampleSSL/client.ts");
+				System.setProperty("javax.net.ssl.trustStorePassword", "srdcpass");
+
+				SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory
+						.getDefault();
+				epsosSocket = (SSLSocket) sslsocketfactory.createSocket(
+						"localhost", 1012);
+			} else {
+				epsosSocket = new Socket("localhost", 1012);
+			}
+			
+			OutputStream dos = epsosSocket.getOutputStream();
+			dos.write((epSOSID+":"+homeCommunityID+"\n").getBytes());
+			dos.flush();
+			dos.close();
+			
+			if (atnatls) {
+				String keystoreFile = ResourceBundle.getBundle("icardea")
+						.getString("tomcat.home") + "conf/.keystore";
+				String keystorePass = "srdcpass";
+				String truststoreFile = ResourceBundle.getBundle("icardea")
+						.getString("tomcat.home") + "conf/.truststore";
+				String truststorePass = "srdcpass";
+
+
+				// Registering the JSSE provider
+				Security.addProvider(new Provider());
+
+				// Specifying the Keystore details
+				System.setProperty("javax.net.ssl.keyStore", keystoreFile);
+				System.setProperty("javax.net.ssl.keyStorePassword",
+						keystorePass);
+				System.setProperty("javax.net.ssl.trustStore", truststoreFile);
+				System.setProperty("javax.net.ssl.trustStorePassword", truststorePass);
+				// Initialize the Server Socket
+			}
+			
+			Logger.getLogger(ReceiverApplication.class).log(Level.INFO,
+					"Registration to XDS Reg/Rep complete... ");
 		}
 
 		PatientCriteria patientCriteria = null;
@@ -677,8 +745,9 @@ public class ReceiverApplication extends Thread {
 		if (atnalog) {
 			ResourceBundle properties = ResourceBundle.getBundle("icardea");
 			String atnalogServer = properties.getString("atna.log.server");
-			
-			String xml = Audit.createMessage("register", patientID, "", "");//TODO:registration message
+
+			String xml = Audit.createMessage("register", patientID, "", "");// TODO:registration
+																			// message
 			Audit a = null;
 			try {
 				a = new Audit(atnalogServer, 2861);
@@ -686,11 +755,12 @@ public class ReceiverApplication extends Thread {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            a.send_udp( a.create_syslog_xml("caremanager", xml) );
+			a.send_udp(a.create_syslog_xml("caremanager", xml));
 		}
-		
+
 		// subscribe to EHR and PHR Data sources...
-		Subscriber subscriber = new Subscriber(citizenshipID, givenName, familyName);
+		Subscriber subscriber = new Subscriber(citizenshipID, givenName,
+				familyName);
 		subscriber.start();
 
 		return adt.getMSH().getMessageControlID().getValue();
@@ -788,7 +858,10 @@ public class ReceiverApplication extends Thread {
 				Connection conn = DriverManager.getConnection(jdbcURL,
 						username, password);
 				Statement s = conn.createStatement();
-				System.out.println("Query:"+ "select patientcode from patient where patientcode = " + pid);
+				System.out
+						.println("Query:"
+								+ "select patientcode from patient where patientcode = "
+								+ pid);
 				ResultSet resultSet = s
 						.executeQuery("select patientcode from patient where patientcode = "
 								+ pid);
@@ -826,7 +899,7 @@ public class ReceiverApplication extends Thread {
 	public tr.com.srdc.icardea.hibernate.Person addPerson(String id,
 			String name, String surname) throws Exception {
 		PersistentTransaction transaction = ICardeaPersistentManager.instance()
-			.getSession().beginTransaction();
+				.getSession().beginTransaction();
 		System.out.println(" $$$ Adding person:" + name);
 		tr.com.srdc.icardea.hibernate.Person personInDB = null;
 		PersonCriteria personCriteria = null;
@@ -838,7 +911,7 @@ public class ReceiverApplication extends Thread {
 		}
 		personCriteria.identifier.eq(id);
 		tr.com.srdc.icardea.hibernate.Person[] persons = tr.com.srdc.icardea.hibernate.Person
-			.listPersonByCriteria(personCriteria);
+				.listPersonByCriteria(personCriteria);
 		if (persons.length > 0) {
 			System.out.println(" $$$ Person already in the DB:" + name);
 			personInDB = persons[0];
@@ -855,10 +928,10 @@ public class ReceiverApplication extends Thread {
 	}
 
 	public String processCIEDMessage(Message message)
-		throws ApplicationException, HL7Exception {
+			throws ApplicationException, HL7Exception {
 		// printMessage(message);
-	// System.out.println("ReceiverApplication got the message..." + new
-// DefaultXMLParser().encode(message));
+		// System.out.println("ReceiverApplication got the message..." + new
+		// DefaultXMLParser().encode(message));
 		System.out.println("ReceiverApplication processCIEDMessage");
 		Logger.getLogger(ReceiverApplication.class).log(Level.INFO,
 				"Receiving the message");
@@ -868,7 +941,7 @@ public class ReceiverApplication extends Thread {
 		PersistentTransaction transaction = null;
 		try {
 			transaction = ICardeaPersistentManager.instance().getSession()
-				.beginTransaction();
+					.beginTransaction();
 			CIEDData ciedData = CIEDData.createCIEDData();
 			Logger.getLogger(ReceiverApplication.class).log(Level.INFO,
 					"Processing MSH");
@@ -912,7 +985,7 @@ public class ReceiverApplication extends Thread {
 	}
 
 	private static byte[] decodeAndWriteToFile(byte[] b, String fileName)
-		throws Exception {
+			throws Exception {
 		ByteArrayInputStream bais = new ByteArrayInputStream(b);
 		InputStream b64is = MimeUtility.decode(bais, "base64");
 		byte[] tmp = new byte[b.length];
