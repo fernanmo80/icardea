@@ -64,7 +64,7 @@ public class LoginServiceImpl implements LoginService {
 //		model.setFullName((String)mySession.getAttribute("user_fullname"));
 //		model.setRole((String)mySession.getAttribute("user_role"));
 		
-		model.setIs_verified(("is_verified"));
+		model.setIs_verified((false));
 		model.setEmailAddress(("user_email"));
 		model.setOpenId(("user_openid"));
 		model.setFullName(("user_fullname"));
@@ -78,7 +78,7 @@ public class LoginServiceImpl implements LoginService {
 	public void doLogout(){
 //		FlexSession mySession= FlexContext.getFlexSession();
 		HttpSession mySession = RWT.getSessionStore().getHttpSession();
-		mySession.setAttribute("is_verified", "false");
+		mySession.setAttribute("is_verified", false);
 		//TODO control is_verified variable from Registration Model 
 	}
 	

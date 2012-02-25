@@ -65,7 +65,7 @@ public class RegistrationService {
 		try {
 			
 		// Perform discover on the User-Supplied Identifier
-			consumerManager.setConnectTimeout(2000);
+			consumerManager.setConnectTimeout(4000);
 			List<DiscoveryInformation> discoveries = consumerManager.discover(userSuppliedIdentifier);
 		
 		if(discoveries.isEmpty()){
@@ -171,17 +171,21 @@ public class RegistrationService {
 		log.debug("Register Attribute names"+req.getAttributeNames());
 		
 		// extract the receiving URL from the HTTP request
-		StringBuffer receivingURL = req.getRequestURL();
-		String queryString = req.getQueryString();
-		if (queryString != null && queryString.length() > 0)
-		    receivingURL.append("?").append(req.getQueryString());
-		
+		//StringBuffer receivingURL = req.getRequestURL();
+		//String queryString = req.getQueryString();
+		//if (queryString != null && queryString.length() > 0)
+		 //   receivingURL.append("?").append(req.getQueryString());
+		//HAck: 
+				String receivingURL = response.getParameterValue("openid.return_to");
+				System.out.println("ReturnTO" + receivingURL);
+				
 		// verify the response; ConsumerManager needs to be the same
 		// (static) instance used to place the authentication request
 		log.debug("Consumer start verify");
 		VerificationResult verification = getConsumerManager().verify(
 		        receivingURL.toString(),
 		        response, discovered);
+		
 		log.debug("Register: Messages :" +verification.getAuthResponse().toString());
 		log.debug("Reigster Class of verification"+verification.getAuthResponse().getClass().toString());
 		log.debug("Register: ConsumerManager" + consumerManager.getDiscovery().toString());
@@ -193,7 +197,7 @@ public class RegistrationService {
 			log.debug("Evtl. erfolgreicher Auth");
 		}
 		else {log.debug("Kein Positiver und kein negativer Auth. Fehler!");}
-		log.debug("Verification:"+verification.getStatusMsg());
+		
 		// examine the verification result and extract the verified identifier
 		Identifier verified = verification.getVerifiedId();
 		log.debug("VerifiedID:"+verified);
@@ -222,7 +226,7 @@ public class RegistrationService {
 				MessageExtension extension = authSuccess.getExtension(SRegMessage.OPENID_NS_SREG);
 				if (extension instanceof SRegResponse) {
 					ret.setOpenId(verified.getIdentifier());
-					ret.setIs_verified("true");
+					ret.setIs_verified(true);
 					SRegResponse sRegResponse = (SRegResponse)extension;
 					String value = sRegResponse.getAttributeValue("dob");
 					if (value != null) {
