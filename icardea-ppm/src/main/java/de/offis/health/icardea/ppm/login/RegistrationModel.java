@@ -12,7 +12,7 @@ public class RegistrationModel {
 	private String phoneNumber;
 	private String role;
 	private String dateOfBirth;	
-	private String is_verified;
+	private boolean is_verified;
 	
 	public RegistrationModel() {
 		
@@ -41,10 +41,10 @@ public class RegistrationModel {
 	public void setDateOfBirth(String dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
 	}
-	public void setIs_verified(String is_verified) {
+	public void setIs_verified(boolean is_verified) {
 		this.is_verified = is_verified;
 	}
-	public String getIs_verified() {
+	public boolean getIs_verified() {
 		return is_verified;
 	}
 	public void setPhoneNumber(String phoneNumber) {
