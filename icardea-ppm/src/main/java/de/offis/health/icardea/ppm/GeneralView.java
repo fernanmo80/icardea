@@ -5,11 +5,9 @@ package de.offis.health.icardea.ppm;
 
 import java.net.UnknownHostException;
 import java.text.MessageFormat;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
 import org.eclipse.rwt.RWT;
@@ -31,19 +29,11 @@ import org.eclipse.ui.IWorkbenchPage;
 import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
-import org.openid4java.association.AssociationException;
-import org.openid4java.discovery.DiscoveryException;
 import org.openid4java.discovery.DiscoveryInformation;
 import org.openid4java.message.AuthRequest;
-import org.openid4java.message.MessageException;
-import org.openid4java.message.Parameter;
 import org.openid4java.message.ParameterList;
 
-import de.offis.health.icardea.ppm.login.RegistrationModel;
 import de.offis.health.icardea.ppm.login.RegistrationService;
-import org.eclipse.swt.layout.FillLayout;
-import org.eclipse.swt.widgets.Group;
-import de.offis.health.icardea.ppm.login.*;
 
 /**
  * @author thiel
@@ -69,10 +59,9 @@ public class GeneralView extends ViewPart {
 	 */
 	public GeneralView() {
 		//setTitleImage(ResourceManager.getPluginImage("de.offis.health.icardea.ppm", "iCARDEA-logo.png"));
-		// TODO Auto-generated constructor stub
 		ppmDataset=PPMDataset.getInstance();
 	}
-	PPMDataset	ppmDataset;
+
 	private Composite patientTop;
 	private StackLayout patientTopLayout;
 	private Composite patientChooser;
@@ -90,9 +79,6 @@ public class GeneralView extends ViewPart {
 	private boolean startScaled=false;
 	// Role can be RZ-iCARDEA-Admin , RZ-iCARDEA-Doctor-Cardiologist, RZ-iCARDEA-Doctor-Electrophysiologist, RZ-iCARDEA-Doctor-Physician, RZ-iCARDEA-Nurse
 	// That are the roles from OpenID
-	// TODO Ask yildiray for roles fo consenteditor: ROLECODE:DOCTOR , ROLECODE:NURSE ... PHRS has a lot definied like family member 
-	// Somewhere the roles must be mapped from LDAP to consenteditor
-	// First agreement was to use LDAP Roles directly
 	private String role="doctor";
 	private Composite logoComp;
 	private Composite headerComposite;
@@ -102,7 +88,9 @@ public class GeneralView extends ViewPart {
 	// Parameterlist for exchanging openid Infos
 	private ParameterList paralist;
 	//Url indicating calling machine
-	String url ="";
+	String purl ="";
+
+	PPMDataset	ppmDataset;
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
@@ -112,37 +100,20 @@ public class GeneralView extends ViewPart {
 		{		
 			{
 				HttpServletRequest request = RWT.getRequest();
-				//for every refresh also update the available parameters
-				updatePPmDataset(request);
-				//create caller url
-				url = getUrlUsedPara(request);
-				
-				System.out.println("getLocal: " + request.getLocalAddr());
-				System.out.println("getLocalUri: " + request.getRequestURI());
-				//TODO: Here print lognSTatus from PPMDATASet for andreas
-				System.out.println("Name of user: " + ppmDataset.getUserFullName());
-				System.out.println("is the user verified? " + ppmDataset.isUserOpenIdVerified());
 
-				//				try {
-				//					System.out.println("for procesSretung");
-				//					//RegistrationModel testRM2 = RegistrationService.processReturn(request);
-				//					System.out.println("Nach Register");
-				//					//System.out.println(testRM2.getIs_verified());
-				//				} catch (MessageException e1) {
-				//					// TODO Auto-generated catch block
-				//					e1.printStackTrace();
-				//				} catch (DiscoveryException e1) {
-				//					// TODO Auto-generated catch block
-				//					e1.printStackTrace();
-				//				} catch (AssociationException e1) {
-				//					// TODO Auto-generated catch block
-				//					e1.printStackTrace();
-				//				}
+				logger.debug("Name of user: " + ppmDataset.getUserFullName());
+				logger.debug("is the user verified? " + ppmDataset.isUserOpenIdVerified());
+				logger.debug("Should there be autologin? " + ppmDataset.isAutoLogin());
 
-
-				System.out.println("Test getURL: " + getUrl(request));
-				System.out.println("Test getLongUrl: " + getUrlInkPara(request));
-				System.out.println("Test getUsedUrl: " + getUrlUsedPara(request));
+				if(!ppmDataset.isUserOpenIdVerified()){
+					if(ppmDataset.isAutoLogin()){
+						//for automaticLogin do a hidden login sequence
+						boolean test = doLoginProcess(ppmDataset.getUserOpenID(), true);
+						ppmDataset.setAutoLogin(false);
+					}	
+				}
+				else{// the user is verified - nothing to do at the moment
+				}
 
 
 
@@ -233,8 +204,9 @@ public class GeneralView extends ViewPart {
 									public void widgetSelected(SelectionEvent e) {
 
 										//FIXME: ArrayOutOfBoundsException 
+
 										ppmDataset.setCurrentPatID(ppmDataset.patientList.get(comboPatientlist.getSelectionIndex()).getId());
-										audit.send_udp( audit.create_syslog_xml("PPM", Audit.createMessage("ppmaccess", ppmDataset.getCurrentPatID(), "0", uname.getText())) );
+										audit.send_udp( audit.create_syslog_xml("PPM", Audit.createMessage("ppmaccess", ppmDataset.getCurrentPatID(), "0", ppmDataset.getUserOpenID())) );
 
 										updatePatientLabels();
 
@@ -279,7 +251,7 @@ public class GeneralView extends ViewPart {
 								btnPatientOKButton.setText("Choose Patient");
 							}
 						}
-						{
+						{// here start the creation of the login screen
 							login = new Composite(patientTop, SWT.NONE);
 							login.setLayout(new GridLayout(2, false));
 						}
@@ -289,7 +261,8 @@ public class GeneralView extends ViewPart {
 						}
 						{//Field for UserName at LoginScreen
 							uname = new Text(login, SWT.BORDER);
-							uname.setText("abcde");
+							//TODO: Fixme to openID
+							uname.setText("134.106.52.9:4545/idp/u=icardeanurse");
 							GridData gd_uname = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 							gd_uname.widthHint = 180;
 							uname.setLayoutData(gd_uname);
@@ -331,76 +304,16 @@ public class GeneralView extends ViewPart {
 									else{//(isSalkUsage) NoSalkUsage Local Testing assumed
 										//username has to be real OpenID Name like 	abcde.myopenid.com									
 									}
+									// The login is done at an external method, hidden=false
+									doLoginProcess(username, false);
 
-									logger.debug("Discovery for: "+username);
-									//FIXME Audit logging here
-									//1. Perform discover on the user suplieed identifier
-									// Done be RegistationService
-									// 2. and Assocication. Done at performdiscovery
-									DiscoveryInformation discovery = RegistrationService
-											.performDiscoveryOnUserSuppliedIdentifier(username);
-
-									if(discovery==null){//Discovery Null true
-										//FIXME Audit logging here
-
-										pwd.setText("Unkown User Try Again");
-										patientTopLayout.topControl=login;
-										patientTop.layout();
-										audit.send_udp( audit.create_syslog_xml("PPM", Audit.createMessage("login", "", "8", username)) );
-
-									}
-									else{//Discovery Null false
-										//FIXME Audit logging here
-
-										logger.debug("GOT Discovery for:" + discovery.getDelegateIdentifier());
-										logger.debug("GOT Discovery for:" + discovery.getClaimedIdentifier());
-										logger.debug("GOT Discovery for:" + discovery.getOPEndpoint());
-
-
-
-										//									AuthRequest authRequest = RegistrationService.createOpenIdAuthRequest(discovery, url);
-										//									logger.debug("GeneralView ##############AT authrequested");
-										//									String redirectUrl = authRequest.getDestinationUrl(true);
-										//									logger.debug("GeneralView ##############AT authrequested redirect url:"+redirectUrl);
-										//																																
-
-										//2. Authentication
-										//String url = RegistrationService.getReturnToUrl();
-										// DynamicURL doesn't function stable
-										//String url = RegistrationService.getReturnToUrl(request);
-										
-
-										//										logger.debug("GeneralView ##############AT return url:"+url);
-
-										AuthRequest authRequest = RegistrationService.createOpenIdAuthRequest(discovery, url);
-										logger.debug("Authrequested");
-										String redirectUrl = authRequest.getDestinationUrl(true);
-										logger.debug("Authrequested redirect url:"+redirectUrl);
-
-										final String browserText =
-												MessageFormat.format("parent.window.location.href = \"{0}\";",redirectUrl);
-										// Now everything is handled by the OPenID provider
-										JSExecutor.executeJS(browserText);
-										// there should be now information about the process in the request.
-										System.out.println("Discovertype "+discovery.getTypes());
-										
-										
-										if (true) return;
-
-
-										//################## HACK								
-
-
-										patientTopLayout.topControl=patientChooser;
-										patientTop.layout();
-									}//End IF Disocvery Null
-									//################## HACK
 								}
-							}
+							}// End WidgetSelectedBtnOK
 									);
 							btnOK.setText("OK");
 						}
-						{
+
+						{// Starts AbortButton
 							btnAbort = new Button(login, SWT.NONE);
 							btnAbort.addSelectionListener(new SelectionAdapter() {
 								@Override
@@ -448,30 +361,28 @@ public class GeneralView extends ViewPart {
 					}
 							);
 
-					//logger.debug("Startdate: "+request.getParameter("startdate"));
-					//				ParameterList paralist = new ParameterList(request.getParameterMap());
-					String retval=paralist.getParameterValue("openid.mode");
-					logger.debug("OpenID mode at parameterlist: "+retval);
-					logger.debug("OpenID Labeltype: " + paralist.getParameterValue("openid.ax.type.label"));
-					logger.debug("RETURN STATE "+retval);
-					
-					
+					//					logger.debug("Startdate: "+request.getParameter("startdate"));
+					//									ParameterList paralist = new ParameterList(request.getParameterMap());
+					//					String retval=paralist.getParameterValue("openid.mode");
+					//					logger.debug("OpenID mode at parameterlist: "+retval);
+					//					logger.debug("OpenID Labeltype: " + paralist.getParameterValue("openid.ax.type.label"));
+					//					logger.debug("RETURN STATE "+retval);
+					//					
+					//					
 					patientTopLayout.topControl=login;
- 
-					if (retval!=null){
-						if (retval.equalsIgnoreCase("id_res")){ // The ID was checked and verified. 
-							//						logger.debug("User:"+rm.getOpenId()+"\n is verified "+rm.getIs_verified());
-							ppmDataset.setUserOpenIdVerified(true);
-							patientTopLayout.topControl=patientChooser;
-							// Here the ppmdataset is updated with the information from the autenification process and call
-							// it sets the fullname of the user and if he is logged in
-							//updatePPmDataset(request);
-							 
-							audit.send_udp( audit.create_syslog_xml("PPM", Audit.createMessage("login", "", "0", uname.getText())) );
+
+					if (ppmDataset.isUserOpenIdVerified()){
+						patientTopLayout.topControl=patientChooser;
+						// Here the ppmdataset is updated with the information from the autenification process and call
+						// it sets the fullname of the user and if he is logged in
+						//updatePPmDataset(request);
+
+						audit.send_udp( audit.create_syslog_xml("PPM", Audit.createMessage("login", "", "0", uname.getText())) );
 
 
-						}
+
 					}
+
 					patientTop.layout();	
 
 					int startdate=0;
@@ -534,6 +445,8 @@ public class GeneralView extends ViewPart {
 						btnLogout.addSelectionListener(new SelectionAdapter() {
 							@Override
 							public void widgetSelected(SelectionEvent e) {
+								// if the user logs out, change his ID to empty. 
+								ppmDataset.resetUserOpenID();
 								patientTopLayout.topControl=login;
 								patientTop.layout();
 								IWorkbenchPage activePage = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage();
@@ -576,131 +489,7 @@ public class GeneralView extends ViewPart {
 
 	}
 
-	/*
-	 * This Method gets the parameters from the openID request and updates them in Ppmdataset
-	 */
-	private void updatePPmDataset(HttpServletRequest request) {
-		//TODO Set Login true or false
-		paralist = new ParameterList(request.getParameterMap());
-		//Accessing data returned from the OpenID authentication and integrate  them into PPMdataset
-		{if (paralist.getParameterValue("openid.ax.count.label") != null){
-			if(Integer.parseInt(paralist.getParameterValue("openid.ax.count.label"))>0){
-				if(Integer.parseInt(paralist.getParameterValue("openid.ax.count.label"))>1){
-					logger.warn("OpenID returnes multiples roles for the current user. Selecting first");
-				}
-				String roleOpenID = paralist.getParameterValue("openid.ax.value.label.1");
 
-				logger.debug("Roletype available. Selecting first: " + roleOpenID);
-				ppmDataset.setRole(roleOpenID);
-
-			}
-		}
-		if (paralist.getParameterValue("openid.sreg.fullname") != null){
-			String fullnameOpenID = paralist.getParameterValue("openid.sreg.fullname");
-			logger.debug("Fullname available: " + fullnameOpenID);
-			String userOpenID = paralist.getParameterValue("openid.identity");
-			if(fullnameOpenID.trim().isEmpty()){
-				fullnameOpenID =  userOpenID;
-				logger.debug("Fullname was empty. Taking Identity: " + fullnameOpenID);
-			}
-			ppmDataset.setUserOpenID(userOpenID);
-			ppmDataset.setUserFullName(fullnameOpenID);
-
-		}
-		if (paralist.getParameterValue("openid.mode") != null){
-			if (paralist.getParameterValue("openid.mode").equalsIgnoreCase("id_res"))
-			{
-				ppmDataset.setUserOpenIdVerified(true);
-			}
-			else{
-				ppmDataset.setUserOpenIdVerified(false);
-			}
-		}
-
-		//		List<Parameter> allParameters = paralist.getParameters();
-		//		if(!allParameters.isEmpty()){
-		//			logger.debug("String of parameters: ");
-		//		for (int i = 0; i < allParameters.size(); i++) {
-		//			
-		//			logger.debug("Key: " + allParameters.get(i).getKey());
-		//			logger.debug("Value: " + allParameters.get(i).getValue());
-		//			logger.debug(allParameters.get(i));
-		//		}
-		//			
-		//		}
-		}// End of filling ppmdataset 
-	}
-
-	/*
-	 * http://www.exampledepot.com/egs/javax.servlet/GetReqUrl.html
-	 */
-	// http://hostname.com/mywebapp/servlet/MyServlet/a/b;c=123?d=789
-	private String getUrl(HttpServletRequest req) {
-
-		String reqUrl = req.getRequestURL().toString();
-		String queryString = req.getQueryString();   // d=789
-		if (queryString != null && queryString.length()>0) {
-			reqUrl += "?"+queryString;
-		}
-		return reqUrl;
-	}
-
-	/*
-	 Improved to get all parameters and the whole URL
-	 This is the long URL version.
-	 
-	 */
-
-	private String getUrlInkPara(HttpServletRequest req) {
-		List<Parameter> test = new ParameterList(req.getParameterMap()).getParameters();
-		String reqUrl = req.getRequestURL().toString();
-		String queryString = req.getQueryString();   // d=789
-		if (queryString != null && queryString.length()>0) {
-			reqUrl += "?"+queryString;
-		}
-		for (Parameter p:test) {
-			reqUrl+="&"+p.getKey()+"="+p.getValue();
-		}
-		return reqUrl;
-	}
-	/*
-	 Improved to get the parameters and the URL wich are used
-	 */
-
-	private String getUrlUsedPara(HttpServletRequest req) {
-		List<Parameter> paramList = new ParameterList(req.getParameterMap()).getParameters();
-		String reqUrl = req.getRequestURL().toString();
-		//String queryString = req.getQueryString();   // d=789
-		//if (queryString != null && queryString.length()>0) {
-		//	reqUrl += "?"+queryString;
-		//}
-
-		boolean paramExist = false;
-		String paramUrl = "";
-
-		for (Parameter p:paramList) {
-
-			if(p.getKey().equalsIgnoreCase("patientid")|| 
-					p.getKey().equalsIgnoreCase("openid")||
-					p.getKey().equalsIgnoreCase("startup")||
-					p.getKey().equalsIgnoreCase("scaled")
-					){
-				paramExist = true;
-				paramUrl+="&"+p.getKey()+"="+p.getValue();}
-			else{// Not used parameters 
-				logger.debug("Following URL Parameter was ignored: "+p.getKey()+"="+p.getValue());
-			}
-
-		}
-		// remove first "&" and make it "?" if parameterlist exists
-		if(paramExist){ 
-			paramUrl= paramUrl.substring(1);
-			paramUrl = "?"+paramUrl;
-			reqUrl = reqUrl + paramUrl;
-		}
-
-		return reqUrl;
-	}
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
@@ -717,4 +506,77 @@ public class GeneralView extends ViewPart {
 		lblImplantation.setText("Implantation: "+ ppmDataset.getImplantationString());
 		lblIcd.setText("ICD: "+ ppmDataset.getIcdString());
 	}
+
+	/*
+	 *  doLogin tries to authenticate the OpenIDUser with the name
+	 *  pUserName : The full! openIDUsername like abcde.myopenid.com
+	 *  pHidden : if true, only logger.infos will be presented. If false, some RWT componentes will be manipulated
+	 */
+
+	private boolean doLoginProcess(String pUserName, boolean pHidden){
+		boolean returnSucess = false;
+
+		logger.debug("doLogin for: "+pUserName);
+
+		//FIXME Audit logging here
+		//1. Perform discover on the user suplieed identifier
+		// Done be RegistationService
+		// 2. and Assocication. Done at performdiscovery
+		// this should also build a consumermanager. 
+		DiscoveryInformation discovery = RegistrationService.performDiscoveryOnUserSuppliedIdentifier(pUserName);
+
+		if(discovery==null){//Discovery Null true
+			//FIXME Audit logging here
+			System.out.println("Hiddenmodus"+pHidden);
+			if(!pHidden){
+				System.out.println("Errir");
+				pwd.setText("Unkown User Try Again");
+				patientTopLayout.topControl=login;
+				patientTop.layout();
+				audit.send_udp( audit.create_syslog_xml("PPM", Audit.createMessage("login", "", "8", pUserName)) );
+			}
+
+		}
+		else{//Discovery Null false
+			//FIXME Audit logging here
+
+			logger.debug("GOT Discovery for:" + discovery.getDelegateIdentifier());
+			logger.debug("GOT Discovery for:" + discovery.getClaimedIdentifier());
+			logger.debug("GOT Discovery for:" + discovery.getOPEndpoint());
+			RWT.getRequest().getSession().setAttribute("openid-disc", discovery);
+
+			//3. Authentication
+			//set return url same like initial called url.
+			//stored in ppmdataset through perspective
+
+			logger.debug("Return url:"+ppmDataset.getCalledUrl());
+
+			AuthRequest authRequest = RegistrationService.createOpenIdAuthRequest(discovery, ppmDataset.getCalledUrl());
+			String redirectUrl = authRequest.getDestinationUrl(true);
+
+			logger.debug("Authrequested redirect url:"+redirectUrl);
+
+			final String browserText =
+					MessageFormat.format("parent.window.location.href = \"{0}\";",redirectUrl);
+			// Now everything is handled by the OPenID provider
+			JSExecutor.executeJS(browserText);
+			// there should be now information about the process in the request.
+
+			returnSucess = true;
+
+			if (true) return returnSucess;
+
+
+			//################## HACK								
+
+
+			patientTopLayout.topControl=patientChooser;
+			patientTop.layout();
+		}//End IF Disocvery Null
+		//################## HACK
+
+		return returnSucess;
+	}
+
+
 }

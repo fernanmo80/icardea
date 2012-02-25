@@ -208,8 +208,10 @@ public class PPMDataset {
 	private String userOpenID = ""; 
 	// Is the userOpenId successfull verified? 
 	private boolean userOpenIdVerified = false;
-	
-
+	//URL which was called initial
+	private String initialCalledUrl = "";
+	// AutoLoginModus = Should the user automatically get logged in?
+	private boolean autoLogin = false;
 	private String currentPatID = "1";
 	private String patiennameBirthdateString = "Mayr, Jane (22.04.1973)";
 	private String diagnosesString="Sudden Cardiac Death";
@@ -376,11 +378,26 @@ public class PPMDataset {
 	 * @param userOpenID The userOpenID to set. Should be like abcde.myopenid.com
 	 */
 	
-	public void setUserOpenID(String userOpenID) {
-		this.userOpenID = userOpenID;
+	public void setUserOpenID(String pUserOpenID) {
+		if(pUserOpenID.equalsIgnoreCase(this.userOpenID)){
+			this.userOpenID = pUserOpenID;
+		}
+		else{// OtherUserOpenID, reset values for user
+			System.out.println("Test: UseropenID reseted");
+		this.userOpenID = pUserOpenID;
+		this.setUserOpenIdVerified(false);
+		this.setRole("");
+		this.setUserFullName("");
+		}
 	}
 
+	public void resetUserOpenID(){
+		this.userOpenID = "";
+		this.setUserOpenIdVerified(false);
+		this.setRole("");
+		this.setUserFullName("");
 
+	}
 	/**
 	 * @return the currentPatID
 	 */
@@ -476,6 +493,36 @@ public class PPMDataset {
 		this.userOpenIdVerified = userOpenIdVerified;
 	}
 
+
+	/**
+	 * @return the initial called URL 
+	 */
+	public String getCalledUrl() {
+		return initialCalledUrl;
+	}
+
+	/**
+	 * @param callerUrl the callerUrl to set
+	 */
+	public void setCallerUrl(String pInitialCalledUrl) {
+		
+		this.initialCalledUrl = pInitialCalledUrl;
+			
+	}
+
+	/**
+	 * @return the autoLogin
+	 */
+	public boolean isAutoLogin() {
+		return autoLogin;
+	}
+
+	/**
+	 * @param autoLogin the autoLogin to set
+	 */
+	public void setAutoLogin(boolean autoLogin) {
+		this.autoLogin = autoLogin;
+	}
 
 	/**
 	 * @return the icdString
