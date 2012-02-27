@@ -708,6 +708,7 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 					String procedureCode = procedure.getCode().getCode();
 					String procedureCodeSystem = procedure.getCode().getCodeSystem();
 					String procedureCodeSystemName = procedure.getCode().getCodeSystemName();
+					String displayName = procedure.getCode().getDisplayName();
 					procedureCode = translateCode(procedureCode, procedureCodeSystem, procedureCodeSystemName);
 					String procedureText = procedure.getText().getContent();
 					String statusCode = procedure.getStatusCode().getCode();
@@ -719,6 +720,7 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 					procedureDB.setEffectiveTimeHigh(effectiveTimeHigh);
 					procedureDB.setEffectiveTimeLow(effectiveTimeLow);
 					procedureDB.setProcedureCode(procedureCode);
+					procedureDB.setProcedureText(displayName);
 					//procedureDB.setProcedureCodeSystem(procedureCodeSystem);
 					procedureDB.setProcedureCodeSystem("UMLS");
 					procedureDB.setStatusCode(statusCode);
