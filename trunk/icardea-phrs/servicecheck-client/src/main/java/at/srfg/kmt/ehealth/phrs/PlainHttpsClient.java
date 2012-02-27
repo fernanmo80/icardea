@@ -46,9 +46,9 @@ public class PlainHttpsClient {
 
             conn.connect();
 
-            for (Certificate cert : conn.getLocalCertificates()) {
-                LOGGER.info("Found local certificate: {}", cert.toString());
-            }
+            //for (Certificate cert : conn.getLocalCertificates()) {
+            //    LOGGER.info("Found local certificate: {}", cert.toString());
+            //}
 
 
             // Create streams to securely send and receive data to the server
@@ -61,6 +61,7 @@ public class PlainHttpsClient {
             in2.close();
             out.close();
             LOGGER.info("...OK");
+			conn.disconnect();
             return true;
 
         } catch (UnknownHostException ex) {
