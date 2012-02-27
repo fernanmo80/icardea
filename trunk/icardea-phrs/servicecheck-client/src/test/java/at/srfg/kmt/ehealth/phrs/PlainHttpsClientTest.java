@@ -4,7 +4,6 @@
  */
 package at.srfg.kmt.ehealth.phrs;
 
-import com.sun.net.httpserver.HttpsServer;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +13,6 @@ import java.net.URL;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
-import java.util.logging.Level;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
 import org.junit.BeforeClass;
@@ -40,7 +38,7 @@ public class PlainHttpsClientTest {
 
 
         try {
-            icardeaConfig = new PropertiesConfiguration("icardea.properties");
+            icardeaConfig = new PropertiesConfiguration("../phrweb/src/main/resources/icardea.properties");
             LOGGER.info("Config input" + icardeaConfig);
             Iterator<String> it = icardeaConfig.getKeys();
 
@@ -79,7 +77,7 @@ public class PlainHttpsClientTest {
     }
 
     /**
-     * Test of connect method, of class PlainHttpsClient.
+     * Test of httpsConnect method, of class PlainHttpsClient.
      */
     @Test
     public void testTrustStore() {
@@ -131,7 +129,7 @@ public class PlainHttpsClientTest {
     }
 
     /**
-     * Test of socket connect method, of class PlainHttpsClient.
+     * Test of socket httpsConnect method, of class PlainHttpsClient.
      */
     @Test
     public void testSocketConnect() throws Exception {
@@ -151,7 +149,7 @@ public class PlainHttpsClientTest {
     }
 
     /**
-     * Test of connect method, of class PlainHttpsClient.
+     * Test of httpsConnect method, of class PlainHttpsClient.
      */
     @Test
     public void testHttpsConnect() throws Exception {
@@ -160,7 +158,7 @@ public class PlainHttpsClientTest {
         for (URL serverURL : testURLs) {
             if (serverURL.getProtocol().equals("https")) {
                 LOGGER.info("testing {}", serverURL);
-                allOK = PlainHttpsClient.connect(serverURL);
+                allOK = PlainHttpsClient.httpsConnect(serverURL);
             } else {
                 LOGGER.info("skipped testing {}", serverURL);
             }
@@ -170,11 +168,13 @@ public class PlainHttpsClientTest {
     }
 
     /**
-     * Test of connect method, of class PlainHttpsClient.
+     * Test of httpsConnect method, of class PlainHttpsClient.
      */
     @Test
     public void testSendUDP() throws Exception {
-        LOGGER.info("checking udp port reachabilty: {}:{}", "localhost", 44444);
-        assert PlainHttpsClient.sendUDP("localhost", 44444);
+        int eifPort = Integer.valueOf(icardeaConfig.getProperty("eif.port").toString());
+        String eifServer = icardeaConfig.getProperty("eif.host").toString();
+        LOGGER.info("testing to send to {}:{}", eifServer, eifPort);
+        assert PlainHttpsClient.sendUDP(eifServer, eifPort);
     }
 }
