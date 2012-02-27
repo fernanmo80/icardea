@@ -1,25 +1,17 @@
 package at.srfg.kmt.ehealth.phrs.persistence.client
 
-import java.io.Serializable
-import java.util.Date
-import java.util.List
-import java.util.Map
-import java.util.Set
-
-import org.bson.types.ObjectId
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
-
 import at.srfg.kmt.ehealth.phrs.PhrsConstants
-import at.srfg.kmt.ehealth.phrs.model.baseform.HealthProfileOverview
+import at.srfg.kmt.ehealth.phrs.model.baseform.PhrFederatedUser
+import at.srfg.kmt.ehealth.phrs.model.baseform.ProfileContactInfo
 import at.srfg.kmt.ehealth.phrs.model.baseform.ProfileMedicalContactInfo
-import at.srfg.kmt.ehealth.phrs.model.baseform.ProfileUserContactInfo
 import at.srfg.kmt.ehealth.phrs.model.basesupport.AuditBase
 import at.srfg.kmt.ehealth.phrs.presentation.services.InteropAccessService
 import at.srfg.kmt.ehealth.phrs.presentation.services.UserService
-
 import com.google.code.morphia.Datastore
 import com.google.code.morphia.query.Query
+import org.bson.types.ObjectId
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 /**
  * 
@@ -52,8 +44,8 @@ public class PhrsRepositoryClient implements Serializable{
      */
     public PhrsRepositoryClient(PhrsStoreClient storeClient ){		
    
-        userService = new UserService()
-        commonDao= (CommonDao)userService
+        //userService = new UserService()
+        //commonDao= (CommonDao)userService
 		
     }
 
@@ -150,11 +142,12 @@ public class PhrsRepositoryClient implements Serializable{
 
         if(healthProfileId && clazz){
             try {
-                Datastore store = getPhrsVersioningDatastore()
+                Datastore store = getPhrsDatastore()
                 //list= store.find(clazz,PhrsConstants.PROPERTY_HEALTH_PROFILE_IDENTIFIER,healthProfileId).order('-modifyDate').asList()
 
                 Query q = store.createQuery(clazz).field(PhrsConstants.PROPERTY_HEALTH_PROFILE_IDENTIFIER).equal(healthProfileId).order('-modifyDate')
                 if(q) return q.get()
+                
             } catch (Exception e) {
                 LOGGER.error('',e);
             }
@@ -163,6 +156,33 @@ public class PhrsRepositoryClient implements Serializable{
         //return store.find(clazz,PhrsConstants.PROPERTY_HEALTH_PROFILE_IDENTIFIER,healthProfileId).get()
 
     }
+    
+//    public def crudReadResourceSingle(String healthProfileId, def clazz){
+//                List list =null
+//
+//        if(healthProfileId && clazz){
+//
+//            try {
+//                Datastore store = getPhrsDatastore()
+//                list= store.find(clazz,
+//                        PhrsConstants.PROPERTY_HEALTH_PROFILE_IDENTIFIER,
+//                        healthProfileId).order('-createDate').asList()
+//
+//
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//                LOGGER.error(" ownerUri="+healthProfileId+""+clazz+e)
+//            }
+//
+//        }
+//    
+//        def single
+//        if(list && list.size() > 0){
+//            single = list[0]
+//        }
+//        
+//        return single
+//    }
     /**
      * 
      * @param healthProfileId
@@ -226,8 +246,7 @@ public class PhrsRepositoryClient implements Serializable{
             //			list= getPhrsDatastore().find(clazz,PhrsConstants.PROPERTY_HEALTH_PROFILE_IDENTIFIER,healthProfileId).asList()
             try {
                 Datastore store = getPhrsDatastore()
-                list= store.find(clazz,
-                        PhrsConstants.PROPERTY_HEALTH_PROFILE_IDENTIFIER,
+                list= store.find(clazz,PhrsConstants.PROPERTY_HEALTH_PROFILE_IDENTIFIER,
                         healthProfileId).order('-createDate').asList()
 
 
@@ -410,19 +429,15 @@ public class PhrsRepositoryClient implements Serializable{
      */
     public boolean allowDelete(def theObject){
         boolean flag = true
-
+        //changed from ProfileUserContactInfo ,theObject instanceof HealthProfileOverview
         if( theObject) {
-            flag = (theObject instanceof HealthProfileOverview
-                || theObject instanceof ProfileUserContactInfo
+            flag = (theObject instanceof ProfileContactInfo
+                || theObject instanceof PhrFederatedUser
                 || theObject instanceof ProfileMedicalContactInfo) ? false : true
         }
         return flag
     }
-    /*
-             flag = (theObject instanceof HealthProfileOverview
-                || theObject instanceof ProfileUserContactInfo
-                || theObject instanceof ProfileMedicalContactInfo) ? false : true
-     */
+
     /**
      * 
      * @param theObject

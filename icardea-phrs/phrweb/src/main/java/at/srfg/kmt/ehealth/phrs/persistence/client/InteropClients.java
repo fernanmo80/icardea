@@ -215,7 +215,7 @@ public class InteropClients {
     //Check interop.subscribers.notify
 
     /**
-     *
+     * Notify subscribers about ALL USERS!
      */
     public void notifyInteropMessageSubscribers() {
         try {
@@ -239,9 +239,25 @@ public class InteropClients {
         }
     }
 
+/**
+ * 
+ * @param protocolId
+ * @param resourceType 
+ */
+   public void notifyInteropMessageSubscribersByProtocolId(String protocolId, String resourceType) {
+        try {
+            //future type will inform specific single or multiple requests
+            notifyInteropMessageSubscribers(null, protocolId);
+        } catch (Exception e) {
+            LOGGER.error("Failed to Notify subscriptions" + e.getMessage(), e);
+        } 
+    }
+
+
     /**
-     * Look up PhrId from registered ProtocolId. If it is not found, either we did not register it or the user did not
-     * orovide yet a Pix identifier for us to lookup in PIX
+     * 
+     * Notify subscribers but only if we find a protocolId 
+     * from a PhrId lookup from local store, not Interop Component Actor registry
      * @param phrId
      * @return
      */
@@ -279,35 +295,38 @@ public class InteropClients {
         PHRSRequestClient requestClient = getPHRSRequestClient();
         DynaBeanClient beanClient = getDynaBeanClient();
         final Iterable<String> resources = requestClient.getAllPHRSRequests();
+       int countRequests=0;
+       int countNotified=0;
         for (String resource : resources) {
             final DynaBean request = beanClient.getDynaBean(resource);
-
-            boolean notify = false;
+            countRequests++;
+            boolean sendNotification = false;
             String careProvisionCode = (String) request.get(Constants.HL7V3_CARE_PROVISION_CODE);
             //filter on careProvisionCode  ?
             if (selectedCareProvisionCode == null) {
-                notify = true;
+                sendNotification = true;
             } else {
                 if (careProvisionCode == null) {
-                    notify = false;
+                    sendNotification = false;
                 } else if (careProvisionCode.equalsIgnoreCase(selectedCareProvisionCode)) {
-                    notify = true;
+                    sendNotification = true;
                 }
 
             }
             String id = (String) request.get("http://www.icardea.at/phrs/actor#protocolId");
             //filter on protocolId ?
             if (id == null) {
-                notify = false;
+                sendNotification = false;
             } else if (protocolId != null) {
                 if (id.equals(protocolId)) {
-                    notify = true;
+                    sendNotification = true;
                 } else {
-                    notify = false;
+                    sendNotification = false;
                 }
             }
 
-            if (notify) {
+            if (sendNotification) {
+                countNotified++;
                 final String wsAdress =
                         (String) request.get("http://www.icardea.at/phrs/hl7V3#wsReplyAddress");
 
@@ -321,14 +340,14 @@ public class InteropClients {
                 properties.put("responseEndpointURI", wsAdress);
                 int port = ConfigurationService.getInstance().getSubscriberSocketListnerPort();
 
-                notify("localhost", port, properties);
+                notifyInteropMessageSubscribers("localhost", port, properties);
 
 
             }
-            LOGGER.debug("END notifyInteropMessageSubscribers notify="+notify+ " protocolId" + protocolId+ " selectedCareProvisionCode "+selectedCareProvisionCode);
+            LOGGER.debug("END notifyInteropMessageSubscribers notify="+sendNotification+ " protocolId" + protocolId+ " selectedCareProvisionCode "+selectedCareProvisionCode);
 
         }
-        LOGGER.debug("Finished - Notified Core after Loading test data ");
+        LOGGER.debug("Finished - Notified Core after Loading test data countPHRSRequests found="+countRequests+" countNotified=" +countNotified);
 
     }
 
@@ -345,7 +364,7 @@ public class InteropClients {
         return properties;
     }
 
-    public void notify(String host, int port, Map<String, String> params) {
+    public void notifyInteropMessageSubscribers(String host, int port, Map<String, String> params) {
         LOGGER.debug("Tries to dispach this properties {}.", params);
         try {
             final Socket socket = new Socket(host, port);
@@ -360,13 +379,16 @@ public class InteropClients {
     }
 
     /**
-     *
+     * @deprecated
      * @param owneruri
      * @param protocolId
      * @param namespace      if null defaults to Constants.ICARDEA_DOMAIN_PIX_OID
      */
     public void registerProtocolId(String owneruri, String protocolId, String namespace) {
         registerUser(owneruri,protocolId,namespace);
+    }
+
+    
 //        if (namespace == null) {
 //            namespace = Constants.ICARDEA_DOMAIN_PIX_OID;
 //
@@ -380,51 +402,55 @@ public class InteropClients {
 //            LOGGER.error("owneruri= " + owneruri + " protocolId= " + protocolId, e);
 //        }
 
-    }
     /**
-     *
+     *  @deprecated
      * @param ownerUri
      * @param protocolId
      * @param protocolNamespace
      */
-    public void registerUser(String ownerUri, String protocolId, String protocolNamespace){
-        if(ownerUri!=null && protocolId!=null){
-
-
-            if (protocolNamespace == null) {
-                protocolNamespace = Constants.ICARDEA_DOMAIN_PIX_OID;
-
-            }
-            ActorClient actorClient= getActorClient();
-            boolean register=true;
-            try {
-                String temp= getProtocolId(ownerUri,protocolNamespace) ;
-                //Manage these, this is not done by the Actor client
-                if(temp!=null){
-                    if( temp.equals(protocolId))
-                        register=false;
-                    else {
-                        actorClient.removeProtocolIds(protocolNamespace,ownerUri);
-                        register=true;
-                        String temp2= getProtocolId(ownerUri,protocolNamespace) ;
-                        System.out.print("temp2"+temp2);
-                    }
-                }
-
-            } catch (Exception e) {
-                LOGGER.error(" ownerUri "+ownerUri+" protocolId "+protocolId+" protocolNamespace "+protocolNamespace,e);
-            }
-            if(register){
-                try {
-                    getActorClient().register(protocolNamespace,ownerUri,protocolId);
-                } catch (Exception e) {
-                    LOGGER.error(" ownerUri "+ownerUri+" protocolId "+protocolId+" protocolNamespace "+protocolNamespace,e);
-                }
-            }
-        } else {
-            LOGGER.error(" Null input: ownerUri "+ownerUri+" protocolId "+protocolId+" protocolNamespace "+protocolNamespace);
+        public void registerUser(String ownerUri, String protocolId, String protocolNamespace){
+            //
         }
-    }
+    
+//
+//    public void registerUser(String ownerUri, String protocolId, String protocolNamespace){
+//        if(ownerUri!=null && protocolId!=null){
+//
+//
+//            if (protocolNamespace == null) {
+//                protocolNamespace = Constants.ICARDEA_DOMAIN_PIX_OID;
+//
+//            }
+//            ActorClient actorClient= getActorClient();
+//            boolean register=true;
+//            try {
+//                String temp= getProtocolId(ownerUri,protocolNamespace) ;
+//                //Manage these, this is not done by the Actor client
+//                if(temp!=null){
+//                    if( temp.equals(protocolId))
+//                        register=false;
+//                    else {
+//                        actorClient.removeProtocolIds(protocolNamespace,ownerUri);
+//                        register=true;
+//                        String temp2= getProtocolId(ownerUri,protocolNamespace) ;
+//                        System.out.print("temp2"+temp2);
+//                    }
+//                }
+//
+//            } catch (Exception e) {
+//                LOGGER.error(" ownerUri "+ownerUri+" protocolId "+protocolId+" protocolNamespace "+protocolNamespace,e);
+//            }
+//            if(register){
+//                try {
+//                    getActorClient().register(protocolNamespace,ownerUri,protocolId);
+//                } catch (Exception e) {
+//                    LOGGER.error(" ownerUri "+ownerUri+" protocolId "+protocolId+" protocolNamespace "+protocolNamespace,e);
+//                }
+//            }
+//        } else {
+//            LOGGER.error(" Null input: ownerUri "+ownerUri+" protocolId "+protocolId+" protocolNamespace "+protocolNamespace);
+//        }
+//    }
     /**
      *
      * @param ownerUri
@@ -432,59 +458,32 @@ public class InteropClients {
      * @return
      */
     public String getProtocolId(String ownerUri, String protocolNamespace){
-        if (protocolNamespace == null) {
-            protocolNamespace = Constants.ICARDEA_DOMAIN_PIX_OID;
+        CommonDao commonDao= PhrsStoreClient.getInstance().getCommonDao();
+        return commonDao.getProtocolId(ownerUri); 
+     }
 
-        }
-        String value= null;
-        try {
-            value=getActorClient().getProtocolId(protocolNamespace, ownerUri);
-        } catch (Exception e) {
-            LOGGER.error(" ownerUri "+ownerUri+" protocolNamespace "+protocolNamespace,e);
-        }
-        
-        return value;
-    }
+//        if (protocolNamespace == null) {
+//            protocolNamespace = Constants.ICARDEA_DOMAIN_PIX_OID;
+//
+//        }
+
+//        String value= null;
+//        try {
+//            value=getActorClient().getProtocolId(protocolNamespace, ownerUri);
+//        } catch (Exception e) {
+//            LOGGER.error(" ownerUri "+ownerUri+" protocolNamespace "+protocolNamespace,e);
+//        }
+//        
+//        return value;
 
     /**
      *
      * @param phrId
      * @return
      */
-    public String getProtocolId(String phrId) {
+    public String getProtocolId(String ownerUri) {
 
-        return getProtocolId(phrId,null);
+        return getProtocolId(ownerUri,null);
     }
 
-
-    /*
-    private void setupTest() {
-        try{
-            ActorClient actorClient = new ActorClient();
-            boolean hasTestProtocolId = false; //register the 191 protocol ID
-            try {
-                //Constants.PHRS_NAMESPACE
-                String p1 = actorClient.getProtocolId(Constants.ICARDEA_DOMAIN_PIX_OID, Constants.OWNER_URI_CORE_PORTAL_TEST_USER);
-                if (p1 != null) {
-                    hasTestProtocolId = true;
-                }
-            } catch (Exception e) {
-                LOGGER.error("Failed to find protocolId for user, must create - user=" + Constants.OWNER_URI_CORE_PORTAL_TEST_USER + " for namespace=" + Constants.OWNER_URI_CORE_PORTAL_TEST_USER, e);
-            }
-            try {
-                //Constants.PHRS_NAMESPACE
-                String p1 = actorClient.getProtocolId(Constants.OWNER_URI_CORE_PORTAL_TEST_USER);
-                if (p1 != null) {
-                    hasTestProtocolId = true;
-                }
-            } catch (Exception e) {
-                LOGGER.error("Failed to find protocolId for user, must create - user=" + Constants.OWNER_URI_CORE_PORTAL_TEST_USER + " for default namespace=" + Constants.PHRS_NAMESPACE, e);
-            }
-
-
-
-        } catch (Exception e) {
-            LOGGER.error("Failed to Register Test protocol ID=" + USER_PROTOCOL_ID + " for namespace=" + PROTOCOL_ID_NAMESPACE, e);
-        }
-    } */
 }

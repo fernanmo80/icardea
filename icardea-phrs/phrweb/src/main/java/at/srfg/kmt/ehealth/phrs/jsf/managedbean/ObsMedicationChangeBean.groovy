@@ -1,17 +1,14 @@
 package at.srfg.kmt.ehealth.phrs.jsf.managedbean;
 
-import java.util.List
 
-import javax.faces.bean.ManagedBean
-import javax.faces.bean.RequestScoped
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 import at.srfg.kmt.ehealth.phrs.Constants
 import at.srfg.kmt.ehealth.phrs.model.baseform.MedicationTreatment
 import at.srfg.kmt.ehealth.phrs.security.services.AuthorizationService
 import at.srfg.kmt.ehealth.phrs.support.test.CoreTestData
-
-
+import javax.faces.bean.ManagedBean
+import javax.faces.bean.RequestScoped
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 
 @ManagedBean(name="odlmed")
 @RequestScoped
@@ -47,13 +44,14 @@ public class ObsMedicationChangeBean extends FaceBaseBean  {
     //problem with coding of status...could get interop code PhrsConstants.STATUS_COMPLETE etc
     @Override
     public void loadModelMain(){
-        /**
+        /*
          * Import new interop messages as new domain objects
          */
+        //FIXXME IMPORT Remove if desired. Import UI should handle
         try {
-            LOGGER.error('Controller START import InteropMessages')
+            LOGGER.error('ObsMedicationChangeBean START loadModelMain  import InteropMessages')
             importInteropMessages(Constants.PHRS_MEDICATION_CLASS)
-            LOGGER.error('Controller END import InteropMessages')
+            LOGGER.error('ObsMedicationChangeBean END loadModelMain import InteropMessages')
         } catch (Exception e){
             LOGGER.error('Medication building list importInteropMessages',e)
         }

@@ -29,13 +29,13 @@
             <url>http://repository.primefaces.org</url>
             <layout>default</layout>
         </repository>
-        
+         <!--
         <repository>
             <id>dyuproject-repo</id>
             <name>dyuproject-repo</name>
             <url>http://dyuproject.googlecode.com/svn/repos/maven2</url>
         </repository>
-        
+          -->
         <repository>
             <id>guice-maven</id>
             <name>Guice Maven Repository</name>
@@ -47,6 +47,7 @@
             <name>Morphia (svn) Maven Repository</name>
             <url>http://morphia.googlecode.com/svn/mavenrepo/</url>
         </repository>
+
         
         <!--
         jboss throws cert exceptions
@@ -107,16 +108,54 @@
     /lab0/apache/tomcat/apache-tomcat-6.0.35
     /Users/bmulreni/development/development-tools/tomcat6/
 
-      <catalina.home>${icardea.home}/srfg/tomcat/phrs-tomcat-6</catalina.home>
-      <catalina.home>D:/srfg/tomcat/phrs-tomcat-6</catalina.home>
+      <catalina.home>${icardea.home}/srfg/tomcat/phrs-tomcat-6/</catalina.home>
+      <catalina.home>D:/srfg/tomcat/phrs-tomcat-6/</catalina.home>
     -->
     <properties>
-        <catalina.home>/Users/bmulreni/development/development-tools/tomcat6</catalina.home>
+        <catalina.home>D:/srfg/tomcat/phrs-tomcat-6/</catalina.home>
         <netbeans.hint.deploy.server>Tomcat</netbeans.hint.deploy.server>
     </properties>
 
     <dependencies>
-        
+        <!--
+        <dependency>
+            <groupId>com.dyuproject</groupId>
+            <artifactId>dyuproject-openid</artifactId>
+            <version>1.1.7</version>
+            <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>com.dyuproject</groupId>
+            <artifactId>dyuproject-web</artifactId>
+            <version>1.1.7</version>
+            <scope>compile</scope>
+        </dependency>-->
+
+        <dependency>
+            <groupId>org.openid4java</groupId>
+            <artifactId>openid4java-consumer</artifactId>
+            <version>0.9.6</version>
+            <type>pom</type>
+        </dependency>
+        <!--
+        Velocity 1.5 is already used, be careful, and do not yet replace or excluce Velocity 1.5 and dependencies
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.7</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        -->
         <!--PHR System dependencies-->
 
         <dependency>
@@ -151,16 +190,27 @@
             <artifactId>phrs-message-dispatcher</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>phrs-soap-pcc09ws</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>phrweb-ws</artifactId>
             <version>1.0-SNAPSHOT</version>
             <exclusions>
+               <!-- older 1.1, later version found , but do not exclude stax -->
                 <exclusion>
                     <groupId>org.apache.ws.commons.schema</groupId>
                     <artifactId>XmlSchema</artifactId>
                 </exclusion>
+               <!-- <exclusion>
+                    <groupId>stax</groupId>
+                    <artifactId>stax-api</artifactId>
+                </exclusion>-->
                 <exclusion>
                     <artifactId>slf4j-api</artifactId>
                     <groupId>org.slf4j</groupId>
@@ -178,13 +228,17 @@
                     <groupId>org.slf4j</groupId>
                 </exclusion>
                 <exclusion>
+                    <artifactId>neethi</artifactId>
+                    <groupId>org.apache.ws.commons.neethi</groupId>
+                </exclusion>
+                <exclusion>
                     <artifactId>icardea-atnalog-client</artifactId>
                     <groupId>tr.com.srdc.icardea</groupId>
                 </exclusion>
             
             </exclusions>
         </dependency>
-     
+   
         <!--Other dependencies-->
         
         <dependency>
@@ -237,19 +291,7 @@
             <scope>compile</scope>
         </dependency>
         
-        <dependency>
-            <groupId>com.dyuproject</groupId>
-            <artifactId>dyuproject-openid</artifactId>
-            <version>1.1.7</version>
-            <scope>compile</scope>
-        </dependency>
-        
-        <dependency>
-            <groupId>com.dyuproject</groupId>
-            <artifactId>dyuproject-web</artifactId>
-            <version>1.1.7</version>
-            <scope>compile</scope>
-        </dependency>
+
         
         <dependency>
             <groupId>org.codehaus.groovy</groupId>
@@ -265,13 +307,13 @@
             <version>2.0</version>
             <scope>compile</scope>
         </dependency>
-        
+        <!-- axis or soap validation? -->
         <dependency>
             <groupId>org.hibernate</groupId>
             <artifactId>hibernate-validator</artifactId>
             <version>4.0.2.GA</version>
             <scope>compile</scope>
-        </dependency>        
+        </dependency> 
         
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>
@@ -369,7 +411,22 @@
             <version>0.99</version>
             <scope>compile</scope>
         </dependency>
-
+        <!-- morphia extras, needed for compiling -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib-nodep</artifactId>
+            <version>[2.1_3,)</version>
+            <type>jar</type>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.thoughtworks.proxytoys</groupId>
+            <artifactId>proxytoys</artifactId>
+            <version>1.0</version>
+            <type>jar</type>
+            <optional>true</optional>
+        </dependency>
+        <!-- jsf -->
         <dependency>
             <groupId>org.apache.myfaces.core</groupId>
             <artifactId>myfaces-api</artifactId>
@@ -411,7 +468,7 @@
             <scope>compile</scope>
         </dependency>
         
-        <!-- why not 1.2 versions? see Pix server. These bring in older
+        <!--  These bring in older
         dependencies to exclude. Currently overlap with opensaml-->
         <dependency>
             <groupId>ca.uhn.hapi</groupId>
@@ -433,9 +490,15 @@
                     <artifactId>xml-apis</artifactId>
                     
                 </exclusion>
+                <exclusion>
+                    <groupId>org.apache.ws.commons.schema</groupId>
+                    <artifactId>XmlSchema</artifactId>
+                </exclusion>                
             </exclusions>
             
         </dependency>
+
+        <!-- TODO remove extras depending on PIX and PDQ queries. Note that tests might use more, therefore update tests -->
         <dependency>
             <groupId>ca.uhn.hapi</groupId>
             <artifactId>hapi-structures-v21</artifactId>
@@ -497,6 +560,7 @@ mvn install:install-file  -Dfile=icardea-atnalog-client-1.0-SNAPSHOT.jar -Dgroup
             <type>jar</type>
             <scope>compile</scope>
         </dependency>
+
 <!-- if sources are in a different file structure it cannot find the parent pom and this was done.
 In this case, delete the existing maven entry in the local repository because the pom refers to a parent unknown to 
 this pom. This is the pom from the install:install
@@ -517,7 +581,7 @@ mvn install:install-file  -Dfile=icardea-consenteditor-invoker-1.0-SNAPSHOT.jar 
         -->
          <!-- Start consent editor dependencies 
          Because we use a service with all of these...
-         -->
+
         <dependency>
             <groupId>org.jvnet.hyperjaxb3</groupId>
             <artifactId>hyperjaxb3-ejb-runtime</artifactId>
@@ -609,6 +673,7 @@ mvn install:install-file  -Dfile=icardea-consenteditor-invoker-1.0-SNAPSHOT.jar 
                 </exclusion>
             </exclusions>
         </dependency>
+          -->
         <!--duplicate on org.apache.axis2:axis2-transport-local 
         XmlSchema 1.4.3 and woden 1.4.2
         <dependency>
@@ -653,7 +718,7 @@ mvn install:install-file  -Dfile=icardea-consenteditor-invoker-1.0-SNAPSHOT.jar 
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
             <type>jar</type>
-            <version>2.3</version>
+            <version>2.5</version>
             <scope>provided</scope>
         </dependency>
         <!--
@@ -775,11 +840,12 @@ mvn install:install-file  -Dfile=icardea-consenteditor-invoker-1.0-SNAPSHOT.jar 
                         <artifactId>groovy-eclipse-compiler</artifactId>
                         <version>2.6.0-01</version>
                     </dependency>
-                    <!--<dependency>
+                    <!--
+                    <dependency>
                         <groupId>org.codehaus.groovy</groupId>
                         <artifactId>groovy-eclipse-batch</artifactId>
                         <version>1.8.4-01</version>
-                    </dependency>-->
+                    </dependency>  -->
                 </dependencies>
             </plugin>
 
