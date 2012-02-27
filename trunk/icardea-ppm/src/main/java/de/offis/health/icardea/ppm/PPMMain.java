@@ -77,6 +77,7 @@ public class PPMMain extends ViewPart {
 			//			buttonList=new ArrayList();
 			mainTabFolder = new TabFolder(parent, SWT.NONE);
 			String[] header ={"Description","Current Values","Subitems"};
+			String subrows_tmp="";
 			final boolean useTable=true;
 			boolean fullView=false;//FIXME FULLVIEW CHANGEABLE
 
@@ -183,7 +184,12 @@ public class PPMMain extends ViewPart {
 										subrows=true;
 									}}
 								if (subrows){
-									tableItem.setText(1,allSubRows[allSubRows.length-1].getText());
+									subrows_tmp=allSubRows[allSubRows.length-1].getText();
+//									logger.trace("Subrows:"+subrows_tmp);
+									if (subrows_tmp==null) {
+										subrows_tmp="";
+									}
+									tableItem.setText(1,subrows_tmp);
 									//just for testing
 									// FARBE COLOR
 									{

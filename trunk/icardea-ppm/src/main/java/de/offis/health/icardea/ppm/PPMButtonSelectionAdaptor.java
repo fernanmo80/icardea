@@ -180,7 +180,12 @@ public class PPMButtonSelectionAdaptor extends SelectionAdapter {
 								
 							}
 						//						tableItem.setText(2,allRows[i].getSubContentName());
-						tableItem.setText(2,allRows[j].getText());
+						if (allRows[j].getText()==null){
+							tableItem.setText(2,"");
+						}else{
+							tableItem.setText(2,allRows[j].getText());
+
+						}
 						
 					}
 				}
