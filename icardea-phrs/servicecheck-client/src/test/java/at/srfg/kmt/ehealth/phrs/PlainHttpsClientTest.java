@@ -142,7 +142,8 @@ public class PlainHttpsClientTest {
                 LOGGER.info("testing {}:{}", host, port);
                 allOK = PlainHttpsClient.socketConnect(host, port);
             } else {
-                LOGGER.info("skipped testing {}", serverURL);
+                LOGGER.info("testing {}:{}", host, 80);
+                allOK = PlainHttpsClient.socketConnect(host, 80);
             }
         }
         assert allOK;
