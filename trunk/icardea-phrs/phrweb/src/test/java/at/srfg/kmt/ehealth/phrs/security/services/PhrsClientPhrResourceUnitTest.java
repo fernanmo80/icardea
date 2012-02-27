@@ -1,51 +1,39 @@
 package at.srfg.kmt.ehealth.phrs.security.services;
 
+import at.srfg.kmt.ehealth.phrs.Constants;
 import at.srfg.kmt.ehealth.phrs.PhrsConstants;
 import at.srfg.kmt.ehealth.phrs.dataexchange.client.ActorClient;
-import at.srfg.kmt.ehealth.phrs.dataexchange.util.DateUtil;
-import at.srfg.kmt.ehealth.phrs.model.baseform.ObsVitalsBloodPressure;
-import at.srfg.kmt.ehealth.phrs.persistence.api.Triple;
-import at.srfg.kmt.ehealth.phrs.persistence.api.ValueType;
-import at.srfg.kmt.ehealth.phrs.persistence.util.MultiIterable;
-import at.srfg.kmt.ehealth.phrs.presentation.services.InteropProcessor;
-import at.srfg.kmt.ehealth.phrs.presentation.services.UserService;
-import at.srfg.kmt.ehealth.phrs.presentation.utils.DynaUtil;
-import at.srfg.kmt.ehealth.phrs.support.test.CoreTestData;
-import com.google.code.morphia.query.Query;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import org.joda.time.DateTime;
-import org.junit.After;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
-import at.srfg.kmt.ehealth.phrs.Constants;
 import at.srfg.kmt.ehealth.phrs.dataexchange.client.DynaBeanClient;
 import at.srfg.kmt.ehealth.phrs.dataexchange.client.MedicationClient;
+import at.srfg.kmt.ehealth.phrs.dataexchange.util.DateUtil;
 import at.srfg.kmt.ehealth.phrs.dataexchange.util.DynaBeanUtil;
 import at.srfg.kmt.ehealth.phrs.model.baseform.BasePhrsModel;
-import at.srfg.kmt.ehealth.phrs.persistence.api.GenericRepositoryException;
+import at.srfg.kmt.ehealth.phrs.model.baseform.MedicationTreatment;
+import at.srfg.kmt.ehealth.phrs.model.baseform.MedicationTreatmentMatrix;
+import at.srfg.kmt.ehealth.phrs.model.baseform.PhrFederatedUser;
 import at.srfg.kmt.ehealth.phrs.persistence.api.GenericTriplestore;
 import at.srfg.kmt.ehealth.phrs.persistence.api.GenericTriplestoreLifecycle;
 import at.srfg.kmt.ehealth.phrs.persistence.api.TripleException;
-import at.srfg.kmt.ehealth.phrs.persistence.client.PhrsStoreClient;
-import org.junit.Before;
-import org.junit.Test;
-import at.srfg.kmt.ehealth.phrs.model.baseform.MedicationTreatment;
-import org.apache.commons.beanutils.DynaBean;
-import at.srfg.kmt.ehealth.phrs.model.baseform.MedicationTreatmentMatrix;
-
-import at.srfg.kmt.ehealth.phrs.presentation.services.InteropAccessService;
-import java.util.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import at.srfg.kmt.ehealth.phrs.presentation.services.InteropTermTransformer;
-import at.srfg.kmt.ehealth.phrs.presentation.utils.HealthyUtils;
-import org.junit.*;
 import at.srfg.kmt.ehealth.phrs.persistence.client.CommonDao;
 import at.srfg.kmt.ehealth.phrs.persistence.client.InteropClients;
+import at.srfg.kmt.ehealth.phrs.persistence.client.PhrsStoreClient;
+import at.srfg.kmt.ehealth.phrs.persistence.util.MultiIterable;
+import at.srfg.kmt.ehealth.phrs.presentation.services.InteropAccessService;
+import at.srfg.kmt.ehealth.phrs.presentation.services.InteropProcessor;
+import at.srfg.kmt.ehealth.phrs.presentation.services.InteropTermTransformer;
+import at.srfg.kmt.ehealth.phrs.presentation.utils.DynaUtil;
+import at.srfg.kmt.ehealth.phrs.presentation.utils.HealthyUtils;
+import at.srfg.kmt.ehealth.phrs.support.test.CoreTestData;
+import com.google.code.morphia.query.Query;
+import java.util.*;
+import org.apache.commons.beanutils.DynaBean;
+import org.junit.AfterClass;
+import static org.junit.Assert.*;
+import org.junit.BeforeClass;
+import org.junit.Ignore;
+import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /*
  * The protocol id for the test patient is 191. It is available both the in the
  * SALK installation and in the "public" test server RUN these TESTS with a
@@ -62,7 +50,7 @@ public class PhrsClientPhrResourceUnitTest {
     public static final String NOTE = "to import";
     //user owner uri
     public static final String USER = "MedicationTreatmentInteropUnitTest_OwnerUri";
-    public static final String USER_PROTOCOL_ID = "unitTest_MedicationTreatmentInteropUnitTest_protocolId";
+    public static final String USER_PROTOCOL_ID = "PROTOCOL_TEST_"+USER;
     public static final String PROTOCOL_ID_NAMESPACE = Constants.ICARDEA_DOMAIN_PIX_OID;
     public static final String doseFrequenceUriDefault = "http://www.icardea.at/phrs/instances/PerDay";
     public static final String DOSE_TIME_OF_DAY = "http://www.icardea.at/phrs/instances/InTheMorning";
@@ -89,6 +77,16 @@ public class PhrsClientPhrResourceUnitTest {
     public static void setUpClass() throws Exception {
                 //phrsClient = PhrsStoreClient.getInstance(true); problem with lock and triplestore connection and static init
         phrsClient = PhrsStoreClient.getInstance(true);
+        CommonDao commonDao = phrsClient.getCommonDao();
+
+        //this need for test to send messages given a known protocolId
+        PhrFederatedUser pfu = commonDao.getPhrUser(USER, true);
+        pfu.setProtocolIdPix(USER_PROTOCOL_ID);
+        pfu.setOwnerUri(USER);
+        pfu.setCreatorUri(USER);
+        commonDao.crudSaveResource((Object) pfu, USER, USER);
+
+
         triplestore = phrsClient.getGenericTriplestore();
 
         iaccess = phrsClient.getInteropService();
@@ -172,7 +170,7 @@ public class PhrsClientPhrResourceUnitTest {
 
 
     }*/
-
+     //addNewMessagesEhr("xxxx", "zzzzz", "5", "14");
     public void addNewMessagesEhr(String phrResourceUri, String phrResourceUri2, String drug1_quantity, String drug2_quantity) throws TripleException, IllegalAccessException, InstantiationException {
         medicationClient.setCreator(Constants.EXTERN);//simulate extern
 
@@ -244,7 +242,7 @@ public class PhrsClientPhrResourceUnitTest {
 
         final String resourceURI_1 =
                 medicationClient.addMedicationSign(
-                USER,
+                USER_PROTOCOL_ID,
                 phrResourceUri != null ? InteropAccessService.REFERENCE_NOTE_PREFIX + phrResourceUri : NOTE,
                 Constants.STATUS_COMPELETE,
                 "201006010000",
@@ -267,7 +265,7 @@ public class PhrsClientPhrResourceUnitTest {
         try {
             final String resourceURI_1 =
                     medicationClient.addMedicationSign(
-                    USER,
+                    USER_PROTOCOL_ID,
                     NOTE,
                     Constants.STATUS_COMPELETE,
                     "201006010000",
@@ -283,7 +281,7 @@ public class PhrsClientPhrResourceUnitTest {
 
             final String resourceURI_2 =
                     medicationClient.addMedicationSign(
-                    USER,
+                    USER_PROTOCOL_ID,
                     NOTE,
                     Constants.STATUS_RUNNING,
                     "201006010000",
@@ -453,15 +451,15 @@ public class PhrsClientPhrResourceUnitTest {
     @Test
     public void testClientCreatorSetting() {
 
-        String creator = this.medicationClient.getCreator();
+        String creator = medicationClient.getCreator();
         assertEquals("Error Expect PHR creator! ", PhrsConstants.INTEROP_CREATOR_DEFAULT_PHR, creator);
 
     }
 
     @Test
     public void testClientCreatorReset() {
-        this.medicationClient.setCreator("XYZ");
-        String creator = this.medicationClient.getCreator();
+        medicationClient.setCreator("XYZ");
+        String creator = medicationClient.getCreator();
         assertEquals("Error Expect PHR creator! ", "XYZ", creator);
 
     }
@@ -577,7 +575,7 @@ public class PhrsClientPhrResourceUnitTest {
     }
 
     public void sendMessages(Object repositoryObject) {
-        this.iaccess.sendMessages(repositoryObject);
+        iaccess.sendMessages(repositoryObject);
     }
 
     public int loadSampleTestDataSet(String owner) {
@@ -621,7 +619,9 @@ public class PhrsClientPhrResourceUnitTest {
         return out;
     }
 // +++++++++++++++ end helpers
-
+    public String getProtocolId(String ownerUri){
+        return  getCommonDao().getProtocolId(ownerUri);
+    }
     /**
      *
      * @param ownerUri
@@ -632,13 +632,24 @@ public class PhrsClientPhrResourceUnitTest {
      */
     public Set<DynaBean> findInteropMessagesForUser(String ownerUri, String phrsClass, boolean onlyNewMessages) {
         Set<DynaBean> beans = new HashSet<DynaBean>();
+
         if (ownerUri != null && phrsClass != null) {
             try {
+                //FIXID
+                String protocolId= getProtocolId(ownerUri);
+                if(protocolId !=null && ! protocolId.isEmpty()){
+                    // ok
+                } else {
+                    LOGGER.error("No protocolID yet for User, no send messages for ownerUri="+ownerUri+" phrClass="+phrsClass);
+                    return beans;
+                }
 
                 final Map<String, String> queryMap = new HashMap<String, String>();
 
                 queryMap.put(Constants.RDFS_TYPE, phrsClass);
-                queryMap.put(Constants.OWNER, ownerUri);
+                //FIXID
+                queryMap.put(Constants.OWNER, protocolId);
+                //queryMap.put(Constants.OWNER, ownerUri);
 
                 Iterable<String> resources = getPhrsStoreClient().getGenericTriplestore().getForPredicatesAndValues(queryMap);
 
@@ -658,8 +669,8 @@ public class PhrsClientPhrResourceUnitTest {
                             try {
                                 referenceNote = DynaUtil.getStringProperty(dynaBean, Constants.SKOS_NOTE);
                             } catch (Exception e) {
-                                e.printStackTrace();
-                                // LOGGER.error(' message error, interop ownerUri= '+ownerUri+" messageResourceUri="+messageResourceUri, e)
+                                LOGGER.error(e.getMessage(),e);
+
                             }
                             if (referenceNote != null) {
                                 String aboutResourceUri = parseReferenceNote((String) referenceNote);
@@ -675,20 +686,18 @@ public class PhrsClientPhrResourceUnitTest {
                                 }
                             }
                         } catch (Exception e) {
-                            e.printStackTrace();
-                            //LOGGER.error(' message error, interop ownerUri= '+ownerUri+" messageResourceUri="+messageResourceUri, e);
+                            LOGGER.error(e.getMessage(),e);
+
                         }
                     }
                 }
             } catch (Exception e) {
-                e.printStackTrace();
-                // LOGGER.error(' message error, interop ownerUri= '+ownerUri+" messageResourceUri="+messageResourceUri, e)
+                LOGGER.error(e.getMessage(),e);
             }
         }
         return beans;
 
     }
-
     public static int showList(String title, List<String> results) {
         int count = 0;
         System.out.println("Title:" + title);

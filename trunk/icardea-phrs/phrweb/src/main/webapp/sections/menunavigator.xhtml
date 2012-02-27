@@ -21,23 +21,39 @@
 <h:body>
 	<ui:composition>
 		<!-- invoke Login servlet -->
-		
-	<p:panel id="loginpanel" closable="false" style="width:100%"  >		
-			<h:panelGroup rendered="#{loginBean.loggedIn eq false}" >
-				<h:form>
-					<h:outputLink  value="#{request.contextPath}#{'/login'}"
-					rendered="#{loginBean.loggedIn eq false}">Login</h:outputLink>
+	<!--
+  <p:commandButton value="#{labels['default.button.create.label']}"
+      title="#{labels['default.button.create.label']}"
+      process="idFormPcon"
+      update="msgs idFormPcon idItemTablePcon"
+      actionListener="#{loginBean.store}"
+      image="ui-icon ui-icon-check" />
+
+
+
+		-->
+	<p:panel id="loginpanel" closable="false" style="width:100%"  >
+
+        <!-- put on home page <p:messages id="msgs" showDetail="true" autoUpdate="true"/>-->
+
+				<!--<h:form>
+					<h:outputLink  value="   {request.contextPath}  {'/login'}"
+					rendered="  {loginBean.loggedIn eq false}">Login</h:outputLink>
 				</h:form>
-			</h:panelGroup>
+                <f:selectItem label="... Please Select ..." noSelectionOption="true" itemValue=""/>
+                 <br/>* OpenId or local login ID (phrtest,nurse. Demo: prefix Id with phr)
+                -->
+ 
 			<!-- under the test mode, we set the loggedIn to true in the loginBean and automatically
 			the 'phrtest' user is assigned as default -->
 			<h:panelGroup rendered="#{loginBean.loggedIn eq true}" >
-				<h:form>					 		
-					<p:commandLink value="Logout: #{loginBean.shortname}"  
-						actionListener="#{loginBean.logout}"></p:commandLink>						
-				 </h:form>
-				 <br/>
-				 <h:panelGroup rendered="#{loginBean.roleShow eq true}">
+                <!--loginBean-->
+                <h:form>
+                    <p:commandLink value="Logout"
+                                   actionListener="#{loginBean.logout}"/>
+                </h:form>
+               <h:outputLabel value="#{loginBean.greetname}"/>
+ 			    <h:panelGroup rendered="#{loginBean.roleShow eq true}">
 					  <h:outputLabel value="Role: #{loginBean.role}" />				 
 				 </h:panelGroup>
 
@@ -66,12 +82,16 @@
 
         <p:toolbarGroup align="left" rendered="#{loginBean.testMode}">
             <h:form>
-            <p:commandButton value="Load Msgs" immediate="true"
-                             image="ui-icon-plus" actionListener="#{loginBean.loadInterop}"/>
+                <p:commandButton value="Load Meds"
+                             immediate="true"
+                             image="ui-icon-plus"
+                             actionListener="#{loginBean.loadInterop}"/>
             </h:form>
             <h:form>
-            <p:commandButton value="Load Vitals" immediate="true" onclick=""
-                             image="ui-icon-plus" actionListener="#{loginBean.loadTestData}"/>
+                <p:commandButton value="Load Vitals"
+                             immediate="true" onclick=""
+                             image="ui-icon-plus"
+                             actionListener="#{loginBean.loadTestData}"/>
             </h:form>
         </p:toolbarGroup>
 

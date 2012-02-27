@@ -15,18 +15,18 @@ public class PhrsConstants implements Serializable {
      * resources/com.dyuproject.openid.ext/axschema.properties
      * resources/com.dyuproject.openid.ext/sreg.properties
      */
+    public static final String ERROR_MSG_ATTR = "login_message";
+
+    public static final String DEFAULT_ERROR_MSG_OPEN_ID = "login.error.openid.noresolution";// openid.servlet_filter.default_error_msg
+    public static final String ID_NOT_FOUND_MSG_OPEN_ID = "login.error.openid.notexist";// openid.servlet_filter.id_not_found_msg
 
     public static final String OPEN_ID_PARAM_OP_IDENTIFIER = "url";
     public static final String OPEN_ID_PARAM_IDENTITY = "identity";
     public static final String OPEN_ID_PARAM_CLAIM_ID = "claimid";
 
     public static final String OPEN_ID_PARAM_NAME_LOGIN = "openid_identifier";
-    public static final String OPEN_ID_PARAM_NAME_LOGIN_WITH = "loginWith";
-    public static final String OPENID_USER_ID_PREFIX_KEY = "openid.claimed_id.user";
+    public static final String OPEN_ID_PARAM_NAME_LOGIN_WITH = "loginType";//loginWith
 
-    public static final String OPENID_DISCOVERY_IDENTIFIER_KEY = "openid.identity.discovery";
-    public static final String OPENID_DISCOVERY_CLAIM_ID_KEY = "openid.claimed_id.discovery";
-    public static final String OPENID_ICARDEA_PROVIDER_USER_SUFFIX = "/idp/u=";
 
     /**
      * Alias names, see axschema.properties for alias= URI and sreq.properties
@@ -34,6 +34,9 @@ public class PhrsConstants implements Serializable {
     //From Axschemea http://www.w3.org/2006/vcard/ns#role From Simple registration: postcode dob fullname email
     public static final String OPEN_ID_PARAM_ROLE = "role";//http://www.w3.org/2006/vcard/ns#role"
     //From Simple registration: postcode dob fullname email
+    public static final String OPEN_ID_IS_VERIFIED="is_verified";
+    public static final String OPEN_ID_SHORT_USER_ID="openid_short_login_id";
+
     public static final String OPEN_ID_PARAM_EMAIL = "email";
     public static final String OPEN_ID_PARAM_FULL_NAME = "fullname";
     public static final String OPEN_ID_PARAM_NICK_NAME = "nickname";
@@ -105,6 +108,11 @@ public class PhrsConstants implements Serializable {
     public static final String AUTHORIZE_RESOURCE_CODE_TESTRESULT = "RESOURCECODE:TESTRESULT";
     public static final String AUTHORIZE_RESOURCE_CODE_IMMUNIZATION = "RESOURCECODE:IMMUNIZATION";
 
+    //additional for use in notifications
+    //public static final String AUTHORIZE_RESOURCE_CODE_VITALS = "";
+    //public static final String AUTHORIZE_RESOURCE_CODE_PROBLEMS = ";
+    //public static final String AUTHORIZE_RESOURCE_CODE_ = 
+  
     public static final String AUTHORIZE_ROLE_SUBJECT_CODE_PHYSICIAN = "ROLECODE:DOCTOR";
     public static final String AUTHORIZE_ROLE_SUBJECT_CODE_NURSE = "ROLECODE:NURSE";
 
@@ -137,7 +145,8 @@ public class PhrsConstants implements Serializable {
     //not used AUTHORIZE_USER_PREFIX_TEST_ELLEN
     public static final String AUTHORIZE_USER_PREFIX_TEST_ELLEN = "nurse";
     //with this prefix a local account is setup if non-existing, until the scenario is completed with added OpenId, passwords are not strictly needed
-    public static final String AUTHORIZE_USER_PREFIX_AUTO_USER = "phruser";
+    public static final String AUTHORIZE_USER_PREFIX_AUTO_USER = "phr";
+    //public static final String AUTHORIZE_USER_PREFIX_AUTO_USER = "phruser";
     //loginId
     public static final String AUTHORIZE_USER_VT_SCENARIO_NURSE = "nurse";
 
@@ -297,7 +306,7 @@ public class PhrsConstants implements Serializable {
     public final static String PHRS_AUDIT_DATABASE_NAME = "phrsaudits1";
 
     public final static String SESSION_PARAM_NAME_FILTER_HEALTH_PROFILE_ID = "filterHealthProfileId";
-    public final static String USER_ID_TEST = AUTHORIZE_USER_PREFIX_TEST;//"testuser";
+    //public final static String USER_ID_TEST = AUTHORIZE_USER_PREFIX_TEST;
     public final static String USER_ID_GUEST = "phrsguest";
 
     public final static String USER_TEST_HEALTH_PROFILE_ID = Constants.OWNER_URI_CORE_PORTAL_TEST_USER;
@@ -481,6 +490,7 @@ public class PhrsConstants implements Serializable {
     // contact info for patient or for medical contacts
     public static final String PORTABLE_CONTACT_JSON = Constants.ICARDEA_NS
             + "#portable_contact_json";
+
 
 
 }

@@ -1,14 +1,14 @@
 package at.srfg.kmt.ehealth.phrs.model.baseform
 
-import java.util.Date
-import java.util.Set
 
 import at.srfg.kmt.ehealth.phrs.PhrsConstants;
 
 import com.google.code.morphia.annotations.Embedded
 import com.google.code.morphia.annotations.Entity
 import com.google.code.morphia.annotations.Transient
-
+/**
+ * User Contact information
+ */
 @Entity
 public class  ProfileContactInfo extends  BasePhrsModel {
 	String contactType
@@ -46,28 +46,15 @@ public class  ProfileContactInfo extends  BasePhrsModel {
 	@Embedded
 	Set<PhoneInfo> secondaryPhones
 
-
-	//@Embedded
-	//PixIdentifier ciedIdentifier
-
-
-	//@Embedded
-	//PixIdentifier pixIdentifier
-
-    //these are copied to  at.srfg.kmt.ehealth.phrs.model.baseform.PhrFederatedUser
-    //String protocolIdUser
-
+    
+/**
+ *@deprecated
+ */
     String pixQueryIdUser
+ /**
+ *@deprecated
+ */   
     String pixQueryIdType
-
-	/*
-	 * support to facilitate feedback tools eg. google talk, skype, etc
-	 */
-	//@ Embedded
-	//FeedbackAccessInfo feedbackToolInfo
-	/*
-	 * http://www.fastcompany.com/blog/chris-dannen/techwatch/six-brilliant-ways-use-google-voice
-	 */
 
 	/*
 	 * voip - initial support to facilitate google talk, skype, etc
