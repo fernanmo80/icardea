@@ -103,9 +103,34 @@
 	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x] == "Epis_VT") y=true; } return y; }</RefinementScript>
 	</Variable>
 	<Variable name="SVTStatus" type="boolean">
+	
 	  <Concept code="739568" name="MDC_IDC_EPISODE_TYPE" schemeID="MDC_IDC"/>
 	  <DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
 	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x] == "Epis_SVT") y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="RenalInsufficiency" type="boolean">
+	  <Concept code="C2709206" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="HeartFailure" type="boolean">
+	  <Concept code="C0018801" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="Diabetes" type="boolean">
+	  <Concept code="C0011847" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="AtrialArrhythmia" type="boolean">
+	  <Concept code="C0085611" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
 	</Variable>
 	<Display>
 	  <HTML>
@@ -186,6 +211,47 @@
 		      </table>
 		    </td>
 		  </tr>
+		  <tr name="EHRBlock">
+			<td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
+
+			  <p align="center"><b>Brief Information about the Comorbid diseases
+			  </b> </p>
+			  <table  width="100%">
+			<tbody>
+
+			  <tr>
+				<td>Renal insufficiency or renal failure:</td>
+				<td>
+				  $RenalInsufficiency
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Heart failure:</td>
+				<td>
+				  $HeartFailure
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Diabetes:</td>
+				<td>
+				  $Diabetes
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Atrial arrhythmia:</td>
+				<td>
+				  $AtrialArrhythmia
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>			  
+			</tbody>
+			  </table>
+
+			</td>
+			</tr>
 		  <tr name="ChoiceBlock">
 		    <td style="background-color:#eeeeee">
 		      <p align="center"><b>Recommendation and Next Step to follow </b> </p>
@@ -2130,8 +2196,42 @@
 		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
+		  
+		<!--tr name="EHRBlock">
+		    <td style="background-color:#eeeeee">
+		      <p align="center"><b>Brief Information about the Patient History retrieved from EHR
+		      </b> </p>
+
+		      <table  width="100%">
+			<tbody>
+			  <tr>
+			    <th>Status of associated Diseases</th>
+			    <th>EHR values</th>
+			  </tr>
+			  <script>
+			    <arguments>$LVDysfunction</arguments>
+			    <content></content>
+			  </script>
+			  
+			  
+			  
+			  <script>
+				<arguments>$LVDysfunction, $DilatedCardiomyopathy, $HypertrophicCardiomyopathy, $HypertrophicCardiomyopathy, $ArrhythmogenicRightVentricular, $LongQTSyndrome, $BrugadaSyndrome, $ValvularHeartDisease, $HeartFailure</arguments>
+			  <content>
+			  function generate(ehrDis) { var useIt = 'false'; var output = ''; if(ehrDis.equals('true')) { useIt = '&lt;font color=\"#880015\"&gt;&lt;b&gt;true&lt;b&gt;' }output = output + ehrDis + useIt +'&lt;/tr&gt;';   return output; }
+			  </content>
+			  </script>
+			  
+			  
+			   
+			
+			</tbody>
+		      </table>
+		    </td>
+		  </tr-->  
+		  
 		<tr name="EHRBlock">
-		  <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
+		  <td style="background-color:#eeeeee">
 		    <p align="center"><b>Brief Information about the Patient History retrieved from EHR
 		    </b> </p>
 
@@ -2143,9 +2243,11 @@
 			</tr>
 
 			<tr>
-			  <td>LV Dysfunction</td>
 			  <td>
+			  LV Dysfunction </td> 
+			  <td> <font color="#880015">
 			    $LVDysfunction
+				</font>
 			    <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0041582">Link to EHR</a>
 			  </td>
 			</tr>
