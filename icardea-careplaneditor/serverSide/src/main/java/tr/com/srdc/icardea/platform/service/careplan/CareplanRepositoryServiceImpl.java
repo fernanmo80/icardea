@@ -88,7 +88,7 @@ public class CareplanRepositoryServiceImpl implements
 			System.out.println("careplans.length initial: " + careplans.length);
 			// TODO: Delete in the future
 			if (careplans.length == 0) {
-				careplans = new MedicalCareplanTemplate[2];
+				careplans = new MedicalCareplanTemplate[3];
 				PersistentTransaction transaction = ICardeaPersistentManager.instance().getSession().beginTransaction();
 				MedicalCareplanTemplate mct = new MedicalCareplanTemplate();
 				System.out.println("Storing AF Careplan...");
@@ -138,6 +138,33 @@ public class CareplanRepositoryServiceImpl implements
 				//TODO
 				mct2.save();
 				careplans[1] = mct2;
+				
+				System.out.println("Done");
+				
+				System.out.println("Storing Technical Careplan...");
+
+				MedicalCareplanTemplate mct3 = new MedicalCareplanTemplate();
+				mct3.setIdentifier("3");
+				mct3.setName("Management of Technical CP");
+				mct3.setContent(salkServer+":"+securePort+"/icardea/guidelines/icardea/ManagementofTechnicalCP-3.owl");
+				//TODO
+				try {
+					mct3.setDiagram(readFile(homeDirectory+"\\icardea-careplanengine\\src\\main\\resources\\guideline\\ManagementofTechnicalCP-3.dgr"));
+					//System.out.println("##diagram : "+mct2.getDiagram());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					mct3.setCareplan(readFile(homeDirectory+"\\icardea-careplanengine\\src\\main\\resources\\guideline\\ManagementofTechnicalCP-3.cp"));
+					//System.out.println("##careplan : "+mct2.getCareplan());
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				//TODO
+				mct3.save();
+				careplans[2] = mct3;
 				transaction.commit();
 				System.out.println("Done");
 			}
@@ -163,7 +190,7 @@ public class CareplanRepositoryServiceImpl implements
 				String dname = st[0]+"dgr";
 				boolean salkUsage = new Boolean(ResourceBundle.getBundle("icardea")
 						.getString("salk.usage")).booleanValue();
-				if(salkUsage == false){
+				if(salkUsage == true){
 					cname = cname.replace("https", "http");
 					cname = cname.replace("8443", "8080");
 					dname = dname.replace("https", "http");
