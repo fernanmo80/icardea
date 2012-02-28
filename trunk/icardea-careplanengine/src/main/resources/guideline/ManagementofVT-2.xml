@@ -103,9 +103,34 @@
 	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x] == "Epis_VT") y=true; } return y; }</RefinementScript>
 	</Variable>
 	<Variable name="SVTStatus" type="boolean">
+	
 	  <Concept code="739568" name="MDC_IDC_EPISODE_TYPE" schemeID="MDC_IDC"/>
 	  <DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
 	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x] == "Epis_SVT") y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="RenalInsufficiency" type="boolean">
+	  <Concept code="C2709206" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="HeartFailure" type="boolean">
+	  <Concept code="C0018801" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="Diabetes" type="boolean">
+	  <Concept code="C0011847" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
+	</Variable>
+	<Variable name="AtrialArrhythmia" type="boolean">
+	  <Concept code="C0085611" schemeID="UMLS"/>
+	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
+	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { y=true; } return y; }</RefinementScript>
 	</Variable>
 	<Display>
 	  <HTML>
@@ -129,7 +154,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -151,7 +176,7 @@
 		      <data src="alarmmanager://Alarm/Time"/>
 		      VT Episode
 		      <br/>
-		      <a href="PPM:TAB1">Access to Report Exported</a>
+		      <a href="http://patient.parameter.monitor.link">Access to Report Exported</a>
 		    </td>
 		  </tr>
 		  <tr name="EGMBlock"> <td style="background-color:#eeeeee">
@@ -161,7 +186,7 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 				  Report Exported</a> <br /> </p>
 
 
@@ -171,7 +196,7 @@
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="PPM:TAB1">Access
+			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
 				  to Report Exported</a> <br />
 				<br/>
 				<p align="left"> VT status: $VTStatus <br />
@@ -186,6 +211,47 @@
 		      </table>
 		    </td>
 		  </tr>
+		  <tr name="EHRBlock">
+			<td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
+
+			  <p align="center"><b>Brief Information about the Comorbid diseases
+			  </b> </p>
+			  <table  width="100%">
+			<tbody>
+
+			  <tr>
+				<td>Renal insufficiency or renal failure:</td>
+				<td>
+				  $RenalInsufficiency
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Heart failure:</td>
+				<td>
+				  $HeartFailure
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Diabetes:</td>
+				<td>
+				  $Diabetes
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>
+			  <tr>
+				<td>Atrial arrhythmia:</td>
+				<td>
+				  $AtrialArrhythmia
+				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				</td>
+			  </tr>			  
+			</tbody>
+			  </table>
+
+			</td>
+			</tr>
 		  <tr name="ChoiceBlock">
 		    <td style="background-color:#eeeeee">
 		      <p align="center"><b>Recommendation and Next Step to follow </b> </p>
@@ -245,7 +311,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -264,7 +330,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -277,7 +343,7 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 				  Report Exported</a> <br /> </p>
 
 
@@ -287,7 +353,7 @@
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="PPM:TAB1">Access
+			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
 				  to Report Exported</a> <br />
 				<br/>
 
@@ -354,7 +420,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -373,7 +439,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -386,7 +452,7 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 				  Report Exported</a> <br /> </p>
 
 
@@ -396,7 +462,7 @@
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="PPM:TAB1">Access
+			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
 				  to Report Exported</a> <br />
 				<br/>
 
@@ -463,7 +529,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -482,7 +548,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -495,7 +561,7 @@
 			<tbody>
 			  <tr>
 
-			    <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			    <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 				Report Exported</a> <br /> </p>
 
 
@@ -556,7 +622,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -575,7 +641,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr-->
 		  <tr name="CIEDBlock">
@@ -584,7 +650,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -594,7 +660,7 @@
 			  problems </b> </p>
 
 
-		      <p align="center"> EGM: <a href="PPM:TAB1">Access to
+		      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 			  Report Exported</a> <br /> </p>
 
 
@@ -658,7 +724,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -677,7 +743,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -690,7 +756,7 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 				  Report Exported</a> <br /> </p>
 
 
@@ -700,7 +766,7 @@
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="PPM:TAB1">Access
+			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
 				  to Report Exported</a> <br />
 				<br/>
 
@@ -762,7 +828,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -781,7 +847,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -794,7 +860,7 @@
 			<tbody>
 			  <tr>
 
-			    <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			    <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 				Report Exported</a> <br /> </p>
 
 
@@ -872,7 +938,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -891,7 +957,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -904,7 +970,7 @@
 			<tbody>
 			  <tr>
 
-			    <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			    <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 				Report Exported</a> <br /> </p>
 
 
@@ -963,7 +1029,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -982,7 +1048,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -1032,7 +1098,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1051,7 +1117,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr-->
 		  <tr name="CIEDBlock">
@@ -1060,7 +1126,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EHRBlock">
@@ -1157,7 +1223,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1176,7 +1242,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr-->
 		  <tr name="CIEDBlock">
@@ -1185,7 +1251,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="PHRBlock">
@@ -1298,7 +1364,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1317,7 +1383,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr-->
 		  <tr name="CIEDBlock">
@@ -1326,7 +1392,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -1375,7 +1441,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1394,7 +1460,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: VT detected.. <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr-->
 		   <tr name="CIEDBlock">
@@ -1403,7 +1469,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -1519,7 +1585,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1538,7 +1604,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr-->
 		   <tr name="CIEDBlock">
@@ -1547,7 +1613,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EHRBlock">
@@ -1703,7 +1769,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1722,7 +1788,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    Alarms Detected: VT detected.. <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr-->
 		 <tr name="CIEDBlock">
@@ -1731,7 +1797,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		<tr name="RecommendationBlock">
@@ -1774,7 +1840,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1793,7 +1859,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    Alarms Detected: VT detected.. <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr-->
 		 <tr name="CIEDBlock">
@@ -1802,7 +1868,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		<tr name="RecommendationBlock">
@@ -1845,7 +1911,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1864,7 +1930,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    Alarms Detected: VT detected.. <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr-->
 		 <tr name="CIEDBlock">
@@ -1873,7 +1939,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		<tr name="RecommendationBlock">
@@ -1921,7 +1987,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1940,7 +2006,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr-->
 		   <tr name="CIEDBlock">
@@ -1949,7 +2015,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		<tr name="EHRBlock">
@@ -1985,7 +2051,7 @@
 		      <tbody>
 			<tr>
 
-			  <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			  <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 			      Report Exported</a> <br /> </p>
 
 
@@ -2099,7 +2165,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2118,7 +2184,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr-->
 		   <tr name="CIEDBlock">
@@ -2127,7 +2193,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  
@@ -2293,7 +2359,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2312,7 +2378,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    Alarms Detected: VT detected.. <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr-->
 		 <tr name="CIEDBlock">
@@ -2321,7 +2387,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		<tr name="RecommendationBlock">
@@ -2369,7 +2435,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2419,7 +2485,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2438,7 +2504,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr-->
 		   <tr name="CIEDBlock">
@@ -2447,7 +2513,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 
@@ -2461,7 +2527,7 @@
 		      <tbody>
 			<tr>
 
-			  <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			  <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 			      Report Exported</a> <br /> </p>
 
 
@@ -2524,7 +2590,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2543,7 +2609,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    Alarms Detected: VT detected.. <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr-->
 		 <tr name="CIEDBlock">
@@ -2552,7 +2618,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		<tr name="RecommendationBlock">
@@ -2595,7 +2661,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2614,7 +2680,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    Alarms Detected: VT detected.. <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr-->
 		 <tr name="CIEDBlock">
@@ -2623,7 +2689,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		<tr name="RecommendationBlock">
@@ -2660,7 +2726,7 @@
 		  Patient ID:
 		  <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		  <br/>
-		  <a href="PPM:TAB4">Access to EHR</a>
+		  <a href="http://patient.parameter.monitor.link/a.php?patientID">Access to EHR</a>
 		  <br/>
 		  Implanted Device:
 		  <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2678,7 +2744,7 @@
 		  <br/>
 		  Alarms Detected: VT is detected..
 		  <br/>
-		  <a href="PPM:TAB1">Access to Report Exported</a>
+		  <a href="http://patient.parameter.monitor.link">Access to Report Exported</a>
 		</td>
 	      </tr-->
 		   <tr name="CIEDBlock">
@@ -2687,7 +2753,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 	      <tr name="EGMBlock">
@@ -2700,7 +2766,7 @@
 		    <tbody>
 		      <tr>
 
-			<p align="center"> EGM: <a href="PPM:TAB1">Access to
+			<p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 			    Report Exported</a> <br /> </p>
 
 
@@ -2763,7 +2829,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2782,7 +2848,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    Alarms Detected: VT detected.. <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr-->
 		 <tr name="CIEDBlock">
@@ -2791,7 +2857,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		<tr name="RecommendationBlock">
@@ -2849,7 +2915,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2868,7 +2934,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    Alarms Detected: VT detected.. <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr-->
 		 <tr name="CIEDBlock">
@@ -2877,7 +2943,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		<tr name="RecommendationBlock">
@@ -2935,7 +3001,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2954,7 +3020,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    Alarms Detected: VT detected.. <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr-->
 		 <tr name="CIEDBlock">
@@ -2963,7 +3029,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		<tr name="RecommendationBlock">
@@ -3028,7 +3094,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3047,7 +3113,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    VT Episode <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr>
 		<tr name="EGMBlock">
@@ -3060,7 +3126,7 @@
 		      <tbody>
 			<tr>
 
-			  <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			  <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 			      Report Exported</a> <br /> </p>
 
 
@@ -3132,7 +3198,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3151,7 +3217,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr-->
 		 <tr name="CIEDBlock">
@@ -3160,7 +3226,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		<tr name="EGMBlock">
@@ -3173,7 +3239,7 @@
 		      <tbody>
 			<tr>
 			  <td><!--The following HTML will be populated in the execution step-->
-			    <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			    <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 				Report Exported</a> <br /> </p>
 
 
@@ -3183,7 +3249,7 @@
 			  </td>
 			  <td><!--The following HTML will be populated in the execution step-->
 
-			    <p align="center">  Assesment by CIED <a href="PPM:TAB1">Access
+			    <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
 				to Report Exported</a> <br />
 			      <br/>
 
@@ -3244,7 +3310,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3263,7 +3329,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    Alarms Detected: VT detected.. <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr-->
 		 <tr name="CIEDBlock">
@@ -3272,7 +3338,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		<tr name="RecommendationBlock">
@@ -3332,7 +3398,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3351,7 +3417,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    VT Episode <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr>
 		<tr name="EGMBlock">
@@ -3364,7 +3430,7 @@
 		      <tbody>
 			<tr>
 
-			  <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			  <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 			      Report Exported</a> <br /> </p>
 
 
@@ -3432,7 +3498,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3451,7 +3517,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    VT Episode <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr>
 		<tr name="EGMBlock">
@@ -3464,7 +3530,7 @@
 		      <tbody>
 			<tr>
 
-			  <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			  <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 			      Report Exported</a> <br /> </p>
 
 
@@ -3524,7 +3590,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3543,7 +3609,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    Alarms Detected: VT detected.. <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr-->
 		 <tr name="CIEDBlock">
@@ -3552,7 +3618,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      VT Episode <br />
-		      <a href="PPM:TAB1">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		<tr name="RecommendationBlock">
@@ -3597,7 +3663,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3616,7 +3682,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    VT Episode <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr>
 		<tr name="EGMBlock">
@@ -3629,7 +3695,7 @@
 		      <tbody>
 			<tr>
 			  <td><!--The following HTML will be populated in the execution step-->
-			    <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			    <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 				Report Exported</a> <br /> </p>
 
 
@@ -3639,7 +3705,7 @@
 			  </td>
 			  <td><!--The following HTML will be populated in the execution step-->
 
-			    <p align="center">  Assesment by CIED <a href="PPM:TAB1">Access
+			    <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
 				to Report Exported</a> <br />
 			      <br/>
 
@@ -3706,7 +3772,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3725,7 +3791,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    VT Episode <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr>
 		<tr name="EGMBlock">
@@ -3738,7 +3804,7 @@
 		      <tbody>
 			<tr>
 
-			  <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			  <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 			      Report Exported</a> <br /> </p>
 
 
@@ -3804,7 +3870,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3823,7 +3889,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    VT Episode <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr>
 		<tr name="EGMBlock">
@@ -3836,7 +3902,7 @@
 		      <tbody>
 			<tr>
 			  <td><!--The following HTML will be populated in the execution step-->
-			    <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			    <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 				Report Exported</a> <br /> </p>
 
 
@@ -3846,7 +3912,7 @@
 			  </td>
 			  <td><!--The following HTML will be populated in the execution step-->
 
-			    <p align="center">  Assesment by CIED <a href="PPM:TAB1">Access
+			    <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
 				to Report Exported</a> <br />
 			      <br/>
 
@@ -3910,7 +3976,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3929,7 +3995,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    VT Episode <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr>
 		<tr name="EGMBlock">
@@ -3942,7 +4008,7 @@
 		      <tbody>
 			<tr>
 
-			  <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			  <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 			      Report Exported</a> <br /> </p>
 
 
@@ -4021,7 +4087,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -4040,7 +4106,7 @@
 		    <p align="center"><b>Brief Information about the recent alarm </b></p>
 		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		    VT Episode <br />
-		    <a href="PPM:TAB1">Access to Report
+		    <a href="http://patient.parameter.monitor.link">Access to Report
 		      Exported</a> </td>
 		</tr>
 		<tr name="EGMBlock">
@@ -4053,7 +4119,7 @@
 		      <tbody>
 			<tr>
 
-			  <p align="center"> EGM: <a href="PPM:TAB1">Access to
+			  <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
 			      Report Exported</a> <br /> </p>
 
 
