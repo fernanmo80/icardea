@@ -245,29 +245,7 @@ public class LoginMgtBean extends FaceCommon implements Serializable {
     public boolean testMode() {
         return ConfigurationService.isAppModeTest() || ConfigurationService.isAppModeSingleUserTest();
     }
-    /**
-     * UI button
-     */
-    public void getLoadTestData() {
-        LOGGER.error('web form got: getLoadTestData ')
-        try {
-            CoreTestData.addTestBasicHealthVitalsData(getOwnerUri())
-        } catch (Exception e) {
-            LOGGER.error('getLoadTestData failed', e)
-        }
-    }
-    /**
-     * UI button
-     */
-    public void getLoadInterop() {
-        LOGGER.error('web form got: getLoadInterop ')
-        try {
-            CoreTestData test = new CoreTestData()
-            test.addTestMedications_2_forPortalTestForOwnerUri(getOwnerUri())
-        } catch (Exception e) {
-            LOGGER.error('getLoadInterop failed', e)
-        }
-    }
+
     /**
      * UI button
      */
