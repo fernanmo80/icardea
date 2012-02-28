@@ -159,7 +159,7 @@ final class PatientIdentityFeedHandler extends DefaultApplication {
 		now.setTime(new Date());
 		b.getEVN().getRecordedDateTime().parse(CommonTS.toHl7TSFormat(now));
 		tr.toPidv25(b.getPID());
-		b.getPID().getPid5_PatientName(0).parse(" "); 
+		// b.getPID().getPid5_PatientName(0).parse(" "); 
 		
 		b.getPV1().getPatientClass().parse("N");
 		return b;
