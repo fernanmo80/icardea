@@ -6,7 +6,7 @@ public class RegistrationModel {
 	 * 
 	 */
 
-	private String openId;
+	private static String openId;
 	private String fullName;
 	private String emailAddress;
 	private String phoneNumber;
@@ -17,6 +17,11 @@ public class RegistrationModel {
 	public RegistrationModel() {
 		
 	}
+	
+	public static String getOpenIdStatic() {
+		return openId;
+	}
+	
 	public String getOpenId() {
 		return openId;
 	}
