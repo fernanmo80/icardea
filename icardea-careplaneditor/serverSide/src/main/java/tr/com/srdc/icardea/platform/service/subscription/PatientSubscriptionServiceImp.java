@@ -348,7 +348,7 @@ public class PatientSubscriptionServiceImp implements
 					
 					boolean salkUsage = new Boolean(ResourceBundle.getBundle("icardea")
 							.getString("salk.usage")).booleanValue();
-					if(salkUsage == false){
+					if(salkUsage == true){
 						cname = cname.replace("https", "http");
 						cname = cname.replace("8443", "8080");
 						dname = dname.replace("https", "http");
@@ -525,9 +525,9 @@ public class PatientSubscriptionServiceImp implements
 				addPerson("190", "Andreas", "Schmidt");
 				tr.com.srdc.icardea.hibernate.Person jane = addPerson("191", "Suzie", "Mayr");
 				Contact contact = new Contact();
-				contact.setEmail("gokcebanu@gmail.com");
-				contact.setMobileNumber("00905052319177");
-				contact.setPhoneNumber("00905052319177");
+				contact.setEmail("eliferylmz@gmail.com");
+				contact.setMobileNumber("00905058668960");
+				contact.setPhoneNumber("00905058668960");
 				addContact(jane, contact);
 
 				MedicalCareplan mc = new MedicalCareplan();
@@ -755,7 +755,7 @@ public class PatientSubscriptionServiceImp implements
 					String dname = st[0]+"dgr";
 					boolean salkUsage = new Boolean(ResourceBundle.getBundle("icardea")
 							.getString("salk.usage")).booleanValue();
-					if(salkUsage == false){
+					if(salkUsage == true){
 						cname = cname.replace("https", "http");
 						cname = cname.replace("8443", "8080");
 						dname = dname.replace("https", "http");
