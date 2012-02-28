@@ -80,11 +80,12 @@ public class MedicallyOrientedActionHandler {
 	static String DBKeyword = "<data ";
 	static String SCRIPTKeyword = "<script";
 	static String IMGKeyword = "<img ";
-	public static Logger logger = Logger.getLogger(MedicallyOrientedActionHandler.class);
+	public static Logger logger = Logger
+			.getLogger(MedicallyOrientedActionHandler.class);
 
 	public void handle(GuidelineAgent guidelineAgent,
-		Guideline_Step guidelineStep,
-		Medically_Oriented_Action_Specification medicallyOrientedAction) {
+			Guideline_Step guidelineStep,
+			Medically_Oriented_Action_Specification medicallyOrientedAction) {
 		// your code here
 		try {
 			ResourceBundle properties = ResourceBundle.getBundle("icardea");
@@ -105,13 +106,18 @@ public class MedicallyOrientedActionHandler {
 
 			MonitoringMessageEntity monitoringMessage = new MonitoringMessageEntity();
 			monitoringMessage.setStepName(guidelineStep.getName2());
-			monitoringMessage.setType(MonitoringMessageType.getMedicallyOrientedActionType());
-			String patientName = guidelineAgent.getAssignmentEntity().getPatientEntity().getName();
-			long patientID = guidelineAgent.getAssignmentEntity().getPatientEntity().getPcode();
+			monitoringMessage.setType(MonitoringMessageType
+					.getMedicallyOrientedActionType());
+			String patientName = guidelineAgent.getAssignmentEntity()
+					.getPatientEntity().getName();
+			long patientID = guidelineAgent.getAssignmentEntity()
+					.getPatientEntity().getPcode();
 
 			if (!guidelineAgent.showGUI) {
 				String stepID = medicallyOrientedAction.getName2().split(":")[0];
-				tr.com.srdc.icardea.careplanengine.agents.afAgent.EngineInterface.sendMonitoringMessage(guidelineAgent.getAID(), stepID, "FINISHED", "" + patientID);
+				tr.com.srdc.icardea.careplanengine.agents.afAgent.EngineInterface
+						.sendMonitoringMessage(guidelineAgent.getAID(), stepID,
+								"FINISHED", "" + patientID);
 			}
 
 			String description = medicallyOrientedAction.getDescription();
@@ -122,20 +128,26 @@ public class MedicallyOrientedActionHandler {
 					Date now = new Date();
 					while (!found) {
 						logger.info("Calling CIEDDataRetriever....");
-						Object[] objects = (new CIEDDataRetriever()).retrieveCIEDDataByCitizenShipNumber("" + patientID);
+						Object[] objects = (new CIEDDataRetriever())
+								.retrieveCIEDDataByCitizenShipNumber(""
+										+ patientID);
 						for (int i = 0; i < objects.length; i++) {
 							CIEDData ciedData = (CIEDData) objects[i];
 							String messageTime = ciedData.getMessageTime();
-							SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmSS");
+							SimpleDateFormat dateFormat = new SimpleDateFormat(
+									"yyyyMMddHHmmSS");
 							Date messageDate = dateFormat.parse(messageTime);
 							int results = messageDate.compareTo(now);
-							logger.info("Compared Message Date:'" + messageDate.toString() + "' and found:" + results);
+							logger.info("Compared Message Date:'"
+									+ messageDate.toString() + "' and found:"
+									+ results);
 							if (results >= 1) {
 								found = true;
 								break;
 							}
 						}
-						logger.info("Waiting for CIED Data later than " + now.toString());
+						logger.info("Waiting for CIED Data later than "
+								+ now.toString());
 						Thread.sleep(10000);
 					}
 				} else {
@@ -154,24 +166,38 @@ public class MedicallyOrientedActionHandler {
 					}
 					boolean found = false;
 					while (!found) {
-						logger.info("Retrieving:" + patientID + " EHR/PHR Distinction:" + considerEHRPHRDistinction + " From PHR:" + fromPHR);
-						Object[] objects = (new EHRPHRDataRetriever()).retriveEHRPHRData("" + patientID, true, informationType, null,
-							considerEHRPHRDistinction, fromPHR);
+						logger.info("Retrieving:" + patientID
+								+ " EHR/PHR Distinction:"
+								+ considerEHRPHRDistinction + " From PHR:"
+								+ fromPHR);
+						Object[] objects = (new EHRPHRDataRetriever())
+								.retriveEHRPHRData("" + patientID, true,
+										informationType, null,
+										considerEHRPHRDistinction, fromPHR);
 
-						// TODO: Buradada hepsini al.. eger effective time'i current date'ten buyuk olan varmi ona bak...
+						// TODO: Buradada hepsini al.. eger effective time'i
+						// current date'ten buyuk olan varmi ona bak...
 						// eger varsa devam et...
 						if (objects != null && objects.length > 0) {
 							for (int i = 0; i < objects.length; i++) {
 								if (informationType.equals("C1254595")) {
 									ImagingResult imagingResult = (ImagingResult) objects[i];
-									String imagingResultTime = imagingResult.getEffectiveTime();
-									//String currentDateString = dateFormat.format(currentDate);
-									if(imagingResultTime == null)
+									String imagingResultTime = imagingResult
+											.getEffectiveTime();
+									// String currentDateString =
+									// dateFormat.format(currentDate);
+									if (imagingResultTime == null)
 										continue;
-									imagingResultTime = imagingResultTime.substring(0, 8);
-									Date imagingResultDate = simpleDateFormat.parse(imagingResultTime);
-									logger.info("Lab result (" + imagingResult.getLabResultText() + ") date in the database:" + imagingResultDate.toString());
-									int results = imagingResultDate.compareTo(date);
+									imagingResultTime = imagingResultTime
+											.substring(0, 8);
+									Date imagingResultDate = simpleDateFormat
+											.parse(imagingResultTime);
+									logger.info("Lab result ("
+											+ imagingResult.getLabResultText()
+											+ ") date in the database:"
+											+ imagingResultDate.toString());
+									int results = imagingResultDate
+											.compareTo(date);
 									if (results >= 1) {
 										found = true;
 										break;
@@ -179,13 +205,16 @@ public class MedicallyOrientedActionHandler {
 								}
 							}
 						}
-						logger.info("Waiting for Data... " + informationType + " older than " + date.toString());
+						logger.info("Waiting for Data... " + informationType
+								+ " older than " + date.toString());
 						Thread.sleep(10000);
 					}
 				}
 				if (!guidelineAgent.showGUI) {
-					String stepID = medicallyOrientedAction.getName2().split(":")[0];
-					//tr.com.srdc.icardea.careplanengine.agents.afAgent.EngineInterface.sendMonitoringMessage(guidelineAgent.getAID(), stepID, "FINISHED", "" + patientID);
+					String stepID = medicallyOrientedAction.getName2().split(
+							":")[0];
+					// tr.com.srdc.icardea.careplanengine.agents.afAgent.EngineInterface.sendMonitoringMessage(guidelineAgent.getAID(),
+					// stepID, "FINISHED", "" + patientID);
 				}
 				return;
 			}
@@ -207,22 +236,30 @@ public class MedicallyOrientedActionHandler {
 				logger.info("Waiting for " + time + " " + unit);
 				Thread.sleep(time);
 				if (!guidelineAgent.showGUI) {
-					String stepID = medicallyOrientedAction.getName2().split(":")[0];
-					tr.com.srdc.icardea.careplanengine.agents.afAgent.EngineInterface.
-						sendMonitoringMessage(guidelineAgent.getAID(), stepID, "FINISHED", "" + patientID);
+					String stepID = medicallyOrientedAction.getName2().split(
+							":")[0];
+					tr.com.srdc.icardea.careplanengine.agents.afAgent.EngineInterface
+							.sendMonitoringMessage(guidelineAgent.getAID(),
+									stepID, "FINISHED", "" + patientID);
 				}
 				return;
-			} else if (description.startsWith("Record ")) { // It is RecordActionStep
+			} else if (description.startsWith("Record ")) { // It is
+															// RecordActionStep
 				String[] parts = description.split(":");
-				(new EHRPHRDataRetriever()).recordData("" + patientID, parts[1], parts[4], parts[5], parts[7]);
+				(new EHRPHRDataRetriever()).recordData("" + patientID,
+						parts[1], parts[4], parts[5], parts[7]);
 				if (!guidelineAgent.showGUI) {
-					String stepID = medicallyOrientedAction.getName2().split(":")[0];
-					tr.com.srdc.icardea.careplanengine.agents.afAgent.EngineInterface.sendMonitoringMessage(guidelineAgent.getAID(), stepID, "FINISHED", "" + patientID);
+					String stepID = medicallyOrientedAction.getName2().split(
+							":")[0];
+					tr.com.srdc.icardea.careplanengine.agents.afAgent.EngineInterface
+							.sendMonitoringMessage(guidelineAgent.getAID(),
+									stepID, "FINISHED", "" + patientID);
 				}
 				return;
 			}
 
-			Medical_Action_Entity maEntity = medicallyOrientedAction.getMedical_task();
+			Medical_Action_Entity maEntity = medicallyOrientedAction
+					.getMedical_task();
 			if (maEntity == null) {
 				return;
 			}
@@ -237,88 +274,106 @@ public class MedicallyOrientedActionHandler {
 			Concept functionality = maEntity.getFunctionality();
 
 			if ((functionality != null)
-				&& (functionality.getConcept_name().equalsIgnoreCase("Consult"))) {
+					&& (functionality.getConcept_name()
+							.equalsIgnoreCase("Consult"))) {
 				try {
 					Data_Item input = maEntity.getInput();
 
-					Data_Item retrievedInput = FactoryRetriever.retrieveDataItem(guidelineAgent.getGuidelineURI(),
-						input);
+					Data_Item retrievedInput = FactoryRetriever
+							.retrieveDataItem(guidelineAgent.getGuidelineURI(),
+									input);
 
 					if (retrievedInput instanceof Variable_Data_Item) {
 						logger.info("RETRIEVED INPUT NAME:"
-							+ retrievedInput.getName2());
+								+ retrievedInput.getName2());
 						// Variable_Data_Item variableDataItem =
 						// (Variable_Data_Item) retrievedInput;
 						// Data_Item_Value dataItemValue =
 						// variableDataItem.getData_value();
 
-						Object retrievedVal = FactoryRetriever.retrieveDataItemValue(guidelineAgent.getGuidelineURI(), input);
+						Object retrievedVal = FactoryRetriever
+								.retrieveDataItemValue(
+										guidelineAgent.getGuidelineURI(), input);
 
 						String inputContent = "";
 						if (retrievedVal instanceof Observation) {
 							logger.info("DERIVATION EXP:"
-								+ ((Observation) retrievedVal).getDerivation_expression());
+									+ ((Observation) retrievedVal)
+											.getDerivation_expression());
 							Observation observation = (Observation) retrievedVal;
 							ObservationEntity entity = new ObservationEntity(
-								observation, guidelineAgent.getGuidelineURI());
+									observation,
+									guidelineAgent.getGuidelineURI());
 							inputContent = entity.toString();
 							logger.info("INPUT CONTENT:" + inputContent);
 						} else if (retrievedVal instanceof Medication) {
 							Medication medication = (Medication) retrievedVal;
 							MedicationEntity entity = new MedicationEntity(
-								medication);
+									medication);
 							inputContent = entity.toString();
 						}
 
 						ConsultingMessage consultingMessage = new ConsultingMessage();
-						consultingMessage.setInputName(retrievedInput.getName2());
+						consultingMessage.setInputName(retrievedInput
+								.getName2());
 						// [MUSTAFA: May 13, 2010]: Added for dynamic evaluation
 						// of the consult string
 						String consultSentence = preProcessConsultSentenceValue(
-							medicallyOrientedAction.getDescription(),
-							patientName, patientID);
+								medicallyOrientedAction.getDescription(),
+								patientName, patientID);
 						consultingMessage.setConsultSentence(consultSentence);
 
 						consultingMessage.setPatientName(patientName);
 						consultingMessage.setPatientID(patientID + "");
 						consultingMessage.setMessageContent(inputContent);
-						String stepID = medicallyOrientedAction.getName2().split(":")[0];
-						String response = guidelineAgent.processConsultingMessage(stepID, consultingMessage);
+						String stepID = medicallyOrientedAction.getName2()
+								.split(":")[0];
+						String response = guidelineAgent
+								.processConsultingMessage(stepID,
+										consultingMessage);
 						logger.info("----------RESPONSE:" + response);
 
 						if (retrievedVal instanceof Observation) {
-							logger.info(" $$$ it is observation... " + retrievedInput.getName2());
+							logger.info(" $$$ it is observation... "
+									+ retrievedInput.getName2());
 							ObservationEntity obs = new ObservationEntity(
-								(Observation) retrievedVal, guidelineAgent.getGuidelineURI());
+									(Observation) retrievedVal,
+									guidelineAgent.getGuidelineURI());
 							obs.fromString(response);
 							EHRFiller.fillObservation(
-								(Observation) retrievedVal, obs,
-								guidelineAgent.getGuidelineURI());
+									(Observation) retrievedVal, obs,
+									guidelineAgent.getGuidelineURI());
 						} else if (retrievedVal instanceof Medication) {
 							MedicationEntity med = new MedicationEntity(
-								(Medication) retrievedVal);
+									(Medication) retrievedVal);
 							med.fromString(response);
 							EHRFiller.fillMedication((Medication) retrievedVal,
-								med);
+									med);
 						} else {
 							logger.info(" !!!!!!!! ERROR neither Observation nor Medication !!!!!!!!!!");
 						}
 						// / [01.08.06 itasyurt] stores the result
-						guidelineAgent.storeGlobalVariable(retrievedInput.getName2(), retrievedVal);
-						Logger.getLogger(this.getClass()).log(
-							Level.DEBUG, (retrievedInput.getName2()));
+						guidelineAgent.storeGlobalVariable(
+								retrievedInput.getName2(), retrievedVal);
+						Logger.getLogger(this.getClass()).log(Level.DEBUG,
+								(retrievedInput.getName2()));
 
 						// [itasyurt 18.08.06 ] temporary message to monitoring
 						// TODO: get rid of these monitoring message mechanism
 						Vector<String> messageVector = new Vector<String>();
-						messageVector.add(GuidelineHistoryFrame.CONSULT_PERFORMED);
+						messageVector
+								.add(GuidelineHistoryFrame.CONSULT_PERFORMED);
 						messageVector.add(guidelineStep.getName());
 						messageVector.add(retrievedInput.getName2());
 						messageVector.add(response);
 						guidelineAgent.messageToMonitoring(messageVector);
 						if (!guidelineAgent.showGUI) {
-							stepID = medicallyOrientedAction.getName2().split(":")[0];
-							tr.com.srdc.icardea.careplanengine.agents.afAgent.EngineInterface.sendMonitoringMessage(guidelineAgent.getAID(), stepID, "FINISHED", "" + patientID);
+							stepID = medicallyOrientedAction.getName2().split(
+									":")[0];
+							tr.com.srdc.icardea.careplanengine.agents.afAgent.EngineInterface
+									.sendMonitoringMessage(
+											guidelineAgent.getAID(), stepID,
+											"FINISHED", "" + patientID);
 						}
 					}
 				} catch (Exception exc) {
@@ -327,7 +382,8 @@ public class MedicallyOrientedActionHandler {
 				}
 
 			} else if ((functionality != null)
-				&& (functionality.getConcept_name().equalsIgnoreCase("Wait"))) {
+					&& (functionality.getConcept_name()
+							.equalsIgnoreCase("Wait"))) {
 				// / in this condition wait duration is kept in service_xsd....
 				// TODO: Message to monitoring [itasyurt 25.07.06 ]
 				Integer waitDuration = Integer.parseInt(service_wsdl);
@@ -335,10 +391,10 @@ public class MedicallyOrientedActionHandler {
 				System.gc();
 				for (int i = 0; i < waitDuration; ++i) {
 					Thread.sleep(1000);
-					Logger.getLogger(this.getClass()).log(
-						Level.DEBUG,
-						("Waiting for " + waitDuration
-						+ " seconds Left:" + (waitDuration - i)));
+					Logger.getLogger(this.getClass())
+							.log(Level.DEBUG,
+									("Waiting for " + waitDuration
+											+ " seconds Left:" + (waitDuration - i)));
 				}
 				// [itasyurt 17.08.06 ] temporary message to monitoring
 				Vector<String> messageVector = new Vector<String>();
@@ -364,7 +420,9 @@ public class MedicallyOrientedActionHandler {
 					monitoringMessage.setMonitoringInfo("var name& value");
 
 					Data_Item input = maEntity.getInput();
-					Object retrievedVal = FactoryRetriever.retrieveDataItemValue(guidelineAgent.getGuidelineURI(), input);
+					Object retrievedVal = FactoryRetriever
+							.retrieveDataItemValue(
+									guidelineAgent.getGuidelineURI(), input);
 
 					String inputContent = "";
 					String wsResult = "";
@@ -373,13 +431,13 @@ public class MedicallyOrientedActionHandler {
 						Procedure procedure = (Procedure) retrievedVal;
 						ProcedureEntity entity = new ProcedureEntity(procedure);
 						inputContent = toStringWithDataElementAsRoot(entity,
-							guidelineAgent.getPatientID());
+								guidelineAgent.getPatientID());
 					} else if (retrievedVal instanceof Medication) {
 						Medication medication = (Medication) retrievedVal;
 						MedicationEntity entity = new MedicationEntity(
-							medication);
+								medication);
 						inputContent = toStringWithDataElementAsRoot(entity,
-							guidelineAgent.getPatientID());
+								guidelineAgent.getPatientID());
 					}
 
 					messageVector.add(inputContent);
@@ -406,10 +464,10 @@ public class MedicallyOrientedActionHandler {
 					 */
 
 					wsResult = Client.invokeMedicalWS(guidelineAgent,
-						service_wsdl, inputContent, service_owls,
-						service_xsd);
-					Logger.getLogger(this.getClass()).log(
-						Level.DEBUG, ("Medical WS result:\n" + wsResult));
+							service_wsdl, inputContent, service_owls,
+							service_xsd);
+					Logger.getLogger(this.getClass()).log(Level.DEBUG,
+							("Medical WS result:\n" + wsResult));
 
 				} /*
 				 * else if(maEntity.getIs_critical()) { String patientDataStr =
@@ -445,7 +503,7 @@ public class MedicallyOrientedActionHandler {
 	}
 
 	public static String toStringWithDataElementAsRoot(
-		PatientDataEntity patientDataEntity, String patientID) {
+			PatientDataEntity patientDataEntity, String patientID) {
 		Document doc;
 		StringWriter strWriter = new StringWriter();
 		try {
@@ -465,7 +523,7 @@ public class MedicallyOrientedActionHandler {
 			rootElem.appendChild(patientDataEntity.toXmlElement(doc));
 
 			XMLSerializer serializer = new XMLSerializer(strWriter,
-				new OutputFormat(doc));
+					new OutputFormat(doc));
 			serializer.serialize(doc);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -493,7 +551,7 @@ public class MedicallyOrientedActionHandler {
 			rootElem.appendChild(patientDataElement);
 
 			XMLSerializer serializer = new XMLSerializer(strWriter,
-				new OutputFormat(doc));
+					new OutputFormat(doc));
 			serializer.serialize(doc);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -540,11 +598,15 @@ public class MedicallyOrientedActionHandler {
 			if (object != null && object instanceof Observation) {
 				Observation obs = (Observation) object;
 				if (obs.hasValue()) {
-					Observation_Value val = FactoryRetriever.retrieveObservationValue(guidelineAgent.getGuidelineURI(), obs.getValue());
+					Observation_Value val = FactoryRetriever
+							.retrieveObservationValue(
+									guidelineAgent.getGuidelineURI(),
+									obs.getValue());
 					if (val instanceof Text_Value) {
 						valueStr = ((Text_Value) val).getText();
 					} else if (val instanceof Index) {
-						valueStr = new String(Float.toString((((Index) val).getIndex())));
+						valueStr = new String(Float.toString((((Index) val)
+								.getIndex())));
 					}
 				}
 			}
@@ -557,16 +619,17 @@ public class MedicallyOrientedActionHandler {
 				// keep the variable but remove '$'
 				if (valueStr.equals("1.0") || valueStr.equals("true")) {
 					if (variable.endsWith("Status")) {
-						result = result.replace(result.substring(beginIndex,
-							endIndex), variable.substring(0, variable.length() - 6));
+						result = result.replace(
+								result.substring(beginIndex, endIndex),
+								variable.substring(0, variable.length() - 6));
 					} else {
 						result = result.replaceFirst("\\$", "");
 					}
 					// Logger.getLogger(this.getClass()).log(Level.DEBUG,
 					// ("DEGISTIRDIMMMM: " + result);
 				} else {
-					result = result.replace(result.substring(beginIndex,
-						endIndex + 1), "");
+					result = result.replace(
+							result.substring(beginIndex, endIndex + 1), "");
 					// Logger.getLogger(this.getClass()).log(Level.DEBUG,
 					// ("DEGISTIRDIMMMM2: " + result);
 				}
@@ -581,10 +644,35 @@ public class MedicallyOrientedActionHandler {
 	}
 
 	private String preProcessConsultSentenceValue(String sentence,
-		String patientName, long patientID) {
+			String patientName, long patientID) {
 		int beginIndex, endIndex, endIndex1, endIndex2, endIndex3, endIndex4, endIndex5;
 
 		String result = sentence;
+
+		while (result.contains("PPM:")) {
+			logger.info("There is a link to PPM in the HTML...");
+			beginIndex = result.indexOf("PPM:");
+			endIndex = beginIndex + 8;
+
+			String ppmlink = result.substring(beginIndex, endIndex);
+			char[] ppmLinkArray = ppmlink.toCharArray();
+			char tab = ppmLinkArray[ppmLinkArray.length - 1];
+
+			// 
+			String openid = tr.com.srdc.icardea.platform.service.login.RegistrationModel.getOpenIdStatic();
+			if(openid == null)
+				openid = "https://icardea-server.lksdom21.lks.local/idp/u=xrypa";
+
+			ResourceBundle properties = ResourceBundle.getBundle("icardea");
+			// https://localhost:8443/ppm_v2/view?startup=de.offis.health.icardea.ppm.viewapp
+			String ppmEndpoint = properties.getString("ppm.end");
+			ppmEndpoint += "&scaled=true";
+			ppmEndpoint += "&patientid=" + patientID;
+			ppmEndpoint += "&tab=" + tab;
+			ppmEndpoint += "&openid=" + openid;
+			result = result.replaceAll(ppmlink, ppmEndpoint);
+		}
+
 		while (result.contains(SCRIPTKeyword)) {
 			logger.info("There is a script in the HTML....");
 			String value = " ";
@@ -593,11 +681,14 @@ public class MedicallyOrientedActionHandler {
 
 			int contentBeginIndex = result.indexOf("<content>");
 			int contentEndIndex = result.indexOf("<", contentBeginIndex + 1);
-			String script = result.substring(contentBeginIndex + 9, contentEndIndex);
+			String script = result.substring(contentBeginIndex + 9,
+					contentEndIndex);
 
 			int argumentsBeginIndex = result.indexOf("<arguments>");
-			int argumentsEndIndex = result.indexOf("<", argumentsBeginIndex + 1);
-			String arguments = result.substring(argumentsBeginIndex + 11, argumentsEndIndex);
+			int argumentsEndIndex = result
+					.indexOf("<", argumentsBeginIndex + 1);
+			String arguments = result.substring(argumentsBeginIndex + 11,
+					argumentsEndIndex);
 			arguments = arguments.replaceAll(" ", "");
 			String[] argumentNames = arguments.split(",");
 			List argumentList = new ArrayList();
@@ -611,29 +702,36 @@ public class MedicallyOrientedActionHandler {
 				if (object != null && object instanceof Observation) {
 					Observation obs = (Observation) object;
 					if (obs.hasValue()) {
-						Observation_Value val = FactoryRetriever.retrieveObservationValue(guidelineAgent.getGuidelineURI(), obs.getValue());
+						Observation_Value val = FactoryRetriever
+								.retrieveObservationValue(
+										guidelineAgent.getGuidelineURI(),
+										obs.getValue());
 						if (val instanceof Text_Value) {
 							valueStr = ((Text_Value) val).getText();
 							if (valueStr.equals("THEELEMENTISOBJECT")) {
 								isObject = true;
 							}
 						} else if (val instanceof Index) {
-							valueStr = new String(Float.toString((((Index) val).getIndex())));
+							valueStr = new String(Float.toString((((Index) val)
+									.getIndex())));
 						}
 					}
 				}
 
 				if (isObject) {
 					logger.info("Variable is object:" + variable);
-					object = guidelineAgent.getGlobalVariableObjectValue(variable);
+					object = guidelineAgent
+							.getGlobalVariableObjectValue(variable);
 					argumentList.add(object);
 				} else {
 					argumentList.add(valueStr);
 				}
 			}
-			value = (String) JavaScriptEngine.execute(argumentList.toArray(), script);
+			value = (String) JavaScriptEngine.execute(argumentList.toArray(),
+					script);
 			logger.info("Script Execution Result:" + value);
-			result = result.replace(result.substring(beginIndex, endIndex + 9), value);
+			result = result.replace(result.substring(beginIndex, endIndex + 9),
+					value);
 			logger.info("Result after script execution:" + result);
 		}
 
@@ -676,7 +774,7 @@ public class MedicallyOrientedActionHandler {
 				endIndex = endIndex5;
 			}
 			String variable = result.substring(beginIndex + 1, endIndex);
-			//logger.info("RESULT:\n\n\n" + result);
+			// logger.info("RESULT:\n\n\n" + result);
 			logger.info("VARiable:" + variable);
 			Object object = guidelineAgent.getGlobalVariable(variable);
 			String valueStr = "";
@@ -685,14 +783,18 @@ public class MedicallyOrientedActionHandler {
 			if (object != null && object instanceof Observation) {
 				Observation obs = (Observation) object;
 				if (obs.hasValue()) {
-					Observation_Value val = FactoryRetriever.retrieveObservationValue(guidelineAgent.getGuidelineURI(), obs.getValue());
+					Observation_Value val = FactoryRetriever
+							.retrieveObservationValue(
+									guidelineAgent.getGuidelineURI(),
+									obs.getValue());
 					if (val instanceof Text_Value) {
 						valueStr = ((Text_Value) val).getText();
 						if (valueStr.equals("THEELEMENTISOBJECT")) {
 							isObject = true;
 						}
 					} else if (val instanceof Index) {
-						valueStr = new String(Float.toString((((Index) val).getIndex())));
+						valueStr = new String(Float.toString((((Index) val)
+								.getIndex())));
 					}
 				}
 			}
@@ -702,8 +804,9 @@ public class MedicallyOrientedActionHandler {
 			// Logger.getLogger(this.getClass()).log(Level.DEBUG,
 			// ("BULDUKKKK " + variable + " - " + valueStr);
 
-			result = result.replaceFirst("\\$" + result.substring(beginIndex + 1, endIndex),
-				"<b>" + valueStr + "</b>");
+			result = result.replaceFirst(
+					"\\$" + result.substring(beginIndex + 1, endIndex), "<b>"
+							+ valueStr + "</b>");
 
 			/*
 			 * // now replace text if(!valueStr.equals("")) { // keep the
@@ -737,16 +840,22 @@ public class MedicallyOrientedActionHandler {
 			if (parts[0].equals("caremanagementdb")) {
 				try {
 					if (parts.length > 2) {
-						Object results[] = (new CIEDDataRetriever()).retrieveValue(
-							(new Long(patientID)).toString(), parts[1].substring(2), false, false);
-						if (results != null && results.length > 0 && results[0] != null) {
+						Object results[] = (new CIEDDataRetriever())
+								.retrieveValue(
+										(new Long(patientID)).toString(),
+										parts[1].substring(2), false, false);
+						if (results != null && results.length > 0
+								&& results[0] != null) {
 							valueStr = results[0].toString();
 						}
 
 					} else {
-						String results[] = (new CIEDDataRetriever()).retrieveValue2(
-							(new Long(patientID)).toString(), parts[1].substring(2), false);
-						if (results != null && results.length > 0 && results[0] != null) {
+						String results[] = (new CIEDDataRetriever())
+								.retrieveValue2(
+										(new Long(patientID)).toString(),
+										parts[1].substring(2), false);
+						if (results != null && results.length > 0
+								&& results[0] != null) {
 							valueStr = results[0];
 						}
 					}
@@ -762,7 +871,7 @@ public class MedicallyOrientedActionHandler {
 
 			valueStr += " ";
 			result = result.replace(result.substring(beginIndex, endIndex + 1),
-				"<b>" + valueStr + "</b>");
+					"<b>" + valueStr + "</b>");
 			// if(valueStr.equals("")) {
 			// result = result.replace(result.substring(beginIndex, endIndex),
 			// valueStr);;
@@ -783,8 +892,9 @@ public class MedicallyOrientedActionHandler {
 			String parts[] = variable.split(":");
 			if (parts[0].equals("caremanagementdb")) {
 				try {
-					String results[] = (new CIEDDataRetriever()).retrieveValue2(
-						(new Long(patientID)).toString(), parts[1].substring(2), false);
+					String results[] = (new CIEDDataRetriever())
+							.retrieveValue2((new Long(patientID)).toString(),
+									parts[1].substring(2), false);
 					valueStr = results[0];
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -799,8 +909,10 @@ public class MedicallyOrientedActionHandler {
 			FileOutputStream fos;
 			try {
 				Properties properties = new Properties();
-				properties.load(this.getClass().getClassLoader().getResourceAsStream("icardea.properties"));
-				String pdfReports = properties.getProperty("tomcat.home") + "webapps/ROOT/icardea/pdfReports/";
+				properties.load(this.getClass().getClassLoader()
+						.getResourceAsStream("icardea.properties"));
+				String pdfReports = properties.getProperty("tomcat.home")
+						+ "webapps/ROOT/icardea/pdfReports/";
 				File file2 = new File(pdfReports);
 				file2.mkdirs();
 				File file = new File(pdfReports + fileName + ".pdf");
@@ -815,26 +927,34 @@ public class MedicallyOrientedActionHandler {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			String hostname="";
+			String hostname = "";
 			try {
-			    InetAddress addr = InetAddress.getLocalHost();
-			    hostname = addr.getHostAddress();
-			   
+				InetAddress addr = InetAddress.getLocalHost();
+				hostname = addr.getHostAddress();
+
 			} catch (UnknownHostException e) {
 			}
-			
-			String link = "<a href=\\"+"http://"+hostname+":8080"+"/icardea/pdfReports/" + fileName + ".pdf"
-				+ "\">Exported CIED document<br/><IMG src=\"http://"+hostname+":8080/icardea/pdfReports/" + fileName + ".pdf." + suffix
-				+ "\" width=\"240\" height=\"330\"/></a>";
-			/*String link = "<center><a href=\"http://localhost:"
-			+ ICARDEAConfigurationUtil.TOMCAT_PORT + "/icardea/pdfReports/" + fileName + ".pdf"
-			+ "\">Exported CIED document<br/><IMG src=\"http://localhost:"
-			+ ICARDEAConfigurationUtil.TOMCAT_PORT + "/icardea/pdfReports/a.jpg\" width=\"240\" height=\"330\"/></a></center>";*/
+
+			String link = "<a href=\\" + "http://" + hostname + ":8080"
+					+ "/icardea/pdfReports/" + fileName + ".pdf"
+					+ "\">Exported CIED document<br/><IMG src=\"http://"
+					+ hostname + ":8080/icardea/pdfReports/" + fileName
+					+ ".pdf." + suffix
+					+ "\" width=\"240\" height=\"330\"/></a>";
+			/*
+			 * String link = "<center><a href=\"http://localhost:" +
+			 * ICARDEAConfigurationUtil.TOMCAT_PORT + "/icardea/pdfReports/" +
+			 * fileName + ".pdf" +
+			 * "\">Exported CIED document<br/><IMG src=\"http://localhost:" +
+			 * ICARDEAConfigurationUtil.TOMCAT_PORT +
+			 * "/icardea/pdfReports/a.jpg\" width=\"240\" height=\"330\"/></a></center>"
+			 * ;
+			 */
 			logger.info("Link:" + link);
 			beginIndex = result.indexOf(IMGKeyword, 0);
 			endIndex = result.indexOf('>', beginIndex);
 			result = result.replace(result.substring(beginIndex, endIndex + 1),
-				link);
+					link);
 			// if(valueStr.equals("")) {
 			// result = result.replace(result.substring(beginIndex, endIndex),
 			// valueStr);;
