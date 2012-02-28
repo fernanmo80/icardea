@@ -24,7 +24,6 @@ import org.apache.http.HttpResponse;
 import org.orm.PersistentException;
 import org.orm.PersistentTransaction;
 
-import com.hp.hpl.jena.sparql.util.Base64.InputStream;
 
 import tr.com.srdc.icardea.careplanengine.glif.generator.GlifGenerator;
 import tr.com.srdc.icardea.hibernate.ICardeaPersistentManager;
