@@ -10,15 +10,12 @@ import at.srfg.kmt.ehealth.phrs.presentation.services.InteropProcessor;
 import at.srfg.kmt.ehealth.phrs.presentation.services.UserService;
 import at.srfg.kmt.ehealth.phrs.security.services.AuthorizationService;
 import at.srfg.kmt.ehealth.phrs.security.services.PixService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
-
-import javax.faces.event.ActionEvent;
 import java.io.Serializable;
 import java.util.List;
+import javax.faces.bean.ManagedBean;
+import javax.faces.bean.RequestScoped;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 // View scope complains about Audit client not serializable
 @ManagedBean(name = "interopBean")
 @RequestScoped
@@ -48,6 +45,17 @@ public class MonitorInteropBean implements Serializable {
     public String modify = AuthorizationService.MODIFY_YES;
 
     public MonitorInteropBean() {
+        userService = PhrsStoreClient.getInstance().getPhrsRepositoryClient().getUserService();
+        ownerUri = userService.getOwnerUri();
+        initTools();
+
+        initModelMain();
+
+    }
+
+    public MonitorInteropBean(String theOwnerUri) {
+        userService = PhrsStoreClient.getInstance().getPhrsRepositoryClient().getUserService();
+        ownerUri = theOwnerUri;
         initTools();
 
         initModelMain();
@@ -56,12 +64,12 @@ public class MonitorInteropBean implements Serializable {
 
     private void initTools() {
 
-        userService = PhrsStoreClient.getInstance().getPhrsRepositoryClient().getUserService();
+
         interopProcessor = PhrsStoreClient.getInstance().getInteropProcessor();
         authorizationService = new AuthorizationService();
         toolTransformer = new ReportToolTransformer();
 
-        ownerUri = userService.getOwnerUri();
+
         phrUser = userService.getPhrUser(ownerUri);
         determineStatusPID(phrUser);
 
@@ -74,7 +82,7 @@ public class MonitorInteropBean implements Serializable {
 
     }
 
-    public void initModelMain() {
+    private void initModelMain() {
         LOGGER.debug("START initModelMain for ownerUri=" + getOwnerUri());
         List transformedMsgs = interopProcessor.importNewMessages(
                 getOwnerUri(),
@@ -129,7 +137,7 @@ public class MonitorInteropBean implements Serializable {
     }
 
     public String getPidPix() {
-        if (phrUser != null && phrUser.getProtocolIdPix() != null && ! phrUser.getProtocolIdPix().isEmpty()) {
+        if (phrUser != null && phrUser.getProtocolIdPix() != null && !phrUser.getProtocolIdPix().isEmpty()) {
             return phrUser.getProtocolIdPix();
         }
         return null;
@@ -282,9 +290,9 @@ public class MonitorInteropBean implements Serializable {
     }
 
     public void commandTest() {
-        System.out.println("commandImportMessage commandTest()");
+       
         LOGGER.debug("commandTest()");
-        WebUtil.addFacesMessageSeverityInfo("commandImportMessage", "commandTest(ActionEvent)");
+        WebUtil.addFacesMessageSeverityInfo("commandTest", "commandTest()");
 
     }
 
@@ -293,7 +301,7 @@ public class MonitorInteropBean implements Serializable {
      */
     public void commandImportMessages() {
         try {
-            System.out.println("commandImportMessage");
+            
             LOGGER.debug("Start MonitorPhrItem form action: commandImportMessages for ownerUri=" + getOwnerUri());
             List transformedMsgs = interopProcessor.importNewMessages(
                     getOwnerUri(),
@@ -321,13 +329,12 @@ public class MonitorInteropBean implements Serializable {
         LOGGER.debug("END MonitorPhrItem form action: commandImportMessages for ownerUri=" + getOwnerUri());
         initModelMain();
     }
- 
 
     /**
      * getTransformedNewMessages
      */
     public void commandProcessIdentifier() {
-        System.out.println("commandProcessIdentifier");
+      
         LOGGER.debug("Start commandProcessIdentifier for owner=" + this.getOwnerUri()
                 + " pixQueryType" + this.getPixQueryIdType()
                 + " pixQueryIdUser" + this.getPixQueryIdUser()
@@ -352,7 +359,9 @@ public class MonitorInteropBean implements Serializable {
                 PixService pixService = new PixService();
                 //perform PIX query and update user account
                 String returnPid = pixService.updateProtocolIdFromUserProvidedCiedId(getOwnerUri(), getPixQueryIdUser(), getPixQueryIdType());
-
+                LOGGER.error("updateIdentifiers returnPid value found from updateProtocolIdFromUserProvidedCiedId: returnPid= "+returnPid
+                        + getOwnerUri() + " PixQueryIdType " + getPixQueryIdType() + " PixQueryIdUser" + getPixQueryIdUser());
+                
                 if (returnPid != null && !returnPid.isEmpty()) {
                     outcome = true;
                 }
@@ -360,7 +369,7 @@ public class MonitorInteropBean implements Serializable {
                 //determine status and refresh new user account
                 determineStatusPID();
             } else {
-                LOGGER.error("updateIdentifiers Null value found: updateIdentifiers Start updateProtocolIdFromUserProvidedCiedId "
+                LOGGER.error("updateIdentifiers Null value found: updateIdentifiers from updateProtocolIdFromUserProvidedCiedId "
                         + getOwnerUri() + " PixQueryIdType " + getPixQueryIdType() + " PixQueryIdUser" + getPixQueryIdUser());
             }
         } catch (Exception e) {
