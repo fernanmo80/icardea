@@ -34,11 +34,25 @@
                         <p:commandButton value="Command Test check log" 
                                          ajax="false"
                                          image="ui-icon-plus" 
-                                         actionListener="#{interopBean.commandTest}"/>
-                    </h:form> 
+                                         actionListener="#{vtestBean.commandTest}"/>
+                    </h:form>
+
                     <h:form>
-                        <p:commandButton value="Load Meds vtestBean"
-                                         ajax="false"
+                        <p:commandButton value="Load Meds loginBean"
+                                         immediate="true"
+                                         image="ui-icon-plus"
+                                         actionListener="#{loginBean.loadInterop}"/>
+                    </h:form>
+                    <h:form>
+                        <p:commandButton value="Load Vitals"
+                                         immediate="true" onclick=""
+                                         image="ui-icon-plus"
+                                         actionListener="#{loginBean.loadTestData}"/>
+                    </h:form>
+
+                    <h:form>
+                        <p:commandButton value="Load Meds vtestBean (error)"
+                                         immediate="true"
                                          image="ui-icon-plus"
                                          actionListener="#{vtestBean.loadInterop}"/>
                     </h:form>
@@ -46,7 +60,7 @@
                         <p:commandButton ajax="false"
                                          value="Import Messages"
                                          image="ui-icon-plus"
-                                         actionListener="#{interopBean.commandImportMessages}"
+                                         actionListener="#{vtestBean.commandImportMessages}"
                                          />
                         Import any available records from the Hospital for test patient
                     </h:form>
@@ -55,30 +69,31 @@
                 </p:toolbarGroup>
 
             </p:toolbar>
+
             
             
             <h:form>
-                <h:panelGrid columns="3" border="1" style="border-style:thick solid;border-color:grey;">
-
-                    <h:outputLabel value="Status of your CIED and Patient Identifiers"/>
+                <h:panelGrid columns="3" border="1" style="border-style:solid;border-color:grey;">
+       
+                    <h:outputLabel value="Query (no update) VT TEST User CIED and Patient Identifier"/>
                     <h:outputLabel value="ID Type"/>
                     <h:outputLabel value="Code"/>
 
                     <h:panelGroup>                      
                         <p:commandButton  ajax="false"
                                           value="Update"
-                                          rendered="#{interopBean.allowCommandIdentify}"
+                                          rendered="#{vtestBean.allowCommandIdentify}"
                                           title="Submit"
                                           image="ui-icon-arrowrefresh-1-w"
-                                          actionListener="#{interopBean.commandProcessIdentifier}"
+                                          actionListener="#{vtestBean.commandProcessIdentifier}"
                                           />
-                        <h:outputLabel value="#{interopBean.statusMessagePid}"/>
+                        <h:outputLabel value="#{vtestBean.statusMessagePid}"/>
                     </h:panelGroup> 
 
                     <h:panelGroup>                
-                        <h:selectOneMenu value="#{interopBean.pixQueryIdType}"
+                        <h:selectOneMenu value="#{vtestBean.pixQueryIdType}"
                                          id="field_pixQueryIdType_input"
-                                         rendered="#{interopBean.modify eq 'yes'}"
+                                         rendered="#{vtestBean.modify eq 'yes'}"
                                          required="true">
 
                             <f:selectItem itemLabel="Please Select Identifier type..." noSelectionOption="true"
@@ -94,7 +109,7 @@
 
 
                     <h:panelGroup> 
-                        <p:inputText value="#{interopBean.pixQueryIdUser}"
+                        <p:inputText value="#{vtestBean.pixQueryIdUser}"
                                      id="field_pixQueryIdUser_input"
                                      required="true" 
                                      requiredMessage="#{labels['default_required_field']}"/>
@@ -103,9 +118,10 @@
                     </h:panelGroup>
 
 
+
+
                 </h:panelGrid>
             </h:form>
-            
         </p:fieldset>
 
 
