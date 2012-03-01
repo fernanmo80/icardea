@@ -25,7 +25,7 @@ public class SMSSenderService {
 	public static void main(String[] args) {
 		SMSSenderService s = new SMSSenderService();
 		//s.sendSMS("00905058668960", "Sample message content");
-		s.sendSMS("+905052319177", "Sample message content");
+		s.sendSMS("0905058668960", "Sample message content");
 	}
 
 	public static String sendSMS(String telephone, String messagebody) {
