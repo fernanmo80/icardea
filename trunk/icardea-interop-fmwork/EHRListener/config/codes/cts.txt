@@ -1,0 +1,3 @@
+ZL-561^Erythrocytenzahl^GLIMS|26091008^1GOT (AST)^2.16.840.1.113883.6.96
+ZL-562^Hämoglobin^GLIMS|13530-1^1Red Blood Cell Count measurement^2.16.840.1.113883.6.1
+266287006^Hypertension^2.16.840.1.113883.6.96|266287006^Hypertension2^2.16.840.1.113883.6.96
