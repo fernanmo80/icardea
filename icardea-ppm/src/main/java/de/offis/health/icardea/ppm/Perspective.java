@@ -42,7 +42,8 @@ public class Perspective implements IPerspectiveFactory {
 
 		if (request!=null)
 		{	
-			ppmDataset.setCallerUrl(getUrlUsedPara(request));
+			//ppmDataset.setCallerUrl(getUrlUsedPara(request));
+			ppmDataset.setCallerUrl(getUrlUsedParaWihtoutCache(request));
 			updatePPmDataset(request);
 
 			if (request.getParameter("patientid")!=null){
@@ -149,7 +150,6 @@ public class Perspective implements IPerspectiveFactory {
 		for (Parameter p:paramList) {
 
 			if(p.getKey().equalsIgnoreCase("patientid")|| 
-					p.getKey().equalsIgnoreCase("startup")||
 					p.getKey().equalsIgnoreCase("openid")||
 					p.getKey().equalsIgnoreCase("startup")||
 					p.getKey().equalsIgnoreCase("scaled")
