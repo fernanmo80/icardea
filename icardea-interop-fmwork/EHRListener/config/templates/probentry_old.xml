@@ -1,0 +1,29 @@
+<entry>
+	<act classCode="ACT" moodCode="EVN">
+		<templateId root='2.16.840.1.113883.10.20.1.27'/>
+		<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.5.1'/>
+		<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.5.2'/>
+		<code nullFlavor="NA"/>
+		<statusCode code="active"/>
+		<effectiveTime>
+			<low value="TMP_PROB_DATE_LOW"/>
+			<high value="TMP_PROB_DATE_HIGH"/>
+		</effectiveTime>
+		<entryRelationship typeCode="SUBJ">
+			<observation classCode='OBS' moodCode='EVN' negationInd='false'>
+				<templateId root='2.16.840.1.113883.10.20.1.28'/>
+				<templateId root='1.3.6.1.4.1.19376.1.5.3.1.4.5'/>
+				<code code='TMP_PROB_TYPECODE' displayName='TMP_PROB_TYPEDESCR'
+									  codeSystem='2.16.840.1.113883.6.96' codeSystemName='SNOMED CT'/>
+				<!--code code='TMP_PROB_CODE' displayName='TMP_PROB_CODE_DISPLAY'
+									codeSystem='TMP_PROB_CODINGSYSTEM' codeSystemName='TMP_PROB_CODINGSYSTEMNAME'/-->
+				<text><reference value=''/></text>
+				<statusCode code='TMP_PROB_STATUS'/>
+				<value xsi:type='TMP_PROB_XSITYPE' code='TMP_PROB_VALUE_CODE' 
+									codeSystem='TMP_PROB_VALUE_CODINGSYSTEM' displayName='TMP_PROB_VALUE_DISPLAYNAME' codeSystemName='TMP_PROB_VALUE_CODINGSYSTEMNAME'>
+					<originalText><reference value=' '/></originalText>
+				</value>
+			</observation>
+		</entryRelationship>
+	</act>
+</entry>
