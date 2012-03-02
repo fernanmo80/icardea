@@ -160,7 +160,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -223,28 +223,28 @@
 				<td>Renal insufficiency or renal failure:</td>
 				<td>
 				  $RenalInsufficiency
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				  <a href="PPM:TAB4">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Heart failure:</td>
 				<td>
 				  $HeartFailure
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				   <a href="PPM:TAB4">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Diabetes:</td>
 				<td>
 				  $Diabetes
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				   <a href="PPM:TAB4">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Atrial arrhythmia:</td>
 				<td>
 				  $AtrialArrhythmia
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				   <a href="PPM:TAB4">Access to EHR</a>
 				</td>
 			  </tr>			  
 			</tbody>
@@ -317,7 +317,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -426,7 +426,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -535,7 +535,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -628,7 +628,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -730,7 +730,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -834,7 +834,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -944,7 +944,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -1035,7 +1035,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -1104,7 +1104,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -1229,7 +1229,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -1270,42 +1270,43 @@
 			    <td>Vomit</td>
 			    <td>
 			      $Vomit
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to PHR</a>
+			      <a href="PPM:TAB4">Access to PHR</a> 
+				  <br />
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Diarrhea</td>
 			    <td>
 			      $Diarrhea
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to PHR</a>
+			      <a href="PPM:TAB4">Access to PHR</a> 
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Chest Pain</td>
 			    <td>
 			      $ChestPain
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to PHR</a>
+			      <a href="PPM:TAB4">Access to PHR</a> 
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Shortness of Breath</td>
 			    <td>
 			      $ShortnessofBreath
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to PHR</a>
+			      <a href="PPM:TAB4">Access to PHR</a> 
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Weight Gain</td>
 			    <td>
 			      $WeightGain
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to PHR</a>
+			      <a href="PPM:TAB4">Access to PHR</a> 
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Fever</td>
 			    <td>
 			      $Fever
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to PHR</a>
+			      <a href="PPM:TAB4">Access to PHR</a> 
 			    </td>
 			  </tr>
 
@@ -1370,7 +1371,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -1447,7 +1448,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -1591,7 +1592,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -1633,7 +1634,7 @@
 			    <td>Potassium</td>
 			    <td>
 			      $Potassium
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to EHR</a>
+			       <a href="PPM:TAB4">Access to EHR</a>
 			    </td>
 			    <td>3.9-5.4 U/l</td>
 			  </tr>
@@ -1641,7 +1642,7 @@
 			    <td>Hemoglobin</td>
 			    <td>
 			      $Hemoglobin
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to EHR</a>
+			       <a href="PPM:TAB4">Access to EHR</a>
 			    </td>
 			    <td>11.7-15.7 U/l</td>
 			  </tr>
@@ -1649,7 +1650,7 @@
 			    <td>Sodium</td>
 			    <td>
 			      $Sodium
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to EHR</a>
+			       <a href="PPM:TAB4">Access to EHR</a>
 			    </td>
 			    <td>135-148 U/l</td>
 			  </tr>
@@ -1657,7 +1658,7 @@
 			    <td>Chloride</td>
 			    <td>
 			      $Chloride
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to EHR</a>
+			       <a href="PPM:TAB4">Access to EHR</a>
 			    </td>
 			    <td>97-108 U/l</td>
 			  </tr>
@@ -1665,7 +1666,7 @@
 			    <td>Creatinine</td>
 			    <td>
 			      $Creatinine
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to EHR</a>
+			       <a href="PPM:TAB4">Access to EHR</a>
 			    </td>
 			    <td>0.5-1.1 U/l</td>
 			  </tr>
@@ -1673,7 +1674,7 @@
 			    <td>Troponin</td>
 			    <td>
 			      $Troponin
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to EHR</a>
+			       <a href="PPM:TAB4">Access to EHR</a>
 			    </td>
 			    <td>should be less than 14 U/l</td>
 			  </tr>
@@ -1693,28 +1694,28 @@
 				<td>Renal insufficiency or renal failure:</td>
 				<td>
 				  $RenalInsufficiency
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				   <a href="PPM:TAB4">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Heart failure:</td>
 				<td>
 				  $HeartFailure
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				   <a href="PPM:TAB4">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Diabetes:</td>
 				<td>
 				  $Diabetes
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				   <a href="PPM:TAB4">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Atrial arrhythmia:</td>
 				<td>
 				  $AtrialArrhythmia
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				   <a href="PPM:TAB4">Access to EHR</a>
 				</td>
 			  </tr>			  
 			</tbody>
@@ -1775,7 +1776,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -1846,7 +1847,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -1917,7 +1918,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -1993,7 +1994,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -2033,7 +2034,7 @@
 			<tr>
 			  <td>Congenital Heart Disease</td>
 			  <td>
-			    $CongenitalHeartDisease <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0041582">Link to EHR</a>
+			    $CongenitalHeartDisease  <a href="PPM:TAB4">Access to EHR</a>
 			  </td>
 			</tr>
 
@@ -2171,7 +2172,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -2248,56 +2249,56 @@
 			  <td> <font color="#880015">
 			    $LVDysfunction
 				</font>
-			    <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0041582">Link to EHR</a>
+			     <a href="PPM:TAB4">Access to EHR</a>
 			  </td>
 			</tr>
 			<tr>
 			  <td>Dilated Cardiomyopathy</td>
 			  <td>
 			    $DilatedCardiomyopathy
-			    <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0948059">Link to EHR</a>
+			     <a href="PPM:TAB4">Access to EHR</a>
 			  </td>
 			</tr>
 			<tr>
 			  <td>Hypertrophic Cardiomyopathy</td>
 			  <td>
 			    $HypertrophicCardiomyopathy
-			    <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0023895">Link to EHR</a>
+			     <a href="PPM:TAB4">Access to EHR</a>
 			  </td>
 			</tr>
 			<tr>
 			  <td>Arrhythmogenic Right Ventricular</td>
 			  <td>
 			    $ArrhythmogenicRightVentricular
-			    <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0023895">Link to EHR</a>
+			     <a href="PPM:TAB4">Access to EHR</a>
 			  </td>
 			</tr>
 			<tr>
 			  <td>Long QT Syndrome</td>
 			  <td>
 			    $LongQTSyndrome
-			    <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0023895">Link to EHR</a>
+			     <a href="PPM:TAB4">Access to EHR</a>
 			  </td>
 			</tr>
 			<tr>
 			  <td>Brugada Syndrome</td>
 			  <td>
 			    $BrugadaSyndrome
-			    <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0023895">Link to EHR</a>
+			     <a href="PPM:TAB4">Access to EHR</a>
 			  </td>
 			</tr>
 			<tr>
 			  <td>Valvular Heart Disease</td>
 			  <td>
 			    $ValvularHeartDisease
-			    <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0023895">Link to EHR</a>
+			     <a href="PPM:TAB4">Access to EHR</a>
 			  </td>
 			</tr>
 			<tr>
 			  <td>Heart Failure</td>
 			  <td>
 			    $HeartFailure
-			    <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0023895">Link to EHR</a>
+			     <a href="PPM:TAB4">Access to EHR</a>
 			  </td>
 			</tr>
 		      </tbody>
@@ -2365,7 +2366,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -2441,7 +2442,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -2491,7 +2492,7 @@
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 			<br />
-			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
@@ -2596,7 +2597,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -2667,7 +2668,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -2733,7 +2734,7 @@
 		  <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		  <br/>
 		  Last Follow-up Date:<data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/>
-		  <a href="http://link.to.care.management.db">Access to previous Remote follow-up results</a>
+		  <a href="PPM:TAB1">Access to previous Remote follow-up results</a>
 		  <br/>
 		</td>
 	      </tr>
@@ -2835,7 +2836,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -2921,7 +2922,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -3007,7 +3008,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -3100,7 +3101,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -3204,7 +3205,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -3316,7 +3317,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -3404,7 +3405,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -3504,7 +3505,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -3596,7 +3597,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -3669,7 +3670,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -3778,7 +3779,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -3876,7 +3877,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -3982,7 +3983,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
@@ -4093,7 +4094,7 @@
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
 		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
 			to previous Remote follow-up results</a> </p>
 
 		    <p><br />
