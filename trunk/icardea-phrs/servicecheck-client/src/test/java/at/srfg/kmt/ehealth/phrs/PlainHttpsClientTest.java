@@ -30,6 +30,7 @@ public class PlainHttpsClientTest {
     static File tsFile;
     static String tsPassword;
     static PropertiesConfiguration icardeaConfig;
+    static PropertiesConfiguration phrsConfig;
     static Set<URL> testURLs = new HashSet<URL>();
 
     @BeforeClass
@@ -38,7 +39,7 @@ public class PlainHttpsClientTest {
 
 
         try {
-            icardeaConfig = new PropertiesConfiguration("../phrweb/src/main/resources/icardea.properties");
+            icardeaConfig = new PropertiesConfiguration("icardea.properties");
             LOGGER.info("Config input" + icardeaConfig);
             Iterator<String> it = icardeaConfig.getKeys();
 
@@ -52,9 +53,22 @@ public class PlainHttpsClientTest {
                     LOGGER.info("--> {} ignored", key);
                 }
             }
+
+            phrsConfig = new PropertiesConfiguration(new File("../phrweb/src/main/resources/phrs.properties"));
+            LOGGER.info("Config input" + phrsConfig);
+            String pixUrlStr = "https://" + phrsConfig.getString("pix.host") + ":" + phrsConfig.getString("pix.port");
+            try {
+                testURLs.add(new URL(pixUrlStr));
+                LOGGER.info("-> pix.host/pix.port added to test ({})", pixUrlStr);
+            } catch (MalformedURLException ex) {
+                LOGGER.info("--> pix.host/pix.port ignored");
+            }
+
+
         } catch (ConfigurationException e) {
             LOGGER.error("ConfigurationService error", e);
         }
+
 
         tsPassword = "icardea";
         tsFile = new File(".." + File.separator
@@ -77,7 +91,7 @@ public class PlainHttpsClientTest {
     }
 
     /**
-     * Test of httpsConnect method, of class PlainHttpsClient.
+     * Test of connect method, of class PlainHttpsClient.
      */
     @Test
     public void testTrustStore() {
@@ -129,7 +143,7 @@ public class PlainHttpsClientTest {
     }
 
     /**
-     * Test of socket httpsConnect method, of class PlainHttpsClient.
+     * Test of socket connect method, of class PlainHttpsClient.
      */
     @Test
     public void testSocketConnect() throws Exception {
@@ -142,15 +156,14 @@ public class PlainHttpsClientTest {
                 LOGGER.info("testing {}:{}", host, port);
                 allOK = PlainHttpsClient.socketConnect(host, port);
             } else {
-                LOGGER.info("testing {}:{}", host, 80);
-                allOK = PlainHttpsClient.socketConnect(host, 80);
+                LOGGER.info("skipped testing {}", serverURL);
             }
         }
         assert allOK;
     }
 
     /**
-     * Test of httpsConnect method, of class PlainHttpsClient.
+     * Test of connect method, of class PlainHttpsClient.
      */
     @Test
     public void testHttpsConnect() throws Exception {
@@ -159,7 +172,7 @@ public class PlainHttpsClientTest {
         for (URL serverURL : testURLs) {
             if (serverURL.getProtocol().equals("https")) {
                 LOGGER.info("testing {}", serverURL);
-                allOK = PlainHttpsClient.httpsConnect(serverURL);
+                allOK = PlainHttpsClient.connect(serverURL);
             } else {
                 LOGGER.info("skipped testing {}", serverURL);
             }
@@ -169,13 +182,11 @@ public class PlainHttpsClientTest {
     }
 
     /**
-     * Test of httpsConnect method, of class PlainHttpsClient.
+     * Test of connect method, of class PlainHttpsClient.
      */
     @Test
     public void testSendUDP() throws Exception {
-        int eifPort = Integer.valueOf(icardeaConfig.getProperty("eif.port").toString());
-        String eifServer = icardeaConfig.getProperty("eif.host").toString();
-        LOGGER.info("testing to send to {}:{}", eifServer, eifPort);
-        assert PlainHttpsClient.sendUDP(eifServer, eifPort);
+        LOGGER.info("checking udp port reachabilty: {}:{}", "localhost", 44444);
+        assert PlainHttpsClient.sendUDP("localhost", 44444);
     }
 }
