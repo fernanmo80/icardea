@@ -658,9 +658,10 @@ public class MedicallyOrientedActionHandler {
 			char[] ppmLinkArray = ppmlink.toCharArray();
 			char tab = ppmLinkArray[ppmLinkArray.length - 1];
 
-			// 
-			String openid = tr.com.srdc.icardea.platform.service.login.RegistrationModel.getOpenIdStatic();
-			if(openid == null)
+			//
+			String openid = tr.com.srdc.icardea.platform.service.login.RegistrationModel
+					.getOpenIdStatic();
+			if (openid == null)
 				openid = "https://icardea-server.lksdom21.lks.local/idp/u=xrypa";
 
 			ResourceBundle properties = ResourceBundle.getBundle("icardea");
@@ -920,7 +921,7 @@ public class MedicallyOrientedActionHandler {
 				fos = new FileOutputStream(pdfReports + fileName + ".pdf");
 				fos.write(decodedPDF);
 				fos.close();
-				suffix = extractImages(file.getAbsolutePath());
+				//suffix = extractImages(file.getAbsolutePath());
 			} catch (FileNotFoundException e) {
 				logger.info("File Not Found!!");
 				e.printStackTrace();
@@ -935,31 +936,23 @@ public class MedicallyOrientedActionHandler {
 			} catch (UnknownHostException e) {
 			}
 
-			String link = "<a href=\\" + "http://" + hostname + ":8080"
+			/*String link = "<a href=\\" + "http://" + hostname + ":8080"
 					+ "/icardea/pdfReports/" + fileName + ".pdf"
 					+ "\">Exported CIED document<br/><IMG src=\"http://"
 					+ hostname + ":8080/icardea/pdfReports/" + fileName
 					+ ".pdf." + suffix
-					+ "\" width=\"240\" height=\"330\"/></a>";
-			/*
-			 * String link = "<center><a href=\"http://localhost:" +
-			 * ICARDEAConfigurationUtil.TOMCAT_PORT + "/icardea/pdfReports/" +
-			 * fileName + ".pdf" +
-			 * "\">Exported CIED document<br/><IMG src=\"http://localhost:" +
-			 * ICARDEAConfigurationUtil.TOMCAT_PORT +
-			 * "/icardea/pdfReports/a.jpg\" width=\"240\" height=\"330\"/></a></center>"
-			 * ;
-			 */
+					+ "\" width=\"240\" height=\"330\"/></a>";*/
+			
+			String link = "<a href=\\" + "http://" + hostname + ":8080"
+					+ "/icardea/pdfReports/" + fileName + ".pdf"
+					+ "\">Exported CIED document<br/><IMG src=\"http://"
+					+ hostname + ":8080/icardea/guidelines/icardea/cardio.jpg\" width=\"240\" height=\"330\"/></a>";
+
 			logger.info("Link:" + link);
 			beginIndex = result.indexOf(IMGKeyword, 0);
 			endIndex = result.indexOf('>', beginIndex);
 			result = result.replace(result.substring(beginIndex, endIndex + 1),
 					link);
-			// if(valueStr.equals("")) {
-			// result = result.replace(result.substring(beginIndex, endIndex),
-			// valueStr);;
-			// }
-
 		}
 
 		return result;
