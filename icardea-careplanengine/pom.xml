@@ -109,6 +109,8 @@
 												<include>ManagementofVT-2.mcpd</include>
 												<include>ManagementofVT-2.cp</include>
 												<include>ManagementofVT-2.dgr</include>
+												<include>cardio.jpg</include>
+												<include>cardio.png</include>
 											</includes>
 										</resource>
 									</resources>
