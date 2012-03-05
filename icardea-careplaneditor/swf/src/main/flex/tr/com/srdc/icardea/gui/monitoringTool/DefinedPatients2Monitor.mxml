@@ -45,7 +45,7 @@
         import com.kapit.diagram.view.DiagramView;
         
         [Bindable]
-		public var assignments:ArrayCollection = new ArrayCollection;
+		public var assignments:ArrayCollection;
 		[Bindable]
 		public var mcp:MedicalCareplan;
 		[Bindable]
@@ -54,6 +54,7 @@
       
        public function init():void
        {
+       		assignments = new ArrayCollection;
        		var service : RemoteObject = new RemoteObject("subscriptionService");
 			var cs:ChannelSet = new ChannelSet();
 			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
