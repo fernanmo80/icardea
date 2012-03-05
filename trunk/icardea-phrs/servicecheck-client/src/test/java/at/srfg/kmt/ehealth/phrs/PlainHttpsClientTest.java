@@ -172,7 +172,7 @@ public class PlainHttpsClientTest {
         for (URL serverURL : testURLs) {
             if (serverURL.getProtocol().equals("https")) {
                 LOGGER.info("testing {}", serverURL);
-                allOK = PlainHttpsClient.connect(serverURL);
+                allOK = PlainHttpsClient.httpsConnect(serverURL);
             } else {
                 LOGGER.info("skipped testing {}", serverURL);
             }
