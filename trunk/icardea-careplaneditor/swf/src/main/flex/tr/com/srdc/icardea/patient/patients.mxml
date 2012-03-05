@@ -49,8 +49,7 @@
         public var subPatient:subscription;
         [Bindable]
         public var slist:subscriptionList;
-        [Bindable]
-        public var val:patientRegistration;
+       
         [Bindable]
 		public var caregivers:Caregivers;
 		
@@ -70,8 +69,8 @@
 			service.addEventListener(FaultEvent.FAULT, onFault);
 			
 			service.listRegisteredPatients(); */
-			this.control = new PatientControlImp(this.model);
-			this.control.listRegisteredPatients();
+			//this.control = new PatientControlImp(this.model);
+			//this.control.listRegisteredPatients();
        }
        public function onResultRegisteredPatients(result:ResultEvent):void 
        {
@@ -86,7 +85,7 @@
        }
        public function newPatient():void
        {
-       		var newPop:patientRegistration = new patientRegistration;
+       		/* var newPop:patientRegistration = new patientRegistration;
         	
         	var patient:Patient = new Patient;
         	newPop.newPatient=patient;
@@ -94,11 +93,11 @@
         	
         	
            	PopUpManager.addPopUp(newPop, this,true);
-        	PopUpManager.centerPopUp(newPop);
+        	PopUpManager.centerPopUp(newPop); */
        }
        public function editPatient():void
         {
-        	var newPop:patientRegistration = new patientRegistration;
+        	/* var newPop:patientRegistration = new patientRegistration;
         	for(var i:int=0;i<this.model.patients.length;i++)
         	{
         		if(dgrid.selectedItem.name==this.model.patients.getItemAt(i).name && dgrid.selectedItem.personID==this.model.patients.getItemAt(i).personID )
@@ -108,7 +107,7 @@
         	}
         	newPop.control = this.control;
          	PopUpManager.addPopUp(newPop, this,true);
-            PopUpManager.centerPopUp(newPop);
+            PopUpManager.centerPopUp(newPop); */
            
         }
                 
