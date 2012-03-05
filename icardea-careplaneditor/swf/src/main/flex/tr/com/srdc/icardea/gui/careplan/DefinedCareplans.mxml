@@ -31,6 +31,8 @@
 		private var mcp:MedicalCareplan;
 		[Bindable]
 		private var carePlanEditor:CarePlanEditor;
+		[Bindable]
+		public var assignPop:assignPatient;
 		   
         public function initializeGrid():void
         {	this.control = new CareplanControlImp(this.model);
@@ -113,24 +115,24 @@
        	}
        	private function onResultRegisteredPatients(result:ResultEvent):void 
        	{
-       		var assignPop:assignPatient = new assignPatient;
+       		assignPop = new assignPatient;
         	
-        	trace((result.result as ArrayCollection).length);
-        	for(var i:int =0; i< (result.result as ArrayCollection).length;i++)
-        	{
-        		(assignPop.arr as ArrayCollection).addItem((result.result as ArrayCollection).getItemAt(i));
-        	}
-        	assignPop.arr = result.result as ArrayCollection;
-        	assignPop.sparent=this;
-        	PopUpManager.addPopUp(assignPop, this,true);
-        	PopUpManager.centerPopUp(assignPop);
-       		
-       		
+        	//trace((result.result as ArrayCollection).length);
+        	if (result != null && result.result != null){
+        		for(var i:int =0; i< (result.result as ArrayCollection).length;i++)
+	        	{
+	        		(assignPop.arr as ArrayCollection).addItem((result.result as ArrayCollection).getItemAt(i));
+	        	}
+	        	assignPop.arr = result.result as ArrayCollection;
+	        	assignPop.sparent=this;
+	        	PopUpManager.addPopUp(assignPop, this,true);
+	        	PopUpManager.centerPopUp(assignPop);
+	        }
        	} 
        
       	private function onFault(fault:FaultEvent):void 
        	{
-       		Alert.show(fault.fault.faultString);	
+       		Alert.show(fault.fault.name +"\n" + fault.fault.message, "Error");
        	}
         
         

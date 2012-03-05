@@ -65,37 +65,35 @@
 			
 	   }
       
-       public function onResultRegisteredPatients(result:ResultEvent):void {
-       	trace("patients: "+ (result.result as ArrayCollection).length);
-       	
-       	trace("assignedCareplans"+((((result.result as ArrayCollection).getItemAt(1) as Patient).assignedCareplans.getItemAt(0)) as MedicalCareplan).careplan);
-       	//assignments = result.result as ArrayCollection;
-       	
-     	for(var i:int = 0; i< (result.result as ArrayCollection).length;i++)
-     	{
-			for(var j:int = 0; j< ((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.length;j++)
-			{
-				var obj:Object = new Object;
-				obj.personID=((result.result as ArrayCollection).getItemAt(i) as Patient).personID;
-				obj.gender=((result.result as ArrayCollection).getItemAt(i) as Patient).gender;
-				obj.dateOfBirth=((result.result as ArrayCollection).getItemAt(i) as Patient).dateOfBirth;
-				if((obj.dateOfBirth as String).charAt(4) != "-")
-					obj.dateOfBirth = (obj.dateOfBirth as String).substring(0,4).concat("-").concat((obj.dateOfBirth as String).substring(4,6)).concat("-").concat((obj.dateOfBirth as String).substring(6,8));
-				obj.name=((result.result as ArrayCollection).getItemAt(i) as Patient).name;
-				obj.surname = ((result.result as ArrayCollection).getItemAt(i) as Patient).surname;
-				obj.careplanName = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).name;
-				obj.careplanID = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).id;
-				obj.body = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).body;
-				obj.header = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).header;
-				obj.careplan = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).careplan;
-				obj.diagram = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).diagram;
-				obj.version = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).version;
-				obj.status = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).status;
-				obj.url = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).url;
-				assignments.addItem(obj);
-			}
-		}    
-       	
+       public function onResultRegisteredPatients(result:ResultEvent):void 
+       {
+       		
+	        if (result != null && result.result != null){
+		       	for(var i:int = 0; i< (result.result as ArrayCollection).length;i++)
+		     	{
+					for(var j:int = 0; j< ((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.length;j++)
+					{
+						var obj:Object = new Object;
+						obj.personID=((result.result as ArrayCollection).getItemAt(i) as Patient).personID;
+						obj.gender=((result.result as ArrayCollection).getItemAt(i) as Patient).gender;
+						obj.dateOfBirth=((result.result as ArrayCollection).getItemAt(i) as Patient).dateOfBirth;
+						if((obj.dateOfBirth as String).charAt(4) != "-")
+							obj.dateOfBirth = (obj.dateOfBirth as String).substring(0,4).concat("-").concat((obj.dateOfBirth as String).substring(4,6)).concat("-").concat((obj.dateOfBirth as String).substring(6,8));
+						obj.name=((result.result as ArrayCollection).getItemAt(i) as Patient).name;
+						obj.surname = ((result.result as ArrayCollection).getItemAt(i) as Patient).surname;
+						obj.careplanName = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).name;
+						obj.careplanID = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).id;
+						obj.body = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).body;
+						obj.header = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).header;
+						obj.careplan = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).careplan;
+						obj.diagram = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).diagram;
+						obj.version = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).version;
+						obj.status = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).status;
+						obj.url = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).url;
+						assignments.addItem(obj);
+					}
+				}    	
+	       	} 
        }
        public function onFault(fault:FaultEvent):void 
    	   {

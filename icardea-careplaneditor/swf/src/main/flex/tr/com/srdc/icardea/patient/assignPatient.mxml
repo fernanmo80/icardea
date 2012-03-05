@@ -23,6 +23,13 @@
 
     <mx:Script>
 		<![CDATA[
+			import mx.controls.Alert;
+			import mx.rpc.events.ResultEvent;
+			import mx.rpc.events.FaultEvent;
+			import mx.messaging.channels.SecureAMFChannel;
+			import mx.messaging.Channel;
+			import mx.messaging.ChannelSet;
+			import mx.rpc.remoting.RemoteObject;
 			import tr.com.srdc.icardea.gui.careplan.DefinedCareplans;
 			import tr.com.srdc.icardea.model.careplan.MedicalCareplan;
 			import mx.controls.PopUpButton;
@@ -46,8 +53,25 @@
 			else	
 				(dgrid.selectedItem as Patient).assignedCareplans.addItem(sparent.dgrid.selectedItem as MedicalCareplan);
 			trace((dgrid.selectedItem as Patient).assignedCareplans);
-			PopUpManager.removePopUp(this);
+			var service : RemoteObject = new RemoteObject("subscriptionService");
+			var cs:ChannelSet = new ChannelSet();
+			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+			cs.addChannel(customChannel);
+			service.channelSet = cs;
+			service.addEventListener(ResultEvent.RESULT,onAssignCareplans2Patient);
+			service.addEventListener(FaultEvent.FAULT, onFault);
+			service.assignCareplan2Patient((dgrid.selectedItem as Patient).assignedCareplans, (dgrid.selectedItem as Patient).personID);
+			
 		}
+		private function onAssignCareplans2Patient(result:ResultEvent):void 
+       	{
+       		PopUpManager.removePopUp(this);
+       	} 
+       
+      	private function onFault(fault:FaultEvent):void 
+       	{
+       		Alert.show(fault.fault.name +"\n" + fault.fault.message, "Error");
+       	}
 		private function cancel():void{
 			PopUpManager.removePopUp(this);
 		}
