@@ -286,7 +286,7 @@ public class PatientSubscriptionServiceImp implements
 		return personInDB;
 	}
 
-	private PersonalizedMedicalCareplan[] assignCareplan2Patient(
+	public synchronized PersonalizedMedicalCareplan[] assignCareplan2Patient(
 		List<MedicalCareplan> assignedCareplans, String patientId) {
 		sslSetup();
 		try {
@@ -514,40 +514,40 @@ public class PatientSubscriptionServiceImp implements
 
 			System.out.println(" $$$ Patients size:" + patients.length);
 			// TODO: Delete in the future
-			if (patients.length == 0) {
-				patients = new tr.com.srdc.icardea.hibernate.Patient[2];
-				System.out.println(" $$$ Adding demo data");
-				patients[0] = addPatient("190", "Andreas", "Schmidt",
-					"1953-01-04", "M");
-				patients[1] = addPatient("191", "Suzie", "Mayr", "1973-04-22",
-					"F");
-
-				addPerson("190", "Andreas", "Schmidt");
-				tr.com.srdc.icardea.hibernate.Person jane = addPerson("191", "Suzie", "Mayr");
-				Contact contact = new Contact();
-				contact.setEmail("eliferylmz@gmail.com");
-				contact.setMobileNumber("00905058668960");
-				contact.setPhoneNumber("00905058668960");
-				addContact(jane, contact);
-
-				MedicalCareplan mc = new MedicalCareplan();
-				mc.setId("1");
-				List<MedicalCareplan> list = new ArrayList();
-				list.add(mc);
-				assignCareplan2Patient(list, "190");
-				mc = new MedicalCareplan();
-				mc.setId("2");
-				list = new ArrayList();
-				list.add(mc);
-				assignCareplan2Patient(list, "191");
-
-				/*mc = new MedicalCareplan();
-				mc.setId("3");
-				list = new ArrayList();
-				list.add(mc);
-				assignCareplan2Patient(list, "191");*/
-			}
-			//
+//			if (patients.length == 0) {
+//				patients = new tr.com.srdc.icardea.hibernate.Patient[2];
+//				System.out.println(" $$$ Adding demo data");
+//				patients[0] = addPatient("190", "Andreas", "Schmidt",
+//					"1953-01-04", "M");
+//				patients[1] = addPatient("191", "Suzie", "Mayr", "1973-04-22",
+//					"F");
+//
+//				addPerson("190", "Andreas", "Schmidt");
+//				tr.com.srdc.icardea.hibernate.Person jane = addPerson("191", "Suzie", "Mayr");
+//				Contact contact = new Contact();
+//				contact.setEmail("eliferylmz@gmail.com");
+//				contact.setMobileNumber("00905058668960");
+//				contact.setPhoneNumber("00905058668960");
+//				addContact(jane, contact);
+//
+//				MedicalCareplan mc = new MedicalCareplan();
+//				mc.setId("1");
+//				List<MedicalCareplan> list = new ArrayList();
+//				list.add(mc);
+//				assignCareplan2Patient(list, "190");
+//				mc = new MedicalCareplan();
+//				mc.setId("2");
+//				list = new ArrayList();
+//				list.add(mc);
+//				assignCareplan2Patient(list, "191");
+//
+//				/*mc = new MedicalCareplan();
+//				mc.setId("3");
+//				list = new ArrayList();
+//				list.add(mc);
+//				assignCareplan2Patient(list, "191");*/
+//			}
+			
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
