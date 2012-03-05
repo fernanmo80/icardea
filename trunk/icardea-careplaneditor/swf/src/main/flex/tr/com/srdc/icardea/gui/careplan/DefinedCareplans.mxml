@@ -33,6 +33,8 @@
 		private var carePlanEditor:CarePlanEditor;
 		[Bindable]
 		public var assignPop:assignPatient;
+		[Bindable]
+        public var sparent:iCardea;
 		   
         public function initializeGrid():void
         {	this.control = new CareplanControlImp(this.model);

@@ -65,7 +65,9 @@
 		}
 		private function onAssignCareplans2Patient(result:ResultEvent):void 
        	{
+       		
        		PopUpManager.removePopUp(this);
+       		sparent.sparent.monitorPatients.init();
        	} 
        
       	private function onFault(fault:FaultEvent):void 
