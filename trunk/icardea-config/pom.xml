@@ -8,18 +8,18 @@
 	<name>iCARDEA Configuration Project</name>
 	<packaging>pom</packaging>
 	<properties>		
-        <icardea.home>D:/srdc/codes/icardea-google/icardea</icardea.home>
-        <xds.endpoint>https://icardea-server.lksdom21.lks.local/ehrif/xds/</xds.endpoint>
+        <icardea.home>D:/yildiray/codes/icardea</icardea.home>
+        <xds.endpoint>https://localhost/ehrif/xds/</xds.endpoint>
 		<mysql.host>localhost</mysql.host>
 		<mysql.username>root</mysql.username>
 		<mysql.password>icardea</mysql.password>		
-		<ehr.pcc9.endpoint>https://icardea-server.lksdom21.lks.local/ehrif/pcc/</ehr.pcc9.endpoint>		
-		<phr.pcc9.endpoint>https://icardea-server.lksdom21.lks.local:8089/testws/pcc9</phr.pcc9.endpoint>		
-		<pcc10.endpoint>https://icardea-server.lksdom21.lks.local:8443/icardea-caremanager-ws/services/QUPC_AR004030UV_Service.QUPC_AR004030UV_ServiceHttpSoap12Endpoint/</pcc10.endpoint>		
+		<ehr.pcc9.endpoint>https://localhost/ehrif/pcc/</ehr.pcc9.endpoint>		
+		<phr.pcc9.endpoint>https://localhost:8089/testws/pcc9</phr.pcc9.endpoint>		
+		<pcc10.endpoint>https://localhost:8443/icardea-caremanager-ws/services/QUPC_AR004030UV_Service.QUPC_AR004030UV_ServiceHttpSoap12Endpoint/</pcc10.endpoint>		
 		<use.ws.addressing.for.ehr>true</use.ws.addressing.for.ehr>		
 		<use.ws.addressing.for.phr>true</use.ws.addressing.for.phr>		
 		<cts.endpoint>https://localhost:8443/ctsWS/services/</cts.endpoint>		
-		<epsos.endpoint>https://icardea-server.lksdom21.lks.local:8443/tr-xca/services/RespondingGateway_Service/</epsos.endpoint>
+		<epsos.endpoint>https://localhost:8443/tr-xca/services/RespondingGateway_Service/</epsos.endpoint>
 		<consent.ws.endpoint>https://localhost:8443/consenteditor/services/ConsentManagerImplService/</consent.ws.endpoint>		
 		<umls.mysql.host>localhost</umls.mysql.host>
 		<umls.mysql.username>root</umls.mysql.username>
@@ -35,9 +35,10 @@
 		<eif.port>2576</eif.port>
 		<!-- for SALK deployment start-->
 		<salk.usage>true</salk.usage>
-		<salk.server>https://icardea-server.lksdom21.lks.local</salk.server>
+		<salk.server>https://localhost</salk.server>
 		<secure.port>8443</secure.port>
 		<!-- for SALK deployment end-->
-		<ppm.end>https://icardea-server.lksdom21.lks.local:8443/ppm_v2/view?startup=de.offis.health.icardea.ppm.viewapp</ppm.end>
+		<ppm.end>https://localhost:8443/ppm_v2/view?startup=de.offis.health.icardea.ppm.viewapp</ppm.end>
+		<file.log>false</file.log>
 	</properties>
 </project>

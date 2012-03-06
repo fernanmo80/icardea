@@ -89,6 +89,8 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 				.getString("atna.tls")).booleanValue();
 		boolean atnalog = new Boolean(ResourceBundle.getBundle("icardea")
 				.getString("atna.log")).booleanValue();
+		boolean logtofile = new Boolean(ResourceBundle.getBundle("icardea")
+				.getString("file.log")).booleanValue();
 		
 		QUPCIN043200UV01MFMIMT700712UV01ControlActProcess controlAct = pcc10.getControlActProcess();
 		// Newly added to identify the sender of the message
@@ -109,15 +111,15 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 
 		// log the message
 		//
-		// TODO: uncomment the following...
-
-		/*DateFormat dateFormatForLog = new SimpleDateFormat("yyyyMMddHHmmss");
+		if(logtofile) {
+		DateFormat dateFormatForLog = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date dateForLog = new Date();
 		String fileName = "logs/"+senderName + "-" + patientID +"-"+ dateFormatForLog.format(dateForLog)+".xml" ;
 		Logger.getLogger(QUPC_AR004030UV_ServiceSkeleton.class).log(Level.INFO, " Marshalling to file "+fileName);	
 		javax.xml.bind.JAXBContext jc = javax.xml.bind.JAXBContext.newInstance("org.hl7.v3");
             	javax.xml.bind.Marshaller marsh = jc.createMarshaller();
-	        marsh.marshal( pcc10, new FileOutputStream(fileName) );*/
+	        marsh.marshal( pcc10, new FileOutputStream(fileName) );
+		}
 
 
 		//

@@ -57,7 +57,7 @@ public class CareManager {
 	private boolean atnatls;
 	private boolean atnalog;
 	public static Logger logger = Logger.getLogger(CareManager.class);
-	
+
 	private void sslSetup() {
 		if (atnatls) {
 			// Properties for SSL Security Provider
@@ -66,7 +66,7 @@ public class CareManager {
 			String sunSSLProtocol = "com.sun.net.ssl.internal.www.protocol";
 			String sslStoreProp = "javax.net.ssl.trustStore";
 			String truststoreFile = ResourceBundle.getBundle("icardea")
-					.getString("tomcat.home") + "conf/.truststore";
+				.getString("tomcat.home") + "conf/.truststore";
 			System.out.println(" $$$ Trust store file path:"+truststoreFile);
 
 			// Enable SSL communication
@@ -161,14 +161,14 @@ public class CareManager {
 		if (destination.equalsIgnoreCase("EHR")) {
 			endpoint = properties.getString("ehr.pcc9.endpoint");
 			useAddressing = properties.getString("use.ws.addressing.for.ehr")
-					.equals("true");
+				.equals("true");
 			if (useAddressing) {
 				wsaReplyTo = properties.getString("pcc10.endpoint");
 			}
 		} else if (destination.equalsIgnoreCase("PHR")) {
 			endpoint = properties.getString("phr.pcc9.endpoint");
 			useAddressing = properties.getString("use.ws.addressing.for.phr")
-					.equals("true");
+				.equals("true");
 			if (useAddressing) {
 				wsaReplyTo = properties.getString("pcc10.endpoint");
 			}
@@ -180,9 +180,9 @@ public class CareManager {
 		JAXBContext context = JAXBContext.newInstance("org.hl7.v3");
 		Unmarshaller unmarshaller = context.createUnmarshaller();
 		InputStream is = this.getClass().getClassLoader()
-				.getResourceAsStream(fileName);
+			.getResourceAsStream(fileName);
 		org.hl7.v3.QUPCIN043100UV01 query = (org.hl7.v3.QUPCIN043100UV01) unmarshaller
-				.unmarshal(is);
+			.unmarshal(is);
 
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = new Date();
@@ -191,7 +191,7 @@ public class CareManager {
 		/* FORTH-START */
 		// String messageID = UUID.randomUUID().toString();
 		String messageID = (String) careProvisionCodes2QueryId
-				.get(careProvisionCode);
+			.get(careProvisionCode);
 		/* FORTH-END */
 		TS ts = new TS();
 		ts.setValue(creationTime);
@@ -201,17 +201,17 @@ public class CareManager {
 		query.setId(ii);
 
 		QUPCIN043100UV01QUQIMT020001UV01ControlActProcess controlAct = query
-				.getControlActProcess();
+			.getControlActProcess();
 		controlAct.getId().add(ii);
 
 		ObjectFactory objectFactory = new ObjectFactory();
 		List<QUPCMT040300UV01ParameterList> parameters = controlAct
-				.getQueryByParameter().getValue().getParameterList();
+			.getQueryByParameter().getValue().getParameterList();
 		QUPCMT040300UV01ParameterList parameterList = new QUPCMT040300UV01ParameterList();
 		parameters.add(parameterList);
 
 		QUPCMT040300UV01PatientId patientIdParameter = objectFactory
-				.createQUPCMT040300UV01PatientId();
+			.createQUPCMT040300UV01PatientId();
 		ii = new II();
 		ii.setExtension(patientID);
 		ii.setRoot("1.2.826.0.1.3680043.2.44.248240.1");
@@ -232,7 +232,7 @@ public class CareManager {
 			cd.setCode(careProvisionCode);
 			value.setValue(cd);
 			JAXBElement<QUPCMT040300UV01CareProvisionCode> careProvisionParameter = objectFactory
-					.createQUPCMT040300UV01ParameterListCareProvisionCode(value);
+				.createQUPCMT040300UV01ParameterListCareProvisionCode(value);
 			parameterList.setCareProvisionCode(careProvisionParameter);
 		}
 
@@ -253,16 +253,16 @@ public class CareManager {
 			ivxbts = new IVXBTS();
 			ivxbts.setValue(clinicalStatementTimePeriodEnd);
 			JAXBElement<IVXBTS> ivltsHigh = objectFactory
-					.createIVLTSHigh(ivxbts);
+				.createIVLTSHigh(ivxbts);
 			ivlts.getRest().add(ivltsLow);
 			ivlts.getRest().add(ivltsHigh);
 			QUPCMT040300UV01ClinicalStatementTimePeriod period = new QUPCMT040300UV01ClinicalStatementTimePeriod();
 			period.setValue(ivlts);
 
 			JAXBElement<QUPCMT040300UV01ClinicalStatementTimePeriod> timePeriodParamenter = objectFactory
-					.createQUPCMT040300UV01ParameterListClinicalStatementTimePeriod(period);
+				.createQUPCMT040300UV01ParameterListClinicalStatementTimePeriod(period);
 			parameterList.setClinicalStatementTimePeriod(timePeriodParamenter);
-		}
+				}
 
 		if (includeCarePlanAttachment != null) {
 			QUPCMT040300UV01IncludeCarePlanAttachment icpa = new QUPCMT040300UV01IncludeCarePlanAttachment();
@@ -270,7 +270,7 @@ public class CareManager {
 			bl.setValue(new Boolean(includeCarePlanAttachment));
 			icpa.setValue(bl);
 			JAXBElement<QUPCMT040300UV01IncludeCarePlanAttachment> icpaParameter = objectFactory
-					.createQUPCMT040300UV01ParameterListIncludeCarePlanAttachment(icpa);
+				.createQUPCMT040300UV01ParameterListIncludeCarePlanAttachment(icpa);
 			parameterList.setIncludeCarePlanAttachment(icpaParameter);
 		}
 
@@ -280,7 +280,7 @@ public class CareManager {
 			hl7int.setValue(new BigInteger(maximumHistoryStatements));
 			maxHistory.setValue(hl7int);
 			JAXBElement<QUPCMT040300UV01MaximumHistoryStatements> maxHistoryParameter = objectFactory
-					.createQUPCMT040300UV01ParameterListMaximumHistoryStatements(maxHistory);
+				.createQUPCMT040300UV01ParameterListMaximumHistoryStatements(maxHistory);
 			parameterList.setMaximumHistoryStatements(maxHistoryParameter);
 		}
 
@@ -290,7 +290,7 @@ public class CareManager {
 			ce.setCode(patientAdministrativeGender);
 			gender.setValue(ce);
 			JAXBElement<QUPCMT040300UV01PatientAdministrativeGender> genderParameter = objectFactory
-					.createQUPCMT040300UV01ParameterListPatientAdministrativeGender(gender);
+				.createQUPCMT040300UV01ParameterListPatientAdministrativeGender(gender);
 			parameterList.setPatientAdministrativeGender(genderParameter);
 		}
 
@@ -300,7 +300,7 @@ public class CareManager {
 			ts.setValue(patientBirthTime);
 			birthTime.setValue(ts);
 			JAXBElement<QUPCMT040300UV01PatientBirthTime> birthTimeParameter = objectFactory
-					.createQUPCMT040300UV01ParameterListPatientBirthTime(birthTime);
+				.createQUPCMT040300UV01ParameterListPatientBirthTime(birthTime);
 			parameterList.setPatientBirthTime(birthTimeParameter);
 		}
 
@@ -318,7 +318,7 @@ public class CareManager {
 			name.setValue(pn);
 
 			JAXBElement<QUPCMT040300UV01PatientName> nameParameter = objectFactory
-					.createQUPCMT040300UV01ParameterListPatientName(name);
+				.createQUPCMT040300UV01ParameterListPatientName(name);
 			parameterList.setPatientName(nameParameter);
 		}
 
@@ -333,32 +333,36 @@ public class CareManager {
 			ivxbts = new IVXBTS();
 			ivxbts.setValue(careRecordTimePeriodEnd);
 			JAXBElement<IVXBTS> ivltsHigh = objectFactory
-					.createIVLTSHigh(ivxbts);
+				.createIVLTSHigh(ivxbts);
 			ivlts.getRest().add(ivltsLow);
 			ivlts.getRest().add(ivltsHigh);
 			period.setValue(ivlts);
 
 			JAXBElement<QUPCMT040300UV01CareRecordTimePeriod> timePeriodParamenter = objectFactory
-					.createQUPCMT040300UV01ParameterListCareRecordTimePeriod(period);
+				.createQUPCMT040300UV01ParameterListCareRecordTimePeriod(period);
 			parameterList.setCareRecordTimePeriod(timePeriodParamenter);
-		}
+				}
 
 		QUPC_AR004040UV_ServiceStub stub = new QUPC_AR004040UV_ServiceStub(
 				endpoint);
 		try {
-			DateFormat dateFormatForLog = new SimpleDateFormat("yyyyMMddHHmmss");
-		Date dateForLog = new Date();
-		String logFile = "logs/"+careProvisionCode + "-" + patientID +"-"+ dateFormatForLog.format(dateForLog)+".xml" ;
-		logger.info(" Marshalling to file "+logFile);	
-		javax.xml.bind.JAXBContext jc = javax.xml.bind.JAXBContext.newInstance("org.hl7.v3");
-            	javax.xml.bind.Marshaller marsh = jc.createMarshaller();
-	        marsh.marshal( query, new java.io.FileOutputStream(logFile) );
+			boolean logtofile = new Boolean(ResourceBundle.getBundle("icardea")
+					.getString("file.log")).booleanValue();
+			if(logtofile) {
+				DateFormat dateFormatForLog = new SimpleDateFormat("yyyyMMddHHmmss");
+				Date dateForLog = new Date();
+				String logFile = "logs/"+careProvisionCode + "-" + patientID +"-"+ dateFormatForLog.format(dateForLog)+".xml" ;
+				logger.info(" Marshalling to file "+logFile);	
+				javax.xml.bind.JAXBContext jc = javax.xml.bind.JAXBContext.newInstance("org.hl7.v3");
+				javax.xml.bind.Marshaller marsh = jc.createMarshaller();
+				marsh.marshal( query, new java.io.FileOutputStream(logFile) );
+			}
 
-		org.hl7.v3.MCCIIN000002UV01 ack = stub.qUPC_AR004040UV_QUPC_IN043100UV(
-				query, wsaReplyTo);
+			org.hl7.v3.MCCIIN000002UV01 ack = stub.qUPC_AR004040UV_QUPC_IN043100UV(
+					query, wsaReplyTo);
 
-		logger.info("Ack TypeCode:'"
-				+ ack.getAcknowledgement().get(0).getTypeCode().value() + "'");
+			logger.info("Ack TypeCode:'"
+					+ ack.getAcknowledgement().get(0).getTypeCode().value() + "'");
 		} catch(Exception ex) {
 			//ex.printStackTrace();
 		}
@@ -369,10 +373,10 @@ public class CareManager {
 		// +"careProvisionCode"+ is sent to "+destination+" for
 		// "+patientID+"
 		// "+patientName+" "+patientSurname from Hospital Information System
-		
+
 		if (atnalog) {
 			String atnalogServer = properties.getString("atna.log.server");
-			
+
 			String xml = Audit.createMessage("PCC-9", patientID, careProvisionCode, "");
 			Audit a = null;
 			try {
@@ -381,7 +385,7 @@ public class CareManager {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-            a.send_udp( a.create_syslog_xml("caremanager", xml) );
+			a.send_udp( a.create_syslog_xml("caremanager", xml) );
 		}
 	}
 
@@ -401,10 +405,10 @@ public class CareManager {
 			String key = (String) keys.nextElement();
 			logger.info("Sending " + key + " subscription for patient: "+patientID+" "+patientName+" "+patientSurname);
 			try { 
-			careManagementDataQuery(patientID, key, patientName,
-					patientSurname, "EHR");
-			careManagementDataQuery(patientID, key, patientName,
-					patientSurname, "PHR");
+				careManagementDataQuery(patientID, key, patientName,
+						patientSurname, "EHR");
+				careManagementDataQuery(patientID, key, patientName,
+						patientSurname, "PHR");
 			} catch(Exception ex) {
 				ex.printStackTrace();
 				continue;
