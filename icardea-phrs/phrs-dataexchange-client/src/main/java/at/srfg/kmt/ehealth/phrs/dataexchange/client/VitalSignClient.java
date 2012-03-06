@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import at.srfg.kmt.ehealth.phrs.Constants;
 import at.srfg.kmt.ehealth.phrs.dataexchange.util.DateUtil;
+import at.srfg.kmt.ehealth.phrs.dataexchange.util.StoreValidator;
 import at.srfg.kmt.ehealth.phrs.persistence.api.Triple;
 import at.srfg.kmt.ehealth.phrs.persistence.api.GenericRepositoryException;
 import at.srfg.kmt.ehealth.phrs.persistence.api.GenericTriplestore;
@@ -128,6 +129,44 @@ public final class VitalSignClient {
             String date, String statusURI,
             String value, String unitURI) throws TripleException {
 
+//        StoreValidator.validateResource("statusURI", statusURI, triplestore);
+        if (!StoreValidator.isValidReourceValue(statusURI)) {
+            final IllegalArgumentException exception =
+                    StoreValidator.buildWrongReourceValueException("statusURI", statusURI);
+            LOGGER.error(exception.getMessage(), exception);
+            throw exception;
+        }
+
+//        StoreValidator.validateResource("codeURI", codeURI, triplestore);
+        if (!StoreValidator.isValidReourceValue(codeURI)) {
+            final IllegalArgumentException exception =
+                    StoreValidator.buildWrongReourceValueException("codeURI", codeURI);
+            LOGGER.error(exception.getMessage(), exception);
+            throw exception;
+        }
+
+//        StoreValidator.validateResource("unitURI", unitURI, triplestore);
+        if (!StoreValidator.isValidReourceValue(unitURI)) {
+            final IllegalArgumentException exception =
+                    StoreValidator.buildWrongReourceValueException("unitURI", unitURI);
+            LOGGER.error(exception.getMessage(), exception);
+            throw exception;
+        }
+        
+//        StoreValidator.validateNotNull("value", value);
+        if (value == null) {
+            final NullPointerException exception =
+                    new NullPointerException("The value argument can not be null.");
+            LOGGER.error(exception.getMessage(), exception);
+            throw exception;
+        }
+
+
+        //Acceptable defaults
+        final String startDateStr = date == null
+                ? DateUtil.getFormatedDate(new Date())
+                : date;
+
         final String subject =
                 triplestore.persist(Constants.OWNER, user, LITERAL);
 
@@ -184,12 +223,14 @@ public final class VitalSignClient {
 
         triplestore.persist(subject,
                 Constants.SKOS_NOTE,
-                note,
+                note == null ? "" : note,
                 LITERAL);
+
+
 
         triplestore.persist(subject,
                 Constants.EFFECTIVE_TIME,
-                date,
+                startDateStr,
                 LITERAL);
 
         triplestore.persist(subject,

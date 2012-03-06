@@ -111,7 +111,16 @@ public class Constants {
      * This is an instance URI.
      */
     public static final String GRAM = ICARDEA_INSTANCES_MESURE_SYSTEM_NS + "#Gram";
+    
+    /**
+     * This is an instance URI.
+     */
+    public static final String BPS = ICARDEA_INSTANCES_MESURE_SYSTEM_NS + "#BPS";
+
+    
     public static final String ICARDEA_HL7V3_NS = ICARDEA_NS + "/hl7V3";
+    
+    
     /**
      * The Root template Id property.
      */
@@ -527,6 +536,11 @@ public class Constants {
     public static final String PROTOCOL_ID_PIX_TEST_PATIENT = "191";
     public static final String OWNER_URI_PIX_TEST_PATIENT = "phr/test/testuser2";
     public static final String EHR_OWNER = "EHR";
+    
+    /**
+     * The unique code for the UMLS code system.
+     */
+    public static final String UMLS_CODESYSTEM_CODE = "2.16.840.1.113883.6.86";
     
     
 

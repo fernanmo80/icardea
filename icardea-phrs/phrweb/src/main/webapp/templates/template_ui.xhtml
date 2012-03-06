@@ -83,8 +83,9 @@
 				collapsible="true" gutter="false" 
 				scrollable="false" 
 				resizable="true">
-				<ui:include src="/sections/menunavigator.xhtml" />
-
+                <p:outputPanel  rendered="#{loginBean.loggedIn eq true}">
+				    <ui:include src="/sections/menunavigator.xhtml" />
+                </p:outputPanel>
 			</p:layoutUnit>
 			<!--<p:layoutUnit position="right" header="RIGHT" width="200">
 				<h:outputText value="Right Content" />

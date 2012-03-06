@@ -18,6 +18,8 @@ import org.primefaces.model.TreeNode
 import at.srfg.kmt.ehealth.phrs.PhrsConstants
 import at.srfg.kmt.ehealth.phrs.jsf.support.DocumentReference
 import at.srfg.kmt.ehealth.phrs.presentation.services.ConfigurationService
+import at.srfg.kmt.ehealth.phrs.presentation.services.UserSessionService
+import at.srfg.kmt.ehealth.phrs.jsf.utils.WebUtil
 
 /**
  * This controller is SessionScoped and supports either the basic tree or table based tree. The Table based tree cannot yet support expanding 
@@ -32,7 +34,7 @@ import at.srfg.kmt.ehealth.phrs.presentation.services.ConfigurationService
 @ManagedBean(name="menuBean")
 @SessionScoped
 public class MenuController extends FaceCommon{
-    private static final Logger logger = LoggerFactory.getLogger(MenuController.class.getName());
+    private static final Logger LOGGER = LoggerFactory.getLogger(MenuController.class.getName());
 
 	//PhrsConstants.SESSION_MENU_CURRENT_NODE or this bean if SessionScoped
 
@@ -60,7 +62,8 @@ public class MenuController extends FaceCommon{
 
 	public MenuController() {
 
-		init(this.getLocale())
+		    init(this.getLocale())
+
 		
 		//previous if using request or view scope
 		//String requestNodeTag=UserSessionService.getRequestParameter(PhrsConstants.MENU_CONTROL_REQUEST_PARAMETER_SELECTED_NODE)
@@ -81,119 +84,137 @@ public class MenuController extends FaceCommon{
 		root = new DefaultTreeNode(new DocumentReference("Main Menu","root", PhrsConstants.TYPE_ITEM_NODE_ROOT,codedLabel,null).setRoot(true), null)
 		root.setExpanded(true) //address any UI bug
 
+        if( ! UserSessionService.getSystemStatus()) { //storage problem
+            home = new DefaultTreeNode(new DocumentReference("Error","/jsf/home.xhtml", PhrsConstants.TYPE_ITEM_NODE_HEADER_LINK,codedLabel,root), root)//TYPE_ITEM_NODE_HOME
+            WebUtil.addFacesMessageSeverityWarn("Status","System failed to start")
+            LOGGER.debug("system failed to start msg to user")
+        } else if( ! UserSessionService.loggedIn()){
+            LOGGER.debug("user not logged in")
+            //home = new DefaultTreeNode(new DocumentReference("Home","/jsf/home.xhtml", PhrsConstants.TYPE_ITEM_NODE_HEADER_LINK,codedLabel,root), root)//TYPE_ITEM_NODE_HOME
 
-		home = new DefaultTreeNode(new DocumentReference("Home","/jsf/home.xhtml", PhrsConstants.TYPE_ITEM_NODE_HEADER_LINK,codedLabel,root), root)//TYPE_ITEM_NODE_HOME
+        } else if(UserSessionService.sessionUserHasMedicalRole()){
+           LOGGER.debug("Show medical role sidebar - user has medical role")
+            home = new DefaultTreeNode(new DocumentReference("Home","/jsf/home.xhtml", PhrsConstants.TYPE_ITEM_NODE_HEADER_LINK,codedLabel,root), root)//TYPE_ITEM_NODE_HOME
+            //consultation reports
+            sectionMonitoring   = new DefaultTreeNode(new DocumentReference("Monitoring","", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,root), root)
+            Map monitoringMap=[
+                    '/jsf/monitor_info_dash.xhtml':'Health Reports']
+            addMenuItems(monitoringMap, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionMonitoring,codedLabel)
 
-        dashBoardMonitorPhrImports   = new DefaultTreeNode(new DocumentReference("Import Health Data","/jsf/monitor_interop.xhtml", PhrsConstants.TYPE_ITEM_NODE_HEADER_LINK,codedLabel,root), root)
+        }  else {
 
-		sectionMonitoring   = new DefaultTreeNode(new DocumentReference("Monitoring","", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,root), root)
-		
-		sectionPatientInformation = new DefaultTreeNode(new DocumentReference("Patient Information","", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,root), root)
+            home = new DefaultTreeNode(new DocumentReference("Home","/jsf/home.xhtml", PhrsConstants.TYPE_ITEM_NODE_HEADER_LINK,codedLabel,root), root)//TYPE_ITEM_NODE_HOME
 
-		sectionObservations = new DefaultTreeNode(new DocumentReference("Health Observations","", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,sectionPatientInformation), sectionPatientInformation)
+            dashBoardMonitorPhrImports   = new DefaultTreeNode(new DocumentReference("Import Health Data","/jsf/monitor_interop.xhtml", PhrsConstants.TYPE_ITEM_NODE_HEADER_LINK,codedLabel,root), root)
 
-		//sectionMeds = new DefaultTreeNode(new DocumentReference("Medications","", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,sectionObservations), sectionObservations)
+            sectionMonitoring   = new DefaultTreeNode(new DocumentReference("Monitoring","", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,root), root)
 
-		sectionActionPlan   = new DefaultTreeNode(new DocumentReference("Action Plan","/jsf/action_schedule_dash.xhtml", PhrsConstants.TYPE_ITEM_NODE_HEADER_LINK,codedLabel,sectionPatientInformation), sectionPatientInformation)
+            sectionPatientInformation = new DefaultTreeNode(new DocumentReference("Patient Information","", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,root), root)
 
-		sectionProfile  	= new DefaultTreeNode(new DocumentReference("Profile",			"", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,sectionPatientInformation), sectionPatientInformation)
+            sectionObservations = new DefaultTreeNode(new DocumentReference("Health Observations","", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,sectionPatientInformation), sectionPatientInformation)
 
-		//sectionMedicalDocs  = new DefaultTreeNode(new DocumentReference("Imported Medical Data","", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,sectionPatientInformation), sectionPatientInformation)
+            //sectionMeds = new DefaultTreeNode(new DocumentReference("Medications","", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,sectionObservations), sectionObservations)
 
-		sectionGroupInfoPeople = new DefaultTreeNode(new DocumentReference("Information & People","", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,root), root)
+            sectionActionPlan   = new DefaultTreeNode(new DocumentReference("Action Plan","/jsf/action_schedule_dash.xhtml", PhrsConstants.TYPE_ITEM_NODE_HEADER_LINK,codedLabel,sectionPatientInformation), sectionPatientInformation)
 
-		sectionEdu 			= new DefaultTreeNode(new DocumentReference("Health Topics","", 	PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,sectionGroupInfoPeople), sectionGroupInfoPeople)
+            sectionProfile  	= new DefaultTreeNode(new DocumentReference("Profile",			"", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,sectionPatientInformation), sectionPatientInformation)
 
-		sectionCommunity 	=  new DefaultTreeNode(new DocumentReference("Community",		"", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,root), root)
+            //sectionMedicalDocs  = new DefaultTreeNode(new DocumentReference("Imported Medical Data","", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,sectionPatientInformation), sectionPatientInformation)
 
-		sectionContacts 	= new DefaultTreeNode(new DocumentReference("Contacts","", 			PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,sectionGroupInfoPeople), sectionGroupInfoPeople)
+            sectionGroupInfoPeople = new DefaultTreeNode(new DocumentReference("Information & People","", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,root), root)
 
-		sectionPrivacy      = new DefaultTreeNode(new DocumentReference("Privacy & Admin",				"", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,root), root)
+            sectionEdu 			= new DefaultTreeNode(new DocumentReference("Health Topics","", 	PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,sectionGroupInfoPeople), sectionGroupInfoPeople)
 
-		Map healthObs=[
-					'/jsf/obs_bp_mgt.xhtml':'Blood Pressure',
-					'/jsf/obs_bw_mgt.xhtml':'Body Weight',
-					'/jsf/obs_problem_mgt.xhtml':'Problems',
-					'/jsf/obs_medication_mgt.xhtml':'Medications'
-				]
-		addMenuItems(healthObs, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionObservations,codedLabel)
-		/* were children of sectionMeds
-		Map healthMedsObs=[
-					'/jsf/obs_medication_mgt.xhtml'
-				]
-		
-		Map healthMedsObs=[
-					'/jsf/obs_medication_mgt.xhtml?view=active':'Active',
-					'/jsf/obs_medication_mgt.xhtml?view=inactive':'Inactive',
-					'/jsf/obs_medication_mgt.xhtml?view=history':'History'
-				]
-		addMenuItems(healthMedsObs, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionMeds,codedLabel)
+            sectionCommunity 	=  new DefaultTreeNode(new DocumentReference("Community",		"", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,root), root)
 
-		 */
-		//	'obs_medications_iframe.xhtml':'Medications'
-		//action_schedule_mgt_module.xhtml
-		//action_schedule_dash.xhtml
-		/*
-		 Map actions=['action_schedule_dash.xhtml':'Action Plan']
-		 addMenuItems(actions, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionActionPlan,codedLabel)
-		 */
-		Map monitoringMap=[
-					'/jsf/monitor_info_dash.xhtml':'Health Reports',
-					'/jsf/monitor_vitals.xhtml':'Vital Signs']
-		addMenuItems(monitoringMap, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionMonitoring,codedLabel)
+            sectionContacts 	= new DefaultTreeNode(new DocumentReference("Contacts","", 			PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,sectionGroupInfoPeople), sectionGroupInfoPeople)
 
-		//monitor_vitals.xhtml
-		Map profile=[
-					'/jsf/profile_contact_mgt.xhtml?typecontact=healthcare_user':'My Contact Info',
-					'/jsf/riskfactor_mgt.xhtml':'Risk Factors',
-					'/jsf/profile_padl_mgt.xhtml':'Activities of Daily Living',
-					'/jsf/obs_activity_mgt.xhtml':'Physical Activities']
-		//'profile_contact_info_iframe.xhtml?typecontact=healthcare_user':'My Contact Info',
+            sectionPrivacy      = new DefaultTreeNode(new DocumentReference("Privacy & Admin",				"", PhrsConstants.TYPE_ITEM_NODE_HEADER,codedLabel,root), root)
 
-		addMenuItems(profile, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionProfile,codedLabel)
+            Map healthObs=[
+                        '/jsf/obs_bp_mgt.xhtml':'Blood Pressure',
+                        '/jsf/obs_bw_mgt.xhtml':'Body Weight',
+                        '/jsf/obs_problem_mgt.xhtml':'Problems',
+                        '/jsf/obs_medication_mgt.xhtml':'Medications'
+                    ]
+            addMenuItems(healthObs, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionObservations,codedLabel)
+            /* were children of sectionMeds
+            Map healthMedsObs=[
+                        '/jsf/obs_medication_mgt.xhtml'
+                    ]
 
-		//contact info of healthcare persons,other
-		Map mapContacts=['/jsf/profile_allcontacts_mgt.xhtml?typecontact=healthcare_provider':'My Contacts']
+            Map healthMedsObs=[
+                        '/jsf/obs_medication_mgt.xhtml?view=active':'Active',
+                        '/jsf/obs_medication_mgt.xhtml?view=inactive':'Inactive',
+                        '/jsf/obs_medication_mgt.xhtml?view=history':'History'
+                    ]
+            addMenuItems(healthMedsObs, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionMeds,codedLabel)
 
+             */
+            //	'obs_medications_iframe.xhtml':'Medications'
+            //action_schedule_mgt_module.xhtml
+            //action_schedule_dash.xhtml
+            /*
+             Map actions=['action_schedule_dash.xhtml':'Action Plan']
+             addMenuItems(actions, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionActionPlan,codedLabel)
+             */
+            Map monitoringMap=[
+                        '/jsf/monitor_info_dash.xhtml':'Health Reports',
+                        '/jsf/monitor_vitals.xhtml':'Vital Signs']
+            addMenuItems(monitoringMap, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionMonitoring,codedLabel)
 
-		addMenuItems(mapContacts, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionContacts,codedLabel)
+            //monitor_vitals.xhtml
+            Map profile=[
+                        '/jsf/profile_contact_mgt.xhtml?typecontact=healthcare_user':'My Contact Info',
+                        '/jsf/riskfactor_mgt.xhtml':'Risk Factors',
+                        '/jsf/profile_padl_mgt.xhtml':'Activities of Daily Living',
+                        '/jsf/obs_activity_mgt.xhtml':'Physical Activities']
+            //'profile_contact_info_iframe.xhtml?typecontact=healthcare_user':'My Contact Info',
 
+            addMenuItems(profile, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionProfile,codedLabel)
 
-		Map mapEdu =[
-					'/jsf/iframe_education_info.xhtml'			:'Basic Information',
-					'/jsf/iframe_education_habits.xhtml'		:'New Habits',
-					'/jsf/iframe_education_precautions.xhtml'	:'Precautions',
-					'/jsf/iframe_education_warnings.xhtml'		:'Warning Signs',
-					'/jsf/iframe_education_decisionaids.xhtml'	:'Decision Aids',
-					'/jsf/iframe_education_resources.xhtml'		:'Links',
-					'/jsf/iframe_education_glossary.xhtml'		:'Glossary'
-
-				]
-		//		'iframe_education_pages.xhtml'			:'',
-		addMenuItems(mapEdu, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionEdu,codedLabel)
-
-		Map mapCommunity =[
-					'/jsf/iframe_social_community_links.xhtml'	:'Community Links',
-					'/jsf/iframe_social_forums.xhtml'			:'Forums',
-					'/jsf/iframe_social_blogs.xhtml'			:'Blogs',
-					'/jsf/iframe_social_bookmarks.xhtml'		:'Community Bookmarks',
-					'/jsf/iframe_social_tags.xhtml'				:'Find by Keywords'
-				]
-		//		'iframe_social_pages.xhtml'				:'Wiki',
-		addMenuItems(mapCommunity, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionCommunity,codedLabel)
-
-		/*
-		 Map medDocs=['#':'Overview']
-		 addMenuItems(medDocs, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionMedicalDocs,codedLabel)
-		 */
+            //contact info of healthcare persons,other
+            Map mapContacts=['/jsf/profile_allcontacts_mgt.xhtml?typecontact=healthcare_provider':'My Contacts']
 
 
-		Map privacyMap=[
-					'/jsf/iframe_privacy_consent_editor.xhtml':'Consent Editor']
+            addMenuItems(mapContacts, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionContacts,codedLabel)
 
-		addMenuItems(privacyMap, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionPrivacy,codedLabel)
-		
-		
+
+            Map mapEdu =[
+                        '/jsf/iframe_education_info.xhtml'			:'Basic Information',
+                        '/jsf/iframe_education_habits.xhtml'		:'New Habits',
+                        '/jsf/iframe_education_precautions.xhtml'	:'Precautions',
+                        '/jsf/iframe_education_warnings.xhtml'		:'Warning Signs',
+                        '/jsf/iframe_education_decisionaids.xhtml'	:'Decision Aids',
+                        '/jsf/iframe_education_resources.xhtml'		:'Links',
+                        '/jsf/iframe_education_glossary.xhtml'		:'Glossary'
+
+                    ]
+            //		'iframe_education_pages.xhtml'			:'',
+            addMenuItems(mapEdu, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionEdu,codedLabel)
+
+            Map mapCommunity =[
+                        '/jsf/iframe_social_community_links.xhtml'	:'Community Links',
+                        '/jsf/iframe_social_forums.xhtml'			:'Forums',
+                        '/jsf/iframe_social_blogs.xhtml'			:'Blogs',
+                        '/jsf/iframe_social_bookmarks.xhtml'		:'Community Bookmarks',
+                        '/jsf/iframe_social_tags.xhtml'				:'Find by Keywords'
+                    ]
+            //		'iframe_social_pages.xhtml'				:'Wiki',
+            addMenuItems(mapCommunity, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionCommunity,codedLabel)
+
+            /*
+             Map medDocs=['#':'Overview']
+             addMenuItems(medDocs, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionMedicalDocs,codedLabel)
+             */
+
+
+            Map privacyMap=[
+                        '/jsf/iframe_privacy_consent_editor.xhtml':'Consent Editor']
+
+            addMenuItems(privacyMap, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionPrivacy,codedLabel)
+
+        }
 		//add test options
 //		if(ConfigurationService.isAppModeTest()){
 //			test   = new DefaultTreeNode(new DocumentReference("____","/jsf/test1.xhtml",

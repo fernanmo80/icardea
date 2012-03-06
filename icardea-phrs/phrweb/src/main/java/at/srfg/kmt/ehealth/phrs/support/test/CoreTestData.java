@@ -9,6 +9,7 @@ import at.srfg.kmt.ehealth.phrs.PhrsConstants;
 import at.srfg.kmt.ehealth.phrs.dataexchange.client.DynaBeanClient;
 import at.srfg.kmt.ehealth.phrs.dataexchange.client.MedicationClient;
 import at.srfg.kmt.ehealth.phrs.dataexchange.client.ProblemEntryClient;
+import at.srfg.kmt.ehealth.phrs.dataexchange.util.DateUtil;
 import at.srfg.kmt.ehealth.phrs.model.baseform.*;
 import at.srfg.kmt.ehealth.phrs.persistence.api.GenericTriplestore;
 import at.srfg.kmt.ehealth.phrs.persistence.api.TripleException;
@@ -18,6 +19,8 @@ import at.srfg.kmt.ehealth.phrs.persistence.client.PhrsStoreClient;
 import at.srfg.kmt.ehealth.phrs.persistence.impl.TriplestoreConnectionFactory;
 import at.srfg.kmt.ehealth.phrs.presentation.services.ConfigurationService;
 import at.srfg.kmt.ehealth.phrs.presentation.services.InteropProcessor;
+import at.srfg.kmt.ehealth.phrs.presentation.services.InteropTermTransformer;
+import at.srfg.kmt.ehealth.phrs.presentation.utils.DynaUtil;
 import org.apache.commons.beanutils.DynaBean;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
@@ -25,10 +28,7 @@ import org.joda.time.format.DateTimeFormatter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 public class CoreTestData {
 
@@ -185,52 +185,53 @@ public class CoreTestData {
                 final MedicationClient client = new MedicationClient(triplestore);
 
                 client.addMedicationSign(protocolId, "Free text note for the medication 1.",
-                        Constants.STATUS_COMPELETE, "200812010000", "201106101010",
+                        Constants.STATUS_ACTIVE, "200812010000", "201106101010",
                         client.buildNullFrequency(),
                         Constants.HL7V3_ORAL_ADMINISTRATION, "25", Constants.MILLIGRAM,
                         "Prednisone", "C0032952");
 
                 client.addMedicationSign(protocolId, "Free text note for the medication 2.",
-                        Constants.STATUS_COMPELETE, "200812010000", "201106101010",
+                        Constants.STATUS_ACTIVE, "200812010000", "201106101010",
                         client.buildNullFrequency(),
                         Constants.HL7V3_ORAL_ADMINISTRATION, "40", Constants.MILLIGRAM,
                         "Pantoprazole (Pantoloc)", "C0081876");
 
                 client.addMedicationSign(protocolId, "Free text note for the medication 3.",
-                        Constants.STATUS_COMPELETE, "199910101010", "201106101010",
+                        Constants.STATUS_ACTIVE, "199910101010", "201106101010",
                         client.buildNullFrequency(),
                         Constants.HL7V3_ORAL_ADMINISTRATION, "5", Constants.MILLIGRAM,
                         "Concor", "C0110591");
 
                 client.addMedicationSign(protocolId, "Free text note for the medication 4.",
-                        Constants.STATUS_COMPELETE, "199910101010", "201010101010",
+                        Constants.STATUS_ACTIVE, "199910101010", "201010101010",
                         client.buildNullFrequency(),
                         Constants.HL7V3_ORAL_ADMINISTRATION, "1", Constants.DROPS,
                         "Psychopax (Diazepam)", "C0012010");
 
                 client.addMedicationSign(protocolId, "Free text note for the medication 5.",
-                        Constants.STATUS_COMPELETE, "198010101010", "20110601010",
+                        Constants.STATUS_ACTIVE, "198010101010", "20110601010",
                         client.buildNullFrequency(),
                         Constants.HL7V3_ORAL_ADMINISTRATION, "300", Constants.MILLIGRAM,
                         "Convulex", "C0591288");
 
                 client.addMedicationSign(protocolId, "Free text note for the medication 6.",
-                        Constants.STATUS_COMPELETE, "20090101010", "201106101010",
+                        Constants.STATUS_ACTIVE, "20090101010", "201106101010",
                         client.buildNullFrequency(),
                         Constants.HL7V3_ORAL_ADMINISTRATION, "20", Constants.MILLIGRAM,
                         "Ebetrexat(Methotrexate)", "C0025677");
 
                 client.addMedicationSign(protocolId, "Free text note for the medication 7.",
-                        Constants.STATUS_COMPELETE, "20090101010", "201106101010",
+                        Constants.STATUS_ACTIVE, "20090101010", "201106101010",
                         client.buildNullFrequency(),
                         Constants.HL7V3_ORAL_ADMINISTRATION, "10", Constants.MILLIGRAM,
                         "Folsan(Folic Acid)", "C0016410");
 
                 client.addMedicationSign(protocolId, "Free text note for the medication 8.",
-                        Constants.STATUS_COMPELETE, "199910101010", "201010101010",
+                        Constants.STATUS_ACTIVE, "199910101010", "201010101010",
                         client.buildNullFrequency(),
                         Constants.HL7V3_ORAL_ADMINISTRATION, "1", Constants.TABLET,
                         "Magnosolv(Magnesium)", "C0024467");
+
                 LOGGER.debug("END addTestMedications_2_forPortalTestForOwnerUri  preparing test data for owner= " + owner + " pid=" + protocolId);
             } catch (TripleException e) {
                 e.printStackTrace();
@@ -240,13 +241,366 @@ public class CoreTestData {
                 e.printStackTrace();
             }
         } else {
-            LOGGER.error("Error creating user test data, ownerUri=null");
+            LOGGER.error("Error creating addTestMedications_2_forPortalTestForOwnerUri test data, ownerUri=null");
         }
 
-        interopClients.notifyInteropMessageSubscribersByProtocolId(InteropProcessor.CARE_PROVISION_CODE_MEDLIST, protocolId);  //"MEDLIST"
+        //No notify interopClients.notifyInteropMessageSubscribersByProtocolId(InteropProcessor.CARE_PROVISION_CODE_MEDLIST, protocolId);  //"MEDLIST"
 
         return countAdded;
 
+    }
+
+    /**
+     * @param ownerUri
+     * @param stdStatus
+     * @param datebeginStr
+     * @param dateEndStr
+     * @param dose
+     * @param doseUnit
+     * @param drugname
+     * @param drugcode
+     * @return Also indicates newImport=true to  prevent sendMessage upon saving
+     */
+    public static MedicationTreatment createMedication(String ownerUri, String stdStatus, String datebeginStr, String dateEndStr, String dose, String doseUnit, String drugname, String drugcode) {
+
+
+        MedicationTreatment med = new MedicationTreatment();
+        Date dateEnd = DateUtil.getFormatedDate(dateEndStr);
+        Date dateBegin = DateUtil.getFormatedDate(datebeginStr);
+
+
+        String localStatus = InteropTermTransformer.transformStandardStatusToLocal(stdStatus, Constants.PHRS_MEDICATION_CLASS);
+
+        med.setStatus(localStatus);
+        med.setStatusStandard(stdStatus);
+        med.setOwnerUri(ownerUri);
+        med.setCreatorUri("createMedication");
+
+        med.setLabel(drugname);
+        med.setProductCode(drugcode);
+        med.getTreatmentMatrix().setDosageQuantity(dose);
+        Double dosage = Double.parseDouble(dose);
+        med.getTreatmentMatrix().setDosageUnits(doseUnit);
+        med.getTreatmentMatrix().setDosage(dosage);
+        med.getTreatmentMatrix().setAdminRoute(Constants.HL7V3_ORAL_ADMINISTRATION);
+        med.setNote("");
+
+
+        String interval = "http://www.icardea.at/phrs/instances/other";
+        med.getTreatmentMatrix().setDosageInterval(interval);
+
+        String tod = "http://www.icardea.at/phrs/instances/NotSpecified";
+        med.getTreatmentMatrix().setDosageTimeOfDay(tod);
+
+        med.setNewImport(true);
+        return med;
+
+
+    }
+    public static MonitorInfoItem  createMonitorInfoItem(String label, String code){
+        MonitorInfoItem m=new MonitorInfoItem();
+        m.setName(label);
+        return m;
+    }
+    public static List<MonitorInfoItem> createMedicationMonitorInfoItems(String owner){
+        List<MonitorInfoItem> list =new ArrayList<MonitorInfoItem>();
+        if (owner != null) {
+
+            try {
+
+                LOGGER.debug("START createMedicationMonitorInfoItems for owner= " + owner);
+                CommonDao commonDao = PhrsStoreClient.getInstance().getCommonDao();
+
+                if (!commonDao.hasMedication(owner, "", "C0032952")) {
+
+                    MonitorInfoItem mii = CoreTestData.createMonitorInfoItem("Prednisone", "C0032952");
+                    list.add(mii);
+                    
+                }
+
+                if (!commonDao.hasMedication(owner, "", "C0081876")) {
+                    MonitorInfoItem mii = CoreTestData.createMonitorInfoItem("Pantoprazole (Pantoloc)", "C0081876");
+                    list.add(mii);
+                }
+
+                if (!commonDao.hasMedication(owner, "", "C0110591")) {
+                    MonitorInfoItem mii = CoreTestData.createMonitorInfoItem("Concor", "C0110591");
+                    list.add(mii);               }
+
+                if (!commonDao.hasMedication(owner, "", "C0012010")) {
+                    MonitorInfoItem mii = CoreTestData.createMonitorInfoItem("Psychopax (Diazepam)", "C0012010");
+                    list.add(mii);
+                }
+
+
+
+                if (!commonDao.hasMedication(owner, "", "C0591288")) {
+                    MonitorInfoItem mii = CoreTestData.createMonitorInfoItem("Convulex", "C0591288");
+                    list.add(mii);
+                }
+
+                if (!commonDao.hasMedication(owner, "", "C0025677")) {
+                    MonitorInfoItem mii = CoreTestData.createMonitorInfoItem("Ebetrexat(Methotrexate)", "C0025677");
+                    list.add(mii);
+                }
+                if (!commonDao.hasMedication(owner, "", "C0016410")) {
+                    MonitorInfoItem mii = CoreTestData.createMonitorInfoItem("Folsan(Folic Acid)", "C0016410");
+                    list.add(mii);
+                }
+
+                if (!commonDao.hasMedication(owner, "", "C0024467")) {
+                    MonitorInfoItem mii = CoreTestData.createMonitorInfoItem("Magnosolv(Magnesium)", "C0024467");
+                    list.add(mii);
+                }
+                LOGGER.debug("END createMedicationMonitorInfoItems  preparing test data for owner= " + owner);
+
+            } catch (Exception e) {
+                LOGGER.debug("ERROR createMedicationMonitorInfoItems  preparing test data for owner= " + owner, e);
+                e.printStackTrace();
+            }
+        } else {
+            LOGGER.error("Error creating createMedicationMonitorInfoItems, ownerUri=null");
+        }  
+        return list;
+    }
+    public static int addTestMedicationsPhr(String owner) {
+        int countAdded = 8;//update this if added more manually...needed by tests
+
+        if (owner != null) {
+
+            try {
+
+                LOGGER.debug("START addTestMedicationsPhr for owner= " + owner);
+                CommonDao commonDao = PhrsStoreClient.getInstance().getCommonDao();
+
+                if (!commonDao.hasMedication(owner, "", "C0032952")) {
+
+                    MedicationTreatment med = CoreTestData
+                            .createMedication(owner, Constants.STATUS_ACTIVE,
+                                    "200812010000", "201106101010", "25", Constants.MILLIGRAM, "Prednisone", "C0032952");
+                    commonDao.crudSaveResource(med, owner, "addTestMedicationsPhr");
+                }
+
+                if (!commonDao.hasMedication(owner, "", "C0081876")) {
+                    MedicationTreatment med = CoreTestData
+                            .createMedication(owner, Constants.STATUS_ACTIVE,
+                                    "200812010000", "201106101010", "40", Constants.MILLIGRAM, "Pantoprazole (Pantoloc)", "C0081876");
+                    commonDao.crudSaveResource(med, owner, "addTestMedicationsPhr");
+                }
+
+                if (!commonDao.hasMedication(owner, "", "C0110591")) {
+                    MedicationTreatment med = CoreTestData
+                            .createMedication(owner, Constants.STATUS_ACTIVE,
+                                    "199910101010", "201106101010", "5", Constants.MILLIGRAM, "Concor", "C0110591");
+                    commonDao.crudSaveResource(med, owner, "addTestMedicationsPhr");
+                }
+
+                if (!commonDao.hasMedication(owner, "", "C0012010")) {
+                    MedicationTreatment med = CoreTestData
+                            .createMedication(owner, Constants.STATUS_ACTIVE,
+                                    "199910101010", "201010101010", "1", Constants.DROPS, "Psychopax (Diazepam)", "C0012010");
+
+                    commonDao.crudSaveResource(med, owner, "addTestMedicationsPhr");
+                }
+
+                if (!commonDao.hasMedication(owner, "", "C0591288")) {
+                    MedicationTreatment med = CoreTestData
+                            .createMedication(owner, Constants.STATUS_ACTIVE,
+                                    "198010101010", "20110601010", "300", Constants.MILLIGRAM, "Convulex", "C0591288");
+
+                    commonDao.crudSaveResource(med, owner, "addTestMedicationsPhr");
+                }
+
+                if (!commonDao.hasMedication(owner, "", "C0025677")) {
+                    MedicationTreatment med = CoreTestData
+                            .createMedication(owner, Constants.STATUS_ACTIVE,
+                                    "20090101010", "201106101010", "20", Constants.MILLIGRAM, "Ebetrexat(Methotrexate)", "C0025677");
+
+                    commonDao.crudSaveResource(med, owner, "addTestMedicationsPhr");
+                }
+
+                if (!commonDao.hasMedication(owner, "", "C0016410")) {
+                    MedicationTreatment med = CoreTestData
+                            .createMedication(owner, Constants.STATUS_ACTIVE,
+                                    "20090101010", "201106101010", "10", Constants.MILLIGRAM, "Folsan(Folic Acid)", "C0016410");
+
+                    commonDao.crudSaveResource(med, owner, "addTestMedicationsPhr");
+                }
+                if (!commonDao.hasMedication(owner, "", "C0024467")) {
+                    MedicationTreatment med = CoreTestData
+                            .createMedication(owner, Constants.STATUS_ACTIVE,
+                                    "199910101010", "201010101010", "1", Constants.TABLET, "Magnosolv(Magnesium)", "C0024467");
+
+                    commonDao.crudSaveResource(med, owner, "addTestMedicationsPhr");
+                }
+
+
+                LOGGER.debug("END addTestMedicationsPhr  preparing test data for owner= " + owner);
+
+            } catch (Exception e) {
+                LOGGER.debug("ERROR addTestMedicationsPhr  preparing test data for owner= " + owner, e);
+                e.printStackTrace();
+            }
+        } else {
+            LOGGER.error("Error creating addTestMedicationsPhr, ownerUri=null");
+        }
+
+
+        return countAdded;
+
+    }
+
+    /**
+     * runs once
+     *
+     * @param number
+     */
+    public static void createTestUsersForMonitoring() {
+        CommonDao commonDao = PhrsStoreClient.getInstance().getCommonDao();
+        if (commonDao.getPhrUser("phr01", false) != null) {
+            PhrFederatedUser u1 = createTestUserForMonitoring("pid1", "phr01", "Marie", "Arcand", null, null);
+
+        }
+        if (commonDao.getPhrUser("phr01", false) != null) {
+            PhrFederatedUser u2 = createTestUserForMonitoring("pid2", "phr02", "Ann", "Kaine", null, null);
+
+        }
+        if (commonDao.getPhrUser("phr01", false) != null) {
+            PhrFederatedUser u4 = createTestUserForMonitoring("pid4", "phr03", "Thomas", "Kane", null, null);
+
+        }
+        if (commonDao.getPhrUser("phr01", false) != null) {
+            PhrFederatedUser u3 = createTestUserForMonitoring("pid3", "phr04", "Dudley", "Clougher", null, null);
+
+        }
+
+    }
+
+    public static PhrFederatedUser createTestUserForMonitoring(String protocolId, String loginId, String firstname, String lastname, String pixQueryIdType, String pixQueryIdUser) {
+
+
+        PhrFederatedUser user = null;
+        try {
+            CommonDao commonDao = PhrsStoreClient.getInstance().getCommonDao();
+
+            //String loginUserIdOwnerUri = PhrFederatedUser.makeOwnerUri();
+            user = commonDao.getPhrUser(loginId, true);
+
+            user.setOwnerUri(loginId);
+            user.setCreatorUri(user.getOwnerUri());
+            user.setUserId(loginId);
+            user.setIdentifier(loginId);//init to local identifier, but could later assign to an OpenId.
+
+            user.setCanLocalLogin(true);
+
+            user.setNickname(firstname);
+            user.setCanLocalLogin(true);
+
+            user.setProtocolIdUser(protocolId);//Constants.ICARDEA_DOMAIN_PIX_OID);
+            user.setProtocolIdPix(protocolId);//Constants.ICARDEA_DOMAIN_PIX_OID);
+
+            user.setPixQueryIdUser(pixQueryIdUser);
+            user.setPixQueryIdType(pixQueryIdType);
+
+            //user.setRole(PhrsConstants.AUTHORIZE_ROLE_PHRS_SUBJECT_CODE_USER_LOCAL_LOGIN);
+
+            commonDao.crudSaveResource(user, user.getOwnerUri(), "createTestUserForMonitoring");
+
+            //register PID.
+            //commonDao.getPhrsStoreClient().getInteropClients().registerProtocolId(user.getOwnerUri(), protocolId, null);
+
+
+            ProfileContactInfo info = commonDao.getProfileContactInfo(user.getOwnerUri());
+            if (info == null) {
+                info = new ProfileContactInfo();
+                info.setOwnerUri(user.getOwnerUri());
+                info.setCreatorUri(user.getOwnerUri());
+                info.setType(info.getClass().getCanonicalName());
+
+            }
+            info.setFirstName(firstname);
+            info.setLastName(lastname);
+
+
+            commonDao.crudSaveResource(info, user.getOwnerUri(), "createTestUserForMonitoring");
+
+
+            ObsVitalsBloodPressure bp1 = new ObsVitalsBloodPressure();
+            bp1.setSystolic(110);
+            bp1.setDiastolic(55);
+            bp1.setHeartRate(60);
+            bp1.setBeginDate(new Date());
+            bp1.setEndDate(new Date());
+            bp1.setNote("note " + makeSimpleId());
+            bp1.setSystemNote(bp1.getNote());
+            bp1.setNewImport(true);
+            commonDao.crudSaveResource(bp1, user.getOwnerUri(), "createTestUserForMonitoring");
+            //does automatic notify upon save
+
+
+            ObsVitalsBodyWeight bw1 = new ObsVitalsBodyWeight();
+            bw1.setBodyWeight(71d);
+            bw1.setBodyHeight(163d);
+            bw1.setBeginDate(new Date());
+            bw1.setEndDate(new Date());
+            bw1.setNote("note " + makeSimpleId());
+            bw1.setSystemNote(bw1.getNote());
+            bw1.setNewImport(true);
+            commonDao.crudSaveResource(bw1, user.getOwnerUri(), "createTestUserForMonitoring");
+
+            //    "http://www.icardea.at/phrs/instances/BleedingGums");
+
+
+            ObsProblem prob = new ObsProblem();
+            prob.setBeginDate(new Date());
+            prob.setStatus("default_activeStatusTrue");
+            prob.setCode(Constants.HL7V3_FEVER);
+
+            prob.setNote("note " + makeSimpleId());
+            prob.setNote(prob.getSystemNote());
+            prob.setNewImport(true);
+            commonDao.crudSaveResource(prob, user.getOwnerUri(), "createTestUserForMonitoring");
+
+
+            //                Constants.STATUS_COMPELETE,
+//                Constants.HL7V3_ORAL_ADMINISTRATION,
+//                "20", Constants.MILLIGRAM,
+//                "Ebetrexat(Methotrexate)"
+//                        "C0025677"
+
+            MedicationTreatment res = new MedicationTreatment();
+
+            res.setBeginDate(new Date());
+            //res.setEndDate(new Date());
+            res.setLabel("Ebetrexat(Methotrexate)");
+            res.setProductCode("C0025677");
+
+            res.setStatus(Constants.STATUS_RUNNING);
+            res.setReasonCode("http://www.icardea.at/phrs/instances/Cholesterol");
+
+            //res.setReasonCode(value);
+            //res.setPrescribedByName("");
+            MedicationTreatmentMatrix mtm = new MedicationTreatmentMatrix();
+            mtm.setAdminRoute(Constants.HL7V3_ORAL_ADMINISTRATION);
+            mtm.setDosage(2d);//double
+
+            mtm.setDosageQuantity("100");
+            mtm.setDosageUnits(Constants.MILLIGRAM);
+
+            mtm.setDosageInterval("http://www.icardea.at/phrs/instances/EveryHour");
+            mtm.setDosageTimeOfDay("http://www.icardea.at/phrs/instances/InTheMorning");
+
+            res.setTreatmentMatrix(mtm);
+            res.setNewImport(true);
+            commonDao.crudSaveResource(res, user.getOwnerUri(), "createTestUserForMonitoring");
+
+            LOGGER.debug("createTestUserForMonitoring for  fullname " + firstname + " " + lastname + " ownerUri " + user.getOwnerUri() + " protocolId " + protocolId);
+
+
+        } catch (Exception e) {
+            LOGGER.error("Error creating user test data", e);
+        }
+        return user;
     }
 
     /**
@@ -288,7 +642,7 @@ public class CoreTestData {
     public static PhrFederatedUser createTestUserData() {
         PhrFederatedUser user = null;
         try {
-            user = createTestUserData(true);
+            user = createTestUserData(false);//dont save objects, it notifies
         } catch (Exception e) {
             LOGGER.error("Error creating user test user data", e);
         }
@@ -303,6 +657,7 @@ public class CoreTestData {
 //     test.user.1.name=Suzie Mayr
 //     test.user.1.firstname=Suzie
 //     test.user.1.lastname=Mayr
+
         String loginUserIdOwnerUri = ConfigurationService.getInstance().getProperty("test.user.1.login.id", PhrsConstants.AUTHORIZE_USER_PREFIX_TEST);
         LOGGER.debug("Creating test data for test user = " + loginUserIdOwnerUri);
         PhrFederatedUser user = null;
@@ -372,22 +727,23 @@ public class CoreTestData {
                 bp1.setEndDate(new Date());
                 bp1.setNote("note " + makeSimpleId());
                 bp1.setSystemNote(bp1.getNote());
+                bp1.setNewImport(true);
                 commonDao.crudSaveResource(bp1, user.getOwnerUri(), "CoreTestData createTestUserData");
                 //does automatic notify upon save
             }
-             /*
+            /*
 
-            if (addObservations) {
-                ObsVitalsBodyWeight bw1 = new ObsVitalsBodyWeight();
-                bw1.setBodyWeight(75d);
-                bw1.setBodyHeight(173d);
-                bw1.setBeginDate(new Date());
-                bw1.setEndDate(new Date());
-                bw1.setNote("note " + makeSimpleId());
-                bw1.setSystemNote(bw1.getNote());
-                commonDao.crudSaveResource(bw1, user.getOwnerUri(), "CoreTestData createTestUserData");
-                //does automatic notify upon save
-            }  */
+          if (addObservations) {
+              ObsVitalsBodyWeight bw1 = new ObsVitalsBodyWeight();
+              bw1.setBodyWeight(75d);
+              bw1.setBodyHeight(173d);
+              bw1.setBeginDate(new Date());
+              bw1.setEndDate(new Date());
+              bw1.setNote("note " + makeSimpleId());
+              bw1.setSystemNote(bw1.getNote());
+              commonDao.crudSaveResource(bw1, user.getOwnerUri(), "CoreTestData createTestUserData");
+              //does automatic notify upon save
+          }  */
             /*
                try {
             client.addProblemEntry(
@@ -420,14 +776,15 @@ public class CoreTestData {
         return user;
     }
 
+
     /**
      * String protocolId = ConfigurationService.getInstance().getProperty("test.user.1.pid", "191");
      */
     public static void loadTestProblemsMedications(boolean notify) {
-        loadTestProblemsMedications(ConfigurationService.getInstance().getProperty("test.user.1.pid", "191"),notify);
+        loadTestProblemsMedications(ConfigurationService.getInstance().getProperty("test.user.1.pid", "191"), notify);
     }
 
-    public static void loadTestProblemsMedications(String protocolId,boolean notify) {
+    public static void loadTestProblemsMedications(String protocolId, boolean notify) {
         InteropClients interopClients = PhrsStoreClient.getInstance().getInteropClients();
         ProblemEntryClient client = interopClients.getProblemEntryClient();
         MedicationClient medClient = interopClients.getMedicationClient();
@@ -473,19 +830,19 @@ public class CoreTestData {
         } catch (TripleException e) {
             LOGGER.error("loadTestProblem addMedicationSign  ", e);
         }
-        try{
+        try {
             interopClients.notifyInteropMessageSubscribersByProtocolId(InteropProcessor.CARE_PROVISION_CODE_MEDCCAT, protocolId);  //"MEDLIST"
         } catch (Exception e) {
             LOGGER.error("loadTestProblem notifyInteropMessageSubscribersByProtocolId  ", e);
         }
-        try{
+        try {
             interopClients.notifyInteropMessageSubscribersByProtocolId(InteropProcessor.CARE_PROVISION_CODE_MEDLIST, protocolId);  //"MEDLIST"
         } catch (Exception e) {
             LOGGER.error("loadTestProblem notifyInteropMessageSubscribersByProtocolId  ", e);
         }
     }
 
-    public static void loadTestProblem(String protocolId,boolean notify) {
+    public static void loadTestProblem(String protocolId, boolean notify) {
         InteropClients interopClients = PhrsStoreClient.getInstance().getInteropClients();
         ProblemEntryClient client = interopClients.getProblemEntryClient();
 
@@ -498,7 +855,7 @@ public class CoreTestData {
                     Constants.STATUS_COMPELETE,
                     "201008200000",
                     "",
-                    "loaded by core test data Free text note. "+new Date(),
+                    "loaded by core test data Free text note. " + new Date(),
                     Constants.HL7V3_SICK_TO_STOMACH);
         } catch (TripleException e) {
             LOGGER.error("loadTestProblem Constants.HL7V3_SICK_TO_STOMACH", e);  //To change body of catch statement use File | Settings | File Templates.
@@ -518,7 +875,7 @@ public class CoreTestData {
         }
 
 
-        try{
+        try {
             interopClients.notifyInteropMessageSubscribersByProtocolId(InteropProcessor.CARE_PROVISION_CODE_MEDCCAT, protocolId);  //"MEDLIST"
         } catch (Exception e) {
             LOGGER.error("loadTestProblem notifyInteropMessageSubscribersByProtocolId  ", e);
@@ -526,7 +883,7 @@ public class CoreTestData {
 
     }
 
-    public static void loadTestMedicationWithDrugCode(String protocolId,boolean notify) {
+    public static void loadTestMedicationWithDrugCode(String protocolId, boolean notify) {
         InteropClients interopClients = PhrsStoreClient.getInstance().getInteropClients();
 
         MedicationClient medClient = interopClients.getMedicationClient();
@@ -543,19 +900,19 @@ public class CoreTestData {
             LOGGER.error("loadTestProblem addMedicationSign  ", e);
         }
 
-        try{
+        try {
             interopClients.notifyInteropMessageSubscribersByProtocolId(InteropProcessor.CARE_PROVISION_CODE_MEDCCAT, protocolId);  //"MEDLIST"
         } catch (Exception e) {
             LOGGER.error("loadTestProblem notifyInteropMessageSubscribersByProtocolId  ", e);
         }
-        try{
+        try {
             interopClients.notifyInteropMessageSubscribersByProtocolId(InteropProcessor.CARE_PROVISION_CODE_MEDLIST, protocolId);  //"MEDLIST"
         } catch (Exception e) {
             LOGGER.error("loadTestProblem notifyInteropMessageSubscribersByProtocolId  ", e);
         }
     }
 
-    public static void loadTestMedicationNoDrugCode(String protocolId,boolean notify) {
+    public static void loadTestMedicationNoDrugCode(String protocolId, boolean notify) {
         InteropClients interopClients = PhrsStoreClient.getInstance().getInteropClients();
 
         MedicationClient medClient = interopClients.getMedicationClient();
@@ -572,12 +929,12 @@ public class CoreTestData {
             LOGGER.error("loadTestProblem addMedicationSign  ", e);
         }
 
-        try{
+        try {
             interopClients.notifyInteropMessageSubscribersByProtocolId(InteropProcessor.CARE_PROVISION_CODE_MEDCCAT, protocolId);  //"MEDLIST"
         } catch (Exception e) {
             LOGGER.error("loadTestProblem notifyInteropMessageSubscribersByProtocolId  ", e);
         }
-        try{
+        try {
             interopClients.notifyInteropMessageSubscribersByProtocolId(InteropProcessor.CARE_PROVISION_CODE_MEDLIST, protocolId);  //"MEDLIST"
         } catch (Exception e) {
             LOGGER.error("loadTestProblem notifyInteropMessageSubscribersByProtocolId  ", e);
