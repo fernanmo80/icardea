@@ -420,12 +420,15 @@ public class ReceiverApplication extends Thread {
 			}
 
 			// log the message
-			if (messageID != null && !messageID.equals("")) {
-				String fileName = messageID + ".hl7.xml";
-				FileOutputStream fos = new FileOutputStream("logs/" + fileName);
-				fos.write(receivedMessage.getBytes());
-				fos.close();
-			}
+			boolean logtofile = new Boolean(ResourceBundle.getBundle("icardea")
+				.getString("file.log")).booleanValue();
+			if(logtofile) 
+				if (messageID != null && !messageID.equals("")) {
+					String fileName = messageID + ".hl7.xml";
+					FileOutputStream fos = new FileOutputStream("logs/" + fileName);
+					fos.write(receivedMessage.getBytes());
+					fos.close();
+				}
 			//
 			String ackString = "";
 			if (inXML) {
@@ -439,7 +442,7 @@ public class ReceiverApplication extends Thread {
 
 			out.write(SB);
 			BufferedReader bf = new BufferedReader(new StringReader(new String(
-					ackString)));
+							ackString)));
 			StringBuilder messageBuffer = new StringBuilder();
 			String line = "";
 			while ((line = bf.readLine()) != null) {
@@ -466,7 +469,7 @@ public class ReceiverApplication extends Thread {
 	private String createAcknowledgement(String messageID) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
 		String result = "MSH|^~\\&|||||" + dateFormat.format(new Date())
-				+ "||ACK|3|P|2.5\n";
+			+ "||ACK|3|P|2.5\n";
 		result += "MSA|AA|" + messageID + "\n";
 		return result;
 	}
@@ -502,9 +505,9 @@ public class ReceiverApplication extends Thread {
 
 	public void closeSocket() {
 		Logger.getLogger(ReceiverApplication.class)
-				.log(Level.INFO,
-						"Socket over Port: " + socket.getLocalPort()
-								+ " is closing...");
+			.log(Level.INFO,
+					"Socket over Port: " + socket.getLocalPort()
+					+ " is closing...");
 		try {
 			socket.close();
 		} catch (java.io.IOException ex) {
@@ -522,7 +525,7 @@ public class ReceiverApplication extends Thread {
 			Logger.getLogger(ReceiverApplication.class).log(
 					Level.INFO,
 					"Message is not A05 or A31 message... "
-							+ message.getClass().getName());
+					+ message.getClass().getName());
 			return "";
 		}
 
@@ -546,10 +549,10 @@ public class ReceiverApplication extends Thread {
 		for (int i = 0; i < patientIdentifierList.length; i++) {
 			CX patientIdentifier = patientIdentifierList[i];
 			String namespace = patientIdentifier.getAssigningAuthority()
-					.getNamespaceID().getValue();
+				.getNamespaceID().getValue();
 			String identifierTypeCode = patientIdentifier
-					.getIdentifierTypeCode() != null ? patientIdentifier
-					.getIdentifierTypeCode().getValue() : "";
+				.getIdentifierTypeCode() != null ? patientIdentifier
+				.getIdentifierTypeCode().getValue() : "";
 			String identifier = patientIdentifier.getIDNumber().getValue();
 			if (namespace.equalsIgnoreCase("icardea.pix")
 					|| namespace.indexOf("icardea") != -1) {
@@ -562,18 +565,18 @@ public class ReceiverApplication extends Thread {
 					&& identifierTypeCode.equalsIgnoreCase("epsos")) {
 				epSOSID = identifier;
 				homeCommunityID = namespace;
-			}
+					}
 
 		}
 		Logger.getLogger(ReceiverApplication.class)
-				.log(Level.INFO,
-						"epSOS ID: " + epSOSID + " homeCommunityID: "
-								+ homeCommunityID);
+			.log(Level.INFO,
+					"epSOS ID: " + epSOSID + " homeCommunityID: "
+					+ homeCommunityID);
 		if (epSOSID != null) {
 			Logger.getLogger(ReceiverApplication.class).log(
 					Level.INFO,
 					"epSOS ID: " + epSOSID + " homeCommunityID: "
-							+ homeCommunityID);
+					+ homeCommunityID);
 			Socket epsosSocket = null;
 			if (atnatls) {
 				Security.addProvider(new Provider());
@@ -585,24 +588,24 @@ public class ReceiverApplication extends Thread {
 				System.setProperty("javax.net.ssl.trustStorePassword", "srdcpass");
 
 				SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory
-						.getDefault();
+					.getDefault();
 				epsosSocket = (SSLSocket) sslsocketfactory.createSocket(
 						"localhost", 1012);
 			} else {
 				epsosSocket = new Socket("localhost", 1012);
 			}
-			
+
 			OutputStream dos = epsosSocket.getOutputStream();
 			dos.write((epSOSID+":"+homeCommunityID+"\n").getBytes());
 			dos.flush();
 			dos.close();
-			
+
 			if (atnatls) {
 				String keystoreFile = ResourceBundle.getBundle("icardea")
-						.getString("tomcat.home") + "conf/.keystore";
+					.getString("tomcat.home") + "conf/.keystore";
 				String keystorePass = "srdcpass";
 				String truststoreFile = ResourceBundle.getBundle("icardea")
-						.getString("tomcat.home") + "conf/.truststore";
+					.getString("tomcat.home") + "conf/.truststore";
 				String truststorePass = "srdcpass";
 
 
@@ -617,7 +620,7 @@ public class ReceiverApplication extends Thread {
 				System.setProperty("javax.net.ssl.trustStorePassword", truststorePass);
 				// Initialize the Server Socket
 			}
-			
+
 			Logger.getLogger(ReceiverApplication.class).log(Level.INFO,
 					"Registration to XDS Reg/Rep complete... ");
 		}
@@ -647,7 +650,7 @@ public class ReceiverApplication extends Thread {
 		String givenName = "";
 		String familyName = "";
 		String dateTimeOfBirth = pidSegment.getDateTimeOfBirth().getTime()
-				.getValue();
+			.getValue();
 		String administrativeSex = pidSegment.getAdministrativeSex().getValue();
 
 		patient.setPatientIdentifier(patientID);
@@ -657,52 +660,52 @@ public class ReceiverApplication extends Thread {
 
 		if (pidSegment.getPatientID().getIdentifierTypeCode() != null) {
 			String identifierTypeCode = pidSegment.getPatientID()
-					.getIdentifierTypeCode().getValue(); // OPTIONAL, Table 203
+				.getIdentifierTypeCode().getValue(); // OPTIONAL, Table 203
 			patient.setIdentifierTypeCode(patientID);
 		}
 		if (pidSegment.getPatientName(0) != null) {
 			if (pidSegment.getPatientName(0).getGivenName() != null) {
 				givenName = pidSegment.getPatientName(0).getGivenName()
-						.getValue(); // OPTIONAL
+					.getValue(); // OPTIONAL
 				patient.setGivenName(givenName);
 				person.setName(givenName);
 			}
 			if (pidSegment.getPatientName(0).getFamilyName() != null) {
 				familyName = pidSegment.getPatientName(0).getFamilyName()
-						.getSurname().getValue(); // OPTIONAL
+					.getSurname().getValue(); // OPTIONAL
 				patient.setFamilyName(familyName);
 				person.setSurname(familyName);
 			}
 			if (pidSegment.getPatientName(0)
 					.getSecondAndFurtherGivenNamesOrInitialsThereof() != null) {
 				String secondName = pidSegment.getPatientName(0)
-						.getSecondAndFurtherGivenNamesOrInitialsThereof()
-						.getValue(); // OPTIONAL
+					.getSecondAndFurtherGivenNamesOrInitialsThereof()
+					.getValue(); // OPTIONAL
 				patient.setSecondName(secondName);
 				person.setMiddleName(secondName);
-			}
+					}
 		}
 		if (pidSegment.getPatientAddress(0) != null) {
 			if (pidSegment.getPatientAddress(0).getStreetAddress() != null
 					&& pidSegment.getPatientAddress(0).getStreetAddress()
-							.getStreetName() != null) {
+					.getStreetName() != null) {
 				String street = pidSegment.getPatientAddress(0)
-						.getStreetAddress().getStreetName().getValue(); // OPTIONAL
+					.getStreetAddress().getStreetName().getValue(); // OPTIONAL
 				patient.setStreet(street);
-			}
+					}
 			if (pidSegment.getPatientAddress(0).getCity() != null) {
 				String city = pidSegment.getPatientAddress(0).getCity()
-						.getValue(); // OPTIONAL
+					.getValue(); // OPTIONAL
 				patient.setCity(city);
 			}
 			if (pidSegment.getPatientAddress(0).getZipOrPostalCode() != null) {
 				String postalCode = pidSegment.getPatientAddress(0)
-						.getZipOrPostalCode().getValue(); // OPTIONAL
+					.getZipOrPostalCode().getValue(); // OPTIONAL
 				patient.setPostalCode(postalCode);
 			}
 			if (pidSegment.getPatientAddress(0).getCountry() != null) {
 				String country = pidSegment.getPatientAddress(0).getCountry()
-						.getValue(); // OPTIONAL
+					.getValue(); // OPTIONAL
 				patient.setCountry(country);
 			}
 		}
@@ -711,7 +714,7 @@ public class ReceiverApplication extends Thread {
 		for (int i = 0; i < contactNumbers.length; i++) {
 			XTN contactNumber = contactNumbers[i];
 			String useCode = contactNumber.getTelecommunicationUseCode()
-					.getValue();
+				.getValue();
 			if (useCode.equals("PRN")) {
 				homePhone = contactNumber.getTelephoneNumber().getValue();
 			} else if (useCode.equals("PRS")) {
@@ -724,11 +727,11 @@ public class ReceiverApplication extends Thread {
 		Logger.getLogger(ReceiverApplication.class).log(
 				Level.INFO,
 				" *** Patient:\n" + " patientID = " + patientID
-						+ " givenName = " + givenName + " familyName = "
-						+ familyName + " email = " + email + " phone = "
-						+ homePhone + " mobile = " + mobilePhone
-						+ " citizenshipID = " + citizenshipID
-						+ " administrativeSex = " + administrativeSex);
+				+ " givenName = " + givenName + " familyName = "
+				+ familyName + " email = " + email + " phone = "
+				+ homePhone + " mobile = " + mobilePhone
+				+ " citizenshipID = " + citizenshipID
+				+ " administrativeSex = " + administrativeSex);
 		person.setRole("Patient");
 		person.save();
 
@@ -747,7 +750,7 @@ public class ReceiverApplication extends Thread {
 			String atnalogServer = properties.getString("atna.log.server");
 
 			String xml = Audit.createMessage("register", patientID, "", "");// TODO:registration
-																			// message
+			// message
 			Audit a = null;
 			try {
 				a = new Audit(atnalogServer, 2861);
@@ -793,9 +796,9 @@ public class ReceiverApplication extends Thread {
 		System.out.println(" $$$ Adding contact for:"
 				+ personInDB.getIdentifier());
 		PersistentTransaction transaction = ICardeaPersistentManager.instance()
-				.getSession().beginTransaction();
+			.getSession().beginTransaction();
 		tr.com.srdc.icardea.hibernate.Contact contactInDB = personInDB
-				.getContact();
+			.getContact();
 		if (contactInDB == null) {
 			contactInDB = new tr.com.srdc.icardea.hibernate.Contact();
 		}
@@ -811,11 +814,11 @@ public class ReceiverApplication extends Thread {
 		personInDB.save();
 		transaction.commit();
 		return contactInDB;
-	}
+			}
 
 	public tr.com.srdc.icardea.hibernate.Patient addPatient(String pid,
 			String name, String surname, String birthDate, String gender)
-			throws Exception {
+		throws Exception {
 
 		/*
 		 * if (birthDate.indexOf("-") < 0) { String[] parts =
@@ -824,7 +827,7 @@ public class ReceiverApplication extends Thread {
 		 */
 		tr.com.srdc.icardea.hibernate.Patient patient = null;
 		PersistentTransaction transaction = ICardeaPersistentManager.instance()
-				.getSession().beginTransaction();
+			.getSession().beginTransaction();
 		PatientCriteria criteria = null;
 		try {
 			criteria = new PatientCriteria();
@@ -834,7 +837,7 @@ public class ReceiverApplication extends Thread {
 		}
 		criteria.citizenshipNumber.eq(pid);
 		tr.com.srdc.icardea.hibernate.Patient[] patients = tr.com.srdc.icardea.hibernate.Patient
-				.listPatientByCriteria(criteria);
+			.listPatientByCriteria(criteria);
 		System.out.println(" $$$ Adding patient:" + name + " " + pid);
 		if (patients.length > 0) {
 			patient = patients[0];
@@ -850,7 +853,7 @@ public class ReceiverApplication extends Thread {
 				String password = properties.getString("mysql.password");
 				String url = properties.getString("mysql.host");
 				String jdbcDriver = properties
-						.getString("jdbc.driverClassName");
+					.getString("jdbc.driverClassName");
 				String jdbcURL = "jdbc:mysql://" + url + "/final_icardea";
 
 				Class.forName(jdbcDriver).newInstance();
@@ -859,12 +862,12 @@ public class ReceiverApplication extends Thread {
 						username, password);
 				Statement s = conn.createStatement();
 				System.out
-						.println("Query:"
-								+ "select patientcode from patient where patientcode = "
-								+ pid);
+					.println("Query:"
+							+ "select patientcode from patient where patientcode = "
+							+ pid);
 				ResultSet resultSet = s
-						.executeQuery("select patientcode from patient where patientcode = "
-								+ pid);
+					.executeQuery("select patientcode from patient where patientcode = "
+							+ pid);
 
 				if (!resultSet.next()) {
 					Statement s1 = conn.createStatement();
@@ -899,7 +902,7 @@ public class ReceiverApplication extends Thread {
 	public tr.com.srdc.icardea.hibernate.Person addPerson(String id,
 			String name, String surname) throws Exception {
 		PersistentTransaction transaction = ICardeaPersistentManager.instance()
-				.getSession().beginTransaction();
+			.getSession().beginTransaction();
 		System.out.println(" $$$ Adding person:" + name);
 		tr.com.srdc.icardea.hibernate.Person personInDB = null;
 		PersonCriteria personCriteria = null;
@@ -911,7 +914,7 @@ public class ReceiverApplication extends Thread {
 		}
 		personCriteria.identifier.eq(id);
 		tr.com.srdc.icardea.hibernate.Person[] persons = tr.com.srdc.icardea.hibernate.Person
-				.listPersonByCriteria(personCriteria);
+			.listPersonByCriteria(personCriteria);
 		if (persons.length > 0) {
 			System.out.println(" $$$ Person already in the DB:" + name);
 			personInDB = persons[0];
@@ -928,10 +931,10 @@ public class ReceiverApplication extends Thread {
 	}
 
 	public String processCIEDMessage(Message message)
-			throws ApplicationException, HL7Exception {
+		throws ApplicationException, HL7Exception {
 		// printMessage(message);
-		// System.out.println("ReceiverApplication got the message..." + new
-		// DefaultXMLParser().encode(message));
+	// System.out.println("ReceiverApplication got the message..." + new
+// DefaultXMLParser().encode(message));
 		System.out.println("ReceiverApplication processCIEDMessage");
 		Logger.getLogger(ReceiverApplication.class).log(Level.INFO,
 				"Receiving the message");
@@ -941,7 +944,7 @@ public class ReceiverApplication extends Thread {
 		PersistentTransaction transaction = null;
 		try {
 			transaction = ICardeaPersistentManager.instance().getSession()
-					.beginTransaction();
+				.beginTransaction();
 			CIEDData ciedData = CIEDData.createCIEDData();
 			Logger.getLogger(ReceiverApplication.class).log(Level.INFO,
 					"Processing MSH");
@@ -985,7 +988,7 @@ public class ReceiverApplication extends Thread {
 	}
 
 	private static byte[] decodeAndWriteToFile(byte[] b, String fileName)
-			throws Exception {
+		throws Exception {
 		ByteArrayInputStream bais = new ByteArrayInputStream(b);
 		InputStream b64is = MimeUtility.decode(bais, "base64");
 		byte[] tmp = new byte[b.length];
