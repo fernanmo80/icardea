@@ -108,13 +108,18 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 		String patientID = patient.getId().get(0).getExtension();
 
 		// log the message
-		DateFormat dateFormatForLog = new SimpleDateFormat("yyyyMMddHHmmss");
+		//
+		// TODO: uncomment the following...
+
+		/*DateFormat dateFormatForLog = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date dateForLog = new Date();
 		String fileName = "logs/"+senderName + "-" + patientID +"-"+ dateFormatForLog.format(dateForLog)+".xml" ;
 		Logger.getLogger(QUPC_AR004030UV_ServiceSkeleton.class).log(Level.INFO, " Marshalling to file "+fileName);	
 		javax.xml.bind.JAXBContext jc = javax.xml.bind.JAXBContext.newInstance("org.hl7.v3");
             	javax.xml.bind.Marshaller marsh = jc.createMarshaller();
-	        marsh.marshal( pcc10, new FileOutputStream(fileName) );
+	        marsh.marshal( pcc10, new FileOutputStream(fileName) );*/
+
+
 		//
 
 		// TODO: patient database'de var mi yok mu once onu kontrol et. Yani HISPatientService'e bak, id'sini bul ve ona gore islem yap
