@@ -116,7 +116,8 @@ public class Perspective implements IPerspectiveFactory {
 			if(p.getKey().equalsIgnoreCase("patientid")|| 
 					p.getKey().equalsIgnoreCase("openid")||
 					p.getKey().equalsIgnoreCase("startup")||
-					p.getKey().equalsIgnoreCase("scaled")
+					p.getKey().equalsIgnoreCase("scaled")||
+					p.getKey().equalsIgnoreCase("tab")
 					){
 				paramExist = true;
 				paramUrl+="&"+p.getKey()+"="+p.getValue();}
@@ -152,7 +153,8 @@ public class Perspective implements IPerspectiveFactory {
 			if(p.getKey().equalsIgnoreCase("patientid")|| 
 					p.getKey().equalsIgnoreCase("openid")||
 					p.getKey().equalsIgnoreCase("startup")||
-					p.getKey().equalsIgnoreCase("scaled")
+					p.getKey().equalsIgnoreCase("scaled")||
+					p.getKey().equalsIgnoreCase("tab")
 					){
 				paramExist = true;
 				paramUrl+="&"+p.getKey()+"="+p.getValue();}
