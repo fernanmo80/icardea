@@ -41,30 +41,28 @@ public class SendHL7Message {
 
 		String messageTime = dateFormat.format(new Date());
 
-		String messageToSend = "MSH|^~\\&|iCARDEA|iCARDEA|ORBIS|EHR|"
-				+ messageTime
-				+ "||DFT^P03|0851077|P|2.2|||AL|NE\r"
-				+ "EVN|P03|"
-				+ messageTime
-				+ "\r"
-				+ "PID|||"
-				+ patientID
-				+ "^^^icardea.pix&1.2.826.0.1.3680043.2.44.248240.1&ISO||"
-				+ name.replaceAll(" ", "^")
-				+ "||"
-				+ birthDateString
-				+ "|"
-				+ gender
-				+ "|||^^Salzburg^^A-5020^Austria\r"
-				+ "FT1|1|||"
-				+ messageTime
-				+ "||CG|73630|||1||||||^^^^407^^^^test location||I|161510004^Heart Disease^SCT|1^SurnameDR^NameDR^^^DR|||783933|1^SurnameDR^NameDR^^^DR|C0282451|"
-				+ guidelineTitle + "\r";
+		/*
+		 * String messageToSend = "MSH|^~\\&|iCARDEA|iCARDEA|ORBIS|EHR|" +
+		 * messageTime + "||DFT^P03|0851077|P|2.2|||AL|NE\r" + "EVN|P03|" +
+		 * messageTime + "\r" + "PID|||" + patientID +
+		 * "^^^icardea.pix&1.2.826.0.1.3680043.2.44.248240.1&ISO||" +
+		 * name.replaceAll(" ", "^") + "||" + birthDateString + "|" + gender +
+		 * "|||^^Salzburg^^A-5020^Austria\r" + "FT1|1|||" + messageTime +
+		 * "||CG|73630|||1||||||^^^^407^^^^test location||I|161510004^Heart Disease^SCT|1^SurnameDR^NameDR^^^DR|||783933|1^SurnameDR^NameDR^^^DR|C0282451|"
+		 * + guidelineTitle + "\r";
+		 */
+
+		String messageToSend = "MSH|^~\\&|iCARDEA|iCARDEA-DFT|LKH|LKH|2012||DFT^P03|999999|P|2.1|||AL|NE\r"
+				+ "EVN|P01|2012\r"
+				+ "PID||2003799|2003799|1999012812|Test^Salkis||19750403\r"
+				+ "PV1||S|^^^M2||||||||||||||||1999012812||||||||||||||||||||134410\r"
+				+ "FT1|1|iCARDEA_0001|10000|20120306090909|20120306090909||6SDJX002|ICD-Kontrolle||1||||||||||134410^M2||1|iCARDEA_0001|iCARDEA\r";
+
 		logger.info(" $$$ Sending message to EHR Interoperability Framework:"
 				+ messageToSend);
 		try {
-		send(messageToSend);
-		} catch(Exception ex) {
+			send(messageToSend);
+		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
 		logger.info(" $$$ Sent message to EHR Interoperability Framework:");
@@ -88,7 +86,8 @@ public class SendHL7Message {
 
 		logger.info(" Sending HL7 message to host:" + host + ":" + port);
 
-		// TODO: For the time being the port is regarded as insecure. In the future 
+		// TODO: For the time being the port is regarded as insecure. In the
+		// future
 		// // it will be secure. For this comment the following line.
 		atnatls = false;
 		if (atnatls) {
