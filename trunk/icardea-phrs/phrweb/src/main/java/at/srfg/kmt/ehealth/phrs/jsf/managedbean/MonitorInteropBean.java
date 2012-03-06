@@ -95,10 +95,13 @@ public class MonitorInteropBean implements Serializable {
                 getOwnerUri(),
                 Constants.PHRS_MEDICATION_CLASS,
                 false); //false, do not import new Messages, only report
-
-        if(transformedMsgs!=null && !transformedMsgs.isEmpty()){
+        int count=transformedMsgs == null ? -1 :transformedMsgs.size();
+        if(transformedMsgs != null && ! transformedMsgs.isEmpty()){
             //ok
+            LOGGER.debug("transformedMsgs. OK found interop meds found count="+count);
         } else {
+
+            LOGGER.debug("transformedMsgs. No interop meds found, create test data count=");
             transformedMsgs=CoreTestData.createMedicationMonitorInfoItems(getOwnerUri());
 
         }

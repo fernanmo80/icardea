@@ -314,8 +314,11 @@ public class CoreTestData {
                 if (!commonDao.hasMedication(owner, "", "C0032952")) {
 
                     MonitorInfoItem mii = CoreTestData.createMonitorInfoItem("Prednisone", "C0032952");
+
                     list.add(mii);
                     
+                } else {
+                    LOGGER.debug("createMedicationMonitorInfoItems - not test data loaded, data already was loaded as phr resources, found a drug code ");
                 }
 
                 if (!commonDao.hasMedication(owner, "", "C0081876")) {

@@ -129,11 +129,13 @@ public class MonitorInfoMgtBean implements Serializable {
     //UI action Need params: selected...
     public void findResourcesByUserAndType() {
         System.out.println("findResourcesByUserAndType");
+        LOGGER.debug("findResourcesByUserAndType selectedOwnerUri="+selectedOwnerUri+" selectedLocalResourceType="+selectedLocalResourceType);
         initModelResults();
     }
 
 
     public void initModelResults() {
+        ownerUri = userService.getOwnerUri();
 
         if (UserSessionService.sessionUserHasMedicalRole()) {
             showFormType = ROLEGROUP_MEDICAL;
@@ -149,9 +151,9 @@ public class MonitorInfoMgtBean implements Serializable {
         modelMain = new ArrayList();
 
         //be sure, issue with viewscope
-        ownerUri = userService.getOwnerUri();
+
         testMode = selectedTest != null && ("true".equalsIgnoreCase(selectedTest));
-        LOGGER.debug("initModelResults selectedOwnerUri"+selectedOwnerUri+" ownerUri="+ ownerUri);
+        LOGGER.debug("initModelResults selectedOwnerUri"+selectedOwnerUri+" ownerUri="+ ownerUri+" selectedLocalResourceType="+selectedLocalResourceType);
         if (selectedOwnerUri != null && selectedLocalResourceType != null) {
 
             boolean granted = false;
@@ -187,17 +189,32 @@ public class MonitorInfoMgtBean implements Serializable {
 
     private void loadModelMainByUserAndResourceType(String targetOwnerUri, String localResourceType) {
         if (targetOwnerUri != null && localResourceType != null) {
+           int count=-1;
 
            if ("BW".equals(localResourceType)) {
                 modelMain = userService.getResourcesVitalBodyWeight(targetOwnerUri);
+               count = modelMain == null ? -1 : modelMain.size() ;
+               LOGGER.debug("getResourcesVitalBodyWeight count="+count);
+
             } else if ("BP".equals(localResourceType)) {
                 modelMain = userService.getResourcesVitalBloodPressure(targetOwnerUri);
+               count = modelMain == null ? -1 : modelMain.size() ;
+               LOGGER.debug("getResourcesVitalBloodPressure count="+count);
+
             } else if ("MED".equals(localResourceType)) {
                 modelMain = userService.getResourcesMedication(targetOwnerUri);
+               count = modelMain == null ? -1 : modelMain.size() ;
+               LOGGER.debug("getResourcesMedication count="+count);
+
             } else if ("PROBLEM".equals(localResourceType)) {
                 modelMain = userService.getResourcesProblem(targetOwnerUri);
+               count = modelMain == null ? -1 : modelMain.size() ;
+               LOGGER.debug("getResourcesProblem count="+count);
+
             } else if ("ADL".equals(localResourceType)) {
                 modelMain = userService.getResourcesADL(targetOwnerUri);
+               count = modelMain == null ? -1 : modelMain.size() ;
+               LOGGER.debug("getResourcesADL count="+count);
             }
         }
         if (modelMain == null) modelMain = new ArrayList();
