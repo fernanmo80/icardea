@@ -235,8 +235,16 @@ public class LoginMgtBean extends FaceCommon implements Serializable {
         }
         return false
     }
-
+    public boolean isMedicalRole() {
+        LOGGER.debug("method isMedicalRole")
+        return UserSessionService.sessionUserHasMedicalRole()
+    }
+    public boolean medicalRole() {
+        LOGGER.debug("method medicalRole")
+        return UserSessionService.sessionUserHasMedicalRole()
+    }
     public boolean getMedicalRole() {
+        LOGGER.debug("method getMedicalRole")
         return UserSessionService.sessionUserHasMedicalRole()
     }
 
