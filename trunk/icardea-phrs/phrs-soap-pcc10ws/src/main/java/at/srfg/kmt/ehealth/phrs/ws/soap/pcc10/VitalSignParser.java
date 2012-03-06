@@ -9,9 +9,15 @@ package at.srfg.kmt.ehealth.phrs.ws.soap.pcc10;
 
 
 import at.srfg.kmt.ehealth.phrs.Constants;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import at.srfg.kmt.ehealth.phrs.dataexchange.client.ClientException;
+import at.srfg.kmt.ehealth.phrs.dataexchange.client.MedicationClient;
+import at.srfg.kmt.ehealth.phrs.dataexchange.client.TermClient;
+import at.srfg.kmt.ehealth.phrs.dataexchange.client.VitalSignClient;
+import at.srfg.kmt.ehealth.phrs.persistence.api.GenericTriplestore;
+import at.srfg.kmt.ehealth.phrs.persistence.api.TripleException;
+import at.srfg.kmt.ehealth.phrs.persistence.api.ValueType;
+import at.srfg.kmt.ehealth.phrs.persistence.impl.TriplestoreConnectionFactory;
+import java.util.*;
 import javax.xml.bind.JAXBElement;
 import org.hl7.v3.*;
 import org.slf4j.Logger;
@@ -36,11 +42,31 @@ final class VitalSignParser implements Parser<REPCMT004000UV01PertinentInformati
             LoggerFactory.getLogger(VitalSignParser.class);
 
     /**
+     * The connection to the triple store.
+     */
+    private final GenericTriplestore triplestore;
+
+    /**
+     * The client used to store the vital sign related information.
+     */
+    private final VitalSignClient client;
+
+    /**
+     * The client used to access the all the iCardea terms.
+     */
+    private TermClient termClient;
+
+    /**
      * Builds
      * <code>VitalSignParser</code> instance.
      */
     public VitalSignParser() {
-        // UNIMPLEMENTED
+        final TriplestoreConnectionFactory connectionFactory =
+                TriplestoreConnectionFactory.getInstance();
+        triplestore = connectionFactory.getTriplestore();
+        client = new VitalSignClient(triplestore);
+        termClient = new TermClient(triplestore);
+        client.setCreator(Constants.EHR_OWNER);
     }
 
     @Override
@@ -93,14 +119,23 @@ final class VitalSignParser implements Parser<REPCMT004000UV01PertinentInformati
         final POCDMT000040Observation observation = observation_JAXB.getValue();
 
 
-
         LOGGER.debug("Tries to parse this Vital Sign {}", observation);
         final CD code = observation.getCode();
-        buildCodeURI(code);
+        final String codeURI;
+        try {
+            codeURI = Util.buildCodeURI(termClient, code);
+        } catch (ClientException exception) {
+            LOGGER.error("The code information can not be processed, parse fails.");
+            LOGGER.error(exception.getMessage(), exception);
+            return;
+        }
+
+        final CS statusCode = observation.getStatusCode();
+        final String statusURI = Util.getStatusURI(statusCode);
 
         final IVLTS effectiveTime = observation.getEffectiveTime();
         final String effectiveTimeValue = effectiveTime.getValue();
-        System.out.println("effectiveTime -->" + effectiveTimeValue);
+//        System.out.println("effectiveTime -->" + effectiveTimeValue);
 
         final List<ANY> value = observation.getValue();
         if (value.size() != 1) {
@@ -117,24 +152,24 @@ final class VitalSignParser implements Parser<REPCMT004000UV01PertinentInformati
         }
 
         final String quantityValue = quantity.getValue();
-        final String quantityUnit = quantity.getUnit();
-        System.out.println("quantityValue -->" + quantityValue);
-        System.out.println("quantityUnit -->" + quantityUnit);
+        final String quantityUnitStr = quantity.getUnit();
+        final String unitURI = Util.getUnitURI(quantity);
+        final String vitalSignMsg = String.format(" Vital sign[ owner=%s, code=%s, effectiveTime=%s, statusURI=%s, quantityValue=%s, unitURI=%s]", userId, codeURI, effectiveTimeValue, statusURI, quantityValue, unitURI);
+        try {
+            LOGGER.debug("Tries to persist " + vitalSignMsg);
+            client.addVitalSign(userId,
+                    codeURI,
+                    "importerd from EHR",
+                    effectiveTimeValue,
+                    statusURI,
+                    quantityValue,
+                    unitURI);
+            LOGGER.debug(vitalSignMsg + " was persisted.");
 
-    }
-
-    private String buildCodeURI(CD cd) {
-        final String code = cd.getCode();
-        final String displayName = cd.getDisplayName();
-        final String codeSystem = cd.getCodeSystem();
-        final String codeSystemName = cd.getCodeSystemName();
-
-        System.out.println("code -->" + code);
-        System.out.println("displayName -->" + displayName);
-        System.out.println("codeSystem -->" + codeSystem);
-        System.out.println("codeSystemName -->" + codeSystemName);
-
-        return null;
+        } catch (TripleException tripleException) {
+            LOGGER.error("The vital sign graph can not be created.");
+            LOGGER.error(tripleException.getMessage(), tripleException);
+        }
     }
 
     @Override

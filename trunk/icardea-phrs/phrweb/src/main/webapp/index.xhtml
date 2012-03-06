@@ -15,7 +15,7 @@
 	<ui:define name="content">
         <p:messages  showDetail="true" autoUpdate="true"/>
 		<p:fieldset toggleable="false" legend="Home">
-			<h:outputText value="#{labels['message_home']}" />
+
 			<h:panelGroup rendered="#{loginBean.loggedIn eq true}">
 				<ui:include src="./jsf/home_content.xhtml" />
 			</h:panelGroup>

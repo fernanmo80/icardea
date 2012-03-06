@@ -142,12 +142,13 @@
                     <p:column headerText="Description" sortBy="#{theItem.label}">
                         <h:outputLabel value="#{theItem.label}"/>
                     </p:column>
-
+                    <!--
                     <p:column headerText="Summary" sortBy="#{theItem.protocolId}"
                               style="width:200px;word-wrap:break-word;">
 
-                        <!--<h:outputText value="#{theItem.summary}"/>-->
+                        <h:outputText value="#{theItem.summary}"/>
                     </p:column>
+                    -->
                     <!--
 
                             <p:column headerText="User Name" sortBy="#{theItem.label}">
@@ -169,7 +170,7 @@
             <p>
                 Click here to go to your  
                 <u> 
-                    <h:outputLink  value=" {request.contextPath}/jsf/obs_medication_mgt.xhtml"><h:outputText value="Medications List" style="font-size:10pt;"/></h:outputLink>
+                    <h:outputLink  value="#{request.contextPath}/jsf/obs_medication_mgt.xhtml"><h:outputText value="Medications List" style="font-size:10pt;"/></h:outputLink>
                 </u>
             </p>
         </p:fieldset>

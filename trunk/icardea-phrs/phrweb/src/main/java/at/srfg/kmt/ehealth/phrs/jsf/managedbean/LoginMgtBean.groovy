@@ -72,8 +72,8 @@ public class LoginMgtBean extends FaceCommon implements Serializable {
     }
 
     public Map getSessionMap() {
-        
-        if(FacesContext.getCurrentInstance() != null){
+
+        if (FacesContext.getCurrentInstance() != null) {
             return FacesContext.getCurrentInstance().getExternalContext().getSessionMap()
         }
         return null;
@@ -110,35 +110,54 @@ public class LoginMgtBean extends FaceCommon implements Serializable {
         if (!userName) userName = UserSessionService.getRequestParameter(PhrsConstants.OPEN_ID_PARAM_NAME_LOGIN)
         return userName
     }
+
     public String getLoginStatus() {
         LOGGER.debug('getLoginStatus')
-          if(UserSessionService.loggedIn()) return "true"
-          return "false"
+        if (UserSessionService.loggedIn()) return "true"
+        return "false"
     }
-     public String loginStatus() {
-         LOGGER.debug('loginStatus')
-          if(UserSessionService.loggedIn()) return "true"
-          return "false"
-    }   
+
+    public String loginStatus() {
+        LOGGER.debug('loginStatus')
+        if (UserSessionService.loggedIn()) return "true"
+        return "false"
+    }
+
     public boolean getLoggedIn() {
         LOGGER.debug('getLoggedIn')
-        isLoggedIn()
+        return isLoggedIn()
     }
+
+    public boolean getSystemStatus() {
+        boolean theStatus= UserSessionService.getSystemStatus();
+        LOGGER.debug("system theStatus="+theStatus)
+        return theStatus;
+    }
+
+    public boolean isSystemStatus(){
+        LOGGER.debug("isSystemStatus")
+        return getSystemStatus()
+    }
+    public boolean systemStatus(){
+        LOGGER.debug("systemStatus")
+        return getSystemStatus()
+    }
+
     public boolean isLoggedIn() {
         boolean result = UserSessionService.loggedIn();
 
-        if ( ! result) {
-            //boolean isVerified = UserSessionService.getSessionAttributeOpenIdIsVerified()
-            String msg = UserSessionService.getSessionAttribute(PhrsConstants.ERROR_MSG_ATTR)
-            if (msg) {
-                //TODO 
-                String msgLabel = LoginUtils.getMessageLabel(msg, null);//TODO locale
-                WebUtil.addFacesMessageSeverityError('Login Status: OpenId login failed, error (', msgLabel + ')');
-                //remove
-                Map sessionMap = UserSessionService.getSessionMap()
-                UserSessionService.removeSessionAttr(sessionMap, PhrsConstants.ERROR_MSG_ATTR)
-            }
-        }
+//        if (!result) {
+//            //boolean isVerified = UserSessionService.getSessionAttributeOpenIdIsVerified()
+//            String msg = UserSessionService.getSessionAttribute(PhrsConstants.ERROR_MSG_ATTR)
+//            if (msg) {
+//                //TODO
+//                String msgLabel = LoginUtils.getMessageLabel(msg, null);//TODO locale
+//                //WebUtil.addFacesMessageSeverityError('Login Status: login failed, error (', msgLabel + ')');
+//                //remove
+//                Map sessionMap = UserSessionService.getSessionMap()
+//                UserSessionService.removeSessionAttr(sessionMap, PhrsConstants.ERROR_MSG_ATTR)
+//            }
+//        }
 
         return result
     }
@@ -202,7 +221,7 @@ public class LoginMgtBean extends FaceCommon implements Serializable {
 
         if (role && role.contains(PhrsConstants.AUTHORIZE_ROLE_CONSENT_MGR_PREFIX)) {
             //remove prefix:, but TODO make ref to i18 and replace with '_'
-            role = role.replace(PhrsConstants.AUTHORIZE_ROLE_CONSENT_MGR_PREFIX+":", '')
+            role = role.replace(PhrsConstants.AUTHORIZE_ROLE_CONSENT_MGR_PREFIX + ":", '')
         } else {
             role = ''
         }
@@ -218,8 +237,7 @@ public class LoginMgtBean extends FaceCommon implements Serializable {
     }
 
     public boolean getMedicalRole() {
-
-        return ConfigurationService.getInstance().isMedicalCareRole(UserSessionService.getSessionAttributeRole())
+        return UserSessionService.sessionUserHasMedicalRole()
     }
 
     public String userAuthenticatedName() {
@@ -317,19 +335,19 @@ public class LoginMgtBean extends FaceCommon implements Serializable {
 
             FacesContext context = UserSessionService.getFacesContext()
 
-            LOGGER.debug("START processLocalLogin isLoggedIn ="+UserSessionService.loggedIn()+" sessionMap {} " + UserSessionService.getSessionMap())
+            LOGGER.debug("START processLocalLogin isLoggedIn =" + UserSessionService.loggedIn() + " sessionMap {} " + UserSessionService.getSessionMap())
             if (context) {
 
                 PhrFederatedUser pfu = UserSessionService.managePhrUserSessionLocalLoginScenario(username, null, null)
 
                 String userMessageCode = null
                 if (pfu != null) {
-                   // String redirectUrl=context.getExternalContext().getRequestContextPath() + "/index.xhtml";
+                    // String redirectUrl=context.getExternalContext().getRequestContextPath() + "/index.xhtml";
                     LOGGER.debug('processLocalLogin success local login, redirect  user handleLocalLogin= ' + username)
                     //TODO  userMessageCode success to flash message
                     //new page, should have session params set
 
-                    LOGGER.debug(" processLocalLogin isLoggedIn ="+UserSessionService.loggedIn()+" sessionMap {} " + UserSessionService.getSessionMap())
+                    LOGGER.debug(" processLocalLogin isLoggedIn =" + UserSessionService.loggedIn() + " sessionMap {} " + UserSessionService.getSessionMap())
                     //no causes problem redirect(redirectUrl)
 
                 } else {
@@ -407,11 +425,11 @@ public class LoginMgtBean extends FaceCommon implements Serializable {
                 }
             } else {
                 //fail,
-                if ( ! username) {
+                if (!username) {
                     WebUtil.addFacesMessageSeverityError('Login Status',
                             'Login name is missing =' + username);
                 }
-                if ( !loginType) {
+                if (!loginType) {
                     WebUtil.addFacesMessageSeverityError('Login Status',
                             'Please choose one account type, local or Open ID =' + username);
                 }
@@ -424,5 +442,6 @@ public class LoginMgtBean extends FaceCommon implements Serializable {
         LOGGER.debug('processLogin END user: ' + username + ' loginType: ' + loginType)
         //WebUtil.addFacesMessageSeverityInfo('Login Status', 'Login successful for User ID: ' + username)
     }
+
 
 }
