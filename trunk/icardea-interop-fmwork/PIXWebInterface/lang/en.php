@@ -1,0 +1,57 @@
+﻿<?php
+ $_USERNAME='username';
+ $_PASSWORD='password';
+ $_CLEAR_BUTTON="clear";
+ $_SUBMIT="submit";
+ $_SELECT_LANG="select language";
+ $_HOME="Home";
+ $_REGISTRATION="Registration";
+ $_PIXQUERY="PIX Query";
+ $_DEMOGRAPHIC_QUERY="Demographic Query";
+ $_HELP="Help";
+ $_CONTACT_US="Contact Us";
+ $_LOGOUT="Logout";
+ $_WELCOME_MESSAGE="Welcome to Patient Demographics Data Manager";
+ $_LOGOUT_MSG="You have logout!<br>If you want to login press <a href='loginPage2.php'>Here</a>";
+ $_PROTOCOL_ID="iCARDEA ID";
+ $_HIS_ID="ORBIS ID";
+ $_IMPLANT_ID="Implant ID";
+ $_FIRSTNAME="Firtsname";
+ $_LASTNAME="Lastname";
+ $_BIRTHDATE="Birthdate";
+ $_SEX="Sex";
+ $_MALE="Male";
+ $_FEMALE="Female";
+ $_CHOOSE_ONE="Choose";
+ $_ADDRESS="Address";
+ $_CITY="City";
+ $_STATE="State";
+ $_POSTAL="Postal";
+ $_SUBMIT2="Submit";
+ $_UPDATE_SUBMIT="Update";
+ $_SUBMIT3="Search";
+ $_SUCCESSFUL_UPDATE="SUCCESSFUL UPDATE";
+ $_UPDATE_FAILED="UPDATE FAILED";
+ $_REGISTER_NEW_PATIENT="Register new patient";
+ $_UPDATE_PATIENT="Update Patient Data";
+ $_DEMOGRAPHIC_DATA="Demographic Data";
+ $_PATIENT_ID="Patient ID";
+ $_AUTHORITY="Authority";
+ $_ID_MAPPING="ID Mapping";
+ $_SEARCH_DOMAINS="Domains to search";
+ $_ID_MAPPING_RESULTS="ID Mapping results";
+ $_RESULTS="Results";
+$_PROTOCOL_ID="iCARDEA ID";
+$_PROTOCOL_NAMESPACE_ID="iCARDEA Namespace ID";
+$_HIS_ID="ORBIS ID";
+$_HIS_NAMESPACE_ID="ORBIS Namespace ID";
+$_IMPLANT_ID="Implant ID";
+$_IMPLANT_NAMESPACE_ID="Implant Namespace ID";
+$_DEMOGRAPHIC_QUERY="Demographics Query";
+$_DEMOGRAPHIC_QUERY_RESULTS="Demographics Query Results";
+$_CRITERIA="Criteria";
+
+$_EPSOS_ID = "EPSOS ID";
+$_EPSOS_NAMESPACE_ID = "EPSOS Namespace ID";
+
+?>

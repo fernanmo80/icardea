@@ -1,0 +1,54 @@
+﻿<?php
+ $_USERNAME='Ονομα χρήστη';
+ $_PASSWORD='Κωδικός χρήστη';
+ $_CLEAR_BUTTON="Καθαρισμός";
+ $_SUBMIT="Είσοδος";
+ $_SELECT_LANG="Επιλογή γλώσσας";
+ $_HOME="Αρχική";
+ $_REGISTRATION="Εγγραφή";
+ $_PIXQUERY="Αντιστοίχιση Κωδικών";
+ $_DEMOGRAPHIC_QUERY="Ερώτηση Δημογραφικών";
+ $_HELP="Βοήθεια";
+ $_CONTACT_US="Επικοινωνία";
+ $_LOGOUT="Έξοδος";
+ $_WELCOME_MESSAGE="Καλώς ήρθατε στο Patient Demographics Data Manager";
+ $_LOGOUT_MSG="Εχετε αποσυνδεθεί απο το σύστημα!<br>Αν θέλετε να ξανασυνδεθείτε τότε πατήστε <a href='loginPage2.php'>Εδώ</a>";
+ $_PROTOCOL_ID="iCARDEA ID";
+ $_HIS_ID="ORBIS ID";
+ $_IMPLANT_ID="CIED Device ID";
+ $_EPSOS_ID="EPSOS ID";
+ $_FIRSTNAME="Όνομα";
+ $_LASTNAME="Επώνυμο";
+ $_BIRTHDATE="Ημ/νία Γέννησης";
+ $_SEX="Φύλο";
+ $_MALE="Άντρας";
+ $_FEMALE="Γυναίκα";
+ $_CHOOSE_ONE="Επιλέξτε";
+ $_ADDRESS="Διεύθυνση";
+ $_CITY="Πόλη";
+ $_STATE="Χώρα";
+ $_POSTAL="Τ.Κ.";
+ $_SUBMIT2="Προσθήκη";
+ $_SUBMIT3="Αναζήτηση";
+ $_UPDATE_SUBMIT="Ενημέρωση";
+ $_SUCCESSFUL_UPDATE="Επιτυχής καταχώρηση";
+ $_UPDATE_FAILED="Η καταχώρηση απέτυχε";
+ $_REGISTER_NEW_PATIENT="Εγγραφή νέου ασθενή";
+ $_UPDATE_PATIENT="Ενημέρωση δεδομένων ασθενή";
+ $_DEMOGRAPHIC_DATA="Δημογραφικά δεδομένα";
+ $_PATIENT_ID="ID Ασθενούς";
+ $_AUTHORITY="Authority";
+ $_ID_MAPPING="Αντιστοίχιση Κωδικών";
+ $_SEARCH_DOMAINS="Αναζήτηση στα Domains";
+ $_ID_MAPPING_RESULTS="Αποτελέσματα Αντιστοίχισης Κωδικών";
+ $_RESULTS="Αποτελέσματα";
+$_PROTOCOL_NAMESPACE_ID="Protocol Namespace ID";
+$_HIS_NAMESPACE_ID="HIS Namespace ID";
+$_IMPLANT_NAMESPACE_ID="Implant Namespace ID";
+$_DEMOGRAPHIC_QUERY="Ερώτηση Δημογραφικών";
+$_DEMOGRAPHIC_QUERY_RESULTS="Αποτελέσματα Ερώτησης Δημογραφικών";
+$_CRITERIA="Κριτήρια";
+
+$_GET_EPSOS_DATA = 'Λήψη EPSOS δεδομένων';
+
+?>
