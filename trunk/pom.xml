@@ -233,6 +233,8 @@
 								<tasks>
 									<unzip src="${icardea.home}/tools_resources/python/mongodb-win32-i386-1.8.3.zip"
 										dest="${icardea.home}/tools/mongo" overwrite="false"/>
+									<unzip src="${icardea.home}/tools_resources/sesame-tools263.zip"
+										dest="${icardea.home}/tools/sesame" overwrite="false"/>
 									<mkdir dir="${icardea.home}/tools/mongo/mongodb-win32-i386-1.8.3/bin/data"/>
 									<mkdir dir="data"/>
 									<copy file="${icardea.home}/tools_resources/xdstools2.135.war" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/xdstools2.135.war" overwrite="true"/>
@@ -242,6 +244,8 @@
 									<copy file="${icardea.home}/tools_resources/EPSOS_CONFIG/tr-xca.war" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/tr-xca.war" overwrite="true"/>
 									<copy file="${icardea.home}/tools_resources/EPSOS_CONFIG/tr-xcpd.war" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/tr-xcpd.war" overwrite="true"/>
 									<copy file="${icardea.home}/tools_resources/EPSOS_CONFIG/tr-xdr.war" tofile="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/tr-xdr.war" overwrite="true"/>
+									<copy file="${icardea.home}/tools/sesame/openrdf-sesame.war" todir="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/" overwrite="true"/>
+									<copy file="${icardea.home}/tools/sesame/openrdf-workbench.war" todir="${icardea.home}/tools/apache-tomcat-6.0.20/webapps/" overwrite="true"/>
 								</tasks>
 							</configuration>
 							<goals>
