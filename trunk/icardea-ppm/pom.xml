@@ -18,6 +18,8 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+			
+
 	<build>
 		<!-- testing with finalname -->
 		<finalName>${project.name}</finalName>
@@ -179,9 +181,93 @@
 					</execution>
 				</executions>
 			</plugin>
-
-		</plugins>
-	</build>
+			</plugins>
+			</build>
+	<profiles>
+	
+			<profile>
+			<id>Database Generation</id>
+			<activation>
+				<activeByDefault>false</activeByDefault>
+				<property>
+					<name>createDatabases</name>
+					<value>true</value>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>sql-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<id>delete-ppmdataset</id>
+								<phase>install</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<sqlCommand>drop table if exists icardea.ppmdataset</sqlCommand>
+									<onError>continue</onError>
+								</configuration>
+							</execution>
+							<execution>
+								<id>delete-ppmpending</id>
+								<phase>install</phase>
+								<goals>
+									<goal>execute</goal>
+								</goals>
+								<configuration>
+									<sqlCommand>drop table if exists icardea.ppmpending</sqlCommand>
+									<onError>continue</onError>
+								</configuration>
+							</execution>
+							
+						</executions>
+											<dependencies>
+						<dependency>
+							<groupId>mysql</groupId>
+							<artifactId>mysql-connector-java</artifactId>
+							<version>5.1.13</version>
+						</dependency>
+					</dependencies>
+					
+					<!--  <configuration>
+						<driver>${jdbc.driverClassName}</driver>
+						<url>jdbc:mysql://localhost:3306</url>
+						<username>${mysql.username}</username>
+						<password>${mysql.password}</password>
+					</configuration>
+					-->
+					<configuration>
+						<driver>com.mysql.jdbc.Driver</driver>
+						<url>jdbc:mysql://localhost:3306</url>
+						<username>root</username>
+						<password>icardea</password>
+					</configuration>
+					</plugin>
+					<plugin>
+						<groupId>org.codehaus.mojo</groupId>
+						<artifactId>exec-maven-plugin</artifactId>
+						<version>1.1</version>
+						<executions>
+							<execution>
+								<id>populate ppm database</id>
+								<phase>install</phase>
+								<goals>
+									<goal>java</goal>
+								</goals>
+							</execution>
+						</executions>
+						<configuration>
+							<mainClass>de.offis.health.icardea.PPMDataset</mainClass>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+	
 	<dependencies>
 		<dependency>
 			<groupId>ca.uhn.hapi</groupId>

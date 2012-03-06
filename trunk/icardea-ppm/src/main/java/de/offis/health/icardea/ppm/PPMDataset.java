@@ -24,8 +24,8 @@ import com.mysql.jdbc.Driver;
 import de.offis.health.icardea.ppm.login.LoginServiceImpl;
 import de.offis.health.icardea.ppm.login.RegistrationService;
 import tr.com.srdc.icardea.consenteditor.webservice.client.ConsentManagerImplServiceTest;
- 
- 
+
+
 /**
  * @author thiel
  *
@@ -87,7 +87,7 @@ public class PPMDataset {
 		} catch (Exception e) {
 			logger.fatal("Database is missing");
 			logger.fatal(e.getMessage());
-//			throw new RuntimeException("Database is missing");
+			//			throw new RuntimeException("Database is missing");
 		}
 	}
 
@@ -111,9 +111,23 @@ public class PPMDataset {
 		} // end if
 		return instance;
 	}
+	private void createInitialDB() throws SQLException {
+		fillStatements();
+		stmt.execute(dropPPMPending);
+		logger.info("Table pending dropped");
+		stmt.execute(createPPMDataset + createPPMPending);
+		logger.info("Table ppmdataset created");
+		//					stmt.execute(createPPMPending);
+		logger.info("Table ppmpending created");
+		stmt.execute(createVIEWS);
+		logger.info("Views created");
+		stmt.execute(createInitial);
+		logger.info("Initial configuration created");
+	}
 
-	private void checkDB(){
+	private boolean checkDB(){
 		logger.info("Check PPM DB"); 
+		boolean retval=true;
 		ResultSet rs;
 		//		ResultSet rs2;
 
@@ -123,24 +137,13 @@ public class PPMDataset {
 		} catch (SQLException e) {
 			logger.info("Check Database Error:"+e.getErrorCode());
 			logger.info("Check Database "+e.getMessage());
-			fillStatements();
 			// TODO Auto-generated catch block
 			if (e.getErrorCode()==1146){
 				logger.info("Create Database ");
 				try {
-					stmt.execute(dropPPMPending);
-					logger.info("Table pending dropped");
-					stmt.execute(createPPMDataset + createPPMPending);
-					logger.info("Table ppmdataset created");
-					//					stmt.execute(createPPMPending);
-					logger.info("Table ppmpending created");
-					stmt.execute(createVIEWS);
-					logger.info("Views created");
-					stmt.execute(createInitial);
-					logger.info("Initial configuration created");
-
-
-
+					retval=false;
+					createInitialDB();
+					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -151,6 +154,7 @@ public class PPMDataset {
 
 
 		}
+		//create new and old view each time
 		try {
 			rs = stmt.executeQuery("SELECT  buttontable FROM `ppmdataset`  where length(buttontable)>0  group by buttontable");
 			String tablename="unknown";
@@ -188,7 +192,7 @@ public class PPMDataset {
 			// TODO Auto-generated catch block
 			logger.error("Select buttontable failed");
 			e1.printStackTrace();
-			return;
+			return retval;
 		}
 		try {
 			rs.close();
@@ -197,7 +201,7 @@ public class PPMDataset {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		return retval;
 
 	}
 	private String role="doctor"; //current user role
@@ -370,24 +374,24 @@ public class PPMDataset {
 	/**
 	 * @return The userOpenID
 	 */
-	
+
 	public String getUserOpenID() {
 		return userOpenID;
 	}
 	/**
 	 * @param userOpenID The userOpenID to set. Should be like abcde.myopenid.com
 	 */
-	
+
 	public void setUserOpenID(String pUserOpenID) {
 		if(pUserOpenID.equalsIgnoreCase(this.userOpenID)){
 			this.userOpenID = pUserOpenID;
 		}
 		else{// OtherUserOpenID, reset values for user
 			System.out.println("Test: UseropenID reseted");
-		this.userOpenID = pUserOpenID;
-		this.setUserOpenIdVerified(false);
-		this.setRole("");
-		this.setUserFullName("");
+			this.userOpenID = pUserOpenID;
+			this.setUserOpenIdVerified(false);
+			this.setRole("");
+			this.setUserFullName("");
 		}
 	}
 
@@ -505,9 +509,9 @@ public class PPMDataset {
 	 * @param callerUrl the callerUrl to set
 	 */
 	public void setCallerUrl(String pInitialCalledUrl) {
-		
+
 		this.initialCalledUrl = pInitialCalledUrl;
-			
+
 	}
 
 	/**
@@ -593,17 +597,17 @@ public class PPMDataset {
 	 * @return the stmt
 	 */
 	public Statement getStmt() {
-//fixme con =null means no DB connection, exception through
+		//fixme con =null means no DB connection, exception through
 		try {
 			if (conn==null){
 				conn = DriverManager.getConnection(url+dbName,dbUserName,dbPassword);
 				stmt=conn.createStatement();
 			}else
-			if (!conn.isValid(2)){
-				logger.warn("JDBC Connection is invalid, try to get a new");
-				conn = DriverManager.getConnection(url+dbName,dbUserName,dbPassword);
-				stmt=conn.createStatement();
-			}
+				if (!conn.isValid(2)){
+					logger.warn("JDBC Connection is invalid, try to get a new");
+					conn = DriverManager.getConnection(url+dbName,dbUserName,dbPassword);
+					stmt=conn.createStatement();
+				}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -924,8 +928,11 @@ public class PPMDataset {
 		//		System.out.println("##############AT authrequested redirect url:"+redirectUrl);
 
 		System.out.println("Start PPMDataset getInstance ");
+	    
 		PPMDataset ppmDataset =PPMDataset.getInstance();
 		//		System.out.println("Show Sheets:" + ppmDataset.getSheetStrings());
+		if (ppmDataset.checkDB())
+		{
 		ppmDataset.setCurrentPatID(2);
 		mySheetsList=new ArrayList(Arrays.asList(ppmDataset.getSheetStrings()));
 		try {
@@ -950,7 +957,7 @@ public class PPMDataset {
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.debug("No Sheets");
 		}
 		if (false){
 			ppmDataset.addCIEDData("model:Secura/serial:PZC600368S", "720897^MDC_IDC_PG_TYPE^MDC", "CIED");
@@ -969,12 +976,16 @@ public class PPMDataset {
 		}else{
 			ppmDataset.checkPendingData();
 		}
+		}else{
+		logger.info("Database created");
+		}
+		
 	}
 
 	private void fillStatements(){
 		dropPPMDataset="drop table  if exists icardea.PPMDATASET; ";
 		dropPPMPending="drop table  if exists icardea.PPMPENDING; ";
-String replaceInto=" REPLACE INTO ppmdataset (SHEET,PARAMETER,DATASET,TYPE_OF_VARIABLE,EXPLANATION,SOURCE,FULLREFID,PPMDATASOURCE,TIME_FRAME,FORMAT,VALIDATION,COMMENTS,SJM_COMMENTS,PATID,SORTNUMBER,SUBTITEL,BUTTONTITEL,BUTTONTABLE,USERPREF,SQLCAREPLAN,DEMODATASET_AF,TIMELOW,TIMEHIGH) VALUES ";
+		String replaceInto=" REPLACE INTO ppmdataset (SHEET,PARAMETER,DATASET,TYPE_OF_VARIABLE,EXPLANATION,SOURCE,FULLREFID,PPMDATASOURCE,TIME_FRAME,FORMAT,VALIDATION,COMMENTS,SJM_COMMENTS,PATID,SORTNUMBER,SUBTITEL,BUTTONTITEL,BUTTONTABLE,USERPREF,SQLCAREPLAN,DEMODATASET_AF,TIMELOW,TIMEHIGH) VALUES ";
 		createPPMDataset = "CREATE TABLE icardea.PPMDATASET (   SHEET VARCHAR(20),   PARAMETER VARCHAR(50),   DATASET LONGTEXT,   TYPE_OF_VARIABLE TEXT,   EXPLANATION TEXT,   SOURCE TEXT,   FULLREFID TEXT,   PPMDATASOURCE TEXT,   TIME_FRAME TEXT,   FORMAT TEXT,   VALIDATION TEXT,   COMMENTS TEXT,   SJM_COMMENTS TEXT,   PATID TEXT,   SORTNUMBER INTEGER,   SUBTITEL TEXT,   BUTTONTITEL TEXT,   BUTTONTABLE TEXT,   USERPREF TEXT,   SQLCAREPLAN TEXT,   DEMODATASET_AF TEXT,   TIMELOW TEXT,   TIMEHIGH TEXT,   ID INTEGER NOT NULL  AUTO_INCREMENT,   PRIMARY KEY (ID) );";
 		createPPMPending = "CREATE TABLE icardea.PPMPENDING (   SerialID TEXT,   DATASET LONGTEXT,   SOURCE TEXT,   FULLREFID TEXT,   PATID TEXT,   TIMELOW TEXT,   TIMEHIGH TEXT,   STATUS CHAR,   localid MEDIUMINT NOT NULL AUTO_INCREMENT,    PRIMARY KEY (localid)   );";
 		createVIEWS="create OR REPLACE view icardea.medications as select  m.doseQuantity val, m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh,concat(m.text ,' ', m.doseQuantity,' mg') text,ehr.isEHR ,p.id patid from Medication m,Patient p, EHRPHRData ehr where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and careProvisionCode=\"MEDLIST\" and ehr.isEHR=1 order by m.text,m.effectiveTime,m.effectiveTimeHigh ;"
@@ -991,7 +1002,7 @@ String replaceInto=" REPLACE INTO ppmdataset (SHEET,PARAMETER,DATASET,TYPE_OF_VA
 				+" create  OR REPLACE view icardea.labresult as   select m.labresultvalue val, concat(m.labresultvalue,'  ',m.labresulttext) text, m.effectivetime effectiveTimeLow, ' 'effectiveTimeHigh ,p.id patid from imagingresult m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID order by m.effectivetime;  " 
 				+" create  OR REPLACE view icardea.Contraindication as   select 0 val, m.allergyOriginalText text,m.effectiveTimeLow, m.effectiveTimeHigh ,p.id patid from Concern m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID  order by m.effectiveTimeLow; "
 				+" create  OR REPLACE view icardea.procedures as select  0 val, m.proceduretext text,m.effectiveTimeLow, m.effectiveTimeHigh ,p.id patid  from `procedure` m,Patient p, EHRPHRData ehr  where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID   order by m.effectiveTimeLow;";
-		
+
 		createInitial=  replaceInto +" ( 'Overview','Name','--','Text','Name of the patient','CIED / EHR / PHR','','','fixed value','','','','can be filled out during implant (ASCII) or FU','0',1,'Overview','','','','','Andreas Schmidt','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','ID','--','Numeric','Hospitals ID number','EHR','','','fixed value','F8.0','Depends on each institution, but usually it has >3 digits and <9','','is caluclated from birthdate and used for statistsics','0','2','Overview','','','','','','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','Age','--','Numeric','Age of the patient at the time of interrogation','EHR','','','','F3.0','>2 and <110','Calculated item: date of interrogation - date of birth','no constraint in SJM devices','0','3','Overview','','','','','57','19000101120000','21000101120000'); "
@@ -1021,8 +1032,8 @@ String replaceInto=" REPLACE INTO ppmdataset (SHEET,PARAMETER,DATASET,TYPE_OF_VA
 				+replaceInto +" ( 'Overview','Percentage of RVS','--','Numeric','% of right ventricular sensing','CIED','180208^ICARDEA_IDC_MSMT_RVS_PERCENT^ICARDEA  ','','latest value','F3.0','0 - 100','','summed up autovalue','0','28','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','Percentage of RVP','--','Numeric','% of right ventricular pacing','CIED','180209^ICARDEA_IDC_MSMT_RVP_PERCENT^ICARDEA ','','latest value','F3.0','0 - 100','','summed up autovalue','0','29','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','Percentage of LVS','--','Numeric','% of left ventricular sensing','CIED','180210^ICARDEA_IDC_MSMT_LVS_PERCENT^ICARDEA  ','','latest value','F3.0','0 - 100','Some patients may not have a left ventricular lead implanted','summed up autovalue','0','30','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); ";
-		
-				createInitial=createInitial+replaceInto +" ( 'Overview','Percentage of LVP','--','Numeric','% of left ventricular pacing','CIED','180211^ICARDEA_IDC_MSMT_LVP_PERCENT^ICARDEA  ','','latest value','F3.0','0 - 100','Some patients may not have a left ventricular lead implanted','summed up autovalue','0','31','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); "
+
+		createInitial=createInitial+replaceInto +" ( 'Overview','Percentage of LVP','--','Numeric','% of left ventricular pacing','CIED','180211^ICARDEA_IDC_MSMT_LVP_PERCENT^ICARDEA  ','','latest value','F3.0','0 - 100','Some patients may not have a left ventricular lead implanted','summed up autovalue','0','31','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','SVT','--','Numeric','Number of episodes classified as SVT','CIED','739568^MDC_IDC_EPISODE_TYPE^MDC (SVT)','','latest value','F3.0','','','autovalue','0','33','Arrhytmia Episodes','','','','','PDF','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','AF / AT','--','Numeric','Number of episodes classified as AF / AT','CIED','739568^MDC_IDC_EPISODE_TYPE^MDC (AT/AF)','','latest value','F3.0','','','autovalue plus histogram data','0','34','Arrhytmia Episodes','','','','','PDF','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','VT','--','Numeric','Number of episodes classified as VT / VF','CIED','739568^MDC_IDC_EPISODE_TYPE^MDC (VT)','','latest value','F3.0','','','autovalue','0','35','Arrhytmia Episodes','','','','','PDF','19000101120000','21000101120000'); "
