@@ -52,11 +52,11 @@ public class SendHL7Message {
 		 * + guidelineTitle + "\r";
 		 */
 
-		String messageToSend = "MSH|^~\\&|iCARDEA|iCARDEA-DFT|LKH|LKH|2012||DFT^P03|999999|P|2.1|||AL|NE\r"
+		String messageToSend = "MSH|^~\\&|iCARDEA|iCARDEA-DFT|LKH|LKH|2012||DFT^P03|999999|P|2.2|||AL|NE\r"
 				+ "EVN|P01|2012\r"
-				+ "PID||2003799|2003799|1999012812|Test^Salkis||19750403\r"
+				+ "PID||2003799|2003799|1999012812|Mayr^Suzie||19750403\r"
 				+ "PV1||S|^^^M2||||||||||||||||1999012812||||||||||||||||||||134410\r"
-				+ "FT1|1|iCARDEA_0001|10000|20120306090909|20120306090909||6SDJX002|ICD-Kontrolle||1||||||||||134410^M2||1|iCARDEA_0001|iCARDEA\r";
+				+ "FT1|1|iCARDEA_0001|10000|20120306|20120306||6SDJX002|ICD-Kontrolle||1||||||||||134410^M2||1|iCARDEA_0001|iCARDEA\r";
 
 		logger.info(" $$$ Sending message to EHR Interoperability Framework:"
 				+ messageToSend);
