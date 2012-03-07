@@ -29,7 +29,7 @@ del "%PHRS_TOMCAT%\webapps\openrdf-sesame.war"
 del "%PHRS_TOMCAT%\webapps\openrdf-workbench.war"
 call "%PHRS_TOMCAT%\bin\shutdown.bat"
 
-echo **** please wait for tomcat to shutdown, then press a key to delete "%APPDATA%\Aduna"
+echo **** please wait for tomcat to shutdown, then press a key to delete remaining files."
 pause
 
 rmdir /S /Q "%PHRS_TOMCAT%\webapps\phrweb\"
