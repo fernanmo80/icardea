@@ -9,6 +9,7 @@
     License.
   --><project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
+
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>at.srfg.kmt.ehealth.phrs</groupId>
@@ -58,6 +59,25 @@
                 </configuration>
             </plugin>
             
+				<plugin>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<executions>
+						<execution>
+							<phase>install</phase>
+							<configuration>
+								<tasks>
+									<unzip src="${icardea.home}/tools_resources/sesame-tools263.zip"
+										dest="${icardea.home}/tools/sesame" overwrite="false"/>
+									<copy file="${icardea.home}/tools/sesame/openrdf-sesame.war" todir="${tomcat.home}/webapps/" overwrite="false"/>
+									<copy file="${icardea.home}/tools/sesame/openrdf-workbench.war" todir="${tomcat.home}/webapps/" overwrite="false"/>
+								</tasks>
+							</configuration>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
         </plugins>
     </build>
     
@@ -68,7 +88,7 @@
             <version>4.8.2</version>
             <scope>test</scope>
         </dependency>
-    </dependencies>
+   </dependencies>
 
     <modules>
         <module>phrs-constants</module>
