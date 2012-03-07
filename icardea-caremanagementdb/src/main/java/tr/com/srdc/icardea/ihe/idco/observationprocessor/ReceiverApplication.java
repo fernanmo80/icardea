@@ -692,11 +692,13 @@ public class ReceiverApplication extends Thread {
 				String street = pidSegment.getPatientAddress(0)
 					.getStreetAddress().getStreetName().getValue(); // OPTIONAL
 				patient.setStreet(street);
+				System.out.println(" $$$$ STREET:"+ street);
 					}
 			if (pidSegment.getPatientAddress(0).getCity() != null) {
 				String city = pidSegment.getPatientAddress(0).getCity()
 					.getValue(); // OPTIONAL
 				patient.setCity(city);
+				System.out.println(" $$$$ CITY:"+ city);
 			}
 			if (pidSegment.getPatientAddress(0).getZipOrPostalCode() != null) {
 				String postalCode = pidSegment.getPatientAddress(0)
@@ -707,6 +709,7 @@ public class ReceiverApplication extends Thread {
 				String country = pidSegment.getPatientAddress(0).getCountry()
 					.getValue(); // OPTIONAL
 				patient.setCountry(country);
+				System.out.println(" $$$$ Country:"+ country);
 			}
 		}
 		XTN[] contactNumbers = pidSegment.getPhoneNumberHome();
@@ -723,7 +726,7 @@ public class ReceiverApplication extends Thread {
 				email = contactNumber.getTelephoneNumber().getValue();
 			}
 		}
-
+		
 		Logger.getLogger(ReceiverApplication.class).log(
 				Level.INFO,
 				" *** Patient:\n" + " patientID = " + patientID
