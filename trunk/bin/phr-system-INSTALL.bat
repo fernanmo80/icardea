@@ -50,7 +50,7 @@ echo.
 
 title currently installing icardea-phrs
 cd "%ICARDEA_HOME%\icardea-phrs"
-call mvn install -DskipTests=true
+call mvn install -DskipTests=true -Dicardea.home="%ICARDEA_HOME%"
 echo icardea-phrs installed
 echo.
 echo.
