@@ -60,7 +60,7 @@ cd "%ICARDEA_HOME%\icardea-phrs\phrweb\"
 call mvn cargo:deploy -Dcatalina.home=%CATALINA_HOME%
 echo "phrweb installed (mvn cargo:deploy to %CATALINA_HOME% finished)"
 
-echo PHRS-INSTALL FINISHED
+title PHRS-INSTALL FINISHED
 echo ICARDEA_HOME was %ICARDEA_HOME%
 echo PHRS_TOMCAT was %PHRS_TOMCAT%
 echo CATALINA_HOME was %CATALINA_HOME%
