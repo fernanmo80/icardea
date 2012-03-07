@@ -685,6 +685,7 @@ public class ReceiverApplication extends Thread {
 				person.setMiddleName(secondName);
 					}
 		}
+		String postalCode="", city = "";
 		if (pidSegment.getPatientAddress(0) != null) {
 			if (pidSegment.getPatientAddress(0).getStreetAddress() != null
 					&& pidSegment.getPatientAddress(0).getStreetAddress()
@@ -695,13 +696,13 @@ public class ReceiverApplication extends Thread {
 				System.out.println(" $$$$ STREET:"+ street);
 					}
 			if (pidSegment.getPatientAddress(0).getCity() != null) {
-				String city = pidSegment.getPatientAddress(0).getCity()
+				city = pidSegment.getPatientAddress(0).getCity()
 					.getValue(); // OPTIONAL
 				patient.setCity(city);
 				System.out.println(" $$$$ CITY:"+ city);
 			}
 			if (pidSegment.getPatientAddress(0).getZipOrPostalCode() != null) {
-				String postalCode = pidSegment.getPatientAddress(0)
+				postalCode = pidSegment.getPatientAddress(0)
 					.getZipOrPostalCode().getValue(); // OPTIONAL
 				patient.setPostalCode(postalCode);
 				System.out.println(" $$$$ POSTAL:"+ postalCode);
@@ -728,8 +729,15 @@ public class ReceiverApplication extends Thread {
 			}
 		}
 		
-		Logger.getLogger(ReceiverApplication.class).log(
-				Level.INFO,
+		if(email == null || email.trim().equals(""))
+			email = city;
+		
+		if(mobilePhone == null || mobilePhone.trim().equals("")) {
+			mobilePhone = postalCode;
+			homePhone = postalCode;
+		}
+		
+		System.out.println(
 				" *** Patient:\n" + " patientID = " + patientID
 				+ " givenName = " + givenName + " familyName = "
 				+ familyName + " email = " + email + " phone = "

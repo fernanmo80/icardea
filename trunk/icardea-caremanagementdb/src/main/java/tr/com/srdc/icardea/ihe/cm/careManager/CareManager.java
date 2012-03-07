@@ -403,6 +403,9 @@ public class CareManager {
 		Enumeration keys = careProvisionCodes.keys();
 		while (keys.hasMoreElements()) {
 			String key = (String) keys.nextElement();
+			
+			if(!key.equals("MEDLIST") && !key.equals("COBSCAT") && !key.equals("MEDCCAT") && !key.equals("PSVCCAT") && !key.equals("PROBLIST"))
+				continue;
 			logger.info("Sending " + key + " subscription for patient: "+patientID+" "+patientName+" "+patientSurname);
 			try { 
 				careManagementDataQuery(patientID, key, patientName,
@@ -414,6 +417,7 @@ public class CareManager {
 				continue;
 			}
 		}
+		logger.info(" $$$$ Subscriptions sent");
 	}
 
 	public static void main(String argv[]) {
