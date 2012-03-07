@@ -704,6 +704,7 @@ public class ReceiverApplication extends Thread {
 				String postalCode = pidSegment.getPatientAddress(0)
 					.getZipOrPostalCode().getValue(); // OPTIONAL
 				patient.setPostalCode(postalCode);
+				System.out.println(" $$$$ POSTAL:"+ postalCode);
 			}
 			if (pidSegment.getPatientAddress(0).getCountry() != null) {
 				String country = pidSegment.getPatientAddress(0).getCountry()
