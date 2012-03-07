@@ -295,11 +295,19 @@ public class GeneralView extends ViewPart {
 									//username="https://www.google.com/accounts/o8/id";
 									username=uname.getText();
 
-									logger.debug("Salkuser OpenId Server Secure :" + isSalkUsage);
-
+									
+									
 									if(isSalkUsage){
 										String salkServer = properties.getString("salk.server");
-										username=salkServer+"/idp/u="+username; //only valid for SALK server
+								
+										//HACK
+										if(salkServer.toLowerCase().startsWith("https")){
+											logger.debug("Salk Server should be secure, using normal");
+											salkServer = salkServer.toLowerCase();
+											salkServer = salkServer.replaceFirst("https", "http");
+										}
+										
+										username=salkServer+":4545/idp/u="+username; //only valid for SALK server
 									}
 									else{//(isSalkUsage) NoSalkUsage Local Testing assumed
 										//username has to be real OpenID Name like 	abcde.myopenid.com									
@@ -517,7 +525,13 @@ public class GeneralView extends ViewPart {
 		boolean returnSucess = false;
 
 		logger.debug("doLogin for: "+pUserName);
-
+		//HACK
+		if(pUserName.toLowerCase().startsWith("https")){
+			logger.debug("https usernames not supported");
+			pUserName = pUserName.toLowerCase();
+			pUserName = pUserName.replaceFirst("https", "http");
+		}
+		
 		//FIXME Audit logging here
 		//1. Perform discover on the user suplieed identifier
 		// Done be RegistationService
@@ -529,8 +543,8 @@ public class GeneralView extends ViewPart {
 			//FIXME Audit logging here
 			System.out.println("Hiddenmodus"+pHidden);
 			if(!pHidden){
-				System.out.println("Errir");
-				pwd.setText("Unkown User Try Again");
+				System.out.println("Error");
+				pwd.setText("Maybe Unkown User or OpenID Error");
 				patientTopLayout.topControl=login;
 				patientTop.layout();
 				audit.send_udp( audit.create_syslog_xml("PPM", Audit.createMessage("login", "", "8", pUserName)) );
