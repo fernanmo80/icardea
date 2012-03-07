@@ -234,6 +234,7 @@ public class PPMMain extends ViewPart {
 								TableEditor editor = new TableEditor(table);
 								Button button = new Button(table, SWT.PUSH);
 								button.setText(allRows[i].getSubContentName());
+								button.setAlignment(SWT.LEFT);
 								button.addSelectionListener(
 										new PPMButtonSelectionAdaptor(allRows[i].getSubContentName(),this.mainTabFolder) 
 										);
