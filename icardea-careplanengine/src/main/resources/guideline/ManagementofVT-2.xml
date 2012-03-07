@@ -154,7 +154,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -223,28 +223,28 @@
 				<td>Renal insufficiency or renal failure:</td>
 				<td>
 				  $RenalInsufficiency
-				  <a href="PPM:TAB4">Access to EHR</a>
+				  <a href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Heart failure:</td>
 				<td>
 				  $HeartFailure
-				   <a href="PPM:TAB4">Access to EHR</a>
+				   <a href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Diabetes:</td>
 				<td>
 				  $Diabetes
-				   <a href="PPM:TAB4">Access to EHR</a>
+				   <a href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Atrial arrhythmia:</td>
 				<td>
 				  $AtrialArrhythmia
-				   <a href="PPM:TAB4">Access to EHR</a>
+				   <a href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>			  
 			</tbody>
@@ -311,7 +311,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -420,7 +420,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -529,7 +529,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -622,7 +622,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -724,7 +724,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -828,7 +828,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -938,7 +938,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1029,7 +1029,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1098,7 +1098,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1223,7 +1223,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1270,7 +1270,7 @@
 			    <td>Vomit</td>
 			    <td>
 			      $Vomit
-			      <a href="PPM:TAB4">Access to PHR</a> 
+			      <a href="PPM:TAB3">Access to PHR</a> 
 				  <br />
 			    </td>
 			  </tr>
@@ -1278,35 +1278,35 @@
 			    <td>Diarrhea</td>
 			    <td>
 			      $Diarrhea
-			      <a href="PPM:TAB4">Access to PHR</a> 
+			      <a href="PPM:TAB3">Access to PHR</a> 
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Chest Pain</td>
 			    <td>
 			      $ChestPain
-			      <a href="PPM:TAB4">Access to PHR</a> 
+			      <a href="PPM:TAB3">Access to PHR</a> 
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Shortness of Breath</td>
 			    <td>
 			      $ShortnessofBreath
-			      <a href="PPM:TAB4">Access to PHR</a> 
+			      <a href="PPM:TAB3">Access to PHR</a> 
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Weight Gain</td>
 			    <td>
 			      $WeightGain
-			      <a href="PPM:TAB4">Access to PHR</a> 
+			      <a href="PPM:TAB3">Access to PHR</a> 
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Fever</td>
 			    <td>
 			      $Fever
-			      <a href="PPM:TAB4">Access to PHR</a> 
+			      <a href="PPM:TAB3">Access to PHR</a> 
 			    </td>
 			  </tr>
 
@@ -1365,7 +1365,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1442,7 +1442,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1586,7 +1586,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1634,7 +1634,7 @@
 			    <td>Potassium</td>
 			    <td>
 			      $Potassium
-			       <a href="PPM:TAB4">Access to EHR</a>
+			       <a href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			    <td>3.9-5.4 U/l</td>
 			  </tr>
@@ -1642,7 +1642,7 @@
 			    <td>Hemoglobin</td>
 			    <td>
 			      $Hemoglobin
-			       <a href="PPM:TAB4">Access to EHR</a>
+			       <a href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			    <td>11.7-15.7 U/l</td>
 			  </tr>
@@ -1650,7 +1650,7 @@
 			    <td>Sodium</td>
 			    <td>
 			      $Sodium
-			       <a href="PPM:TAB4">Access to EHR</a>
+			       <a href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			    <td>135-148 U/l</td>
 			  </tr>
@@ -1658,7 +1658,7 @@
 			    <td>Chloride</td>
 			    <td>
 			      $Chloride
-			       <a href="PPM:TAB4">Access to EHR</a>
+			       <a href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			    <td>97-108 U/l</td>
 			  </tr>
@@ -1666,7 +1666,7 @@
 			    <td>Creatinine</td>
 			    <td>
 			      $Creatinine
-			       <a href="PPM:TAB4">Access to EHR</a>
+			       <a href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			    <td>0.5-1.1 U/l</td>
 			  </tr>
@@ -1674,7 +1674,7 @@
 			    <td>Troponin</td>
 			    <td>
 			      $Troponin
-			       <a href="PPM:TAB4">Access to EHR</a>
+			       <a href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			    <td>should be less than 14 U/l</td>
 			  </tr>
@@ -1694,28 +1694,28 @@
 				<td>Renal insufficiency or renal failure:</td>
 				<td>
 				  $RenalInsufficiency
-				   <a href="PPM:TAB4">Access to EHR</a>
+				   <a href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Heart failure:</td>
 				<td>
 				  $HeartFailure
-				   <a href="PPM:TAB4">Access to EHR</a>
+				   <a href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Diabetes:</td>
 				<td>
 				  $Diabetes
-				   <a href="PPM:TAB4">Access to EHR</a>
+				   <a href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Atrial arrhythmia:</td>
 				<td>
 				  $AtrialArrhythmia
-				   <a href="PPM:TAB4">Access to EHR</a>
+				   <a href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>			  
 			</tbody>
@@ -1770,7 +1770,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1841,7 +1841,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1912,7 +1912,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1988,7 +1988,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2034,7 +2034,7 @@
 			<tr>
 			  <td>Congenital Heart Disease</td>
 			  <td>
-			    $CongenitalHeartDisease  <a href="PPM:TAB4">Access to EHR</a>
+			    $CongenitalHeartDisease  <a href="PPM:TAB3">Access to EHR</a>
 			  </td>
 			</tr>
 
@@ -2166,7 +2166,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2249,56 +2249,56 @@
 			  <td> <font color="#880015">
 			    $LVDysfunction
 				</font>
-			     <a href="PPM:TAB4">Access to EHR</a>
+			     <a href="PPM:TAB3">Access to EHR</a>
 			  </td>
 			</tr>
 			<tr>
 			  <td>Dilated Cardiomyopathy</td>
 			  <td>
 			    $DilatedCardiomyopathy
-			     <a href="PPM:TAB4">Access to EHR</a>
+			     <a href="PPM:TAB3">Access to EHR</a>
 			  </td>
 			</tr>
 			<tr>
 			  <td>Hypertrophic Cardiomyopathy</td>
 			  <td>
 			    $HypertrophicCardiomyopathy
-			     <a href="PPM:TAB4">Access to EHR</a>
+			     <a href="PPM:TAB3">Access to EHR</a>
 			  </td>
 			</tr>
 			<tr>
 			  <td>Arrhythmogenic Right Ventricular</td>
 			  <td>
 			    $ArrhythmogenicRightVentricular
-			     <a href="PPM:TAB4">Access to EHR</a>
+			     <a href="PPM:TAB3">Access to EHR</a>
 			  </td>
 			</tr>
 			<tr>
 			  <td>Long QT Syndrome</td>
 			  <td>
 			    $LongQTSyndrome
-			     <a href="PPM:TAB4">Access to EHR</a>
+			     <a href="PPM:TAB3">Access to EHR</a>
 			  </td>
 			</tr>
 			<tr>
 			  <td>Brugada Syndrome</td>
 			  <td>
 			    $BrugadaSyndrome
-			     <a href="PPM:TAB4">Access to EHR</a>
+			     <a href="PPM:TAB3">Access to EHR</a>
 			  </td>
 			</tr>
 			<tr>
 			  <td>Valvular Heart Disease</td>
 			  <td>
 			    $ValvularHeartDisease
-			     <a href="PPM:TAB4">Access to EHR</a>
+			     <a href="PPM:TAB3">Access to EHR</a>
 			  </td>
 			</tr>
 			<tr>
 			  <td>Heart Failure</td>
 			  <td>
 			    $HeartFailure
-			     <a href="PPM:TAB4">Access to EHR</a>
+			     <a href="PPM:TAB3">Access to EHR</a>
 			  </td>
 			</tr>
 		      </tbody>
@@ -2360,7 +2360,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2436,7 +2436,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2486,7 +2486,7 @@
 			<data src="caremanagementdb://Patient/@patientIdentifier"/>
 			<br />
 			<a
-			  href="PPM:TAB4">Access to
+			  href="PPM:TAB3">Access to
 			  EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2591,7 +2591,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2662,7 +2662,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2727,7 +2727,7 @@
 		  Patient ID:
 		  <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		  <br/>
-		  <a href="PPM:TAB4">Access to EHR</a>
+		  <a href="PPM:TAB3">Access to EHR</a>
 		  <br/>
 		  Implanted Device:
 		  <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2830,7 +2830,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -2916,7 +2916,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3002,7 +3002,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3095,7 +3095,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3199,7 +3199,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3311,7 +3311,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3399,7 +3399,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3499,7 +3499,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3591,7 +3591,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3664,7 +3664,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3773,7 +3773,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3871,7 +3871,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -3977,7 +3977,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -4088,7 +4088,7 @@
 		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
 		      <br />
 		      <a
-			href="PPM:TAB4">Access to
+			href="PPM:TAB3">Access to
 			EHR</a> <br />
 		      Implanted Device:
 		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
