@@ -30,7 +30,7 @@ echo **** please wait for TOMCAT to start up, then press a key to start pcc9, pc
 pause
 
 title creating phrs1 repository
-call %ICARDEA_HOME%\tools_resources\curl\curl -X POST "%SESAME_WORKBENCH_URL%/repositories/NONE/create?type=native&Repository+ID=phrs1&Repository+title=phrs1+title&Triple+indexes=spoc%2Cposc"
+call %ICARDEA_HOME%\tools_resources\curl\curl -X POST "%SESAME_WORKBENCH_URL%/repositories/NONE/create?type=native&Repository+ID=phrs1&Repository+title=phrs1+title&Triple+indexes=spoc,posc"
 echo phrs1 repository created
 echo.
 echo.
