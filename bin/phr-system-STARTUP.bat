@@ -21,18 +21,27 @@ if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
 set CATALINA_HOME=%PHRS_TOMCAT%
 set PHRS_HOME=%ICARDEA_HOME%\icardea-phrs
 
-call %PHRS_TOMCAT%\startup.bat
+call "%PHRS_TOMCAT%\bin\startup.bat"
 echo "TOMCAT STARTED FROM %PHRS_TOMCAT%"
 
-cd %PHRS_HOME%\phrs-soap-pcc09ws\
-start start-securepcc9-endpoint.bat
-echo "SECURE PCC09 ENDPOINT STARTED in new Window: %PHRS_HOME%\phrs-soap-pcc09ws\start-securepcc9-endpoint.bat"
+echo **** please wait for TOMCAT to start up, then press a key to start pcc9, pcc10 and socket-listener
+pause
 
-cd %PHRS_HOME%\phrs-soap-pcc10ws\
+title creating phrs1 repository
+call %ICARDEA_HOME%\tools_resources\curl\curl -X POST "%SESAME_WORKBENCH_URL%/repositories/NONE/create?type=native&Repository+ID=phrs1&Repository+title=phrs1+title&Triple+indexes=spoc%2Cposc"
+echo phrs1 repository created
+echo.
+echo.
+
+cd "%PHRS_HOME%\phrs-soap-pcc09ws\"
+start start-securepcc9-endpoint.bat
+echo SECURE PCC09 ENDPOINT STARTED in new Window: %PHRS_HOME%\phrs-soap-pcc09ws\start-securepcc9-endpoint.bat
+
+cd "%PHRS_HOME%\phrs-soap-pcc10ws\"
 start start-securepcc10-endpoint.bat
-echo "SECURE PCC10 ENDPOINT STARTED in new Window: %PHRS_HOME%\phrs-soap-pcc10ws\start-securepcc10-endpoint.bat"
+echo SECURE PCC10 ENDPOINT STARTED in new Window: %PHRS_HOME%\phrs-soap-pcc10ws\start-securepcc10-endpoint.bat
 
 start start-socketlistener.bat
-echo "SOCKET LISTENER       STARTED in new Window: %PHRS_HOME%\phrs-soap-pcc10ws\start-socketlistener.bat"
+echo SOCKET LISTENER       STARTED in new Window: %PHRS_HOME%\phrs-soap-pcc10ws\start-socketlistener.bat
 
 cd "%mypwd%"
