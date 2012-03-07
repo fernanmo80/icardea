@@ -66,7 +66,7 @@ echo.
 echo.
 
 title creating phrs1 repository
-call ..\tools_resources\curl\curl -X POST "%SESAME_WORKBENCH_URL%/repositories/NONE/create?type=native&Repository+ID=phrs1&Repository+title=phrs1+title&Triple+indexes=spoc%2Cposc"
+call %ICARDEA_HOME%\tools_resources\curl\curl -X POST "%SESAME_WORKBENCH_URL%/repositories/NONE/create?type=native&Repository+ID=phrs1&Repository+title=phrs1+title&Triple+indexes=spoc%2Cposc"
 echo phrs1 repository created
 echo.
 echo.
