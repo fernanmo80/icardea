@@ -657,10 +657,11 @@ public class MedicallyOrientedActionHandler {
 			String ppmlink = result.substring(beginIndex, endIndex);
 			char[] ppmLinkArray = ppmlink.toCharArray();
 			char tab = ppmLinkArray[ppmLinkArray.length - 1];
-
+				
+			String openid = null;
 			//
-			String openid = tr.com.srdc.icardea.platform.service.login.RegistrationModel
-					.getOpenIdStatic();
+			//String openid = tr.com.srdc.icardea.platform.service.login.RegistrationModel
+			//		.getOpenIdStatic();
 			if (openid == null)
 				openid = "https://icardea-server.lksdom21.lks.local/idp/u=xrypa";
 
