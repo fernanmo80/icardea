@@ -513,41 +513,26 @@ public class PatientSubscriptionServiceImp implements
 			patients = tr.com.srdc.icardea.hibernate.Patient.listPatientByQuery(null, null);
 
 			System.out.println(" $$$ Patients size:" + patients.length);
-			// TODO: Delete in the future
-//			if (patients.length == 0) {
-//				patients = new tr.com.srdc.icardea.hibernate.Patient[2];
-//				System.out.println(" $$$ Adding demo data");
-//				patients[0] = addPatient("190", "Andreas", "Schmidt",
-//					"1953-01-04", "M");
-//				patients[1] = addPatient("191", "Suzie", "Mayr", "1973-04-22",
-//					"F");
-//
-//				addPerson("190", "Andreas", "Schmidt");
-//				tr.com.srdc.icardea.hibernate.Person jane = addPerson("191", "Suzie", "Mayr");
-//				Contact contact = new Contact();
-//				contact.setEmail("eliferylmz@gmail.com");
-//				contact.setMobileNumber("00905058668960");
-//				contact.setPhoneNumber("00905058668960");
-//				addContact(jane, contact);
-//
-//				MedicalCareplan mc = new MedicalCareplan();
-//				mc.setId("1");
-//				List<MedicalCareplan> list = new ArrayList();
-//				list.add(mc);
-//				assignCareplan2Patient(list, "190");
-//				mc = new MedicalCareplan();
-//				mc.setId("2");
-//				list = new ArrayList();
-//				list.add(mc);
-//				assignCareplan2Patient(list, "191");
-//
-//				/*mc = new MedicalCareplan();
-//				mc.setId("3");
-//				list = new ArrayList();
-//				list.add(mc);
-//				assignCareplan2Patient(list, "191");*/
-//			}
-			
+			//TODO: Delete in the future
+			patients = new tr.com.srdc.icardea.hibernate.Patient[1];
+			System.out.println(" $$$ Adding demo data");
+			patients[0] = addPatient("191", "Suzie", "Mayr", "1973-04-22",
+					"F");
+
+			tr.com.srdc.icardea.hibernate.Person jane = addPerson("191", "Suzie", "Mayr");
+			Contact contact = new Contact();
+			contact.setEmail("eliferylmz@gmail.com");
+			contact.setMobileNumber("00905058668960");
+			contact.setPhoneNumber("00905058668960");
+			addContact(jane, contact);
+
+			MedicalCareplan mc = new MedicalCareplan();
+			mc.setId("2");
+			List<MedicalCareplan> list = new ArrayList();
+			list.add(mc);
+			assignCareplan2Patient(list, "191");
+
+
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -563,11 +548,11 @@ public class PatientSubscriptionServiceImp implements
 			ArrayList<MedicalCareplan> medicalCareplans = listGuidelines(patientToBeFilled);
 			if (medicalCareplans != null) {
 				System.out.println(" $$$ # of careplans for patient:"
-					+ patient.getCitizenshipNumber() + " is "
-					+ medicalCareplans.size());
+						+ patient.getCitizenshipNumber() + " is "
+						+ medicalCareplans.size());
 			} else {
 				System.out.println(" $$$ # of careplans for patient:"
-					+ patient.getCitizenshipNumber() + " is zero");
+						+ patient.getCitizenshipNumber() + " is zero");
 			}
 			patientToBeFilled.setAssignedCareplans(medicalCareplans);
 
@@ -617,8 +602,8 @@ public class PatientSubscriptionServiceImp implements
 					careGiver.setSurname(careGiverInDB.getSurname());
 
 					System.out.println(" $$$ Caregiver:"
-						+ careGiverInDB.getIdentifier() + " for patient:"
-						+ patient.getCitizenshipNumber());
+							+ careGiverInDB.getIdentifier() + " for patient:"
+							+ patient.getCitizenshipNumber());
 					tr.com.srdc.icardea.hibernate.Contact careGiverContactInDB = careGiverInDB.getContact();
 					if (careGiverContactInDB != null) {
 						careGiver.setContact(contactFromDB(careGiverContactInDB));
@@ -632,20 +617,20 @@ public class PatientSubscriptionServiceImp implements
 	}
 
 	@Override
-	public synchronized void setSubscriptions(Patient p) {
-		
-		System.out.println("*****PATIENT SUBSCRIPTIONS*****");
-		System.out.println("Patient id(iCARDEA id): " + p.getPersonID());
-		System.out.println("EHR Subscriptions: " + p.getEhrSubscriptions());
-		System.out.println("PHR Subscriptions: " + p.getPhrSubscriptions());
-		System.out.println("*******************************");
+		public synchronized void setSubscriptions(Patient p) {
 
-	}
+			System.out.println("*****PATIENT SUBSCRIPTIONS*****");
+			System.out.println("Patient id(iCARDEA id): " + p.getPersonID());
+			System.out.println("EHR Subscriptions: " + p.getEhrSubscriptions());
+			System.out.println("PHR Subscriptions: " + p.getPhrSubscriptions());
+			System.out.println("*******************************");
+
+		}
 
 	@Override
-	public synchronized void setPatientInfo(Patient p) {
-		registerPatient(p);
-	}
+		public synchronized void setPatientInfo(Patient p) {
+			registerPatient(p);
+		}
 
 	// @Override
 	// public ArrayList<MedicalCareplan> listGuidelines(Patient p) {
@@ -654,285 +639,285 @@ public class PatientSubscriptionServiceImp implements
 	//
 	// }
 	@Override
-	public synchronized List<Patient> createPatient(Patient patient) {
-		// String id = patient.getPersonID();
-		// if (patients.containsKey(id)) {
-		// throw new IllegalArgumentException("Duplicate key" + id);
-		// } else {
-		// patients.put(id, patient);
-		// }
-		registerPatient(patient);
-		return listPatients();
-	}
-
-	@Override
-	public synchronized List<Patient> updatePatient(Patient patient) {
-		// String id = patient.getPersonID();
-		// if (patients.containsKey(id)) {
-		// patients.put(id, patient);
-		// } else {
-		// throw new IllegalArgumentException("Key does not exist" + id);
-		// }
-		registerPatient(patient);
-		return listPatients();
-	}
-
-	@Override
-	public synchronized List<Patient> deletePatient(Patient patient) {
-		// String id = patient.getPersonID();
-		// if (patients.containsKey(id)) {
-		// patients.remove(id);
-		// } else {
-		// throw new IllegalArgumentException("Key does not exist" + id);
-		// }
-		
-		try {
-			System.out.println(" $$$ Deleting patient:" + patient.getPersonID());
-			PersistentTransaction transaction = ICardeaPersistentManager.instance().getSession().beginTransaction();
-			tr.com.srdc.icardea.hibernate.Patient patientInDB = null;
-			PatientCriteria criteria = new PatientCriteria();
-			criteria.citizenshipNumber.eq(patient.getPersonID());
-			tr.com.srdc.icardea.hibernate.Patient[] patients = tr.com.srdc.icardea.hibernate.Patient.listPatientByCriteria(criteria);
-			if (patients.length > 0) {
-				patientInDB = patients[0];
-				patientInDB.delete();
-			}
-
-
-			PatientHealthcareActorAssignmentCriteria assignmentCriteria = new PatientHealthcareActorAssignmentCriteria();
-			assignmentCriteria.patientIdentifier.eq(patient.getPersonID());
-			PatientHealthcareActorAssignment[] assignments = PatientHealthcareActorAssignment.listPatientHealthcareActorAssignmentByCriteria(assignmentCriteria);
-			System.out.println(" $$$ Deleting the care giver assignments for patient:" + patient.getPersonID());
-			System.out.println(" $$$ Number of care giver assignments for patient is:" + assignments.length);
-			for (int i = 0; i < assignments.length; i++) {
-				PatientHealthcareActorAssignment assignment = assignments[i];
-				assignment.delete();
-			}
-
-			PersonalizedMedicalCareplanCriteria careplanCriteria = new PersonalizedMedicalCareplanCriteria();
-			careplanCriteria.patientIdentifier.eq(patient.getPersonID());
-			PersonalizedMedicalCareplan[] careplansInDB = PersonalizedMedicalCareplan.listPersonalizedMedicalCareplanByCriteria(careplanCriteria);
-			System.out.println(" $$$ Deleting the care giver assignments for patient:" + patient.getPersonID());
-			System.out.println(" $$$ Number of care giver assignments for patient is:" + assignments.length);
-			for (int j = 0; j < careplansInDB.length; j++) {
-				careplansInDB[j].delete();
-			}
-			transaction.commit();
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		public synchronized List<Patient> createPatient(Patient patient) {
+			// String id = patient.getPersonID();
+			// if (patients.containsKey(id)) {
+			// throw new IllegalArgumentException("Duplicate key" + id);
+			// } else {
+			// patients.put(id, patient);
+			// }
+			registerPatient(patient);
+			return listPatients();
 		}
-		return listPatients();
-	}
 
 	@Override
-	public synchronized ArrayList<MedicalCareplan> listGuidelines(Patient p) {
-		// TODO Auto-generated method stub
-		sslSetup();
-		try {
-			System.out.println(" $$$ Listing careplans for patient:"
-				+ p.getPersonID());
-			ArrayList<MedicalCareplan> careplans = new ArrayList();
-
-			// Fill the assigned careplans
-			PersonalizedMedicalCareplanCriteria careplanCriteria = new PersonalizedMedicalCareplanCriteria();
-			careplanCriteria.patientIdentifier.eq(p.getPersonID());
-			PersonalizedMedicalCareplan[] careplansInDB = PersonalizedMedicalCareplan.listPersonalizedMedicalCareplanByCriteria(careplanCriteria);
-			String[] st;
-			for (int j = 0; j < careplansInDB.length; j++) {
-				MedicalCareplanTemplate medicalCareplanTemplate = careplansInDB[j].getMedicalCareplanTemplate();
-				MedicalCareplan medicalCareplan = new MedicalCareplan();
-				System.out.println(" $$$ Careplan:"
-					+ medicalCareplanTemplate.getIdentifier());
-				medicalCareplan.setId(medicalCareplanTemplate.getIdentifier());
-				medicalCareplan.setName(medicalCareplanTemplate.getName());
-				medicalCareplan.setUrl(medicalCareplanTemplate.getContent());
-				
-				String content = medicalCareplanTemplate.getContent();
-				
-				if(content != null){
-					st = content.split("owl");	
-					String cname = st[0]+"cp";
-					String dname = st[0]+"dgr";
-					boolean salkUsage = new Boolean(ResourceBundle.getBundle("icardea")
-							.getString("salk.usage")).booleanValue();
-					if(salkUsage == true){
-						cname = cname.replace("https", "http");
-						cname = cname.replace("8443", "8080");
-						dname = dname.replace("https", "http");
-						dname = dname.replace("8443", "8080"); 
-					}
-					URL url;
-					try {
-						//System.out.println("cname: "+cname);
-						//System.out.println("dname: "+dname);
-						url = new URL(cname);
-						BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-						String inputLine = "";
-						String cp = "";
-						  while ((inputLine = in.readLine()) != null)
-						  {
-							  cp = cp +inputLine;	
-							  
-						  }
-						  medicalCareplan.setCareplan(cp);
-						  medicalCareplanTemplate.setCareplan(cp);
-						  in.close();
-					} catch (MalformedURLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}				
-					try {
-						url = new URL(dname);
-						BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-						String inputLine = "";
-						String cp = "";
-						  while ((inputLine = in.readLine()) != null)
-						  {
-							  cp = cp + inputLine;							  
-						  }
-						  medicalCareplan.setDiagram(cp);
-						  medicalCareplanTemplate.setDiagram(cp);
-						  in.close();
-					} catch (MalformedURLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-				
-				
-				careplans.add(medicalCareplan);
-			}
-			return careplans;
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		public synchronized List<Patient> updatePatient(Patient patient) {
+			// String id = patient.getPersonID();
+			// if (patients.containsKey(id)) {
+			// patients.put(id, patient);
+			// } else {
+			// throw new IllegalArgumentException("Key does not exist" + id);
+			// }
+			registerPatient(patient);
+			return listPatients();
 		}
-		return null;
-	}
 
 	@Override
-	public synchronized List<Patient> listPatients() {
-		// TODO Auto-generated method stub
-		return listRegisteredPatients();
-	}
+		public synchronized List<Patient> deletePatient(Patient patient) {
+			// String id = patient.getPersonID();
+			// if (patients.containsKey(id)) {
+			// patients.remove(id);
+			// } else {
+			// throw new IllegalArgumentException("Key does not exist" + id);
+			// }
 
-	@Override
-	public synchronized List<Person> listCaregivers(Patient patient) {
-		// ////////Patient in caregiverslarini listeleyecek
-		// ////////patient.getCaregivers();
-		// Fill the caregivers
-		
-		System.out.println(" Listing the caregivers..." + patient);
-		List<Person> caregiversToBeFilled = new ArrayList();
-		System.out.println(" Listing the caregivers for patient:" + patient.getPersonID());
-		PatientHealthcareActorAssignmentCriteria caregiverAssignmentCriteria = null;
-		try {
-			caregiverAssignmentCriteria = new PatientHealthcareActorAssignmentCriteria();
-		} catch (PersistentException e) {
-			e.printStackTrace();
-		}
-		caregiverAssignmentCriteria.patientIdentifier.eq(patient.getPersonID());
-		PatientHealthcareActorAssignment[] assignments = PatientHealthcareActorAssignment.listPatientHealthcareActorAssignmentByCriteria(caregiverAssignmentCriteria);
-
-		System.out.println(" Number of caregivers is:" + assignments.length);
-		for (int j = 0; j < assignments.length; j++) {
-			PatientHealthcareActorAssignment assignment = assignments[j];
-			String careGiverID = assignment.getHealthcareActorIdentifier();
-
-			PersonCriteria personCriteria = null;
 			try {
-				personCriteria = new PersonCriteria();
+				System.out.println(" $$$ Deleting patient:" + patient.getPersonID());
+				PersistentTransaction transaction = ICardeaPersistentManager.instance().getSession().beginTransaction();
+				tr.com.srdc.icardea.hibernate.Patient patientInDB = null;
+				PatientCriteria criteria = new PatientCriteria();
+				criteria.citizenshipNumber.eq(patient.getPersonID());
+				tr.com.srdc.icardea.hibernate.Patient[] patients = tr.com.srdc.icardea.hibernate.Patient.listPatientByCriteria(criteria);
+				if (patients.length > 0) {
+					patientInDB = patients[0];
+					patientInDB.delete();
+				}
+
+
+				PatientHealthcareActorAssignmentCriteria assignmentCriteria = new PatientHealthcareActorAssignmentCriteria();
+				assignmentCriteria.patientIdentifier.eq(patient.getPersonID());
+				PatientHealthcareActorAssignment[] assignments = PatientHealthcareActorAssignment.listPatientHealthcareActorAssignmentByCriteria(assignmentCriteria);
+				System.out.println(" $$$ Deleting the care giver assignments for patient:" + patient.getPersonID());
+				System.out.println(" $$$ Number of care giver assignments for patient is:" + assignments.length);
+				for (int i = 0; i < assignments.length; i++) {
+					PatientHealthcareActorAssignment assignment = assignments[i];
+					assignment.delete();
+				}
+
+				PersonalizedMedicalCareplanCriteria careplanCriteria = new PersonalizedMedicalCareplanCriteria();
+				careplanCriteria.patientIdentifier.eq(patient.getPersonID());
+				PersonalizedMedicalCareplan[] careplansInDB = PersonalizedMedicalCareplan.listPersonalizedMedicalCareplanByCriteria(careplanCriteria);
+				System.out.println(" $$$ Deleting the care giver assignments for patient:" + patient.getPersonID());
+				System.out.println(" $$$ Number of care giver assignments for patient is:" + assignments.length);
+				for (int j = 0; j < careplansInDB.length; j++) {
+					careplansInDB[j].delete();
+				}
+				transaction.commit();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			return listPatients();
+		}
+
+	@Override
+		public synchronized ArrayList<MedicalCareplan> listGuidelines(Patient p) {
+			// TODO Auto-generated method stub
+			sslSetup();
+			try {
+				System.out.println(" $$$ Listing careplans for patient:"
+						+ p.getPersonID());
+				ArrayList<MedicalCareplan> careplans = new ArrayList();
+
+				// Fill the assigned careplans
+				PersonalizedMedicalCareplanCriteria careplanCriteria = new PersonalizedMedicalCareplanCriteria();
+				careplanCriteria.patientIdentifier.eq(p.getPersonID());
+				PersonalizedMedicalCareplan[] careplansInDB = PersonalizedMedicalCareplan.listPersonalizedMedicalCareplanByCriteria(careplanCriteria);
+				String[] st;
+				for (int j = 0; j < careplansInDB.length; j++) {
+					MedicalCareplanTemplate medicalCareplanTemplate = careplansInDB[j].getMedicalCareplanTemplate();
+					MedicalCareplan medicalCareplan = new MedicalCareplan();
+					System.out.println(" $$$ Careplan:"
+							+ medicalCareplanTemplate.getIdentifier());
+					medicalCareplan.setId(medicalCareplanTemplate.getIdentifier());
+					medicalCareplan.setName(medicalCareplanTemplate.getName());
+					medicalCareplan.setUrl(medicalCareplanTemplate.getContent());
+
+					String content = medicalCareplanTemplate.getContent();
+
+					if(content != null){
+						st = content.split("owl");	
+						String cname = st[0]+"cp";
+						String dname = st[0]+"dgr";
+						boolean salkUsage = new Boolean(ResourceBundle.getBundle("icardea")
+								.getString("salk.usage")).booleanValue();
+						if(salkUsage == true){
+							cname = cname.replace("https", "http");
+							cname = cname.replace("8443", "8080");
+							dname = dname.replace("https", "http");
+							dname = dname.replace("8443", "8080"); 
+						}
+						URL url;
+						try {
+							//System.out.println("cname: "+cname);
+							//System.out.println("dname: "+dname);
+							url = new URL(cname);
+							BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+							String inputLine = "";
+							String cp = "";
+							while ((inputLine = in.readLine()) != null)
+							{
+								cp = cp +inputLine;	
+
+							}
+							medicalCareplan.setCareplan(cp);
+							medicalCareplanTemplate.setCareplan(cp);
+							in.close();
+						} catch (MalformedURLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}				
+						try {
+							url = new URL(dname);
+							BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+							String inputLine = "";
+							String cp = "";
+							while ((inputLine = in.readLine()) != null)
+							{
+								cp = cp + inputLine;							  
+							}
+							medicalCareplan.setDiagram(cp);
+							medicalCareplanTemplate.setDiagram(cp);
+							in.close();
+						} catch (MalformedURLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+
+
+
+					careplans.add(medicalCareplan);
+				}
+				return careplans;
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+			return null;
+		}
+
+	@Override
+		public synchronized List<Patient> listPatients() {
+			// TODO Auto-generated method stub
+			return listRegisteredPatients();
+		}
+
+	@Override
+		public synchronized List<Person> listCaregivers(Patient patient) {
+			// ////////Patient in caregiverslarini listeleyecek
+			// ////////patient.getCaregivers();
+			// Fill the caregivers
+
+			System.out.println(" Listing the caregivers..." + patient);
+			List<Person> caregiversToBeFilled = new ArrayList();
+			System.out.println(" Listing the caregivers for patient:" + patient.getPersonID());
+			PatientHealthcareActorAssignmentCriteria caregiverAssignmentCriteria = null;
+			try {
+				caregiverAssignmentCriteria = new PatientHealthcareActorAssignmentCriteria();
 			} catch (PersistentException e) {
 				e.printStackTrace();
 			}
-			personCriteria.identifier.eq(careGiverID);
+			caregiverAssignmentCriteria.patientIdentifier.eq(patient.getPersonID());
+			PatientHealthcareActorAssignment[] assignments = PatientHealthcareActorAssignment.listPatientHealthcareActorAssignmentByCriteria(caregiverAssignmentCriteria);
 
-			tr.com.srdc.icardea.hibernate.Person[] careGivers = tr.com.srdc.icardea.hibernate.Person.listPersonByCriteria(personCriteria);
-			if (careGivers.length > 0) {
-				Person careGiver = new Person();
-				tr.com.srdc.icardea.hibernate.Person careGiverInDB = careGivers[0];
-				careGiver.setIdentifier(careGiverInDB.getIdentifier());
-				careGiver.setName(careGiverInDB.getName());
-				careGiver.setSurname(careGiverInDB.getSurname());
+			System.out.println(" Number of caregivers is:" + assignments.length);
+			for (int j = 0; j < assignments.length; j++) {
+				PatientHealthcareActorAssignment assignment = assignments[j];
+				String careGiverID = assignment.getHealthcareActorIdentifier();
 
-				System.out.println(" $$$ Caregiver:"
-					+ careGiverInDB.getIdentifier() + " for patient:"
-					+ patient.getPersonID());
-				tr.com.srdc.icardea.hibernate.Contact careGiverContactInDB = careGiverInDB.getContact();
-				if (careGiverContactInDB != null) {
-					careGiver.setContact(contactFromDB(careGiverContactInDB));
+				PersonCriteria personCriteria = null;
+				try {
+					personCriteria = new PersonCriteria();
+				} catch (PersistentException e) {
+					e.printStackTrace();
 				}
-				caregiversToBeFilled.add(careGiver);
+				personCriteria.identifier.eq(careGiverID);
+
+				tr.com.srdc.icardea.hibernate.Person[] careGivers = tr.com.srdc.icardea.hibernate.Person.listPersonByCriteria(personCriteria);
+				if (careGivers.length > 0) {
+					Person careGiver = new Person();
+					tr.com.srdc.icardea.hibernate.Person careGiverInDB = careGivers[0];
+					careGiver.setIdentifier(careGiverInDB.getIdentifier());
+					careGiver.setName(careGiverInDB.getName());
+					careGiver.setSurname(careGiverInDB.getSurname());
+
+					System.out.println(" $$$ Caregiver:"
+							+ careGiverInDB.getIdentifier() + " for patient:"
+							+ patient.getPersonID());
+					tr.com.srdc.icardea.hibernate.Contact careGiverContactInDB = careGiverInDB.getContact();
+					if (careGiverContactInDB != null) {
+						careGiver.setContact(contactFromDB(careGiverContactInDB));
+					}
+					caregiversToBeFilled.add(careGiver);
+				}
 			}
+
+			// TODO Auto-generated method stub
+			return caregiversToBeFilled;
 		}
 
-		// TODO Auto-generated method stub
-		return caregiversToBeFilled;
-	}
-
 	@Override
-	public synchronized List<Person> createCaregiver(Patient patient,
-		Person caregiver) {
-		// ////////Yeni caregiver, patient in caregivers larina eklenecek
-		// ////////Normalde bu caregiver patient da bulunmuyor
-		
-		System.out.println(" $$$ Caregivers length:" + patient.getCaregivers().size());
-		patient.getCaregivers().add(caregiver);
-		registerPatient(patient);
-		// TODO Auto-generated method stub
-		return listCaregivers(patient);
-	}
+		public synchronized List<Person> createCaregiver(Patient patient,
+				Person caregiver) {
+			// ////////Yeni caregiver, patient in caregivers larina eklenecek
+			// ////////Normalde bu caregiver patient da bulunmuyor
 
-	@Override
-	public synchronized List<Person> updateCaregiver(Patient patient,
-		Person caregiver) {
-		// ////////Caregiver update edilecek
-		// ////////Normalde bu caregiver patient da bulunuyor
-		
-		ArrayList<Person> caregivers = patient.getCaregivers();
-		for (int i = 0; i < caregivers.size(); i++) {
-			Person currCareGiver = caregivers.get(i);
-			if (currCareGiver.getIdentifier().equals(caregiver.getIdentifier())) {
-				caregivers.remove(i);
-				caregivers.add(caregiver);
-				patient.setCaregivers(caregivers);
-				registerPatient(patient);
-				break;
-			}
+			System.out.println(" $$$ Caregivers length:" + patient.getCaregivers().size());
+			patient.getCaregivers().add(caregiver);
+			registerPatient(patient);
+			// TODO Auto-generated method stub
+			return listCaregivers(patient);
 		}
 
-		// TODO Auto-generated method stub
-		return listCaregivers(patient);
-	}
+	@Override
+		public synchronized List<Person> updateCaregiver(Patient patient,
+				Person caregiver) {
+			// ////////Caregiver update edilecek
+			// ////////Normalde bu caregiver patient da bulunuyor
+
+			ArrayList<Person> caregivers = patient.getCaregivers();
+			for (int i = 0; i < caregivers.size(); i++) {
+				Person currCareGiver = caregivers.get(i);
+				if (currCareGiver.getIdentifier().equals(caregiver.getIdentifier())) {
+					caregivers.remove(i);
+					caregivers.add(caregiver);
+					patient.setCaregivers(caregivers);
+					registerPatient(patient);
+					break;
+				}
+			}
+
+			// TODO Auto-generated method stub
+			return listCaregivers(patient);
+		}
 
 	@Override
-	public synchronized List<Person> deleteCaregiver(Patient patient,
-		Person caregiver) {
-		// ////////Caregiver delete edilecek
-		// ////////Normalde bu caregiver patient da bulunuyor
-		
-		ArrayList<Person> caregivers = patient.getCaregivers();
-		System.out.println("Patient caregiver size: " + patient.getCaregivers().size());
-		for (int i = 0; i < caregivers.size(); i++) {
-			Person currCareGiver = caregivers.get(i);
-			if (currCareGiver.getIdentifier().equals(caregiver.getIdentifier())) {
-				System.out.println("Caregiver : " + currCareGiver.getIdentifier());
-				caregivers.remove(i);
-				System.out.println("Patient caregiver size after : " + patient.getCaregivers().size());
-				patient.setCaregivers(caregivers);
-				System.out.println("Patient caregiver size after after : " + patient.getCaregivers().size());
-				registerPatient(patient);
-				System.out.println("Patient caregiver size after after after: " + patient.getCaregivers().size());
-				break;
+		public synchronized List<Person> deleteCaregiver(Patient patient,
+				Person caregiver) {
+			// ////////Caregiver delete edilecek
+			// ////////Normalde bu caregiver patient da bulunuyor
+
+			ArrayList<Person> caregivers = patient.getCaregivers();
+			System.out.println("Patient caregiver size: " + patient.getCaregivers().size());
+			for (int i = 0; i < caregivers.size(); i++) {
+				Person currCareGiver = caregivers.get(i);
+				if (currCareGiver.getIdentifier().equals(caregiver.getIdentifier())) {
+					System.out.println("Caregiver : " + currCareGiver.getIdentifier());
+					caregivers.remove(i);
+					System.out.println("Patient caregiver size after : " + patient.getCaregivers().size());
+					patient.setCaregivers(caregivers);
+					System.out.println("Patient caregiver size after after : " + patient.getCaregivers().size());
+					registerPatient(patient);
+					System.out.println("Patient caregiver size after after after: " + patient.getCaregivers().size());
+					break;
+				}
 			}
+			// TODO Auto-generated method stub
+			return listCaregivers(patient);
 		}
-		// TODO Auto-generated method stub
-		return listCaregivers(patient);
 	}
-}
