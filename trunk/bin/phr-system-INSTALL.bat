@@ -34,23 +34,23 @@ echo.
 echo.
 
 rem this should run after the initial setup of the whole icardea system.
-call mvn install -f %ICARDEA_HOME%\icardea-config\pom.xml -Dmaven.test.skip=true -DgeneratePom=true
+call mvn install -f "%ICARDEA_HOME%\icardea-config\pom.xml" -Dmaven.test.skip=true -DgeneratePom=true
 echo icardea-config installed
 echo.
 echo.
 
-call mvn install -f %ICARDEA_HOME%\icardea-atnalog-client\pom.xml -Dmaven.test.skip=true -DgeneratePom=true
+call mvn install -f "%ICARDEA_HOME%\icardea-atnalog-client\pom.xml" -Dmaven.test.skip=true -DgeneratePom=true
 echo icardea-atnalog-client installed
 echo.
 echo.
 
-cd %ICARDEA_HOME%\icardea-phrs
+cd "%ICARDEA_HOME%\icardea-phrs"
 call mvn install -DskipTests=true
 echo icardea-phrs installed
 echo.
 echo.
 
-cd %ICARDEA_HOME%\icardea-phrs\phrweb\
+cd "%ICARDEA_HOME%\icardea-phrs\phrweb\"
 call mvn cargo:deploy -Dcatalina.home=%CATALINA_HOME%
 echo "phrweb installed (mvn cargo:deploy to %CATALINA_HOME% finished)"
 
