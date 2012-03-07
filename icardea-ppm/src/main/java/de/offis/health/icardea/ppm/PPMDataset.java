@@ -143,7 +143,7 @@ public class PPMDataset {
 				try {
 					retval=false;
 					createInitialDB();
-					
+
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -675,18 +675,20 @@ public class PPMDataset {
 				cPatient.setCitizenshipNumber(rs.getString(6));
 				this.iCardeaID=cPatient.getCitizenshipNumber();
 				boolean isAllowed=true;
-				if (testConsent){
-					isAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(cPatient.getCitizenshipNumber(), role, "CIEDREPORT");
-				}
-				if (!isAllowed) {
-					System.out.println("DENY FillList:"+cPatient);
-					logger.info("DENY!!!!:"+cPatient);
+				if (this.isUserOpenIdVerified()){
+					if (testConsent){
+						isAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(cPatient.getCitizenshipNumber(), role, "CIEDREPORT");
+					}
+					if (!isAllowed) {
+						System.out.println("DENY FillList:"+cPatient);
+						logger.info("DENY!!!!:"+cPatient);
 
-					//			retrieveCIEDDataByPatientID(patientID);
-				}else{//Local testting assumed	
-					logger.debug("consentmager would be asked for: CitizenChip"+ cPatient.getCitizenshipNumber() + " and with Role "+ role +" for openid user ");
-					patientList.add(cPatient);
-					logger.info("FillList:"+cPatient);
+						//			retrieveCIEDDataByPatientID(patientID);
+					}else{//Local testting assumed	
+						logger.debug("consentmager would be asked for: CitizenChip "+ cPatient.getCitizenshipNumber() + " and with Role "+ role +" for openid user ");
+						patientList.add(cPatient);
+						logger.info("FillList:"+cPatient);
+					}
 				}
 			}
 			rs.close();
@@ -928,58 +930,58 @@ public class PPMDataset {
 		//		System.out.println("##############AT authrequested redirect url:"+redirectUrl);
 
 		System.out.println("Start PPMDataset getInstance ");
-	    
+
 		PPMDataset ppmDataset =PPMDataset.getInstance();
 		//		System.out.println("Show Sheets:" + ppmDataset.getSheetStrings());
 		if (ppmDataset.checkDB())
 		{
-		ppmDataset.setCurrentPatID(2);
-		mySheetsList=new ArrayList(Arrays.asList(ppmDataset.getSheetStrings()));
-		try {
-			ResultSet rs = ppmDataset.getStmt().executeQuery("SELECT  sheet FROM ppmdataset  group by sheet order by sortnumber");
-			//			while (rs.next()) {
-			//
-			//				String bez = rs.getString(1);
-			//				System.out.println("Sheet: "+bez);
-			//				mySheetsList.add(bez);
-			//			}
-			for (String aktsheet : mySheetsList) {
-				PPMRowModel[] allRows= ppmDataset.getRows(aktsheet);
-				logger.info("++++++++++++++++++++Show Sheets:" + aktsheet);
-				for (int i=0;i<allRows.length;i++){
-					if (!allRows[i].getContent().equalsIgnoreCase("--"))
-						logger.info(allRows[i].getName()+":\t"+allRows[i].getContent());
-					//					System.out.println(aktsheet+"#"+i+":"+allRows[i]);
+			ppmDataset.setCurrentPatID(2);
+			mySheetsList=new ArrayList(Arrays.asList(ppmDataset.getSheetStrings()));
+			try {
+				ResultSet rs = ppmDataset.getStmt().executeQuery("SELECT  sheet FROM ppmdataset  group by sheet order by sortnumber");
+				//			while (rs.next()) {
+				//
+				//				String bez = rs.getString(1);
+				//				System.out.println("Sheet: "+bez);
+				//				mySheetsList.add(bez);
+				//			}
+				for (String aktsheet : mySheetsList) {
+					PPMRowModel[] allRows= ppmDataset.getRows(aktsheet);
+					logger.info("++++++++++++++++++++Show Sheets:" + aktsheet);
+					for (int i=0;i<allRows.length;i++){
+						if (!allRows[i].getContent().equalsIgnoreCase("--"))
+							logger.info(allRows[i].getName()+":\t"+allRows[i].getContent());
+						//					System.out.println(aktsheet+"#"+i+":"+allRows[i]);
+					}
+
+
+
 				}
-
-
-
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				logger.debug("No Sheets");
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			logger.debug("No Sheets");
-		}
-		if (false){
-			ppmDataset.addCIEDData("model:Secura/serial:PZC600368S", "720897^MDC_IDC_PG_TYPE^MDC", "CIED");
-			ppmDataset.addCIEDData("model:Secura/serial:PZC600368S","720900^MDC_IDC_PG_MFG^MDC","Medtronic");
-			ppmDataset.addCIEDData("model:Secura/serial:PZC600368S","721344^MDC_IDC_MSMT_BATTERY_VOLTAGE^MDC","2.94");
-			ppmDataset.addCIEDData("model:Secura/serial:PZC600368S","720898^MDC_IDC_PG_MODEL^MDC","Secura");
-			ppmDataset.addCIEDData("model:unbekannt/serial:000", "720897^MDC_IDC_PG_TYPE^MDC", "unbekannt");
-			ppmDataset.addCIEDData("model:unbekannt/serial:000", "720897^MDC_IDC_PG_TYPE^MDC", "unbekannt", "20110101123456000","20110101123456000");
-			ppmDataset.addCIEDData("model:Secura/serial:PZC600368S","721344^MDC_IDC_MSMT_BATTERY_VOLTAGE^MDC","20001010101010", "20001010101010");
-			ppmDataset.addCIEDData("model:Secura/serial:PZC600368S","721344^MDC_IDC_MSMT_BATTERY_VOLTAGE^MDC","20101010101010", "20101010101010");
+			if (false){
+				ppmDataset.addCIEDData("model:Secura/serial:PZC600368S", "720897^MDC_IDC_PG_TYPE^MDC", "CIED");
+				ppmDataset.addCIEDData("model:Secura/serial:PZC600368S","720900^MDC_IDC_PG_MFG^MDC","Medtronic");
+				ppmDataset.addCIEDData("model:Secura/serial:PZC600368S","721344^MDC_IDC_MSMT_BATTERY_VOLTAGE^MDC","2.94");
+				ppmDataset.addCIEDData("model:Secura/serial:PZC600368S","720898^MDC_IDC_PG_MODEL^MDC","Secura");
+				ppmDataset.addCIEDData("model:unbekannt/serial:000", "720897^MDC_IDC_PG_TYPE^MDC", "unbekannt");
+				ppmDataset.addCIEDData("model:unbekannt/serial:000", "720897^MDC_IDC_PG_TYPE^MDC", "unbekannt", "20110101123456000","20110101123456000");
+				ppmDataset.addCIEDData("model:Secura/serial:PZC600368S","721344^MDC_IDC_MSMT_BATTERY_VOLTAGE^MDC","20001010101010", "20001010101010");
+				ppmDataset.addCIEDData("model:Secura/serial:PZC600368S","721344^MDC_IDC_MSMT_BATTERY_VOLTAGE^MDC","20101010101010", "20101010101010");
 
 
-			ppmDataset.addCIEDData("model:Maximo/serial:D284DRG", "720897^MDC_IDC_PG_TYPE^MDC", "CIED");
-			ppmDataset.checkPendingData();
+				ppmDataset.addCIEDData("model:Maximo/serial:D284DRG", "720897^MDC_IDC_PG_TYPE^MDC", "CIED");
+				ppmDataset.checkPendingData();
 
+			}else{
+				ppmDataset.checkPendingData();
+			}
 		}else{
-			ppmDataset.checkPendingData();
+			logger.info("Database created");
 		}
-		}else{
-		logger.info("Database created");
-		}
-		
+
 	}
 
 	private void fillStatements(){
@@ -1132,6 +1134,7 @@ public class PPMDataset {
 				+replaceInto +" ( 'PatInfo','Heart rate','--','List','heart rate  of day x recorded by the patient','PHR','','','','integer','','daily for the review scenario','','0','138','Patient relevant information ','Heart rate','HeartRate','','','83','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'PatInfo','Body weight','--','List','body weight of day x recorded by the patient','PHR','','','','F2','','','','0','139','Patient relevant information ','Body weight','BodyWeight','','(value < 60) or (value > 80)','87','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'PatInfo','Medications','--','List','medication changes including drug name, frequency, dosage, recorded by the patient','PHR','','','','Text, F2, text','','a list of drugs','','0','140','Patient relevant information ','Medications','Medications','','','Simvastatin, 1 tablet, 1x day ','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','Lab results','--','Numeric','Table showing the patient s laboratory results','EHR','','','latest value','','','Link to the patients last lab results','','0','141','Patient Objective Data','','','','','0','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'PatInfo','Problems','--','List','symptom recorded by the patient','PHR','','','','text ','','','','0','119','Patient relevant information ','Problems','Problems','','','shortness of breath','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'PatInfo','Procedures','--','List','symptom recorded by the patient','PHR','','','','text ','','','','0','118','Patient relevant information ','Procedures','Procedures','','','shortness of breath','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'ProPara','Pacing mode','--','Categoric','DDD / DDDR / VVI / VVIR / AAI / AAIR / VDD','CIED','730752^MDC_IDC_SET_BRADY_MODE^MDC','','latest value','Nominal','','','','0','143','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
