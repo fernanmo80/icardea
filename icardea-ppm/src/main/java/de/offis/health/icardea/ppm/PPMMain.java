@@ -165,7 +165,7 @@ public class PPMMain extends ViewPart {
 
 						if (ppmDataset.testConsent){
 							if ( allRows[i].getSubContentName().length()>1){
-								if (allRows[i].getSubContentName().equalsIgnoreCase("Lab results") | allRows[i].getSubContentName().equalsIgnoreCase("Labresults")){
+								if (allRows[i].getSubContentName().equalsIgnoreCase("Lab results") | allRows[i].getSubContentName().equalsIgnoreCase("Labresult")){
 									logger.debug("Consent Testing for testresult");
 									isAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(ppmDataset.getiCardeaID(), ppmDataset.getRole(), "testresult");
 									

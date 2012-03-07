@@ -188,7 +188,9 @@ public class Perspective implements IPerspectiveFactory {
 					String roleOpenID = paralist.getParameterValue("openid.ax.value.label.1");
 
 					logger.debug("Roletype available. Selecting first: " + roleOpenID);
-					ppmDataset.setRole(roleOpenID);
+					//HACK
+					ppmDataset.setRole("doctor");
+					//ppmDataset.setRole(roleOpenID);
 
 				}
 			}
