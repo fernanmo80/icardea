@@ -30,11 +30,11 @@ call mvn -q install:install-file -DgroupId=xom -DartifactId=xom -Dversion=1.2.6 
 
 call mvn -q install:install-file -DgroupId=org.jboss.netty -DartifactId=netty -Dversion=3.2.4.Final -Dpackaging=jar -Dfile=..\tools_resources\external-lib\netty-3.2.3.Final\netty-3.2.3.Final.jar
 
-call mvn install:install-file -DgroupId=gr.ics.forth.icardea -DartifactId=jpathwatch -Dversion=0.94 -Dpackaging=jar -Dfile=..\tools_resources\external-lib\jpathwatch-0.94\jpathwatch_0.94.jar
+call mvn -q install:install-file -DgroupId=gr.ics.forth.icardea -DartifactId=jpathwatch -Dversion=0.94 -Dpackaging=jar -Dfile=..\tools_resources\external-lib\jpathwatch-0.94\jpathwatch_0.94.jar -DgeneratePom=true
 
-call mvn install:install-file -DgroupId=gr.ics.forth.icardea -DartifactId=ctsclient -Dversion=1.0_SNAPSHOT -Dpackaging=jar -Dfile=..\tools_resources\external-lib\cts_client\ctsclient_1.0_SNAPSHOT.jar
+call mvn -q install:install-file -DgroupId=gr.ics.forth.icardea -DartifactId=ctsclient -Dversion=1.0_SNAPSHOT -Dpackaging=jar -Dfile=..\tools_resources\external-lib\cts_client\ctsclient_1.0_SNAPSHOT.jar -DgeneratePom=true
 
-call mvn install:install-file -DgroupId=gr.forth.ics.icardea.mllp -DartifactId=HL7MLLPServerSSL -Dversion=1.0 -Dpackaging=jar -Dfile=..\tools_resources\external-lib\HL7MLLPServer\HL7MLLPServer2.jar
+call mvn -q install:install-file -DgroupId=gr.forth.ics.icardea.mllp -DartifactId=HL7MLLPServerSSL -Dversion=1.0 -Dpackaging=jar -Dfile=..\tools_resources\external-lib\HL7MLLPServer\HL7MLLPServer2.jar -DgeneratePom=true
 
 echo Installing additional libraries for Consent
 
