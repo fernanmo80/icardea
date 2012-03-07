@@ -514,7 +514,7 @@ public class PatientSubscriptionServiceImp implements
 
 			System.out.println(" $$$ Patients size:" + patients.length);
 			//TODO: Delete in the future
-			patients = new tr.com.srdc.icardea.hibernate.Patient[1];
+			/*patients = new tr.com.srdc.icardea.hibernate.Patient[1];
 			System.out.println(" $$$ Adding demo data");
 			patients[0] = addPatient("191", "Suzie", "Mayr", "1973-04-22",
 					"F");
@@ -530,7 +530,7 @@ public class PatientSubscriptionServiceImp implements
 			mc.setId("2");
 			List<MedicalCareplan> list = new ArrayList();
 			list.add(mc);
-			assignCareplan2Patient(list, "191");
+			assignCareplan2Patient(list, "191");*/
 
 
 		} catch (Exception ex) {
