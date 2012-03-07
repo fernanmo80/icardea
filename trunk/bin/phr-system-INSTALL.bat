@@ -1,21 +1,18 @@
 set mypwd=%CD%
 
-rem @KMT75 set ICARDEA_HOME="D:\svn-repositories\icardea"
-rem        set PHRS_TOMCAT="C:\Programme\Apache Software Foundation\tomcat6"
+rem @KMT57-SRFG
 if "%COMPUTERNAME%" == "KMT57" (
 	set ICARDEA_HOME="D:\svn-repositories\icardea"
 	set PHRS_TOMCAT="C:\Programme\Apache Software Foundation\tomcat6"
 )
 
-rem @SALK set ICARDEA_HOME="D:\srdc\codes\google-icardea\icardea"
-rem       set PHRS_TOMCAT="D:\srfg\tomcat\phrs-tomcat-6"
-if "%COMPUTERNAME%" == "!!!TODO-SALKNAME!!!!" (
+rem @SALK
+if "%COMPUTERNAME%" == "N1RZ159" (
 	set ICARDEA_HOME="D:\srdc\codes\google-icardea\icardea"
 	set PHRS_TOMCAT="D:\srfg\tomcat\phrs-tomcat-6"
 )
 
-rem @SRDC set ICARDEA_HOME="C:\icardea-google\icardea"
-rem       set PHRS_TOMCAT="C:\icardea-google\icardea\tools\apache-tomcat-6.0.20"
+rem @SRDC-VirtualMachine
 if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
 	set ICARDEA_HOME="C:\icardea-google\icardea"
 	set PHRS_TOMCAT="C:\icardea-google\icardea\tools\apache-tomcat-6.0.20"

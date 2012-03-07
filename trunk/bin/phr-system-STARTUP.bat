@@ -1,14 +1,24 @@
-set ICARDEA_HOME="D:\srdc\codes\google-icardea\icardea"
-				 set ICARDEA_HOME="D:\svn-repositories\icardea"
-
-set PHRS_HOME=%ICARDEA_HOME%\icardea-phrs
-rem set PHRS_HOME=D:\srfg\new-phrs\icardea-phrs
-
-set PHRS_TOMCAT=D:\srfg\tomcat\phrs-tomcat-6
-				 set PHRS_TOMCAT="C:\Programme\Apache Software Foundation\tomcat6
-set CATALINA_HOME=%PHRS_TOMCAT%
-
 set mypwd=%CD%
+
+rem @KMT57-SRFG
+if "%COMPUTERNAME%" == "KMT57" (
+	set ICARDEA_HOME="D:\svn-repositories\icardea"
+	set PHRS_TOMCAT="C:\Programme\Apache Software Foundation\tomcat6"
+)
+
+rem @SALK
+if "%COMPUTERNAME%" == "N1RZ159" (
+	set ICARDEA_HOME="D:\srdc\codes\google-icardea\icardea"
+	set PHRS_TOMCAT="D:\srfg\tomcat\phrs-tomcat-6"
+)
+
+rem @SRDC-VirtualMachine
+if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
+	set ICARDEA_HOME="C:\icardea-google\icardea"
+	set PHRS_TOMCAT="C:\icardea-google\icardea\tools\apache-tomcat-6.0.20"
+)
+
+set CATALINA_HOME=%PHRS_TOMCAT%
 
 call %PHRS_TOMCAT%\startup.bat
 echo "TOMCAT STARTED FROM %PHRS_TOMCAT%"
