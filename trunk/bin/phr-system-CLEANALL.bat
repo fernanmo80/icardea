@@ -24,11 +24,26 @@ if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
 set CATALINA_HOME=%PHRS_TOMCAT%
 set PHRS_HOME=%ICARDEA_HOME%\icardea-phrs
 
+del "%PHRS_TOMCAT%\webapps\phrweb.war"
+del "%PHRS_TOMCAT%\webapps\openrdf-sesame.war"
+del "%PHRS_TOMCAT%\webapps\openrdf-workbench.war"
 call "%PHRS_TOMCAT%\bin\shutdown.bat"
 
 echo **** please wait for tomcat to shutdown, then press a key to delete "%APPDATA%\Aduna"
 pause
 
+rmdir /S /Q "%PHRS_TOMCAT%\webapps\phrweb\"
+rmdir /S /Q "%PHRS_TOMCAT%\webapps\openrdf-sesame\"
+rmdir /S /Q "%PHRS_TOMCAT%\webapps\openrdf-workbench\"
 rmdir /S /Q "%APPDATA%\Aduna"
+del "%PHRS_TOMCAT%\bin\log_phr_app.txt"
+del "%PHRS_TOMCAT%\bin\log_phr_libs.txt"
+del "%PHRS_TOMCAT%\bin\log_phr_root.txt"
+del "%ICARDEA_HOME%\bin\log_phr_app.txt"
+del "%ICARDEA_HOME%\bin\log_phr_libs.txt"
+del "%ICARDEA_HOME%\bin\log_phr_root.txt"
+
+
+mvn clean -f "%PHRS_HOME%\pom.xml"
 
 cd %mypwd%

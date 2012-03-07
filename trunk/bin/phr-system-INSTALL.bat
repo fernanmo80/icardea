@@ -53,21 +53,15 @@ echo.
 
 title currently installing icardea-phrs
 cd "%ICARDEA_HOME%\icardea-phrs"
-call mvn install -DskipTests=true -Dicardea.home="%ICARDEA_HOME%"
+call mvn install -DskipTests=true -Dicardea.home="%ICARDEA_HOME%" -Dtomcat.home="%CATALINA_HOME%"
 echo icardea-phrs installed
 echo.
 echo.
 
 title currently installing phrweb
 cd "%ICARDEA_HOME%\icardea-phrs\phrweb\"
-call mvn cargo:deploy -Dcatalina.home=%CATALINA_HOME%
+call mvn cargo:deploy -Dcatalina.home="%CATALINA_HOME%"
 echo phrweb installed (mvn cargo:deploy to %CATALINA_HOME% finished)
-echo.
-echo.
-
-title creating phrs1 repository
-call %ICARDEA_HOME%\tools_resources\curl\curl -X POST "%SESAME_WORKBENCH_URL%/repositories/NONE/create?type=native&Repository+ID=phrs1&Repository+title=phrs1+title&Triple+indexes=spoc%2Cposc"
-echo phrs1 repository created
 echo.
 echo.
 
@@ -76,6 +70,7 @@ title PHRS-INSTALL FINISHED
 echo ICARDEA_HOME was %ICARDEA_HOME%
 echo PHRS_TOMCAT was %PHRS_TOMCAT%
 echo CATALINA_HOME was %CATALINA_HOME%
+echo continue with phr-system-STARTUP.bat
 
 
 cd %mypwd%
