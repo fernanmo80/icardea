@@ -20,7 +20,7 @@ if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
 
 set CATALINA_HOME=%PHRS_TOMCAT%
 set PHRS_HOME=%ICARDEA_HOME%\icardea-phrs
-
+set CATALINA_OPTS=-Xms256m -Xmx512m -XX:PermSize=256m -XX:MaxPermSize=1024m
 call "%PHRS_TOMCAT%\bin\startup.bat"
 echo "TOMCAT STARTED FROM %PHRS_TOMCAT%"
 
