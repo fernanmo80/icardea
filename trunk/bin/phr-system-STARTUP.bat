@@ -19,6 +19,7 @@ if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
 )
 
 set CATALINA_HOME=%PHRS_TOMCAT%
+set PHRS_HOME=%ICARDEA_HOME%\icardea-phrs
 
 call %PHRS_TOMCAT%\startup.bat
 echo "TOMCAT STARTED FROM %PHRS_TOMCAT%"
