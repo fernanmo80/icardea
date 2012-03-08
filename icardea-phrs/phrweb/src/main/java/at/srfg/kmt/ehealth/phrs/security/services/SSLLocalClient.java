@@ -28,18 +28,22 @@ final class SSLLocalClient {
     private static final String SSL_STORE_PASSWORD =
             "javax.net.ssl.trustStorePassword";
 
-    public static void sslSetup(String certPath, String password) {
-        LOGGER.debug("sslSetup certPath=" + certPath + " p=" + password);
-        System.setProperty(HANDLER_PKGS, SUN_SSL_PROTOCOL);
+    public static void sslSetup(String trustStore, String trustStorePassword,String keyStore, String keyStorePassword) {
+
+        LOGGER.debug("sslSetup trustStore=" + trustStore + " p=" + trustStorePassword+" keyStore "+keyStore+" pass "+keyStorePassword);
+        System.setProperty("java.protocol.handler.pkgs", "com.sun.net.ssl.internal.www.protocol");
 
         final Provider provider = new Provider();
         Security.addProvider(provider);
 
-        System.setProperty(SSL_STORE_PROTOCOL, certPath);
-        System.setProperty(SSL_STORE_PASSWORD, password);
+        System.setProperty("javax.net.ssl.trustStore", trustStore);
+        System.setProperty("javax.net.ssl.trustStorePassword", trustStorePassword);
+        System.setProperty("javax.net.ssl.keyStore", keyStore);
+        System.setProperty("javax.net.ssl.keyStorePassword", keyStorePassword);
 
         LOGGER.debug("The SSL comunication was enabled");
     }
+
 
     /**
      javax.net.ssl.trustStore=srfg-phrs-web-keystore.ks
@@ -47,59 +51,29 @@ final class SSLLocalClient {
      */
     public static void sslSetupLocal() {
 
-        ConfigurationService config = ConfigurationService.getInstance();
+        System.setProperty("javax.net.ssl.keyStore", ResourceBundle.getBundle("icardea").getString("icardea.home") + "/icardea-caremanagementdb/src/test/resources/sampleSSL/client.ks");
+        System.setProperty("javax.net.ssl.keyStorePassword", "client");
 
-        String keystoreFilePath = config.getProperty("javax.net.ssl.trustStore","srfg-phrs-core-keystore.ks");
+        System.setProperty("javax.net.ssl.trustStore", ResourceBundle.getBundle("icardea").getString("icardea.home") + "/icardea-caremanagementdb/src/test/resources/sampleSSL/client.ts");
+        System.setProperty("javax.net.ssl.trustStorePassword", "srdcpass");
 
-        String keystoreFilePassword = config.getProperty("javax.net.ssl.trustStorePassword","icardea");
-
-
-        SSLLocalClient.sslSetup(keystoreFilePath, keystoreFilePassword);
+//        ConfigurationService config = ConfigurationService.getInstance();
+//        String trustStoreFilePath = config.getProperty("javax.net.ssl.trustStore","srfg-phrs-core-truststore.ks");
+//        String trustStoreFilePassword = config.getProperty("javax.net.ssl.trustStorePassword","icardea");
+//        String keystoreFilePath = config.getProperty("javax.net.ssl.trustStore","srfg-phrs-core-keystore.ks");
+//        String keystoreFilePassword = config.getProperty("javax.net.ssl.trustStorePassword","icardea");
+//        SSLLocalClient.sslSetup(trustStoreFilePath, trustStoreFilePassword,keystoreFilePath, keystoreFilePassword);
 
     }
 
     /**
-     * Issue sharing one Tomcat server setup, therefore use common shared setup until clear
-     * By depending on the consent editor invoker, we are using that local sslsetup
      *
-     * @param configSettings
-     * 
-     * 0= none, handled differently by caller
-     * 1= local config
-     * 2= partner config sharing with same container
-     * 
-     * Other - no ssl setup or handled elsewhere
+     * @param configSettings - this is no longer necessary
      */
     public static void sslSetup(int configSettings) {
- /*
-        String openIdTest = ConfigurationService.getInstance().getProperty("openid.test.url", "http://kmt23.salzburgresearch.at:4545/idp/u=bob");
-        System.out.println("LoginServiceImpl  openid.test.url  " + openIdTest);
-        System.out.println("LoginServiceImpl  getEndpointApplicationHome " + LoginUtils.getEndpointApplicationHome());
-        System.out.println("LoginServiceImpl  getEndpointLoginPage " + LoginUtils.getEndpointLoginPage());
-   */
-        if (configSettings < 3) {
-            sslSetupLocal();
-
-        } else if (configSettings == 3) {
-            // boolean atnatls = new Boolean(ResourceBundle.getBundle("icardea").getString("atna.tls")).booleanValue();
-            boolean atnatls = Boolean.parseBoolean(ResourceBundle.getBundle("icardea").getString("atna.tls"));
-
-            if (atnatls) {
-                // Properties for SSL Security Provider
-                System.out.println("SECURE sslSetup 2");
-                String protocolProp = "java.protocol.handler.pkgs";
-                String sunSSLProtocol = "com.sun.net.ssl.internal.www.protocol";
-                String sslStoreProp = "javax.net.ssl.trustStore";
-                String certPath = ResourceBundle.getBundle("icardea").getString("icardea.home") + "/icardea-caremanager-ws/src/test/resources/jssecacerts";
-
-                // Enable SSL communication
-                System.setProperty(protocolProp, sunSSLProtocol);
-                Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
-                System.setProperty(sslStoreProp, certPath);
-                System.setProperty("javax.net.ssl.trustStorePassword", "srdcpass");
-            }
-        }
-        //otherwise no SSL
-
+       sslSetupLocal();
+    }
+    public static void sslSetup() {
+        sslSetupLocal();
     }
 }
