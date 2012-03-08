@@ -384,7 +384,7 @@ public class LoginMgtBean extends FaceCommon implements Serializable {
                     if (userMessageCode == null) {
                         userMessageCode = PhrsConstants.DEFAULT_ERROR_MSG_OPEN_ID
                     }
-                    WebUtil.addFacesMessageSeverityError('Login Status', 'Local login failed, use a login ID prefixed with phr e.g. phrtest, or loginId: nurse');
+                    WebUtil.addFacesMessageSeverityError('Login Status', 'Local login failed, use a login ID prefixed with: phr e.g. phr123');
                     //TODO userMessageCode error to flash message
 
 
