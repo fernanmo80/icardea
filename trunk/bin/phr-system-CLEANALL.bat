@@ -24,6 +24,7 @@ if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
 set CATALINA_HOME=%PHRS_TOMCAT%
 set PHRS_HOME=%ICARDEA_HOME%\icardea-phrs
 
+title undeploy phrs-related applications and shutdown tomcat
 del "%PHRS_TOMCAT%\webapps\phrweb.war"
 del "%PHRS_TOMCAT%\webapps\openrdf-sesame.war"
 del "%PHRS_TOMCAT%\webapps\openrdf-workbench.war"
@@ -32,6 +33,7 @@ call "%PHRS_TOMCAT%\bin\shutdown.bat"
 echo **** please wait for tomcat to shutdown, then press a key to delete remaining files."
 pause
 
+title deleting phrs-related directories and files
 rmdir /S /Q "%PHRS_TOMCAT%\webapps\phrweb\"
 rmdir /S /Q "%PHRS_TOMCAT%\webapps\openrdf-sesame\"
 rmdir /S /Q "%PHRS_TOMCAT%\webapps\openrdf-workbench\"
@@ -43,7 +45,8 @@ del "%ICARDEA_HOME%\bin\log_phr_app.txt"
 del "%ICARDEA_HOME%\bin\log_phr_libs.txt"
 del "%ICARDEA_HOME%\bin\log_phr_root.txt"
 
-
-mvn clean -f "%PHRS_HOME%\pom.xml"
+title doing mvn clean
+call mvn clean -f "%PHRS_HOME%\pom.xml"
 
 cd %mypwd%
+title phr-system-CLEANALL FINISHED
