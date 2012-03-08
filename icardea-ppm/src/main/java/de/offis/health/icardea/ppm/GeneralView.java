@@ -262,7 +262,7 @@ public class GeneralView extends ViewPart {
 						{//Field for UserName at LoginScreen
 							uname = new Text(login, SWT.BORDER);
 							//TODO: Fixme to openID
-							uname.setText("134.106.52.9:4545/idp/u=icardeanurse");
+							uname.setText("localhost:4545/idp/u=icardeanurse");
 							GridData gd_uname = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 							gd_uname.widthHint = 180;
 							uname.setLayoutData(gd_uname);
@@ -295,18 +295,18 @@ public class GeneralView extends ViewPart {
 									//username="https://www.google.com/accounts/o8/id";
 									username=uname.getText();
 
-									
-									
+
+
 									if(isSalkUsage){
 										String salkServer = properties.getString("salk.server");
-								
+
 										//HACK
 										if(salkServer.toLowerCase().startsWith("https")){
 											logger.debug("Salk Server should be secure, using normal");
 											salkServer = salkServer.toLowerCase();
 											salkServer = salkServer.replaceFirst("https", "http");
 										}
-										
+
 										username=salkServer+":4545/idp/u="+username; //only valid for SALK server
 									}
 									else{//(isSalkUsage) NoSalkUsage Local Testing assumed
@@ -365,9 +365,10 @@ public class GeneralView extends ViewPart {
 							//							for (int i=5; i< tbarray.length;i++){
 							//								 tbarray[i].notifyListeners(eventType, event)
 							//						}
-						}
+						}	
 					}
 							);
+					chooseDate.setVisible(false);
 
 					//					logger.debug("Startdate: "+request.getParameter("startdate"));
 					//									ParameterList paralist = new ParameterList(request.getParameterMap());
@@ -531,7 +532,7 @@ public class GeneralView extends ViewPart {
 			pUserName = pUserName.toLowerCase();
 			pUserName = pUserName.replaceFirst("https", "http");
 		}
-		
+
 		//FIXME Audit logging here
 		//1. Perform discover on the user suplieed identifier
 		// Done be RegistationService
