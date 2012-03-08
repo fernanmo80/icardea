@@ -6,6 +6,8 @@ package de.offis.health.icardea.ppm;
 
 
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,6 +21,7 @@ import org.eclipse.rwt.RWT;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.custom.TableEditor;
+import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -192,7 +195,7 @@ public class PPMMain extends ViewPart {
 									}}
 								if (subrows){
 									subrows_tmp=allSubRows[allSubRows.length-1].getText();
-//									logger.trace("Subrows:"+subrows_tmp);
+									logger.debug("Subrows:"+subrows_tmp);
 									if (subrows_tmp==null) {
 										subrows_tmp="";
 									}
@@ -207,6 +210,48 @@ public class PPMMain extends ViewPart {
 
 											tableItem.setForeground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
 											tableItem.setBackground(display.getSystemColor(SWT.COLOR_DARK_RED));
+										}
+										if (allRows[i].getSubContentName().equalsIgnoreCase("BodyWeight")){
+											logger.debug("Check Body Changes");
+											String in=allRows[i].getContent().substring(0,2);
+											in=subrows_tmp.substring(0,2);
+											logger.debug("Value was: "+in);	
+											int val=0;
+											
+											try{
+												if (!in.equals("--")){
+													val=Integer.parseInt(in);
+												}
+											}catch(NumberFormatException e){
+												;//nothing to to
+												logger.error("Checked weight! Value was: "+in);
+											}
+											
+											{
+												ResultSet rs;
+											//		ResultSet rs2;
+
+									
+												try {
+													rs =ppmDataset.getStmt().executeQuery("SELECT diffvalue sheet FROM icardea.bodyweight_test");
+													if (rs!=null ){
+														if (rs.first()){
+															val=rs.getInt(1);
+														}
+														rs.close();
+													}
+												} catch (SQLException e) {
+													// TODO Auto-generated catch block
+													e.printStackTrace();
+												}
+												logger.debug("Weight differenz is: "+val);
+											}	
+
+											if (val>3){//HACK or not? weight diff greater 3
+												tableItem.setForeground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
+												tableItem.setBackground(display.getSystemColor(SWT.COLOR_DARK_RED));
+								
+											}
 										}
 										if (allRows[i].getSubContentName().equalsIgnoreCase("Medications")){
 											boolean MedAllowed =true;
@@ -235,13 +280,18 @@ public class PPMMain extends ViewPart {
 								Button button = new Button(table, SWT.PUSH);
 								button.setText(allRows[i].getSubContentName());
 								button.setAlignment(SWT.LEFT);
+								
 								button.addSelectionListener(
 										new PPMButtonSelectionAdaptor(allRows[i].getSubContentName(),this.mainTabFolder) 
 										);
-
 								button.pack();
+								button.setSize(new Point(132,20));
 								button.setEnabled(subrows);
 								button.setGrayed(subrows);
+								
+//								logger.debug("Button size x: "+button.getSize().x +"  y: "+button.getSize().y);
+								
+								
 								editor.minimumWidth = button.getSize().x;
 								editor.horizontalAlignment = SWT.LEFT;
 								editor.setEditor(button, tableItem, 2);
