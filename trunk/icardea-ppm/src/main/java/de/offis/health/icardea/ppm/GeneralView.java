@@ -545,7 +545,7 @@ public class GeneralView extends ViewPart {
 			System.out.println("Hiddenmodus"+pHidden);
 			if(!pHidden){
 				System.out.println("Error");
-				pwd.setText("Maybe Unkown User or OpenID Error");
+				pwd.setText("Unkown User/OpenID Error");
 				patientTopLayout.topControl=login;
 				patientTop.layout();
 				audit.send_udp( audit.create_syslog_xml("PPM", Audit.createMessage("login", "", "8", pUserName)) );
