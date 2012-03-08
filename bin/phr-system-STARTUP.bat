@@ -35,6 +35,7 @@ echo phrs1 repository created
 echo.
 echo.
 
+title starting pcc9, pcc10 and socket-listener
 cd "%PHRS_HOME%\phrs-soap-pcc09ws\"
 start start-securepcc9-endpoint.bat
 echo SECURE PCC09 ENDPOINT STARTED in new Window: %PHRS_HOME%\phrs-soap-pcc09ws\start-securepcc9-endpoint.bat
@@ -46,4 +47,5 @@ echo SECURE PCC10 ENDPOINT STARTED in new Window: %PHRS_HOME%\phrs-soap-pcc10ws\
 start start-socketlistener.bat
 echo SOCKET LISTENER       STARTED in new Window: %PHRS_HOME%\phrs-soap-pcc10ws\start-socketlistener.bat
 
+title phr-system-STARTUP FINISHED
 cd "%mypwd%"
