@@ -404,7 +404,7 @@ public class CareManager {
 		while (keys.hasMoreElements()) {
 			String key = (String) keys.nextElement();
 			
-			if(!key.equals("MEDLIST") && !key.equals("COBSCAT") && !key.equals("MEDCCAT") && !key.equals("PSVCCAT") && !key.equals("PROBLIST"))
+			if(!key.equals("MEDLIST") && !key.equals("COBSCAT") && !key.equals("MEDCCAT") && !key.equals("PSVCCAT") && !key.equals("PROBLIST")&& !key.equals("LABCAT") && !key.equals("DICAT"))
 				continue;
 			logger.info("Sending " + key + " subscription for patient: "+patientID+" "+patientName+" "+patientSurname);
 			try { 
