@@ -9,7 +9,7 @@ if "%COMPUTERNAME%" == "KMT57" (
 
 rem @SALK
 if "%COMPUTERNAME%" == "N1RZ159" (
-	set ICARDEA_HOME=D:\srdc\codes\google-icardea\icardea
+	set ICARDEA_HOME=D:\srdc\codes\icardea-google\icardea
 	set PHRS_TOMCAT=D:\srfg\tomcat\phrs-tomcat-6
 	set SESAME_WORKBENCH_URL=http://localhost:6060/openrdf-workbench
 )
@@ -33,20 +33,26 @@ call "%PHRS_TOMCAT%\bin\shutdown.bat"
 echo **** please wait for tomcat to shutdown, then press a key to delete remaining files."
 pause
 
-title deleting phrs-related directories and files
-rmdir /S /Q "%PHRS_TOMCAT%\webapps\phrweb\"
-rmdir /S /Q "%PHRS_TOMCAT%\webapps\openrdf-sesame\"
-rmdir /S /Q "%PHRS_TOMCAT%\webapps\openrdf-workbench\"
-rmdir /S /Q "%APPDATA%\Aduna"
-del "%PHRS_TOMCAT%\bin\log_phr_app.txt"
-del "%PHRS_TOMCAT%\bin\log_phr_libs.txt"
-del "%PHRS_TOMCAT%\bin\log_phr_root.txt"
-del "%ICARDEA_HOME%\bin\log_phr_app.txt"
-del "%ICARDEA_HOME%\bin\log_phr_libs.txt"
-del "%ICARDEA_HOME%\bin\log_phr_root.txt"
+rem title deleting phrs-related directories and files
+rem rmdir /S /Q "%PHRS_TOMCAT%\webapps\phrweb\"
+rem rmdir /S /Q "%PHRS_TOMCAT%\webapps\openrdf-sesame\"
+rem rmdir /S /Q "%PHRS_TOMCAT%\webapps\openrdf-workbench\"
+rem rmdir /S /Q "%PHRS_TOMCAT%\work\Catalina\localhost\phrweb\"
+rem rmdir /S /Q "%PHRS_TOMCAT%\work\Catalina\localhost\openrdf-sesame\"
+rem rmdir /S /Q "%PHRS_TOMCAT%\work\Catalina\localhost\openrdf-workbench\"
+rem rmdir /S /Q "%APPDATA%\Aduna"
+rem del "%PHRS_TOMCAT%\bin\log_phr_app.txt"
+rem del "%PHRS_TOMCAT%\bin\log_phr_libs.txt"
+rem del "%PHRS_TOMCAT%\bin\log_phr_root.txt"
+rem del "%PHRS_TOMCAT%\conf\Catalina\localhost\phrweb.xml"
 
-title doing mvn clean
-call mvn clean -f "%PHRS_HOME%\pom.xml"
+rem del "%ICARDEA_HOME%\bin\log_phr_app.txt"
+rem del "%ICARDEA_HOME%\bin\log_phr_libs.txt"
+rem del "%ICARDEA_HOME%\bin\log_phr_root.txt"
+
+title doing mvn clean with complete removal of files
+call mvn clean -f "%PHRS_HOME%\pom.xml" -Dtomcat.home="%PHRS_TOMCAT%" -Dicardea.home="%ICARDEA_HOME%" -Daduna.parentdir="%APPDATA%" -DcleanTomcatWebapps=true -DremoveSesameAduna=true -DremoveSesame=true
 
 cd %mypwd%
 title phr-system-CLEANALL FINISHED
+pause

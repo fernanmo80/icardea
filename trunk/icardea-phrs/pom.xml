@@ -59,6 +59,21 @@
                 </configuration>
             </plugin>
             
+        </plugins>
+    </build>
+
+<profiles>
+	<profile>
+		<id>Sesame Installation</id>
+		<activation>
+			<activeByDefault>false</activeByDefault>
+			<property>
+				<name>installSesame</name>
+				<value>true</value>
+			</property>
+		</activation>
+		<build>
+			<plugins>
 				<plugin>
 					<artifactId>maven-antrun-plugin</artifactId>
 					<executions>
@@ -78,8 +93,114 @@
 						</execution>
 					</executions>
 				</plugin>
-        </plugins>
-    </build>
+			</plugins>
+		</build>
+	</profile>
+	<profile>
+		<id>Sesame Removal</id>
+		<activation>
+			<activeByDefault>false</activeByDefault>
+			<property>
+				<name>removeSesame</name>
+				<value>true</value>
+			</property>
+		</activation>
+		<build>
+			<plugins>
+				<plugin>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<executions>
+						<execution>
+							<phase>clean</phase>
+							<configuration>
+								<tasks>
+									<delete dir="${icardea.home}/tools/sesame"/>
+									<delete file="${tomcat.home}/webapps/openrdf-sesame.war"/>
+									<delete file="${tomcat.home}/webapps/openrdf-workbench.war"/>
+								</tasks>
+							</configuration>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</build>
+	</profile>
+	<profile>
+		<id>Sesame TripleStore Removal</id>
+		<activation>
+			<activeByDefault>false</activeByDefault>
+			<property>
+				<name>removeSesameAduna</name>
+				<value>true</value>
+			</property>
+		</activation>
+		<build>
+			<plugins>
+				<plugin>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<executions>
+						<execution>
+							<phase>clean</phase>
+							<configuration>
+								<tasks>
+									<delete dir="${aduna.parentdir}/Aduna"/>
+								</tasks>
+							</configuration>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</build>
+	</profile>
+	<profile>
+		<id>Tomcat Webapps Removal</id>
+		<activation>
+			<activeByDefault>false</activeByDefault>
+			<property>
+				<name>cleanTomcatWebapps</name>
+				<value>true</value>
+			</property>
+		</activation>
+		<build>
+			<plugins>
+				<plugin>
+					<artifactId>maven-antrun-plugin</artifactId>
+					<executions>
+						<execution>
+							<phase>clean</phase>
+							<configuration>
+								<tasks>
+									<delete dir="${tomcat.home}/webapps/phrweb"/>
+									<delete dir="${tomcat.home}/webapps/openrdf-sesame"/>
+									<delete dir="${tomcat.home}/webapps/openrdf-workbench"/>
+									<delete dir="${tomcat.home}/work/phrweb"/>
+									<delete dir="${tomcat.home}/work/openrdf-sesame"/>
+									<delete dir="${tomcat.home}/work/openrdf-workbench"/>
+									<delete file="${tomcat.home}/conf/Catalina/localhost/phrweb.xml"/>
+									<delete file="${tomcat.home}/bin/log_phr_app.txt"/>
+									<delete file="${tomcat.home}/bin/log_phr_root.txt"/>
+									<delete file="${tomcat.home}/bin/log_phr_libs.txt"/>
+									<delete file="${icardea.home}/bin/log_phr_app.txt"/>
+									<delete file="${icardea.home}/bin/log_phr_root.txt"/>
+									<delete file="${icardea.home}/bin/log_phr_libs.txt"/>
+								</tasks>
+							</configuration>
+							<goals>
+								<goal>run</goal>
+							</goals>
+						</execution>
+					</executions>
+				</plugin>
+			</plugins>
+		</build>
+	</profile>
+</profiles>
     
     <dependencies>
         <dependency>

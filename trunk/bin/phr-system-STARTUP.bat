@@ -8,7 +8,7 @@ if "%COMPUTERNAME%" == "KMT57" (
 
 rem @SALK
 if "%COMPUTERNAME%" == "N1RZ159" (
-	set ICARDEA_HOME=D:\srdc\codes\google-icardea\icardea
+	set ICARDEA_HOME=D:\srdc\codes\icardea-google\icardea
 	set PHRS_TOMCAT=D:\srfg\tomcat\phrs-tomcat-6
 )
 
@@ -49,3 +49,4 @@ echo SOCKET LISTENER       STARTED in new Window: %PHRS_HOME%\phrs-soap-pcc10ws\
 
 title phr-system-STARTUP FINISHED
 cd "%mypwd%"
+pause

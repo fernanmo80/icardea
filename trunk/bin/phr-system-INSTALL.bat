@@ -10,7 +10,7 @@ if "%COMPUTERNAME%" == "KMT57" (
 
 rem @SALK
 if "%COMPUTERNAME%" == "N1RZ159" (
-	set ICARDEA_HOME=D:\srdc\codes\google-icardea\icardea
+	set ICARDEA_HOME=D:\srdc\codes\icardea-google\icardea
 	set PHRS_TOMCAT=D:\srfg\tomcat\phrs-tomcat-6
 	set SESAME_WORKBENCH_URL=http://localhost:6060/openrdf-workbench
 	set TRIPLESTORE_SRC=generic_triplestore_http_6060.xml
@@ -47,21 +47,22 @@ echo.
 echo.
 
 rem this should run after the initial setup of the whole icardea system.
-title currently installing icardea-config
-call mvn install -f "%ICARDEA_HOME%\icardea-config\pom.xml" -Dmaven.test.skip=true -DgeneratePom=true
-echo icardea-config installed
-echo.
-echo.
+rem title currently installing icardea-config
+rem call mvn install -f "%ICARDEA_HOME%\icardea-config\pom.xml" -Dmaven.test.skip=true -DgeneratePom=true
+rem echo icardea-config installed
+rem echo.
+rem echo.
 
 title currently installing icardea-atnalog-client
-call mvn install -f "%ICARDEA_HOME%\icardea-atnalog-client\pom.xml" -Dmaven.test.skip=true -DgeneratePom=true
-echo icardea-atnalog-client installed
+call mvn install:install-file -Dfile="%PCC09WS_HOME%\icardea-atnalog-client-1.0-SNAPSHOT.jar" -DgroupId=tr.com.srdc.icardea -DartifactId=icardea-atnalog-client -Dversion=1.0-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
+rem call mvn install -f "%ICARDEA_HOME%\icardea-atnalog-client\pom.xml" -Dmaven.test.skip=true -DgeneratePom=true
+echo Audit icardea-atnalog-client installed from %PCC09WS_HOME%\icardea-atnalog-client-1.0-SNAPSHOT.jar
 echo.
 echo.
 
 title currently installing icardea-phrs
 cd "%ICARDEA_HOME%\icardea-phrs"
-call mvn install -DskipTests=true -Dicardea.home="%ICARDEA_HOME%" -Dtomcat.home="%CATALINA_HOME%"
+call mvn install -DskipTests=true -Dicardea.home="%ICARDEA_HOME%" -Dtomcat.home="%CATALINA_HOME%" -DinstallSesame=true
 echo icardea-phrs installed
 echo.
 echo.
@@ -82,3 +83,4 @@ echo continue with phr-system-STARTUP.bat
 
 
 cd %mypwd%
+pause
