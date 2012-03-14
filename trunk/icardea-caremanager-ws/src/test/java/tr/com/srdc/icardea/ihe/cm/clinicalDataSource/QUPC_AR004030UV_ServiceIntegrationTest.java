@@ -1109,7 +1109,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
 	}
 
-	@Test
+	//@Test
 	public void testGroup1() throws java.lang.Exception {
 		sslSetup();
 		
@@ -1537,7 +1537,7 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 		 */
 	}
 
-	 //@Test
+	//@Test
 	public void testGroup3() throws java.lang.Exception {
 		sslSetup();
 		tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
@@ -1650,6 +1650,504 @@ public class QUPC_AR004030UV_ServiceIntegrationTest {
 
 	// ************* SAMPLE
 	//
+	
+	
+	// ********* Review Demo Tests ***** //
+	
+	//@Test
+	public void testReviewGroupForStep6() throws java.lang.Exception { //EHR to Care Planner
+		sslSetup();
+		
+		tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
+
+		org.hl7.v3.QUPCIN043200UV01 query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
+		InputStream is = this
+				.getClass()
+				.getClassLoader()
+				.getResourceAsStream(
+						"messageTemplatesFromEHR-PHR/VTCareplan/EHR/PCC-10-Input-Scenario-LabResultsStep1.xml");
+
+		JAXBContext context = JAXBContext.newInstance("org.hl7.v3");
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+		query = (org.hl7.v3.QUPCIN043200UV01) unmarshaller.unmarshal(is);
+
+		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
+
+		stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
+
+		query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
+		is = this
+				.getClass()
+				.getClassLoader()
+				.getResourceAsStream(
+						"messageTemplatesFromEHR-PHR/VTCareplan/EHR/PCC-10-Input-Scenario-Medications-Step1.xml");
+
+		context = JAXBContext.newInstance("org.hl7.v3");
+		unmarshaller = context.createUnmarshaller();
+		query = (org.hl7.v3.QUPCIN043200UV01) unmarshaller.unmarshal(is);
+		List<REPCMT004000UV01PertinentInformation5> pertinentInformation3 = query
+				.getControlActProcess().getSubject().get(0)
+				.getRegistrationEvent().getSubject2().getCareProvisionEvent()
+				.getPertinentInformation3();
+
+		for (int i = 0; i < pertinentInformation3.size(); i++) {
+			REPCMT004000UV01PertinentInformation5 pi = pertinentInformation3
+					.get(i);
+			POCDMT000040SubstanceAdministration sa = pi
+					.getSubstanceAdministration().getValue();
+			List<SXCMTS> effectiveTime = sa.getEffectiveTime();
+
+			String drugCode = sa.getConsumable().getManufacturedProduct()
+					.getManufacturedLabeledDrug().getCode().getCode();
+			String effectiveTimeHigh = "", effectiveTimeLow = "";
+			if (drugCode.equals("C0032952")) {
+				effectiveTimeLow = "200812010000";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0081876")) {
+				effectiveTimeLow = "200812010000";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0110591")) {
+				effectiveTimeLow = "199910101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0012010")) {
+				effectiveTimeLow = "199910101010";
+				effectiveTimeHigh = "201106101010";//201010101010
+			} else if (drugCode.equals("C0591288")) {
+				effectiveTimeLow = "198010101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0025677")) {
+				effectiveTimeLow = "20090101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0016410")) {
+				effectiveTimeLow = "20090101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0024467")) {
+				effectiveTimeLow = "199910101010";
+				effectiveTimeHigh = "201010101010";
+			}
+			ObjectFactory of = new ObjectFactory();
+			IVLTS ivlts = of.createIVLTS();
+			IVXBTS low = of.createIVXBTS();
+			low.setValue(effectiveTimeLow);
+			IVXBTS high = of.createIVXBTS();
+			high.setValue(effectiveTimeHigh);
+			ivlts.getRest().add(of.createIVLTSLow(low));
+			ivlts.getRest().add(of.createIVLTSHigh(high));
+
+			effectiveTime.add(0, ivlts);
+		}
+
+		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
+
+		stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
+
+		query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
+		is = this
+				.getClass()
+				.getClassLoader()
+				.getResourceAsStream(
+						"messageTemplatesFromEHR-PHR/VTCareplan/EHR/PCC-10-Input-Scenario-ProblemsStep1.xml");
+
+		context = JAXBContext.newInstance("org.hl7.v3");
+		unmarshaller = context.createUnmarshaller();
+		query = (org.hl7.v3.QUPCIN043200UV01) unmarshaller.unmarshal(is);
+
+		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
+
+		stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
+
+		query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
+		is = this
+				.getClass()
+				.getClassLoader()
+				.getResourceAsStream(
+						"messageTemplatesFromEHR-PHR/VTCareplan/EHR/PCC-10-Input-Scenario-VitalSignStep1.xml");
+
+		context = JAXBContext.newInstance("org.hl7.v3");
+		unmarshaller = context.createUnmarshaller();
+		query = (org.hl7.v3.QUPCIN043200UV01) unmarshaller.unmarshal(is);
+
+		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
+
+		stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
+
+		query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
+		is = this
+				.getClass()
+				.getClassLoader()
+				.getResourceAsStream(
+						"messageTemplatesFromEHR-PHR/VTCareplan/EHR/PCC-10-Input-Scenario-ProceduresStep1.xml");
+
+		context = JAXBContext.newInstance("org.hl7.v3");
+		unmarshaller = context.createUnmarshaller();
+		query = (org.hl7.v3.QUPCIN043200UV01) unmarshaller.unmarshal(is);
+
+		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
+	
+	}
+	//@Test
+	public void testReviewGroupForStep7() throws java.lang.Exception { //EHR to PHR
+		sslSetup();
+		tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
+
+		org.hl7.v3.QUPCIN043200UV01 query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
+		InputStream is = this
+				.getClass()
+				.getClassLoader()
+				.getResourceAsStream(
+						"messageTemplatesFromEHR-PHR/VTCareplan/EHR/PCC-10-Input-Scenario-Medications-Step8.xml");
+
+		JAXBContext context = JAXBContext.newInstance("org.hl7.v3");
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+		query = (org.hl7.v3.QUPCIN043200UV01) unmarshaller.unmarshal(is);
+		List<REPCMT004000UV01PertinentInformation5> pertinentInformation3 = query
+				.getControlActProcess().getSubject().get(0)
+				.getRegistrationEvent().getSubject2().getCareProvisionEvent()
+				.getPertinentInformation3();
+
+		for (int i = 0; i < pertinentInformation3.size(); i++) {
+			REPCMT004000UV01PertinentInformation5 pi = pertinentInformation3
+					.get(i);
+			POCDMT000040SubstanceAdministration sa = pi
+					.getSubstanceAdministration().getValue();
+			List<SXCMTS> effectiveTime = sa.getEffectiveTime();
+
+			String drugCode = sa.getConsumable().getManufacturedProduct()
+					.getManufacturedLabeledDrug().getCode().getCode();
+			String effectiveTimeHigh = "", effectiveTimeLow = "";
+			if (drugCode.equals("C0032952")) {
+				effectiveTimeLow = "200812010000";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0081876")) {
+				effectiveTimeLow = "200812010000";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0110591")) {
+				effectiveTimeLow = "199910101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0012010")) {
+				effectiveTimeLow = "199910101010";
+				effectiveTimeHigh = "201106101010";//201010101010
+			} else if (drugCode.equals("C0591288")) {
+				effectiveTimeLow = "198010101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0025677")) {
+				effectiveTimeLow = "20090101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0016410")) {
+				effectiveTimeLow = "20090101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0024467")) {
+				effectiveTimeLow = "199910101010";
+				effectiveTimeHigh = "201010101010";
+			}
+			ObjectFactory of = new ObjectFactory();
+			IVLTS ivlts = of.createIVLTS();
+			IVXBTS low = of.createIVXBTS();
+			low.setValue(effectiveTimeLow);
+			IVXBTS high = of.createIVXBTS();
+			high.setValue(effectiveTimeHigh);
+			ivlts.getRest().add(of.createIVLTSLow(low));
+			ivlts.getRest().add(of.createIVLTSHigh(high));
+
+			effectiveTime.add(0, ivlts);
+		}
+
+		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
+	}
+	//@Test
+	public void testReviewGroupForStep9() throws java.lang.Exception { //PHR to Care Planner
+		sslSetup();
+		tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
+
+		org.hl7.v3.QUPCIN043200UV01 query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
+		InputStream is = this
+				.getClass()
+				.getClassLoader()
+				.getResourceAsStream(
+						"messageTemplatesFromEHR-PHR/VTCareplan/EHR/PCC-10-Input-Scenario-Medications-Step8.xml");
+
+		JAXBContext context = JAXBContext.newInstance("org.hl7.v3");
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+		query = (org.hl7.v3.QUPCIN043200UV01) unmarshaller.unmarshal(is);
+		List<REPCMT004000UV01PertinentInformation5> pertinentInformation3 = query
+				.getControlActProcess().getSubject().get(0)
+				.getRegistrationEvent().getSubject2().getCareProvisionEvent()
+				.getPertinentInformation3();
+
+		for (int i = 0; i < pertinentInformation3.size(); i++) {
+			REPCMT004000UV01PertinentInformation5 pi = pertinentInformation3
+					.get(i);
+			POCDMT000040SubstanceAdministration sa = pi
+					.getSubstanceAdministration().getValue();
+			List<SXCMTS> effectiveTime = sa.getEffectiveTime();
+
+			String drugCode = sa.getConsumable().getManufacturedProduct()
+					.getManufacturedLabeledDrug().getCode().getCode();
+			String effectiveTimeHigh = "", effectiveTimeLow = "";
+			if (drugCode.equals("C0032952")) {
+				effectiveTimeLow = "200812010000";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0081876")) {
+				effectiveTimeLow = "200812010000";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0110591")) {
+				effectiveTimeLow = "199910101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0012010")) {
+				effectiveTimeLow = "199910101010";
+				effectiveTimeHigh = "201106101010";//201010101010
+			} else if (drugCode.equals("C0591288")) {
+				effectiveTimeLow = "198010101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0025677")) {
+				effectiveTimeLow = "20090101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0016410")) {
+				effectiveTimeLow = "20090101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0024467")) {
+				effectiveTimeLow = "199910101010";
+				effectiveTimeHigh = "201010101010";
+			}
+			ObjectFactory of = new ObjectFactory();
+			IVLTS ivlts = of.createIVLTS();
+			IVXBTS low = of.createIVXBTS();
+			low.setValue(effectiveTimeLow);
+			IVXBTS high = of.createIVXBTS();
+			high.setValue(effectiveTimeHigh);
+			ivlts.getRest().add(of.createIVLTSLow(low));
+			ivlts.getRest().add(of.createIVLTSHigh(high));
+
+			effectiveTime.add(0, ivlts);
+		}
+
+		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
+		
+		stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
+		
+		query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
+		is = this
+				.getClass()
+				.getClassLoader()
+				.getResourceAsStream(
+						"messageTemplatesFromEHR-PHR/VTCareplan/PHR/PCC-10-Input-Scenario-ProblemsStep11.xml");
+
+		context = JAXBContext.newInstance("org.hl7.v3");
+		unmarshaller = context.createUnmarshaller();
+		query = (org.hl7.v3.QUPCIN043200UV01) unmarshaller.unmarshal(is);
+
+		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
+
+		stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
+
+		query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
+		is = this
+				.getClass()
+				.getClassLoader()
+				.getResourceAsStream(
+						"messageTemplatesFromEHR-PHR/VTCareplan/PHR/PCC-10-Input-Scenario-VitalSignStep11.xml");
+
+		context = JAXBContext.newInstance("org.hl7.v3");
+		unmarshaller = context.createUnmarshaller();
+		query = (org.hl7.v3.QUPCIN043200UV01) unmarshaller.unmarshal(is);
+
+		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
+	}
+	//@Test
+	public void testReviewGroupForStep11() throws java.lang.Exception { //EHR to Care Planner
+		sslSetup();
+		tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
+
+		org.hl7.v3.QUPCIN043200UV01 query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
+		InputStream is = this
+				.getClass()
+				.getClassLoader()
+				.getResourceAsStream(
+						"messageTemplatesFromEHR-PHR/VTCareplan/EHR/PCC-10-Input-Scenario-Medications-Step13.xml");
+
+		JAXBContext context = JAXBContext.newInstance("org.hl7.v3");
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+		query = (org.hl7.v3.QUPCIN043200UV01) unmarshaller.unmarshal(is);
+		List<REPCMT004000UV01PertinentInformation5> pertinentInformation3 = query
+				.getControlActProcess().getSubject().get(0)
+				.getRegistrationEvent().getSubject2().getCareProvisionEvent()
+				.getPertinentInformation3();
+
+		for (int i = 0; i < pertinentInformation3.size(); i++) {
+			REPCMT004000UV01PertinentInformation5 pi = pertinentInformation3
+					.get(i);
+			POCDMT000040SubstanceAdministration sa = pi
+					.getSubstanceAdministration().getValue();
+			List<SXCMTS> effectiveTime = sa.getEffectiveTime();
+
+			String drugCode = sa.getConsumable().getManufacturedProduct()
+					.getManufacturedLabeledDrug().getCode().getCode();
+			String effectiveTimeHigh = "", effectiveTimeLow = "";
+			if (drugCode.equals("C0032952")) {
+				effectiveTimeLow = "200812010000";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0081876")) {
+				effectiveTimeLow = "200812010000";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0110591")) {
+				effectiveTimeLow = "199910101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0012010")) {
+				effectiveTimeLow = "199910101010";
+				effectiveTimeHigh = "201106101010";//201010101010
+			} else if (drugCode.equals("C0591288")) {
+				effectiveTimeLow = "198010101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0025677")) {
+				effectiveTimeLow = "20090101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0016410")) {
+				effectiveTimeLow = "20090101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0024467")) {
+				effectiveTimeLow = "199910101010";
+				effectiveTimeHigh = "201010101010";
+			}
+			ObjectFactory of = new ObjectFactory();
+			IVLTS ivlts = of.createIVLTS();
+			IVXBTS low = of.createIVXBTS();
+			low.setValue(effectiveTimeLow);
+			IVXBTS high = of.createIVXBTS();
+			high.setValue(effectiveTimeHigh);
+			ivlts.getRest().add(of.createIVLTSLow(low));
+			ivlts.getRest().add(of.createIVLTSHigh(high));
+
+			effectiveTime.add(0, ivlts);
+		}
+
+		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
+		
+		stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
+		
+		query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
+		is = this
+				.getClass()
+				.getClassLoader()
+				.getResourceAsStream(
+						"messageTemplatesFromEHR-PHR/VTCareplan/PHR/PCC-10-Input-Scenario-ProblemsStep13.xml");
+
+		context = JAXBContext.newInstance("org.hl7.v3");
+		unmarshaller = context.createUnmarshaller();
+		query = (org.hl7.v3.QUPCIN043200UV01) unmarshaller.unmarshal(is);
+
+		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
+		
+	}
+	//@Test
+	public void testReviewGroupForStep12() throws java.lang.Exception { //EHR to Care Planner
+		sslSetup();
+		tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
+		
+		org.hl7.v3.QUPCIN043200UV01 query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
+		InputStream is = this
+				.getClass()
+				.getClassLoader()
+				.getResourceAsStream(
+						"messageTemplatesFromEHR-PHR/VTCareplan/PHR/PCC-10-Input-Scenario-ProblemsStep14.xml");
+
+		JAXBContext context = JAXBContext.newInstance("org.hl7.v3");
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+		query = (org.hl7.v3.QUPCIN043200UV01) unmarshaller.unmarshal(is);
+
+		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
+		
+	}
+	//@Test
+	public void testReviewGroupForStep13LabResults() throws java.lang.Exception { //EHR to Care Planner
+		sslSetup();
+		tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
+
+		org.hl7.v3.QUPCIN043200UV01 query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
+		InputStream is = this
+				.getClass()
+				.getClassLoader()
+				.getResourceAsStream(
+						"messageTemplatesFromEHR-PHR/VTCareplan/EHR/PCC-10-Input-Scenario-LabResultsStep18.xml");
+
+		JAXBContext context = JAXBContext.newInstance("org.hl7.v3");
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+		query = (org.hl7.v3.QUPCIN043200UV01) unmarshaller.unmarshal(is);
+
+		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
+		
+	}
+	//@Test
+	public void testReviewGroupForStep13Medications() throws java.lang.Exception { //EHR to Care Planner
+		sslSetup();
+		tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub stub = new tr.com.srdc.icardea.ihe.cm.clinicalDataSource.QUPC_AR004030UV_ServiceStub();//
+
+		org.hl7.v3.QUPCIN043200UV01 query = (org.hl7.v3.QUPCIN043200UV01) getTestObject(org.hl7.v3.QUPCIN043200UV01.class);
+		InputStream is = this
+				.getClass()
+				.getClassLoader()
+				.getResourceAsStream(
+						"messageTemplatesFromEHR-PHR/VTCareplan/EHR/PCC-10-Input-Scenario-Medications-Step18.xml");
+
+		JAXBContext context = JAXBContext.newInstance("org.hl7.v3");
+		Unmarshaller unmarshaller = context.createUnmarshaller();
+		query = (org.hl7.v3.QUPCIN043200UV01) unmarshaller.unmarshal(is);
+		List<REPCMT004000UV01PertinentInformation5> pertinentInformation3 = query
+				.getControlActProcess().getSubject().get(0)
+				.getRegistrationEvent().getSubject2().getCareProvisionEvent()
+				.getPertinentInformation3();
+
+		for (int i = 0; i < pertinentInformation3.size(); i++) {
+			REPCMT004000UV01PertinentInformation5 pi = pertinentInformation3
+					.get(i);
+			POCDMT000040SubstanceAdministration sa = pi
+					.getSubstanceAdministration().getValue();
+			List<SXCMTS> effectiveTime = sa.getEffectiveTime();
+
+			String drugCode = sa.getConsumable().getManufacturedProduct()
+					.getManufacturedLabeledDrug().getCode().getCode();
+			String effectiveTimeHigh = "", effectiveTimeLow = "";
+			if (drugCode.equals("C0032952")) {
+				effectiveTimeLow = "200812010000";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0081876")) {
+				effectiveTimeLow = "200812010000";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0110591")) {
+				effectiveTimeLow = "199910101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0012010")) {
+				effectiveTimeLow = "199910101010";
+				effectiveTimeHigh = "201106101010";//201010101010
+			} else if (drugCode.equals("C0591288")) {
+				effectiveTimeLow = "198010101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0025677")) {
+				effectiveTimeLow = "20090101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0016410")) {
+				effectiveTimeLow = "20090101010";
+				effectiveTimeHigh = "201106101010";
+			} else if (drugCode.equals("C0024467")) {
+				effectiveTimeLow = "199910101010";
+				effectiveTimeHigh = "201010101010";
+			}
+			ObjectFactory of = new ObjectFactory();
+			IVLTS ivlts = of.createIVLTS();
+			IVXBTS low = of.createIVXBTS();
+			low.setValue(effectiveTimeLow);
+			IVXBTS high = of.createIVXBTS();
+			high.setValue(effectiveTimeHigh);
+			ivlts.getRest().add(of.createIVLTSLow(low));
+			ivlts.getRest().add(of.createIVLTSHigh(high));
+
+			effectiveTime.add(0, ivlts);
+		}
+
+		stub.qUPC_AR004030UV_QUPC_IN043200UV(query);
+		
+	}
+	
+	// ********* Review Demo Tests ***** //
 
 	// @Test
 	public void testqUPC_AR004030UV_QUPC_IN043200UV_Problems_Sample()
