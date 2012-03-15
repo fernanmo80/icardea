@@ -34,21 +34,27 @@ echo **** please wait for tomcat to shutdown, then press a key to delete remaini
 pause
 
 rem title deleting phrs-related directories and files
-rem rmdir /S /Q "%PHRS_TOMCAT%\webapps\phrweb\"
+
+rmdir /S /Q "%PHRS_TOMCAT%\work\Catalina\localhost\phrweb\"
+del "%PHRS_TOMCAT%\conf\Catalina\localhost\phrweb.xml"
+rmdir /S /Q "%APPDATA%\Aduna"
+
+rem it should not be here....
+rmdir /S /Q "%PHRS_TOMCAT%\webapps\phrweb\"
 rem rmdir /S /Q "%PHRS_TOMCAT%\webapps\openrdf-sesame\"
 rem rmdir /S /Q "%PHRS_TOMCAT%\webapps\openrdf-workbench\"
-rem rmdir /S /Q "%PHRS_TOMCAT%\work\Catalina\localhost\phrweb\"
+
 rem rmdir /S /Q "%PHRS_TOMCAT%\work\Catalina\localhost\openrdf-sesame\"
 rem rmdir /S /Q "%PHRS_TOMCAT%\work\Catalina\localhost\openrdf-workbench\"
-rem rmdir /S /Q "%APPDATA%\Aduna"
+
 rem del "%PHRS_TOMCAT%\bin\log_phr_app.txt"
 rem del "%PHRS_TOMCAT%\bin\log_phr_libs.txt"
 rem del "%PHRS_TOMCAT%\bin\log_phr_root.txt"
-rem del "%PHRS_TOMCAT%\conf\Catalina\localhost\phrweb.xml"
 
-rem del "%ICARDEA_HOME%\bin\log_phr_app.txt"
-rem del "%ICARDEA_HOME%\bin\log_phr_libs.txt"
-rem del "%ICARDEA_HOME%\bin\log_phr_root.txt"
+
+del "%ICARDEA_HOME%\bin\log_phr_app.txt"
+del "%ICARDEA_HOME%\bin\log_phr_libs.txt"
+del "%ICARDEA_HOME%\bin\log_phr_root.txt"
 
 title doing mvn clean with complete removal of files
 call mvn clean -f "%PHRS_HOME%\pom.xml" -Dtomcat.home="%PHRS_TOMCAT%" -Dicardea.home="%ICARDEA_HOME%" -Daduna.parentdir="%APPDATA%" -DcleanTomcatWebapps=true -DremoveSesameAduna=true -DremoveSesame=true
