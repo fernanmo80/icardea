@@ -177,6 +177,7 @@ public class FORTHListener {
 	            }*/
 	        }
 	        catch(Exception ex){
+			ex.printStackTrace();
 	            System.err.println("Error: " + ex.getMessage());
 	            return "";
 	        }
@@ -192,7 +193,8 @@ public class FORTHListener {
 	    			String xds_url = properties.getString("xds.endpoint");
 	    			String template_path = properties.getString("icardea.home")+"/tools_resources/EPSOS_CONFIG/pnr.xml";
 	    			
-	                cda_content=GetCDA(cda_path);
+	                //cda_content=GetCDA(cda_path);
+			cda_content = cda_path;
 	                String boundary_uuid=GetUUID();
 	                String SoapEnv=CreateSoapEnv(template_path,boundary_uuid,cda_content);
 
@@ -202,6 +204,7 @@ public class FORTHListener {
 	                uc.setRequestMethod("POST");
 	                uc.setRequestProperty("Content-Type", contenttype);
 	                uc.setDoOutput(true);
+			System.out.println(" Submitting the document to XDS: "+xds_url);
 	                uc.connect();
 					uc.getOutputStream().write( SoapEnv.getBytes("UTF-8"));
 	                /*outStream = new PrintStream(uc.getOutputStream());
@@ -216,10 +219,12 @@ public class FORTHListener {
 	                }
 	                inStream.close();
 	            }catch (MalformedURLException e){
+			    e.printStackTrace();
 	                System.err.println("Error: " + e.getMessage());
 	                return "";
 	            }
 	            catch (Exception e){//Catch exception if any
+			    e.printStackTrace();
 	                System.err.println("Error: " + e.getMessage());
 	                return "";
 	            }
@@ -249,6 +254,7 @@ public class FORTHListener {
 
 	        in.close();
 	        }catch (Exception e){//Catch exception if any
+			e.printStackTrace();
 	            System.err.println("Error: " + e.getMessage());
 	            return "";
 	        }
@@ -275,6 +281,7 @@ public class FORTHListener {
 
 	        in.close();
 	        }catch (Exception e){//Catch exception if any
+			e.printStackTrace();
 	            System.err.println("Error: " + e.getMessage());
 	            return "";
 	        }
