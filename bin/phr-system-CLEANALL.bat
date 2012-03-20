@@ -28,7 +28,7 @@ if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
 	set PROJECT_ROOT=C:\icardea-google\icardea
 	set PHRS_TOMCAT=C:\icardea-google\icardea\tools\apache-tomcat-6.0.20
 	set SESAME_WORKBENCH_URL=http://localhost:8080/openrdf-workbench
-    set MONGO_TMP=D:\local\mongodb-win32-i386-1.6.3
+    set MONGO_TMP=C:\mongodb
 )
 
 set CATALINA_HOME=%PHRS_TOMCAT%
