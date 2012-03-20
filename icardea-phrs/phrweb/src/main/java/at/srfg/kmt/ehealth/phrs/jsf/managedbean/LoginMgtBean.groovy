@@ -291,7 +291,7 @@ public class LoginMgtBean extends FaceCommon implements Serializable {
             FacesContext.getCurrentInstance().getExternalContext()
                     .redirect(uri);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error('redirect on URI '+uri,e)
         }
     }
     /**
@@ -412,7 +412,16 @@ public class LoginMgtBean extends FaceCommon implements Serializable {
             LoginService loginService = new LoginServiceImpl();
 
             //Discover endpoint OpenID  where UI form field loginType is the property key of Open ID server
-            String providerEndpointDiscovered = loginService.createRedirectForLoginType(username, loginType);
+
+            String providerEndpointDiscovered =null;
+            if('openid.provider.any' == loginType) {
+                LOGGER.debug('openid.provider.any for: '+username)
+                providerEndpointDiscovered = loginService.createRedirectForOpenID(username);
+            }  else {
+                providerEndpointDiscovered=  loginService.createRedirectForLoginType(username, loginType);
+
+            }
+
 
             LOGGER.debug('processLogin OpenId: AFTER Discovery. Redirect to providerEndpointDiscovered: '
                     + providerEndpointDiscovered + ' for username=' + username)
