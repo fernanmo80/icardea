@@ -188,110 +188,130 @@ public class FORTHListener {
 	    public static String Provide_Register(String doc_id, String cda_path){
 	       PrintStream outStream=null;
 	       String res="",cda_content="";
-	            try{
-	            	ResourceBundle properties = ResourceBundle.getBundle("icardea");
-	    			String xds_url = properties.getString("xds.endpoint");
-	    			String template_path = properties.getString("icardea.home")+"/tools_resources/EPSOS_CONFIG/pnr.xml";
-	    			
-	                //cda_content=GetCDA(cda_path);
-			cda_content = cda_path;
-	                String boundary_uuid=GetUUID();
-	                String SoapEnv=CreateSoapEnv(template_path,boundary_uuid,cda_content);
+	       try{
+		       // trust all certificates
+		       com.sun.net.ssl.HostnameVerifier myHv = new com.sun.net.ssl.HostnameVerifier() {
+			       public boolean verify(String hostName, String a) {
+				       return true;
+			       }
+		       };
+		       com.sun.net.ssl.internal.www.protocol.https.HttpsURLConnectionOldImpl.setDefaultHostnameVerifier(myHv);
+			////////////// TODO: Yukari tarafi sil
+		       ResourceBundle properties = ResourceBundle.getBundle("icardea");
+		       String xds_url = properties.getString("xds.endpoint");
+		       String template_path = properties.getString("icardea.home")+"/tools_resources/EPSOS_CONFIG/pnr.xml";
 
-	                String contenttype="multipart/related; boundary=MIMEBoundaryurn_uuid_" + boundary_uuid + "; type=\"application/xop+xml\";  start-info=\"application/soap+xml\"; action=\"urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b\"";
-	                URL iurl = new URL(xds_url);
-	                HttpURLConnection uc = (HttpURLConnection)iurl.openConnection();
-	                uc.setRequestMethod("POST");
-	                uc.setRequestProperty("Content-Type", contenttype);
-	                uc.setDoOutput(true);
-			System.out.println(" Submitting the document to XDS: "+xds_url);
-	                uc.connect();
-					uc.getOutputStream().write( SoapEnv.getBytes("UTF-8"));
-	                /*outStream = new PrintStream(uc.getOutputStream());
-	                outStream.print(SoapEnv);*/
+		       //cda_content=GetCDA(cda_path);
+		       cda_content = cda_path;
+		       String boundary_uuid=GetUUID();
+		       String SoapEnv=CreateSoapEnv(template_path,boundary_uuid,cda_content);
+
+		       String contenttype="multipart/related; boundary=MIMEBoundaryurn_uuid_" + boundary_uuid + "; type=\"application/xop+xml\";  start-info=\"application/soap+xml\"; action=\"urn:ihe:iti:2007:ProvideAndRegisterDocumentSet-b\"";
+		       URL iurl = new URL(xds_url);
+		       //HttpURLConnection uc = (HttpURLConnection)iurl.openConnection();
+		       com.sun.net.ssl.internal.www.protocol.https.HttpsURLConnectionOldImpl uc = (com.sun.net.ssl.internal.www.protocol.https.HttpsURLConnectionOldImpl)iurl.openConnection();
+		       uc.setRequestMethod("POST");
+		       uc.setRequestProperty("Content-Type", contenttype);
+		       uc.setDoOutput(true);
+		       System.out.println(" Submitting the document to XDS: "+xds_url);
+		       uc.connect();
+		       uc.getOutputStream().write( SoapEnv.getBytes("UTF-8"));
+		       /*outStream = new PrintStream(uc.getOutputStream());
+			 outStream.print(SoapEnv);*/
 
 
-	                DataInputStream inStream = new DataInputStream(uc.getInputStream());
-	                String inputLine;
-	                while ((inputLine = inStream.readLine()) != null) {
-	                    res=res+inputLine+"\r\n";
-	                    //System.out.println(inputLine);
-	                }
-	                inStream.close();
-	            }catch (MalformedURLException e){
-			    e.printStackTrace();
-	                System.err.println("Error: " + e.getMessage());
-	                return "";
-	            }
-	            catch (Exception e){//Catch exception if any
-			    e.printStackTrace();
-	                System.err.println("Error: " + e.getMessage());
-	                return "";
-	            }
-	            finally{
-	                if(outStream!=null){
-	                    outStream.close();
-	                }
-	            }
+		       DataInputStream inStream = new DataInputStream(uc.getInputStream());
+		       String inputLine;
+		       while ((inputLine = inStream.readLine()) != null) {
+			       res=res+inputLine+"\r\n";
+			       //System.out.println(inputLine);
+		       }
+		       inStream.close();
+	       }catch (MalformedURLException e){
+		       e.printStackTrace();
+		       System.err.println("Error: " + e.getMessage());
+		       return "";
+	       }
+	       catch (Exception e){//Catch exception if any
+		       e.printStackTrace();
+		       System.err.println("Error: " + e.getMessage());
+		       return "";
+	       }
+	       finally{
+		       if(outStream!=null){
+			       outStream.close();
+		       }
+	       }
 
-	            return res;
+	       return res;
 	    }
 
 	    private static String GetPNRTemplate(String path){
-	        String content="";
-	        String filestr="";
-	        DataInputStream in=null;
-	        try{
-	        FileInputStream fstream = new FileInputStream(path);
-	            // Get the object of DataInputStream
-	        in= new DataInputStream(fstream);
-	        BufferedReader br = new BufferedReader(new InputStreamReader(in));
-	        String strLine;
-	        //Read File Line By Line
-	        while ((strLine = br.readLine()) != null){
-	             content=content+strLine+"\r\n";
-	        }
+		    String content="";
+		    String filestr="";
+		    DataInputStream in=null;
+		    try{
+			    FileInputStream fstream = new FileInputStream(path);
+			    // Get the object of DataInputStream
+			    in= new DataInputStream(fstream);
+			    BufferedReader br = new BufferedReader(new InputStreamReader(in));
+			    String strLine;
+			    //Read File Line By Line
+			    while ((strLine = br.readLine()) != null){
+				    content=content+strLine+"\r\n";
+			    }
 
-	        in.close();
-	        }catch (Exception e){//Catch exception if any
-			e.printStackTrace();
-	            System.err.println("Error: " + e.getMessage());
-	            return "";
-	        }
-	        finally{
-	        }
+			    in.close();
+		    }catch (Exception e){//Catch exception if any
+			    e.printStackTrace();
+			    System.err.println("Error: " + e.getMessage());
+			    return "";
+		    }
+		    finally{
+		    }
 
-	        return content;
+		    return content;
 	    }
 
 	    private static String GetCDA(String path){
-	        String content="";
-	        String filestr="";
-	        DataInputStream in=null;
-	        try{
-	        FileInputStream fstream = new FileInputStream(path);
-	            // Get the object of DataInputStream
-	        in= new DataInputStream(fstream);
-	        BufferedReader br = new BufferedReader(new InputStreamReader(in,"UTF-8"));
-	        String strLine;
-	        //Read File Line By Line
-	        while ((strLine = br.readLine()) != null){
-	             content=content+strLine+"\r\n";
-	        }
+		    String content="";
+		    String filestr="";
+		    DataInputStream in=null;
+		    try{
+			    FileInputStream fstream = new FileInputStream(path);
+			    // Get the object of DataInputStream
+			    in= new DataInputStream(fstream);
+			    BufferedReader br = new BufferedReader(new InputStreamReader(in,"UTF-8"));
+			    String strLine;
+			    //Read File Line By Line
+			    while ((strLine = br.readLine()) != null){
+				    content=content+strLine+"\r\n";
+			    }
 
-	        in.close();
-	        }catch (Exception e){//Catch exception if any
-			e.printStackTrace();
-	            System.err.println("Error: " + e.getMessage());
-	            return "";
-	        }
-	        finally{
-	        }
+			    in.close();
+		    }catch (Exception e){//Catch exception if any
+			    e.printStackTrace();
+			    System.err.println("Error: " + e.getMessage());
+			    return "";
+		    }
+		    finally{
+		    }
 
-	        return content;
+		    return content;
 	    }
 
 
+	    private void registerMyHostnameVerifier() 
+	    {
+		    javax.net.ssl.HostnameVerifier myHv = new javax.net.ssl.HostnameVerifier()
+		    {
+			    public boolean verify(String hostName,javax.net.ssl.SSLSession session)
+			    {
+				    return true;
+			    }
+		    };
+		    javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(myHv);
+	    }
 
 }
 
