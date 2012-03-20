@@ -20,12 +20,12 @@ public class EPSOSClient {
 	private String epsosEndpoint;
 	private String patientID;
 	private String homeCommunityID = "2.16.17.710.813.1000.990.1";
-	public static Logger logger = Logger.getLogger(EPSOSClient.class);
+	//public static Logger logger = Logger.getLogger(EPSOSClient.class);
 
 	private void sslSetup() {
 		if (atnatls) {
 			// Properties for SSL Security Provider
-			logger.info(" $$$$ SECURE COMMUNICATION .....");
+			System.out.println(" $$$$ SECURE COMMUNICATION .....");
 			String protocolProp = "java.protocol.handler.pkgs";
 			String sunSSLProtocol = "com.sun.net.ssl.internal.www.protocol";
 			String sslStoreProp = "javax.net.ssl.trustStore";
@@ -41,26 +41,26 @@ public class EPSOSClient {
 	}
 
 	public EPSOSClient(String pid, String homeCommunityID) {
-		logger.info(" Initializing EPSOS Client...");
+		System.out.println(" Initializing EPSOS Client...");
 		this.atnatls = new Boolean(ResourceBundle.getBundle("icardea")
 				.getString("atna.tls")).booleanValue();
-		logger.info(" Is security enabled? -->" + atnatls);
+		System.out.println(" Is security enabled? -->" + atnatls);
 		this.epsosEndpoint = ResourceBundle.getBundle("icardea").getString(
 				"epsos.endpoint");
 		this.patientID = pid;
 		this.homeCommunityID = homeCommunityID;
 
-		logger.info(" Epsos Endpoint:" + epsosEndpoint + " Patient ID:"
+		System.out.println(" Epsos Endpoint:" + epsosEndpoint + " Patient ID:"
 				+ pid + " Home Community ID:" + homeCommunityID);
 		sslSetup();
 			
 	}
 	
 	public EPSOSClient() {
-		logger.info(" Initializing EPSOS Client...");
+		System.out.println(" Initializing EPSOS Client...");
 		this.atnatls = new Boolean(ResourceBundle.getBundle("icardea")
 				.getString("atna.tls")).booleanValue();
-		logger.info(" Is security enabled? -->" + atnatls);
+		System.out.println(" Is security enabled? -->" + atnatls);
 		this.epsosEndpoint = ResourceBundle.getBundle("icardea").getString(
 				"epsos.endpoint");
 		sslSetup();
@@ -71,7 +71,7 @@ public class EPSOSClient {
 		ServerSocket server = null;
 		try {
 			if (atnatls) {
-				logger.info("Starting to listen secure port:" + 1012);
+				System.out.println("Starting to listen secure port:" + 1012);
 				String keystoreFile = ResourceBundle.getBundle("icardea")
 						.getString("tomcat.home") + "conf/.keystore";
 				String keystorePass = "srdcpass";
@@ -96,10 +96,10 @@ public class EPSOSClient {
 						.createServerSocket(1012);
 
 			} else {
-				logger.info("Starting to listen port:" + 1012);
+				System.out.println("Starting to listen port:" + 1012);
 				server = new ServerSocket(1012);
 			}
-			logger.info("Waiting for incoming connections...");
+			System.out.println("Waiting for incoming connections...");
 			while (true) {
 				Socket socket = server.accept();
 				InputStream in = socket.getInputStream();
@@ -111,12 +111,13 @@ public class EPSOSClient {
 				String parts[] = sb.toString().split(":");
 				this.patientID = parts[0];
 				this.homeCommunityID = parts[1];
-				logger.info(" Epsos Endpoint:" + epsosEndpoint + " Patient ID:"
+				System.out.println(" Epsos Endpoint:" + epsosEndpoint + " Patient ID:"
 						+ patientID + " Home Community ID:" + homeCommunityID);
 				String cda = retrieveDocument();
-				logger.info(cda);
+				//System.out.println(cda);
+				System.out.println(" Registering the document...");
 				registerDocument(cda);
-				logger.info("CDA Document Registered to XDS Reg/Rep...");
+				System.out.println("CDA Document Registered to XDS Reg/Rep...");
 			}
 
 		} catch (Exception ex) {
