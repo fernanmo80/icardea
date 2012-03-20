@@ -65,16 +65,17 @@ del "%PROJECT_ROOT%\bin\log_phr_app.txt"
 del "%PROJECT_ROOT%\bin\log_phr_libs.txt"
 del "%PROJECT_ROOT%\bin\log_phr_root.txt"
 
-
-title Doing mvn clean with complete removal of files
-call mvn clean -f "%PHRS_HOME%\pom.xml" -Dtomcat.home="%PHRS_TOMCAT%" -Dicardea.home="%PROJECT_ROOT%" -Daduna.parentdir="%APPDATA%" -DcleanTomcatWebapps=true -DremoveSesameAduna=true -DremoveSesame=true
-
 rem Do mongo last ... mongo db
 rem http://www.w3resource.com/mongodb/mongodb-remove-collection.php
 echo  ****
 echo  **** Mongo start cleanup of phrdata %MONGO_TMP%\bin\mongo localhost/phrsdata1 -quiet -eval "db.dropDatabase()"
 %MONGO_TMP%\bin\mongo localhost/phrsdata1 -quiet -eval "db.dropDatabase()"
 echo  **** Mongo cleanup of phrdata1 completed
+
+title Doing mvn clean with complete removal of files
+call mvn clean -f "%PHRS_HOME%\pom.xml" -Dtomcat.home="%PHRS_TOMCAT%" -Dicardea.home="%PROJECT_ROOT%" -Daduna.parentdir="%APPDATA%" -DcleanTomcatWebapps=true -DremoveSesameAduna=true -DremoveSesame=true
+
+
 
 cd %mypwd%
 title phr-system-CLEANALL FINISHED
