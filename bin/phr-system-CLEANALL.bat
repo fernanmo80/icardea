@@ -28,7 +28,11 @@ if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
 	set PROJECT_ROOT=C:\icardea-google\icardea
 	set PHRS_TOMCAT=C:\icardea-google\icardea\tools\apache-tomcat-6.0.20
 	set SESAME_WORKBENCH_URL=http://localhost:8080/openrdf-workbench
-    set MONGO_TMP=C:\mongodb
+	rem this has latest dbs, but there were older dbs in c:\mongodb
+	rem There are two...and they might both be started differently DB confusion?? set MONGO_TMP=C:\mongodb
+	rem are there different DB versions?
+	set MONGO_TMP=C:\icardea-google\icardea\tools_resources\tools\mongo\mongodb-win32-i386-1.8.3
+   
 )
 
 set CATALINA_HOME=%PHRS_TOMCAT%
@@ -39,8 +43,10 @@ del "%PHRS_TOMCAT%\webapps\phrweb.war"
 
 del "%PHRS_TOMCAT%\webapps\openrdf-sesame.war"
 del "%PHRS_TOMCAT%\webapps\openrdf-workbench.war"
-call "%PHRS_TOMCAT%\bin\shutdown.bat"
 
+rem keep tomcat up if up, other partner might have stopped it. Must try to remove via tomcat or via file system because tomcat could be down
+rem echo **** REMOVING TOMCAT PHR and SESAME WAR FILES, please wait for tomcat , then press a key to delete remaining files. There might fail if tomcat is running"
+call "%PHRS_TOMCAT%\bin\shutdown.bat"
 echo **** please wait for tomcat to shutdown, then press a key to delete remaining files."
 pause
 
@@ -73,6 +79,7 @@ echo  **** Mongo start cleanup of phrdata %MONGO_TMP%\bin\mongo localhost/phrsda
 echo  **** Mongo cleanup of phrdata1 completed
 
 title Doing mvn clean with complete removal of files
+rem this will fail if tomcat is running.... we experienced that tomcat window does not close, tomcat stopped, but still prevents access
 call mvn clean -f "%PHRS_HOME%\pom.xml" -Dtomcat.home="%PHRS_TOMCAT%" -Dicardea.home="%PROJECT_ROOT%" -Daduna.parentdir="%APPDATA%" -DcleanTomcatWebapps=true -DremoveSesameAduna=true -DremoveSesame=true
 
 
