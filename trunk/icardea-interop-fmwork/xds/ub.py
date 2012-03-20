@@ -22,6 +22,7 @@ import pymongo
 from pymongo import objectid
 import bson
 import os
+import datetime
 from lxml import etree
 import sys
 import urllib2
@@ -31,6 +32,8 @@ import re
 import cgi
 import socket
 from optparse import OptionParser
+import bottle
+from bottle import jinja2_view as view, jinja2_template as template
 # import mongo_utils
 from xds_config import *
 
@@ -70,92 +73,17 @@ def parsePid(patientId):
         i += len(delim)
         j = patientId.find('&ISO', i)
         pidroot = patientId[i:j] if j > 0 else patientId[i:]
-    return (pid, pidroot)
+    return {'pid':pid, 'root':pidroot}
 
+PCC10_WSA_ACTION = 'urn:hl7-org:v3:QUPC_IN043200UV01'
 def create_pcc10(subscription, entries, patientId):
-    (pid, pidroot) = parsePid(patientId)
-    patName = subscription['patientName'] if pid != '*' else {'given':'','family':''} # XXX
-    pertInfo = "\n".join("<pertinentInformation3>%s</pertinentInformation3>" % etree.tostring(x, xml_declaration=False) 
-                         for x in entries)
-    return """<QUPC_IN043200UV01 xmlns='urn:hl7-org:v3' ITSVersion='XML_1.0'
-  xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'>
-  <id root='1' extension='1'/>
-  <creationTime value='201011111111'/>
-  <interactionId extension='QUPC_IN043200UV' root='2.16.840.1.113883.5'/>
-  <processingCode code='D'/>
-  <processingModeCode code='T'/>
-  <acceptAckCode code='AL'/>
-  <receiver typeCode="RCV">
-    <device determinerCode='INSTANCE'>
-      <id/>
-      <name/>
-      <telecom value='1' />
-      <manufacturerModelName/>
-      <softwareName/>
-    </device>
-  </receiver>
-  <sender typeCode="SND">
-    <device determinerCode='INSTANCE'>
-      <id root="1" extension="EHR"/>
-      <name/>
-      <telecom value='1' />
-      <manufacturerModelName/>
-      <softwareName/>
-    </device>
-  </sender>
-  <controlActProcess moodCode='EVN'>
-    <id extension='1'/>
-    <code code='QUPC_TE043200UV'/>
-    <effectiveTime value='1'/>
-    <authorOrPerformer typeCode='1'></authorOrPerformer>
-    <subject>
-      <registrationEvent>
-	<statusCode code='active'/>
-	<custodian>
-	  <assignedEntity>
-	    <id root='1' extension='1'/>
-	    <addr></addr>
-	    <telecom></telecom>
-	    <assignedOrganization>
-	      <name></name>
-	    </assignedOrganization>
-	  </assignedEntity>
-	</custodian>
-	<subject2>
-	  <careProvisionEvent>
-	    <recordTarget>
-             <patient>
-		<id root='%s' extension='%s'/>
-		<addr></addr>
-		<telecom value='1' use='1'/>
-		<statusCode code='active'/>
-                <patientPerson>
-                  <name>
-                       <given>%s</given>
-                       <family>%s</family>
-                  </name>
-                </patientPerson>
-	      </patient>
-	    </recordTarget>
-%s
-          </careProvisionEvent>
-	</subject2>
-      </registrationEvent>
-    </subject>
-    <queryAck>
-      <queryId extension='%s'/>
-      <statusCode code='1'/>
-      <queryResponseCode code='1'/>
-      <resultCurrentQuantity value='1'/>
-      <resultRemainingQuantity value='1'/>
-    </queryAck>
-  </controlActProcess>
-</QUPC_IN043200UV01>""" % (pidroot, 
-                           pid, 
-                           patName['given'],
-                           patName['family'],
-                           pertInfo,
-                           subscription['queryId'])
+    patId = parsePid(patientId)
+    patName = subscription['patientName'] if patId['pid'] != '*' else {'given':'','family':''} # XXX
+    entries_xml = [etree.tostring(x, xml_declaration=False) for x in entries]
+    #template = jinja2_env.get_template('pcc10.xml')
+    return template('pcc10.xml', patId=patId, patName=patName,
+                    pertInfo=entries_xml, queryId=subscription['queryId'],
+                    wsaAction = PCC10_WSA_ACTION, wsaMsgId = uuid.uuid4().urn)
 
 DEFAULT_CARE_MANAGER = 'http://www.example.com:8080/axis2/services/QUPC_AR004030UV_Service'
 def send_pcc10(subscription, entries, patientId):
@@ -164,22 +92,15 @@ def send_pcc10(subscription, entries, patientId):
         endpoint = DEFAULT_CARE_MANAGER
     req = urllib2.Request(endpoint)
     req.add_header('content-type',
-                   'application/soap+xml;charset=utf-8;action="urn:hl7-org:v3:QUPC_IN043200UV01"')
-    xml = create_pcc10(subscription, entries, patientId)
-    soap = """<?xml version='1.0' encoding='UTF-8'?>
-<soapenv:Envelope xmlns:soapenv="http://www.w3.org/2003/05/soap-envelope">
-<soapenv:Header xmlns:wsa="http://www.w3.org/2005/08/addressing">
-<wsa:Action soapenv:mustUnderstand='0'>urn:hl7-org:v3:QUPC_IN043200UV01</wsa:Action>
-<wsa:MessageID>%s</wsa:MessageID>
-</soapenv:Header>
-<soapenv:Body>%s</soapenv:Body>
-</soapenv:Envelope>""" % (uuid.uuid4().urn, xml)
+                   'application/soap+xml;charset=utf-8;action="' + PCC10_WSA_ACTION + '"')
+    soap = create_pcc10(subscription, entries, patientId)
     req.add_data(soap.encode('utf-8'))
     # print 'SENDING\n', soap
     try:
         fp = urllib2.urlopen(req)
         response = fp.read()
         # print 'SUBMITTED AND GOT\n',response
+        #audit_pcc10(
     except urllib2.HTTPError, ex:
         msg = ex.read()
         print "PCC10 Error: %s %s" % (ex.code, msg)
@@ -201,7 +122,7 @@ class SubscriptionLet(Greenlet):
         self.stopped = False
         ## add self to dicts/sets        
         patId = self.subscription['patientId']
-        pid, _ = parsePid(patId)
+        pid = parsePid(patId)['pid']
         workers[self.subscription.get('id')] = self
         if pid == '*':
             workers_per_patient['*'].add(self)
@@ -221,16 +142,18 @@ class SubscriptionLet(Greenlet):
         self._ev.set()
         
     def stop(self):
-        self.stopped = True
-        self.wakeup()
         ## remove from dicts/sets
         del workers[self.subscriptionId()]    
         patId = self.subscription['patientId']
-        pid, _ = parsePid(patId)
+        pid = parsePid(patId)['pid']
         if pid == '*':
             workers_per_patient['*'].remove(self)
         else:
             workers_per_patient[patId].remove(self)
+        self.stopped = True
+        self.wakeup()
+        # print "%s committing suicide" % (self,)
+        #self.kill()
         
     def match_subscription(self, doc):
         provcode = self.subscription.get('careProvisionCode')
@@ -254,7 +177,7 @@ class SubscriptionLet(Greenlet):
             endpoint = subscription.get('endpoint_') or 'http://example.org/'
             patientId = subscription['patientId']
             query = {'mimeType': 'text/xml', 'storedAt_':{'$gt': lastUpdated}}
-            pid, _ = parsePid(subscription['patientId'])
+            pid = parsePid(subscription['patientId'])['pid']
             if pid != '*':
                 query['patientId'] = patientId
             careRecordTimePeriod = subscription.get('careRecordTimePeriod')
@@ -292,30 +215,52 @@ class SubscriptionLet(Greenlet):
         cpc = self.subscription.get('careProvisionCode')
         if cpc is None:
             cpc = ""
-        return "[%s] Subscription (%s)" % (self.subscriptionId(), self.subscription)
+        return "[%s] Subscription {patient: '%s', code:'%s'}" % (self.subscriptionId(),
+                                                                 self.subscription['patientId'],
+                                                                 cpc)
 
+    def _log_start(self):
+        for m in monitors:
+            m.started(self.subscriptionId(), sub_to_dict(self.subscription))
+    def _log_finish(self):
+        for m in monitors:
+            m.finished(self.subscriptionId())
+    def _log_start_checking(self):
+        self.checking = True
+        for m in monitors:
+            m.check_started(self.subscriptionId())
+    def _log_finish_checking(self):
+        self.checking = False
+        for m in monitors:
+            m.check_finished(self.subscriptionId(), tm_to_iso(self.subscription['lastChecked_']))
+        
     def _run(self):
         sid = self.subscriptionId()
         print "[%s] SubscriptionLet starting.." % sid
+        self._log_start()
         while True:
             try:
-                self.checking = True
+                self._log_start_checking()
                 self.check_subscription()
             except Exception, ex:
                 print "[%s] Oh no! just got: %s" % (sid, ex)
                 raise
             finally:
-                self.checking = False
+                self._log_finish_checking()
                 print "[%s] Going to sleep for %d secs ..." % (sid, self.timeout)
                 op = self._ev.wait(timeout=self.timeout)    
                 if op:
                     self._ev.clear()
                     if self.stopped :
                         break
-
+        self._log_finish()
+        print "%s ending.." % (self,)
+        self.kill() # ???
 workers = {}
 from collections import defaultdict
 workers_per_patient = defaultdict(set)
+
+monitors = set()
 
 def handle_notification(conn, addr):
     bufsize = 4096
@@ -377,118 +322,126 @@ def schedule_all(timeout, notify_port, modulo=0, m=1):
     if notify_port > 0:
         listen_for_new_info(notify_port)
 
-def get_stats(env, start_response):
-    import datetime
-    def subhtml(subscription):
-        dct = subscription
-        dct['lastDoc'] = datetime.datetime.fromtimestamp(subscription['lastChecked_']).isoformat(' ')
-        dct['storedAt'] = datetime.datetime.fromtimestamp(subscription['storedAt_']).isoformat(' ')
-        return """<td><a href='/subscription/%(id)s'>%(id)s</a></td>
-<td>%(patientId)s</td><td>%(careProvisionCode)s</td>
-<td>%(endpoint_)s</td><td>%(lastDoc)s</td><td>%(storedAt)s</td>
-<td><form method='post'>
-     <input type='hidden' name='sid' value='%(id)s'>
-     <input type='hidden' name='method' value='delete'>
-     <input type='submit' class='button' value='delete!'>
-     </form>
-</td>
-""" % dct
+def tm_to_iso(tm):
+    return datetime.datetime.fromtimestamp(tm).isoformat(' ')
+def sub_to_dict(w):
+    dct = w
+    dct['lastDoc'] = tm_to_iso(w['lastChecked_'])
+    dct['storedAt'] = tm_to_iso(w['storedAt_'])
+    dct['endpoint'] = w['endpoint_']
+    return dct
 
-    start_response('200 OK', [('Content-Type', 'text/html;charset=utf-8')])
-    ws = "\n".join("<tr class='%s'><td>%s.</td>%s</tr>" %
-                   ('active' if i.checking else ['even','odd'][pos % 2],  pos+1, subhtml(i.subscription))
-                   for pos, (k, i) in enumerate(workers.items()))
-    str = '''<html><head>
-     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-     <script type="text/javascript">
-     $(function() {
-       $("form").submit(function () {this.action = "/subscription/"+this.sid.value; return true; });
-      })
-     </script>
-<style type="text/css">
-tr th {background-color: #8B9ABA}
-tr.active td {background-color: #FF9000;}
-tr.even td {background-color: #FFE3BF}
-tr.odd td {background-color: #FFC77F}
-</style>
-</head>
-<body>
-<h1>PCC Update Broker Server</h1>
-<table border="1">
-<tr>
-<th>#</th>
-<th>id</th><th>Patient id</th><th>Care Provision Code</th><th>Clbk Endpoint</th>
-<th>Creation date of doc last checked</th><th>Submission date time</th>
-<th>Delete subscription</th>
-</tr>
-%s
-</table>
- &copy; 2010-2011 FORTH-ICS All rights reserved.
-</body>
-</html>''' % ws
-    return [str.encode('utf-8')]
+@bottle.get('/')
+@bottle.get('/subscription/')
+@view('ub_monitor.html')
+def get_stats():
+    # bottle.response.content_type = 'text/html; charset=utf-8'
+    # template = jinja2_env.get_template('ub_monitor.html')
+    # return template.render(subs=[sub_to_dict(i.subscription) for k, i in workers.items()])
+    return dict(subs=[sub_to_dict(i.subscription) for k, i in workers.items()])
 
-def subscription_resource(subId, env, start_response):
+@bottle.get('/monitor')
+def realtime_monitor():
+    bottle.response.content_type = 'text/event-stream; charset=utf-8'
+    bottle.response.headers['Cache-Control']='no-cache, no-store'
+    import gevent.queue
+    class Monitor:
+        def __init__(self):
+            global monitors
+            self.q_ = gevent.queue.Queue()
+            self.stopped_ = False
+            self.first_ = True
+            self.closed_ = False
+            monitors.add(self)
+            print "Monitor %s started.. (#:%d)" % (hash(self), len(monitors))
+        def started(self, sid, sub):
+            self.q_.put({'op': 'started', 'sid':sid, 'sub':sub})
+        def finished(self, sid):
+            self.q_.put({'op': 'finished', 'sid':sid})
+        def check_started(self, sid):
+            self.q_.put({'op': 'active', 'sid':sid})
+        def check_finished(self, sid, lastDoc):
+            self.q_.put({'op': 'inactive', 'sid':sid, 'lastDoc':lastDoc})
+        def __hash__(self):
+            return hash(self.q_)
+        def __iter__(self):
+            return self
+        def close(self):
+            global monitors
+            if not self.closed_:
+                monitors.remove(self)
+                print "Monitor %s ended.. (#:%d)" % (hash(self), len(monitors))
+                self.closed_ = True
+        def next(self):
+            if self.stopped_:
+                raise StopIteration()
+            if self.first_:
+                self.first_ = False
+                return '\n\n'
+            try:
+                w = self.q_.get(timeout=3*60);
+            except gevent.queue.Empty:
+                self.stopped_ = True
+                self.close()
+                raise StopIteration()
+            return 'data: ' + json.dumps(w) + '\n\n'
+    return Monitor()
+
+@bottle.get('/monitors')
+def get_monitors():
+    return "<ol>%s</ol>" % ("".join("<li>%s</li>" % hash(i) for i in monitors));
+
+@bottle.get('/subscription/:subId')
+def subscription_resource(subId):
     if not workers.has_key(subId):
-        start_response('404 Not Found', [('Content-Type', 'text/html')])
-        return ['<h1>Not Found</h1><p> Subscription: %s was not found' % subId]
-    method = env['REQUEST_METHOD'].upper()
-    nonREST = False
-    if method == 'POST' and env.has_key('HTTP_X_HTTP_METHOD_OVERRIDE'):
-        method = env['HTTP_X_HTTP_METHOD_OVERRIDE'].upper()
-    if method == 'POST' and env.get('CONTENT_TYPE', '') == 'application/x-www-form-urlencoded':
-        request_body = env['wsgi.input'].read()
-        d = cgi.parse_qs(request_body)
-        method = d.get('method', ['POST'])[0].upper()
-        nonREST = True
+        bottle.abort(404, 'Subscription: "%s" was not found' % subId)
     try:
         oid = pymongo.objectid.ObjectId(subId)
         pcc = MONCON.xds.pcc
-        if method == 'GET':
-            s = pcc.find_one(oid)
-            if not s:
-                start_response('404 Not Found', [('Content-Type', 'text/html')])
-                return ['<h1>Not Found</h1><p> Subscription: %s was not found' % subId]
-            s['_id'] = str(s['_id'])
-            start_response('200 OK', [('Content-Type', 'text/plain;charset=utf-8')])
-            return [json.dumps(s, default=json_util.default, sort_keys=True, indent=4)]
-        elif method == 'DELETE':
-            status = pcc.remove(oid, safe=True)
-            # print status
-            if status['err'] is not None:
-                start_response('500 Internal server error', [('Content-Type', 'text/html')])
-                return ['<h1>Internal server Error</h1> <pre>%s</pre>' % status['err']]
-            else:
-                w = workers[subId]
-                w.stop()
-                if nonREST:
-                    start_response('303 See other', [('Location', '/')])
-                else:
-                    start_response('200 OK', [('Content-Type', 'text/html;charset=utf-8')])
-                return []
+        s = pcc.find_one(oid)
+        if not s:
+            bottle.abort(404, 'Subscription: "%s" was not found' % subId)
         else:
-            start_response('405 Method not allowed', [('Content-Type', 'text/html')])
-            return ['<h1>Method is not allowed</h1>']
-    except Exception, e:
-        print 'Exception....' + str(e)
-        start_response('500 Internal server error', [('Content-Type', 'text/html')])
-        return ['<h1>Internal server Error</h1> <pre>%s</pre>' % str(e)]
+            s['_id'] = str(s['_id'])
+            bottle.response.content_type = 'text/plain;charset=utf-8'
+            return json.dumps(s, default=json_util.default, sort_keys=True, indent=4)
+    except pymongo.errors.PyMongoError, e:
+        print 'MongoDB Exception....' + str(e)
+        bottle.abort(500, 'MongoDB Exception:'+str(e))
     finally:
         MONCON.end_request()
-        
-        
 
-REST_RE = re.compile('\A/subscription/(\w+)\Z')
-def application(env, start_response):
-    path = env['PATH_INFO'] or '/'
-    if path in ['/', '/subscription/']:
-        return get_stats(env, start_response)
-    m = REST_RE.match(path)
-    if not m:
-        start_response('404 Not Found', [('Content-Type', 'text/html')])
-        return ['<h1>Not Found</h1>']
-    sid = m.group(1)
-    return subscription_resource(sid, env, start_response)
+@bottle.route('/subscription/:subId', method=['POST', 'DELETE'])
+def del_subscription_resource(subId):
+    if not workers.has_key(subId):
+        bottle.abort(404, 'Subscription: "%s" was not found' % subId)
+    method = bottle.request.method
+    if method == 'POST':
+        if 'X_HTTP_METHOD_OVERRIDE' in bottle.request.headers:
+            method = bottle.request.headers['X_HTTP_METHOD_OVERRIDE'].upper()
+        else:
+            method = bottle.request.forms.get('_method', 'GET').upper()
+    if method != 'DELETE':
+        bottle.abort(405, 'Method %s is not allowed' % method);
+    try:
+        oid = pymongo.objectid.ObjectId(subId)
+        pcc = MONCON.xds.pcc
+        status = pcc.remove(oid, safe=True)
+        print status
+        if status['err'] is not None:
+            bottle.abort(500, status['err'])
+        else:
+            w = workers[subId]
+            w.stop()
+            if bottle.request.is_ajax:
+                return ""
+            else:
+                bottle.redirect('/')
+    except pymongo.errors.PyMongoError, e:
+        print 'MongoDB Exception....' + str(e)
+        bottle.abort(500, 'MongoDB Exception:'+str(e))
+    finally:
+        MONCON.end_request()
 
 def test_event():
     if len(workers) > 0:
@@ -518,7 +471,8 @@ def parse_options():
 
 def main():
     options = parse_options()
-    s = pywsgi.WSGIServer(('', options.port), application)
+    bottle.debug(True)
+    s = pywsgi.WSGIServer(('', options.port), bottle.default_app())
     s.start()
     gevent.spawn(schedule_all, options.timeout, options.notify_port, modulo=options.k, m=options.mod)
     print 'Admin/monitor interface at http://%s:%s/' % (MYIP, options.port)
@@ -528,6 +482,5 @@ def main():
     except KeyboardInterrupt:
         print 'Exiting...'
         s.stop()
-
 if __name__ == "__main__":
     main()
