@@ -44,25 +44,23 @@ final class SSLLocalClient {
         LOGGER.debug("The SSL comunication was enabled");
     }
 
-
-    /**
-     javax.net.ssl.trustStore=srfg-phrs-web-keystore.ks
-     javax.net.ssl.trustStorePassword=icardea
-     */
     public static void sslSetupLocal() {
 
-        System.setProperty("javax.net.ssl.keyStore", ResourceBundle.getBundle("icardea").getString("icardea.home") + "/icardea-caremanagementdb/src/test/resources/sampleSSL/client.ks");
-        System.setProperty("javax.net.ssl.keyStorePassword", "client");
+        final String home=  ResourceBundle.getBundle("icardea").getString("icardea.home");
+        final String trustStore=home + ConfigurationService.getInstance().getProperty("javax.net.ssl.trustStore");
+        final String keyStore=  home + ConfigurationService.getInstance().getProperty("javax.net.ssl.keyStore");
 
-        System.setProperty("javax.net.ssl.trustStore", ResourceBundle.getBundle("icardea").getString("icardea.home") + "/icardea-caremanagementdb/src/test/resources/sampleSSL/client.ts");
-        System.setProperty("javax.net.ssl.trustStorePassword", "srdcpass");
+        final String passTrust=ConfigurationService.getInstance().getProperty("javax.net.ssl.trustStorePassword");
+        final String passKey=ConfigurationService.getInstance().getProperty("javax.net.ssl.keyStorePassword");
 
-//        ConfigurationService config = ConfigurationService.getInstance();
-//        String trustStoreFilePath = config.getProperty("javax.net.ssl.trustStore","srfg-phrs-core-truststore.ks");
-//        String trustStoreFilePassword = config.getProperty("javax.net.ssl.trustStorePassword","icardea");
-//        String keystoreFilePath = config.getProperty("javax.net.ssl.trustStore","srfg-phrs-core-keystore.ks");
-//        String keystoreFilePassword = config.getProperty("javax.net.ssl.trustStorePassword","icardea");
-//        SSLLocalClient.sslSetup(trustStoreFilePath, trustStoreFilePassword,keystoreFilePath, keystoreFilePassword);
+        LOGGER.debug("sslSetupLocal trustStore {} pass {} keystore {} pass {}",new Object[]{trustStore,passTrust,keyStore,passKey});
+        System.setProperty("javax.net.ssl.keyStore", keyStore);
+        System.setProperty("javax.net.ssl.keyStorePassword", passKey);
+
+        System.setProperty("javax.net.ssl.trustStore",trustStore);
+
+        System.setProperty("javax.net.ssl.trustStorePassword", passTrust);
+
 
     }
 
