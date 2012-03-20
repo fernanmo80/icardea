@@ -1,0 +1,11 @@
+{%extends "layout.html"%}
+{% block htmlTitle %}XDS repository: docs recently submitted{% endblock %}
+{% block htmlBody %}
+<h1 class="ui-corner-all ui-state-default hdr">The {{max}} docs most recently submitted</h1>
+<ul>
+  {% for d in docs %}
+  <li><a href="./{{d.entryUUID}}">{{d.entryUUID}}</a> (patient:'<b>{{d.patientId|e}}</b>')</li>
+  {% endfor %}
+</ul>
+{% endblock %}
+
