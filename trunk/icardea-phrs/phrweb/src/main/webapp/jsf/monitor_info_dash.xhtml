@@ -16,7 +16,7 @@
             border: 0;
         }
     </style>
-    <ui:insert name="head"></ui:insert>
+    <ui:insert name="head"/>
 </ui:define>
 
 
@@ -28,6 +28,7 @@
 
     <h:panelGroup style="width:300px">
         <p:growl id="msgs" showDetail="true"/>
+
         <h:panelGroup rendered="#{monmgtBean.showFormType ne 'ROLEGROUP_MEDICAL'}">
             <h:inputHidden value="#{monmgtBean.selectedOwnerUri}"/>
         </h:panelGroup>
@@ -90,10 +91,77 @@
 </p>
 -->
 
-<h:panelGroup rendered="#{monmgtBean.selectedLocalResourceType eq 'BP'}">
+<h:panelGroup id="pdq_1" layout="block" rendered="#{monmgtBean.selectedLocalResourceType eq 'PDQ'}">
     <h:form prependId="false">
-        <p:dataTable widgetVar="widItemTableMonitorBP" id="idItemTableMonitorBP"
+        <h:panelGrid columns="2" id="idViewPcon">
+            <!--<f:facet  name="header">
+                <h:commandLink>
+                    <p:graphicImage value="/images/pdf.png"/>
+                    <p:dataExporter type="pdf" target="pdq_1" fileName="phr_contactinfo"/>
+                </h:commandLink>
+            </f:facet> -->
+            <h:outputLabel value="Family Name"/>
+            <h:outputLabel value="#{monmgtBean.contactInfo.lastName}"/>
+
+            <h:outputLabel value="First Name"/>
+            <h:outputLabel value="#{monmgtBean.contactInfo.firstName}"/>
+
+            <h:outputLabel value="Telephone"/>
+            <h:outputLabel value="#{monmgtBean.contactInfo.primaryTelephone}"/>
+
+            <h:outputLabel value="Street Address"/>
+            <h:outputLabel value="#{monmgtBean.contactInfo.addressText}"/>
+
+            <h:outputLabel value="Postal Code"/>
+            <h:outputLabel value="#{monmgtBean.contactInfo.postalCode}"/>
+
+            <h:outputLabel value="City"/>
+            <h:outputLabel value="#{monmgtBean.contactInfo.city}"/>
+
+            <h:outputLabel value="Country"/>
+            <h:outputLabel value="#{monmgtBean.contactInfo.country}"/>
+
+            <h:outputLabel value="Email"/>
+            <h:outputLabel value="#{monmgtBean.contactInfo.email}"/>
+
+            <h:outputLabel value="Internet Services"/>
+            <h:panelGroup>
+                <h:outputLabel value="Chat"/>
+                <p:spacer width="2"/>
+                <h:outputLabel value="#{monmgtBean.contactInfo.internetChatProvider}"/>
+                <p:spacer width="2"/>
+                <h:outputLabel value="#{monmgtBean.contactInfo.internetChatId}"/>
+            </h:panelGroup>
+
+        </h:panelGrid>
+    </h:form>
+</h:panelGroup>
+
+    <!--<h:panelGrid columns="2">
+    <p:panel  header="Export Page Data">
+        <h:commandLink>
+            <p:graphicImage value="/images/pdf.png"/>
+            <p:dataExporter type="pdf" target="tbl" fileName="phr_report_" pageOnly="true"/>
+        </h:commandLink>
+
+    </p:panel>
+    </h:panelGrid>
+    -->
+
+
+
+<h:panelGroup rendered="#{monmgtBean.selectedLocalResourceType eq 'BP'}">
+    <h:form>
+        <p:panel header="PDF Report" rendered="#{monmgtBean.printable}">
+            <h:commandLink immediate="true">
+                <p:graphicImage value="/images/pdf.png"/>
+                <p:dataExporter type="pdf"  target="tblBP" fileName="phr_report_blood_pressure.pdf"/>
+            </h:commandLink>
+        </p:panel>
+
+        <p:dataTable widgetVar="widItemTableMonitorBP" id="tblBP"
                      var="theItem" value="#{monmgtBean.modelMain}">
+
             <p:columnGroup type="header">
 
                 <p:row>
@@ -121,7 +189,6 @@
                 <h:outputLabel value="#{theItem.heartRate}"/> <h:outputLabel value=" bpm"/>
             </p:column>
 
-
             <p:column>
                 <h:outputText value="#{theItem.note}" rendered="#{monmgtBean.showFormType ne 'ROLEGROUP_MEDICAL'}"/>
             </p:column>
@@ -131,8 +198,14 @@
 </h:panelGroup>
 
 <h:panelGroup rendered="#{monmgtBean.selectedLocalResourceType eq 'BW'}">
-    <h:form prependId="false">
-        <p:dataTable widgetVar="widItemTableMonitorBW" id="idItemTableMonitorBW"
+    <h:form>
+        <p:panel header="PDF Report"  rendered="#{monmgtBean.printable}">
+            <h:commandLink immediate="true">
+                <p:graphicImage value="/images/pdf.png"/>
+                <p:dataExporter type="pdf" target="tblBW" fileName="phr_report_body_weight.pdf"/>
+            </h:commandLink>
+        </p:panel>
+        <p:dataTable widgetVar="widItemTableMonitorBW" id="tblBW"
                      var="theItem" value="#{monmgtBean.modelMain}">
 
             <p:column headerText="Date" sortBy="#{theItem.beginDate}">
@@ -159,9 +232,89 @@
     </h:form>
 </h:panelGroup>
 
+
+<h:panelGroup rendered="#{monmgtBean.selectedLocalResourceType eq 'ADL'}">
+    <h:form>
+        <p:panel header="PDF Report"  rendered="#{monmgtBean.printable}">
+            <h:commandLink immediate="true">
+                <p:graphicImage value="/images/pdf.png"/>
+                <p:dataExporter type="pdf" target="tblADL" fileName="phr_report_activites_daily_living.pdf"/>
+            </h:commandLink>
+        </p:panel>
+        <p:dataTable widgetVar="widItemTableMonitorADL" id="tblADL"
+                     var="theItem" value="#{monmgtBean.modelMain}">
+            <p:column headerText="#{labels['activityOfDailyLivingItem.activityCode.label']}">
+                <h:outputLabel value="#{theItem.code}">
+                    <f:converter converterId="labelLookup"/>
+                </h:outputLabel>
+            </p:column>
+
+
+            <p:column styleClass="innertable" headerText="#{labels['activityOfDailyLivingItem.valueActivity.label']}">
+                <h:outputLabel value="#{theItem.status}">
+                    <f:converter converterId="labelLookup"/>
+                </h:outputLabel>
+            </p:column>
+
+            <p:column headerText="#{labels['default.comments.label']}"
+                      rendered="#{monmgtBean.showFormType ne 'ROLEGROUP_MEDICAL'}">
+                <h:outputText value="#{theItem.note}"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</h:panelGroup>
+
+<h:panelGroup rendered="#{monmgtBean.selectedLocalResourceType eq 'PROBLEM'}">
+    <h:form>
+        <p:panel header="PDF Report" rendered="#{monmgtBean.printable}">
+            <h:commandLink immediate="true">
+                <p:graphicImage value="/images/pdf.png"/>
+                <p:dataExporter type="pdf" target="tblPROBLEM" fileName="phr_report_problems.pdf"/>
+            </h:commandLink>
+        </p:panel>
+        <p:dataTable widgetVar="widItemTableMonitorPROBLEM" id="tblPROBLEM"
+                     var="theItem" value="#{monmgtBean.modelMain}">
+            <p:column headerText="#{labels['obsIssue.issueCode.label']}" sortBy="#{theItem.code}">
+                <h:outputLabel value="#{theItem.code}">
+                    <f:converter converterId="labelLookup"/>
+                </h:outputLabel>
+            </p:column>
+
+            <p:column headerText="#{labels['default_status_problem']}" sortBy="#{theItem.status}">
+                <h:outputLabel value="#{theItem.status}">
+                    <f:converter converterId="labelLookup"/>
+                </h:outputLabel>
+            </p:column>
+
+            <p:column headerText="#{labels['short.date.label']}" sortBy="#{theItem.displayDate}">
+                <h:outputLabel value="#{theItem.displayDate}">
+                    <f:convertDateTime pattern="yyyy-MM-dd"/>
+                </h:outputLabel>
+            </p:column>
+
+            <p:column headerText="#{labels['default.comments.label']}"
+                      rendered="#{monmgtBean.showFormType ne 'ROLEGROUP_MEDICAL'}">
+                <h:outputText value="#{theItem.note}"/>
+            </p:column>
+        </p:dataTable>
+    </h:form>
+</h:panelGroup>
+
+
+<!-- for xsl need apache poi 3.2-FINAL -->
+
+
 <h:panelGroup rendered="#{monmgtBean.selectedLocalResourceType eq 'MED'}">
-    <h:form prependId="false">
-        <p:dataTable widgetVar="widItemTableMonitorMED" id="idItemTableMonitorMED"
+
+
+    <h:form>
+        <!--<p:panel header="PDF Report" rendered="#{monmgtBean.printable}">
+            <h:commandLink>
+                <p:graphicImage value="/images/pdf.png"/>
+                <p:dataExporter type="pdf" target="tblMED" fileName="phr_report_medications.pdf"/>
+            </h:commandLink>
+        </p:panel> -->
+        <p:dataTable widgetVar="widItemTableMonitorMED" id="tblMED"
                      var="theItem" value="#{monmgtBean.modelMain}">
 
             <p:column headerText="#{labels['medicationSummary.medicationNameText.label']}">
@@ -171,8 +324,8 @@
                     <h:outputLabel value="#{theItem.code}" style="font-style:italic;"/>
                 </p:outputPanel>
 
-                    <!--<h:graphicImage title="#{labels['imported_medical_data']}" alt="#{labels['imported_medical_data']}" id="image1"
-                                   value="/images/imported.png" />style="font-style:italic;color:red;"	-->
+                <!--<h:graphicImage title="#{labels['imported_medical_data']}" alt="#{labels['imported_medical_data']}" id="image1"
+                                                  value="/images/imported.png" />style="font-style:italic;color:red;"	-->
                 <!--
                 <p:outputPanel rendered="#{theItem.originStatus eq 'PHRS_INTEROP.IMPORT'}"> <p:spacer width="1"/>
                     <h:outputLabel value="#{labels['imported_medical_data']}" />
@@ -231,68 +384,18 @@
                 <h:outputText value="#{theItem.note}"/>
             </p:column>
 
-
         </p:dataTable>
+
+            <p:commandButton value="Export as PDF" ajax="false" immediate="true">
+                <p:dataExporter type="pdf" target="tblMED" fileName="meds1"/>
+            </p:commandButton>
+            <!--<h:commandLink>
+                <p:graphicImage value="/images/pdf.png"/>
+                <p:dataExporter type="pdf" target="tblMED" fileName="meds2"/>
+            </h:commandLink>  -->
+
     </h:form>
 </h:panelGroup>
-
-<h:panelGroup rendered="#{monmgtBean.selectedLocalResourceType eq 'ADL'}">
-    <h:form prependId="false">
-        <p:dataTable widgetVar="widItemTableMonitorADL" id="idItemTableMonitorADL"
-                     var="theItem" value="#{monmgtBean.modelMain}">
-            <p:column headerText="#{labels['activityOfDailyLivingItem.activityCode.label']}">
-                <h:outputLabel value="#{theItem.code}">
-                    <f:converter converterId="labelLookup"/>
-                </h:outputLabel>
-            </p:column>
-
-
-            <p:column styleClass="innertable" headerText="#{labels['activityOfDailyLivingItem.valueActivity.label']}">
-                <h:outputLabel value="#{theItem.status}">
-                    <f:converter converterId="labelLookup"/>
-                </h:outputLabel>
-            </p:column>
-
-            <p:column headerText="#{labels['default.comments.label']}"
-                      rendered="#{monmgtBean.showFormType ne 'ROLEGROUP_MEDICAL'}">
-                <h:outputText value="#{theItem.note}"/>
-            </p:column>
-        </p:dataTable>
-    </h:form>
-
-</h:panelGroup>
-
-<h:panelGroup rendered="#{monmgtBean.selectedLocalResourceType eq 'PROBLEM'}">
-    <h:form prependId="false">
-        <p:dataTable widgetVar="widItemTableMonitorPROBLEM" id="idItemTableMonitorPROBLEM"
-                     var="theItem" value="#{monmgtBean.modelMain}">
-            <p:column headerText="#{labels['obsIssue.issueCode.label']}" sortBy="#{theItem.code}">
-                <h:outputLabel value="#{theItem.code}">
-                    <f:converter converterId="labelLookup"/>
-                </h:outputLabel>
-            </p:column>
-
-            <p:column headerText="#{labels['default_status_problem']}" sortBy="#{theItem.status}">
-                <h:outputLabel value="#{theItem.status}">
-                    <f:converter converterId="labelLookup"/>
-                </h:outputLabel>
-            </p:column>
-
-            <p:column headerText="#{labels['short.date.label']}" sortBy="#{theItem.displayDate}">
-                <h:outputLabel value="#{theItem.displayDate}">
-                    <f:convertDateTime pattern="yyyy-MM-dd"/>
-                </h:outputLabel>
-            </p:column>
-
-            <p:column headerText="#{labels['default.comments.label']}"
-                      rendered="#{monmgtBean.showFormType ne 'ROLEGROUP_MEDICAL'}">
-                <h:outputText value="#{theItem.note}"/>
-            </p:column>
-        </p:dataTable>
-    </h:form>
-
-</h:panelGroup>
-
 
 </p:fieldset>
 </ui:define>
