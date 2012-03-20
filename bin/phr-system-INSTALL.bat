@@ -6,15 +6,13 @@ if "%COMPUTERNAME%" == "KMT57" (
 	set PHRS_TOMCAT=C:\Programme\Apache Software Foundation\tomcat6
 	set SESAME_WORKBENCH_URL=http://localhost:8080/openrdf-workbench
 	set TRIPLESTORE_SRC=generic_triplestore_http_8080.xml
-        set MONGO_TMP=C:\icardea\EHR\mongodb-win32-i386-1.8.2
 )
 rem @KMT53-SRFG
 if "%COMPUTERNAME%" == "KMT53" (
 	set PROJECT_ROOT=C:\icardea-google\icardea
 	set PHRS_TOMCAT=C:\icardea-google\icardea\tools\apache-tomcat-6.0.20
 	set SESAME_WORKBENCH_URL=http://localhost:8080/openrdf-workbench
-	set TRIPLESTORE_SRC=generic_triplestore_http_6060.xml
-        set MONGO_TMP=D:\local\mongodb-win32-i386-1.6.3
+	set TRIPLESTORE_SRC=generic_triplestore_http_8080.xml
 )
 
 rem @SALK
@@ -23,7 +21,6 @@ if "%COMPUTERNAME%" == "N1RZ159" (
 	set PHRS_TOMCAT=D:\srfg\tomcat\phrs-tomcat-6
 	set SESAME_WORKBENCH_URL=http://localhost:6060/openrdf-workbench
 	set TRIPLESTORE_SRC=generic_triplestore_http_6060.xml
-        set MONGO_TMP=C:\icardea\EHR\mongodb-win32-i386-1.8.2
 )
 
 rem @SRDC-VirtualMachine
@@ -31,8 +28,7 @@ if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
 	set PROJECT_ROOT=C:\icardea-google\icardea
 	set PHRS_TOMCAT=C:\icardea-google\icardea\tools\apache-tomcat-6.0.20
 	set SESAME_WORKBENCH_URL=http://localhost:8080/openrdf-workbench
-	set TRIPLESTORE_SRC=generic_triplestore_http_6060.xml
-        set MONGO_TMP=D:\local\mongodb-win32-i386-1.6.3
+	set TRIPLESTORE_SRC=generic_triplestore_http_8080.xml   
 )
 
 
