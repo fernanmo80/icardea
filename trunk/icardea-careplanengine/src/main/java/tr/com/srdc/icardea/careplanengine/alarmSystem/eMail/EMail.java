@@ -17,6 +17,8 @@ import javax.mail.internet.MimeMessage;
 public class EMail {
 
 	public static void main(String[] args) {
+		sendEMail("eliferylmz@gmail.com", "New iCARDEA Alarm!!!",
+				"<html><head/><body><h1>Alarm</h1></body>");
 		sendEMail("yildiraykabak@gmail.com", "New iCARDEA Alarm!!!",
 				"<html><head/><body><h1>Alarm</h1></body>");
 	}
@@ -38,9 +40,10 @@ public class EMail {
 				System.out.println(" $$$ Sending email to:" + contactNumber
 						+ ", \nmessage subject:" + messageSubject + ", \nmessage body:"
 						+ messageBody+" with SALK blat script...");
-				String command = "D:\\blat.exe bodyEmail.txt -html -try 3 -tf recipientsEmail.txt -subject  "+messageSubject+"  -f iCARDEA@salk.at -server smtp.lks.local -port 25";
-				FileOutputStream body = new FileOutputStream("bodyEmail.txt");
-				FileOutputStream recipients = new FileOutputStream("recipientsEmail.txt");
+				String command = "D:\\blat.exe D:\\bodyEmail.txt -html -try 3 -tf D:\\recipientsEmail.txt -subject \""+messageSubject+"\"  -f iCARDEA@salk.at -server smtp.lks.local -port 25";
+				System.out.println(" Running the command: "+command);
+				FileOutputStream body = new FileOutputStream("D:\\bodyEmail.txt");
+				FileOutputStream recipients = new FileOutputStream("D:\\recipientsEmail.txt");
 				String receiver = contactNumber;
 				body.write(messageBody.getBytes());					
 				recipients.write(receiver.getBytes());
