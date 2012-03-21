@@ -25,7 +25,7 @@ public class SMSSenderService {
 	public static void main(String[] args) {
 		SMSSenderService s = new SMSSenderService();
 		//s.sendSMS("00905058668960", "Sample message content");
-		s.sendSMS("0905058668960", "Sample message content");
+		s.sendSMS("00905058668960", "Sample message content");
 	}
 
 	public static String sendSMS(String telephone, String messagebody) {
@@ -35,14 +35,15 @@ public class SMSSenderService {
 		String smsProvider = properties.getString("sms.provider");
 		if(smsProvider.equals("salk")) {
 			try {
-				String command = "D:\\blat.exe body.txt -try 3 -tf recipients.txt -subject \"Test\" -f icardea@salk.at -server smtp.lks.local -port 25";
-				FileOutputStream body = new FileOutputStream("body.txt");
-				FileOutputStream recipients = new FileOutputStream("recipients.txt");
+				String command = "D:\\blat.exe D:\\body.txt -try 3 -tf D:\\recipients.txt -subject \"Test\" -f icardea@salk.at -server smtp.lks.local -port 25";
+				FileOutputStream body = new FileOutputStream("D:\\body.txt");
+				FileOutputStream recipients = new FileOutputStream("D:\\recipients.txt");
 				String receiver = telephone + "@sms.salk.at";
 				body.write(messagebody.getBytes());					
 				recipients.write(receiver.getBytes());
 				body.close();
 				recipients.close();
+				System.out.println(" Running the command: "+command);
 				Process p = Runtime.getRuntime().exec(command);
 				return "";
 			} catch(Exception ex) {
