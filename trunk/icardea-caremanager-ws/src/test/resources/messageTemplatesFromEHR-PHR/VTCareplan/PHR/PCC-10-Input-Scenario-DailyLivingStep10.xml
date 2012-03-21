@@ -51,7 +51,7 @@
 								<statusCode code='active'/>
 								<patientPerson>
 									<name>
-										<given>Jane</given>
+										<given>Suzie</given>
 										<family>Mayr</family>
 									</name>
 									<administrativeGenderCode code='F' displayName=''
