@@ -210,7 +210,7 @@
 								<id root='' extension='12122'/>
 								<text><reference value='#xxx'/></text>
 								<statusCode code='completed'/>
-								<effectiveTime><low value='199910101010'/><high value='201010101010'/></effectiveTime>
+								<effectiveTime><low value='199910101010'/><high value='201110101010'/></effectiveTime>
 								<routeCode code='PO' codeSystem='2.16.840.1.113883.5.112' displayName='oral' codeSystemName='HL7 RouteOfAdministration Vocabulary '/>
 								<doseQuantity value='1' units='tablet'/>
 								<consumable typeCode='CSM'>
