@@ -10,9 +10,12 @@ if "%COMPUTERNAME%" == "KMT57" (
 rem @KMT53-SRFG
 if "%COMPUTERNAME%" == "KMT53" (
 	set PROJECT_ROOT=C:\icardea-google\icardea
-	set PHRS_TOMCAT=C:\icardea-google\icardea\tools\apache-tomcat-6.0.20
-	set SESAME_WORKBENCH_URL=http://localhost:8080/openrdf-workbench
-	set TRIPLESTORE_SRC=generic_triplestore_http_8080.xml
+        rem set PHRS_TOMCAT=C:\icardea-google\icardea\tools\apache-tomcat-6.0.20
+        rem set PHRS_TOMCAT=D:\srdc\codes\icardea-google\tools\apache-tomcat-phr
+
+        set PHRS_TOMCAT=C:\srfg\phrs-tomcat-6
+	set SESAME_WORKBENCH_URL=http://localhost:6060/openrdf-workbench
+	set TRIPLESTORE_SRC=generic_triplestore_http_6060.xml
 )
 
 rem @SALK
@@ -23,15 +26,19 @@ if "%COMPUTERNAME%" == "N1RZ159" (
 	set TRIPLESTORE_SRC=generic_triplestore_http_6060.xml
 )
 
+
 rem @SRDC-VirtualMachine
 if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
 	set PROJECT_ROOT=C:\icardea-google\icardea
-	set PHRS_TOMCAT=C:\icardea-google\icardea\tools\apache-tomcat-6.0.20
-	set SESAME_WORKBENCH_URL=http://localhost:8080/openrdf-workbench
-	set TRIPLESTORE_SRC=generic_triplestore_http_8080.xml   
+        rem set PHRS_TOMCAT=C:\icardea-google\icardea\tools\apache-tomcat-6.0.20
+        rem set PHRS_TOMCAT=D:\srdc\codes\icardea-google\tools\apache-tomcat-phr
+
+        set PHRS_TOMCAT=C:\srfg\phrs-tomcat-6
+	set SESAME_WORKBENCH_URL=http://localhost:6060/openrdf-workbench
+	set TRIPLESTORE_SRC=generic_triplestore_http_6060.xml   
 )
 
-
+rem set CATALINA_OPTS=-Xms256m -Xmx512m -XX:PermSize=256m -XX:MaxPermSize=1024m
 set CATALINA_HOME=%PHRS_TOMCAT%
 
 set PCC09WS_HOME=%PROJECT_ROOT%\icardea-phrs\phrs-soap-pcc09ws

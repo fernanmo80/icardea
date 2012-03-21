@@ -10,8 +10,11 @@ if "%COMPUTERNAME%" == "KMT57" (
 rem @KMT53-SRFG
 if "%COMPUTERNAME%" == "KMT53" (
 	set PROJECT_ROOT=C:\icardea-google\icardea
-	set PHRS_TOMCAT=C:\icardea-google\icardea\tools\apache-tomcat-6.0.20
-	set SESAME_WORKBENCH_URL=http://localhost:8080/openrdf-workbench
+        rem set PHRS_TOMCAT=C:\icardea-google\icardea\tools\apache-tomcat-6.0.20
+        rem set PHRS_TOMCAT=D:\srdc\codes\icardea-google\tools\apache-tomcat-phr
+
+        set PHRS_TOMCAT=C:\srfg\phrs-tomcat-6
+	set SESAME_WORKBENCH_URL=http://localhost:6060/openrdf-workbench
 )
 
 rem @SALK
@@ -21,11 +24,15 @@ if "%COMPUTERNAME%" == "N1RZ159" (
 	set SESAME_WORKBENCH_URL=http://localhost:6060/openrdf-workbench
 )
 
+
 rem @SRDC-VirtualMachine
 if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
 	set PROJECT_ROOT=C:\icardea-google\icardea
-	set PHRS_TOMCAT=C:\icardea-google\icardea\tools\apache-tomcat-6.0.20
-	set SESAME_WORKBENCH_URL=http://localhost:8080/openrdf-workbench
+        rem set PHRS_TOMCAT=C:\icardea-google\icardea\tools\apache-tomcat-6.0.20
+        rem set PHRS_TOMCAT=D:\srdc\codes\icardea-google\tools\apache-tomcat-phr
+
+        set PHRS_TOMCAT=C:\srfg\phrs-tomcat-6
+	set SESAME_WORKBENCH_URL=http://localhost:6060/openrdf-workbench
 )
 
 set CATALINA_HOME=%PHRS_TOMCAT%
@@ -52,8 +59,9 @@ call %PROJECT_ROOT%\tools_resources\curl\curl -X POST "%SESAME_WORKBENCH_URL%/re
 call %PROJECT_ROOT%\tools_resources\curl\curl -X POST "%SESAME_WORKBENCH_URL%/repositories/NONE/create?type=native&Repository+ID=phrs1&Repository+title=phrs1+title&Triple+indexes=spoc,posc"
 echo phrs1 repository created
 echo ****
-rem echo *****WAIT AND CHECK DBs in SESAME!!!!!!
-rem pause
+echo *****WAIT a moment, we sent CURL messages to sesame for the DB init. Press any key to continue.
+echo ****
+pause
 
 title starting pcc9, pcc10 and socket-listener
 cd "%PHRS_HOME%\phrs-soap-pcc09ws\"
