@@ -13,7 +13,7 @@ if "%COMPUTERNAME%" == "KMT53" (
         rem set PHRS_TOMCAT=C:\icardea-google\icardea\tools\apache-tomcat-6.0.20
         rem set PHRS_TOMCAT=D:\srdc\codes\icardea-google\tools\apache-tomcat-phr
 
-        set PHRS_TOMCAT=C:\srfg\phrs-tomcat-6
+    set PHRS_TOMCAT=C:\srfg\phrs-tomcat-6
 	set SESAME_WORKBENCH_URL=http://localhost:6060/openrdf-workbench
 )
 
@@ -31,7 +31,7 @@ if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
         rem set PHRS_TOMCAT=C:\icardea-google\icardea\tools\apache-tomcat-6.0.20
         rem set PHRS_TOMCAT=D:\srdc\codes\icardea-google\tools\apache-tomcat-phr
 
-        set PHRS_TOMCAT=C:\srfg\phrs-tomcat-6
+    set PHRS_TOMCAT=C:\srfg\phrs-tomcat-6
 	set SESAME_WORKBENCH_URL=http://localhost:6060/openrdf-workbench
 )
 
@@ -57,6 +57,8 @@ echo %PROJECT_ROOT%\tools_resources\curl\curl -X POST "%SESAME_WORKBENCH_URL%/re
 rem first curl is to wake up...if there is a malformed URL, it will be obvious here
 call %PROJECT_ROOT%\tools_resources\curl\curl -X POST "%SESAME_WORKBENCH_URL%/repositories"
 call %PROJECT_ROOT%\tools_resources\curl\curl -X POST "%SESAME_WORKBENCH_URL%/repositories/NONE/create?type=native&Repository+ID=phrs1&Repository+title=phrs1+title&Triple+indexes=spoc,posc"
+
+
 echo phrs1 repository created
 echo ****
 echo *****WAIT a moment, we sent CURL messages to sesame for the DB init. Press any key to continue.

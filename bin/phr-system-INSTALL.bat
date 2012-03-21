@@ -13,7 +13,7 @@ if "%COMPUTERNAME%" == "KMT53" (
         rem set PHRS_TOMCAT=C:\icardea-google\icardea\tools\apache-tomcat-6.0.20
         rem set PHRS_TOMCAT=D:\srdc\codes\icardea-google\tools\apache-tomcat-phr
 
-        set PHRS_TOMCAT=C:\srfg\phrs-tomcat-6
+    set PHRS_TOMCAT=C:\srfg\phrs-tomcat-6
 	set SESAME_WORKBENCH_URL=http://localhost:6060/openrdf-workbench
 	set TRIPLESTORE_SRC=generic_triplestore_http_6060.xml
 )
@@ -33,7 +33,7 @@ if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
         rem set PHRS_TOMCAT=C:\icardea-google\icardea\tools\apache-tomcat-6.0.20
         rem set PHRS_TOMCAT=D:\srdc\codes\icardea-google\tools\apache-tomcat-phr
 
-        set PHRS_TOMCAT=C:\srfg\phrs-tomcat-6
+    set PHRS_TOMCAT=C:\srfg\phrs-tomcat-6
 	set SESAME_WORKBENCH_URL=http://localhost:6060/openrdf-workbench
 	set TRIPLESTORE_SRC=generic_triplestore_http_6060.xml   
 )
