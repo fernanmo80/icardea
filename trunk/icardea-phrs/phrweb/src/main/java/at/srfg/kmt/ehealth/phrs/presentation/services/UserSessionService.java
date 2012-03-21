@@ -20,6 +20,7 @@ import org.slf4j.LoggerFactory;
 public class UserSessionService {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(UserSessionService.class);
+    public static String SESSION_ATTR_NAME_PROTOCOL_ID_CONSENT_MGR="protocolid";
     // The configuration.xml will have these
 
 //    public static final String forwardRedirectIsAuthenticatedToPage = "/jsf/home.xhtml";
@@ -203,6 +204,7 @@ public class UserSessionService {
                 //FIXXME PID Consent editor test
                 updateSessionProtocolIdTest(phrUser);
 
+
                 //sess.setAttribute(PhrsConstants.SESSION_USER_AUTHORITY_ROLE, model.getRole());
                 try {
                     String greetName = getCommonDao().getUserGreetName(phrUser.getOwnerUri());
@@ -283,22 +285,28 @@ public class UserSessionService {
         }
         return phrUser;
     }
-    public static String SESSION_ATTR_NAME_PROTOCOL_ID_CONSENT_MGR="protocolid";
+
 
     public static void updateSessionProtocolId(String pid){
+        //protocolid
         putSessionAttributeString(SESSION_ATTR_NAME_PROTOCOL_ID_CONSENT_MGR, pid);
     }
     public static void updateSessionProtocolIdTest(PhrFederatedUser phrUser){
-        if(phrUser!=null){
-            String protocolId=phrUser.getProtocolId(); //getCommonDao().getProtocolId(phrUser.getOwnerUri());
-            if(protocolId !=null && ! protocolId.isEmpty()){
-                //
-            }  else {
-                protocolId="191";
-            }
-            LOGGER.debug("updateSessionProtocolIdTest PID="+protocolId+" phruser.identifier="+phrUser.getIdentifier()+" owner="+phrUser.getOwnerUri());
-            updateSessionProtocolId(protocolId);
-        }
+        //Make this for all users during testing
+        updateSessionProtocolId("191");
+        phrUser.setProtocolIdPix("191");
+        LOGGER.debug("updateSessionProtocolIdTest PID=191"+" phruser.identifier="+phrUser.getIdentifier()+" owner="+phrUser.getOwnerUri());
+
+//        if(phrUser!=null){
+//            String protocolId=phrUser.getProtocolId(); //getCommonDao().getProtocolId(phrUser.getOwnerUri());
+//            if(protocolId !=null && ! protocolId.isEmpty()){
+//                //
+//            }  else {
+//                protocolId="191";
+//            }
+//            LOGGER.debug("updateSessionProtocolIdTest PID="+protocolId+" phruser.identifier="+phrUser.getIdentifier()+" owner="+phrUser.getOwnerUri());
+//            updateSessionProtocolId(protocolId);
+//        }
     }
     /**
     * @deprecated
