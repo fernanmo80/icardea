@@ -513,7 +513,7 @@ CREATE TABLE `patient` (
 LOCK TABLES `patient` WRITE;
 /*!40000 ALTER TABLE `patient` DISABLE KEYS */;
 INSERT INTO `patient` VALUES ('31c5ea5f-e639-417d-9b7a-58323ab49323',190,'Andreas Schmidt','1953-01-04 00:00:00','M',185,80,'A','Miami, USA',NULL);
-INSERT INTO `patient` VALUES ('5224aeda-a0b6-11e0-9d49-00b68faaa84c',191,'Jane Mayr','1973-04-22 15:09:02','F',170,60,'A','Salzburg, Austria',NULL);
+INSERT INTO `patient` VALUES ('5224aeda-a0b6-11e0-9d49-00b68faaa84c',191,'Suzie Mayr','1973-04-22 15:09:02','F',170,60,'A','Salzburg, Austria',NULL);
 /*!40000 ALTER TABLE `patient` ENABLE KEYS */;
 UNLOCK TABLES;
 
