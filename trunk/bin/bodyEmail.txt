@@ -1,0 +1,26 @@
+PatientID:191
+GuidelineID:0
+Patient Name:Suzie Mayr
+Urgency:Medium
+<HTML><head/><body><table cellspacing="10" style="background-color:#e1e1e1"><tbody><tr id="PatientBlock" name="PatientBlock"><td style="background-color:#eeeeee"><p align="center"><b>Brief Information about the patient </b></p><p>Patient Name: 
+			<data src="caremanagementdb://Patient/@givenName"/><data src="caremanagementdb://Patient/@secondName"/><data src="caremanagementdb://Patient/@familyName"/><br/>
+			Patient ID: 
+			<data src="caremanagementdb://Patient/@patientIdentifier"/><br/><a href="PPM:TAB3">Access to
+			  EHR</a><br/>
+			Implanted Device:
+			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/><data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/><br/>
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="PPM:TAB1">Access
+			  to previous Remote follow-up results</a> </p><p><br/>
+		      </p>
+		    </td>
+		  </tr><tr name="CIEDBlock"><td style="background-color:#eeeeee"><p align="center"><b>Brief Information about the recent alarm </b></p>
+		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br/>
+		      VT Episode <br/><a href="PPM:TAB1">Access to Report
+			Exported</a> </td>
+		  </tr><tr name="RecommendationBlock"><td style="background-color:#eeeeee"><p align="center"><b><font color="#880015">Recommendation and Next Step to follow </font> </b></p><p>The most recent lab test is older than one week, please order a new test, call the patient and continue the care plan when the results of this test are uploaded to iCARDEA System.</p><form action="null" method="post" onsubmit="return ValidateData();"><input name="D5Choice" onclick="btnWhichButton=this" type="submit" value="Continue"/>
+		    </form></td>
+		  </tr>
+		</tbody>
+	      </table>
+	    </body>
+	  </HTML>
