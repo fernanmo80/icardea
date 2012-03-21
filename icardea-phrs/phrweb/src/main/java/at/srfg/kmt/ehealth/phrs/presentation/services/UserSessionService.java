@@ -225,7 +225,7 @@ public class UserSessionService {
      * @throws Exception 
      */
     public static PhrFederatedUser managePhrUserSessionLocalLoginScenario(String localId) throws Exception {
-        return managePhrUserSessionLocalLoginScenario(localId);
+        return managePhrUserSessionLocalLoginScenario(localId,null,null);
     }
     /**
      * Manage local login
@@ -285,6 +285,7 @@ public class UserSessionService {
         }
         return phrUser;
     }
+
 
 
     public static void updateSessionProtocolId(String pid){
@@ -641,14 +642,30 @@ public class UserSessionService {
         return null;
     }
 
+    /**
+     *
+     * @param greetName
+     */
+    public static void updateSessionGreetName(String greetName){
+        if(greetName!=null && !greetName.isEmpty())   {
+            UserSessionService.putSessionAttributeString(PhrsConstants.SESSION_USER_GREET_NAME, greetName);
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
     public static String getSessionUserGreetName() {
         Object obj = getSessionAttribute(PhrsConstants.SESSION_USER_GREET_NAME);
 
         if (obj != null) {
             return (String) obj;
         }
+
         return null;
     }
+
 
     /**
      * TODO User principal We will bring back another security package that is
