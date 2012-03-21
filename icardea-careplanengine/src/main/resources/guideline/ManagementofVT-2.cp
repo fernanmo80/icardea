@@ -53,7 +53,7 @@
     <Patient personID="P4">
       <ID schemeID="TCKN">149202063491</ID>
       <ID schemeID="CIED">MODEL:XXX/SERIAL:YYY</ID>
-      <Name>Jane</Name>
+      <Name>Suzie</Name>
       <Middlename>Mayr</Middlename>
       <Surname>Mayr</Surname>
       <Organization>
