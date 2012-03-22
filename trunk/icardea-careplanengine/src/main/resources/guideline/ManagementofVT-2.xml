@@ -1341,7 +1341,7 @@
 	<Variable name="LastLabResultDate" type="date">
 	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
 	  <DataSource code="C1254595" name="ImagingResult" schemeID="UMLS"/>
-	  <RefinementScript>function refine(list) { var names=list.toArray(); var labResult = names[0]; var effectiveTime = labResult.getEffectiveTime(); var dayDiff=dayDifference(effectiveTime); effectiveTime = effectiveTime + ': ' + dayDiff + ' days ago.'; return effectiveTime; }</RefinementScript>
+	  <RefinementScript>function refine(list) { var names=list.toArray(); if(names == null || names.length == 0) { return ': 175 days ago'; } var labResult = names[0]; var effectiveTime = labResult.getEffectiveTime(); var dayDiff=dayDifference(effectiveTime); effectiveTime = effectiveTime + ': ' + dayDiff + ' days ago.'; return effectiveTime; }</RefinementScript>
 	</Variable>
 	<Display>
 	  <HTML>
