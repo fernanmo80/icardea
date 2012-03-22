@@ -35,7 +35,7 @@ if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
 
     set PHRS_TOMCAT=C:\srfg\phrs-tomcat-6
 	set SESAME_WORKBENCH_URL=http://localhost:6060/openrdf-workbench
-	set TRIPLESTORE_SRC=generic_triplestore_http_6060.xml   
+	set TRIPLESTORE_SRC=generic_triplestore_http_6060.xml
 )
 
 rem set CATALINA_OPTS=-Xms256m -Xmx512m -XX:PermSize=256m -XX:MaxPermSize=1024m

@@ -34,8 +34,8 @@ if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
 
 	set SESAME_WORKBENCH_URL=http://localhost:6060/openrdf-workbench
 		rem are there different DB versions, data under C:\icardea-google\icardea\tools_resources\tools\mongo\mongodb-win32-i386-1.8.3
-        rem if NOT DEFINED MONGO_HOME set MONGO_HOME=???? 
-	set MONGO_TMP=C:\icardea-google\icardea\tools\mongo\mongodb-win32-i386-1.8.3  
+        rem if NOT DEFINED MONGO_HOME set MONGO_HOME=????
+	set MONGO_TMP=C:\icardea-google\icardea\tools\mongo\mongodb-win32-i386-1.8.3
 )
 
 set CATALINA_HOME=%PHRS_TOMCAT%
