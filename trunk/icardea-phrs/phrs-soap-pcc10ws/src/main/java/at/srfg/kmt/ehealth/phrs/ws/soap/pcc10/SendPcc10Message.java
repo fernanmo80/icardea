@@ -69,6 +69,12 @@ final class SendPcc10Message {
             String endpointURI)
             throws MalformedURLException {
 
+			com.sun.net.ssl.HostnameVerifier myHv = new com.sun.net.ssl.HostnameVerifier() {
+				public boolean verify(String hostName, String a) {
+					return true;
+				}
+			};
+			com.sun.net.ssl.internal.www.protocol.https.HttpsURLConnectionOldImpl.setDefaultHostnameVerifier(myHv);
         if (query == null) {
             final NullPointerException exception =
                     new NullPointerException("The query argument can not be null.");
