@@ -262,7 +262,7 @@ public class GeneralView extends ViewPart {
 						{//Field for UserName at LoginScreen
 							uname = new Text(login, SWT.BORDER);
 							//TODO: Fixme to openID
-							uname.setText("localhost:4545/idp/u=icardeanurse");
+							//uname.setText("localhost:4545/idp/u=icardeanurse");
 							GridData gd_uname = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 							gd_uname.widthHint = 180;
 							uname.setLayoutData(gd_uname);
@@ -368,7 +368,7 @@ public class GeneralView extends ViewPart {
 						}	
 					}
 							);
-					chooseDate.setVisible(false);
+					chooseDate.setVisible(true);
 
 					//					logger.debug("Startdate: "+request.getParameter("startdate"));
 					//									ParameterList paralist = new ParameterList(request.getParameterMap());
