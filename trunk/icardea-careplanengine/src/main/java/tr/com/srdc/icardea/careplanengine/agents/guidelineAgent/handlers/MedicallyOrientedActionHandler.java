@@ -944,9 +944,7 @@ public class MedicallyOrientedActionHandler {
 					+ ".pdf." + suffix
 					+ "\" width=\"240\" height=\"330\"/></a>";*/
 			
-			String link = "<a href=\\" + "http://" + hostname + ":8080"
-					+ "/icardea/pdfReports/" + fileName + ".pdf"
-					+ "\">Exported CIED document<br/><IMG src=\"http://"
+			String link = "<a href=\"http://" + hostname + ":8080/icardea/pdfReports/" + fileName + ".pdf\" target=\"_blank\">Exported CIED document<br/><IMG src=\"http://"
 					+ hostname + ":8080/icardea/guidelines/icardea/cardio.jpg\" width=\"240\" height=\"330\"/></a>";
 
 			logger.info("Link:" + link);
