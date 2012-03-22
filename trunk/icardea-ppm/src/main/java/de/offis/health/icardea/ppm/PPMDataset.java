@@ -9,8 +9,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -82,6 +85,9 @@ public class PPMDataset {
 			//			System.out.println("Connected to the database");
 			//			conn.close();
 			//			System.out.println("Disconnected from database");
+			DateFormat dd=new SimpleDateFormat("dd.MM.yyyy");
+			this.dateStrings[0]=dd.format(Calendar.getInstance().getTime());
+			logger.info("Set currrentdate="+this.dateStrings[0]);
 			setCurrentDate(PPMDataset.convPointToTime(this.dateStrings[0] ));
 			checkDB();
 		} catch (Exception e) {
@@ -235,7 +241,7 @@ public class PPMDataset {
 
 	private String[] sheetStrings = {"Overview", "VT/VF", "AF/AT","PatInfo","ProPara"};
 	private List<String> sheetList = new ArrayList(Arrays.asList(new String[]{"Overview", "VT/VF", "AF/AT","PatInfo","ProPara"}));
-	private String[] dateStrings ={"05.12.2010","25.01.2012","30.09.2011","01.12.2008","15.06.2010","30.09.2010","24.01.2011"};
+	private String[] dateStrings ={"23.03.2012","05.12.2010","25.01.2012","30.09.2011","01.12.2008","15.06.2010","30.09.2010","24.01.2011"};
 	private String currentDate  ;
 
 	/**
