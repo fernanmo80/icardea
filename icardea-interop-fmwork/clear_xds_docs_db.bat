@@ -6,3 +6,4 @@ echo Are you sure? (press Ctrl-C otherwise)
 pause
 %MONGO_HOME%\bin\mongo localhost/xds -quiet -eval "db.docs.remove()"
 echo Done!
+pause

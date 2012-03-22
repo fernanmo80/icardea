@@ -6,3 +6,4 @@ echo Are you sure? (press Ctrl-C otherwise)
 pause
 %MONGO_HOME%\bin\mongo localhost/pid -quiet -eval "db.patients.remove()"
 echo Done!
+pause
