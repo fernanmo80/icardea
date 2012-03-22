@@ -288,6 +288,9 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 					}
 				}
 
+				if(severity.equals("24484000"))
+					severity = "H";
+
 				ProblemCriteria criteria = new ProblemCriteria();
 				criteria.problemValue.eq(problemValue);
 				EHRPHRDataCriteria ehrPhrDataCriteria = criteria.createEHRPHRDataCriteria();
@@ -361,7 +364,7 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 				Logger.getLogger(QUPC_AR004030UV_ServiceSkeleton.class).log(Level.INFO, " $$$ Problem Entry: "
 					+ " problemCode:" + problemCode + " problemText:" + problemText + " effectiveTimeLow:" + effectiveTimeLow
 					+ " effectiveTimeHigh:" + effectiveTimeHigh + " problemValue:" + problemValue + " problemValueCodeSystem:" + problemValueCodeSystem
-					+ " problemValueOriginalText:" + problemValueOriginalText);
+					+ " problemValueOriginalText:" + problemValueOriginalText + " severity:"+severity);
 			} else if (careProvisionCode.equals("CONDLIST") || careProvisionCode.equals("RISKLIST")) {
 				// TODO: Gelen careProvisionCode'a gore CONDLIST'mi yoksa RISKLIST'mi kontrol et ve ilgili tabloya at
 				POCDMT000040Act act = pertinentInformation.getAct().getValue();
