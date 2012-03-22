@@ -275,6 +275,11 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 
 				problemValue = translateCode(problemValue, problemValueCodeSystem, problemValueCodeSystemName);
 
+				if(problemCode == null || problemValue == null) {
+					Logger.getLogger(QUPC_AR004030UV_ServiceSkeleton.class).log(Level.INFO, "One of them is null, therefore not saving to database -> Problem Code:"+problemCode+" Problem Value:"+problemValue);
+					continue;
+				}
+
 				// It is assumed that all the codes in the CareManagementDB should be in UMLS
 
 				String severity = "M";
