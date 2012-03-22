@@ -55,8 +55,8 @@ public class HPAAlarmHandlerThread extends Thread {
 		// message
 
 		messageBody += patientInfo.toString();
-		messageBody += "Urgency:" + urgencyName + "\n";
-		messageBody += messageContent.getContent() + "\n";
+		messageBody += "Urgency:" + urgencyName + ", ";
+		messageBody += messageContent.getContent() + ".";
 
 		logger.info(" Message Body:" + messageBody);
 

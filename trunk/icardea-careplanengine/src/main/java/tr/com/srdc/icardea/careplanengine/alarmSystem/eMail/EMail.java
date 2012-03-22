@@ -17,10 +17,10 @@ import javax.mail.internet.MimeMessage;
 public class EMail {
 
 	public static void main(String[] args) {
-		sendEMail("eliferylmz@gmail.com", "New iCARDEA Alarm!!!",
-				"<html><head/><body><h1>Alarm</h1></body>");
 		sendEMail("yildiraykabak@gmail.com", "New iCARDEA Alarm!!!",
 				"<html><head/><body><h1>Alarm</h1></body>");
+		/*sendEMail("yildiraykabak@gmail.com", "New iCARDEA Alarm!!!",
+				"<html><head/><body><h1>Alarm</h1></body>");*/
 	}
 
 	public static boolean sendEMailWithAck(String contactNumber,
