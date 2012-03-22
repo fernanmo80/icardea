@@ -45,9 +45,9 @@ public class PatientInfo {
     public String toString() {
         String str = "";
 
-        str += "PatientID:" + patientID + "\n";
-        str += "GuidelineID:" + guidelineID + "\n";
-        str += "Patient Name:" + patientName + "\n";
+        str += "PatientID:" + patientID + ", ";
+        str += "GuidelineID:" + guidelineID + ", ";
+        str += "Patient Name:" + patientName + ", ";
 
         return str;
     }
