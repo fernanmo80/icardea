@@ -1142,7 +1142,7 @@
 			  </tr>
 			  <script>
 			    <arguments>$MedicationsEHR, $MedicationsPHR</arguments>
-			    <content>function generate(ehrMeds, phrMeds) { var e; var p; var output = ''; for(e=0; e&lt;ehrMeds.length;e++) { var ehrMed = ehrMeds[e]; var effectiveTimeHighEHR = ehrMed.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHighEHR)) continue; output = output + '&lt;tr&gt;'; var useIt = 'No'; for(p=0; p&lt;phrMeds.length;p++) { var phrMed = phrMeds[p];	var effectiveTimeHighPHR = phrMed.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHighPHR)) continue; if(ehrMed.getDrugCode().equals(phrMed.getDrugCode())) { useIt = '&lt;font color=\"#880015\"&gt;&lt;b&gt;Yes: ' + phrMed.getDoseQuantity() + ' mg&lt;/b&gt;&lt;/font&gt;'; }  } var line = '&lt;td&gt;' + ehrMed.getText() + ':' + ehrMed.getDoseQuantity() + ' mg&lt;/td&gt;' + '&lt;td&gt;' + useIt + '&lt;/td&gt;' + '&lt;td&gt;'; output = output + line; output = output + '&lt;/tr&gt;'; }  return output; }</content>
+			    <content>function generate(ehrMeds, phrMeds) { var e; var p; var output = ''; for(e=0; e&lt;ehrMeds.length;e++) { var ehrMed = ehrMeds[e]; var effectiveTimeHighEHR = ehrMed.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHighEHR)) continue; output = output + '&lt;tr&gt;'; var useIt = 'No'; for(p=0; p&lt;phrMeds.length;p++) { var phrMed = phrMeds[p];	var effectiveTimeHighPHR = phrMed.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHighPHR)) continue; if(ehrMed.getDrugCode() != null) if(ehrMed.getDrugCode().equals(phrMed.getDrugCode())) { useIt = '&lt;font color=\"#880015\"&gt;&lt;b&gt;Yes: ' + phrMed.getDoseQuantity() + ' mg&lt;/b&gt;&lt;/font&gt;'; }  } var line = '&lt;td&gt;' + ehrMed.getText() + ':' + ehrMed.getDoseQuantity() + ' mg&lt;/td&gt;' + '&lt;td&gt;' + useIt + '&lt;/td&gt;' + '&lt;td&gt;'; output = output + line; output = output + '&lt;/tr&gt;'; }  return output; }</content>
 			  </script>
 
 			</tbody>
@@ -1175,32 +1175,32 @@
 	<Variable name="Vomit" type="string">
 	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
 	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
-	  <RefinementScript>function refine(list) { var x="no"; var y=0; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { var problem = names[i]; var effectiveTimeHigh = problem.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHigh)) continue; if(problem.getProblemValue().equals("C0042963")) y=y+1; } if(y>0) { x="yes"; } return x; }</RefinementScript>
+	  <RefinementScript>function refine(list) { var x="no"; var y=0; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { var problem = names[i]; var effectiveTimeHigh = problem.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHigh)) continue; if(problem.getProblemValue() != null) if(problem.getProblemValue().equals("C0042963")) y=y+1; } if(y>0) { x="yes"; } return x; }</RefinementScript>
 	</Variable>
 	<Variable name="Diarrhea" type="string">
 	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
 	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
-	  <RefinementScript>function refine(list) { var x="no"; var y=0; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { var problem = names[i]; var effectiveTimeHigh = problem.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHigh)) continue; if(problem.getProblemValue().equals("C0011991")) y=y+1; } if(y>0) { x="yes"; } return x; }</RefinementScript>
+	  <RefinementScript>function refine(list) { var x="no"; var y=0; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { var problem = names[i]; var effectiveTimeHigh = problem.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHigh)) continue; if(problem.getProblemValue() != null) if(problem.getProblemValue().equals("C0011991")) y=y+1; } if(y>0) { x="yes"; } return x; }</RefinementScript>
 	</Variable>
 	<Variable name="ChestPain" type="string">
 	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
 	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
-	  <RefinementScript>function refine(list) { var x="no"; var y=0; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { var problem = names[i]; var effectiveTimeHigh = problem.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHigh)) continue; if(problem.getProblemValue().equals("C0042963")) y=y+1; } if(y>0) { x="yes"; } return x; }</RefinementScript>
+	  <RefinementScript>function refine(list) { var x="no"; var y=0; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { var problem = names[i]; var effectiveTimeHigh = problem.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHigh)) continue; if(problem.getProblemValue() != null) if(problem.getProblemValue().equals("C0042963")) y=y+1; } if(y>0) { x="yes"; } return x; }</RefinementScript>
 	</Variable>
 	<Variable name="ShortnessofBreath" type="string">
 	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
 	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
-	  <RefinementScript>function refine(list) { var x="no"; var y=0; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { var problem = names[i]; var effectiveTimeHigh = problem.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHigh)) continue; if(problem.getProblemValue().equals("C0008031")) y=y+1; } if(y>0) { x="yes"; } return x; }</RefinementScript>
+	  <RefinementScript>function refine(list) { var x="no"; var y=0; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { var problem = names[i]; var effectiveTimeHigh = problem.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHigh)) continue; if(problem.getProblemValue() != null) if(problem.getProblemValue().equals("C0008031")) y=y+1; } if(y>0) { x="yes"; } return x; }</RefinementScript>
 	</Variable>
 	<Variable name="WeightGain" type="string">
 	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
 	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
-	  <RefinementScript>function refine(list) { var x="no"; var y=0; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { var problem = names[i]; var effectiveTimeHigh = problem.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHigh)) continue; if(problem.getProblemValue().equals("C0043094")) y=y+1; } if(y>0) { x="yes"; } return x; }</RefinementScript>
+	  <RefinementScript>function refine(list) { var x="no"; var y=0; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { var problem = names[i]; var effectiveTimeHigh = problem.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHigh)) continue; if(problem.getProblemValue() != null) if(problem.getProblemValue().equals("C0043094")) y=y+1; } if(y>0) { x="yes"; } return x; }</RefinementScript>
 	</Variable>
 	<Variable name="Fever" type="string">
 	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
 	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
-	  <RefinementScript>function refine(list) { var x="no"; var y=0; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { var problem = names[i]; var effectiveTimeHigh = problem.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHigh)) continue; if(problem.getProblemValue().equals("C0015967")) y=y+1; } if(y>0) { x="yes"; } return x; }</RefinementScript>
+	  <RefinementScript>function refine(list) { var x="no"; var y=0; var names=list.toArray(); for(var i=0; i &lt; names.length;i++) { var problem = names[i]; var effectiveTimeHigh = problem.getEffectiveTimeHigh(); if(!isActiveDate(effectiveTimeHigh)) continue; if(problem.getProblemValue() != null) if(problem.getProblemValue().equals("C0015967")) y=y+1; } if(y>0) { x="yes"; } return x; }</RefinementScript>
 	</Variable>
 	<Display>
 	  <HTML>
