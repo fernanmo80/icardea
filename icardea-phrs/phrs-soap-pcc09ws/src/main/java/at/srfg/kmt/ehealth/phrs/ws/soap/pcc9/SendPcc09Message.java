@@ -136,7 +136,12 @@ final class SendPcc09Message {
     static MCCIIN000002UV01 sendSecureMessage(QUPCIN043100UV01 query,
             String endpointURI, String responseEndpointURI, String keystoreFilePath,
             String keystoreFilePassword) throws MalformedURLException {
-
+			com.sun.net.ssl.HostnameVerifier myHv = new com.sun.net.ssl.HostnameVerifier() {
+				public boolean verify(String hostName, String a) {
+					return true;
+				}
+			};
+			com.sun.net.ssl.internal.www.protocol.https.HttpsURLConnectionOldImpl.setDefaultHostnameVerifier(myHv);
         if (keystoreFilePath == null) {
             final NullPointerException exception =
                     new NullPointerException("The certPath argument can not be null.");
