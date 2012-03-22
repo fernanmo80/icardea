@@ -89,7 +89,7 @@ public final class SendSecurePcc09MessageExample {
         final String patientAdministrativeGender = args[8];
 
 //        final String careProvisionCode = "MEDLIST";
-        final String careProvisionReason = "iCardea Barcelona Meeting test";
+        final String careProvisionReason = "iCardea PHR";
         //String careRecordTimePeriodBegin = "201101010000";
         final String careRecordTimePeriodBegin =
                 DateUtil.getLastMonthDate();
