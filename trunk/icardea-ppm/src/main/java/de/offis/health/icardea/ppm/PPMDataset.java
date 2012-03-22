@@ -119,10 +119,15 @@ public class PPMDataset {
 		logger.info("Table ppmdataset created");
 		//					stmt.execute(createPPMPending);
 		logger.info("Table ppmpending created");
-		stmt.execute(createVIEWS);
-		logger.info("Views created");
 		stmt.execute(createInitial);
 		logger.info("Initial configuration created");
+	}
+
+	private void createInitialViewsDB() throws SQLException {
+		fillStatements();
+		stmt.execute(createVIEWS);
+		logger.info("Views created");
+
 	}
 
 	private boolean checkDB(){
@@ -156,6 +161,7 @@ public class PPMDataset {
 		}
 		//create new and old view each time
 		try {
+			createInitialViewsDB();
 			rs = stmt.executeQuery("SELECT  buttontable FROM `ppmdataset`  where length(buttontable)>0  group by buttontable");
 			String tablename="unknown";
 			String nextStmt;
@@ -229,7 +235,7 @@ public class PPMDataset {
 
 	private String[] sheetStrings = {"Overview", "VT/VF", "AF/AT","PatInfo","ProPara"};
 	private List<String> sheetList = new ArrayList(Arrays.asList(new String[]{"Overview", "VT/VF", "AF/AT","PatInfo","ProPara"}));
-	private String[] dateStrings ={"25.01.2012","30.09.2011","01.12.2008","15.06.2010","30.09.2010","24.01.2011"};
+	private String[] dateStrings ={"05.12.2010","25.01.2012","30.09.2011","01.12.2008","15.06.2010","30.09.2010","24.01.2011"};
 	private String currentDate  ;
 
 	/**
@@ -328,8 +334,9 @@ public class PPMDataset {
 		List<PPMSubItemsModel> colList = new ArrayList();
 		String query="";
 		try {
-			query="SELECT effectivetimelow,effectivetimehigh,text FROM "+ view +" "+
-					"where patid=trim(\""+currentPatID+"\")" ;
+			query="SELECT effectivetimelow,effectivetimehigh,text FROM "+ view 
+					+" where patid=trim(\""+currentPatID+"\") "
+					+" and val is not null and effectiveTimeLow is not null and text is not null" ;
 			logger.trace(query);
 			ResultSet rs = getStmt().executeQuery(
 					query
@@ -990,20 +997,21 @@ public class PPMDataset {
 		String replaceInto=" REPLACE INTO ppmdataset (SHEET,PARAMETER,DATASET,TYPE_OF_VARIABLE,EXPLANATION,SOURCE,FULLREFID,PPMDATASOURCE,TIME_FRAME,FORMAT,VALIDATION,COMMENTS,SJM_COMMENTS,PATID,SORTNUMBER,SUBTITEL,BUTTONTITEL,BUTTONTABLE,USERPREF,SQLCAREPLAN,DEMODATASET_AF,TIMELOW,TIMEHIGH) VALUES ";
 		createPPMDataset = "CREATE TABLE icardea.PPMDATASET (   SHEET VARCHAR(20),   PARAMETER VARCHAR(50),   DATASET LONGTEXT,   TYPE_OF_VARIABLE TEXT,   EXPLANATION TEXT,   SOURCE TEXT,   FULLREFID TEXT,   PPMDATASOURCE TEXT,   TIME_FRAME TEXT,   FORMAT TEXT,   VALIDATION TEXT,   COMMENTS TEXT,   SJM_COMMENTS TEXT,   PATID TEXT,   SORTNUMBER INTEGER,   SUBTITEL TEXT,   BUTTONTITEL TEXT,   BUTTONTABLE TEXT,   USERPREF TEXT,   SQLCAREPLAN TEXT,   DEMODATASET_AF TEXT,   TIMELOW TEXT,   TIMEHIGH TEXT,   ID INTEGER NOT NULL  AUTO_INCREMENT,   PRIMARY KEY (ID) );";
 		createPPMPending = "CREATE TABLE icardea.PPMPENDING (   SerialID TEXT,   DATASET LONGTEXT,   SOURCE TEXT,   FULLREFID TEXT,   PATID TEXT,   TIMELOW TEXT,   TIMEHIGH TEXT,   STATUS CHAR,   localid MEDIUMINT NOT NULL AUTO_INCREMENT,    PRIMARY KEY (localid)   );";
-		createVIEWS="create OR REPLACE view icardea.medications as select  m.doseQuantity val, m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh,concat(m.text ,' ', m.doseQuantity,' mg') text,ehr.isEHR ,p.id patid from Medication m,Patient p, EHRPHRData ehr where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and careProvisionCode=\"MEDLIST\" and ehr.isEHR=1 order by m.text,m.effectiveTime,m.effectiveTimeHigh ;"
+		createVIEWS="create OR REPLACE view icardea.medications as select  m.doseQuantity val, m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh,concat(m.text ,' ', m.doseQuantity,' mg',IF(ehr.isEHR=0,' (from PHR)',' (from EHR)')) text,ehr.isEHR ,p.id patid from Medication m,Patient p, EHRPHRData ehr where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and careProvisionCode=\"MEDLIST\" and ehr.isEHR=1 order by m.text,m.effectiveTime,m.effectiveTimeHigh ;"
 				+" create  OR REPLACE view icardea.Compliance as   select  0 val,  m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh, concat(m.text, ' taken ',m.doseQuantity,' mg prescribed ' ,m2.doseQuantity,' mg') text, ehr.isEHR ,ehr2.isEHR isEHr2,p.id patid from Medication m, Medication m2,Patient p, EHRPHRData ehr, EHRPHRData ehr2 where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and ehr2.id=m2.EHRPHRDataID and  m.text=m2.text  and ehr.isEHR=0 and ehr2.isEHR=1 and m.doseQuantity<>m2.doseQuantity order by m.text,m.effectiveTime,m.effectiveTimeHigh ;  "
-				+" create  OR REPLACE view icardea.symptoms as   select  0 val, m.problemValueOriginalText text,m.effectiveTimeLow, m.effectiveTimeHigh ,p.id patid from Problem m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID  and ehr.IsEHR=0 and problemCode=\"409586006\" order by m.effectiveTimeLow; "
-				+" create  OR REPLACE view icardea.problems as   select  0 val, m.problemValueOriginalText text,m.effectiveTimeLow, m.effectiveTimeHigh ,p.id patid from Problem m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID  and ehr.IsEHR=0 and problemCode=\"409586006\" order by m.effectiveTimeLow; "
-				+" create  OR REPLACE view icardea.history as   select 0 val,  m.problemValueOriginalText text,m.effectiveTimeLow, m.effectiveTimeHigh ,p.id patid , m.problemValue, m.problemValueCodeSystem from Problem m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID  and ehr.IsEHR=1 and problemCode=\"409586006\" order by m.effectiveTimeLow; "
-				+" create  OR REPLACE view icardea.activies as   select 0 val,  m.problemValueOriginalText text,m.effectiveTimeLow, m.effectiveTimeHigh ,p.id patid from Problem m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID  and ehr.IsEHR=0 and problemCode=\"404684003\" order by m.effectiveTimeLow; "
-				+" create  OR REPLACE view icardea.patcomment as   select 0 val,  m.problemValueOriginalText text,m.effectiveTimeLow, ' ' effectiveTimeHigh ,p.id patid from Problem m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID  and ehr.IsEHR=0 and problemCode=\"404684003\" order by m.effectiveTimeLow;  "
-				+" create  OR REPLACE view icardea.BodyWeight as   select m.value val, concat(m.value,' ',m.unit) text, m.effectivetime effectiveTimeLow, ' 'effectiveTimeHigh ,p.id patid from vitalsign m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and (m.careprovisioncode=\"COBSCAT\" or m.careprovisioncode=\"3141-9\") order by m.effectivetime;  "
-				+" create  OR REPLACE view icardea.SystolicBlood as   select  m.value val, concat(m.value,' ',m.unit) text, m.effectivetime effectiveTimeLow, ' 'effectiveTimeHigh ,p.id patid from vitalsign m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and ( m.careprovisioncode=\"8480-6\") order by m.effectivetime;  "
-				+" create  OR REPLACE view icardea.DiastolicBlood as   select  m.value val, concat(m.value,' ',m.unit) text, m.effectivetime effectiveTimeLow, ' 'effectiveTimeHigh ,p.id patid from vitalsign m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and ( m.careprovisioncode=\"8480-4\") order by m.effectivetime; "
-				+" create  OR REPLACE view icardea.heartrate as   select  m.value val, concat(m.value,' ',m.unit) text, m.effectivetime effectiveTimeLow, ' 'effectiveTimeHigh ,p.id patid from vitalsign m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and ( m.careprovisioncode=\"8867-4\") order by m.effectivetime;  "
+				+" create  OR REPLACE view icardea.symptoms as     select  0 val,  m.problemValueOriginalText text,m.effectiveTimeLow, m.effectiveTimeHigh ,p.id patid from Problem m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID  and ehr.IsEHR=1 and problemCode=\"409586006\" order by m.effectiveTimeLow; "
+				+" create  OR REPLACE view icardea.problems as     select  0 val,  m.problemValueOriginalText text,m.effectiveTimeLow, m.effectiveTimeHigh ,p.id patid from Problem m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID  and (problemCode=\"409586006\" or problemCode=\"C0277786\") order by m.effectiveTimeLow; "
+				+" create  OR REPLACE view icardea.history as      select  0 val,  m.problemValueOriginalText text,m.effectiveTimeLow, m.effectiveTimeHigh ,p.id patid , m.problemValue, m.problemValueCodeSystem from Problem m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID  and ehr.IsEHR=1 and problemCode=\"409586006\" order by m.effectiveTimeLow; "
+				+" create  OR REPLACE view icardea.activies as     select  0 val,  m.problemValueOriginalText text,m.effectiveTimeLow, m.effectiveTimeHigh ,p.id patid from Problem m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID  and ehr.IsEHR=0 and problemCode=\"404684003\" order by m.effectiveTimeLow; "
+				+" create  OR REPLACE view icardea.patcomment as   select  0 val,  m.problemValueOriginalText text,m.effectiveTimeLow, ' ' effectiveTimeHigh ,p.id patid from Problem m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID  and ehr.IsEHR=0 and problemCode=\"404684003\" order by m.effectiveTimeLow;  "
+				+" create  OR REPLACE view icardea.BodyWeight as   select m.value val, concat(m.value,' ',m.unit,IF(ehr.isEHR=0,' (from PHR)',' (from EHR)')) text, m.effectivetime effectiveTimeLow, ' 'effectiveTimeHigh ,p.id patid from vitalsign m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and (m.careprovisioncode=\"COBSCAT\" or m.careprovisioncode=\"3141-9\") order by m.effectivetime;  "
+				+" create  OR REPLACE view icardea.SystolicBlood as   select  m.value val, concat(m.value,' ',m.unit,IF(ehr.isEHR=0,' (from PHR)',' (from EHR)')) text, m.effectivetime effectiveTimeLow, ' 'effectiveTimeHigh ,p.id patid from vitalsign m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and ( m.careprovisioncode=\"8480-6\") order by m.effectivetime;  "
+				+" create  OR REPLACE view icardea.DiastolicBlood as   select  m.value val, concat(m.value,' ',m.unit,IF(ehr.isEHR=0,' (from PHR)',' (from EHR)')) text, m.effectivetime effectiveTimeLow, ' 'effectiveTimeHigh ,p.id patid from vitalsign m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and ( m.careprovisioncode=\"8480-4\") order by m.effectivetime; "
+				+" create  OR REPLACE view icardea.heartrate as   select  m.value val, concat(m.value,' ',m.unit,IF(ehr.isEHR=0,' (from PHR)',' (from EHR)')) text, m.effectivetime effectiveTimeLow, ' 'effectiveTimeHigh ,p.id patid from vitalsign m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and ( m.careprovisioncode=\"8867-4\") order by m.effectivetime;  "
 				+" create  OR REPLACE view icardea.labresult as   select m.labresultvalue val, concat(m.labresultvalue,'  ',m.labresulttext) text, m.effectivetime effectiveTimeLow, ' 'effectiveTimeHigh ,p.id patid from imagingresult m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID order by m.effectivetime;  " 
 				+" create  OR REPLACE view icardea.Contraindication as   select 0 val, m.allergyOriginalText text,m.effectiveTimeLow, m.effectiveTimeHigh ,p.id patid from Concern m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID  order by m.effectiveTimeLow; "
-				+" create  OR REPLACE view icardea.procedures as select  0 val, m.proceduretext text,m.effectiveTimeLow, m.effectiveTimeHigh ,p.id patid  from `procedure` m,Patient p, EHRPHRData ehr  where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID   order by m.effectiveTimeLow;";
+				+" create  OR REPLACE view icardea.procedures as   select  0 val, m.proceduretext text,m.effectiveTimeLow, m.effectiveTimeHigh ,p.id patid  from `procedure` m,Patient p, EHRPHRData ehr  where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID   order by m.effectiveTimeLow;"
+				+" create  OR REPLACE view icardea.medicationsPHR as select  m.doseQuantity val, m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh,concat(m.text ,' ', m.doseQuantity,' mg') text,ehr.isEHR ,p.id patid from Medication m,Patient p, EHRPHRData ehr where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and careProvisionCode=\"MEDLIST\" and ehr.isEHR=1 order by m.text,m.effectiveTime,m.effectiveTimeHigh ;";
 
 		createInitial=  replaceInto +" ( 'Overview','Name','--','Text','Name of the patient','CIED / EHR / PHR','','','fixed value','','','','can be filled out during implant (ASCII) or FU','0',1,'Overview','','','','','Andreas Schmidt','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','ID','--','Numeric','Hospitals ID number','EHR','','','fixed value','F8.0','Depends on each institution, but usually it has >3 digits and <9','','is caluclated from birthdate and used for statistsics','0','2','Overview','','','','','','19000101120000','21000101120000'); "
@@ -1137,6 +1145,7 @@ public class PPMDataset {
 				+replaceInto +" ( 'PatInfo','Lab results','--','Numeric','Table showing the patient s laboratory results','EHR','','','latest value','','','Link to the patients last lab results','','0','141','Patient Objective Data','','','','','0','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'PatInfo','Problems','--','List','symptom recorded by the patient','PHR','','','','text ','','','','0','119','Patient relevant information ','Problems','Problems','','','shortness of breath','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'PatInfo','Procedures','--','List','symptom recorded by the patient','PHR','','','','text ','','','','0','118','Patient relevant information ','Procedures','Procedures','','','shortness of breath','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','Patient comments','--','List','any other comment that the patient wants to resgister (like his diary)','PHR','','','Dates of episodes of vt','','','','','0','130','Patient relevant information ','Patient comments','PatComment','','','none','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'ProPara','Pacing mode','--','Categoric','DDD / DDDR / VVI / VVIR / AAI / AAIR / VDD','CIED','730752^MDC_IDC_SET_BRADY_MODE^MDC','','latest value','Nominal','','','','0','143','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'ProPara','Lower rate limit','--','Numeric','Lower rate limit','CIED','180401^ICARDEA_IDC_SET_RATE_LIMIT_LOWER^ICARDEA','','latest value','F2.0','LRL < ULR; LRL >35','','','0','144','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'ProPara','Upper rate limit','--','Numeric','Upper rate limit','CIED','180402^ICARDEA_IDC_SET_RATE_LIMIT_UPPER^ICARDEA','','latest value','F3.0','LRL < ULR; URL >95','','','0','145','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
