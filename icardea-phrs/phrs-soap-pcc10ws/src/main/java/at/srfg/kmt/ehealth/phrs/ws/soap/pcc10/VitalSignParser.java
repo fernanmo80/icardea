@@ -103,15 +103,20 @@ final class VitalSignParser implements Parser<REPCMT004000UV01PertinentInformati
         boolean valid=false;
 
         for (II instanceId : templateIds) {
-            final String extension = instanceId.getExtension();
-            //match this one
-            if (Constants.VITAL_SIGNS_OBSERVATIONS.equals(extension)) {
+            String extension = instanceId.getExtension();
+            if(extension != null)  extension=extension.trim();
+            //match this one using contains, not equal. There can be added extensions or even an ending period
+            if (Constants.VITAL_SIGNS_OBSERVATIONS.contains(extension)) {
+
                 valid=true;
             }
+            LOGGER.warn("found extension {}",extension);
         }
+        //       1.3.6.1.4.1.19376.1.5.3.1.4.13.2
+        // found 1.3.6.1.4.1.19376.1.5.3.1.4.13.2
 
         if( ! valid)  {
-            LOGGER.warn("The template id extensions is not for a vital sign for {}.", Constants.VITAL_SIGNS_OBSERVATIONS);
+            LOGGER.warn("The template id extensions is not for a vital sign for {} ", Constants.VITAL_SIGNS_OBSERVATIONS);
             return false;
         } else {
             LOGGER.warn("PCC-10 Vital Sign received");
