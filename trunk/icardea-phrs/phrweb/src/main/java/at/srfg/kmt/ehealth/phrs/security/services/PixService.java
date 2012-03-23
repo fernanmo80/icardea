@@ -39,8 +39,7 @@ public class PixService implements Serializable {
 
     private final static Logger LOGGER = LoggerFactory.getLogger(PixService.class);
     public final static String TEST_CIED = "model:Maximo/serial:PZC123456S";
-    // public final static String IDENTIFIER_TYPE_PROTOCOL_ID = "PROTOCOL";
-    // public final static String IDENTIFIER_TYPE_CIED = "CIED";
+
     public static final String ICARDEA_PIX_CIED_FULL_NAMESPACE = "CIED&bbe3a050-079a-11e0-81e0-0800200c9a66&UUID";
     public static final String ICARDEA_PIX_PID_FULL_NAMESPACE = "icardea.pix&1.2.826.0.1.3680043.2.44.248240.1&ISO";
     //not needed?
@@ -48,14 +47,9 @@ public class PixService implements Serializable {
     public final static String IDENTIFIER_NAMESPACE_PHR_ID = "PHR";
     public final static String ICARDEA_PIX_OID = "1.2.826.0.1.3680043.2.44.248240.1";
     public final static String IDENTIFIER_NAMESPACE_UNIVERSAL_ICARDEA = ICARDEA_PIX_OID;
-    // String endPoint = "localhost:8080";
-    // Striport = 2575;ng host = "localhost";
-    // int
+
     public final static String APPLICATION_NAME = "PHR"; // config.ini
-    // namespace=PHR
-    // testclient^icardea
-    // private static PatientIndex pid = null;
-    // private static ConnectionHub connectionHub = null;
+
     private ConfigurationService config;
     private AuditAtnaService aas;
     private String domainDefault = IDENTIFIER_NAMESPACE_PROTOCOL_ID_ICARDEA;
@@ -74,12 +68,6 @@ public class PixService implements Serializable {
 
     }
 
-//    public PixService(int sslConfigSetting) {
-//        this.sslConfigSetting = sslConfigSetting;
-//        //initSSl();
-//        init();
-//
-//    }
 
     public String getPatientProtocolIdByCIED(String cied) {
         String pid = null;
@@ -291,6 +279,22 @@ public class PixService implements Serializable {
 
                 System.setProperty("javax.net.ssl.trustStorePassword", passTrust);
 
+
+                // trust all certificates (problem using IP address and certificates from another machine)
+                //	   javax.net.ssl.HostnameVerifier myHv = new javax.net.ssl.HostnameVerifier(){
+                //	   	public boolean verify(String hostName,javax.net.ssl.SSLSession session){
+                //	   		return true;
+                //	   	}
+                //	   }
+                //	   javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(myHv);
+
+                // or this...
+                //	com.sun.net.ssl.HostnameVerifier myHv = new com.sun.net.ssl.HostnameVerifier() {
+                //		public boolean verify(String hostName, String a) {
+                //			return true;
+                //		}
+                //	};
+
                 SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
                 //SSLSocket sslsocket = (SSLSocket) sslsocketfactory.createSocket(Config.GetSetting("PIX_ip"), Integer.parseInt(Config.GetSetting("PIX_port")));
 
@@ -339,10 +343,6 @@ public class PixService implements Serializable {
         return aas;
     }
 
-//    protected void initSSl() {
-//
-//        SSLLocalClient.sslSetup(sslConfigSetting);
-//    }
 
     private void init() {
         // parse endpoint into host and port
@@ -704,175 +704,7 @@ public class PixService implements Serializable {
     public void setUseMessageDispatcher(boolean useMessageDispatcher) {
         this.useMessageDispatcher = useMessageDispatcher;
     }
-
-    public String updateProtocolIdFromUserProvidedCiedId(final String ownerUri, final String pixQueryIdUser, String pixQueryIdType) {
-        return updateProtocolIdFromUserProvidedId(ownerUri, pixQueryIdUser, pixQueryIdType);
-    }
-
-    /**
-     * @param ownerUri
-     * @param pixQueryIdUser
-     * @param idType
-     */
-    public String updateProtocolIdFromUserProvidedId(final String ownerUri, final String pixQueryIdUser, final String pixQueryIdType) {
-
-        //if (!useMessageDispatcher) {
-        return updateIdentifierFromUser(ownerUri, pixQueryIdUser, pixQueryIdType);
-
-//        } else {
-//            final Dispatcher dispatcher = SingleDistpatcher.getDispatcher();
-//
-//            final Runnable task = new Runnable() {
-//
-//                @Override
-//                public void run() {
-//                    String pid = updateIdentifierFromUser(ownerUri, pixQueryIdUser, pixQueryIdType);
-//                }
-//            };
-//
-//            dispatcher.dispatch(task);
-//        }
-    }
-
-    /**
-     * @param ownerUri
-     * @param pixQueryIdUser
-     * @return pixProtocolId
-     */
-    public String updateIdentifierFromUser(final String ownerUri, final String pixQueryIdUser, final String pixQueryIdType) {
-        return this.updateIdentifierFromUser(ownerUri, pixQueryIdUser, pixQueryIdType, false);
-    }
-
-    /**
-     * @param ownerUri
-     * @param pixQueryIdUser "cied" pixQueryIdType -->Serial number or "pid"
-     *                       pixQueryIdType --> protocolId
-     * @param pixQueryIdType cied or pid
-     * @param requeryPix     requery even if there is a current PIX protocol ID
-     * @return The protocolId if successful. Either from PIX or a test
-     *         protocolId enter via the UI
-     */
-    public String updateIdentifierFromUser(final String ownerUri, final String pixQueryIdUser, final String pixQueryIdType, boolean requeryPix) {
-
-        String theProtocolId = null;
-        LOGGER.debug("updateIdentifierFromUser Start  ");
-
-
-        if (ownerUri != null && pixQueryIdUser != null && !pixQueryIdUser.isEmpty() && pixQueryIdType != null && !pixQueryIdType.isEmpty()) {
-
-            LOGGER.debug("updateIdentifierFromUser from pixQueryIdUser to protocolId for  ownerUri=" + ownerUri
-                    + " pixQueryIdType" + pixQueryIdType + " pixQueryIdUser=" + pixQueryIdUser);
-
-            CommonDao commonDao = PhrsStoreClient.getInstance().getCommonDao();
-
-            PhrFederatedUser pfu = commonDao.getPhrUser(ownerUri);
-            if (pfu == null) {
-                LOGGER.debug("updateIdentifiers PhrFederatedUser not found for ownerUri=" + ownerUri);
-            }
-
-            //null, unless the UI pixQueryIdType  is "pid", not "cied"
-
-            if (pfu != null) {
-                boolean changedInput = false;//should requery
-                //compare just serial number
-                if (!pixQueryIdUser.equals(pfu.getPixQueryIdUser())) {
-
-                    pfu.setPixQueryIdUser(pixQueryIdUser);
-                    changedInput = true;
-                }
-                if (!pixQueryIdType.equals(pfu.getPixQueryIdType())) {
-
-                    pfu.setPixQueryIdType(pixQueryIdType);
-                    changedInput = true;
-                }
-
-                //What kind of id?
-                String type = pixQueryIdType;
-                type = type.trim();
-                //provided a PID prototocol ID?
-                if (type.startsWith(PIX_QUERY_TYPE_PREFIX_PID)) {
-                    //null, unless the UI pixQueryIdType  is "pid", not "cied"
-
-                    pfu.setProtocolIdUser(pixQueryIdUser);
-                    theProtocolId = pixQueryIdUser;
-                    //String protocolIdUser = pixQueryIdUser;
-                    LOGGER.debug("updateIdentifiers LOCAL PID for  protocolIdUser ownerUri=" + ownerUri
-                            + " info.getProtocolIdUser() = theProtocolId= " + theProtocolId + " info.getPixQueryIdUser()=" + pixQueryIdUser);
-                    //deprecated commonDao.registerProtocolId(ownerUri, protocolIdUser, null);
-                    //tries to get the Pix version despite what the this UI did....??
-                    //theProtocolId = pfu.getProtocolId(); //protocolIdUser;
-                    commonDao.crudSaveResource(pfu, pfu.getOwnerUri(), pfu.getCreatorUri());
-
-                } else {
-
-
-                    boolean okPixQuery = false;
-
-                    //Query? if exists, requery only if indicated (requeryPix) or if critical inputs changed type or serial number
-                    if (pfu.getProtocolIdPix() != null && !pfu.getProtocolIdPix().isEmpty()) {
-                        //exists                     
-                        if (requeryPix || changedInput) {
-                            okPixQuery = true;
-                        }
-                    } else {
-                        okPixQuery = true;
-                    }
-
-                    if (!okPixQuery) {
-                        LOGGER.debug("updateIdentifiers No PIX query performed - no change in input type or number AND PID protocolPIX exists "
-                                + " protocolIdPIX= " + pfu.getProtocolIdPix()
-                                + " ownerUri= " + ownerUri
-                                + " pixQueryIdType= " + pixQueryIdType
-                                + " type= " + type);
-                    } else {
-
-
-                        //if (type.startsWith("cied:")) {
-                        //    type = type.replaceFirst("cied:", type);
-                        //}
-
-                        //CIED type contains model info, but remove cied part
-                        //String pixQueryString = PixService.makePixIdentifier(pixQueryIdType, pixQueryIdUser);
-
-                        //LOGGER.debug("updateIdentifiers CIED for  protocolIdUser ownerUri=" + ownerUri
-                        //        + " pixQueryIdType= " + pixQueryIdType
-                        //        + " type= " + type + " pixQueryString= " + pixQueryString);
-
-                        try {
-
-                            String pixProtocolId = performPixQuery(pixQueryIdType,pixQueryIdUser);
-                            //getPatientProtocolIdByCIED(pixQueryString);
-
-                            if (pixProtocolId != null && !pixProtocolId.isEmpty()) {
-                                pfu.setProtocolIdPix(pixProtocolId);
-
-                                LOGGER.debug("updateIdentifiers: write user based protocol ID, a pix Protocol Id was found for =" + ownerUri
-                                        + " info.pixProtocolId()= " + pixProtocolId + " info.getPixQueryIdUser()=" + pixQueryIdUser);
-
-                                //deprecated commonDao.registerProtocolId(ownerUri, pixProtocolId, null);//do first, if error we do not write pfu
-                                theProtocolId = pixProtocolId;
-                                //save only if found....
-                                commonDao.crudSaveResource(pfu, pfu.getOwnerUri(), pfu.getCreatorUri());
-                            }
-
-
-                        } catch (Exception e) {
-                            LOGGER.error("Pix exception ", e);
-                        }
-                    }
-
-                }
-                //saving at least the input form data, even if okPixQuery=false or PID type
-                //commonDao.crudSaveResource(pfu, pfu.getOwnerUri(), pfu.getCreatorUri());
-
-            }
-
-
-        }
-
-        return theProtocolId;
-    }
-
+ 
     /**
      * Assemble an identifier derived from the UI and model
      *
