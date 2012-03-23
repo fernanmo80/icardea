@@ -65,7 +65,7 @@ public class ConsentManagerImplServiceTest {
 			String sunSSLProtocol = "com.sun.net.ssl.internal.www.protocol";
 			String sslStoreProp = "javax.net.ssl.trustStore";
 			String certPath = ResourceBundle.getBundle("icardea").getString("icardea.home") + "/icardea-caremanager-ws/src/test/resources/jssecacerts";
-
+			System.out.println(" $$$$ Path to cert: "+certPath);
 			// Enable SSL communication
 			System.setProperty(protocolProp, sunSSLProtocol);
 			Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
