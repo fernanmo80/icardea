@@ -1,5 +1,6 @@
 package tr.com.srdc.icardea.consenteditor.webservice.client;
 
+import java.io.File;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.security.Security;
@@ -65,7 +66,13 @@ public class ConsentManagerImplServiceTest {
 			String sunSSLProtocol = "com.sun.net.ssl.internal.www.protocol";
 			String sslStoreProp = "javax.net.ssl.trustStore";
 			String certPath = ResourceBundle.getBundle("icardea").getString("icardea.home") + "/icardea-caremanager-ws/src/test/resources/jssecacerts";
-			System.out.println(" $$$$ Path to cert: "+certPath);
+			File f=new File(certPath);
+			if (f.exists()){
+				System.out.println(" $$$$ Path to cert: "+certPath);
+			}else{
+				System.out.println(" $$$$ !!!!! Missing Path to cert: "+certPath);
+			}
+			
 			// Enable SSL communication
 			System.setProperty(protocolProp, sunSSLProtocol);
 			Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
