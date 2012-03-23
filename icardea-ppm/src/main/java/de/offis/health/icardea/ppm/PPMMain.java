@@ -168,12 +168,14 @@ public class PPMMain extends ViewPart {
 
 						if (ppmDataset.testConsent){
 							if ( allRows[i].getSubContentName().length()>1){
-								if (allRows[i].getSubContentName().equalsIgnoreCase("Lab results") | allRows[i].getSubContentName().equalsIgnoreCase("Labresult")){
-									logger.debug("Consent Testing for testresult");
-									isAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(ppmDataset.getiCardeaID(), ppmDataset.getRole(), "testresult");
-									
+								if (allRows[i].isHasSubcontent()){
+									if (allRows[i].getSubContentName().equalsIgnoreCase("Lab results") | allRows[i].getSubContentName().equalsIgnoreCase("Labresult")){
+										logger.debug("Consent Testing for testresult");
+										isAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(ppmDataset.getiCardeaID(), ppmDataset.getRole(), "testresult");
+
+									}
 								}
-															
+
 							}
 						}
 
@@ -217,7 +219,7 @@ public class PPMMain extends ViewPart {
 											in=subrows_tmp.substring(0,2);
 											logger.debug("Value was: "+in);	
 											int val=0;
-											
+
 											try{
 												if (!in.equals("--")){
 													val=Integer.parseInt(in);
@@ -226,12 +228,12 @@ public class PPMMain extends ViewPart {
 												;//nothing to to
 												logger.error("Checked weight! Value was: "+in);
 											}
-											
+
 											{
 												ResultSet rs;
-											//		ResultSet rs2;
+												//		ResultSet rs2;
 
-									
+
 												try {
 													rs =ppmDataset.getStmt().executeQuery("SELECT diffvalue sheet FROM icardea.bodyweight_test");
 													if (rs!=null ){
@@ -250,15 +252,15 @@ public class PPMMain extends ViewPart {
 											if (val>3){//HACK or not? weight diff greater 3
 												tableItem.setForeground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
 												tableItem.setBackground(display.getSystemColor(SWT.COLOR_DARK_RED));
-								
+
 											}
 										}
 										if (allRows[i].getSubContentName().equalsIgnoreCase("Medications")){
 											boolean MedAllowed =true;
-//											if (ppmDataset.testConsent){
-//												MedAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(ppmDataset.getiCardeaID(), ppmDataset.getRole(), "Medication");
-//												logger.debug(MedAllowed+" for REQUEST MEDICATION for "+ppmDataset.getiCardeaID()+" for ROLE:"+ppmDataset.getRole());
-//											}
+											//											if (ppmDataset.testConsent){
+											//												MedAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(ppmDataset.getiCardeaID(), ppmDataset.getRole(), "Medication");
+											//												logger.debug(MedAllowed+" for REQUEST MEDICATION for "+ppmDataset.getiCardeaID()+" for ROLE:"+ppmDataset.getRole());
+											//											}
 											if (!MedAllowed){
 												tableItem.setForeground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
 												tableItem.setBackground(display.getSystemColor(SWT.COLOR_DARK_RED));
@@ -280,7 +282,7 @@ public class PPMMain extends ViewPart {
 								Button button = new Button(table, SWT.PUSH);
 								button.setText(allRows[i].getSubContentName());
 								button.setAlignment(SWT.LEFT);
-								
+
 								button.addSelectionListener(
 										new PPMButtonSelectionAdaptor(allRows[i].getSubContentName(),this.mainTabFolder) 
 										);
@@ -288,10 +290,10 @@ public class PPMMain extends ViewPart {
 								button.setSize(new Point(132,20));
 								button.setEnabled(subrows);
 								button.setGrayed(subrows);
-								
-//								logger.debug("Button size x: "+button.getSize().x +"  y: "+button.getSize().y);
-								
-								
+
+								//logger.debug("Button size x: "+button.getSize().x +"  y: "+button.getSize().y);
+
+
 								editor.minimumWidth = button.getSize().x;
 								editor.horizontalAlignment = SWT.LEFT;
 								editor.setEditor(button, tableItem, 2);
@@ -321,7 +323,7 @@ public class PPMMain extends ViewPart {
 				mainTabFolder.setSelection(Integer.parseInt(request.getParameter("tab").toString()));
 				logger.debug("Choose Tab#"+Integer.parseInt(request.getParameter("tab").toString()));
 			}
-			
+
 			//			if(!useTable)	for (int is=0;is<numSheets;is++){
 			//				tbtmTest = new TabItem(mainTabFolder, SWT.NONE);
 			//				tbtmTest.setText(ppmDataset.getSheetStrings()[is]);
