@@ -255,10 +255,10 @@ public class PPMMain extends ViewPart {
 										}
 										if (allRows[i].getSubContentName().equalsIgnoreCase("Medications")){
 											boolean MedAllowed =true;
-											if (ppmDataset.testConsent){
-												MedAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(ppmDataset.getiCardeaID(), ppmDataset.getRole(), "Medication");
-												logger.debug(MedAllowed+" for REQUEST MEDICATION for "+ppmDataset.getiCardeaID()+" for ROLE:"+ppmDataset.getRole());
-											}
+//											if (ppmDataset.testConsent){
+//												MedAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(ppmDataset.getiCardeaID(), ppmDataset.getRole(), "Medication");
+//												logger.debug(MedAllowed+" for REQUEST MEDICATION for "+ppmDataset.getiCardeaID()+" for ROLE:"+ppmDataset.getRole());
+//											}
 											if (!MedAllowed){
 												tableItem.setForeground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
 												tableItem.setBackground(display.getSystemColor(SWT.COLOR_DARK_RED));
