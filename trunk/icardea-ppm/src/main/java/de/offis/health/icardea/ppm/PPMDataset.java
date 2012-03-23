@@ -689,7 +689,10 @@ public class PPMDataset {
 				this.iCardeaID=cPatient.getCitizenshipNumber();
 				boolean isAllowed=true;
 				if (this.isUserOpenIdVerified()){
-					if (testConsent){
+					if (false){
+						//DISABLE consent test for patient list because of slow ConsentManagerImplServiceTest implementation					
+						//if (testConsent){
+
 						isAllowed = ConsentManagerImplServiceTest.getInstance().grantRequest(cPatient.getCitizenshipNumber(), role, "CIEDREPORT");
 					}
 					if (!isAllowed) {
