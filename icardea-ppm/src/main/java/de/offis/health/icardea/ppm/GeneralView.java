@@ -532,7 +532,10 @@ public class GeneralView extends ViewPart {
 			pUserName = pUserName.toLowerCase();
 			pUserName = pUserName.replaceFirst("https", "http");
 		}
-
+		// HACK for ensuring portnumber for FORTH OpenID implementation
+		if((pUserName.toLowerCase().contains("/idp/u="))&& !(pUserName.toLowerCase().contains(":4545"))){
+			pUserName = pUserName.replaceAll("/idp/u=", ":4545/idp/u=");
+		}
 		//FIXME Audit logging here
 		//1. Perform discover on the user suplieed identifier
 		// Done be RegistationService
