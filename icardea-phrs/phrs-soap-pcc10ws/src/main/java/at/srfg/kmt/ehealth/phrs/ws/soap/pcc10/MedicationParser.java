@@ -150,22 +150,23 @@ final class MedicationParser implements Parser<REPCMT004000UV01PertinentInformat
             return Constants.STATUS_ACTIVE;
         }
         //This appears in pcc 10
-        final String code = statusCode.getCode();
-        if(code !=null) {
-            return code;
+        String code = statusCode.getCode();
+        if(code != null && !code.isEmpty()) {
+            //
+        } else {
+            code = statusCode.getDisplayName();
         }
-        //
-        final String displayName = statusCode.getDisplayName();
-        if(displayName == null ) {
+
+        if(code == null ) {
             LOGGER.error("statusCode.getDisplayName()  null, return STATUS_ACTIVE");
             return Constants.STATUS_ACTIVE;
         }
 
-        if ("complete".equalsIgnoreCase(displayName)) {
+        if ("complete".equalsIgnoreCase(code)) {
             return Constants.STATUS_COMPELETE;
         }
 
-        if ("active".equalsIgnoreCase(displayName)) {
+        if ("active".equalsIgnoreCase(code)) {
             return Constants.STATUS_ACTIVE;
         }
 

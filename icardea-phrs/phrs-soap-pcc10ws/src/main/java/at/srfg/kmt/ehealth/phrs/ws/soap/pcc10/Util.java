@@ -395,18 +395,20 @@ final class Util {
             LOGGER.error("statusCode element null, return completed");
             return Constants.STATUS_COMPELETE;
         }
-        //This should normally be there
-        final String code = statusCode.getCode();
-        if(code != null) {
-            return code;
+        //This appears in pcc 10
+        String code = statusCode.getCode();
+
+        if(code != null && !code.isEmpty()) {
+            //
+        } else {
+            code = statusCode.getDisplayName();
         }
 
-        final String displayName = statusCode.getDisplayName();
-        if ("Complete".equalsIgnoreCase(displayName)) {
+        if ("Complete".equalsIgnoreCase(code)) {
             return Constants.STATUS_COMPELETE;
         }
 
-        if ("active".equalsIgnoreCase(displayName)) {
+        if ("active".equalsIgnoreCase(code)) {
             return Constants.STATUS_ACTIVE;
         }
 
