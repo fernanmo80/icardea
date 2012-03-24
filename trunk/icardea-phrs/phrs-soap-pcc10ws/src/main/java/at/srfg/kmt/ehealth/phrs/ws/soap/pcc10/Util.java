@@ -395,6 +395,11 @@ final class Util {
             LOGGER.error("statusCode element null, return completed");
             return Constants.STATUS_COMPELETE;
         }
+        //This should normally be there
+        final String code = statusCode.getCode();
+        if(code != null) {
+            return code;
+        }
 
         final String displayName = statusCode.getDisplayName();
         if ("Complete".equalsIgnoreCase(displayName)) {
