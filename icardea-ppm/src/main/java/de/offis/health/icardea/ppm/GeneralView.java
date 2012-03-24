@@ -299,15 +299,26 @@ public class GeneralView extends ViewPart {
 
 									if(isSalkUsage){
 										String salkServer = properties.getString("salk.server");
-
+										salkServer = salkServer.toLowerCase();
 										//HACK
 										if(salkServer.toLowerCase().startsWith("https")){
-											logger.debug("Salk Server should be secure, using normal");
-											salkServer = salkServer.toLowerCase();
-											salkServer = salkServer.replaceFirst("https", "http");
+											logger.debug("Salk OpenID Server should be secure, No Portnumber allowed "+ salkServer);
+											salkServer = salkServer.replaceFirst(":4545", "");
+											logger.debug("HTTPS Port removed: "+salkServer);
+											username=salkServer+"/idp/u="+username;
+										}
+										else if(salkServer.toLowerCase().startsWith("http"))
+										{
+											
+											username=salkServer+":4545/idp/u="+username; //only valid for SALK server
+											logger.debug("Salk Server should be non secured. Portnumber added "+ username);
+										}
+										else{
+											username=salkServer+":4545/idp/u="+username; //only valid for SALK server
+											logger.debug("No Information about OpenID Server trying "+username);
 										}
 
-										username=salkServer+":4545/idp/u="+username; //only valid for SALK server
+										
 									}
 									else{//(isSalkUsage) NoSalkUsage Local Testing assumed
 										//username has to be real OpenID Name like 	abcde.myopenid.com									
@@ -526,16 +537,22 @@ public class GeneralView extends ViewPart {
 		boolean returnSucess = false;
 
 		logger.debug("doLogin for: "+pUserName);
+		pUserName=pUserName.trim();
+		pUserName = pUserName.toLowerCase();
 		//HACK
-		if(pUserName.toLowerCase().startsWith("https")){
-			logger.debug("https usernames not supported");
-			pUserName = pUserName.toLowerCase();
-			pUserName = pUserName.replaceFirst("https", "http");
+		if((pUserName.toLowerCase().startsWith("https"))&&((pUserName.toLowerCase().contains(":4545")))){
+			pUserName = pUserName.replaceFirst(":4545", "");
+			logger.debug("Https OpenID was called with port. Removed port:  "+pUserName );
 		}
 		// HACK for ensuring portnumber for FORTH OpenID implementation
-		if((pUserName.toLowerCase().contains("/idp/u="))&& !(pUserName.toLowerCase().contains(":4545"))){
-			pUserName = pUserName.replaceAll("/idp/u=", ":4545/idp/u=");
+		if(    !(pUserName.toLowerCase().startsWith("https"))
+				&&(pUserName.toLowerCase().startsWith("http"))
+				&& !(pUserName.toLowerCase().contains(":4545"))){
+			pUserName = pUserName.replaceFirst("/idp/u=", ":4545/idp/u=");
+			logger.debug("Http OpenID was called without port. Added port 4545 : "+pUserName);
 		}
+		
+		
 		//FIXME Audit logging here
 		//1. Perform discover on the user suplieed identifier
 		// Done be RegistationService
