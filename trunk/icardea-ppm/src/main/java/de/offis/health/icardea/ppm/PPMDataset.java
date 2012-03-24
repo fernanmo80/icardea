@@ -674,6 +674,7 @@ public class PPMDataset {
 	}
 	public void fillPatientList(){
 		ResultSet rs;
+		boolean birthdatecheck=false;
 		patientList = new ArrayList();
 		try {
 			rs = getStmt().executeQuery("SELECT  ID,givenName, familyName,dateTimeOfBirth,patientIdentifier, citizenshipNumber FROM patient");
@@ -688,8 +689,10 @@ public class PPMDataset {
 				cPatient.setCitizenshipNumber(rs.getString(6));
 				this.iCardeaID=cPatient.getCitizenshipNumber();
 				if (this.iCardeaID.equalsIgnoreCase("191")){
-					cPatient.setDateOfBirth("19710310");
-//					if (	cPatient.getDateOfBirth().)
+					if (cPatient.getDateOfBirth()==null || cPatient.getDateOfBirth().trim().length()<7){
+						cPatient.setDateOfBirth("19710310");
+						birthdatecheck=true;
+					}
 				}
 				boolean isAllowed=true;
 				if (this.isUserOpenIdVerified()){
@@ -709,6 +712,14 @@ public class PPMDataset {
 						patientList.add(cPatient);
 						logger.info("FillList:"+cPatient);
 					}
+				}
+			}
+			if (birthdatecheck){
+				try {
+					logger.debug("Check Birtdate !!");
+					getStmt().execute("Update patient set dateTimeOfBirth=\"19710310\" where  citizenshipNumber=\"191\" ");
+				}catch (Exception e){
+					e.printStackTrace();
 				}
 			}
 			rs.close();
@@ -897,6 +908,12 @@ public class PPMDataset {
 		if (rs.next()){
 			setDataItem(patid,"Name",rs.getString("familyName")+","+rs.getString("givenName"));
 			setDataItem(patid,"Date of birth",convTimeToPoint(rs.getString("dateTimeOfBirth")));
+			//			if (rs.getString("citizenshipNumber").equalsIgnoreCase("191")){
+			//				if (rs.getString("dateTimeOfBirth").length()<7)
+			//				{
+			//					setDataItem(patid,"Date of birth","10.03.1971");
+			//				}
+			//			}
 		}
 		rs = createStmt().executeQuery("SELECT  * FROM history where patid= "+patid +" and problemValue in "+
 				"('C0085298','C0242698') "+
@@ -1027,7 +1044,7 @@ public class PPMDataset {
 				+" create  OR REPLACE view icardea.fullmedications as select  m.doseQuantity val, m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh,concat(m.text ,' ', m.doseQuantity,' mg',IF(ehr.isEHR=0,' (from PHR)',' (from EHR)')) text,ehr.isEHR ,p.id patid from Medication m,Patient p, EHRPHRData ehr where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and careProvisionCode=\"MEDLIST\" order by m.effectiveTime,m.effectiveTimeHigh,m.text ;"
 				+" create  OR REPLACE view icardea.medicationsPHR as select  m.doseQuantity val, m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh,concat(m.text ,' ', m.doseQuantity,' mg') text,ehr.isEHR ,p.id patid from Medication m,Patient p, EHRPHRData ehr where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and careProvisionCode=\"MEDLIST\" and ehr.isEHR=0 order by m.text,m.effectiveTime,m.effectiveTimeHigh ;"
 				+" create  OR REPLACE view icardea.prescriptions as select  m.doseQuantity val, m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh,concat(m.text ,' ', m.doseQuantity,' mg') text,ehr.isEHR ,p.id patid from Medication m,Patient p, EHRPHRData ehr where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and careProvisionCode=\"MEDLIST\" and ehr.isEHR=1 order by m.text,m.effectiveTime,m.effectiveTimeHigh ;";
-		
+
 		createInitial=  replaceInto +" ( 'Overview','Name','--','Text','Name of the patient','CIED / EHR / PHR','','','fixed value','','','','can be filled out during implant (ASCII) or FU','0',1,'Overview','','','','','Andreas Schmidt','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','ID','--','Numeric','Hospitals ID number','EHR','','','fixed value','F8.0','Depends on each institution, but usually it has >3 digits and <9','','is caluclated from birthdate and used for statistsics','0','2','Overview','','','','','','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','Age','--','Numeric','Age of the patient at the time of interrogation','EHR','','','','F3.0','>2 and <110','Calculated item: date of interrogation - date of birth','no constraint in SJM devices','0','3','Overview','','','','','57','19000101120000','21000101120000'); "
