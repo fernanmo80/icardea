@@ -461,6 +461,7 @@ public class ConsentMgrServiceTest {
         }
 
     }
+    @Test
     public void testConsentGuiLink(){
         PortalReferences portalReferences = new PortalReferences();
         String baseEndpoint=ConfigurationService.getInstance().getConsentUIEndpoint();
@@ -472,7 +473,7 @@ public class ConsentMgrServiceTest {
         String ref_2= portalReferences.getConsentUI(baseEndpoint,"123");
 
         System.out.println("portal ref 2 = "+ref_2);
-        assertEquals(baseEndpoint+"?protocolId=123",ref_2);
+        assertEquals(baseEndpoint+"?protocolid=123",ref_2);
         
 
     }
