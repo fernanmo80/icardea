@@ -40,6 +40,7 @@ if "%COMPUTERNAME%" == "SRDC-ICARDEA" (
 
 rem set CATALINA_OPTS=-Xms256m -Xmx512m -XX:PermSize=256m -XX:MaxPermSize=1024m
 set CATALINA_HOME=%PHRS_TOMCAT%
+set PHRS_HOME=%PROJECT_ROOT%\icardea-phrs
 
 set PCC09WS_HOME=%PROJECT_ROOT%\icardea-phrs\phrs-soap-pcc09ws
 set TRIPLESTORE_SRC=%PROJECT_ROOT%\icardea-phrs\phrs-dataexchange-client\src\main\resources\%TRIPLESTORE_SRC%
@@ -68,7 +69,6 @@ del "%PROJECT_ROOT%\bin\log_phr_libs.txt"
 del "%PROJECT_ROOT%\bin\log_phr_root.txt"
 
 call mvn clean -f "%PHRS_HOME%\pom.xml" -Dtomcat.home="%PHRS_TOMCAT%" -Dicardea.home="%PROJECT_ROOT%" -Daduna.parentdir="%APPDATA%" -DcleanTomcatWebapps=true -DremoveSesameAduna=false -DremoveSesame=true -DcleanLogs=true
-
 
 title copying triplestore configuration
 copy /Y "%TRIPLESTORE_SRC%" "%TRIPLESTORE_DST%"
@@ -118,7 +118,7 @@ title phr-system-INSTALL FINISHED
 echo PROJECT_ROOT was %PROJECT_ROOT%
 echo PHRS_TOMCAT was %PHRS_TOMCAT%
 echo CATALINA_HOME was %CATALINA_HOME%
-echo continue with phr-system-STARTUP.bat
+echo continue with startup
 
 
 cd %mypwd%
