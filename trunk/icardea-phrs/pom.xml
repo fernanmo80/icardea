@@ -183,12 +183,6 @@
 									<delete dir="${tomcat.home}/work/openrdf-sesame"/>
 									<delete dir="${tomcat.home}/work/openrdf-workbench"/>
 									<delete file="${tomcat.home}/conf/Catalina/localhost/phrweb.xml"/>
-									<delete file="${tomcat.home}/bin/log_phr_app.txt"/>
-									<delete file="${tomcat.home}/bin/log_phr_root.txt"/>
-									<delete file="${tomcat.home}/bin/log_phr_libs.txt"/>
-									<delete file="${icardea.home}/bin/log_phr_app.txt"/>
-									<delete file="${icardea.home}/bin/log_phr_root.txt"/>
-									<delete file="${icardea.home}/bin/log_phr_libs.txt"/>
 								</tasks>
 							</configuration>
 							<goals>
@@ -200,6 +194,41 @@
 			</plugins>
 		</build>
 	</profile>
+        <profile>
+            <id>Remove logs</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+                <property>
+                    <name>cleanLogs</name>
+                    <value>true</value>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>clean</phase>
+                                <configuration>
+                                    <tasks>
+                                        <delete file="${tomcat.home}/bin/log_phr_app.txt"/>
+                                        <delete file="${tomcat.home}/bin/log_phr_root.txt"/>
+                                        <delete file="${tomcat.home}/bin/log_phr_libs.txt"/>
+                                        <delete file="${icardea.home}/bin/log_phr_app.txt"/>
+                                        <delete file="${icardea.home}/bin/log_phr_root.txt"/>
+                                        <delete file="${icardea.home}/bin/log_phr_libs.txt"/>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
 </profiles>
     
     <dependencies>
