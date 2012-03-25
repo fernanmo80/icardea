@@ -59,13 +59,13 @@ rmdir /S /Q "%PHRS_TOMCAT%\work\Catalina\localhost\phrweb\"
 rmdir /S /Q "%PHRS_TOMCAT%\work\Catalina\localhost\openrdf-sesame\"
 rmdir /S /Q "%PHRS_TOMCAT%\work\Catalina\localhost\openrdf-workbench\"
 
-del "%PHRS_TOMCAT%\bin\log_phr_app.txt"
-del "%PHRS_TOMCAT%\bin\log_phr_libs.txt"
-del "%PHRS_TOMCAT%\bin\log_phr_root.txt"
+rem del "%PHRS_TOMCAT%\bin\log_phr_app.txt"
+rem del "%PHRS_TOMCAT%\bin\log_phr_libs.txt"
+rem del "%PHRS_TOMCAT%\bin\log_phr_root.txt"
 
-del "%PROJECT_ROOT%\bin\log_phr_app.txt"
-del "%PROJECT_ROOT%\bin\log_phr_libs.txt"
-del "%PROJECT_ROOT%\bin\log_phr_root.txt"
+rem del "%PROJECT_ROOT%\bin\log_phr_app.txt"
+rem del "%PROJECT_ROOT%\bin\log_phr_libs.txt"
+rem del "%PROJECT_ROOT%\bin\log_phr_root.txt"
 
 rem Mongo cleanup
 rem http://www.w3resource.com/mongodb/mongodb-remove-collection.php
@@ -77,9 +77,9 @@ echo  **** Mongo cleanup of phrdata1 completed
 
 title Doing mvn clean with complete removal of files
 rem this will fail if tomcat is running.... we experienced that tomcat window does not close, tomcat stopped, but still prevents access
-call mvn clean -f "%PHRS_HOME%\pom.xml" -Dtomcat.home="%PHRS_TOMCAT%" -Dicardea.home="%PROJECT_ROOT%" -Daduna.parentdir="%APPDATA%" -DcleanTomcatWebapps=false -DremoveSesameAduna=true -DremoveSesame=false
+call mvn clean -f "%PHRS_HOME%\pom.xml" -Dtomcat.home="%PHRS_TOMCAT%" -Dicardea.home="%PROJECT_ROOT%" -Daduna.parentdir="%APPDATA%" -DcleanTomcatWebapps=false -DremoveSesameAduna=true -DremoveSesame=false -DcleanLogs=false
 
 
 cd %mypwd%
-title phr-system-CLEANALL FINISHED, continue with phr-system-INSTALL.bat
+title phr-system-CLEANALL FINISHED, continue with INSTALL OR START (phr-system-INSTALL.bat or phr-system-start.bat)
 pause

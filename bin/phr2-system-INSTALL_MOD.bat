@@ -67,7 +67,7 @@ del "%PROJECT_ROOT%\bin\log_phr_app.txt"
 del "%PROJECT_ROOT%\bin\log_phr_libs.txt"
 del "%PROJECT_ROOT%\bin\log_phr_root.txt"
 
-call mvn clean -f "%PHRS_HOME%\pom.xml" -Dtomcat.home="%PHRS_TOMCAT%" -Dicardea.home="%PROJECT_ROOT%" -Daduna.parentdir="%APPDATA%" -DcleanTomcatWebapps=true -DremoveSesameAduna=false -DremoveSesame=true
+call mvn clean -f "%PHRS_HOME%\pom.xml" -Dtomcat.home="%PHRS_TOMCAT%" -Dicardea.home="%PROJECT_ROOT%" -Daduna.parentdir="%APPDATA%" -DcleanTomcatWebapps=true -DremoveSesameAduna=false -DremoveSesame=true -DcleanLogs=true
 
 
 title copying triplestore configuration
@@ -92,12 +92,12 @@ rem echo icardea-config installed
 rem echo.
 rem echo.
 
-title currently installing icardea-atnalog-client
-call mvn install:install-file -Dfile="%PCC09WS_HOME%\icardea-atnalog-client-1.0-SNAPSHOT.jar" -DgroupId=tr.com.srdc.icardea -DartifactId=icardea-atnalog-client -Dversion=1.0-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
+rem title currently installing icardea-atnalog-client
+rem call mvn install:install-file -Dfile="%PCC09WS_HOME%\icardea-atnalog-client-1.0-SNAPSHOT.jar" -DgroupId=tr.com.srdc.icardea -DartifactId=icardea-atnalog-client -Dversion=1.0-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
 rem call mvn install -f "%PROJECT_ROOT%\icardea-atnalog-client\pom.xml" -Dmaven.test.skip=true -DgeneratePom=true
-echo Audit icardea-atnalog-client installed from %PCC09WS_HOME%\icardea-atnalog-client-1.0-SNAPSHOT.jar
-echo.
-echo.
+rem echo Audit icardea-atnalog-client installed from %PCC09WS_HOME%\icardea-atnalog-client-1.0-SNAPSHOT.jar
+rem echo.
+rem echo.
 
 title currently installing icardea-phrs
 cd "%PROJECT_ROOT%\icardea-phrs"
