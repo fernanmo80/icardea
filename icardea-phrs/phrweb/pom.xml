@@ -331,8 +331,7 @@ https://issues.apache.org/jira/browse/HTTPCLIENT-1051  4.0, 4.1 ??
         <dependency>
                 <groupId>org.apache.httpcomponents</groupId>
                 <artifactId>httpclient</artifactId>
-                <version>4.1.3</version>
-                
+                <version>4.1.1</version>              
         </dependency>
 
        
