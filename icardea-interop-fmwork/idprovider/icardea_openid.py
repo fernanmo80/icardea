@@ -208,12 +208,14 @@ def do_signup(db):
 @get('/login')
 @view('login.html')
 def login():
-    if user() is not None:
-        redirect('u='+user())
     session = request.environ['beaker.session']
     next = session.get('continue', '')
-    exp_user = session.get('expected_user', '')
-    return {'continue': next, 'expected_user': exp_user}
+    if next != '':
+        exp_user = session.get('expected_user', '')
+        return {'userid': user(), 'continue': next, 'expected_user': exp_user}
+    if user() is not None:
+        redirect('u='+user())
+    return {'userid': user()}
 
 @post('/login')
 def do_login(db):
@@ -334,17 +336,19 @@ def openid_protocol(db):
     if req.mode in ['checkid_immediate', 'checkid_setup']:
         id_url_base = identity_url('')
         expected_user = req.identity[len(id_url_base):].lower()
-        if is_authorized(db, req.trust_root):
+        if is_authorized(db, req.identity, req.trust_root):
             res = approve_id(req.identity, req, user_prof(db, expected_user))
         elif req.immediate:
             res = req.answer(False)
         else:
             session['openid_request'] = req
             session.save()
-            if user() is None:
+            if user() is None or user() != expected_user:
                 from urllib import urlencode
                 session['continue'] = 'openidserver?continue=openid_session'
                 session['expected_user'] = expected_user
+                if user() != expected_user:
+                    flash('errors', "You need to login as '%s' to continue.." % (expected_user,))
                 redirect('login')
             return template('allow.html', 
                     userid=user(),
@@ -366,11 +370,11 @@ def set_user(u):
         session['user']=u
     session.save()
 
-def is_authorized(db, trust_root):
+def is_authorized(db, expected_user, trust_root):
     if user() is None:
         return False
-#    if identity_url != server_base_url + '/id/' + user():
-#        return False
+    if identity_url() != expected_user:
+        return False
     c = db.execute('SELECT * from approvals WHERE uid=? and trust_root=?', 
             (user(), trust_root)).fetchone()
     return c is not None
