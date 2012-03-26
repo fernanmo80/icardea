@@ -1,6 +1,6 @@
 PatientID:191
 GuidelineID:0
-Patient Name:Jane Mayr
+Patient Name:Suzie Mayr
 Urgency:Medium
 <HTML><head/><body><table cellspacing="10" style="background-color:#e1e1e1"><tbody><tr id="PatientBlock" name="PatientBlock"><td style="background-color:#eeeeee"><p align="center"><b>Brief Information about the patient </b></p><p>Patient Name: 
 			<data src="caremanagementdb://Patient/@givenName"/><data src="caremanagementdb://Patient/@secondName"/><data src="caremanagementdb://Patient/@familyName"/><br/>
