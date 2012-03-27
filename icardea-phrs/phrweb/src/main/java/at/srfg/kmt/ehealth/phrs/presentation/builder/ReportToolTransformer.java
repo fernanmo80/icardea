@@ -10,6 +10,7 @@ import at.srfg.kmt.ehealth.phrs.presentation.services.VocabularyEnhancer;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class ReportToolTransformer {
     private ReportTool reportTool;
@@ -39,6 +40,7 @@ public class ReportToolTransformer {
                     
                 } else if(obj instanceof ObsRecord){
                    item= toMonitorPhrItem((ObsRecord) obj);
+               
                 }
 
                 if (item != null){
@@ -68,6 +70,13 @@ public class ReportToolTransformer {
     public boolean hasDuplicateTitle( List<MonitorPhrItem> list,MonitorPhrItem monitorPhrItem){
         if(list != null && monitorPhrItem != null){
             String theLabel = monitorPhrItem.getLabel();
+            //Check label otherwise, show just one type, usually Vital signs
+            if(theLabel != null && ! theLabel.isEmpty()){
+               //
+            } else {
+                 theLabel = monitorPhrItem.getDescriptionLabelCode();
+            }
+            
             if(theLabel != null){
                  for(MonitorPhrItem item:list){
                      String label = item.getLabel();
@@ -75,6 +84,8 @@ public class ReportToolTransformer {
                         return true;
                      }
                  }
+            }else {
+                
             }
         }
         
@@ -154,4 +165,30 @@ public class ReportToolTransformer {
 
         return item;
     }
+//    public String makeDescriptiveLabel(ObsRecord resource){
+//        String label=resource.getLabel();
+//        
+//        if(resource !=null){
+//           if(label != null && !label.isEmpty()){
+//              // 
+//           } else {
+//             
+//             if(resource.getAttrs()!=null){
+//              Map<String,String> attrs= resource.getAttrs();  
+//              StringBuffer sb= new StringBuffer();
+//              for(String prop:attrs.keySet()){
+//                  if(prop!=null){
+//                      String val= attrs.get(prop);
+//                      if(sb.length() > 0){
+//                          sb.append("/");
+//                      }
+//                      if(val != null) sb.append(val);
+//                      
+//                  }
+//                  
+//             }
+//           }
+//        } 
+//        return label;
+//    }
 }
