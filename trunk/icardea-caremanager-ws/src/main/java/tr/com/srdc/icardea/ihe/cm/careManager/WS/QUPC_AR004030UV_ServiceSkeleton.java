@@ -451,6 +451,11 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 				POCDMT000040Act act = pertinentInformation.getAct().getValue();
 				String concernStatusCode = act.getStatusCode().getCode();
 
+				if(act.getEffectiveTime() == null || act.getEffectiveTime().getRest() == null || act.getEffectiveTime().getRest().size() < 1) {
+					System.out.println(" $$$ Problem list seems empty....");
+					continue;
+				}
+
 				String effectiveTimeLow = ((IVXBTS) act.getEffectiveTime().getRest().get(0).getValue()).getValue();
 				String effectiveTimeHigh = ((IVXBTS) act.getEffectiveTime().getRest().get(1).getValue()).getValue();
 
@@ -727,6 +732,12 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 					procedureCode = translateCode(procedureCode, procedureCodeSystem, procedureCodeSystemName);
 					String procedureText = procedure.getText().getContent();
 					String statusCode = procedure.getStatusCode().getCode();
+
+					if(procedure.getEffectiveTime() == null || procedure.getEffectiveTime().getRest() == null || procedure.getEffectiveTime().getRest().size() < 1) {
+						System.out.println(" $$$ Procedure list seems empty....");
+						continue;
+					}
+
 					String effectiveTimeLow = ((IVXBTS) procedure.getEffectiveTime().getRest().get(0).getValue()).getValue();
 					String effectiveTimeHigh = ((IVXBTS) procedure.getEffectiveTime().getRest().get(1).getValue()).getValue();
 
@@ -742,10 +753,10 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 					ehrPhrData.setProcedure(procedureDB);
 
 					Logger.getLogger(QUPC_AR004030UV_ServiceSkeleton.class).log(Level.INFO, careProvisionCode
-						+ " Procedure: procedureCode:" + procedureCode
-						+ " effectiveTimeLow:" + effectiveTimeLow + " effectiveTimeHigh:" + effectiveTimeHigh
-						+ " procedureText:" + procedureText
-						+ " statusCode:" + statusCode);
+							+ " Procedure: procedureCode:" + procedureCode
+							+ " effectiveTimeLow:" + effectiveTimeLow + " effectiveTimeHigh:" + effectiveTimeHigh
+							+ " procedureText:" + procedureText
+							+ " statusCode:" + statusCode);
 				}
 			}
 		}
@@ -789,7 +800,7 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 			ex.printStackTrace();
 		}
 		return ack;
-	}
+		}
 
 	public static byte[] decode(byte[] b) throws Exception {
 		ByteArrayInputStream bais = new ByteArrayInputStream(b);
@@ -840,8 +851,8 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 			codeSystemName = codeSystemName.toUpperCase().replaceAll(" ", "");
 			String umlsCode = tr.com.srdc.icardea.cts.CTSInvoker.getInstance().translateCode(codeSystemName, code, "UMLS");
 			Logger.getLogger(QUPC_AR004030UV_ServiceSkeleton.class).log(Level.INFO, "Converted " + codeSystem
-				+ "-" + codeSystemName + ":[Code]"
-				+ code + " to UMLS:[Code]" + umlsCode);
+					+ "-" + codeSystemName + ":[Code]"
+					+ code + " to UMLS:[Code]" + umlsCode);
 			if (umlsCode == null || umlsCode.trim().equals("")) {
 				return code;
 			}
