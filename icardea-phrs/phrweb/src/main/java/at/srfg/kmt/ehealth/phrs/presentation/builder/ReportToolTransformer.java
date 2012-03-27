@@ -80,6 +80,11 @@ public class ReportToolTransformer {
             if(theLabel != null){
                  for(MonitorPhrItem item:list){
                      String label = item.getLabel();
+                     if(label != null && ! label.isEmpty()){
+                        //
+                     } else {
+                         label = item.getDescriptionLabelCode();
+                     }
                      if(theLabel.equals(label)) {
                         return true;
                      }
