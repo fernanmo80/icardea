@@ -451,7 +451,7 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 				POCDMT000040Act act = pertinentInformation.getAct().getValue();
 				String concernStatusCode = act.getStatusCode().getCode();
 
-				if(act.getEffectiveTime() == null || act.getEffectiveTime().getRest() == null || act.getEffectiveTime().getRest().size() < 1) {
+				if(act.getEffectiveTime() == null || act.getEffectiveTime().getRest() == null || act.getEffectiveTime().getRest().size() < 2) {
 					System.out.println(" $$$ Problem list seems empty....");
 					continue;
 				}
@@ -733,7 +733,7 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 					String procedureText = procedure.getText().getContent();
 					String statusCode = procedure.getStatusCode().getCode();
 
-					if(procedure.getEffectiveTime() == null || procedure.getEffectiveTime().getRest() == null || procedure.getEffectiveTime().getRest().size() < 1) {
+					if(procedure.getEffectiveTime() == null || procedure.getEffectiveTime().getRest() == null || procedure.getEffectiveTime().getRest().size() < 2) {
 						System.out.println(" $$$ Procedure list seems empty....");
 						continue;
 					}
