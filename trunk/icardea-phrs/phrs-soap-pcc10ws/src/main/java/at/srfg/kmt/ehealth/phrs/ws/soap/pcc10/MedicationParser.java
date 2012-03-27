@@ -159,15 +159,16 @@ final class MedicationParser implements Parser<REPCMT004000UV01PertinentInformat
                     dosageUnit,
                     drugName,
                     drugCode);
+            // show on console
+            System.out.println("PCC-10 Medication stored");
+            LOGGER.debug("PCC-10 Medication stored");
 
         } catch (Exception exception) {
             final ParserException parserException = new ParserException(exception);
             LOGGER.error(parserException.getMessage(), parserException);
             throw parserException;
         }
-        //warn shows on console
-        LOGGER.warn("PCC-10 Medication stored");
-        LOGGER.debug("PCC-10 Medication stored");
+
     }
 
     private String getStatusURI(CS statusCode) {

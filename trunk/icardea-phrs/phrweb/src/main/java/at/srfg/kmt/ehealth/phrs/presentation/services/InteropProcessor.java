@@ -888,7 +888,7 @@ public class InteropProcessor {
             effectiveDateStr = DynaUtil.getStringProperty(dynabean, Constants.EFFECTIVE_TIME);// Constants.HL7V3_DATE_START);
             queryDate =transformDateFromMessage(effectiveDateStr, null);
 
-           boolean hasVitalSign= getCommonDao().hasVitalSignImported(phrOwnerUri,code,queryDate);
+           boolean hasVitalSign= getCommonDao().hasVitalSignImported(phrOwnerUri, code, queryDate);
             if(hasVitalSign){
                 //ignore this vital sign
                 return null;
@@ -1183,6 +1183,7 @@ public class InteropProcessor {
                 med.setModifyDate(med.getCreateDate());
                 med.setType(MedicationTreatment.class.toString());
 
+                med.setReasonCode("http://www.icardea.at/phrs/instances/NoSpecialTreatment");
                 theObject = med;
 
                 if (med != null) {
