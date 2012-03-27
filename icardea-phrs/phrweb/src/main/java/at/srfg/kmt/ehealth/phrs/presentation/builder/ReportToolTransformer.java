@@ -23,28 +23,63 @@ public class ReportToolTransformer {
      * @return
      */
     public List<MonitorPhrItem> tranformResource(List phrResources) {
+            return tranformResource(phrResources,false);
+    }
+
+    public List<MonitorPhrItem> tranformResource(List phrResources, boolean filterOnTitle) {
         List<MonitorPhrItem> list = new ArrayList<MonitorPhrItem>();
 
-        if (phrResources != null && !phrResources.isEmpty()) {
+        if (phrResources != null && ! phrResources.isEmpty()) {
 
             for (Object obj : phrResources) {
 
                 MonitorPhrItem item = null;
                 if (obj instanceof MedicationTreatment) {
                     item = toMonitorPhrItem((MedicationTreatment) obj);
+                    
                 } else if(obj instanceof ObsRecord){
                    item= toMonitorPhrItem((ObsRecord) obj);
                 }
-                if (item != null) list.add(item);
+
+                if (item != null){
+                    if(filterOnTitle){
+                         if( ! hasDuplicateTitle(list,item)) {
+                             list.add(item);
+                         }
+                    } else {
+                        list.add(item);
+                    }
+                }
 
             }
 
 
         }
-        //  MonitorPhrItem item= new MonitorPhrItem();
-
 
         return list;
+    }
+
+    /**
+     * Show only unique titles
+     * @param list
+     * @param monitorPhrItem
+     * @return
+     */
+    public boolean hasDuplicateTitle( List<MonitorPhrItem> list,MonitorPhrItem monitorPhrItem){
+        if(list != null && monitorPhrItem != null){
+            String theLabel = monitorPhrItem.getLabel();
+            if(theLabel != null){
+                 for(MonitorPhrItem item:list){
+                     String label = item.getLabel();
+                     if(theLabel.equals(label)) {
+                        return true;
+                     }
+                 }
+            }
+        }
+        
+        return false;
+        
     }
 
     /**
