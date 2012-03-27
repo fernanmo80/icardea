@@ -574,6 +574,10 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 				/* FORTH-END */
 				String base64Encoded = "";
 				if (careProvisionCode.equals("DICAT")) {
+					if(observation == null || observation.getEntryRelationship().size() < 1) {
+						System.out.println(" $$$ Received and empty DICAT message...");
+						continue;
+					}
 					POCDMT000040ObservationMedia observationMedia = observation.getEntryRelationship().get(0).getObservationMedia();
 					ED ed = observationMedia.getValue();
 					String mediaType = ed.getMediaType();
