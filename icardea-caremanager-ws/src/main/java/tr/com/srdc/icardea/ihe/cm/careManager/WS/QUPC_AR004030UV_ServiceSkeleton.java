@@ -618,6 +618,10 @@ public class QUPC_AR004030UV_ServiceSkeleton {
 				String doseQuantity = substanceAdm.getDoseQuantity().getValue();
 				String doseQuantityUnit = substanceAdm.getDoseQuantity().getUnit();
 				POCDMT000040LabeledDrug drug = substanceAdm.getConsumable().getManufacturedProduct().getManufacturedLabeledDrug();
+				if(drug == null || drug.getCode() == null) {
+					System.out.println(" $$$ Medication list seems empty...");
+					continue;
+				}
 				String drugCode = drug.getCode().getCode();
 				String drugCodeSystem = drug.getCode().getCodeSystem();
 				String drugCodeSystemName = drug.getCode().getCodeSystemName();
