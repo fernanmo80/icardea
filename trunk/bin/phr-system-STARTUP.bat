@@ -88,6 +88,5 @@ cd "%PHRS_HOME%\phrs-soap-pcc09ws\"
 call phr-send-pcc9.bat 
 
 title phr-system-STARTUP FINISHED
-
+rem paused already from send pcc9 
 cd "%mypwd%"
-pause
