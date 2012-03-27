@@ -149,6 +149,22 @@ final class MedicationTask implements PCCTask {
         // TODO : I am not sure if this is right and if I need it !
         final Provider provider = new Provider();
         Security.addProvider(provider);
+        
+        //This is added to SendPcc10Message sendMessage, then Vital Task benefits
+    		// trust all certificates (problem using IP address and certificates from another machine)
+		//	   javax.net.ssl.HostnameVerifier myHv = new javax.net.ssl.HostnameVerifier(){
+		//	   	public boolean verify(String hostName,javax.net.ssl.SSLSession session){
+		//	   		return true;
+		//	   	}
+		//	   }
+		//	   javax.net.ssl.HttpsURLConnection.setDefaultHostnameVerifier(myHv);
+
+		// or this...	
+		//	com.sun.net.ssl.HostnameVerifier myHv = new com.sun.net.ssl.HostnameVerifier() {
+		//		public boolean verify(String hostName, String a) {
+		//			return true;
+		//		}
+		//	};
     }
 
     private void logSecurity() {
