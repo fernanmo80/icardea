@@ -75,9 +75,10 @@ echo  **** Mongo start cleanup of phrdata %MONGO_TMP%\bin\mongo localhost/phrsda
 %MONGO_TMP%\bin\mongo localhost/phrsdata1 -quiet -eval "db.dropDatabase()"
 echo  **** Mongo cleanup of phrdata1 completed
 
-title Doing mvn clean with complete removal of files
+rem title Doing mvn clean with complete removal of files
 rem this will fail if tomcat is running.... we experienced that tomcat window does not close, tomcat stopped, but still prevents access
-call mvn clean -f "%PHRS_HOME%\pom.xml" -Dtomcat.home="%PHRS_TOMCAT%" -Dicardea.home="%PROJECT_ROOT%" -Daduna.parentdir="%APPDATA%" -DcleanTomcatWebapps=false -DremoveSesameAduna=true -DremoveSesame=false -DcleanLogs=false
+rem skip clean, do this at install. Can remove mvn, we already remove aduna above...
+rem mvn clean -Dclean.skip=true  -f "%PHRS_HOME%\pom.xml" -Dtomcat.home="%PHRS_TOMCAT%" -Dicardea.home="%PROJECT_ROOT%" -Daduna.parentdir="%APPDATA%" -DcleanTomcatWebapps=false -DremoveSesameAduna=true -DremoveSesame=false -DcleanLogs=false
 
 
 cd %mypwd%
