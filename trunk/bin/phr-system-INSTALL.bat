@@ -1,5 +1,5 @@
 set mypwd=%CD%
-
+echo installing. Cleaning software and removing log files. Databases are not deleted, but triplestore location and port must be designated. Triplestore is created if missing.
 rem @KMT57-SRFG
 if "%COMPUTERNAME%" == "KMT57" (
 	set PROJECT_ROOT=D:\svn-repositories\icardea
@@ -91,7 +91,7 @@ rem call mvn install -f "%PROJECT_ROOT%\icardea-config\pom.xml" -Dmaven.test.ski
 rem echo icardea-config installed
 rem echo.
 rem echo.
-
+echo We do not install icardea atnalog client, it must be in the mvn repository. If there is a compile problem, please install
 rem title currently installing icardea-atnalog-client
 rem call mvn install:install-file -Dfile="%PCC09WS_HOME%\icardea-atnalog-client-1.0-SNAPSHOT.jar" -DgroupId=tr.com.srdc.icardea -DartifactId=icardea-atnalog-client -Dversion=1.0-SNAPSHOT -Dpackaging=jar -DgeneratePom=true
 rem call mvn install -f "%PROJECT_ROOT%\icardea-atnalog-client\pom.xml" -Dmaven.test.skip=true -DgeneratePom=true
