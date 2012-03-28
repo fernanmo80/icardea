@@ -153,8 +153,11 @@ public class ReceiverApplication extends Thread {
 
 		patient.setPatientIdentifier(patientID);
 		patient.setAssigningAuthority(assigningAuthority);
-		patient.setDateTimeOfBirth(dateTimeOfBirth);
-		patient.setAdministrativeSex(administrativeSex);
+		
+		if(dateTimeOfBirth != null && !dateTimeOfBirth.trim().equals(""))
+			patient.setDateTimeOfBirth(dateTimeOfBirth);
+		if(administrativeSex != null && !administrativeSex.trim().equals(""))
+			patient.setAdministrativeSex(administrativeSex);
 
 		if (pidSegment.getPatientID().getIdentifierTypeCode() != null) {
 			String identifierTypeCode = pidSegment.getPatientID()
