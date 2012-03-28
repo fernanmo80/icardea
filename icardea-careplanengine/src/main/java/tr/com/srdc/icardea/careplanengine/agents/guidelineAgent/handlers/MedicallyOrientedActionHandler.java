@@ -25,6 +25,11 @@ import tr.com.srdc.icardea.careplanengine.agents.gui.graph.history.GuidelineHist
 import tr.com.srdc.icardea.careplanengine.agents.guidelineAgent.FactoryRetriever;
 import tr.com.srdc.icardea.careplanengine.agents.guidelineAgent.GuidelineAgent;
 import tr.com.srdc.icardea.careplanengine.alarmSystem.AlarmDatabaseConnection;
+import tr.com.srdc.icardea.careplanengine.alarmSystem.AlarmMessageHandler;
+import tr.com.srdc.icardea.careplanengine.alarmSystem.alarmOntology.AlarmMessage;
+import tr.com.srdc.icardea.careplanengine.alarmSystem.alarmOntology.MessageContent;
+import tr.com.srdc.icardea.careplanengine.alarmSystem.alarmOntology.PatientInfo;
+import tr.com.srdc.icardea.careplanengine.entities.AssignmentEntity;
 import tr.com.srdc.icardea.careplanengine.entities.MonitoringMessageEntity;
 import tr.com.srdc.icardea.careplanengine.entities.MonitoringMessageType;
 import tr.com.srdc.icardea.careplanengine.entities.patientDataEntities.MedicationEntity;
@@ -213,6 +218,8 @@ public class MedicallyOrientedActionHandler {
 				if (!guidelineAgent.showGUI) {
 					String stepID = medicallyOrientedAction.getName2().split(
 							":")[0];
+					String content = medicallyOrientedAction.getName2().split(":")[1];
+					sendAlarm(patientID, patientName, content);
 					// tr.com.srdc.icardea.careplanengine.agents.afAgent.EngineInterface.sendMonitoringMessage(guidelineAgent.getAID(),
 					// stepID, "FINISHED", "" + patientID);
 				}
@@ -238,6 +245,8 @@ public class MedicallyOrientedActionHandler {
 				if (!guidelineAgent.showGUI) {
 					String stepID = medicallyOrientedAction.getName2().split(
 							":")[0];
+					String content = medicallyOrientedAction.getName2().split(":")[1];
+					sendAlarm(patientID, patientName, content);
 					tr.com.srdc.icardea.careplanengine.agents.afAgent.EngineInterface
 							.sendMonitoringMessage(guidelineAgent.getAID(),
 									stepID, "FINISHED", "" + patientID);
@@ -500,6 +509,28 @@ public class MedicallyOrientedActionHandler {
 			exc.printStackTrace();
 
 		}
+	}
+
+	private void sendAlarm(long patientID, String patientName, String content) {
+		AlarmMessage alarmMessage = new AlarmMessage();
+		MessageContent messageContent = new MessageContent();
+
+		// Sets Patient Info
+		PatientInfo patientInfo = new PatientInfo();
+		AssignmentEntity assignmentEntity = guidelineAgent.getAssignmentEntity();
+
+		patientInfo.setAssignmentID("" + assignmentEntity.getAssignmentID());
+		patientInfo.setPatientName(assignmentEntity.getPatientEntity().getName());
+		patientInfo.setPatientID("" + assignmentEntity.getPatientEntity().getPcode());
+		patientInfo.setGuidelineID(guidelineAgent.getGuideineID());
+
+		// Sets Message Content
+		messageContent.setContent(content);
+		messageContent.setUrgency(3);
+		alarmMessage.setPatientInfo(patientInfo);
+		alarmMessage.setMessageContent(messageContent);
+		logger.info("___Trying to send message...");
+		AlarmMessageHandler.getInstance().action(alarmMessage);
 	}
 
 	public static String toStringWithDataElementAsRoot(
