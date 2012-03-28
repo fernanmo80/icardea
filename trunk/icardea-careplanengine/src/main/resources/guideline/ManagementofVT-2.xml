@@ -909,7 +909,7 @@
 	</Display>
 	<NextStep ref="S745C6F96-E147-271D-3E14-67C705E833E9"/>
       </RecommendationStep>
-      <WaitStep ID="S745C6F96-E147-271D-3E14-67C705E833E9" name="Wait till the CIED report is received">
+      <WaitStep ID="S745C6F96-E147-271D-3E14-67C705E833E9" name="The CIED report has been received.">
 	<Event>
 	  <DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
 	</Event>
@@ -1489,7 +1489,7 @@
 	</Display>
 	<NextStep ref="S58242B33-8089-534E-9B43-6818C16BCA3E"/>
       </RecommendationStep>
-      <WaitStep ID="S58242B33-8089-534E-9B43-6818C16BCA3E" name="Wait till the Lab results are received">
+      <WaitStep ID="S58242B33-8089-534E-9B43-6818C16BCA3E" name="The Lab results have been received...">
 	<Event>
 	  <DataSource code="C1254595" name="ImagingResult" schemeID="UMLS"/>
 	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
@@ -2404,7 +2404,7 @@
 
       </NextStep>
     </ConsultStep>
-      <WaitStep ID="S64F07DD6-7A5C-E3A9-2587-6822C682B0A7" name="Wait 1 week to see if medication change is effective">
+      <WaitStep ID="S64F07DD6-7A5C-E3A9-2587-6822C682B0A7" name="One week has passed. Check if medication change is effective...">
       <!--Duration unit="ms" amount="604800" /-->	 
       <Duration unit="ms" amount="6000" />	 
       <NextStep ref="SEF5E5757-1BE9-0643-6B18-68244363F8CF" name="Send notification to patient"/>
@@ -2479,7 +2479,7 @@
       </Display>
       <NextStep ref="S481833F9-A2AF-EFDE-98D7-68255539DAF6" name="Send notification to Patient"/>
     </RecommendationStep>	
-      <WaitStep ID="S481833F9-A2AF-EFDE-98D7-68255539DAF6" name="Wait till the CIED report is received">
+      <WaitStep ID="S481833F9-A2AF-EFDE-98D7-68255539DAF6" name="The CIED report has been received...">
       <Event>
 	<DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
       </Event>
@@ -4130,7 +4130,7 @@
       </Display>
       <NextStep ref="SDC22B3FB-3C40-7D26-2601-68577A79EDEB"/>
     </RecommendationStep>
-      <WaitStep ID="SDC22B3FB-3C40-7D26-2601-68577A79EDEB" name="Wait till the CIED report is received">
+      <WaitStep ID="SDC22B3FB-3C40-7D26-2601-68577A79EDEB" name="The CIED report has been received...">
       <Event>
 	<DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
       </Event>
