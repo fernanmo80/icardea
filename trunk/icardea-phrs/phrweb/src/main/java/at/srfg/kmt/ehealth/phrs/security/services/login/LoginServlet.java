@@ -2,6 +2,7 @@ package at.srfg.kmt.ehealth.phrs.security.services.login;
 
 import at.srfg.kmt.ehealth.phrs.PhrsConstants;
 
+import at.srfg.kmt.ehealth.phrs.model.baseform.PhrFederatedUser;
 import at.srfg.kmt.ehealth.phrs.presentation.services.UserSessionService;
 import org.openid4java.association.AssociationException;
 import org.openid4java.discovery.DiscoveryException;
@@ -139,8 +140,17 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
             try {
                 //setup session and create user account
                 LOGGER.debug("Openid Servlet - prepare User account by openID managePhrUserSessionByOpenIdUserLoginScenario for "+identifier);
-                UserSessionService.managePhrUserSessionByOpenIdUserLoginScenario(identifier, model, req);
-                success = true;
+                PhrFederatedUser phrUser= null;
+                try {
+                    phrUser= UserSessionService.managePhrUserSessionByOpenIdUserLoginScenario(identifier, model, req);
+                } catch (Exception e) {
+                    LOGGER.debug("OpenId managePhrUserSessionByOpenIdUserLoginScenario failed phrUser null ");
+                }
+
+                success = phrUser != null;
+                if(phrUser == null){
+                    LOGGER.debug("LoginServlet after managePhrUserSessionByOpenIdUserLoginScenario phrUser=null, success false");
+                }
 
             } catch (Exception e) {
                 errorMsg = PhrsConstants.DEFAULT_ERROR_MSG_OPEN_ID;
@@ -149,7 +159,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
             }
         } else {
             try {
-                if(model !=null){
+                if(model != null){
                     LOGGER.debug("OpenId failed  "
                             + "is_verified? " + model.getIs_verified()
                             + " openId " + model != null ? model.getOpenId() : "unknown"
@@ -159,9 +169,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
                     LOGGER.debug("OpenId failed  - registration model is null");
                 }
             } catch (Exception e) {
-
                 LOGGER.debug("OpenId failed  Error writing debug on model ", e);
-
             }
         }
 
@@ -177,7 +185,7 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
             //remove any messages
             
         } else {
-
+            LOGGER.debug("Login not successfull, redirect back to login page");
             if (errorMsg == null) {
                 errorMsg = PhrsConstants.DEFAULT_ERROR_MSG_OPEN_ID;
             }
