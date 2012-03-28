@@ -6,6 +6,7 @@ import tr.com.srdc.icardea.careplanengine.agents.guidelineAgent.handlers.Message
 import tr.com.srdc.icardea.careplanengine.alarmSystem.alarmOntology.AlarmMessage;
 import tr.com.srdc.icardea.careplanengine.alarmSystem.alarmOntology.MessageContent;
 import tr.com.srdc.icardea.careplanengine.alarmSystem.alarmOntology.PatientInfo;
+import tr.com.srdc.icardea.hibernate.ICardeaPersistentManager;
 import tr.com.srdc.icardea.hibernate.PatientHealthcareActorAssignment;
 import tr.com.srdc.icardea.hibernate.PatientHealthcareActorAssignmentCriteria;
 import tr.com.srdc.icardea.hibernate.PersonCriteria;
@@ -17,6 +18,7 @@ import java.util.Vector;
 
 import org.apache.log4j.Logger;
 import org.orm.PersistentException;
+import org.orm.PersistentTransaction;
 
 public class HPAAlarmHandlerThread extends Thread {
 	private AlarmMessage alarmMessage;
@@ -100,6 +102,46 @@ public class HPAAlarmHandlerThread extends Thread {
 		if (patientPhoneNumber != null)
 			phoneNumbers.addElement(patientPhoneNumber);
 
+		// TODO: Ileride burayi GUI'den yapacagiz ve bu alttarafi kaldiracagiz...
+		if (assignments.length == 0) {
+			try {
+				
+				String doctorName = "Michael";
+				String doctorSurname = "Jones";
+				String doctorID = "1387";
+				String doctorEmail = "yildiraykabak@gmail.com";
+				String doctorMobile = "00905052319177";
+				
+				PersistentTransaction transaction = ICardeaPersistentManager
+						.instance().getSession().beginTransaction();
+
+				tr.com.srdc.icardea.hibernate.Person careGiver = new tr.com.srdc.icardea.hibernate.Person();
+				careGiver.setName(doctorName);
+				careGiver.setSurname(doctorSurname);
+				careGiver.setIdentifier(doctorID);
+
+				tr.com.srdc.icardea.hibernate.Contact contactInDB = new tr.com.srdc.icardea.hibernate.Contact();
+
+				contactInDB.setEmail(doctorEmail);
+				contactInDB.setMobileNumber(doctorMobile);
+				contactInDB.setPhoneNumber(doctorMobile);
+				contactInDB.save();
+				
+				careGiver.setContact(contactInDB);
+				careGiver.save();
+				
+				PatientHealthcareActorAssignment assignment = new PatientHealthcareActorAssignment();
+				assignment.setHealthcareActorIdentifier(doctorID);
+				assignment.setPatientIdentifier(patientId);
+				assignment.save();
+				
+				transaction.commit();
+			} catch (Exception ex) {
+				ex.printStackTrace();
+			}
+		}
+		// YUKARIYI KALDIR....
+
 		for (int j = 0; j < assignments.length; j++) {
 			PatientHealthcareActorAssignment assignment = assignments[j];
 			String careGiverID = assignment.getHealthcareActorIdentifier();
@@ -135,8 +177,7 @@ public class HPAAlarmHandlerThread extends Thread {
 			String email = emails.elementAt(i);
 			switch (urgency) {
 			case 1:
-				CommunicationMedium.sendInstantMessage(
-						"", messageBody);
+				CommunicationMedium.sendInstantMessage("", messageBody);
 				break;
 			case 2:
 				if (email != null) {
@@ -146,11 +187,11 @@ public class HPAAlarmHandlerThread extends Thread {
 				}
 				break;
 			case 3:
-				/*if (email != null) {
-					logger.info(" Sending email to:" + email);
-					CommunicationMedium.sendEMail(email, messageSubject,
-							messageBody);
-				}*/
+				/*
+				 * if (email != null) { logger.info(" Sending email to:" +
+				 * email); CommunicationMedium.sendEMail(email, messageSubject,
+				 * messageBody); }
+				 */
 
 				if (phone != null) {
 					logger.info(" Sending sms to:" + phone);
