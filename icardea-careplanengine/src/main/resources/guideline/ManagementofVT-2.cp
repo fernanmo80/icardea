@@ -909,11 +909,11 @@
 	</Display>
 	<NextStep ref="S745C6F96-E147-271D-3E14-67C705E833E9"/>
       </RecommendationStep>
-      <WaitStep ID="S745C6F96-E147-271D-3E14-67C705E833E9" name="Wait till the CIED report is received">
+      <WaitStep ID="S745C6F96-E147-271D-3E14-67C705E833E9" name="The CIED report has been received.">
 	<Event>
 	  <DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
 	</Event>
-	<NextStep ref="S7B7A20B9-F883-163A-DE95-67C8D6BEDE6C" name="Send notification to Doctor"/>
+	<NextStep ref="S7B7A20B9-F883-163A-DE95-67C8D6BEDE6C" name="Present the EGM, check VT"/>
       </WaitStep> 
       <ConsultStep ID="S7B7A20B9-F883-163A-DE95-67C8D6BEDE6C" name="Present the EGM, check VT">
 	<Display>
@@ -1489,85 +1489,13 @@
 	</Display>
 	<NextStep ref="S58242B33-8089-534E-9B43-6818C16BCA3E"/>
       </RecommendationStep>
-      <WaitStep ID="S58242B33-8089-534E-9B43-6818C16BCA3E" name="Wait till the Lab results are received">
+      <WaitStep ID="S58242B33-8089-534E-9B43-6818C16BCA3E" name="The Lab results have been received...">
 	<Event>
 	  <DataSource code="C1254595" name="ImagingResult" schemeID="UMLS"/>
 	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
 	</Event>
-	<NextStep ref="SDF93C7C3-FAB1-F38C-791E-4F6CCD8B13ED" name="Send notification to Doctor"/>
+	<NextStep ref="S2E364938-846A-7C11-B160-681691D331D9" name="Check Lab results for abnormality"/>
       </WaitStep> 
-	  <RecommendationStep ID="SDF93C7C3-FAB1-F38C-791E-4F6CCD8B13ED" name="Send SMS to doctor when the lab results are ready">
-     <Receiver ref="P4"/>
-      <Urgency>3</Urgency>
-      <Display>
-	<HTML>
-	  <head/>
-	  <body>
-	    <table  cellspacing="10" style="background-color:#e1e1e1">
-	      <tbody>
-		<tr name="PatientBlock" id="PatientBlock">
-		  <td style="background-color:#eeeeee"><!--The following HTML will be populated automatically in the execution phase-->
-
-		    <p align="center"><b>Brief Information about the patient </b></p>
-
-		    <p>Patient Name: 
-		      <data src="caremanagementdb://Patient/@givenName"/>
-		      <data src="caremanagementdb://Patient/@secondName"/>
-		      <data src="caremanagementdb://Patient/@familyName"/>
-		      <br />
-		      Patient ID: 
-		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
-		      <br />
-		      <a
-			target="_blank" href="PPM:TAB3">Access to
-			EHR</a> <br />
-		      Implanted Device:
-		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
-		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
-		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a target="_blank" href="PPM:TAB1">Access
-			to previous Remote follow-up results</a> </p>
-
-		    <p><br />
-		    </p>
-		  </td>
-		</tr>
-		<!--tr name="CIEDBlock">
-		  <td style="background-color:#eeeeee">
-
-		    <p align="center"><b>Brief Information about the recent alarm </b></p>
-		    Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
-		    Alarms Detected: VT detected.. <br />
-		    <a target="_blank" href="PPM:TAB1">Access to Report
-		      Exported</a> </td>
-		</tr-->
-		 <tr name="CIEDBlock">
-		    <td style="background-color:#eeeeee">
-
-		      <p align="center"><b>Brief Information about the recent alarm </b></p>
-		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
-		      VT Episode <br />
-		      <a target="_blank" href="PPM:TAB1">Access to Report
-			Exported</a> </td>
-		  </tr>
-		<tr name="RecommendationBlock">
-		  <td style="background-color:#eeeeee">
-		    <p align="center"><b><font color="#880015">Recommendation and Next Step to follow </font> </b></p>
-		    <p>Sending the following message to the doctor: <br/>
-		      <b>Patient lab results are ready, please proceed the guideline execution!</b></p>
-		    <form onsubmit="return ValidateData();" action="null" method="post">
-		      <input type="submit" name="R810Choice" value="Continue" onclick="btnWhichButton=this"/>
-		  </form></td>
-		</tr>
-	      </tbody>
-	    </table>
-	  </body>
-	</HTML>
-      </Display>
-      <NextStep name="Check abnormality" ref="S2E364938-846A-7C11-B160-681691D331D9">
-        <EvaluationScript>function check(SDF93C7C3-FAB1-F38C-791E-4F6CCD8B13EDChoice) { if(SDF93C7C3-FAB1-F38C-791E-4F6CCD8B13EDChoice.getValue().getText() == "Check abnormality") return true; else return false; }</EvaluationScript>
-      </NextStep>
-    </RecommendationStep>
       <ConsultStep ID="S2E364938-846A-7C11-B160-681691D331D9" name="Check Lab results for abnormality">
 
 	<Variable name="Potassium" type="float">
@@ -2404,7 +2332,7 @@
 
       </NextStep>
     </ConsultStep>
-      <WaitStep ID="S64F07DD6-7A5C-E3A9-2587-6822C682B0A7" name="Wait 1 week to see if medication change is effective">
+      <WaitStep ID="S64F07DD6-7A5C-E3A9-2587-6822C682B0A7" name="One week has passed. Check if medication change is effective...">
       <!--Duration unit="ms" amount="604800" /-->	 
       <Duration unit="ms" amount="6000" />	 
       <NextStep ref="SEF5E5757-1BE9-0643-6B18-68244363F8CF" name="Send notification to patient"/>
@@ -2479,63 +2407,12 @@
       </Display>
       <NextStep ref="S481833F9-A2AF-EFDE-98D7-68255539DAF6" name="Send notification to Patient"/>
     </RecommendationStep>	
-      <WaitStep ID="S481833F9-A2AF-EFDE-98D7-68255539DAF6" name="Wait till the CIED report is received">
+      <WaitStep ID="S481833F9-A2AF-EFDE-98D7-68255539DAF6" name="The CIED report has been received...">
       <Event>
 	<DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
       </Event>
-      <NextStep ref="SF32B3CA0-1214-AF04-5657-6827937A321E" name="Send notification to Doctor"/>
+      <NextStep ref="SB86C5369-FB3A-46E9-6272-6828E1F0664A" name="Check Medication effectiveness"/>
     </WaitStep> 
-      <RecommendationStep ID="SF32B3CA0-1214-AF04-5657-6827937A321E" name="Send notification to doctor">
-      <Receiver ref="P3"/>
-      <Urgency>3</Urgency>
-      <Display>
-	<HTML>
-	  <head/>
-	  <body>
-	    <table  cellspacing="10" style="background-color:#e1e1e1">
-	      <tbody>
-		<tr name="PatientBlock" id="PatientBlock">
-		  <td style="background-color:#eeeeee"><!--The following HTML will be populated automatically in the execution phase-->
-
-		    <p align="center"><b>Brief Information about the patient </b></p>
-
-		    <p>Patient Name: 
-		      <data src="caremanagementdb://Patient/@givenName"/>
-		      <data src="caremanagementdb://Patient/@secondName"/>
-		      <data src="caremanagementdb://Patient/@familyName"/>
-		      <br />
-		      Patient ID: 
-		      <data src="caremanagementdb://Patient/@patientIdentifier"/>
-		      <br />
-		      <a
-			target="_blank" href="PPM:TAB3">Access to
-			EHR</a> <br />
-		      Implanted Device:
-		      <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
-		      <data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
-		      <br />
-		      Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a target="_blank" href="PPM:TAB1">Access
-			to previous Remote follow-up results</a> </p>
-
-		    <p><br />
-		    </p>
-		  </td>
-		</tr>
-		<tr name="RecommendationBlock">
-		  <td style="background-color:#eeeeee">
-		    <p align="center"><b><font color="#880015">Recommendation and Next Step to follow </font> </b></p>
-		    <p>Patient has sent the report of the self monitoring. Please check care plan execution to assess the effectiveness of medication change </p>
-		    <form onsubmit="return ValidateData();" action="null" method="post">
-		      <input type="submit" name="R811Choice" value="Continue" onclick="btnWhichButton=this"/>
-		  </form></td>
-		</tr>
-	      </tbody>
-	    </table>
-	  </body>
-	</HTML>
-      </Display>
-      <NextStep ref="SB86C5369-FB3A-46E9-6272-6828E1F0664A"/>
-    </RecommendationStep>	
       <ConsultStep ID="SB86C5369-FB3A-46E9-6272-6828E1F0664A" name="Check Medication effectiveness">
       <Display>
 	<HTML>
@@ -4130,11 +4007,11 @@
       </Display>
       <NextStep ref="SDC22B3FB-3C40-7D26-2601-68577A79EDEB"/>
     </RecommendationStep>
-      <WaitStep ID="SDC22B3FB-3C40-7D26-2601-68577A79EDEB" name="Wait till the CIED report is received">
+      <WaitStep ID="SDC22B3FB-3C40-7D26-2601-68577A79EDEB" name="The CIED report has been received...">
       <Event>
 	<DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
       </Event>
-      <NextStep ref="S7FE1C19C-B68B-6DD1-B8F8-6858A500F11D" name="Send notification to Doctor"/>
+      <NextStep ref="S7FE1C19C-B68B-6DD1-B8F8-6858A500F11D" name="Present the EGM, check VT"/>
     </WaitStep> 
       <ConsultStep ID="S7FE1C19C-B68B-6DD1-B8F8-6858A500F11D" name="Present the EGM, check VT">
 
