@@ -64,16 +64,16 @@ public class SiteReferencesTool implements Map, Serializable {
 
 		'basic_information':'display/phrcontent/Basic+Information',
 
-		'new_habits':'display/phrcontent/new+habits',
+		'new_habits':'display/phrcontent/New+Habits',
 
-		'precautions':'display/phrcontent/precautions',
+		'precautions':'display/phrcontent/Precautions',
 
-		'warning_signs':'display/phrcontent/warning+signs',
+		'warning_signs':'display/phrcontent/Warning+Signs',
 
-		'useful_links':'display/phrcontent/useful+links',
+		'useful_links':'display/phrcontent/Links',
 
 		'other_resources':'display/phrcontent/Other+Resources',
-		'decision_aids':'display/phrcontent/Decision+Aids'
+		'decision_aids':'display/phrcontent/Decision+Aid+for+Telemonitoring'
 
 	]
 
