@@ -72,14 +72,16 @@
 	        if (result != null && result.result != null){
 		       	for(var i:int = 0; i< (result.result as ArrayCollection).length;i++)
 		     	{
+		     		if(((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans != null)
 					for(var j:int = 0; j< ((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.length;j++)
 					{
 						var obj:Object = new Object;
 						obj.personID=((result.result as ArrayCollection).getItemAt(i) as Patient).personID;
 						obj.gender=((result.result as ArrayCollection).getItemAt(i) as Patient).gender;
 						obj.dateOfBirth=((result.result as ArrayCollection).getItemAt(i) as Patient).dateOfBirth;
-						if((obj.dateOfBirth as String).charAt(4) != "-")
-							obj.dateOfBirth = (obj.dateOfBirth as String).substring(0,4).concat("-").concat((obj.dateOfBirth as String).substring(4,6)).concat("-").concat((obj.dateOfBirth as String).substring(6,8));
+						
+						//if((obj.dateOfBirth as String).charAt(4) != "-")
+							//obj.dateOfBirth = (obj.dateOfBirth as String).substring(0,4).concat("-").concat((obj.dateOfBirth as String).substring(4,6)).concat("-").concat((obj.dateOfBirth as String).substring(6,8));
 						obj.name=((result.result as ArrayCollection).getItemAt(i) as Patient).name;
 						obj.surname = ((result.result as ArrayCollection).getItemAt(i) as Patient).surname;
 						obj.careplanName = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).name;
