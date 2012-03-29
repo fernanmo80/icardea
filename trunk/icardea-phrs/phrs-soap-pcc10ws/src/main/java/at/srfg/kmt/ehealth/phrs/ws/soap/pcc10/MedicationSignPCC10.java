@@ -346,7 +346,8 @@ final class MedicationSignPCC10 {
         result.setCodeSystem(codeSystemCode);
         result.setCodeSystemName(codeSystemName);
         result.setCode(value);
-        final ED originalText = buildED(prefLabel);
+        result.setDisplayName(prefLabel); //added display name here because client's expect it here.
+        final ED originalText = buildED(prefLabel); //original text contains name also
         result.setOriginalText(originalText);
 
         return result;
