@@ -903,6 +903,7 @@ public class PPMDataset {
 	}
 	private boolean updatePPM_EHR_Data(String patid) throws SQLException{
 		ResultSet rs;
+		String code=null;
 		//FIXME missing EHR etc. data to insert in iniital ppmdataset
 		rs = createStmt().executeQuery("SELECT  * FROM patient where id= "+patid );
 		if (rs.next()){
@@ -923,7 +924,26 @@ public class PPMDataset {
 		}else{
 			logger.warn("No Maindiagnosis found for patient:"+patid);
 		}
-
+		rs= createStmt().executeQuery("select id,drugCode from medication where length(trim(text))<2 or text like('unknown (Code=%')");
+		while (rs.next()){
+			code=rs.getString("drugCode");
+			if (code!=null) {
+				if (code.length()>0){
+					ResultSet rs2=createStmt().executeQuery("select text from medication where drugCode='"+code+"'");
+					if (rs2.next()){
+						String medtext=rs2.getString("text");
+						if (medtext!=null){
+							logger.debug("Setting medication text to "+medtext);
+							createStmt().execute("update medication set text='"+medtext+"' where id="+rs.getInt("id"));
+						}
+					}else{
+						createStmt().execute("update medication set text='unknown (Code="+code+")' where id="+rs.getInt("id"));
+					}
+					rs2.close();
+				}
+			}
+		}
+		rs.close();
 		return true;
 	}
 	private boolean setDataItem(String patid,String dataitem, String dataset)  {
