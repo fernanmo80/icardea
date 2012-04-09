@@ -53,7 +53,8 @@ LOCK TABLES `assignment` WRITE;
 /*!40000 ALTER TABLE `assignment` DISABLE KEYS */;
 INSERT INTO `assignment` VALUES (1,190,1,2,'yildiray','yildiray','2010-05-08 01:01:01','2010-05-10 01:01:01',NULL,'http://localhost:8080/icardea/guidelines/icardea/ManagementofAF-1.owl','true');
 INSERT INTO `assignment` VALUES (2,191,2,2,'yildiray','yildiray','2010-05-08 01:01:01','2010-05-10 01:01:01',NULL,'http://localhost:8080/icardea/guidelines/icardea/ManagementofVT-2.owl','true');
-/*!40000 ALTER TABLE `assignment` ENABLE KEYS */;
+INSERT INTO `assignment` VALUES (3,191,3,2,'yildiray','yildiray','2010-05-08 01:01:01','2010-05-10 01:01:01',NULL,'http://localhost:8080/icardea/guidelines/icardea/ManagementofTechnicalCP-3.owl','true');
+/*!40000 ALTER TAsBLE `assignment` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -260,6 +261,7 @@ LOCK TABLES `guideline_entity` WRITE;
 /*!40000 ALTER TABLE `guideline_entity` DISABLE KEYS */;
 INSERT INTO `guideline_entity` VALUES (1,'Management of AF','0.1','SRDC','http://localhost:8080/icardea/guidelines/icardea/ManagementofAF-1.owl','ICARDEA_GUIDELINE_Instance_1');
 INSERT INTO `guideline_entity` VALUES (2,'Management of VT','0.1','SRDC','http://localhost:8080/icardea/guidelines/icardea/ManagementofVT-2.owl','ICARDEA_GUIDELINE_Instance_1');
+INSERT INTO `guideline_entity` VALUES (3,'Management of Technical CP','0.1','SRDC','http://localhost:8080/icardea/guidelines/icardea/ManagementofTechnicalCP-3.owl','ICARDEA_GUIDELINE_Instance_1');
 /*!40000 ALTER TABLE `guideline_entity` ENABLE KEYS */;
 UNLOCK TABLES;
 
