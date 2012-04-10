@@ -21,12 +21,11 @@
 			[Bindable]
 			public var display:Display;
 			[Bindable]
-			public var blockTypes:ArrayCollection = new ArrayCollection;
+			public var blockTypes:ArrayCollection;
 			
 		private function init():void{
-			if(display.html.body != null){
-				ifr.content = display.html.body;
-			}
+			blockTypes = new ArrayCollection;
+			
 			var obj:Object = new Object;
 			obj.name = "Patient Block";
 			obj.isSelected = false ;
@@ -63,13 +62,61 @@
 			obj8.name = "Recent Lab Results Block";
 			obj8.isSelected = false ;
 			blockTypes.addItem(obj8);
+			var obj9:Object = new Object;
+			obj9.name = "Comorbid Diseases";
+			obj9.isSelected = false ;
+			blockTypes.addItem(obj9);
+			
+			if(display.html.body != null){
+				ifr.content = display.html.body;
+				if(ifr.content.match("PatientBlock") != null)
+					blockTypes.getItemAt(0).isSelected = true;
+				else
+					blockTypes.getItemAt(0).isSelected = false;	
+				if(ifr.content.match("CIEDBlock") != null)
+					blockTypes.getItemAt(1).isSelected = true;
+				else
+					blockTypes.getItemAt(1).isSelected = false;		
+				if(ifr.content.match("EGMBlock") != null)
+					blockTypes.getItemAt(2).isSelected = true;
+				else
+					blockTypes.getItemAt(2).isSelected = false;		
+				if(ifr.content.match("ChoiceBlock") != null)
+					blockTypes.getItemAt(3).isSelected = true;
+				else
+					blockTypes.getItemAt(3).isSelected = false;		
+				if(ifr.content.match("RecommendationBlock") != null)
+					blockTypes.getItemAt(4).isSelected = true;
+				else
+					blockTypes.getItemAt(4).isSelected = false;		
+				if(ifr.content.match("Medications") != null)
+					blockTypes.getItemAt(5).isSelected = true;
+				else
+					blockTypes.getItemAt(5).isSelected = false;		
+				if(ifr.content.match("PHRBlock") != null)
+					blockTypes.getItemAt(6).isSelected = true;
+				else
+					blockTypes.getItemAt(6).isSelected = false;		
+				if(ifr.content.match("associated") != null)
+					blockTypes.getItemAt(7).isSelected = true;
+				else
+					blockTypes.getItemAt(7).isSelected = false;		
+				if(ifr.content.match("Lab") != null)
+					blockTypes.getItemAt(8).isSelected = true;
+				else
+					blockTypes.getItemAt(8).isSelected = false;	
+				if(ifr.content.match("Comorbid") != null)
+					blockTypes.getItemAt(9).isSelected = true;
+				else
+					blockTypes.getItemAt(9).isSelected = false;											
+			}
 			
 		}
 		private function cancelDesign():void{
 			PopUpManager.removePopUp(this);
 		}
 		private function saveDesign():void{
-			display.html.body = ifr.content;
+			display.html.body = new XML(ifr.content);
 			PopUpManager.removePopUp(this);
 		}
         private function createWindow():void{
@@ -83,15 +130,15 @@
         		if(blockTypes.getItemAt(i).isSelected == true){
         			switch(blockName){
         				case "Patient Block":
-		               		var patientBlock:String = "<tr name="+"\"PatientBlock\""+" id="+"\"PatientBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b>Brief Information about the patient </b></p>"+"<p>Patient Name:"+"<data src="+"\"caremanagementdb://Patient/@givenName\""+"/>"+"<data src="+"\"caremanagementdb://Patient/@secondName\""+"/>"+"<data src="+"\"caremanagementdb://Patient/@familyName\""+"/>"+"<br />"+"Patient ID:"+"<data src="+"\"caremanagementdb://Patient/@patientIdentifier\""+"/>"+"<br />"+"<a href="+"\"http://patient.parameter.monitor.link/a.php?patientID\""+">Access to EHR</a> <br />"+"Implanted Device:"+"<data src="+"\"caremanagementdb://720897:MDC_IDC_PG_TYPE\""+"/>"+"<data src="+"\"caremanagementdb://720898:MDC_IDC_PG_MODEL\""+"/>"+"<br />"+"Last Follow-up Date: <data src="+"\"caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS\""+"/><a href="+"\"http://link.to.care.management.db\""+">Access to previous Remote follow-up results</a> </p>"+"<p><br />"+"</p>"+"</td>"+"</tr>\n";          		
+		               		var patientBlock:String = "<tr name="+"\"PatientBlock\""+" id="+"\"PatientBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b>Brief Information about the patient </b></p>"+"<p>Patient Name:"+"<data src="+"\"caremanagementdb://Patient/@givenName\""+"/>"+"<data src="+"\"caremanagementdb://Patient/@secondName\""+"/>"+"<data src="+"\"caremanagementdb://Patient/@familyName\""+"/>"+"<br />"+"Patient ID:"+"<data src="+"\"caremanagementdb://Patient/@patientIdentifier\""+"/>"+"<br />"+" <a target="+"\"_blank\""+" href="+"\"PPM:TAB3\""+">Access to EHR</a> <br />"+"Implanted Device:"+"<data src="+"\"caremanagementdb://720897:MDC_IDC_PG_TYPE\""+"/>"+"<data src="+"\"caremanagementdb://720898:MDC_IDC_PG_MODEL\""+"/>"+"<br />"+"Last Follow-up Date: <data src="+"\"caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS\""+"/><a target="+"\"_blank\""+" href="+"\"PPM:TAB1\""+">Access to previous Remote follow-up results</a> </p>"+"<p><br />"+"</p>"+"</td>"+"</tr>\n";          		
 		               		(mainViewContent.getTextField() as TextField).appendText(patientBlock);
 				            break;
 		               	case "CIED Block":
-		               		var ciedBlock:String = "<tr name="+"\"CIEDBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"Received Date:	<data src="+"\"caremanagementdb://Patient/CIEDData/@receivedTime\""+"/>"+"<br/>"+"Alarms Detected:"+"<data src="+"\"alarmmanager://Alarm/Time\""+"/>"+"VT Episode"+"<br/>"+"<a href="+"\"http://patient.parameter.monitor.link\""+">Access to Report Exported</a>"+"</td>"+"</tr>\n";	  					
+		               		var ciedBlock:String = "<tr name="+"\"CIEDBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"Received Date:	<data src="+"\"caremanagementdb://Patient/CIEDData/@receivedTime\""+"/>"+"<br/>"+"Alarms Detected:"+"<data src="+"\"alarmmanager://Alarm/Time\""+"/>"+"VT Episode"+"<br/>"+"<a target="+"\"_blank\""+" href="+"\"PPM:TAB1\""+">Access to Report Exported</a>"+"</td>"+"</tr>\n";	  					
 		               		(mainViewContent.getTextField() as TextField).appendText(ciedBlock);
 		               		break;
 		               	case "EGM Block":
-		               		var egmBlock:String = "<tr name="+"\"EGMBlock\""+"> <td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b>Brief Information about the EGM and detected problems </b> </p>"+"<table  cellspacing="+"\"10\""+" width="+"\"100%\""+">"+"<tbody>"+"<tr>"+"<td>"+"<p align="+"\"center\""+"> EGM: <a href="+"\"http://patient.parameter.monitor.link\""+">Access to Report Exported</a> <br /> </p>"+"<p><img width="+"\"312\""+" height="+"\"190\""+" id="+"\"Picture1\""+" src="+"\"caremanagementdb://Patient/Observation/@base64String\""+" alt="+"\"x.bmp\""+" /></p>"+"</td>"+"<td>"+"<p align="+"\"center\""+">  Assesment by CIED <a href="+"\"http://patient.parameter.monitor.link\""+">Access to Report Exported</a> <br />"+"<br/>";
+		               		var egmBlock:String = "<tr name="+"\"EGMBlock\""+"> <td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b>Brief Information about the EGM and detected problems </b> </p>"+"<table  cellspacing="+"\"10\""+" width="+"\"100%\""+">"+"<tbody>"+"<tr>"+"<td>"+"<p align="+"\"center\""+"> EGM: <a target="+"\"_blank\""+" href="+"\"PPM:TAB1\""+">Access to Report Exported</a> <br /> </p>"+"<p><img width="+"\"312\""+" height="+"\"190\""+" id="+"\"Picture1\""+" src="+"\"caremanagementdb://Patient/Observation/@base64String\""+" alt="+"\"x.bmp\""+" /></p>"+"</td>"+"<td>"+"<p align="+"\"center\""+">  Assesment by CIED <a target="+"\"_blank\""+" href="+"\"PPM:TAB1\""+">Access to Report Exported</a> <br />"+"<br/>";
 		               		egmBlock += "<p align="+"\"left\""+">";		               		
 		               		for(var k:int = 0; k < variableGrid.selectedItems.length  ; k++){
 		               			egmBlock+=variableGrid.selectedItems[k].name+": $"+variableGrid.selectedItems[k].name+"<br />";
@@ -127,7 +174,7 @@
 		               	case "Patient Reported Symptoms Block":
 	               			var reportedSymptoms:String = "<tr name="+"\"PHRBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b>Brief Information about the patient reported symptoms retrieved from PHR</b> </p><table  width="+"\"100%\""+"><tbody><tr><td>Patient Reported Symptoms </td><td>Value</td></tr>\n";
 						  	for(var m:int = 0; m < variableGrid.selectedItems.length  ; m++){
-		               			reportedSymptoms+= "<tr><td>"+variableGrid.selectedItems[m].name+"</td><td>$"+variableGrid.selectedItems[m].name+" <a href="+"\"http://link.to.patient.parameter.monitor\""+">Link to PHR</a></td></tr>\n";
+		               			reportedSymptoms+= "<tr><td>"+variableGrid.selectedItems[m].name+"</td><td>$"+variableGrid.selectedItems[m].name+" <a target="+"\"_blank\""+" href="+"\"PPM:TAB3\""+">Link to PHR</a></td></tr>\n";
 		               	  	}
 						  	reportedSymptoms+="</tbody></table></td></tr>\n";
 		               		(mainViewContent.getTextField() as TextField).appendText(reportedSymptoms);
@@ -135,7 +182,7 @@
 		               	case "Medical History Block":
 	               			var medicalHist:String = "<tr name="+"\"EHRBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b>Brief Information about the Patient History retrieved from EHR"+ "</b> </p> <table  width="+"\"100%\""+"><tbody><tr><td><b>Status of associated Diseases</b></td><td><b>EHR values</b></td></tr>\n";
 						  	for(var n:int = 0; n < variableGrid.selectedItems.length  ; n++){
-		               			medicalHist+= "<tr><td>"+variableGrid.selectedItems[n].name+"</td><td>$"+variableGrid.selectedItems[n].name+" <a href="+"\"http://link.to.patient.parameter.monitor\""+">Link to EHR</a></td></tr>\n";
+		               			medicalHist+= "<tr><td>"+variableGrid.selectedItems[n].name+"</td><td>$"+variableGrid.selectedItems[n].name+" <a target="+"\"_blank\""+" href="+"\"PPM:TAB3\""+">Link to EHR</a></td></tr>\n";
 		               	  	}
 						  	medicalHist+="</tbody></table></td></tr>\n";
 		               		(mainViewContent.getTextField() as TextField).appendText(medicalHist);
@@ -143,13 +190,30 @@
 		               	case "Recent Lab Results Block":
 							var labResults:String = "<tr name="+"\"EHRBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b>Brief Information about the Patient History retrieved from EHR </b> </p>"+"<table  width="+"\"100%\""+"><tbody><tr><td>Lab Results</td><td>Value</td><td>Normal Values</td></tr>\n";
 							for(var p:int = 0; p < variableGrid.selectedItems.length  ; p++){
-		               			labResults+= "<tr><td>"+variableGrid.selectedItems[p].name+"</td><td>$"+variableGrid.selectedItems[p].name+ " <a href="+"\"http://link.to.patient.parameter.monitor\""+">Link to EHR</a></td><td>"+ "$"+(variableGrid.selectedItems[p] as Variable).refValue +"</td></tr>\n";
+		               			labResults+= "<tr><td>"+variableGrid.selectedItems[p].name+"</td><td>$"+variableGrid.selectedItems[p].name+ " <a target="+"\"_blank\""+" href="+"\"PPM:TAB3\""+">Link to EHR</a></td><td>"+ "$"+(variableGrid.selectedItems[p] as Variable).refValue +"</td></tr>\n";
 		               	  	}
 		               	 	labResults+="</tbody></table></td></tr>\n";
 			               	(mainViewContent.getTextField() as TextField).appendText(labResults);
 							break;
+						case "Comorbid Diseases":
+					   		var comorbidDiseases:String = "<tr name="+"\"EHRBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b>Brief Information about the Patient History retrieved from EHR"+ "</b> </p> <table  width="+"\"100%\""+"><tbody><tr><td><b>Comorbid Diseases</b></td><td><b>EHR values</b></td></tr>\n";
+					   		for(var r:int = 0; r < variableGrid.selectedItems.length  ; r++){
+		               			comorbidDiseases+= "<tr><td>"+variableGrid.selectedItems[r].name+"</td><td>$"+variableGrid.selectedItems[r].name+" <a target="+"\"_blank\""+" href="+"\"PPM:TAB3\""+">Access to EHR</a></td></tr>\n";
+		               	  	}
+						  	comorbidDiseases+="</tbody></table></td></tr>\n";
+		               		(mainViewContent.getTextField() as TextField).appendText(comorbidDiseases);
+					   		break;	
 					   }	
         			}
+        			/* else {
+        				var choiceBlock:String ="<tr name="+"\"ChoiceBlock\""+">"+"<td style="+"\"background-color:#eeeeee\""+">"+"<p align="+"\"center\""+"><b>Recommendation and Next Step to follow </b> </p>"+"<p>Please choose the suitable option</p>"+"<form onsubmit="+"\"return ValidateData();\""+" action="+"\"null\""+" method="+"\"post\""+">\n";
+	               		for(var j:int = 0; j< nextSteps.length; j++){
+	               			choiceBlock+="<input type="+"\"submit\""+" name="+"\"S5Choice\""+" value="+"\""+nextSteps.getItemAt(j).name+"\""+" onclick="+"\"btnWhichButton=this\""+" />\n";
+	               		}
+	               		choiceBlock += "</form>"+"</td>"+"</tr>\n";
+	               		(mainViewContent.getTextField() as TextField).appendText(choiceBlock);
+	               	 	
+        			} */
         		}
         		(mainViewContent.getTextField() as TextField).appendText("</tbody></table>");
         		ifr.content =(mainViewContent.getTextField() as TextField).text; 
@@ -169,7 +233,7 @@
 						<mx:itemRenderer>
 							<mx:Component>
 								<mx:HBox horizontalAlign="center" >
-									<mx:CheckBox selectedField="isSelected" change="onChange(event);">
+									<mx:CheckBox id="checkBlocks" selectedField="isSelected" selected="{data.isSelected}" change="onChange(event);">
 				                        <mx:Script>
 				                            <![CDATA[
 				                                private function onChange(evt:Event):void {

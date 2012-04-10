@@ -20,7 +20,7 @@ package tr.com.srdc.icardea.control
 	{
 		private var model : Model;
 		private var view : iCardea;
-		public static const USER_SERVICE : String = "userService";
+		public static const USER_SERVICE : String = "subscriptionService";
 		private const BAD_CREDENTIALS : String = "Invalid Username or Password";
 		
 		//Constructor

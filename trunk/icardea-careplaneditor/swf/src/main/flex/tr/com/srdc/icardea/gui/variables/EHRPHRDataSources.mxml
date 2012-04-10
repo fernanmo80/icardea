@@ -4,11 +4,11 @@
     
     <mx:Script>
         <![CDATA[
- 
+        	
  	        [Bindable]
             public var selectedNode:XML;
- 
-             // Event handler for the Tree control change event.
+            
+            // Event handler for the Tree control change event.
             public function treeChanged(event:Event):void 
             {
             	selectedNode=Tree(event.target).selectedItem as XML;  
@@ -19,12 +19,12 @@
     </mx:Script>
     <mx:XMLList id="treeData">
     	
-	<node label="Health Records\n">
-		<node label="Problem\n"/>
-		<node label="Medication\n"/>
-		<node label="Imaging Result\n"/>
-		<node label="Procedure\n"/>
-		<node label="Demograpics\n"/>
+	<node label="Health Records">
+		<node label="Problem"/>
+		<node label="Medication"/>
+		<node label="Imaging Result"/>
+		<node label="Procedure"/>
+		<node label="Demograpics"/>
 	</node>
 
     </mx:XMLList>

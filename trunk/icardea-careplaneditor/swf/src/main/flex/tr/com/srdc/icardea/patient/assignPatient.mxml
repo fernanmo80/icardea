@@ -19,7 +19,7 @@
   ~ // or an external cause.
   ~ ////////////////////////////////////////////////////////////////////////////////
  -->
-<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="Assign Guideline to the Patient" height="356" width="536" >
+<mx:TitleWindow xmlns:mx="http://www.adobe.com/2006/mxml" title="Assign Guideline to the Patient"  >
 
     <mx:Script>
 		<![CDATA[
@@ -39,7 +39,9 @@
 			import mx.managers.PopUpManager;
 	
 		[Bindable]
-        public var arr:ArrayCollection=new ArrayCollection;
+        public var patients:ArrayCollection=new ArrayCollection;
+        [Bindable]
+        public var caregivers:ArrayCollection=new ArrayCollection;
 		[Bindable]
         public var sparent:DefinedCareplans;
 		
@@ -77,23 +79,82 @@
 		private function cancel():void{
 			PopUpManager.removePopUp(this);
 		}
-		
+		public function openCaregivers():void{
+			patientStack.selectedIndex = 1;
+			var service : RemoteObject = new RemoteObject("subscriptionService");
+			var cs:ChannelSet = new ChannelSet();
+			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+			cs.addChannel(customChannel);
+			service.channelSet = cs;
+			service.addEventListener(ResultEvent.RESULT,onListCaregivers);
+			service.addEventListener(FaultEvent.FAULT, onFault);
+			service.listCaregivers(dgrid.selectedItem as Patient);
+		}
+		private function onListCaregivers(result:ResultEvent):void{
+			if(result != null){
+				caregivers = result.result as ArrayCollection;
+			}
+			
+		}
+		public function addCaregiver():void{
+			
+		}
+		public function editCaregiver():void{
+			
+		}
+		public function deleteCaregiver():void{
+			
+		}
 		
         
         ]]>
 	</mx:Script>
-    <mx:DataGrid styleName="usersGrid" width="497" height="268" id="dgrid" dataProvider="{this.arr}" borderStyle="none">
-		<mx:columns>
-			<mx:DataGridColumn headerText="ID" dataField="personID" />
-			<mx:DataGridColumn headerText="Name" dataField="name"/>	
-			<mx:DataGridColumn headerText="Surname" dataField="surname" />
-			<mx:DataGridColumn headerText="Gender" dataField="gender" />
-			<mx:DataGridColumn headerText="Birth Date" dataField="dateOfBirth" />
-		</mx:columns>
-	</mx:DataGrid>
-	<mx:HBox>
-		<mx:Button label="ASSIGN" click="assign()" width="86" height="30"/>
-		<mx:Button label="CANCEL" click="cancel()" width="86" height="30"/>
-	</mx:HBox>
-	
+	<mx:ViewStack width="100%" height="100%" id="patientStack" creationPolicy="all">
+		<mx:VBox width="100%" height="100%">
+	    	<mx:DataGrid styleName="usersGrid" width="100%" height="100%" id="dgrid" dataProvider="{this.patients}" borderStyle="none">
+				<mx:columns>
+					<mx:DataGridColumn headerText="ID" dataField="personID" />
+					<mx:DataGridColumn headerText="Name" dataField="name"/>	
+					<mx:DataGridColumn headerText="Surname" dataField="surname" />
+					<mx:DataGridColumn headerText="Gender" dataField="gender" />
+					<mx:DataGridColumn headerText="Birthdate" dataField="dateOfBirth" />
+					<mx:DataGridColumn headerText="Caregiver">
+			   	    	<mx:itemRenderer>
+							<mx:Component>
+								<mx:HBox horizontalAlign="center">
+									<mx:LinkButton toolTip="Show Caregivers" icon="@Embed('/assets/careplaneditor/edit.png')" click="outerDocument.openCaregivers()"/>
+								</mx:HBox>
+							</mx:Component>
+						</mx:itemRenderer>
+					</mx:DataGridColumn>
+				</mx:columns>
+			</mx:DataGrid>
+			<mx:HBox horizontalAlign="right" width="100%">
+		    	<mx:Button icon="@Embed(source='/assets/save.png')" label="Assign" click="assign()" />
+		    	<mx:Button icon="@Embed(source='/assets/cancel.png')" label="Cancel" click="cancel()"/>
+		    </mx:HBox>
+	    </mx:VBox>
+	    <mx:VBox width="100%" height="100%">
+	    	<mx:DataGrid styleName="usersGrid" width="100%" height="100%" id="caregiversGrid" dataProvider="{this.caregivers}" borderStyle="none">
+				<mx:columns>
+					<mx:DataGridColumn headerText="ID" dataField="identifier" />
+					<mx:DataGridColumn headerText="Name" dataField="name"/>	
+					<mx:DataGridColumn headerText="Surname" dataField="surname" />
+					<mx:DataGridColumn headerText="E-mail" dataField="contact.email" />
+					<mx:DataGridColumn headerText="Phone" dataField="contact.phoneNumber" />
+					<mx:DataGridColumn headerText="Operations">
+	    	   	    	<mx:itemRenderer>
+							<mx:Component>
+								<mx:HBox width="100%" horizontalAlign="center">
+									<mx:LinkButton toolTip="Add Caregiver" icon="@Embed('/assets/careplaneditor/add.png')" click="outerDocument.addCaregiver()" width="20" height="20"/>
+									<mx:LinkButton toolTip="Edit Caregiver" icon="@Embed('/assets/careplaneditor/edit.png')" click="outerDocument.editCaregiver()" width="20" height="20"/>
+									<mx:LinkButton toolTip="Delete Caregiver" icon="@Embed('/assets/careplaneditor/delete.png')" click="outerDocument.deleteCaregiver()" width="20" height="20"/>
+								</mx:HBox>
+							</mx:Component>
+						</mx:itemRenderer>
+					</mx:DataGridColumn>			
+				</mx:columns>
+			</mx:DataGrid>
+	    </mx:VBox>
+	</mx:ViewStack>
 </mx:TitleWindow> 

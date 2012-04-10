@@ -57,11 +57,7 @@
 		
 	
 		
-		public function saveChoice():void
-		{
-			
-		}
-				
+		
 		public function cancel():void
 		{
 			PopUpManager.removePopUp(this);
@@ -71,7 +67,7 @@
 		{
 			trace("sparent.selected: "+sparent.selectedNode.@label)
 		
-			if(sparent.selectedNode.@label == "Problem\n")
+			if(sparent.selectedNode.@label == "Problem")
 			{	
 				if(!flg1)
 				{
@@ -427,7 +423,7 @@
 				}
 				arr=gridArr;
 			}
-			else if(sparent.selectedNode.@label == "Medication\n")
+			else if(sparent.selectedNode.@label == "Medication")
 			{
 				if(!flg2)
 				{
@@ -477,7 +473,7 @@
 				}
 				arr=gridArr1;
 			}
-			else if(sparent.selectedNode.@label == "Imaging Result\n")
+			else if(sparent.selectedNode.@label == "Imaging Result")
 			{
 				if(!flg3)
 				{
@@ -642,7 +638,7 @@
 				arr=gridArr2;
 			}
 			
-			else if(sparent.selectedNode.@label == "Demograpics\n")
+			else if(sparent.selectedNode.@label == "Demograpics")
 			{
 				if(!flg5)
 				{
@@ -656,7 +652,7 @@
 				}
 				arr=gridArr5;
 			}
-			else if(sparent.selectedNode.@label == "Procedure\n")
+			else if(sparent.selectedNode.@label == "Procedure")
 			{
 				if(!flg6)
 				{

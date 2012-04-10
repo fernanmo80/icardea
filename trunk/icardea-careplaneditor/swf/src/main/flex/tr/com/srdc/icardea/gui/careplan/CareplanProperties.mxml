@@ -40,6 +40,8 @@
         [Bindable]
         public var control:CareplanControl;
         private var _edit:Boolean = false;
+        [Bindable]
+        public var sparent:DefinedCareplans;
         
         private function init():void{
         	//TODO: Care plan ID kontrol
@@ -55,17 +57,19 @@
         {
       		this._medicalCareplan.name= pname.text;
       		this._medicalCareplan.id = pid.text;
+      		this._medicalCareplan.url = "http://localhost:8080/icardea/guidelines/icardea/"+this._medicalCareplan.name+"-"+this._medicalCareplan.id+".owl";
       		///TODO:id disabled-random id generation
       		//this._medicalCareplan.version = version.text;
-      		if(this._medicalCareplan.name != "" && this._medicalCareplan.id != ""){
+      		 if(this._medicalCareplan.name != "" && this._medicalCareplan.id != ""){
       			if(this._edit){
 	      			this.control.updateCareplan(this._medicalCareplan); 
 	      		}else{
 	      			this.control.createCareplan(this._medicalCareplan);
-	      		}
+	      		} 
+	      		
 	      		PopUpManager.removePopUp(this);
             	parentApplication.enabled=true;
-      		}
+      		 }
       		else {
       			Alert.show("Please fill the required areas!");
       		}

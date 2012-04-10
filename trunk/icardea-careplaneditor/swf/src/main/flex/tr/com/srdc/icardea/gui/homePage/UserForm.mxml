@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<mx:Form xmlns:mx="http://www.adobe.com/2006/mxml"  initialize="init()" 
-	styleName="mainLoginForm" xmlns:view="tr.com.srdc.icardea.gui.homePage.*"  width="100%" height="100%"
+<mx:Form xmlns:mx="http://www.adobe.com/2006/mxml" width="100%" initialize="init()" 
+	styleName="mainLoginForm" xmlns:view="tr.com.srdc.icardea.gui.homePage.*"  
 	>
 	<mx:Script>
 	<![CDATA[
@@ -97,49 +97,28 @@
 	</mx:Script>
 	
 		
-			<mx:HBox width="100%" height="100%" horizontalAlign="center" label="User Info">
+			<mx:HBox width="100%" horizontalAlign="center" label="User Info">
 				<mx:Form  styleName="mainLoginForm" >
 					<mx:FormItem label="Username:" styleName="mainLoginFormItem">
 						<mx:TextInput id="usernameText" text="{person.openId}" editable="false" />
 					</mx:FormItem>
 					<mx:FormItem label="Title:" styleName="mainLoginFormItem">
-						<mx:TextInput id="titleText" />
+						<mx:TextInput id="titleText" text="{person.role}" editable="false" />
 					</mx:FormItem>
 					<mx:FormItem label="Name:" styleName="mainLoginFormItem">
-						<mx:TextInput id="nameText" text="{person.fullName}" />
-					</mx:FormItem>
-					<mx:FormItem label="Middle Name:" styleName="mainLoginFormItem">
-						<mx:TextInput id="middleNameText" />
-					</mx:FormItem>
-					<mx:FormItem label="Surname:" styleName="mainLoginFormItem"> 
-						<mx:TextInput id="surnameText" />
-					</mx:FormItem>
-					<mx:FormItem label="Password: " styleName="mainLoginFormItem"> 
-						<mx:TextInput displayAsPassword="true" id="password" />
-					</mx:FormItem>
+						<mx:TextInput id="nameText" text="{person.fullName}" editable="false" />
+					</mx:FormItem>									
 				</mx:Form>
 				<mx:Form  styleName="mainLoginForm" >
 					<mx:FormItem label="Email:" styleName="mainLoginFormItem">
 						<mx:TextInput id="emailText"  />
 					</mx:FormItem>
-					<mx:FormItem label="Postal Address:" styleName="mainLoginFormItem">
+					<mx:FormItem label="Address:" styleName="mainLoginFormItem">
 						<mx:TextInput id="addressText" />
-					</mx:FormItem>
-					<mx:FormItem label="Mobile Phone:" styleName="mainLoginFormItem">
-						<mx:TextInput id="mobileText"  />
 					</mx:FormItem>
 					<mx:FormItem label="Phone Number:" styleName="mainLoginFormItem">
 						<mx:TextInput id="phoneNumber" />
-					</mx:FormItem>
-					<mx:FormItem label="Fax Number:" styleName="mainLoginFormItem">
-						<mx:TextInput id="faxNumber" />
-					</mx:FormItem>
-					<mx:FormItem label="Google Talk:" styleName="mainLoginFormItem">
-						<mx:TextInput id="googleTalk"/>
-					</mx:FormItem>
+					</mx:FormItem>					
 				</mx:Form>
 			</mx:HBox>
-			
-		
-	
 </mx:Form>

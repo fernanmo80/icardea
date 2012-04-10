@@ -1143,7 +1143,7 @@
 					
 			private function toXMLsave():String
 			{			
-				
+				var mcp:MedicalCareplan = new MedicalCareplan;
 				var xml:String;
 				var algo:Algorithm = new Algorithm;
 				var body:Body = new Body;
@@ -1166,12 +1166,13 @@
 			      		algo.addRecord(value as RecordActionStep)		
 			      			
 			    }
-			    
+			  
 			   // body.eligibilityCriteria =Application.application.careplans.elCriteria.eligibilityCriteria;
 			    body.algorithm=algo;
-			    xml=FlexXBEngine.instance.serialize(body);
+			    mcp.body = body;
+			    xml=FlexXBEngine.instance.serialize(mcp);
 			    var xml1:XML = new XML(xml);
-			    var body2:Body = FlexXBEngine.instance.deserialize(xml1, Body) as Body;
+			    var body2:MedicalCareplan = FlexXBEngine.instance.deserialize(xml1, MedicalCareplan) as MedicalCareplan;
 			    					
 				return xml;	
            }

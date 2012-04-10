@@ -24,7 +24,7 @@
 			import mx.rpc.events.ResultEvent;
         
         [Bindable]
-        private var model:CareplanModel = new CareplanModelImp();
+        public var model:CareplanModel = new CareplanModelImp();
         [Bindable]
         private var control:CareplanControl; 
         [Bindable]
@@ -77,6 +77,7 @@
         	var mc:MedicalCareplan = new MedicalCareplan;
         	newPop.medicalCareplan=mc;
         	newPop.control = this.control;
+        	newPop.sparent = this;
         	        					
            	PopUpManager.addPopUp(newPop, this,true);
            	PopUpManager.centerPopUp(newPop);
@@ -123,9 +124,9 @@
         	if (result != null && result.result != null){
         		for(var i:int =0; i< (result.result as ArrayCollection).length;i++)
 	        	{
-	        		(assignPop.arr as ArrayCollection).addItem((result.result as ArrayCollection).getItemAt(i));
+	        		(assignPop.patients as ArrayCollection).addItem((result.result as ArrayCollection).getItemAt(i));
 	        	}
-	        	assignPop.arr = result.result as ArrayCollection;
+	        	assignPop.patients = result.result as ArrayCollection;
 	        	assignPop.sparent=this;
 	        	PopUpManager.addPopUp(assignPop, this,true);
 	        	PopUpManager.centerPopUp(assignPop);

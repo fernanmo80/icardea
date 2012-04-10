@@ -551,12 +551,11 @@
 							<mx:Image click="orListHandler();" id="orList" source="{orListImage}" />
 							<mx:Image click="sumListHandler();" id="sumList" source="{sumListImage}" />
 						</mx:HBox>
-						<mx:HBox height="46" width="201">
-							<mx:Button label="Save" width="90" click="saveScript()" height="36"/>
-							<mx:Button label="Cancel" width="90" click="cancelScript()" height="36"/>
-						</mx:HBox>
-					</mx:VBox>
-					
+						<mx:HBox horizontalAlign="right" width="100%">
+					    	<mx:Button icon="@Embed(source='/assets/save.png')" label="Save" click="saveScript()" />
+					    	<mx:Button icon="@Embed(source='/assets/cancel.png')" label="Cancel" click="cancelScript()"/>
+					    </mx:HBox>						
+					</mx:VBox>					
 					<mx:VBox width="688" height="560">
 						<mx:HBox height="221">
 							<mx:VBox>
