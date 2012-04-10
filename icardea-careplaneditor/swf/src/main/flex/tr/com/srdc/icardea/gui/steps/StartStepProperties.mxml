@@ -32,10 +32,10 @@
 	</mx:Script>
 	    <mx:Spacer height="5%"/>
 	    <mx:Text id="startName" text="{this.startStep.name}" width="161"/>
-	   	<mx:HBox width="341" height="36">
+	   	<!--<mx:HBox width="341" height="36">
 	   		<mx:Label text="Do you want to add Eligibility Criteria to the Guideline?" width="276"/>
 	    	<mx:Button label="Add" click="openCriteria()"/>
-	   	</mx:HBox>
+	   	</mx:HBox>-->
 	    <mx:Spacer height="10%"/>
 	    <mx:Button label="OK" enabled="true" click="{saveStartChoices()}" width="79" height="29"/>
 	</mx:VBox>

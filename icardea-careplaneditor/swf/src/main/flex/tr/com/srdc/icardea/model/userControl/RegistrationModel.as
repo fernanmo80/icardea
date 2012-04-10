@@ -11,6 +11,7 @@ package tr.com.srdc.icardea.model.userControl
 		public var role:String;
 		public var dateOfBirth:String;	
 		public var is_verified:String;
+		public var address:String;
 		
 	}
 }

@@ -12,8 +12,6 @@ package tr.com.srdc.icardea.model.variables{
 		[XmlAttribute(order="2")]
 		public  var name : String = "";
 		[XmlAttribute(order="3")]
-		public  var attribute : String = "";
-		[XmlAttribute(order="4")]
 		public  var schemeID : String = "";
 		
 		}

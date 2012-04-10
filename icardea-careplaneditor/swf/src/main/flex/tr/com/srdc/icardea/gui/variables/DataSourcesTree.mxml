@@ -160,7 +160,7 @@
 		        		sourceVar2.code = "C1704791"; //// kontrol et
 		        		sourceVar2.name="Patient";
 		        		sourceVar2.schemeID = "UMLS";
-		        		sourceVar2.attribute = "dateTimeOfBirth";
+		        		//sourceVar2.attribute = "dateTimeOfBirth";
 		        	}
 		        	if(arr4[0] == "Procedure")
 		        	{	
@@ -186,7 +186,7 @@
 		        		sourceVar2.code = "C2598133";
 		        		sourceVar2.name="Medication";
 		        		sourceVar2.schemeID = "UMLS";
-		        		sourceVar2.attribute = "drugCode";
+		        		//sourceVar2.attribute = "drugCode";
 		        	}
 		        	
 		        	if(sourceVar.code=="C0178916")

@@ -79,7 +79,7 @@
 		
 		[Bindable] public var flag:Boolean = false;
 		[Bindable]
-		public var model:RegistrationModel;
+		public var model:RegistrationModel = new RegistrationModel;
 	
 		/* [Bindable]
 		[Embed('/assets/monitoringTool/circle.png')] 
@@ -102,7 +102,7 @@
 		}
 		public function onResultLogin(result:ResultEvent):void 
        	{
-       		var model:RegistrationModel = new RegistrationModel();
+       		//var model:RegistrationModel = new RegistrationModel();
        		model = result.result as RegistrationModel;
      
        		if(model.is_verified == "true") { //TODO: Control also sign&encrypt      			
@@ -187,24 +187,18 @@
 		}
 		
 		private function updatePerson():void {
-			/* var person:RegistrationModel= userForm.person;
-			person.name = userForm.nameText.text;
-			person.surname = userForm.surnameText.text;
-			person.middleName = userForm.middleNameText.text;
-			person.title = userForm.titleText.text;
-			person.username = userForm.usernameText.text;
-			
-			if (person.contact == null) person.contact = new Contact();
-			person.contact.email = userForm.emailText.text;
-			person.contact.addressLine = userForm.addressText.text;
-			person.contact.mobileNumber = userForm.mobileText.text;
-			person.contact.phoneNumber = userForm.phoneNumber.text;
-			person.contact.faxNumber = userForm.faxNumber.text;
-			person.contact.gtalk = userForm.googleTalk.text; */
-			
+			var person:RegistrationModel= userForm.person;
+			person.fullName = userForm.nameText.text;
+			person.role = userForm.titleText.text;
+			person.openId = userForm.usernameText.text;
+			person.emailAddress = userForm.emailText.text;
+			person.phoneNumber = userForm.phoneNumber.text;	
+			person.address = userForm.addressText.text;		
+		 
 			 	
-			//control.updatePerson(person);
-		}
+			//TODO: Update person for medical professionals
+       	}
+       
 		private function doReturnHome():void{
 			viewStack.selectedIndex = 2;
 			userMain.selectedIndex = 3;
