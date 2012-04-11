@@ -19,46 +19,27 @@
  		private var html:XML = null;	
 
 		private function init():void {
-        	//if (recommendationStep.html != null) htmlBlock = recommendationStep.html;
         	trace(recommendationStep.display.html.body);
         }
 
         private function saveRecommendationChoices():void
         {
         	this.recommendationStep.name = recName.text;
-	    	//this.recommendationStep.html = htmlBlock;
-        	//this.recommendationStep.display.html = html;
-        	
-        	//TODO:Degisecek olan recommendation xml ine gore message gonderilecek
-        	//sendPatient
-        	//sendCaregivers
-        	//sendMedicalProfessional
+	    	this.recommendationStep.display = recommendationStep.display;
         	
         	PopUpManager.removePopUp(this);
             parentApplication.enabled=true;
         }
         
         private function popHtmlEditor():void {
-        	/* var popBlock:BlockAndScreen = htmlBlock;
-        	popBlock.html = null;
-        	PopUpManager.addPopUp(popBlock, Application.application as DisplayObject,true);
-        	
-        	PopUpManager.centerPopUp(popBlock);
-        	popBlock.addEventListener(Event.CLOSE, htmlHandler); */
         	var popup:WindowDesignMain = new WindowDesignMain;
         	popup.display = recommendationStep.display;
+        	popup.nextSteps = recommendationStep.nextStep;
         	trace("popup.display: "+popup.display)
         	PopUpManager.addPopUp(popup, Application.application as DisplayObject,true);
         	PopUpManager.centerPopUp(popup);
         }
         
-        private function htmlHandler(event:Event):void {
-        	/* html = (event.currentTarget as BlockAndScreen).html;
-        	if (html != null)
-        		Alert.show("Design has been saved.");
-        	(event.currentTarget as BlockAndScreen).removeEventListener(Event.CLOSE, htmlHandler); */
-        }
-
         ]]>
 	</mx:Script>
     	<mx:Spacer height="10"/>
