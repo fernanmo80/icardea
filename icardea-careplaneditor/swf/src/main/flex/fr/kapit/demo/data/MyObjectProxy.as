@@ -118,7 +118,8 @@ public class MyObjectProxy implements ISpriteProxy
         var spriteid:String = DiagramSprite(el).spriteid;
         var name:String = el.did;
         var uid:String = "S"+UIDUtil.createUID();
-        uid.replace("-","");
+        uid = uid.split("-").join("");
+        trace("uid create: "+uid)
         var obj:MyObject = new MyObject();
         obj.type = type;
         obj.spriteid = spriteid;
@@ -213,7 +214,7 @@ public class MyObjectProxy implements ISpriteProxy
     	
 	    
     	var uid:String = "S"+UIDUtil.createUID();
-    	uid.replace("-","");
+    	uid = uid.split("-").join("");
         var index:int = getElementIndex(el);
         var spriteid:String = DiagramSprite(el).spriteid;
         var obj:MyObject = null;
