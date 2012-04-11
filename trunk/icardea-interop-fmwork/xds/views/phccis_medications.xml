@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ClinicalDocument xmlns="urn:hl7-org:v3" xmlns:voc="urn:hl7-org:v3/voc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<typeId root="2.16.840.1.113883.1.3" extension="POCD_HD000040"/>
+	<templateId root="2.16.840.1.113883.3.27.1776"/>
+	<id extension="c20120118143457" root="2.16.840.1.113883.19.4"/>
+	<code code="11492-6" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC" displayName="History and Physical note"/>
+	<title>Good Health Clinic History and Physical Note</title>
+	<effectiveTime value="20120118143457"/>
+	<confidentialityCode code="N" codeSystem="2.16.840.1.113883.5.25"/>
+	<languageCode code="en-US"/>
+	<versionNumber value="2"/>
+	<recordTarget>
+		<patientRole>
+			<id root="1.2.826.0.1.3680043.2.44.248240.1&amp;ISO" extension="{{pat_id}}"/>
+			<patient>
+				<name>
+					<given>{{patient.given}}</given>
+					<family>{{patient.family}}</family>
+					<suffix/>
+				</name>
+				<administrativeGenderCode code="{{patient.gender}}" codeSystem="2.16.840.1.113883.5.1"/>
+				<birthTime value="{{patient.date_of_birth}}"/>
+			</patient>
+			<providerOrganization>
+			</providerOrganization>
+		</patientRole>
+	</recordTarget>
+	<author>
+		<time value="20120118143457"/>
+		<assignedAuthor>
+			<id extension="KP00017" root="2.16.840.1.113883.19.5"/>
+			<assignedPerson>
+				<name>
+					<given>{{doctor.given}}</given>
+					<family>{{doctor.family}}</family>
+					<suffix/>
+				</name>
+			</assignedPerson>
+			<representedOrganization>
+				<id root="PHCCIS"/>
+			</representedOrganization>
+		</assignedAuthor>
+	</author>
+	<custodian>
+		<assignedCustodian>
+			<representedCustodianOrganization>
+				<id root="2.16.840.1.113883.19.5"/>
+				<name/>
+			</representedCustodianOrganization>
+		</assignedCustodian>
+	</custodian>
+	<legalAuthenticator>
+		<time value="20120118143457"/>
+		<signatureCode code="S"/>
+		<assignedEntity>
+			<id extension="KP00017" root="2.16.840.1.113883.19.5"/>
+			<assignedPerson>
+				<name>
+					<given/>
+					<family/>
+					<suffix/>
+				</name>
+			</assignedPerson>
+			<representedOrganization>
+				<id root="2.16.840.1.113883.19.5"/>
+				<name>SALK</name>
+			</representedOrganization>
+		</assignedEntity>
+	</legalAuthenticator>
+	<component>
+		<structuredBody>
+			<component>
+				<section>
+					<templateId root="1.3.6.1.4.1.19376.1.5.3.1.3.8"/>
+					<code code="11348-0" displayName="MEDICATIONS" codeSystem="2.16.840.1.113883.6.1" codeSystemName="LOINC"/>
+					<title>MEDICATIONS</title>
+					<text>
+						<list>
+							{% for item in medications %}
+							<item>{{item.drugname}}</item>
+							{% endfor %}
+						</list>
+					</text>
+					<entry>
+						{% for item in medications %}
+						<substanceAdministration classCode="SBADM" moodCode="EVN">
+							<templateId root="1.3.6.1.4.1.19376.1.5.3.1.4.7"/>
+							<!--id root='' extension='12122'/-->
+							<text>
+								<reference value="#xxx"/>
+							</text>
+							<statusCode code="completed"/>
+							<effectiveTime xsi:type="IVL_TS">
+								<low value="200812010000"/>
+								<high value="201106101010"/>
+							</effectiveTime>
+							<!--routeCode code='TMP_ROUTECODE' codeSystem='2.16.840.1.113883.5.112' displayName='TMP_ROUTENAME' codeSystemName='HL7 RouteOfAdministration Vocabulary'/-->
+							<doseQuantity value="{{item.dose_value}}" unit="{{item.dose_unit}}"/>
+							<consumable typeCode="CSM">
+								<manufacturedProduct classCode="MANU">
+									<manufacturedLabeledDrug classCode="MMAT" determinerCode="KIND">
+										<code code="{{item.umls_drug}}" displayName="{{item.drugname}}" codeSystem="2.16.840.1.113883.6.86" codeSystemName="UMLS">
+											<originalText>{{item.drugname}}</originalText>
+										</code>
+									</manufacturedLabeledDrug>
+								</manufacturedProduct>
+							</consumable>
+						</substanceAdministration>
+						{%endfor%}
+					</entry>
+				</section>
+			</component>
+		</structuredBody>
+	</component>
+</ClinicalDocument>
