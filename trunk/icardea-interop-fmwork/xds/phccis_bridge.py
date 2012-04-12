@@ -26,6 +26,7 @@ from gevent import monkey; monkey.patch_socket()
 from gevent.threadpool import ThreadPool
 from gevent.coros import Semaphore
 import time
+import random
 import urllib2
 import re
 import uuid
@@ -34,7 +35,7 @@ import requests
 import email.parser
 import logging
 
-logging.basicConfig(level=logging.INFO, format='[%(thread)d] %(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.DEBUG, format='[%(thread)d] %(asctime)s - %(levelname)s - %(message)s')
 
 class DB():
     thread_local_storage = threading.local()
@@ -42,7 +43,7 @@ class DB():
     @classmethod
     def _connect(cls):
         if 'conn' not in cls.thread_local_storage.__dict__:
-            conn = pyodbc.connect('DRIVER={SQL Server};SERVER=ajax;DATABASE=WEB_PHCCIS_iCARDEA;uid=phccis-user;PWD=phccis-user')
+            conn = pyodbc.connect('DRIVER={SQL Server};SERVER=localhost;DATABASE=WEB_PHCCIS;uid=phccis-user;PWD=phccis-user')
             conn.cursor().execute('SET DATEFORMAT dmy')
             cls.thread_local_storage.conn = conn
         return cls.thread_local_storage.conn
@@ -50,7 +51,7 @@ class DB():
     @classmethod
     def query(cls, sql, *args):
         def task(sql, *args):
-            logging.debug('[%d] querying...' % (threading.current_thread().ident, ))
+            logging.debug('querying...')
             conn = None
             try:
                 conn = cls._connect()
@@ -70,7 +71,7 @@ class DB():
     @classmethod
     def execute(cls, sql, *args):
         def task(sql, *args):
-            logging.debug('[%d] executing...' % (threading.current_thread().ident, ))
+            logging.debug('executing...')
             conn = None
             try:
                 conn = cls._connect()
@@ -90,7 +91,7 @@ class DB():
     @classmethod
     def execute_async(cls, sql, *args):
         def task(sql, *args):
-            logging.debug('[%d] executing...' % (threading.current_thread().ident, ))
+            logging.debug('executing async...')
             conn = None
             try:
                 conn = cls._connect()
@@ -195,9 +196,10 @@ def store_history_info(pcc10):
     l = d.xpath("//hl7:pertinentInformation3/hl7:substanceAdministration", namespaces=NS)
     for drug in l:
         umls_code = drug.xpath('hl7:consumable/hl7:manufacturedProduct/hl7:manufacturedLabeledDrug/hl7:code/@code',
-                namespaces=NS)[0]
+                namespaces=NS)
         if not umls_code:
             continue
+        umls_code = umls_code[0]
         atc_code = UMLS_TO_ATC.get(umls_code, None)
         if atc_code is None:
             logging.warning("Couldn't find ATC for UMLS '%s'" % umls_code)
@@ -264,11 +266,12 @@ def check_new_patients():
     gevent.spawn(real_check_patients)
 
 def send_visit_update(rowid, patid, visitid):
-    print "sending updates for visit",visitid
+    logging.info( "sending updates for visit %d ",visitid)
     r = DB.query("""SELECT GIVENNAME, FAMILYNAME, BIRTHDATE, GENDERID
                     FROM PATIENT WHERE iCARDEAID=?""", patid)[0]
-    pat = {'given': unicode(r.GIVENNAME, "cp1253"), 'family':
-        unicode(r.FAMILYNAME, "cp1253")}
+    pat = {'id':patid, 
+            'given': unicode(r.GIVENNAME, "cp1253"), 
+            'family': unicode(r.FAMILYNAME, "cp1253")}
     pat['date_of_birth'] = "%04d%02d%02d" % (r.BIRTHDATE.year,
             r.BIRTHDATE.month, r.BIRTHDATE.day)
     if r.GENDERID == 1:
@@ -313,6 +316,9 @@ def send_visit_update(rowid, patid, visitid):
             patient = pat,
             doctor=doctor)
     # print cda
+    import codecs
+    with codecs.open('icsp_cda_vis%s.xml' % (visitid,), encoding='utf-8', mode='w') as f:
+	    f.write(cda)
     server_url = options.xds_endpoint
     ts = time.strftime('%Y%m%d%H%M%S', time.gmtime())
     soap = template('phccis_pnr.xml', 
@@ -323,11 +329,11 @@ def send_visit_update(rowid, patid, visitid):
                     doc_uuid = uuid.uuid4().urn,
                     submission_time = ts,
                     sset_uuid = uuid.uuid4().urn,
-                    base64_document = base64.b64encode(cda)
+                    base64_document = base64.b64encode(cda.encode('utf-8'))
                     )
-    # print soap
-    from email.utils import make_msgid
-    cid = make_msgid()
+    #print soap.encode('utf-8')
+    # cid = uuid.uuid4().hex
+    cid = "<%d.%s@%s>" % (time.time(), random.getrandbits(64), MYIP)
     mime_boundary = 'MIMEBoundaryurn_uuid_806D8FD2D542EDCC2C1199332890718'
     content_type = 'multipart/related; boundary=%s; type="application/xop+xml"; start="%s"; start-info="application/soap+xml"; action="%s"' % (mime_boundary, cid, PNR_ACTION)
     from cStringIO import StringIO
@@ -336,7 +342,7 @@ def send_visit_update(rowid, patid, visitid):
     out.write('Content-Type: application/xop+xml; charset=UTF-8; type="application/soap+xml"\r\n')
     out.write('Content-Transfer-Encoding: binary\r\n')
     out.write("Content-ID: %s\r\n\r\n" % cid)
-    out.write(soap)
+    out.write(soap.encode('utf-8'))
     out.write("\r\n--%s--" % mime_boundary)
     body = out.getvalue()
     out.close()
@@ -344,7 +350,7 @@ def send_visit_update(rowid, patid, visitid):
     r = requests.post(server_url, data=body, headers={'content-type': content_type})
     logging.info('PNR STATUS %s ', r.status_code)
     #for k,v in r.headers.iteritems():
-    #    print k,'=',v
+    #   print k,'=',v
     # print 'SUBMITTED AND GOT\n',r.content
     # fp = email.parser.FeedParser()
     # fp.feed("Content-type: "+r.headers.get('content-type')+"\r\n")
@@ -402,7 +408,7 @@ def main():
     global options
     options = parse_options()
     bottle.debug(True)
-    s = pywsgi.WSGIServer(('', options.port), bottle.default_app())
+    s = pywsgi.WSGIServer((MYIP, options.port), bottle.default_app())
     s.start()
     logging.info('Admin/monitor interface at http://%s:%s/' % (MYIP, options.port))
     check_new_patients()
