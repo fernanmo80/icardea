@@ -1,5 +1,7 @@
 package tr.com.srdc.icardea.platform.service.login;
 
+import tr.com.srdc.icardea.platform.model.Contact;
+
 
 public class RegistrationModel {
   /**
@@ -13,6 +15,7 @@ public class RegistrationModel {
 	private String role;
 	private String dateOfBirth;	
 	private String is_verified;
+	private String address;	
 	
 	public RegistrationModel() {
 		
@@ -63,6 +66,14 @@ public class RegistrationModel {
 	}
 	public String getRole() {
 		return role;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public String getAddress() {
+		return address;
 	}
 }
 

@@ -104,6 +104,8 @@ public class RegistrationService {
 			ax.addAttribute("label", "http://www.w3.org/2006/vcard/ns#role",true, 0 );
 			
 			sRegRequest.addAttribute("email", false);
+			sRegRequest.addAttribute("phone", false); ///TODO: phone does not supported sreg
+			sRegRequest.addAttribute("country", false);
 			sRegRequest.addAttribute("fullname", false);
 			sRegRequest.addAttribute("dob", false);
 			sRegRequest.addAttribute("postcode", false);
@@ -203,6 +205,14 @@ public class RegistrationService {
 					value = sRegResponse.getAttributeValue("fullname");
 					if (value != null) {
 					  ret.setFullName(value);
+					}
+					value = sRegResponse.getAttributeValue("phone"); ///TODO: phone does not supported sreg
+					if (value != null) {
+					  ret.setPhoneNumber(value);
+					}
+					value = sRegResponse.getAttributeValue("country");
+					if (value != null) {
+					  ret.setAddress(value);
 					}
 				}
 			}	    

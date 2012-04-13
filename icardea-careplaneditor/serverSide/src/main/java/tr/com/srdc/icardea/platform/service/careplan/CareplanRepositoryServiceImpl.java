@@ -253,16 +253,18 @@ public class CareplanRepositoryServiceImpl implements
 
 
 			System.out.println(" $$$ Creating glif definition:" + careplan.getName());
-//			String xmlContent = careplan.getCareplan();
-//			String diagramContent = careplan.getDiagram();
-//			GlifGenerator gg = new GlifGenerator();
-//			String careplanOwlUrl =
-//				gg.generateGlifFromXMLContent(xmlContent, careplan.getName(),
-//				careplan.getId(), diagramContent);
-//			toBeSaved.setContent(careplanOwlUrl);
-
+			/*String xmlContent = careplan.getCareplan();
+			String diagramContent = careplan.getDiagram();
+			GlifGenerator gg = new GlifGenerator();
+			String careplanOwlUrl =
+				gg.generateGlifFromXMLContent(xmlContent, careplan.getName(),
+				careplan.getId(), diagramContent);
+			toBeSaved.setContent(careplanOwlUrl);*/
 			toBeSaved.setIdentifier(careplan.getId());
 			toBeSaved.setName(careplan.getName());
+
+			
+			System.out.println("careplan.getUrl(): "+careplan.getUrl());
 
 			// TODO: Delete in the future
 			ResourceBundle properties = ResourceBundle.getBundle("icardea");
@@ -326,7 +328,7 @@ public class CareplanRepositoryServiceImpl implements
 			GlifGenerator gg = new GlifGenerator();
 			String careplanOwlUrl = gg.generateGlifFromXMLContent(xmlContent,
 				careplan.getName(), careplan.getId(), diagramContent);
-
+			System.out.println("careplanOwlUrl: "+careplanOwlUrl);
 			toBeSaved.setContent(careplanOwlUrl);
 			toBeSaved.setIdentifier(careplan.getId());
 			toBeSaved.setName(careplan.getName());

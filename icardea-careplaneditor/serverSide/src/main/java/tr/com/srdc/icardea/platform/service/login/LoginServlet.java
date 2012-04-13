@@ -31,12 +31,16 @@ public class LoginServlet extends javax.servlet.http.HttpServlet {
 			System.out.println("user_role: "+model.getRole());    
 			System.out.println("user_fullname: "+model.getFullName());
 			System.out.println("user_openid: "+ model.getOpenId());
+			System.out.println("user_phone: "+ model.getPhoneNumber());
+			System.out.println("user_address: "+ model.getAddress());
 			
 			session.setAttribute("is_verified", model.getIs_verified());
 			session.setAttribute("user_role", model.getRole());
 			session.setAttribute("user_fullname", model.getFullName());
 			session.setAttribute("user_email", model.getEmailAddress());
 			session.setAttribute("user_openid", model.getOpenId());
+			session.setAttribute("user_phone", model.getPhoneNumber());
+			session.setAttribute("user_address", model.getAddress());
 			
 		} catch (MessageException e) {
 			// TODO Auto-generated catch block
