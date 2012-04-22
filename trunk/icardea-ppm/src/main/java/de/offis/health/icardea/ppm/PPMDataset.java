@@ -14,6 +14,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -27,7 +28,7 @@ import com.mysql.jdbc.Driver;
 import de.offis.health.icardea.ppm.login.LoginServiceImpl;
 import de.offis.health.icardea.ppm.login.RegistrationService;
 import tr.com.srdc.icardea.consenteditor.webservice.client.ConsentManagerImplServiceTest;
-
+import de.offis.health.icardea.ppm.DactPatternDataSet;
 
 /**
  * @author thiel
@@ -631,7 +632,8 @@ public class PPMDataset {
 		}
 		return stmt;
 	}
-
+	
+	
 	public Statement createStmt() {
 		//TODO error handling
 		try {
@@ -959,7 +961,118 @@ public class PPMDataset {
 		return true;
 
 	}
+	
+	/**
+	 * 
+	 * @param pPatientID The PatientID for which the Pattern should be identified
+	 * @return false, if there is not a single valid pattern for the Patient 
+	 */
 
+	public boolean getPatternStatus(int pPatientID)throws SQLException{
+		// Boolean indicating if one valid pattern was found
+		boolean retVal = false;
+		Collection<DactPatternDataSet> patternList = new ArrayList<DactPatternDataSet>();
+
+		String sqlString = "";
+		ResultSet rs;
+		//1. Pattern anfragen
+		sqlString = "select t1.pattern_id,  t1.prerequisite_db_relations, t1.prerequisiute_db_attributes from dact_pattern as t1 where t1.active = true";
+		logger.debug("SQL Pattern anfragen: " + sqlString);
+		rs = createStmt().executeQuery(sqlString);
+		while(rs.next()){
+			DactPatternDataSet currentPattern = new DactPatternDataSet();
+			currentPattern.patternID = rs.getInt("pattern_id");
+			logger.debug("PAtternVAlues: IP" + currentPattern.patternID);
+			currentPattern.preReqRelations= rs.getString("prerequisite_db_relations");
+			logger.debug("PAtternVAlues: " +currentPattern.preReqRelations);
+			currentPattern.preReqAttributes= rs.getString("prerequisiute_db_attributes");
+			logger.debug("PAtternVAlues: " +currentPattern.preReqAttributes);
+			patternList.add(currentPattern);
+		}
+		// 2. Schauen, welche Pattern für den User gelten
+
+		for(DactPatternDataSet iterDactPattern:patternList ){ 
+
+			sqlString = "select distinct t1.pattern_id from dact_pattern as t1 "
+					+iterDactPattern.preReqRelations 
+					+" where " + iterDactPattern.preReqAttributes + pPatientID +" and t1.pattern_id = "+iterDactPattern.patternID +";";
+			logger.debug("SQL ausführung pattern: " + sqlString);
+			rs = createStmt().executeQuery(sqlString);
+			if(rs.next()){
+				Integer patternID = rs.getInt("pattern_id");
+				logger.debug("Following Pattern is useful: " + iterDactPattern.patternID);	
+				iterDactPattern.preReqFullFilled = true;
+			}
+			else{
+				logger.debug("Following Pattern is useless: " + iterDactPattern.patternID);	
+				iterDactPattern.preReqFullFilled = false;
+			}
+		}
+
+
+		// 3. Aufbereiten der gültigen Pattern für die Anzeige
+		for(DactPatternDataSet iterDactPattern:patternList ){
+			sqlString ="";
+			// PreRequisites are fullfilled for Patient
+			if (iterDactPattern.preReqFullFilled){
+				sqlString = "SELECT  t1.pattern_id,   t1.prerequisite_view," +
+						" t1.conclusion_db_attribute,  t1.conclusion_db_relation," +
+						" t1.confidence_view,  t1.conclusion_view, t1.support_view," +
+						" t1.approvedstatus_view, t1.creationdate,  t1.creationsource," +
+						"  t1.active " +
+						"FROM dact_pattern as t1" +
+						"  where t1.pattern_id = " +iterDactPattern.patternID;
+				rs = createStmt().executeQuery(sqlString);
+				if(rs.next()){
+					//Store data
+					iterDactPattern.viewPreReq =  rs.getString("prerequisite_view");
+					iterDactPattern.conCluAttribute =  rs.getString("conclusion_db_attribute");
+					iterDactPattern.concluRelation =  rs.getString("conclusion_db_relation");
+					iterDactPattern.viewConf =  rs.getString("confidence_view");
+					iterDactPattern.viewConclu =  rs.getString("conclusion_view");
+					iterDactPattern.viewSupport =  rs.getString("support_view");
+					iterDactPattern.viewApproved =  rs.getString("approvedstatus_view");
+					iterDactPattern.creationDate =  rs.getString("creationdate");
+					iterDactPattern.creationSource =  rs.getString("creationsource");
+					iterDactPattern.active =  rs.getBoolean("active");
+					logger.debug("Pattern; " +iterDactPattern);
+
+					if(rs.next()){
+						logger.error("Threre where multiple Lines for on PatternId in dact_pattern. Primary Key problem! for PatternID"+iterDactPattern.patternID);
+					}
+				}
+				else{
+					logger.error("There was no line but had to be for PattternID:"+iterDactPattern.patternID);
+				}
+				// Check, if the whole pattern is already fullfilled by the patient
+				sqlString="";
+				sqlString = "select distinct t1.pattern_id from dact_pattern as t1 "
+						+iterDactPattern.concluRelation 
+						+" where " + iterDactPattern.conCluAttribute + pPatientID +" and t1.pattern_id = "+iterDactPattern.patternID +";";
+				logger.debug("SQL ausführung pattern: " + sqlString);
+				rs = createStmt().executeQuery(sqlString);
+				if(rs.next()){
+					Integer patternID = rs.getInt("pattern_id");
+					logger.debug("Following Pattern is fullfillen in totoal: " + iterDactPattern.patternID);	
+					iterDactPattern.validForPat = true;
+				}
+				else{
+					logger.debug("Following Pattern conclusion is not fullfilled: " + iterDactPattern.patternID);	
+					iterDactPattern.validForPat = false;
+				}	
+			} // End of IF PreReqFullfilled
+		}// End of Step 3
+	
+		// Demo output:
+		logger.debug("Following Patterns where found for patient " + pPatientID);
+		for(DactPatternDataSet iterDactPattern:patternList ){
+			
+			logger.debug(iterDactPattern.toHealthCareActorString());
+			
+		}
+		return retVal;
+	}
+	
 	/**
 	 * @param args
 	 */
@@ -1014,9 +1127,12 @@ public class PPMDataset {
 
 
 				}
+				//FIXME Use PateintID
+				ppmDataset.getPatternStatus(2);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
-				logger.debug("No Sheets");
+				logger.debug(e);
+				//logger.debug("No Sheets");
 			}
 			if (false){
 				ppmDataset.addCIEDData("model:Secura/serial:PZC600368S", "720897^MDC_IDC_PG_TYPE^MDC", "CIED");
@@ -1033,7 +1149,8 @@ public class PPMDataset {
 				ppmDataset.checkPendingData();
 
 			}else{
-				ppmDataset.checkPendingData();
+				//FIXME Auskommentiert für DACT
+				//ppmDataset.checkPendingData();
 			}
 		}else{
 			logger.info("Database created");
