@@ -1,0 +1,126 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html class="no-js" lang="en"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <title></title>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="http://twister.ics.forth.gr/ehr-icardea/manual/css/style.css"/>
+        <link rel="stylesheet" href="http://twister.ics.forth.gr/ehr-icardea/manual/css/icardea_style.css"/>
+        <script src="http://twister.ics.forth.gr/ehr-icardea/manual/js/libs/modernizr-2.0.6.min.js"></script>
+        <style>
+        </style>
+    </head>
+    <body>
+        <div id="container">
+            <header>
+                <h1 class="ui-corner-all ui-state-default">Care Plan Monitoring Tool</h1>
+            </header>
+            <div id="main">
+                    Care Plan Monitoring Tool is able to present the consult and recommendation windows while execution of the clinical guideline. It provides monitoring windows which show the brief history of the patient, care plan steps, CIED alarm and next steps to follow. Additionaly, overall flow can be seen graphically from this tool.
+				<p >
+
+                </p>
+                <section>
+                    <h2 id="start">How to start</h2>
+                    <p>When the basic setup configuration is done, Care Plan Monitoring Tool is ready to run at <a href="http://localhost:8080/icardea_careplaneditor/flex-client/iCardea.html">http://localhost:8080/icardea_careplaneditor/flex-client/iCardea.html</a>
+                        After filling in user name and password parts, Medical Professional is able to use to Care Plan Monitoring Tool by selecting from the menu on the left.
+                    </p>
+					<p>Learn easily to use this tool with <a target="self" href="http://www.srdc.com.tr/icardea/userguide/VTdemos.htm">Ventricular Tachycardia(VT) demonstration video</a>!</p>
+					<p>User Help Manual can be found <a target="self" href="http://www.srdc.com.tr/icardea/userguide/CarePlannerUserHelpManual.docx">here</a>.</p>
+
+                </section>
+                <aside>
+                    <h2>Notes</h2>
+                    <div class="caution">
+                        <h3><img src="http://twister.ics.forth.gr/ehr-icardea/manual/imgs/caution.png" alt="caution"/>Caution </h3>
+                        <p>Make sure the configuration parameters are set before installation.</p>
+                    </div>
+                </aside>
+
+                <section>
+                    <h2 id="install">How to install</h2>
+                    <p>To download the source codes of the project, please go to <a href="http://www.srdc.com.tr/svn/iCardea/">http://www.srdc.com.tr/svn/iCardea/</a></p>
+                    <p>After making necessary configuration changes, there are two options for installing and using iCARDEA system.</p>
+                    <ol>
+                        <li><p>This one is directly from command line and using maven commands.
+                                To start installation for the first time we need to enter following line into console (you can use <tt>setup.bat</tt>) </p>
+                            <pre>mvn install -DcreateDatabases=true -Dmaven.test.skip=true</pre>
+                            <p><tt>mvn install</tt> command (when run from icardea.home) is compiling all resources, creating WAR and JAR packages, putting this packages into local maven repository (to make them available for other projects to access it), deploying WAR files under tomcat (which is located under icardea.home/tools) and running tests. </p>
+                            <p>We used the <tt>-Dmaven.test.skip=true</tt> parameter to skip tests, since we had not started tomcat and some of our tests depends on the services provided by the WAR files deployed under tomcat.
+                                We used the <tt>-DcreateDatabases=true</tt> parameter to tell to the maven that database creation processes should be run.  (This command drops all current databases).
+                            </p>
+                            <p><tt>mvn install</tt> command does the same job whether it is called under sub-module projects. For example, when we run <tt>mvn install</tt> under icardea-careplaneditor folder, it compiles the sources of Care Plan Editor and Care Plan Monitoring Tool, creates WAR package and deploys it under tomcat (and also into maven local repository). </p>
+                            <p>If you want to skip deployment of WAR packages under tomcat, there is another parameter:
+                                <tt>-DskipDeploy=true</tt>
+                            </p>
+                            <p>After a successful installation, you need to start Tomcat using the <tt>start_tomcat.bat</tt> located under icardea.home folder. You cannot start Tomcat before installing, since it is being unpackaged into tools folder during installation.  After Tomcat started, Care Plan Monitoring Tool should be available at the following address. You can check them.</p>
+                            <p>Care Plan Monitoring Tool: <a href="http://localhost:8080/icardea_careplaneditor/flex-client/iCardea.html">http://localhost:8080/icardea_careplaneditor/flex-client/iCardea.html</a> </p>
+                        </li>
+                        <li><p>As mentioned before, there is another way to install and run these tasks: "maven cli plugin"
+                                This plugin is providing a console for calling maven goals and lifecycles.
+                                To start "maven cli plugin", enter the following code into console:
+                            <pre>mvn cli:execute-phase</pre>
+                            <p>This will make the initial process of maven and then provide you a new console.</p>
+                            <pre>maven2></pre>
+                            <p>You can use this console as a normal console and run the commands omitting the first <tt>mvn</tt> command. For example to start installation you can type:</p>
+                            <pre>install -DcreateDatabases=true -Dmaven.test.skip=true</pre>
+                            <p>However, if you think it is still too long, you can use the useful feature of cli plugin: "aliases".
+                                New aliases can be defined in the pom.xml in icardea.home. Several aliases have already been defined. For example to start installation with createDatabases option true and skip test option true, you can type <tt>setup</tt> to cli console.
+                            </p>
+                            <pre>setup</pre>
+                            <p><tt>setup</tt> is an alias to the install <tt>-DcreateDatabases=true -Dmaven.test.skip=true</tt>.</p>
+                            </p></li>
+                    </ol>
+                    <h2 id="configuration">Configuration</h2>
+                    <p>After fetching the project from SVN to a local folder, first open the pom.xml file under "config" folder and make the necessary updates.</p>
+                    <ul>
+                        <li>Set you icardea.home folder to the folder that you fetched the project.</li>
+                        <li>Set your MySQL username and password.</li>
+                        <li>Set max_allowed_packet to 16M in the mysql.ini configuration file.</li>
+                    </ul>
+                    <p>Then set the following environment variables (you can use setenv.bat, but we recommend to set them permanently):</p>
+                    <ul>
+                        <li>MAVEN_OPTS=-Xms256m -Xmx512m</li>
+                        <li>CATALINA_OPTS=-Xms 256m -Xmx1024m -XX:PermSize=256m -XX:MaxPermSize=512m</li>
+                    </ul>
+                    <p>If you prefer to start tomcat without using the "start_tomcat.bat", CATALINA_HOME variable should be set to {ICARDEA_HOME_PATH}/tools/apache-tomcat-6.0.30
+                        Then open a console and go to the directory that you set as "icardea.home".</p>
+                    <p>Now we are ready for installation.</p>
+                    <h2 id="techical">Technical Details</h2>
+                    <p>The Adaptive Care Planner use Java(TM) SDK 1.6.0_24 (which uses <a href="http://www.oracle.com/technetwork/java/javase/terms/license/index.html">Java Binary Code License Agreement</a>) or higher and Python 2.7.1 (A very permissive, open source compliant and GPL compatible license used by the team developing the Python programming language).</p>
+                    <p>Software:</p>
+                    <ul>
+                        <li>MongoDB</li>
+                        <li>Apache Tomcat Server 6.0.20: This server use <a href="http://www.apache.org/licenses">Apache License version 2</a> and use 8080 port. It is operating system free and can be run in any operating system having Java 2 Standard Edition Runtime Environment (JRE) release version 5.0 or later.</li>
+                        <li>Apache Maven 2.2.1: This build tool can be run in any operating system having Java  SDK release version 1.4 or above.</li>
+                        <li>MySQL Database 5.1.53: MySQL open source software is provided under the GPL License and support many of the operating systems. By default, it runs on port 3306.</li>
+                        <li>Flex SDK 3.4.0: It is distributed under <a href="http://www.mozilla.org/MPL">Mozilla Public License (MPL) version 1.1</a>.</li>
+                        <li>Axis2 1.5.1: This tools is also released under Apache License, Version 2.0.</li>
+                    </ul>
+                    <p>Following TCP ports are required:</p>
+                    <ul>
+                        <li>The XDS Server: 9080</li>
+                        <li>The Update Broker: 9081 (for the web user interface), 9082 (for receiving notifications from the XDS server)</li>
+                        <li>The Patient Index (PIX) server: 2575</li>
+                        <li>HL7/EDF receiver: 2576</li>
+                        <li>MongoDB : 27017 for queries and on 28017 for the web ui.</li>
+                        <li>Observation Processor: This actor receives IHE IDCO messages and stores to the CareManagement DB. It listens post 1011.</li>
+                        <li>MySQL Database: 3306</li>
+                        <li>Apache Tomcat Server: 8080</li>
+                    </ul>
+                </section>
+            </div>
+            <footer>
+                &copy; 2011 <a href="http://www.srdc.com.tr/">SRDC Ltd.</a> All rights reserved.
+            </footer>
+        </div> <!--! end of #container -->
+    </body>
+</html>

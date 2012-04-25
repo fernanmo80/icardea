@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<title></title>
+	<meta name="description" content=""/>
+        <meta name="author" content=""/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="stylesheet" href="http://twister.ics.forth.gr/ehr-icardea/manual/css/style.css"/>
+	<link rel="stylesheet" href="http://twister.ics.forth.gr/ehr-icardea/manual/css/icardea_style.css"/>
+	<script src="http://twister.ics.forth.gr/ehr-icardea/manual/js/libs/modernizr-2.0.6.min.js"></script>
+        <style>
+        </style>
+</head>
+<body>
+  <div id="container">
+    <header>
+    <h1 class="ui-corner-all ui-state-default">Consent Editor and Consent Manager</h1>
+    <p>
+
+The consent management in the iCARDEA project is handled through Consent Editor and Consent Manager components. The patients can define the consent rules through the Consent Editor and when the other components of the iCARDEA system try to reach the patient's data, the Consent Manager process the previously defined rules and either grants or denies the request. In addition to these components, a Consent Manager Client is also implemented. 
+
+    </p>
+      <nav></nav>
+    </header>
+    <div id="main">
+      <p id="jsnotice">
+        Javascript is currently disabled. This site requires Javascript to function correctly.
+        Please <a href="http://enable-javascript.com/"> enable Javascript in your browser</a>!
+      </p>
+      <section>
+                    <h2 id="start">How to start</h2>
+                    <p>When the basic setup configuration is done, Consent Editor is ready to run at <a href="http://localhost:8080/consenteditor/ConsentEditor/ConsentEditor.html">http://localhost:8080/consenteditor/ConsentEditor/ConsentEditor.html</a>
+                        
+					<p>Learn easily to use Consent Editor with this <a target="self" href="http://www.srdc.com.tr/icardea/userguide/consent.htm">video</a>!</p>
+					<p>User Help Manual can be found <a target="self" href="http://www.srdc.com.tr/icardea/userguide/ConsentEditorUserHelpManual.docx">here</a>.</p>
+					
+
+                </section>
+      <aside>
+        <h2>Notes</h2>
+        <div class="caution">
+		<h3><img src="http://twister.ics.forth.gr/ehr-icardea/manual/imgs/caution.png"/>Caution</h3> 
+		<ul>
+			<li>If there is connection refused exception on the client side, ensure that the consent.ws.endpoint configuration parameter points to correct url.
+			<li>If there is connection refused exception on the server side, ensure that mysql.host, mysql.username and mysql.password parameters point to the exact MySQL instance containing the UMLS data. 
+</ul>
+        </div>
+      </aside>
+
+      <section>
+      <h2 id="install">How to install</h2>
+      <ul>
+	      <li>Install MySQL 5.1.53 database server.
+	      <li>Install the Code Editor and Manager by issuing the following command:
+	      <li><pre>mvn -o install -f ..\icardea-consenteditor\pom.xml -Dmaven.test.skip=true</pre>
+	      <li>Install the Consent Manager Client by issuing the following command:
+	      <li><pre>mvn -o install -f ..\icardea-consenteditor-invoker\pom.xml -Dmaven.test.skip=true</pre>
+	      <li>Start the tomcat server with the following command:
+	      <li><pre>(iCARDEA Home Directory)/bin/start_tomcat.bat</pre>
+</ul>
+      
+<h3 id="_configuration">Configuration</h3>
+Update the following parameters in the icardea-config\pom.xml accordingly.
+
+		<pre>consent.ws.endpoint</pre>
+		<pre>mysql.host</pre>
+		<pre>mysql.username</pre>
+		<pre>mysql.password</pre>
+    </section>
+
+      <section>
+        <h2 id="techical">Technical Details</h2>
+	<p>The only technical requirement is the installation of MySQL 5.1.53. </p>
+    </div>
+    <footer>
+      &copy; 2011 <a href="http://www.srdc.com.tr/">SRDC Ltd.</a> All rights reserved.
+    </footer>
+  </div> <!--! end of #container -->
+
+<!--[if lt IE 7 ]>
+	<script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
+	<script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
+<![endif]-->
+
+</body>
+</html>
