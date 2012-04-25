@@ -76,6 +76,15 @@ public class LoginServiceImpl implements LoginService {
 		return ppmEndPoint;
 		
 	}
+	public String redirectPIX() {
+		String redirectUrl = "";
+		ResourceBundle properties = ResourceBundle.getBundle("icardea");
+		String pixEndPoint = properties.getString("salk.server");		
+		pixEndPoint = pixEndPoint+"/PIXPDQ2"; 
+		
+		return pixEndPoint;
+		
+	}
 
 	public String getCurrentIP() {
 		String hostname="";

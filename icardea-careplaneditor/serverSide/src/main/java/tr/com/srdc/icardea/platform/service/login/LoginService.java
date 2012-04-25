@@ -7,6 +7,7 @@ public interface LoginService {
 	RegistrationModel handleValidation();
 	void doLogout();
 	String redirectPPM();
+	String redirectPIX();
 	String getCurrentIP();
 	
 }
