@@ -12,7 +12,7 @@ Requires:
   * pymongo -- Python driver for MongoDB <http://www.mongodb.org>
 """
 __author__ = "Stelios Sfakianakis <ssfak@ics.forth.gr>"
-from gevent import monkey; monkey.patch_all()
+from gevent import monkey; monkey.patch_all(dns=False)
 from gevent import pywsgi
 from gevent import Greenlet
 from pymongo import json_util
@@ -36,6 +36,13 @@ import bottle
 from bottle import jinja2_view as view, jinja2_template as template
 # import mongo_utils
 from xds_config import *
+from collections import OrderedDict
+import logging
+try:
+    from gevent.coros import Semaphore
+except ImportError:
+    from gevent.lock import Semaphore
+
 
 # See http://goo.gl/NQZX
 PCODES_TEMPLATE_IDS = { 'COBSCAT': '1.3.6.1.4.1.19376.1.5.3.1.4.13.2'
@@ -59,9 +66,10 @@ PCODES_TEMPLATE_IDS = { 'COBSCAT': '1.3.6.1.4.1.19376.1.5.3.1.4.13.2'
 
 # A quick (?) way to get (the first of) my IP address
 MYIP = socket.gethostbyname_ex(socket.gethostname())[2][0]
+#MYIP = '127.0.0.1'
 
 # Keep a single instance? It has a thread pool..
-MONCON = pymongo.Connection(MONGO_HOST)
+MONCON = pymongo.Connection(MONGO_HOST, max_pool_size=100, journal=True)
 
 def parsePid(patientId):
     delim = '^^^&' # see http://is.gd/fNUSv (search for sourcePatientInfo)
@@ -103,14 +111,33 @@ def send_pcc10(subscription, entries, patientId):
         #audit_pcc10(
     except urllib2.HTTPError, ex:
         msg = ex.read()
-        print "PCC10 Error: %s %s" % (ex.code, msg)
+        logging.warning("PCC10 Error: %s %s" % (ex.code, msg))
         raise ex
     except urllib2.URLError, ex:
-        print "PCC10 Error: %s " % (ex.reason)
+        logging.warning("PCC10 Error: %s " % (ex.reason,))
         raise ex
     except:
-        print "PCC10 Unexpected error:", sys.exc_info()[0]
+        logging.warning("PCC10 Unexpected error", exc_info=True)
         raise
+
+lxml_docs_cache = OrderedDict()
+lxml_docs_cache_lock = Semaphore(1)
+LXML_DOCS_CACHE_MAX = 100
+
+def load_xml_doc(filename):
+    global lxml_docs_cache, lxml_docs_cache_lock
+    with lxml_docs_cache_lock:
+        if filename in lxml_docs_cache:
+            logging.debug('File %s was found in cache!!', filename)
+            return lxml_docs_cache[ filename ]
+        real_fn = 'static'+os.sep+filename
+        logging.debug("Cache miss! Loading XML file %s", real_fn)
+        with open(real_fn, 'rb') as fp:
+            doc = etree.parse(fp).getroot()
+        while len(lxml_docs_cache) > LXML_DOCS_CACHE_MAX:
+            lxml_docs_cache.popitem(last=False)
+        lxml_docs_cache[ filename ] = doc
+        return doc
 
 class SubscriptionLet(Greenlet):
     def __init__(self, subscription, timeout = UB_CHK_TIMEOUT):
@@ -188,15 +215,13 @@ class SubscriptionLet(Greenlet):
             # if clinicalStatementTimePeriod is not None:
             #    query['creationTime'] = {'$gte':clinicalStatementTimePeriod['low'], 
             #                             '$lte':clinicalStatementTimePeriod['high']}
-            print '[%s] MONQ=%s' % (sid, query)
+            logging.debug('[%s] MONQ=%s', sid, query)
             crs = docsdb.find(query, fields=['filename', 'patientId', 'storedAt_'], 
                               sort=[('storedAt_', pymongo.ASCENDING)])
             tm = None
             for d in crs:
-                print '-->', d['filename']
-                doc = None
-                with open('static'+os.sep+d['filename'], 'rb') as fp:
-                    doc = etree.parse(fp).getroot()
+                filename = d['filename']
+                doc = load_xml_doc(filename)
                 e = self.match_subscription(doc)
                 tm = d['storedAt_']
                 if len(e) > 0:
@@ -206,7 +231,7 @@ class SubscriptionLet(Greenlet):
                     subscription['lastChecked_'] = tm
                     MONCON.xds.pcc.update({'_id':objectid.ObjectId(sid)},
                                           {"$set": {"lastChecked_": tm}})
-            print "[%s] Total Entries Found: %d" % (sid, len(entries))
+            logging.debug("[%s] Total Entries Found: %d" , sid, len(entries))
         finally:
             MONCON.end_request()
         return entries
@@ -236,25 +261,25 @@ class SubscriptionLet(Greenlet):
         
     def _run(self):
         sid = self.subscriptionId()
-        print "[%s] SubscriptionLet starting.." % sid
+        logging.debug("[%s] SubscriptionLet starting.." , sid)
         self._log_start()
         while True:
             try:
                 self._log_start_checking()
                 self.check_subscription()
             except Exception, ex:
-                print "[%s] Oh no! just got: %s" % (sid, ex)
+                logging.warning("[%s] Error", exc_info = True)
                 raise
             finally:
                 self._log_finish_checking()
-                print "[%s] Going to sleep for %d secs ..." % (sid, self.timeout)
+                logging.debug("[%s] Going to sleep for %d secs ...", sid, self.timeout)
                 op = self._ev.wait(timeout=self.timeout)    
                 if op:
                     self._ev.clear()
                     if self.stopped :
                         break
         self._log_finish()
-        print "%s ending.." % (self,)
+        logging.debug("%s ending..", self)
         self.kill() # ???
 workers = {}
 from collections import defaultdict
@@ -277,14 +302,14 @@ def handle_notification(conn, addr):
     op = msg.get('type', 'noop')
     if op == 'subscription':
         subid = sub['id']
-        print '****** Got New subscription:', sub
+        logging.debug('****** Got New subscription:%s', sub)
         if workers.has_key(subid):
             return
         g = SubscriptionLet(sub)
         g.start()
     elif op == 'submission':
         patId = sub['patientId']
-        print "****** Got New submission set for patient='%s'" % patId
+        logging.debug("****** Got New submission set for patient='%s'", patId)
         for g in workers_per_patient.get(patId, set()):
             g.wakeup()
         for g in workers_per_patient.get('*', set()):
@@ -297,7 +322,7 @@ def listen_for_new_info(port):
 
 def schedule_all(timeout, notify_port, modulo=0, m=1):
     """Create the worker threads for the currently available PCC-9 subscriptions"""
-    print 'Registering workers per PCC-9 subscription...'
+    logging.info('Registering workers per PCC-9 subscription...')
     import random
     random.seed(47)
     if timeout < 60:
@@ -314,10 +339,10 @@ def schedule_all(timeout, notify_port, modulo=0, m=1):
                 g.start()
             k = k + 1
     except Exception, e:
-        print 'Exception....' + str(e)
+        logging.warning('Exception....', exc_info=True)
     finally:
         MONCON.end_request()
-        print 'Registering %d workers ended' % (len(workers),)
+        logging.info( 'Registering %d workers ended', len(workers))
         # gevent.joinall(workers)
     if notify_port > 0:
         listen_for_new_info(notify_port)
@@ -353,7 +378,7 @@ def realtime_monitor():
             self.first_ = True
             self.closed_ = False
             monitors.add(self)
-            print "Monitor %s started.. (#:%d)" % (hash(self), len(monitors))
+            logging.debug("Monitor %s started.. (#:%d)", hash(self), len(monitors))
         def started(self, sid, sub):
             self.q_.put({'op': 'started', 'sid':sid, 'sub':sub})
         def finished(self, sid):
@@ -370,7 +395,7 @@ def realtime_monitor():
             global monitors
             if not self.closed_:
                 monitors.remove(self)
-                print "Monitor %s ended.. (#:%d)" % (hash(self), len(monitors))
+                logging.debug("Monitor %s ended.. (#:%d)", hash(self), len(monitors))
                 self.closed_ = True
         def next(self):
             if self.stopped_:
@@ -406,7 +431,7 @@ def subscription_resource(subId):
             bottle.response.content_type = 'text/plain;charset=utf-8'
             return json.dumps(s, default=json_util.default, sort_keys=True, indent=4)
     except pymongo.errors.PyMongoError, e:
-        print 'MongoDB Exception....' + str(e)
+        logging.warning('MongoDB Exception....', exc_info=True)
         bottle.abort(500, 'MongoDB Exception:'+str(e))
     finally:
         MONCON.end_request()
@@ -438,30 +463,34 @@ def del_subscription_resource(subId):
             else:
                 bottle.redirect('/')
     except pymongo.errors.PyMongoError, e:
-        print 'MongoDB Exception....' + str(e)
+        logging.warning('MongoDB Exception....', exc_info=True)
         bottle.abort(500, 'MongoDB Exception:'+str(e))
     finally:
         MONCON.end_request()
 
 def test_event():
     if len(workers) > 0:
-        print "waking up..."
+        logging.debug("waking up...")
         workers.items()[0][1].wakeup()
 
 def parse_options():
     parser = OptionParser(usage = "usage: %prog [options]")
-    parser.set_defaults(port = UB_LISTEN_PORT, notify_port=None, timeout = UB_CHK_TIMEOUT, k=0, mod=1)
+    parser.set_defaults(port = UB_LISTEN_PORT, notify_port=None, 
+            loglevel = "INFO",
+            timeout = UB_CHK_TIMEOUT, k=0, mod=1)
     parser.add_option("-p", "--http", action="store", dest="port", type="int",
-                      help='The TCP port to listen to for the HTTP interface. Default: %s'% UB_LISTEN_PORT)
+            help='The TCP port to listen to for the HTTP interface. Default: %s'% UB_LISTEN_PORT)
     parser.add_option("-n", action="store", dest="notify_port", type="int",
-                      help='The TCP port to listen to for the communication with XDS. Use 0 to deactivate. Default: UB_LISTEN_PORT + 1')
+            help='The TCP port to listen to for the communication with XDS. Use 0 to deactivate. Default: UB_LISTEN_PORT + 1')
+    parser.add_option("-l", action="store", dest="loglevel", 
+            help='Logging level e.g. DEBUG, INFO, WARNING, etc')
     parser.add_option("-t", action="store", dest="timeout", type="int",
-                      help='Timeout in seconds to be used for the periodic check of subscriptions. Default: %s (i.e. %s minutes)'%
-                      (UB_CHK_TIMEOUT, UB_CHK_TIMEOUT/60))
+            help='Timeout in seconds to be used for the periodic check of subscriptions. Default: %s (i.e. %s minutes)'%
+            (UB_CHK_TIMEOUT, UB_CHK_TIMEOUT/60))
     parser.add_option("-m", action="store", dest="mod", type="int",
-                      help='Divisor the # of subscriptions. Default: 1')
+            help='Divisor the # of subscriptions. Default: 1')
     parser.add_option("-k", action="store", dest="k", type="int",
-                      help='Remainder. Default: 0')
+            help='Remainder. Default: 0')
     (options, args) = parser.parse_args()
     options.k = options.k % options.mod
     # print options.k,options.mod
@@ -471,16 +500,19 @@ def parse_options():
 
 def main():
     options = parse_options()
+    loglevel = getattr(logging, options.loglevel.upper(), logging.INFO)
+    logging.basicConfig(level=loglevel, 
+            format='[%(thread)d] %(asctime)s - %(levelname)s - %(message)s')
     bottle.debug(True)
     s = pywsgi.WSGIServer(('', options.port), bottle.default_app())
     s.start()
     gevent.spawn(schedule_all, options.timeout, options.notify_port, modulo=options.k, m=options.mod)
-    print 'Admin/monitor interface at http://%s:%s/' % (MYIP, options.port)
-    print 'Notification listening port: %s' % options.notify_port
+    logging.info('Admin/monitor interface at http://%s:%s/' % (MYIP, options.port))
+    logging.info('Notification listening port: %s' % options.notify_port)
     try:
         s.serve_forever()
     except KeyboardInterrupt:
-        print 'Exiting...'
+        logging.info('Exiting...')
         s.stop()
 if __name__ == "__main__":
     main()
