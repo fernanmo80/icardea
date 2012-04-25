@@ -24,7 +24,10 @@ from gevent import pywsgi
 from gevent import Greenlet
 from gevent import monkey; monkey.patch_socket()
 from gevent.threadpool import ThreadPool
-from gevent.coros import Semaphore
+try:
+    from gevent.coros import Semaphore
+except ImportError:
+    from gevent.lock import Semaphore
 import time
 import random
 import urllib2
