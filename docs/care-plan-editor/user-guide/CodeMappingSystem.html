@@ -1,0 +1,118 @@
+
+<!DOCTYPE html>
+<!--[if lt IE 7]> <html class="no-js ie6 oldie" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js ie7 oldie" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js ie8 oldie" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<title></title>
+	<meta name="description" content=""/>
+        <meta name="author" content=""/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+	<link rel="stylesheet" href="http://twister.ics.forth.gr/ehr-icardea/manual/css/style.css"/>
+	<link rel="stylesheet" href="http://twister.ics.forth.gr/ehr-icardea/manual/css/icardea_style.css"/>
+	<script src="http://twister.ics.forth.gr/ehr-icardea/manual/js/libs/modernizr-2.0.6.min.js"></script>
+        <style>
+        </style>
+</head>
+<body>
+  <div id="container">
+    <header>
+    <h1 class="ui-corner-all ui-state-default">Code Mapping System</h1>
+    <p>
+
+In the healthcare domain, semantic encoding of the data elements is achieved by using coded terms from code systems like LOINC, ICD10 or SNOMED-CT. Even in a single EHR document, several code systems can appear at the same time. In the iCARDEA project, EHR and PHR systems may be using different code systems. Code Mapping System handles automatic mapping of coded terms from different code systems. To be able to map different code systems, HL7 Common Terminology Services (CTS) is preferred as the basis of Code Mapping API. In order to access the existing terminology servers using CTS, CTS interfaces must be mapped to the interfaces of the terminology servers. For this purpose, one of the most prominent and free terminology servers, namely Unified Medical Language System Knowledge Source Server (UMLSKS) is used. The implementation is exposed as Web Services as defined by the CTS.
+The Code Mapping System is composed of three modules:
+<ul>
+	<li>The Code Mapping Server: This is the Web Service conforming to HL7 v3 Common Terminology Services standard.
+	<li>The Code Mapping Database: This large MySQL Database includes the actual mapping data in the relational tables.
+	<li>The Code Mapping Client: This Web Service client allows the other systems of the iCARDEA to reach the functionality provided by the Code Mapping Server through simple Java object calls. 
+</ul>
+The following code mapping functionalities are provided by the Code Mapping System:
+<ul>
+	<li>Get a code translated from one code system to another code system: This method allows a code to be translated from source code system to a target code system.
+	<li>Get supported mappings: This method returns the supported mappings.
+	<li>Get supported code systems: This method returns the supported code systems.
+	<li>Validate a given code: This method checks whether a given code is in a specific code system.
+</ul>
+    
+
+    </p>
+      <nav></nav>
+    </header>
+    <div id="main">
+      <p id="jsnotice">
+        Javascript is currently disabled. This site requires Javascript to function correctly.
+        Please <a href="http://enable-javascript.com/"> enable Javascript in your browser</a>!
+      </p>
+      <section>
+        <h2 id="start">How to start</h2>
+The Code Mapping System is not for human use directly. The other systems use Code Mapping System for clinical code translation. The first precondition for the Code Mapping System is the loading of UMLS data, which is about 6GB large, to a MySQL 5.1.53 database server. 
+After the installation, the client systems can use the Code Mapping Client for code translation as follows:
+<pre>
+String translatedCode = tr.com.srdc.icardea.cts.CTSInvoker.translateCode(sourceCodeSystemName, code, targetCodeSystemName);
+</pre>
+<pre>
+(String) sourceCodeSystemName: This parameter defines the source code system name.
+</pre>
+<pre>
+(String) code: This parameter specifies the code to be translated.
+</pre>
+<pre>
+(String) targetCodeSystemName: This parameter defines the target code system name. 
+</pre>
+        <p>
+
+      </section>
+      <aside>
+        <h2>Notes</h2>
+        <div class="caution">
+		<h3><img src="http://twister.ics.forth.gr/ehr-icardea/manual/imgs/caution.png"/>Caution</h3> 
+		<ul>
+			<li>If there is connection refused exception on the client side, ensure that the cts.endpoint configuration parameter points to correct url.
+			<li>If there is connection refused exception on the server side, ensure that umls.mysql.host, umls.mysql.username and umls.mysql.password parameters point to the exact MySQL instance containing the UMLS data. 
+</ul>
+        </div>
+      </aside>
+
+      <section>
+      <h2 id="install">How to install</h2>
+      <ul>
+	      <li>Install MySQL 5.1.53 database server.
+	      <li>Load the UMLS data to the server with the following command (This will take 5-6 hours):
+	      <li><pre>(Path/to/mysql/server)/bin/mysql metathesaurus < umls.sql</pre>
+	      <li>Install the Code Mapping Server by issuing the following command:
+	      <li><pre>mvn -o install -f icardea-cts-ws\pom.xml -Dmaven.test.skip=true</pre>
+	      <li>Install the Code Mapping Client by issuing the following command:
+	      <li><pre>mvn -o install -f icardea-ctsinvoker\pom.xml -Dmaven.test.skip=true</pre>
+	      <li>Start the tomcat server with the following command:
+	      <li><pre>(iCARDEA Home Directory)/bin/start_tomcat.bat</pre>
+</ul>
+      
+<h3 id="_configuration">Configuration</h3>
+Update the following parameters in the icardea-config\pom.xml accordingly.
+
+<pre>cts.endpoint		</pre>
+		<pre>umls.mysql.host</pre>
+		<pre>umls.mysql.username</pre>
+		<pre>umls.mysql.password</pre>
+    </section>
+
+      <section>
+        <h2 id="techical">Technical Details</h2>
+	<p>The only technical requirement is the installation of MySQL 5.1.53 and about 6GB of disk space. </p>
+    </div>
+    <footer>
+      &copy; 2011 <a href="http://www.srdc.com.tr/">SRDC Ltd.</a> All rights reserved.
+    </footer>
+  </div> <!--! end of #container -->
+
+<!--[if lt IE 7 ]>
+	<script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
+	<script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
+<![endif]-->
+
+</body>
+</html>
