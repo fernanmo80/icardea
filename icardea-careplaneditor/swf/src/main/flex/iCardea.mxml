@@ -17,8 +17,7 @@
 				height="100%"
 				xmlns:local="*"
 				xmlns:flexlib="http://code.google.com/p/flexlib/"
-				creationComplete="init()"
-				
+				creationComplete="init()"				
 				>
 
 	<mx:Style source="/assets/style/style.css"/>
@@ -233,7 +232,23 @@
        	public function onResultRedirectPPM(result:ResultEvent):void 
        	{
        		navigateToURL(new URLRequest(result.result as String),'quote');
-       	} 
+       	}
+       	private function redirectPIX():void{
+       		
+			var service : RemoteObject = new RemoteObject("loginService");
+			var cs:ChannelSet = new ChannelSet();
+			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+			cs.addChannel(customChannel);
+			service.channelSet = cs;
+			service.addEventListener(ResultEvent.RESULT,onResultRedirectPPM);
+			service.addEventListener(FaultEvent.FAULT, onFault);
+		
+			service.redirectPIX();
+       	}
+       	public function onResultRedirectPIX(result:ResultEvent):void 
+       	{
+       		navigateToURL(new URLRequest(result.result as String),'quote');
+       	}  
        
 			
 	]]>
@@ -363,17 +378,17 @@
 			      			</flexlib:WindowShade>
 			      			<flexlib:WindowShade id="ws4" styleName="linkButtonWindowShade" 
 						      	label="Tools" width="100%">
-						          <mx:LinkButton label="Care Plan Definition Tool" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{userMain.selectedIndex = 3}"/>
-						          
-						          <!-- TODO This was used for testing -->
-						          <mx:LinkButton label="Care Plan Monitoring Tool" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{ userMain.selectedIndex = 5}" />
+						      	  <mx:LinkButton label="Patient Registration" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{ redirectPIX()}" />	
 						          <mx:LinkButton label="Patient Parameter Monitor" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{ redirectPPM()}" />
-						          <!-- careplanDT.execute=true; careplanDT.doSettings(); careplans.isMonitoring = true; -->
-						           
-						          <!--<mx:LinkButton label="Patient Management" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{userMain.selectedIndex = 4}" />-->
-						          
-			      			</flexlib:WindowShade>
-			      			<flexlib:WindowShade opened="false" id="ws5" styleName="linkButtonWindowShade" 
+						          <mx:LinkButton label="Care Plan Definition Tool" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{userMain.selectedIndex = 3}"/>
+						          <mx:LinkButton label="Care Plan Monitoring Tool" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%" click="{ userMain.selectedIndex = 5}" />
+						    </flexlib:WindowShade>			      			
+						    <flexlib:WindowShade id="ws6" styleName="linkButtonWindowShade" 
+						      	label="CIED Vendors" width="100%">
+						          <mx:LinkButton click="navigateToURL(new URLRequest('https://europe.medtroniccarelink.net/Clinician/Login/Login.aspx'), 'quote')" label="Medtronic Portal" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%"/>
+						          <mx:LinkButton click="navigateToURL(new URLRequest('https://demo50.merlin.net'), 'quote')" label="St.Jude Portal" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%"/>
+						    </flexlib:WindowShade>
+						    <flexlib:WindowShade id="ws5" styleName="linkButtonWindowShade" 
 						      	label="User Manuals" width="100%">
 						          <mx:LinkButton click="navigateToURL(new URLRequest('http://www.srdc.com.tr/icardea/userguide/manual-CarePlanEditor.htm'), 'quote')" label="Care Plan Definition Tool" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%"/>
 						          <mx:LinkButton click="navigateToURL(new URLRequest('http://www.srdc.com.tr/icardea/userguide/manual-CarePlanMonitoringTool.htm'), 'quote')" label="Care Plan Monitoring Tool" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%"/>
