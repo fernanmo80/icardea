@@ -861,6 +861,11 @@ public class PPMDataset {
 				statmentString="Update EHR Data";
 				logger.debug(statmentString);
 				this.updatePPM_EHR_Data(id);
+				//easier garbage collection
+				rs.close();
+				rs=null;
+				checkrs.close();
+				checkrs=null;
 
 			}
 
@@ -918,6 +923,7 @@ public class PPMDataset {
 			//				}
 			//			}
 		}
+		rs.close();
 		rs = createStmt().executeQuery("SELECT  * FROM history where patid= "+patid +" and problemValue in "+
 				"('C0085298','C0242698') "+
 				" order by effectiveTimeLow");
@@ -926,6 +932,7 @@ public class PPMDataset {
 		}else{
 			logger.warn("No Maindiagnosis found for patient:"+patid);
 		}
+		rs.close();
 		rs= createStmt().executeQuery("select id,drugCode from medication where length(trim(text))<2 or text like('unknown (Code=%')");
 		while (rs.next()){
 			code=rs.getString("drugCode");
@@ -942,10 +949,12 @@ public class PPMDataset {
 						createStmt().execute("update medication set text='unknown (Code="+code+")' where id="+rs.getInt("id"));
 					}
 					rs2.close();
+					rs2=null;
 				}
 			}
 		}
 		rs.close();
+		rs=null;
 		return true;
 	}
 	private boolean setDataItem(String patid,String dataitem, String dataset)  {
