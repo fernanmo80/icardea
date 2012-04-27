@@ -998,7 +998,7 @@ public class PPMDataset {
 			logger.debug("PAtternVAlues: " +currentPattern.preReqAttributes);
 			patternList.add(currentPattern);
 		}
-		// 2. Schauen, welche Pattern für den User gelten
+		// look for patterns of user
 
 		for(DactPatternDataSet iterDactPattern:patternList ){ 
 
