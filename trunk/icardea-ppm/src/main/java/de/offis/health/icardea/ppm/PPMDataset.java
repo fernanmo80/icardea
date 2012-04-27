@@ -1005,7 +1005,7 @@ public class PPMDataset {
 			sqlString = "select distinct t1.pattern_id from dact_pattern as t1 "
 					+iterDactPattern.preReqRelations 
 					+" where " + iterDactPattern.preReqAttributes + pPatientID +" and t1.pattern_id = "+iterDactPattern.patternID +";";
-			logger.debug("SQL ausführung pattern: " + sqlString);
+			logger.debug("SQL pattern: " + sqlString);
 			rs = createStmt().executeQuery(sqlString);
 			if(rs.next()){
 				Integer patternID = rs.getInt("pattern_id");
@@ -1019,7 +1019,7 @@ public class PPMDataset {
 		}
 
 
-		// 3. Aufbereiten der gültigen Pattern für die Anzeige
+		// 3. Aufbereiten der Pattern für die Anzeige
 		for(DactPatternDataSet iterDactPattern:patternList ){
 			sqlString ="";
 			// PreRequisites are fullfilled for Patient
@@ -1058,7 +1058,7 @@ public class PPMDataset {
 				sqlString = "select distinct t1.pattern_id from dact_pattern as t1 "
 						+iterDactPattern.concluRelation 
 						+" where " + iterDactPattern.conCluAttribute + pPatientID +" and t1.pattern_id = "+iterDactPattern.patternID +";";
-				logger.debug("SQL ausführung pattern: " + sqlString);
+				logger.debug("SQL pattern: " + sqlString);
 				rs = createStmt().executeQuery(sqlString);
 				if(rs.next()){
 					Integer patternID = rs.getInt("pattern_id");
@@ -1158,7 +1158,7 @@ public class PPMDataset {
 				ppmDataset.checkPendingData();
 
 			}else{
-				//FIXME Auskommentiert für DACT
+				//FIXME Auskommentiert DACT
 				//ppmDataset.checkPendingData();
 			}
 		}else{
