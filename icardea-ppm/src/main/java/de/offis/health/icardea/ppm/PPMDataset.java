@@ -1019,7 +1019,7 @@ public class PPMDataset {
 		}
 
 
-		// 3. Aufbereiten der Pattern für die Anzeige
+		// 3. Aufbereiten der Pattern die Anzeige
 		for(DactPatternDataSet iterDactPattern:patternList ){
 			sqlString ="";
 			// PreRequisites are fullfilled for Patient
