@@ -1,0 +1,96 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <title></title>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="../styles/style.css"/>
+        <link rel="stylesheet" href="../styles/icardea_style.css"/>
+    </head>
+    <body>
+        <div id="container">
+            <header>
+                <h1 class="ui-corner-all ui-state-default">Patient Parameter Monitor PPM</h1>
+            </header>
+            <div id="main">
+                <p>
+                The aim is to provide assistant software for healthcare professionals to help in determining the critical patient parameters to be monitored and analyzed for better personalization of the automated follow-up. This is achieved by analyzing patient data from CIEDs, Electronic Healthcare Records and Personal Health Records, such as history of illness, surgeries, medications, and then graphically presenting these data in an intelligent way by correlating the fields from separate sources.
+                </p>
+                <section>
+                    <h2 id="start">How to start and install</h2>
+                    <p>The PPM Receiver system is started by a single batch file called <tt>startPPMReceiver.cmd</tt>. This batch should be stored on your desktop or at your Windows autostart folder. If not, it is available at the Folder<tt> icardea\icardea-ppm\</tt> where "icardea" refers to your iCARDEA installation.<br />
+                    The PPM Servlet is automatically started with the tomcat installation of iCARDEA. You have only to copy the ppm_v2.war file to the deployment directory of the tomcat installation.<br />
+                    PPM Servlet is a visualization tool which runs in web browser. Therefore you need the correct URL of PPM or use the link provided by the central iCARDEA website:<br />
+                    e.g <code>https://icardea-server.lksdom21.lks.local:8443/ppm_v2/view?startup=de.offis.health.icardea.ppm.viewapp</code>
+                    </p>
+                     <p>To comile and deploy use maven.
+                      Using mvn packaging you will find in <tt>icardea-ppm\target</tt> zip files,
+                       which can be used for the local installation.
+                       These zips include the startXX.bat files and the needed jars.
+                       Furthermore there can be the war files found for deployment.</p>
+    					<p>An Medical End User Help Manual can be found <a href="doc/2012-04-26-OFFIS-iCardea OFFIS-user help manual-PPM.doc">here</a>.</p>
+	    				<p>The PDF version of this and CIED Informationsystem technical guide can be found at <a href="doc/2012-04-27-OFFIS-Unified Manual_PPM_CIED Information System.pdf">here</a>.</p>
+               </section>
+
+                <section>
+                    <h2 id="troubleshoting">Trouble shoting by start</h2>
+                    Since PPM is a Web application for evaluation purposes it can sometimes show unexpected behavior. Some general solutions <br  />
+        <p>Login says "Unknown User / OpenID Error": </p>
+
+          <ul>
+<li>Just try a second time.</li>
+<li>If that doesn't work, please call the OpenID page itself and try, if your user ID is still valid</li>
+<li>Otherwise: Ask iCARDEA-IT-Support and mention, that maybe OPENID isn't running</li>
+</ul>
+
+
+PPM doesn't start:
+<ul>
+<li>	If an error message appears fast, that the side could not be found:</li>
+<li>	Check, if you have the correct URL.  </li>
+<li>	Otherwise: Ask iCARDEA-IT-Support and mention, that maybe TOMCAR isn't running</li>
+</ul>
+
+PPM shows a message: Can't create initial views
+<ul>
+<li>	Directly call iCARDEA-IT Support and mention, that MYSQL isn't running</li>
+</ul>
+
+PPM doesn't show the Top View so you can't logout
+<ul>
+<li>Double Click on PPM Main or on the top line above PPM Main.
+</li>
+<li>	Try to click and move the top line above PPM Main down to see the Logout Screen Sometimes the "General Information" is hidden automatically to provide more space for patient data.
+</li>
+</ul>
+In general: You can always close the PPM Webpage without damaging data or the application. You should always use the Logout to prevent the re usage of your account.
+
+</section>
+
+
+
+    <section>
+                    <h2 id="requirements">Technical Requirements</h2>
+                    The Patient Parameter Monitor was implemented and tested under Windows XP and 7 using Java 1.6. Therefore this environment is highly recommended. It has to be run under Tomcat and requires a running and configured iCARDEA environment including especially a MySQL Database with the iCARDEA CaremanagementDB, a local identity provider and a ConsentManager.
+     </section>
+
+
+            </div>
+            <footer>
+                &copy; 2012 <a href="http://www.offis.de/">OFFIS</a> All rights reserved.
+            </footer>
+        </div> <!--! end of #container -->
+    </body>
+</html>
+
+
+
+
+
