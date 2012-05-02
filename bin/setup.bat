@@ -34,7 +34,7 @@ call mvn -q install:install-file -DgroupId=gr.ics.forth.icardea -DartifactId=jpa
 
 call mvn -q install:install-file -DgroupId=gr.ics.forth.icardea -DartifactId=ctsclient -Dversion=1.0_SNAPSHOT -Dpackaging=jar -Dfile=..\tools_resources\external-lib\cts_client\ctsclient_1.0_SNAPSHOT.jar -DgeneratePom=true
 
-call mvn -q install:install-file -DgroupId=gr.forth.ics.icardea.mllp -DartifactId=HL7MLLPServerSSL -Dversion=1.0 -Dpackaging=jar -Dfile=..\tools_resources\external-lib\HL7MLLPServer\HL7MLLPServer2.jar -DgeneratePom=true
+call mvn -q install:install-file -DgroupId=gr.forth.ics.icardea.mllp -DartifactId=HL7MLLPServerSSL -Dversion=1.0 -Dpackaging=jar -Dfile=..\tools_resources\external-lib\HL7MLLPServer\HL7MLLPServer2.1.jar -DgeneratePom=true
 
 echo Installing additional libraries for Consent
 
