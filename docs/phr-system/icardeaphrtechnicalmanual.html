@@ -1,7 +1,6 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
   <head>
-
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
   </head>
   <body>
@@ -24,71 +23,58 @@
       </h1>
       <div id="main">
         <p>The Personal Health Record (PHR) system enables the patient
-          to
-          collect their health observations, report their health
-          profile, access
-          patient information and utilize feedback mechanisms for&nbsp;
-          interacting with medical professsionals.</p>
+          to collect their health observations, report their health
+          profile, access patient information and utilize feedback
+          mechanisms for&nbsp; interacting with medical professsionals.</p>
         <p>User Manual can be found <a target="self"
 href="https://icardea.googlecode.com/svn/trunk/docs/phr-system/phr_user_manual_p2.pdf">here</a>.</p>
         <p>User Training Material can be found <a target="self"
-href="https://icardea.googlecode.com/svn/trunk/docs/phr-system/phr_user_manual_p2.pdf">here</a>,
+href="https://icardea.googlecode.com/svn/trunk/docs/phr-system/phr_user_training_basic_p2.pdf">here</a>,
           this includes some core activities that a new user might
-          perform with
-          the PHR system.</p>
+          perform with the PHR system.</p>
         <section> </section>
         <h2 id="start">How to start</h2>
         <p>To start the system,&nbsp; first initialized data stores,
-          update
-          software configurations&nbsp; and install the software and
-          start the
-          system with the following script. <br>
+          update software configurations&nbsp; and install the software
+          and start the system with the following script. <br>
         </p>
         <pre>phr-system-STARTUP.bat</pre>
-        <p>After the processes have started, then access the
-          following URL in the web browser: http://domain[:port]/phrweb</p>
+        <p>After the processes have started, then access the following
+          URL in the web browser: http://domain[:port]/phrweb</p>
         <p><a
             href="http://icardea-server.lksdom21.lks.local:6060/phrweb/">http://icardea-server.lksdom21.lks.local:6060/phrweb/<br>
           </a></p>
         <p>After filling in user name and password, user is able to use
-          the PHR
-          portal by selecting from the menu on the left.<br>
+          the PHR portal by selecting from the menu on the left.<br>
           <br>
         </p>
         <ul>
           <li>Login via the user ID from&nbsp; iCARDEA Identity
-            provider, or a
-            demo
-            identifier with the prefix “phr” e.g. phr123.&nbsp;</li>
+            provider, or a demo identifier with the prefix “phr” e.g.
+            phr123.&nbsp;</li>
           <li>There are a UserIDs that provide test data or roles:</li>
           <ul>
             <li>phrsm</li>
             <li>phrtest - provides test medications to import</li>
             <li>phrtest1 - user has role doctor, alternate navigation
-              sidebar&nbsp;
-              provided</li>
+              sidebar&nbsp; provided</li>
             <li>nurse - has role nurse, alternate navigation
-              sidebar&nbsp;
-              provided</li>
+              sidebar&nbsp; provided</li>
           </ul>
           <li>Known bug on the Web User Interface Navigation Menu
             sidebar</li>
           <ul>
             <li>Submenu does not open and the submenu icon “+” is
-              rotating
-              indefinitely.</li>
+              rotating indefinitely.</li>
           </ul>
           <ul>
             <li>Solution: Reload the page e.g. Place the mouse cursor
-              into the
-              web
-              browser address box and press return; or click the browser
-              page reload
-              icon or select “Home” in the sidebar menu </li>
+              into the web browser address box and press return; or
+              click the browser page reload icon or select “Home” in the
+              sidebar menu </li>
           </ul>
         </ul>
-        <aside>
-        </aside>
+        <aside> </aside>
         <h2>Notes</h2>
         <div class="caution">
           <h3><img
@@ -102,8 +88,7 @@ href="https://icardea.googlecode.com/svn/trunk/docs/phr-system/phr_user_manual_p
         <p>To download the source codes of the project, please go to <a
             href="http://www.srdc.com.tr/svn/iCardea/">http://www.srdc.com.tr/svn/iCardea/</a></p>
         <p>Review the configuration&nbsp; and make the appropriate
-          updates to
-          the configuration</p>
+          updates to the configuration</p>
         <p>To install run the following scripts:</p>
         <ul>
           <li>phr-system-CLEANALL.bat</li>
@@ -114,15 +99,13 @@ href="https://icardea.googlecode.com/svn/trunk/docs/phr-system/phr_user_manual_p
           <li>phr-system-STARTUP.bat</li>
         </ul>
         <ol>
-          <span style="text-decoration: underline;">
-          </span>
+          <span style="text-decoration: underline;"> </span>
         </ol>
         <h2 id="configuration">Configuration</h2>
         <ul>
         </ul>
         <p>Set the following environment variables ( use setenv.bat or
-          set
-          manually):</p>
+          set manually):</p>
         <ul>
           <li>MAVEN_OPTS=-Xms256m -Xmx512m</li>
           <li>CATALINA_OPTS=-Xms 256m -Xmx1024m -XX:PermSize=256m
@@ -139,8 +122,7 @@ href="https://icardea.googlecode.com/svn/trunk/docs/phr-system/phr_user_manual_p
           <li>
             <p>In the PHR portal properties file <span
                 style="font-weight: bold;">phrweb/resources/phrs.properties</span>,
-              check the
-              domain address and port for: <br>
+              check the domain address and port for: <br>
               <br>
               - OpenID domain name of iCARDEA Identity Provider <br>
               - OpenID return address to the PHR OpenID servlet<br>
@@ -149,10 +131,8 @@ href="https://icardea.googlecode.com/svn/trunk/docs/phr-system/phr_user_manual_p
           <li><span style="font-weight: bold;">Interoperability
               Configuration</span> <br>
             - Check the following script files to modify endpoints for
-            the&nbsp;
-            PHR,&nbsp; EHRIF&nbsp; (EHR Interop Framework) or Care
-            Planner Web
-            services . <br>
+            the&nbsp; PHR,&nbsp; EHRIF&nbsp; (EHR Interop Framework) or
+            Care Planner Web services . <br>
             -- start-securepcc9-endpoint.bat&nbsp; (PCC-09 PHRS
             endpoints) <br>
             -- pcc-9.properties (EHRIF endpoint and Care Provision
@@ -165,19 +145,14 @@ href="https://icardea.googlecode.com/svn/trunk/docs/phr-system/phr_user_manual_p
             re-configured in the maven POM file<span style="font-weight:
               bold;"><span style="font-weight: bold;"> ﻿phr-ws/pom.xml</span></span></li>
           <li>Ensure that Tomcat is installed the directory matching the
-            property
-            found in the phr-system-*.bat scripts (see below -
+            property found in the phr-system-*.bat scripts (see below -
             PHRS_TOMCAT=D:\srfg\tomcat\phrs-tomcat-6)</li>
           <li>Include the two war files from Sesame found in the google
-            code
-            tools_resources/sesame-tools263.zip</li>
+            code tools_resources/sesame-tools263.zip</li>
           <li>The following scripts can be run for a new installation
-            and run
-            in the
-            following order. You might be required to interact with the
-            scripts to
-            simply continue the execution in the window by pressing any
-            key.</li>
+            and run in the following order. You might be required to
+            interact with the scripts to simply continue the execution
+            in the window by pressing any key.</li>
           <ol>
             <li>
               <pre>phr-system-CLEANALL.bat</pre>
@@ -195,22 +170,17 @@ href="https://icardea.googlecode.com/svn/trunk/docs/phr-system/phr_user_manual_p
         <h3>SCRIPT: phr-system-CLEANALL.bat</h3>
         <ul>
           <li>Deletes the persistence stores (Sesame triplestore and
-            MongoDB
-            datastore collection phrsdata1)</li>
+            MongoDB datastore collection phrsdata1)</li>
           <li>Tries to stop Tomcat, errors shown if not started.&nbsp;
-            Continue
-            the
-            script execution by pressing a key. Alternative close the
-            tomcat
-            window, be
-            sure that it is really closed and the process is stopped.</li>
+            Continue the script execution by pressing a key. Alternative
+            close the tomcat window, be sure that it is really closed
+            and the process is stopped.</li>
           <li>Check the script paths for the particular machine name
-            (%COMPUTERNAME%)
-            or create a new machine name</li>
+            (%COMPUTERNAME%) or create a new machine name</li>
           <li>Relevant properties to check:</li>
         </ul>
-        <div style="margin-left: 40px;"><code>
-            set PROJECT_ROOT=D:\srdc\codes\icardea-google\icardea</code><br>
+        <div style="margin-left: 40px;"><code> set
+            PROJECT_ROOT=D:\srdc\codes\icardea-google\icardea</code><br>
           <code>set PHRS_TOMCAT=D:\srfg\tomcat\phrs-tomcat-6</code><br>
           <code>set SESAME_WORKBENCH_URL
             =http://localhost:6060/openrdf-workbench</code><br>
@@ -223,8 +193,7 @@ href="https://icardea.googlecode.com/svn/trunk/docs/phr-system/phr_user_manual_p
           <li>Relevant properties to check:<br>
           </li>
         </ul>
-        <code>
-        </code>
+        <code> </code>
         <div style="margin-left: 40px;"><code>set
             PROJECT_ROOT=D:\srdc\codes\icardea-google\icardea</code><br>
           <code>set PHRS_TOMCAT=D:\srfg\tomcat\phrs-tomcat-6</code><br>
@@ -234,57 +203,44 @@ href="https://icardea.googlecode.com/svn/trunk/docs/phr-system/phr_user_manual_p
         </div>
         <br>
         <ul>
-          <li>
-            Notes:</li>
+          <li> Notes:</li>
         </ul>
         <ul>
           <ul>
             <li>&nbsp;use a different config file if using port 8080
-              --&gt;
-              generic_triplestore_http_8080.xml</li>
+              --&gt; generic_triplestore_http_8080.xml</li>
           </ul>
         </ul>
         <h3>SCRIPT: phr-system-STARTUP.bat</h3>
         <ul>
-          <li>
-            Starts PHR Tomcat server and Interoperability component
+          <li> Starts PHR Tomcat server and Interoperability component
             processes.</li>
         </ul>
         <ul>
           <li>Relevant properties to check:</li>
         </ul>
-        <code>
-        </code>
-        <div style="margin-left: 40px;"><code><code>
-              set PROJECT_ROOT=D:\srdc\codes\icardea-google\icardea</code></code><br>
-          <code>
-            <code>set PHRS_TOMCAT=D:\srfg\tomcat\phrs-tomcat-6</code></code><br>
-          <code>
-            <code>set SESAME_WORKBENCH_URL
+        <code> </code>
+        <div style="margin-left: 40px;"><code><code> set
+              PROJECT_ROOT=D:\srdc\codes\icardea-google\icardea</code></code><br>
+          <code> <code>set PHRS_TOMCAT=D:\srfg\tomcat\phrs-tomcat-6</code></code><br>
+          <code> <code>set SESAME_WORKBENCH_URL
               =http://localhost:6060/openrdf-workbench</code></code><br>
           <code></code></div>
-        <code>
-        </code>
+        <code> </code>
         <ul>
           <li>Notes</li>
         </ul>
         <ul>
           <ul>
             <li>Starts Tomcat and the sesame triple store and ensures
-              triplestore
-              exists. Wait for tomcat to startup.</li>
+              triplestore exists. Wait for tomcat to startup.</li>
             <li>A final message indicates that the server is started. If
-              the
-              server is not completely finished, the next step will fail
-              because the
-              interoperability component depends on the running Sesame
-              triplestore.</li>
+              the server is not completely finished, the next step will
+              fail because the interoperability component depends on the
+              running Sesame triplestore.</li>
             <li>After Tomcat starts, continue the script execution as
-              directed.
-              Next the Interoperability component will start in three
-              windows
-              (PCC-09,
-              PCC-10, Socket Listener).</li>
+              directed. Next the Interoperability component will start
+              in three windows (PCC-09, PCC-10, Socket Listener).</li>
           </ul>
         </ul>
         <span style="font-weight: bold;"></span>
