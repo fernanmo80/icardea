@@ -1,0 +1,248 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+
+    "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+        <title></title>
+        <meta name="description" content=""/>
+        <meta name="author" content=""/>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <link rel="stylesheet" href="../styles/style.css"/>
+        <link rel="stylesheet" href="../styles/icardea_style.css"/>
+    </head>
+    <body>
+        <div id="container">
+            <header>
+                <h1 class="ui-corner-all ui-state-default">CIED Information System</h1>
+            </header>
+            <div id="main">
+                <p >
+                CIED follow-up through telemonitoring offered today by many main CIED vendors, is gradually being adopted in the practice of cardiovascular treatment. The sharing of updated reports and parameter assessment as offered by the data servers and networks connections implemented by many vendors, is helpful for healthcare providers to gain a better understanding of the progress in rehabilitation and the overall effects of medical treatment. Furthermore, emergency alarms and potential problems can be reported and addressed immediately.
+                <br />
+                In the iCARDEA project, CIED Information Integration System employs standards specifications from ISO/IEEE 11073 (Health Informatics, Point-of-care Medical Device Communication) and HL7v2.x in the context of Integrating the Healthcare Enterprise (IHE) profiles to deliver telemonitoring CIED report data from two different CIED vendors (Medtronic and St. Jude Medical) to the adaptive care planner that implements guideline-driven care plans. And this software component will be practically implemented in the SALK with other interacted software components. This paper shows the basic implementation and operation procedure as well as some notices for the direct user and administer.
+                For further detailed descriptions refer to "D6.1.1. Exposing CIED Data through Standard Interfaces" available through the iCARDEA website <a href="http://www.srdc.com.tr/projects/icardea/index.php/component/docman/doc_download/202-d611-exposing-cied-data-hrough-standard-interfaces" title="here">here</a> or to the End-User Manual.
+                </p>
+                <section>
+                    <h2 id="start">How to start and install</h2>
+                    <p>
+                    The CIED Information System is started by a single batch file called <tt>startCIEDInformationSystem.cmd</tt>. This batch should be stored on your desktop or at your Windows autostart folder. If not, it is available at the Folder <tt>icardea\icardea-cied-dataprocessing\</tt> where "icardea" refers to your iCARDEA installation.<br />
+                    To use the CIED system store the CIED Reports, downloaded from Medtronic or SJM webportals, to the vendor specific folders. These are defined at the configuration file <tt>AppConfig.properties</tt>, which can be found at <tt>icardea\icardea-cied-dataprocessing\config\</tt> .
+                    For Medtronic the parameter is stored at <b>DIRECTORY_MEDTRONIC_ORIGINAL_PDF_REPORT</b> and for SJM at <b>DIRECTORY_SJM_ORIGINAL_TXT_REPORT</b>.
+                    The full list is given at "Trouble shooting by start." <br />
+                    You can see that the system is running properly, if a CIED-Report was stored to the directory and after some minutes the report was removed from the directory and moved to the processed folder.
+                    For an End User step by step usage of CIED Information System have a look at the separate Manual.
+                    </p>
+                    <p>To compile and deloy use maven.
+                    Using mvn packaging you will find in <tt>icardea\icardea-cied-dataprocessing\target</tt> zip files,
+                    which can be used for the local installation.
+                    These zips include the startXX.bat files and the needed jars.
+                    Furthermore there can be the war files found for deployment.</p>
+					<p>End User Help Manual can be found <a href="doc\2012-04-27-OFFIS-iCardea OFFIS-user help manual-CIED.doc">here</a>.</p>
+                    <p>An more technical End User Help Manual with deeper technical information can be found <a href="doc\2012-04-26-CIED Information System User Guidence.doc">here</a>.</p>
+					<p>The PDF version of this and PPM technical guide can be found at <a href="doc\2012-04-27-OFFIS-Unified Manual_PPM_CIED Information System.pdf">here</a>.</p>
+               </section>
+
+                <section>
+                    <h2 id="troubleshoting">Trouble shoting by start</h2>
+                    Some of the technical problems can be
+                    <ol>
+                      <li>How to configure CIED Data Integration Module?</li>
+                      <li>How to configure the Language of Medtronic Portal for CIED Information System use?</li>
+                    </ol>
+
+                     <h3 id="ciedconfig">1. Configuration for CIED Data Integration Module</h3>
+                            All parameters are being defined in a configuration file: Appconfig.property.
+                            All parameters in CIED data integration module could be reconfigured for conforming to user own practical implementation.<br />
+                            Configuration by Appconfig.properity stored under <tt>icardea\icardea-cied-dataprocessing\config\</tt>
+                <ol>
+                    <li>Configuration HL7 Sending for Adaptive Care Planner
+                    <p><tt> SEND_TO_CARE_PLANNER=Yes    </tt></p>
+                    <p>-Sending to Adaptive Care Planner (Yes/No)</p>
+                		<p><tt>     ENCAPSULATED_BASE64_EGM_PDF=NO </tt></p>
+                   <p> -Whether integrate Base64 coded EGM PDF files into HL7 message OBX-Segment (Currently 'No')</p>
+                   <p><tt>     # LOCAL PARSING defines the format of the file based HL7 Messages </tt><p>
+										<p><tt> LOCAL_HL7_FILEFORMAT_inXML=No   </tt>    </p>
+ 										<p> -Store HL7v2.5 (received from Merlin.Net and parsed by PDF from CareLink) in *.xml or *.hl7 format </p>
+    								<p><tt>    ADAPTIVE_CARE_PLANNER_HL7_SERVER=localhost  </tt></p>
+       							<p>-The IP address for Adaptive Care Planner   </p>
+									<p><tt>    ADAPTIVE_CARE_PLANNER_HL7_PORT=21012           </tt></p>
+									<p>-The port number for Adaptive Care Planner      </p>
+									<p>     # definition of the accepted format of the MLLP Server </p>
+									<p><tt>ADAPTIVE_CARE_PLANNER_HL7_isXML=Yes </p> </tt>
+<p>                -Sending HL7v2.5 to Adaptive Care Planner in *.xml or *.hl7 format.   </p>
+</li>
+
+                <li> Configuration for directory </p>
+<p>                <tt># The directory for the original CIED PDF files from Medtronic CareLink      </p>
+<p>                DIRECTORY_MEDTRONIC_ORIGINAL_PDF_REPORT=C:\\Test\\Medtronic\\unprocessed\\</tt></p>
+
+<p>                -Store the CIED PDF files from CareLink in this directory, and these PDF will be parsed to HL7v2.5 ORU message.</p>
+<p>                <tt># The directory for the CIED PDF files which has been parsed to HL7 file successfully </p>
+<p>                DIRECTORY_MEDTRONIC_PROCESSED_PDF_REPORT=C:\\Test\\Medtronic\\processed\\ </tt></p>
+
+<p>                -After parsing, successfully processed Medtronic CIED PDF files will be moved into this directory.</p>
+<p>                <tt># The directory for the CIED PDF files which could not be parsed        </p>
+<p>                DIRECTORY_MEDTRONIC_UNKNOWN_PDF_REPORT=C:\\Test\\Medtronic\\unknown\\   </tt></p>
+
+<p>                -After parsing, unrecognized PDF files (wrong format, broken file or lacing obligated contents) will be moved into this directory.</p>
+<p>                <tt># The directory for the EGM PDF files which will be integrated in HL7 OBX-Segment with Base64 Code </p>
+<p>                DIRECTORY_MEDTRONIC_EXPORTED_EGM=C:\\Test\\Medtronic\\tmp_exported_EGM\\</tt></p>
+
+<p>                -During parsing process, required EGM figures will be abstracted and reconverted into a new PDF files and stored in this directory for Base64 coded integration.</p>
+<p>                <tt># The input directory for HL7 Message which will be processed by the PIX Module </p>
+<p>                # Currently the Medtronic PDF file parsed and transformed to HL7 message</p>
+<p>                # and the received St. Jude Medical HL7 message will be stored here </p>
+<p>                DIRECTORY_ORIGINAL_HL7_MESSAGE=C:\\Test\\hl72pix\\ </tt></p>
+
+<p>                -HL7 parsed by CareLink PDF files and Merlin.Net TXT/PDF files reports will be stored in this directory for PIX integration processing.</p>
+<p>                <tt># The output directory for HL7 message after PIX integration processing </p>
+<p>                # Currently the HL7 Sender module uses this as input dir. for the outgoing transmission </p>
+<p>                DIRECTORY_PIX_HL7_MESSAGE=C:\\Test\\hl7withpix\\ </tt></p>
+
+<p>                -After PIX integration processing, new HL7 with Patient Identify will be stored in this directory for transmission to Adaptive Care Planner. </p>
+<p>                <tt># The directory for HL7 messages which have been successfully transmitted through MLLP and TCP </p>
+<p>                DIRECTORY_HL7_TRANSMITTED=C:\\Test\\hl7_transmitted\\ </tt></p>
+
+<p>                -Successful transmitted HL7 message wil be stored in this directory. </p>
+<p>                <tt># The directory for the original CIED TXT&PDF files from Merlin.Net </p>
+<p>                DIRECTORY_SJM_ORIGINAL_TXT_REPORT=C:\\Test\\SJM\\unprocessed\\ </tt></p>
+
+<p>                -Store the CIED TXT&PDF files from Merlin.Net in this directory, and these files will be parsed to HL7v2.5 ORU message. </p>
+<p>                <tt># The directory for the HL7 messages parsed by CIED TXT&PDF files from Merlin.Net </p>
+<p>                DIRECTORY_SJM_HL7_MESSAGE=C:\\Test\\hl72pix\\  </tt></p>
+
+<p>                -HL7 parsed by CareLink PDF files and Merlin.Net TXT/PDF files reports will be stored in this directory for PIX integration processing. </p>
+<p>                <tt># The directory for the processed CIED TXT&PDF files from Merlin.Net </p>
+<p>                DIRECTORY_SJM_PROCESSED_TXT_REPORT=C:\\Test\\SJM\\processed\\ </tt></p>
+
+<p>                -After parsing, successfully processed SJM CIED TXT&PDF files will be moved into this directory. </p></li>
+
+                <li> Configuration for the PIX
+<p>                <tt>PIX_HOST=localhost</p>
+<p>                PIX_PORT=2575</tt></p>
+
+<p>                -IP address and Port number for the PIX manager</p>
+<p>                <tt>OWN_NAMESPACE=CIED</p>
+<p>                OWN_UNIVERSAL_ID=bbe3a050-079a-11e0-81e0-0800200c9a66</p>
+<p>                OWN_UNIVERSAL_TYPE=UUID</p>
+<p>                OWN_IDENTIFIERTYPECODE=</tt></p>
+
+<p>                -PIX QUERY QBP^Q23 QPB-3 Person Identifier</p>
+
+<p>                <tt>QUERY_NAMESPACE=icardea</p>
+<p>                QUERY_UNIVERSAL_ID=www.srdc.com.tr</p>
+<p>                QUERY_UNIVERSAL_TYPE=DNS</p>
+<p>                QUERY_IDENTIFIERTYPECODE=SS</tt></p>
+
+<p>                - PIX QUERY QBP^Q23 QPB-4 Domain Returned</p>
+
+                <li> Configuration for the language</li>
+<p>                <tt>PDFPARSER_LANGUAGE_SETTING=en</tt> </p>
+</li>
+                </ol>
+
+     <h3 id="medtroniclanguage">2.Language of Medtronic portal</h3>
+Because Medtronic CareLink supports Multilanguage, users need to reconfigure language settings according to requirements.
+
+
+ Choose the right clinic in "Choose Clinic" Drop-down List as shown in the next figure.     <br />
+
+<img src="img\CareLinkMainPage-ES.png" width="1005" height="516" border="0" alt="CareLink-Main Page Espaniol" />   <br />
+
+In "Manage My Clinic" domain as shown in next Figure, CareLink could be configured according to user requirements.    <br />
+
+              <img src="img\CareLinkManageMyClinic-ES.png" width="807" height="631" border="0" alt="CareLink Webpage-Manage My Clinic" />    <br />
+
+In "Regional Setting" drop-down list, users could choose the right language and time format.
+
+In iCARDEA, it is set to "English, dd-mmm-yyyy, 2400"".<br />
+
+ <img src="img\CareLinkChooseLanguage.png" width="850" height="638" border="0" alt=" CareLink Webpage-Manage My Clinic-Choose expected language " /><br />
+
+After click "Save" button, the language in the CareLink webpage including exposure CIED PDF reports have been changed into English version.<br />
+
+<img src="img\CareLinkManageMyClinic-EN.png" width="1027" height="829" border="0" alt="CareLink Webpage-Manage My Clinic-in Englisch" />
+
+  </section>
+
+
+     <section>
+                    <h2 id="installscathc">How to install from scratch</h2>
+                    Since CIED Information System is a service for the iCARDEA System, first you have to download the iCARDEA system and install it. After that please do following steps:
+
+                    <ol>
+                    <li>Language setting<br />
+                    Make sure that the language setting in CareLink and software configuration are the same.
+                    For example if the language in CareLink is set to English, the corresponding in AppConfig.properities<br />
+                    <tt>PDFPARSER_LANGUAGE_SETTING=en</tt>
+
+                    </li>
+                    <li>Configure the software<br />
+                    Before the first running of the software or if any changes is required, the corresponding parameters in AppConfig.properities should be defined or modified.
+                    </li>
+                    <li>Run software<br />
+                    Double click batch file to run software, software will monitor the update status of CIED reports automatically.<br />
+                    <img src="img\CIED-StartBatch.png" width="800" height="600" border="0" alt="Double click batch file to run software, software will monitor the update status of CIED reports automatically." />
+
+                    </li>
+                    <li>Download the CIED Report<br />
+                    As the procedure described in Section 5.1 "Exporting CIED Report from CIED Vendor Server",
+                    CIED report from vendor servers are retrieved and stored in server.<br />
+                    Because the limitation of the clinical firewall and the complexity of CSG configuration.
+                     PDF files from CareLink are retrieved from CareLink webpage as described in Section 5.1.1.
+                     PDF files should be stored under the directory which is freely configurable in
+                     AppConfig.properities as shown in the next figure.<br/>
+                     <img src="img\DownloadCIED-Report-PDF-CareLink.png" width="723" height="595" border="0" alt="Downloaded CareLink PDF File in Server" /><br />
+
+                Because the HL7 exposure function is still not supported by currently Merlin.Net,
+                CIED report from Merlin.Net is retrieved as described in Section 5.1.4.
+                FollowupSummaryData.txt with attached PDF files from Merlin.Net are stored under the directory which
+                is freely configurable in AppConfig.properities as shown in next figure. <br />
+                  <img src="img\DownloadCIED-Report-PDF-TXT-Merlin.png" width="1682" height="1004" border="0" alt="Downloaded Merlin.Net TXT&PDF Files in Server" />
+
+                    </li>
+
+                    <li>CIED message sending <br />
+                    Whenever CIED reports are added to the pre-configured directory, they are parsed, and the CIED data are sent to the iCARDEA adaptive care planner using the PCD-09 transaction specified in the IHE IDCO integration profile.
+                    </li>
+
+                    <li>Possible error during the software running:</li>
+                        <ol>
+                        <li> Could not connect to PIX manager<br/>
+                        Solution: Check the status of PIX manger and connection
+                        </li>
+                           <li>
+                           Could not connect to Adaptive Care Planner<br />
+                           Solution: Check the status of Adaptive Care Planner and connection
+                           </li>
+                        <li>
+                            False location for the original CIED reports<br />
+                            Solution: check the location of CIED reports
+
+                        </li>
+                        </ol>
+                    </ol>
+     </section>
+
+    <section>
+                    <h2 id="requirements">Technical Requirements</h2>
+                    The CIED System was implemented and tested under Windows XP and 7 using Java 1.6. Therefore this environment is highly recommended.<br />
+                    For sending the processed CIED data to the iCARDEA environment, the iCARDEA PIX Manager has to be available and probably configured.
+
+     </section>
+
+
+            </div>
+            <footer>
+                &copy; 2012 <a href="http://www.offis.de/">OFFIS</a> All rights reserved.
+            </footer>
+        </div> <!--! end of #container -->
+    </body>
+</html>
+
+
+
