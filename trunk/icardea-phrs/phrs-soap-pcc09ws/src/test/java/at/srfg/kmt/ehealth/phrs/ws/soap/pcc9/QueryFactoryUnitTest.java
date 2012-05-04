@@ -105,7 +105,7 @@ public final class QueryFactoryUnitTest {
 
         final String patientBirthTime = "197903111010";
 
-        final String patientID = "14920263490";
+        final String patientID = "14920263490XXXX";
         final String patientName = "Mopuffus";
         final String patientSurname = "Lumpkins";
 

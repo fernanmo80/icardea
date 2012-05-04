@@ -2,6 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
 <title>Login</title>
+    <!-- deprecated -->
 <style type="text/css">
     #container {
       padding: 1em;      

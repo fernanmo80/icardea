@@ -6,7 +6,11 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import at.srfg.kmt.ehealth.phrs.presentation.services.ModelLabelValue;
+import at.srfg.kmt.ehealth.phrs.presentation.services.ModelLabelValue
+import at.srfg.kmt.ehealth.phrs.presentation.services.ConfigurationService
+import org.opensaml.xml.parse.LoggingErrorHandler
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory;
 
 /**
  * Queries various sources of labels
@@ -23,6 +27,7 @@ import at.srfg.kmt.ehealth.phrs.presentation.services.ModelLabelValue;
  * or http:xxx
  */
 public class SiteReferencesTool implements Map, Serializable {
+    private final static Logger LOGGER = LoggerFactory.getLogger(ConfigurationService.class);
 	String portalUrl
 	/*
 	 educationUrl='http://qviz-dev.salzburgresearch.at/confluence/'
@@ -102,9 +107,9 @@ public class SiteReferencesTool implements Map, Serializable {
 		//privacy_consent_manager iframe_privacy_consent_editor.xhtml
 	}
 
-
-	@Override
-	public String get(Object key) {
+/*
+	//@Override
+	public String xxget(Object key) {
 		String ref = portalUrl
 		try{
 			if(key && key instanceof String){
@@ -114,19 +119,51 @@ public class SiteReferencesTool implements Map, Serializable {
 				value = value ? value : doGetLocalPage(key)
 				
 				if(value){
-					ref = ref + query.get(key)
+//                    if(value.contains('http')){
+//                        ref =  query.get(key)
+//                    }  else {
+//                        ref = ref + query.get(key)
+//                    }
+
 				} else if(((String)key).contains('/')){
 					//remove first
-					ref = ref + key
-					ref = ref.replace('//', '/')
+					//ref = ref + '/' + key
+
+					if(key) ref = key.replace('//', '/')
 				}
 			}
 		} catch(Exception e){
 			println("exception "+e)
 		}
-		//println("get ref="+ref)
+
 		return ref
 	}
+	*/
+    @Override
+    public String get(Object key) {
+        //String ref = portalUrl
+        //String ref = configGetLocalPage('portalUrl')
+        //LOGGER.debug("get key="+key)
+        String ref=null
+        try{
+            if(key && key instanceof String){
+                //check for site page or could be on same server
+                ref=  configGetSitePage(key)
+                //LOGGER.debug("getconfigGetSitePage ref="+ref)
+
+                if( !ref && ((String)key).contains('/')){
+                    if(key) ref = key.replace('//', '/')
+                }
+            } else {
+               if( !key ) LOGGER.debug("getconfigGetSitePage key null emtpy="+key)
+               if( key  && !( key instanceof String)) LOGGER.debug("getconfigGetSitePage key not string="+key)
+            }
+        } catch(Exception e){
+            LOGGER.debug("getconfigGetSitePage error "+e)
+        }
+        if( !ref) return '#'
+        return ref
+    }
 	
 	protected String doGetLocalPage(String key){
 		if(queryLocal.containsKey(key)){
@@ -140,6 +177,16 @@ public class SiteReferencesTool implements Map, Serializable {
 		}
 		return null
 	}
+
+    protected String configGetLocalPage(String key){
+        String value= ConfigurationService.getInstance().getContentLink(key)
+        //LOGGER.debug("configGetLocalPage key="+key+" val="+value);
+        return  value    }
+    protected String configGetSitePage(String key){
+        String value= ConfigurationService.getInstance().getContentLink(key)
+        //LOGGER.debug("configGetSitePage key="+key+" val="+value);
+        return  value
+    }
 	/*
 	 private String parseLanguage(String key){
 	 if(key!=null && key.length() > 0) {

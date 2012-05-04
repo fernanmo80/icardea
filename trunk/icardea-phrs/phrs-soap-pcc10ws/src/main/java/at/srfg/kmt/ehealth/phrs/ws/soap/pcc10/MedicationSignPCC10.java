@@ -340,6 +340,7 @@ final class MedicationSignPCC10 {
                 (String) codeSystem.get(Constants.CODE_SYSTEM_CODE);
 
         final String prefLabel = (String) bean.get(Constants.SKOS_PREFLABEL);
+
         final String value = (String) bean.get(Constants.HL7V3_VALUE);
 
         final CE result = new CE();

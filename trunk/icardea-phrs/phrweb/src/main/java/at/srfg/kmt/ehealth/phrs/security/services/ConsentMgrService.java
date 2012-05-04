@@ -160,6 +160,7 @@ public class ConsentMgrService implements Serializable {
      */
 
 
+
     public boolean isPermittedByPID(String targetUserPID, String subjectCode,
             String resourceCode, String action) {
 
@@ -206,7 +207,6 @@ public class ConsentMgrService implements Serializable {
 
         return flag;
     }
-    
 
     public void sendAuditMessage(String targetUser, String subjectRoleCode,
             String resourceCode, String action) {
@@ -246,7 +246,6 @@ public class ConsentMgrService implements Serializable {
         return endpoint;
 
     }
-
 
 
     public String callGetDecision(String patientId, String issuerName,
