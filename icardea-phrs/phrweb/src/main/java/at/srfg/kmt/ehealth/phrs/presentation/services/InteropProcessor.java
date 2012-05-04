@@ -666,6 +666,8 @@ public class InteropProcessor {
                     //to determine a finer degreee of relationship. We are uncertain if the dates alone will help to group records imported.
 
                     String transactionId = UUID.randomUUID().toString();
+                    //keep track of what
+
 
                     for (DynaBean dynaBean : results) {
                         String messageUri = null;

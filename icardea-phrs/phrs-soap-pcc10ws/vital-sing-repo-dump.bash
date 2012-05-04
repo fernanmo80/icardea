@@ -3,6 +3,6 @@
 
 clear
 
-mvn clean compile
-mvn test-compile
+rem mvn clean compile
+rem mvn test-compile
 mvn exec:java -Dexec.mainClass=at.srfg.kmt.ehealth.phrs.ws.soap.pcc10.VitalSingRepoDumpExample -Dexec.classpathScope=test -Dexec.args="191" -X

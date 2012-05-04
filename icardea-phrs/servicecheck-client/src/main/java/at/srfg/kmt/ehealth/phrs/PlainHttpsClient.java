@@ -24,9 +24,9 @@ public class PlainHttpsClient {
         final String serverURL = "https://" + host + ":" + port;
         return connect(serverURL);
     }
-
+ 
     public static boolean connect(String serverURL) {
-
+     
         try {
             return httpsConnect(new URL(serverURL));
         } catch (MalformedURLException ex) {
@@ -34,15 +34,15 @@ public class PlainHttpsClient {
             LOGGER.error("...FAIL");
             LOGGER.trace("{}", ex.getLocalizedMessage());
             return false;
-
+            
         }
 
     }
-
     public static boolean httpsConnect(URL serverURL) {
-        try {
+            try {
 
             HttpsURLConnection conn = (HttpsURLConnection) serverURL.openConnection();
+
 
             conn.connect();
 
