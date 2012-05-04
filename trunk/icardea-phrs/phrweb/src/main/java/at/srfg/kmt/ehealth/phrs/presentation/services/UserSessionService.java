@@ -351,7 +351,7 @@ public class UserSessionService {
 
     public static boolean isSpecialUser(String identifier) {
         if(identifier != null){
-            if (identifier.contains("suzie")
+            if (identifier.contains("suzie191")
                     || identifier.contains("phrsm")
                     ) {
                 LOGGER.debug("isSpecialUser: true");
