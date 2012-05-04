@@ -60,15 +60,15 @@ rmdir /S /Q "%PHRS_TOMCAT%\webapps\openrdf-workbench\"
 rmdir /S /Q "%PHRS_TOMCAT%\work\Catalina\localhost\openrdf-sesame\"
 rmdir /S /Q "%PHRS_TOMCAT%\work\Catalina\localhost\openrdf-workbench\"
 
-del "%PHRS_TOMCAT%\bin\log_phr_app.txt"
-del "%PHRS_TOMCAT%\bin\log_phr_libs.txt"
-del "%PHRS_TOMCAT%\bin\log_phr_root.txt"
+rem del "%PHRS_TOMCAT%\bin\log_phr_app.txt"
+rem del "%PHRS_TOMCAT%\bin\log_phr_libs.txt"
+rem del "%PHRS_TOMCAT%\bin\log_phr_root.txt"
 
-del "%PROJECT_ROOT%\bin\log_phr_app.txt"
-del "%PROJECT_ROOT%\bin\log_phr_libs.txt"
-del "%PROJECT_ROOT%\bin\log_phr_root.txt"
+rem del "%PROJECT_ROOT%\bin\log_phr_app.txt"
+rem del "%PROJECT_ROOT%\bin\log_phr_libs.txt"
+rem del "%PROJECT_ROOT%\bin\log_phr_root.txt"
 
-call mvn clean -f "%PHRS_HOME%\pom.xml" -Dtomcat.home="%PHRS_TOMCAT%" -Dicardea.home="%PROJECT_ROOT%" -Daduna.parentdir="%APPDATA%" -DcleanTomcatWebapps=true -DremoveSesameAduna=false -DremoveSesame=true -DcleanLogs=true
+call mvn clean -f "%PHRS_HOME%\pom.xml" -Dtomcat.home="%PHRS_TOMCAT%" -Dicardea.home="%PROJECT_ROOT%" -Daduna.parentdir="%APPDATA%" -DcleanTomcatWebapps=true -DremoveSesameAduna=false -DremoveSesame=true -DcleanLogs=false
 
 title copying triplestore configuration
 copy /Y "%TRIPLESTORE_SRC%" "%TRIPLESTORE_DST%"
