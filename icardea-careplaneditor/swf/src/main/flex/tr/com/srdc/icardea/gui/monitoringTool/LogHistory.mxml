@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mx:VBox xmlns="fr.kapit.skin.component.*" xmlns:mx="http://www.adobe.com/2006/mxml"
+           paddingTop="5" paddingLeft="5" paddingRight="5"
+           buttonMode="true" alpha="1.0" horizontalAlign="left"
+           verticalAlign="top" width="100%" height="100%">
+    <mx:Script>
+		<![CDATA[
+			
+       
+        ]]>
+	</mx:Script>
+	
+</mx:VBox>

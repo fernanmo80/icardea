@@ -1,24 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-  <!--
-  ~ ////////////////////////////////////////////////////////////////////////////////
-  ~ //
-  ~ //  Kap IT  -  Copyright 2009 Kap IT  -  All Rights Reserved.  
-  ~ //   
-  ~ //  TERMS OF USE  
-  ~ //  Developers who wish to access source code must agree to the License that accompanies the code
-  ~ //  (see file “License.txt” contained in the archive, or http://lab.kapit.fr/display/Store/Licenses)
-  ~ //  If you use the source code, you accept to be bound by the License.  If you do not accept the License, do not use the source code.  
-  ~ //  Licensees may use the source code to assist with the development of related software. Licensees may not modify or redistribute the source code.  
-  ~ //
-  ~ ////////////////////////////////////////////////////////////////////////////////
-  -->
-<!--
-  ~ ////////////////////////////////////////////////////////////////////////////////
-  ~ // This tool can be used to change diagrammer mode (link creation, hand or selection mode)
-  ~ // It also reflect change to diagrammer mode, should this change be cause by this tool  
-  ~ // or an external cause.
-  ~ ////////////////////////////////////////////////////////////////////////////////
- -->
+
 <mx:VBox xmlns="fr.kapit.skin.component.*" xmlns:mx="http://www.adobe.com/2006/mxml"
            paddingTop="5" paddingLeft="5" paddingRight="5"
            buttonMode="true" alpha="1.0" horizontalAlign="left"
@@ -47,6 +28,10 @@
         [Bindable]
 		public var assignments:ArrayCollection;
 		[Bindable]
+		public var executions:ArrayCollection;
+		[Bindable]
+		public var executionHistory:ArrayCollection;
+		[Bindable]
 		public var mcp:MedicalCareplan;
 		[Bindable]
 		public var carePlanEditor:CarePlanEditor;
@@ -63,7 +48,12 @@
 			service.addEventListener(ResultEvent.RESULT,onResultRegisteredPatients);
 			service.addEventListener(FaultEvent.FAULT, onFault);			
 			service.listRegisteredPatients();
-			
+			executions = new ArrayCollection;
+			executions.addItem("Executed on 22.12.12");
+			executions.addItem("Executed on 23.12.12");
+			executions.addItem("Executed on 24.12.12");
+			execStack.selectedIndex = 0;
+						
 	   }
       
        public function onResultRegisteredPatients(result:ResultEvent):void 
@@ -129,21 +119,47 @@
 	        {
 	        	Alert.show("Please select a care plan to execute", "No Care Plan Selected");
 	        }	      	      
+        }
+        public function logHistory():void{
+        	execStack.selectedIndex = 1;
+        }
+        private function changeHistory():void {
+        	executionHistory = new ArrayCollection;
+        	executionHistory.addItem("Detection of VT!");
+        	executionHistory.addItem("Guideline Finalized!");
         }  	 
        
         ]]>
 	</mx:Script>
-	<mx:Label text="Care Plan Execution" width="100%" fontWeight="bold" enabled="true" fontFamily="Arial" fontSize="20"/>
-    <mx:DataGrid resizableColumns="true" styleName="usersGrid" width="100%" height="50%" id="patients" dataProvider="{assignments}" borderStyle="none">
-    	<mx:columns>
-			<mx:DataGridColumn headerText="Patient ID" dataField="personID" />
-			<mx:DataGridColumn headerText="Patient Name" dataField="name"/>	
-			<mx:DataGridColumn headerText="Patient Surname" dataField="surname" />
-			<mx:DataGridColumn headerText="Care Plan Name" dataField="careplanName" />
-			<!--<mx:DataGridColumn headerText="Careplan ID" dataField="careplanID" />-->
-		</mx:columns>
-    </mx:DataGrid>	
-    <mx:HBox>
-		<mx:Button id="openDiagram" label="Open Care Plan Execution" enabled="true" click="openSelected()" styleName="adminButton"/>		
-	</mx:HBox>	
+	<mx:ViewStack width="100%" height="100%" id="execStack" creationPolicy="all">
+		<mx:VBox width="100%" height="100%" id="monitor">
+			<mx:Label text="Care Plan Execution" width="100%" fontWeight="bold" enabled="true" fontFamily="Arial" fontSize="20"/>
+		    <mx:DataGrid resizableColumns="true" styleName="usersGrid" width="100%" height="50%" id="patients" dataProvider="{assignments}" borderStyle="none">
+		    	<mx:columns>
+					<mx:DataGridColumn headerText="Patient ID" dataField="personID" />
+					<mx:DataGridColumn headerText="Patient Name" dataField="name"/>	
+					<mx:DataGridColumn headerText="Patient Surname" dataField="surname" />
+					<mx:DataGridColumn headerText="Care Plan Name" dataField="careplanName" />
+					<!--<mx:DataGridColumn headerText="History">
+			   	    	<mx:itemRenderer>
+							<mx:Component>
+								<mx:HBox width="100%" horizontalAlign="center">
+									<mx:LinkButton toolTip="Log History" icon="@Embed('/assets/careplaneditor/edit.png')" click="outerDocument.logHistory()" width="20" height="20"/>
+								</mx:HBox>
+							</mx:Component>
+						</mx:itemRenderer>
+					</mx:DataGridColumn>-->
+				</mx:columns>
+		    </mx:DataGrid>	
+		    <mx:HBox>
+				<mx:Button id="openDiagram" label="Open Care Plan Execution" enabled="true" click="openSelected()" styleName="adminButton"/>		
+			</mx:HBox>
+		</mx:VBox>
+		<mx:VBox width="100%" height="100%" id="history">
+			<mx:HBox width="100%">
+				<mx:List change="changeHistory()" width="100%" labelField="Date of Execution" dataProvider="{executions}"></mx:List>
+				<mx:List width="100%" labelField="Execution History" dataProvider="{executionHistory}"></mx:List>
+			</mx:HBox>
+		</mx:VBox>		
+	</mx:ViewStack>		
 </mx:VBox>
