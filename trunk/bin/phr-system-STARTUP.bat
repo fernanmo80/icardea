@@ -78,15 +78,15 @@ start start-socketlistener.bat
 
 echo SOCKET LISTENER       STARTED in new Window: %PHRS_HOME%\phrs-soap-pcc10ws\start-socketlistener.bat
 
-echo ****
-echo **** NEXT: PCC-09 QUERY TO EHR - Please wait for PCC-10 endpoint startup, then press a key to start PCC-9 query to EHR
-echo **** You can abort if needed, this is the last to run
-echo ****
-pause
+rem echo ****
+rem echo **** NEXT: PCC-09 QUERY TO EHR - Please wait for PCC-10 endpoint startup, then press a key to start PCC-9 query to EHR
+rem echo **** You can abort if needed, this is the last to run
+rem echo ****
+rem pause
 
-cd "%PHRS_HOME%\phrs-soap-pcc09ws\"
-call phr-send-pcc9.bat 
+rem cd "%PHRS_HOME%\phrs-soap-pcc09ws\"
+rem call phr-send-pcc9.bat 
 
-title phr-system-STARTUP FINISHED
+rem title phr-system-STARTUP FINISHED
 rem paused already from send pcc9 
 cd "%mypwd%"
