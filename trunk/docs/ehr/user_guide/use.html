@@ -14,6 +14,7 @@
     <body>
         <div id="content">
             <nav id="sidebar">
+            <h1>iCARDEA EHR Interoperability Framework</h1>
             <h2>Table of Contents</h2>
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -61,7 +62,7 @@ online transactions. So all the iCARDEA web applications use the same method so 
 same level of security is achieved. But before accessing the secure HTTPS protected
 Id Provider (or other iCARDEA web application) the user needs to import the iCARDEA
 Root Certificate in their browser.  In order to do this please visit the following
-URL <a href="http://icardea-server.lksdom21.lks.local/CA/cacert.crt">http://icardea-server.lksdom21.lks.local/CA/cacert.crt</a> with your browser and do
+URL <a href="https://icardea-server.lksdom21.lks.local/CA/cacert.crt">https://icardea-server.lksdom21.lks.local/CA/cacert.crt</a> with your browser and do
 the following (it is assumed that you use MS Internet Explorer but the process is
 more or less the same with the other browsers):</p>
 
@@ -205,11 +206,11 @@ the installation has taken place as described in the [installation
 guide](install.html#pixm)  --></p>
 
 <p>A new icardea patient can be registered following the <em>Registration</em> link
-from the menu (see figure below). The user fills patient ids (protocol, HIS and
-implant) and demographics data and submits the form.</p>
+from the menu (see figure below). The user fills patient ids (protocol,
+HIS, implant, and EPSOS) and demographics data and submits the form.</p>
 
 <figure id="fig1">
-<img src="imgs/pix_ui1_2.png" alt="Registering a new patient in the PIX Manager interface" />
+<img src="imgs/pix_ep_ui1.png" alt="Registering a new patient in the PIX Manager interface" />
 <figcaption>Fig. 6 Registering a new patient in the PIX Manager interface</figcaption>
 </figure>
 
@@ -217,14 +218,14 @@ implant) and demographics data and submits the form.</p>
 and authority (domain).</p>
 
 <figure id="fig2">
-<img src="imgs/pix_ui2_2.png" alt="Querying for patients" />
+<img src="imgs/pix_ep_ui2.png" alt="Querying for patients" />
 <figcaption>Fig. 7 Querying for patients</figcaption>
 </figure>
 
 <p>The result of the id mapping is shown in the next figure:</p>
 
 <figure id="fig3">
-<img src="imgs/pix_ui3_2.png" alt="Results of the query" />
+<img src="imgs/pix_ep_ui3.png" alt="Results of the query" />
 <figcaption>Fig. 8 Results of the query</figcaption>
 </figure>
 
@@ -232,16 +233,16 @@ and authority (domain).</p>
 gives as input any of the ids or demographics data </p>
 
 <figure id="fig4">
-<img src="imgs/pix_ui4_2.png" alt="" />
+<img src="imgs/pix_ep_ui4.png" alt="" />
 <figcaption>Fig. 9 Demographics Query</figcaption>
 </figure>
 
 <p>..and all the records matching the criteria are presented (see <a href="#fig5">Fig. 10</a>).
-User can edit the patient demographics data by clicking on the last column of
+Users can edit the patient demographics data by clicking on the last column of
 the demographics query results table.</p>
 
 <figure id="fig5">
-<img src="imgs/pix_ui5_2.png" alt="" />
+<img src="imgs/pix_ep_ui5.png" alt="" />
 <figcaption>Fig. 10 The results of the query</figcaption>
 </figure>
 
