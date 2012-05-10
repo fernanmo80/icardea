@@ -212,13 +212,11 @@
 		    </td>
 		  </tr>
 		  <tr name="EHRBlock">
-			<td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
-
+			<td style="background-color:#eeeeee">
 			  <p align="center"><b>Brief Information about the Comorbid diseases
 			  </b> </p>
 			  <table  width="100%">
 			<tbody>
-
 			  <tr>
 				<td>Renal insufficiency or renal failure:</td>
 				<td>
@@ -249,9 +247,8 @@
 			  </tr>			  
 			</tbody>
 			  </table>
-
 			</td>
-			</tr>
+		  </tr>
 		  <tr name="ChoiceBlock">
 		    <td style="background-color:#eeeeee">
 		      <p align="center"><b>Recommendation and Next Step to follow </b> </p>
@@ -1683,12 +1680,16 @@
 		  </td>
 		</tr>
 		<tr name="EHRBlock">
-			<td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
+		  <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
+		    <p align="center"><b>Brief Information about the Patient History retrieved from EHR
+		    </b> </p>
 
-			  <p align="center"><b>Brief Information about the Comorbid diseases
-			  </b> </p>
-			  <table  width="100%">
-			<tbody>
+		    <table  width="100%">
+		      <tbody>
+			<tr>
+			  <td><b>Comorbid Diseases</b></td>
+			  <td><b>EHR values</b></td>
+			</tr>
 
 			  <tr>
 				<td>Renal insufficiency or renal failure:</td>
