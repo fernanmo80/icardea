@@ -9,5 +9,6 @@ public interface LoginService {
 	String redirectPPM();
 	String redirectPIX();
 	String getCurrentIP();
+	void updatePerson(RegistrationModel model) throws Exception;
 	
 }

@@ -7,6 +7,12 @@ import java.util.ResourceBundle;
 
 import org.openid4java.discovery.DiscoveryInformation;
 import org.openid4java.message.AuthRequest;
+import org.orm.PersistentException;
+import org.orm.PersistentTransaction;
+
+import tr.com.srdc.icardea.hibernate.ICardeaPersistentManager;
+import tr.com.srdc.icardea.hibernate.PatientHealthcareActorAssignment;
+import tr.com.srdc.icardea.hibernate.PersonCriteria;
 
 import flex.messaging.FlexContext;
 import flex.messaging.FlexSession;
@@ -95,6 +101,45 @@ public class LoginServiceImpl implements LoginService {
 		} catch (UnknownHostException e) {
 		}
 		return hostname;
+	}
+	@Override
+	public void updatePerson(RegistrationModel model) throws Exception {
+		
+		PersistentTransaction transaction = ICardeaPersistentManager.instance().getSession().beginTransaction();
+		System.out.println(" $$$ Adding person:" + model.getFullName());
+		tr.com.srdc.icardea.hibernate.Person personInDB = null;
+		PersonCriteria personCriteria = null;
+		try {
+			personCriteria = new PersonCriteria();
+		} catch (PersistentException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		personCriteria.identifier.eq(model.getOpenId());
+		tr.com.srdc.icardea.hibernate.Person[] persons = tr.com.srdc.icardea.hibernate.Person.listPersonByCriteria(personCriteria);
+		if (persons.length > 0) {
+			System.out.println(" $$$ Person already in the DB:" + model.getFullName());
+			personInDB = persons[0];
+		} else {
+			personInDB = new tr.com.srdc.icardea.hibernate.Person();
+			System.out.println(" $$$ Creating new person:" + model.getFullName());
+		}
+		personInDB.setIdentifier(model.getOpenId());
+		personInDB.setName(model.getFullName());
+		
+		
+		tr.com.srdc.icardea.hibernate.Contact contactInDB = new tr.com.srdc.icardea.hibernate.Contact();
+		contactInDB.setEmail(model.getEmailAddress());
+		contactInDB.setMobileNumber(model.getPhoneNumber());
+		contactInDB.setPhoneNumber(model.getPhoneNumber());
+		contactInDB.save();
+		
+		personInDB.save();
+		transaction.commit();
+		
+		
+		
+		
 	}
 	
 }

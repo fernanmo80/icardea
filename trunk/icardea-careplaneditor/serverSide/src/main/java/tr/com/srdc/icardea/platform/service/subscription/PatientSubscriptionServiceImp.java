@@ -536,7 +536,7 @@ public class PatientSubscriptionServiceImp implements
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
-
+ 
 		System.out.println(" $$$ Patients size new:" + patients.length);
 
 		List<Patient> patientsToBeFilled = new ArrayList();
