@@ -186,11 +186,11 @@
 				<p align="left">
 					<font color="#880015">Warning: Capacitor Charge Time threshold values vary from the manufacturers!</font><br/>
 					<b>Medtronic: </b><br/>
-						&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Capacitor Charge Time low threshold: 16 <br/>
-						&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Capacitor Charge Time high threshold: 30 <br/>
+						Capacitor Charge Time low threshold: 16 <br/>
+						Capacitor Charge Time high threshold: 30 <br/>
 					<b>St.Jude: </b><br/>
-						&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Capacitor Charge Time low threshold: Not provided<br/>
-						&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;&amp;nbsp;Capacitor Charge Time high threshold: 28<br/>
+						Capacitor Charge Time low threshold: Not provided<br/>
+						Capacitor Charge Time high threshold: 28<br/>
 				  </p>
 			      </p>
 			    </td>

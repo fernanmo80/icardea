@@ -103,43 +103,43 @@ public class HPAAlarmHandlerThread extends Thread {
 			phoneNumbers.addElement(patientPhoneNumber);
 
 		// TODO: Ileride burayi GUI'den yapacagiz ve bu alttarafi kaldiracagiz...
-		if (assignments.length == 0) {
-			try {
-				
-				String doctorName = "Michael";
-				String doctorSurname = "Jones";
-				String doctorID = "1387";
-				String doctorEmail = "yildiraykabak@gmail.com";
-				String doctorMobile = "00905052319177";
-				
-				PersistentTransaction transaction = ICardeaPersistentManager
-						.instance().getSession().beginTransaction();
-
-				tr.com.srdc.icardea.hibernate.Person careGiver = new tr.com.srdc.icardea.hibernate.Person();
-				careGiver.setName(doctorName);
-				careGiver.setSurname(doctorSurname);
-				careGiver.setIdentifier(doctorID);
-
-				tr.com.srdc.icardea.hibernate.Contact contactInDB = new tr.com.srdc.icardea.hibernate.Contact();
-
-				contactInDB.setEmail(doctorEmail);
-				contactInDB.setMobileNumber(doctorMobile);
-				contactInDB.setPhoneNumber(doctorMobile);
-				contactInDB.save();
-				
-				careGiver.setContact(contactInDB);
-				careGiver.save();
-				
-				PatientHealthcareActorAssignment assignment = new PatientHealthcareActorAssignment();
-				assignment.setHealthcareActorIdentifier(doctorID);
-				assignment.setPatientIdentifier(patientId);
-				assignment.save();
-				
-				transaction.commit();
-			} catch (Exception ex) {
-				ex.printStackTrace();
-			}
-		}
+//		if (assignments.length == 0) {
+//			try {
+//				
+//				String doctorName = "Michael";
+//				String doctorSurname = "Jones";
+//				String doctorID = "1387";
+//				String doctorEmail = "yildiraykabak@gmail.com";
+//				String doctorMobile = "00905052319177";
+//				
+//				PersistentTransaction transaction = ICardeaPersistentManager
+//						.instance().getSession().beginTransaction();
+//
+//				tr.com.srdc.icardea.hibernate.Person careGiver = new tr.com.srdc.icardea.hibernate.Person();
+//				careGiver.setName(doctorName);
+//				careGiver.setSurname(doctorSurname);
+//				careGiver.setIdentifier(doctorID);
+//
+//				tr.com.srdc.icardea.hibernate.Contact contactInDB = new tr.com.srdc.icardea.hibernate.Contact();
+//
+//				contactInDB.setEmail(doctorEmail);
+//				contactInDB.setMobileNumber(doctorMobile);
+//				contactInDB.setPhoneNumber(doctorMobile);
+//				contactInDB.save();
+//				
+//				careGiver.setContact(contactInDB);
+//				careGiver.save();
+//				
+//				PatientHealthcareActorAssignment assignment = new PatientHealthcareActorAssignment();
+//				assignment.setHealthcareActorIdentifier(doctorID);
+//				assignment.setPatientIdentifier(patientId);
+//				assignment.save();
+//				
+//				transaction.commit();
+//			} catch (Exception ex) {
+//				ex.printStackTrace();
+//			}
+//		}
 		// YUKARIYI KALDIR....
 
 		for (int j = 0; j < assignments.length; j++) {
