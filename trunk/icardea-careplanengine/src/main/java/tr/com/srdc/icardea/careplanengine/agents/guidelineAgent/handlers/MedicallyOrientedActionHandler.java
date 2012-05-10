@@ -39,6 +39,7 @@ import tr.com.srdc.icardea.careplanengine.entities.patientDataEntities.PatientDa
 import tr.com.srdc.icardea.careplanengine.glmodel.*;
 import tr.com.srdc.icardea.ihe.idco.observationprocessor.CIEDDataRetriever;
 import tr.com.srdc.icardea.ihe.cm.careManager.EHRPHRDataRetriever;
+import tr.com.srdc.icardea.platform.service.login.RegistrationModel;
 import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
@@ -689,12 +690,13 @@ public class MedicallyOrientedActionHandler {
 			char[] ppmLinkArray = ppmlink.toCharArray();
 			char tab = ppmLinkArray[ppmLinkArray.length - 1];
 				
-			String openid = null;
+			//String openid = null;
 			//
-			//String openid = tr.com.srdc.icardea.platform.service.login.RegistrationModel
-			//		.getOpenIdStatic();
-			if (openid == null)
-				openid = "https://icardea-server.lksdom21.lks.local/idp/u=xrypa";
+			String openid = RegistrationModel.getOpenIdStatic();
+			System.out.println("openid from platform: "+openid);
+					
+			/*if (openid == null)
+				openid = "https://icardea-server.lksdom21.lks.local/idp/u=xrypa";*/
 
 			ResourceBundle properties = ResourceBundle.getBundle("icardea");
 			// https://localhost:8443/ppm_v2/view?startup=de.offis.health.icardea.ppm.viewapp
