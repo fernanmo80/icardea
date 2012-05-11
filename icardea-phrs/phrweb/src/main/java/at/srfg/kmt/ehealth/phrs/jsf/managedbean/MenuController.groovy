@@ -200,9 +200,9 @@ public class MenuController extends FaceCommon {
             addMenuItems(monitoringMap, iconLinkType, PhrsConstants.TYPE_ITEM_LINK, sectionMonitoring, codedLabel)
 
             //monitor_vitals.xhtml
+            //'/jsf/riskfactor_mgt.xhtml': 'Risk Factors',
             Map profile = [
                     '/jsf/profile_contact_mgt.xhtml?typecontact=healthcare_user': 'My Contact Info',
-                    '/jsf/riskfactor_mgt.xhtml': 'Risk Factors',
                     '/jsf/profile_padl_mgt.xhtml': 'Activities of Daily Living',
                     '/jsf/obs_activity_mgt.xhtml': 'Physical Activities']
 

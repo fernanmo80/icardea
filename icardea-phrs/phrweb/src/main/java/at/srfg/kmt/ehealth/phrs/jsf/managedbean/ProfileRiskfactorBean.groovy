@@ -61,8 +61,10 @@ public class ProfileRiskfactorBean extends FaceBaseBean  {
 		super.setPermittedActions();
 		this.setAllowCreate(false);
 		this.setAllowDelete(false);
+        setModify(AuthorizationService.MODIFY_YES)
 		//no need for row view button
-		setAllowView(false)//removes view row button
+		setAllowView(true)//removes view row button
+
 
 	}
 
@@ -71,15 +73,15 @@ public class ProfileRiskfactorBean extends FaceBaseBean  {
 	 * Called for a new form, local changes. Also for testing
 	 * Under risks, there are no new risks that a user can add, we provide all known risks and the user should update
 	 */
-	@Override
-	public void modifyNewResource(){
-		super.modifyNewResource();
+//	@Override
+//	public void modifyNewResource(){
+//		super.modifyNewResource();
+//
+
+//	}
 
 
-	}
-
-
-
+  /*
 
 	Collection check1
 
@@ -107,6 +109,6 @@ public class ProfileRiskfactorBean extends FaceBaseBean  {
 	
 		return out
 	}
-
+     */
 }
 
