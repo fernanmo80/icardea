@@ -358,7 +358,7 @@
 						          <mx:LinkButton click="navigateToURL(new URLRequest('https://europe.medtroniccarelink.net/Clinician/Login/Login.aspx'), 'quote')" label="Medtronic Portal" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%"/>
 						          <mx:LinkButton click="navigateToURL(new URLRequest('https://demo50.merlin.net'), 'quote')" label="St.Jude Portal" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%"/>
 						    </flexlib:WindowShade>
-						    <flexlib:WindowShade opened="false" id="ws5" styleName="linkButtonWindowShade" 
+						    <!--<flexlib:WindowShade opened="false" id="ws5" styleName="linkButtonWindowShade" 
 						      	label="User Manuals" width="100%">
 						          <mx:LinkButton click="navigateToURL(new URLRequest('http://icardea.googlecode.com/svn/trunk/docs/ehr/user_guide/use.html#pixm'), 'quote')" label="Patient Registration" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%"/>
 						          <mx:LinkButton click="navigateToURL(new URLRequest('http://icardea.googlecode.com/svn/trunk/docs/ppm/PatientParameterMonitor.html'), 'quote')" label="Patient Parameter Monitor" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%"/>
@@ -368,7 +368,7 @@
 						    <flexlib:WindowShade opened="false" id="ws7" styleName="linkButtonWindowShade" 
 						      	label="Demo of VT" width="100%">
 						          <mx:LinkButton click="navigateToURL(new URLRequest('http://www.srdc.com.tr/projects/icardea/dmdocuments/viewlet/'), 'quote')" label="Viewlets of Demo" enabled="true" styleName="linkButtonStyle" fontWeight="bold" fontSize="12" width="100%"/>
-						    </flexlib:WindowShade>
+						    </flexlib:WindowShade>-->
 						</mx:VBox >
 						<mx:ViewStack id="userMain" width="100%" height="100%">
 							<mx:VBox height="100%" width="100%"
