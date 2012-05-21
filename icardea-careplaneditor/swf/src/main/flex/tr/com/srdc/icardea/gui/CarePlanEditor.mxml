@@ -526,7 +526,7 @@
 				
 				diagram.clearAll();
 				this._careplan = careplan;
-				//trace("careplan.diagram: "+careplan.diagram)
+				trace("lannn careplan.diagram: "+diagram)
 				//trace("careplan.careplan: "+careplan.careplan)
 				
 				if(careplan.diagram != null && careplan.diagram != ""){
@@ -783,8 +783,8 @@
 			   				
 			   				if (id != null && id != "" && mm.isMonitored == false){
 			   					var dobTarget:DiagramObject = diagram.getElementByDataObjectId(id) as DiagramObject;
-			   					if(id == "S06803B5E-9643-8FF4-B83C-67ADE997CA20" ){//TODO: These are only for AF and VT
-			   						dobTarget = diagram.getElementByDataObjectId("S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09") as DiagramObject;
+			   					if(id == "SEC1015ACF16AF3331C376E3054D26595" ){//TODO: These are only for AF and VT
+			   						dobTarget = diagram.getElementByDataObjectId("SCCCB5EA8B07CAC2607AF6E3FB7A74B86") as DiagramObject;
 			   						//(buttonBox.getChildAt(0) as Button).label == "Start";
 			   						//clearInterval(executionTimerId);
 			   						(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
@@ -793,8 +793,8 @@
 			   						clearInterval(executionTimerId);
 									//logInfo += "Execution Ends!"+"\n";
 			   					}
-			   					if(id == "S0F4B6AE8-BC3C-052D-E84E-9105773EF96A" ){
-			   						dobTarget = diagram.getElementByDataObjectId("S30264FBE-5736-5620-9F74-910787388943") as DiagramObject;
+			   					if(id == "S6D65A091-CB09-6B23-CCB2-519CAD72E0B4" ){
+			   						dobTarget = diagram.getElementByDataObjectId("S8590B661-27DB-989C-7C2C-51A555B00624") as DiagramObject;
 			   						//(buttonBox.getChildAt(0) as Button).label == "Start";
 			   						//clearInterval(executionTimerId);
 			   						(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
@@ -1196,7 +1196,7 @@
 				
                 
                 reference = null;
-                diagram.clearAll();
+                //diagram.clearAll();
 
                 diagram.fromXML(new XML(content.diagram));
 
