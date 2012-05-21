@@ -92,11 +92,11 @@
       <EvaluationScript>function EligibleToGuidelineCriterion(VTStatus) { if ( VTStatus.getValue().getText() == "true") return true; else return false; }</EvaluationScript>
     </EligibilityCriteria>
     <Algorithm>
-      <StartStep ID="S06803B5E-9643-8FF4-B83C-67ADE997CA20">
-	<NextStep ref="S9657369B-08ED-F755-3870-67AFCACF7219"/>
+      <StartStep ID="SEC1015ACF16AF3331C376E3054D26595">
+	<NextStep ref="S80251CF3E98C720F5B4D6E37322A6A8C"/>
       </StartStep>
-      <FinalStep ID="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09" name="Guideline Finalized"/>
-      <ConsultStep ID="S9657369B-08ED-F755-3870-67AFCACF7219" name="Present the CIED Data and EGM to the Medical Professional">
+      <FinalStep ID="SCCCB5EA8B07CAC2607AF6E3FB7A74B86" name="Guideline Finalized"/>
+      <ConsultStep ID="S80251CF3E98C720F5B4D6E37322A6A8C" name="Present the CIED Data and EGM to the Medical Professional">
 	<Variable name="VTStatus" type="boolean">
 	  <Concept code="739568" name="MDC_IDC_EPISODE_TYPE" schemeID="MDC_IDC"/>
 	  <DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
@@ -267,20 +267,20 @@
 	    </body>
 	  </HTML>
 	</Display>
-	<NextStep ref="S560A22EF-4D7B-06C7-49E8-67B13AB3C139" name="The case is VT!">
-	  <EvaluationScript>function check(S9657369B08EDF755387067AFCACF7219Choice) { if(S9657369B08EDF755387067AFCACF7219Choice.getValue().getText() == "The case is VT!") return true; else return false; }</EvaluationScript>
+	<NextStep ref="S28D3B94DCE4E4DF7D86F6E3FABF8C4A5" name="The case is VT!">
+	  <EvaluationScript>function check(S80251CF3E98C720F5B4D6E37322A6A8CChoice) { if(S80251CF3E98C720F5B4D6E37322A6A8CChoice.getValue().getText() == "The case is VT!") return true; else return false; }</EvaluationScript>
 	</NextStep>
-	<NextStep ref="S17972A05-4127-83AD-5792-67B1901E767B" name="The case is Noise!">
-	  <EvaluationScript>function check(S9657369B08EDF755387067AFCACF7219Choice) { if(S9657369B08EDF755387067AFCACF7219Choice.getValue().getText() == "There is Noise!") return true; else return false; }</EvaluationScript>
+	<NextStep ref="SA023F5C263D7E7B700716E3FA3B6D7ED" name="There is Noise!">
+	  <EvaluationScript>function check(S80251CF3E98C720F5B4D6E37322A6A8CChoice) { if(S80251CF3E98C720F5B4D6E37322A6A8CChoice.getValue().getText() == "There is Noise!") return true; else return false; }</EvaluationScript>
 	</NextStep>
-	<NextStep ref="SE08A9520-760C-FE41-2182-67B166372B8D" name="The case is SVT!">
-	  <EvaluationScript>function check(S9657369B08EDF755387067AFCACF7219Choice) { if(S9657369B08EDF755387067AFCACF7219Choice.getValue().getText() == "The case is SVT!") return true; else return false; }</EvaluationScript>
+	<NextStep ref="SF0A4C709DF5ADE9E9DE36E3F6F435150" name="The case is SVT!">
+	  <EvaluationScript>function check(S80251CF3E98C720F5B4D6E37322A6A8CChoice) { if(S80251CF3E98C720F5B4D6E37322A6A8CChoice.getValue().getText() == "The case is SVT!") return true; else return false; }</EvaluationScript>
 	</NextStep>
-	<NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09" name="Finalize careplan">
-	  <EvaluationScript>function check(S9657369B08EDF755387067AFCACF7219Choice) { if(S9657369B08EDF755387067AFCACF7219Choice.getValue().getText() == "Finalize careplan!") return true; else return false; }</EvaluationScript>
+	<NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86" name="Finalize careplan!">
+	  <EvaluationScript>function check(S80251CF3E98C720F5B4D6E37322A6A8CChoice) { if(S80251CF3E98C720F5B4D6E37322A6A8CChoice.getValue().getText() == "Finalize careplan!") return true; else return false; }</EvaluationScript>
 	</NextStep>
       </ConsultStep>
-      <ConsultStep ID="S560A22EF-4D7B-06C7-49E8-67B13AB3C139" name="Check Episodes">
+      <ConsultStep ID="S28D3B94DCE4E4DF7D86F6E3FABF8C4A5" name="Check Episodes">
 	<Variable name="NumberOfEpisode" type="integer">
 	  <Concept code="738000" name="MDC_IDC_STAT_EPISODE_RECENT_COUNT" schemeID="MDC_IDC"/>
 	  <DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
@@ -382,14 +382,14 @@
 	    </body>
 	  </HTML>
 	</Display>
-	<NextStep ref="SD389F35B-1961-B5D3-11CB-67B6FFD0BDE1" name="Frequent Episode">
-	  <EvaluationScript>function check(S560A22EF4D7B06C749E867B13AB3C139Choice) { if(S560A22EF4D7B06C749E867B13AB3C139Choice.getValue().getText() == "Frequent Episodes") return true; else return false; }</EvaluationScript>
+	<NextStep ref="SC3B74767147B37445C0E6E41413D4DEC" name="Frequent Episodes">
+	  <EvaluationScript>function check(S28D3B94DCE4E4DF7D86F6E3FABF8C4A5Choice) { if(S28D3B94DCE4E4DF7D86F6E3FABF8C4A5Choice.getValue().getText() == "Frequent Episodes") return true; else return false; }</EvaluationScript>
 	</NextStep>
-	<NextStep ref="S228AC30A-F1C3-462E-99D2-67B727F4DF02" name="Rare Episode">
-	  <EvaluationScript>function check(S560A22EF4D7B06C749E867B13AB3C139Choice) { if(S560A22EF4D7B06C749E867B13AB3C139Choice.getValue().getText() == "Single/Rare Episode")  return true; else return false; }</EvaluationScript>
+	<NextStep ref="SDB9C456801A5FBB48F7E6E414E831533" name="Single/Rare Episode">
+	  <EvaluationScript>function check(S28D3B94DCE4E4DF7D86F6E3FABF8C4A5Choice) { if(S28D3B94DCE4E4DF7D86F6E3FABF8C4A5Choice.getValue().getText() == "Single/Rare Episode")  return true; else return false; }</EvaluationScript>
 	</NextStep>
       </ConsultStep>
-      <ConsultStep ID="SD389F35B-1961-B5D3-11CB-67B6FFD0BDE1" name="Check Programmed ATP">
+      <ConsultStep ID="SC3B74767147B37445C0E6E41413D4DEC" name="Check Programmed ATP">
 	<Variable name="ProgrammedATP" type="integer">
 	  <Concept code="737888" name="MDC_IDC_STAT_TACHYTHERAPY_ATP_DELIVERED_RECENT" schemeID="MDC_IDC"/>
 	  <DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
@@ -492,14 +492,14 @@
 	    </body>
 	  </HTML>
 	</Display>
-	<NextStep ref="SBDD723A2-2616-D9CF-96DA-67B9FF844813" name="ATP is programmed">
-	  <EvaluationScript>function check(SD389F35B1961B5D311CB67B6FFD0BDE1Choice) { if(SD389F35B1961B5D311CB67B6FFD0BDE1Choice.getValue().getText() == "ATP is programmed") return true; else return false; }</EvaluationScript>
+	<NextStep ref="S24EE72B1477E036E87DC6E4256189F75" name="ATP is programmed">
+	  <EvaluationScript>function check(SC3B74767147B37445C0E6E41413D4DECChoice) { if(SC3B74767147B37445C0E6E41413D4DECChoice.getValue().getText() == "ATP is programmed") return true; else return false; }</EvaluationScript>
 	</NextStep>
-	<NextStep ref="S26C9FB00-C4DF-5CDE-B360-67BA0D286223" name="ATP is not programmed">
-	  <EvaluationScript>function check(SD389F35B1961B5D311CB67B6FFD0BDE1Choice) { if(SD389F35B1961B5D311CB67B6FFD0BDE1Choice.getValue().getText() == "ATP has not been programmed") return true; else return false; }</EvaluationScript>
+	<NextStep ref="S075C8C86D5472BB7852C6E425FCB8411" name="ATP has not been programmed">
+	  <EvaluationScript>function check(SC3B74767147B37445C0E6E41413D4DECChoice) { if(SC3B74767147B37445C0E6E41413D4DECChoice.getValue().getText() == "ATP has not been programmed") return true; else return false; }</EvaluationScript>
 	</NextStep>
       </ConsultStep>
-      <ConsultStep ID="SBDD723A2-2616-D9CF-96DA-67B9FF844813" name="Check ATP Effective">
+      <ConsultStep ID="S24EE72B1477E036E87DC6E4256189F75" name="Check ATP Effective">
 	<Variable name="EffectiveATP" type="integer">
 	  <Concept code="737888" name="MDC_IDC_STAT_TACHYTHERAPY_ATP_DELIVERED_RECENT" schemeID="MDC_IDC"/>
 	  <DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
@@ -590,14 +590,14 @@
 	    </body>
 	  </HTML>
 	</Display>
-	<NextStep ref="SAC90834E-0785-24DB-5350-67BC133FA88D" name="ATP is effective">
-	  <EvaluationScript>function check(SBDD723A22616D9CF96DA67B9FF844813Choice) { if(SBDD723A22616D9CF96DA67B9FF844813Choice.getValue().getText() == "ATP is effective") return true; else return false; }</EvaluationScript>
+	<NextStep ref="SCCB9A5A6FE1C4D4AA6CA6E4345338ACE" name="ATP is effective">
+	  <EvaluationScript>function check(S24EE72B1477E036E87DC6E4256189F75Choice) { if(S24EE72B1477E036E87DC6E4256189F75Choice.getValue().getText() == "ATP is effective") return true; else return false; }</EvaluationScript>
 	</NextStep>
-	<NextStep ref="S26C9FB00-C4DF-5CDE-B360-67BA0D286223" name="ATP is not effective">
-	  <EvaluationScript>function check(SBDD723A22616D9CF96DA67B9FF844813Choice) { if(SBDD723A22616D9CF96DA67B9FF844813Choice.getValue().getText() == "ATP was not effective") return true; else return false; }</EvaluationScript>
+	<NextStep ref="S075C8C86D5472BB7852C6E425FCB8411" name="ATP was not effective">
+	  <EvaluationScript>function check(S24EE72B1477E036E87DC6E4256189F75Choice) { if(S24EE72B1477E036E87DC6E4256189F75Choice.getValue().getText() == "ATP was not effective") return true; else return false; }</EvaluationScript>
 	</NextStep>
       </ConsultStep>
-      <ConsultStep ID="SAC90834E-0785-24DB-5350-67BC133FA88D" name="Consider Decompensating Factor">
+      <ConsultStep ID="SCCB9A5A6FE1C4D4AA6CA6E4345338ACE" name="Consider Decompensating Factor">
 	<Display>
 	  <HTML>
 	    <head/>
@@ -687,14 +687,14 @@
 	    </body>
 	  </HTML>
 	</Display>
-	<NextStep ref="SDB90A900-17C5-021C-3979-67BE0CE1D4A7" name="Consider Decompensating Factor!">
-	  <EvaluationScript>function check(SAC90834E078524DB535067BC133FA88DChoice) { if(SAC90834E078524DB535067BC133FA88DChoice.getValue().getText() == "Consider Decompensating Factor!") return true; else return false; }</EvaluationScript>
+	<NextStep ref="S0C9434BEF59F5AD46B476E4490D2D37E" name="Consider Decompensating Factor!">
+	  <EvaluationScript>function check(SCCB9A5A6FE1C4D4AA6CA6E4345338ACEChoice) { if(SCCB9A5A6FE1C4D4AA6CA6E4345338ACEChoice.getValue().getText() == "Consider Decompensating Factor!") return true; else return false; }</EvaluationScript>
 	</NextStep>
-	<NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09" name="Do not consider decompensating factor!">
-	  <EvaluationScript>function check(SAC90834E078524DB535067BC133FA88DChoice) { if(SAC90834E078524DB535067BC133FA88DChoice.getValue().getText() == "Do not consider decompensating factor!") return true; else return false; }</EvaluationScript>
+	<NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86" name="Do not consider decompensating factor!">
+	  <EvaluationScript>function check(SCCB9A5A6FE1C4D4AA6CA6E4345338ACEChoice) { if(SCCB9A5A6FE1C4D4AA6CA6E4345338ACEChoice.getValue().getText() == "Do not consider decompensating factor!") return true; else return false; }</EvaluationScript>
 	</NextStep>
       </ConsultStep>
-      <ConsultStep ID="S26C9FB00-C4DF-5CDE-B360-67BA0D286223" name="Check Programmed Shock">
+      <ConsultStep ID="S075C8C86D5472BB7852C6E425FCB8411" name="Check Programmed Shock">
 	<Variable name="ProgrammedShock" type="integer">
 	  <Concept code="737824" name="MDC_IDC_STAT_TACHYTHERAPY_SHOCKS_DELIVERED_RECENT" schemeID="MDC_IDC"/>
 	  <DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
@@ -795,14 +795,14 @@
 	    </body>
 	  </HTML>
 	</Display>
-	<NextStep ref="SC9D1AEBC-DBDD-0F0C-BE08-67C1E882AB9B" name="Shock is programmed">
-	  <EvaluationScript>function check(S26C9FB00C4DF5CDEB36067BA0D286223Choice) { if(S26C9FB00C4DF5CDEB36067BA0D286223Choice.getValue().getText() == "Shock is programmed and delivered") return true; else return false; }</EvaluationScript>
+	<NextStep ref="S585FF23CB962903656236E46E1E3A6AF" name="Shock is programmed and delivered">
+	  <EvaluationScript>function check(S075C8C86D5472BB7852C6E425FCB8411Choice) { if(S075C8C86D5472BB7852C6E425FCB8411Choice.getValue().getText() == "Shock is programmed and delivered") return true; else return false; }</EvaluationScript>
 	</NextStep>
-	<NextStep ref="S38E1EFCE-33D8-63CC-7074-67C2032C8FBD" name="Shock is not programmed">
-	  <EvaluationScript>function check(S26C9FB00C4DF5CDEB36067BA0D286223Choice) { if(S26C9FB00C4DF5CDEB36067BA0D286223Choice.getValue().getText() == "Shock was not delivered") return true; else return false; }</EvaluationScript>
+	<NextStep ref="S7091CE1C6F8C1066FEEE6E46ED441F21" name="Shock was not delivered">
+	  <EvaluationScript>function check(S075C8C86D5472BB7852C6E425FCB8411Choice) { if(S075C8C86D5472BB7852C6E425FCB8411Choice.getValue().getText() == "Shock was not delivered") return true; else return false; }</EvaluationScript>
 	</NextStep>
       </ConsultStep>
-      <ConsultStep ID="SC9D1AEBC-DBDD-0F0C-BE08-67C1E882AB9B" name="Check Shock Effective">
+      <ConsultStep ID="S585FF23CB962903656236E46E1E3A6AF" name="Check Shock Effective">
 	<Display>
 	  <HTML>
 	    <head>						
@@ -888,14 +888,14 @@
 	    </body>
 	  </HTML>
 	</Display>
-	<NextStep ref="SDB90A900-17C5-021C-3979-67BE0CE1D4A7" name="Shock is effective">
-	  <EvaluationScript>function check(SC9D1AEBCDBDD0F0CBE0867C1E882AB9BChoice) { if(SC9D1AEBCDBDD0F0CBE0867C1E882AB9BChoice.getValue().getText() == "Shock is effective") return true; else return false; }</EvaluationScript>
+	<NextStep ref="S0C9434BEF59F5AD46B476E4490D2D37E" name="Shock is effective">
+	  <EvaluationScript>function check(S585FF23CB962903656236E46E1E3A6AFChoice) { if(S585FF23CB962903656236E46E1E3A6AFChoice.getValue().getText() == "Shock is effective") return true; else return false; }</EvaluationScript>
 	</NextStep>
-	<NextStep ref="S9185EB27-52A0-0AF7-EB00-67C51BD5B7B0" name="Shock is not effective">
-	  <EvaluationScript>function check(SC9D1AEBCDBDD0F0CBE0867C1E882AB9BChoice) {  if(SC9D1AEBCDBDD0F0CBE0867C1E882AB9BChoice.getValue().getText() == "Shock was not effective") return true; else return false; }</EvaluationScript>
+	<NextStep ref="SF1752270F59BF4C5D44F6E4856FECAC9" name="Shock was not effective">
+	  <EvaluationScript>function check(S585FF23CB962903656236E46E1E3A6AFChoice) {  if(S585FF23CB962903656236E46E1E3A6AFChoice.getValue().getText() == "Shock was not effective") return true; else return false; }</EvaluationScript>
 	</NextStep>
       </ConsultStep>
-      <RecommendationStep ID="S38E1EFCE-33D8-63CC-7074-67C2032C8FBD" name="Perform self monitoring">
+      <RecommendationStep ID="S7091CE1C6F8C1066FEEE6E46ED441F21" name="Perform self monitoring">
 	<Receiver ref="P4"/>
 	<Urgency>3</Urgency>
 	<Display>
@@ -904,15 +904,15 @@
 
 	  </HTML>
 	</Display>
-	<NextStep ref="S745C6F96-E147-271D-3E14-67C705E833E9"/>
+	<NextStep ref="S9F521F1FA6AC0487C4AE6E495CF34AA2"/>
       </RecommendationStep>
-      <WaitStep ID="S745C6F96-E147-271D-3E14-67C705E833E9" name="The CIED report has been received.">
+      <WaitStep ID="S9F521F1FA6AC0487C4AE6E495CF34AA2" name="The CIED report has been received.">
 	<Event>
 	  <DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
 	</Event>
-	<NextStep ref="S7B7A20B9-F883-163A-DE95-67C8D6BEDE6C" name="Present the EGM, check VT"/>
+	<NextStep ref="S679EFF085265CD4266CD6E4A3EAB3FEA" name="Present the EGM, check VT"/>
       </WaitStep> 
-      <ConsultStep ID="S7B7A20B9-F883-163A-DE95-67C8D6BEDE6C" name="Present the EGM, check VT">
+      <ConsultStep ID="S679EFF085265CD4266CD6E4A3EAB3FEA" name="Present the EGM, check VT">
 	<Display>
 	  <HTML>
 	    <head>						
@@ -995,14 +995,14 @@
 	    </body>
 	  </HTML>
 	</Display>
-	<NextStep ref="S9185EB27-52A0-0AF7-EB00-67C51BD5B7B0" name="There is VT persistent!">
-	  <EvaluationScript>function check(S7B7A20B9F883163ADE9567C8D6BEDE6CChoice) { if(S7B7A20B9F883163ADE9567C8D6BEDE6CChoice.getValue().getText() == "The case is VT!") return true; else return false; }</EvaluationScript>
+	<NextStep ref="SF1752270F59BF4C5D44F6E4856FECAC9" name="There is VT persistent!">
+	  <EvaluationScript>function check(S679EFF085265CD4266CD6E4A3EAB3FEAChoice) { if(S679EFF085265CD4266CD6E4A3EAB3FEAChoice.getValue().getText() == "The case is VT!") return true; else return false; }</EvaluationScript>
 	</NextStep>
-	<NextStep ref="SDB90A900-17C5-021C-3979-67BE0CE1D4A7" name="The case is no VT!">
-	  <EvaluationScript>function check(S7B7A20B9F883163ADE9567C8D6BEDE6CChoice) { if(S7B7A20B9F883163ADE9567C8D6BEDE6CChoice.getValue().getText() == "There is no VT!") return true; else return false; }</EvaluationScript>
+	<NextStep ref="S0C9434BEF59F5AD46B476E4490D2D37E" name="There is no VT!">
+	  <EvaluationScript>function check(S679EFF085265CD4266CD6E4A3EAB3FEAChoice) { if(S679EFF085265CD4266CD6E4A3EAB3FEAChoice.getValue().getText() == "There is no VT!") return true; else return false; }</EvaluationScript>
 	</NextStep>	
       </ConsultStep>
-      <RecommendationStep ID="S9185EB27-52A0-0AF7-EB00-67C51BD5B7B0" name="Urgent follow-up in hospital">
+      <RecommendationStep ID="SF1752270F59BF4C5D44F6E4856FECAC9" name="Urgent follow-up in hospital">
 	<Receiver ref="P3"/>
 	<Urgency>2</Urgency>
 	<Display>
@@ -1063,9 +1063,9 @@
 	    </body>
 	  </HTML>
 	</Display>
-	<NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09"/>
+	<NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86"/>
       </RecommendationStep> 
-      <ConsultStep ID="SDB90A900-17C5-021C-3979-67BE0CE1D4A7" name="Present Medications Compliance and Medication Change">
+      <ConsultStep ID="S0C9434BEF59F5AD46B476E4490D2D37E" name="Present Medications Compliance and Medication Change">
 	<Variable name="MedicationsEHR" type="String[]">
 	  <DataSource code="C2362543" name="Electronic Health Records" schemeID="UMLS"/>
 	  <DataSource code="C2598133" name="Medication" schemeID="UMLS"/>
@@ -1161,14 +1161,14 @@
 	    </body>
 	  </HTML>
 	</Display>
-	<NextStep ref="S4105C271-9A29-9749-DF2F-67CDEBA6879B" name="There is medication incompliance/medication change">
-	  <EvaluationScript>function check(SDB90A90017C5021C397967BE0CE1D4A7Choice) { if(SDB90A90017C5021C397967BE0CE1D4A7Choice.getValue().getText() == "There is medication incompliance/medication change") return true; else return false; }</EvaluationScript>
+	<NextStep ref="S89990E344751A753CA206E4F18090C65" name="There is medication incompliance/medication change">
+	  <EvaluationScript>function check(S0C9434BEF59F5AD46B476E4490D2D37EChoice) { if(S0C9434BEF59F5AD46B476E4490D2D37EChoice.getValue().getText() == "There is medication incompliance/medication change") return true; else return false; }</EvaluationScript>
 	</NextStep>
-	<NextStep ref="S3020C9A9-10AC-0EB5-EEAC-680FDC81033E" name="The patient regulary takes her medications">
-	  <EvaluationScript>function check(SDB90A90017C5021C397967BE0CE1D4A7Choice) { if(SDB90A90017C5021C397967BE0CE1D4A7Choice.getValue().getText() == "The patient regulary takes her medications") return true; else return false; }</EvaluationScript>
+	<NextStep ref="SF7B4C2BAF8033CA971B06E4F268E4DB2" name="The patient regulary takes her medications">
+	  <EvaluationScript>function check(S0C9434BEF59F5AD46B476E4490D2D37EChoice) { if(S0C9434BEF59F5AD46B476E4490D2D37EChoice.getValue().getText() == "The patient regulary takes her medications") return true; else return false; }</EvaluationScript>
 	</NextStep>
       </ConsultStep>
-      <ConsultStep ID="S3020C9A9-10AC-0EB5-EEAC-680FDC81033E" name="Check patient reported Symptoms">
+      <ConsultStep ID="SF7B4C2BAF8033CA971B06E4F268E4DB2" name="Check patient reported Symptoms">
 	<Variable name="Vomit" type="string">
 	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
 	  <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
@@ -1327,14 +1327,14 @@
 	    </body>
 	  </HTML>
 	</Display>
-	<NextStep ref="S5927F96D-BA49-15E8-9518-68130F5A1DAC" name="Yes">
-	  <EvaluationScript>function check(S3020C9A910AC0EB5EEAC680FDC81033EChoice) { if(S3020C9A910AC0EB5EEAC680FDC81033EChoice.getValue().getText() == "Yes") return true; else return false; }</EvaluationScript>
+	<NextStep ref="S83FEA01C119022C6DCE86E50CAB64AF6" name="Yes">
+	  <EvaluationScript>function check(SF7B4C2BAF8033CA971B06E4F268E4DB2Choice) { if(SF7B4C2BAF8033CA971B06E4F268E4DB2Choice.getValue().getText() == "Yes") return true; else return false; }</EvaluationScript>
 	</NextStep>
-	<NextStep ref="SC1C33A2B-82A8-E3CE-EBE5-68131F08323B" name="No, patient has no such symptoms">
-	  <EvaluationScript>function check(S3020C9A910AC0EB5EEAC680FDC81033EChoice) { if(S3020C9A910AC0EB5EEAC680FDC81033EChoice.getValue().getText() == "No, there is no such symptoms") return true; else return false; }</EvaluationScript>
+	<NextStep ref="S6F08F29CA65B231D4EBF6E50D96144AF" name="No, there is no such symptoms">
+	  <EvaluationScript>function check(SF7B4C2BAF8033CA971B06E4F268E4DB2Choice) { if(SF7B4C2BAF8033CA971B06E4F268E4DB2Choice.getValue().getText() == "No, there is no such symptoms") return true; else return false; }</EvaluationScript>
 	</NextStep>
       </ConsultStep>
-      <ConsultStep ID="SC1C33A2B-82A8-E3CE-EBE5-68131F08323B" name="Check Recent Lab Results">
+      <ConsultStep ID="S6F08F29CA65B231D4EBF6E50D96144AF" name="Check Recent Lab Results">
 	<Variable name="LastLabResultDate" type="date">
 	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
 	  <DataSource code="C1254595" name="ImagingResult" schemeID="UMLS"/>
@@ -1408,14 +1408,14 @@
 	    </body>
 	  </HTML>
 	</Display>				
-	<NextStep ref="S46AC9672-A770-9CA4-744E-681687250C71" name="Order Lab Test">
-	  <EvaluationScript>function check(SC1C33A2B82A8E3CEEBE568131F08323BChoice) { if(SC1C33A2B82A8E3CEEBE568131F08323BChoice.getValue().getText() == "Yes, Please order a new Lab result") return true; else return false; }</EvaluationScript>
+	<NextStep ref="S4E8C5D382F57D71583216E52DFCC2AE7" name="Yes, Please order a new Lab result">
+	  <EvaluationScript>function check(S6F08F29CA65B231D4EBF6E50D96144AFChoice) { if(S6F08F29CA65B231D4EBF6E50D96144AFChoice.getValue().getText() == "Yes, Please order a new Lab result") return true; else return false; }</EvaluationScript>
 	</NextStep>
-	<NextStep ref="S2E364938-846A-7C11-B160-681691D331D9" name="Check Lab Results">
-	  <EvaluationScript>function check(SC1C33A2B82A8E3CEEBE568131F08323BChoice) { if(SC1C33A2B82A8E3CEEBE568131F08323BChoice.getValue().getText() == "No, there is no need for a new lab test") return true; else return false; }</EvaluationScript>
+	<NextStep ref="SA71D2E02A0E36D31D6376E52EB835DB9" name="No, there is no need for a new lab test">
+	  <EvaluationScript>function check(S6F08F29CA65B231D4EBF6E50D96144AFChoice) { if(S6F08F29CA65B231D4EBF6E50D96144AFChoice.getValue().getText() == "No, there is no need for a new lab test") return true; else return false; }</EvaluationScript>
 	</NextStep>
       </ConsultStep>	
-      <RecommendationStep ID="S46AC9672-A770-9CA4-744E-681687250C71" name="Order new Lab Test">
+      <RecommendationStep ID="S4E8C5D382F57D71583216E52DFCC2AE7" name="Order new Lab Test">
 	<Receiver ref="P3"/>
 	<Urgency>2</Urgency>
 	<Display>
@@ -1484,16 +1484,16 @@
 	    </body>
 	  </HTML>
 	</Display>
-	<NextStep ref="S58242B33-8089-534E-9B43-6818C16BCA3E"/>
+	<NextStep ref="SD8E32B1D51CFBD14AC466E53B595BBC1"/>
       </RecommendationStep>
-      <WaitStep ID="S58242B33-8089-534E-9B43-6818C16BCA3E" name="The Lab results have been received...">
+      <WaitStep ID="SD8E32B1D51CFBD14AC466E53B595BBC1" name="The Lab results have been received">
 	<Event>
 	  <DataSource code="C1254595" name="ImagingResult" schemeID="UMLS"/>
 	  <DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
 	</Event>
-	<NextStep ref="S2E364938-846A-7C11-B160-681691D331D9" name="Check Lab results for abnormality"/>
+	<NextStep ref="SA71D2E02A0E36D31D6376E52EB835DB9" name="Check Lab results for abnormality"/>
       </WaitStep> 
-      <ConsultStep ID="S2E364938-846A-7C11-B160-681691D331D9" name="Check Lab results for abnormality">
+      <ConsultStep ID="SA71D2E02A0E36D31D6376E52EB835DB9" name="Check Lab results for abnormality">
 
 	<Variable name="Potassium" type="float">
 	  <Concept code="C0202194" schemeID="UMLS"/>
@@ -1740,14 +1740,14 @@
 	  </body> 
 	</HTML>
       </Display>
-      <NextStep ref="S78F3D07E-FAFB-434E-AEC4-681AC24087BB" name="Yes, there is!">
-	<EvaluationScript>function check(S2E364938846A7C11B160681691D331D9Choice) { if(S2E364938846A7C11B160681691D331D9Choice.getValue().getText() == "Yes, there is!") return true; else return false; }</EvaluationScript>
+      <NextStep ref="S1DF29D0DACECFA6F1E286E555B5C5C29" name="Yes, there is!">
+	<EvaluationScript>function check(SA71D2E02A0E36D31D6376E52EB835DB9Choice) { if(SA71D2E02A0E36D31D6376E52EB835DB9Choice.getValue().getText() == "Yes, there is!") return true; else return false; }</EvaluationScript>
       </NextStep>
-      <NextStep ref="S1512EF69-7DB0-A65F-A649-681ACDCBBD57" name="No, there is no abnormality">
-	<EvaluationScript>function check(S2E364938846A7C11B160681691D331D9Choice) { if(S2E364938846A7C11B160681691D331D9Choice.getValue().getText() == "No, there is no abnormality") return true; else return false; }</EvaluationScript>
+      <NextStep ref="S0DF7DC9B914BB08F465A6E5574209343" name="No, there is no abnormality">
+	<EvaluationScript>function check(SA71D2E02A0E36D31D6376E52EB835DB9Choice) { if(SA71D2E02A0E36D31D6376E52EB835DB9Choice.getValue().getText() == "No, there is no abnormality") return true; else return false; }</EvaluationScript>
       </NextStep>
     </ConsultStep>
-      <RecommendationStep ID="S4105C271-9A29-9749-DF2F-67CDEBA6879B" name="Take Corrective Action about Medication incompliance">
+      <RecommendationStep ID="S89990E344751A753CA206E4F18090C65" name="Take Corrective Action about Medication incompliance">
       <Receiver ref="P3"/>
       <Urgency>2</Urgency>
       <Display>
@@ -1816,9 +1816,9 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09"/>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86"/>
     </RecommendationStep>
-      <RecommendationStep ID="S5927F96D-BA49-15E8-9518-68130F5A1DAC" name="Take Corrective Action about Patient reported symptoms">
+      <RecommendationStep ID="S83FEA01C119022C6DCE86E50CAB64AF6" name="Take Corrective Action about Patient reported symptoms">
       <Receiver ref="P3"/>
       <Urgency>2</Urgency>
       <Display>
@@ -1887,9 +1887,9 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09"/>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86"/>
     </RecommendationStep>
-      <RecommendationStep ID="S78F3D07E-FAFB-434E-AEC4-681AC24087BB" name="Take Corrective Action about recent lab results">
+      <RecommendationStep ID="S1DF29D0DACECFA6F1E286E555B5C5C29" name="Take Corrective Action about recent lab results">
       <Receiver ref="P3"/>
       <Urgency>2</Urgency>
       <Display>
@@ -1958,9 +1958,9 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09"/>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86"/>
     </RecommendationStep>
-      <ConsultStep ID="S1512EF69-7DB0-A65F-A649-681ACDCBBD57" name="Consider Anti arrhythmic drug">
+      <ConsultStep ID="S0DF7DC9B914BB08F465A6E5574209343" name="Consider Anti arrhythmic drug">
       <Variable name="CongenitalHeartDisease" type="boolean">
 	<Concept code="C0152021" name="Congenital heart disease" schemeID="UMLS"/>
 	<DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
@@ -2086,18 +2086,18 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S2D184FF1-7280-1AB7-81E5-681DE9DE3168" name="There is no Congenital Heart Disease">
-	<EvaluationScript>function check(S1512EF697DB0A65FA649681ACDCBBD57Choice) { if(S1512EF697DB0A65FA649681ACDCBBD57Choice.getValue().getText() == "There is no Congenital Heart Disease") return true; else return false; }</EvaluationScript>		
-	</NextStep><NextStep ref="S8D06F33C-A0D7-9A1F-AAEF-681DCFEEE12B" name="There is Congenital Heart Disease and Non-Sustained VT">
-	<EvaluationScript>function check(S1512EF697DB0A65FA649681ACDCBBD57Choice) { if(S1512EF697DB0A65FA649681ACDCBBD57Choice.getValue().getText() == "There is Congenital Heart Disease and Non-Sustained VT") return true; else return false; }</EvaluationScript>		
-	</NextStep><NextStep ref="S254A202C-94C4-CA29-3884-681DDC0A37BA" name="There is Congenital Heart Disease and Sustained VT">
-	<EvaluationScript>function check(S1512EF697DB0A65FA649681ACDCBBD57Choice) { if(S1512EF697DB0A65FA649681ACDCBBD57Choice.getValue().getText() == "There is Congenital Heart Disease and Sustained VT") return true; else return false; }</EvaluationScript>		
+      <NextStep ref="SB52A72C639B4ED53A2856E59BAD4587F" name="There is no Congenital Heart Disease">
+	<EvaluationScript>function check(S0DF7DC9B914BB08F465A6E5574209343Choice) { if(S0DF7DC9B914BB08F465A6E5574209343Choice.getValue().getText() == "There is no Congenital Heart Disease") return true; else return false; }</EvaluationScript>		
+	</NextStep><NextStep ref="S72B5635841C27339ED466E59C70A8C13" name="There is Congenital Heart Disease and Non-Sustained VT">
+	<EvaluationScript>function check(S0DF7DC9B914BB08F465A6E5574209343Choice) { if(S0DF7DC9B914BB08F465A6E5574209343Choice.getValue().getText() == "There is Congenital Heart Disease and Non-Sustained VT") return true; else return false; }</EvaluationScript>		
+	</NextStep><NextStep ref="S29AC463513691C7A6CB16E59D3649230" name="There is Congenital Heart Disease and Sustained VT">
+	<EvaluationScript>function check(S0DF7DC9B914BB08F465A6E5574209343Choice) { if(S0DF7DC9B914BB08F465A6E5574209343Choice.getValue().getText() == "There is Congenital Heart Disease and Sustained VT") return true; else return false; }</EvaluationScript>		
       </NextStep>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09" name="There is Congenital Heart Disease and Isolated PVCs">
-	<EvaluationScript>function check(S1512EF697DB0A65FA649681ACDCBBD57Choice) { if(S1512EF697DB0A65FA649681ACDCBBD57Choice.getValue().getText() == "There is Congenital Heart Disease and Non-Sustained VT") return true; else return false; }</EvaluationScript>		
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86" name="There is Congenital Heart Disease and Isolated PVCs">
+	<EvaluationScript>function check(S0DF7DC9B914BB08F465A6E5574209343Choice) { if(S0DF7DC9B914BB08F465A6E5574209343Choice.getValue().getText() == "There is Congenital Heart Disease and Isolated PVCs") return true; else return false; }</EvaluationScript>		
       </NextStep>
     </ConsultStep>
-      <ConsultStep ID="S2D184FF1-7280-1AB7-81E5-681DE9DE3168" name="Consider Anti arrhythmic drug">
+      <ConsultStep ID="SB52A72C639B4ED53A2856E59BAD4587F" name="Consider Anti arrhythmic drug">
       <Variable name="LVDysfunction" type="boolean">
 	<Concept code="C0242698" name="Ventricular Dysfunction, Left" schemeID="UMLS"/>
 	<DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
@@ -2329,16 +2329,16 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S64F07DD6-7A5C-E3A9-2587-6822C682B0A7" name="Wait 1 week to see if medication change is effective">
+      <NextStep ref="SFEB5652182EA365E240E6E5DB6F86A15" name="Wait 1 week to see if medication change is effective">
 
       </NextStep>
     </ConsultStep>
-      <WaitStep ID="S64F07DD6-7A5C-E3A9-2587-6822C682B0A7" name="One week has passed. Check if medication change is effective...">
+      <WaitStep ID="SFEB5652182EA365E240E6E5DB6F86A15" name="One week has passed. Check if medication change is effective...">
       <!--Duration unit="ms" amount="604800" /-->	 
       <Duration unit="ms" amount="6000" />	 
-      <NextStep ref="SEF5E5757-1BE9-0643-6B18-68244363F8CF" name="Send notification to patient"/>
+      <NextStep ref="S82DCC7FD03EB3DC588C76E5F2723613D" name="Send notification to patient"/>
     </WaitStep>
-      <RecommendationStep ID="SEF5E5757-1BE9-0643-6B18-68244363F8CF" name="Send notification to patient">
+      <RecommendationStep ID="S82DCC7FD03EB3DC588C76E5F2723613D" name="Send notification to patient">
       <Receiver ref="P4"/>
       <Urgency>3</Urgency>
       <Display>
@@ -2406,15 +2406,15 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S481833F9-A2AF-EFDE-98D7-68255539DAF6" name="Send notification to Patient"/>
+      <NextStep ref="S500564251A37DBEFF7876E5F9E222560" name="Send notification to Patient"/>
     </RecommendationStep>	
-      <WaitStep ID="S481833F9-A2AF-EFDE-98D7-68255539DAF6" name="The CIED report has been received...">
+      <WaitStep ID="S500564251A37DBEFF7876E5F9E222560" name="The CIED report has been received...">
       <Event>
 	<DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
       </Event>
-      <NextStep ref="SB86C5369-FB3A-46E9-6272-6828E1F0664A" name="Check Medication effectiveness"/>
+      <NextStep ref="S0E5FED6C8911FC7371EC6E605F323379" name="Check Medication effectiveness"/>
     </WaitStep> 
-      <ConsultStep ID="SB86C5369-FB3A-46E9-6272-6828E1F0664A" name="Check Medication effectiveness">
+      <ConsultStep ID="S0E5FED6C8911FC7371EC6E605F323379" name="Check Medication effectiveness">
       <Display>
 	<HTML>
 	  <head/>
@@ -2510,14 +2510,14 @@
 	</HTML>
       </Display>
 
-      <NextStep ref="S254A202C-94C4-CA29-3884-681DDC0A37BA" name="Medication change is not effective">
-	<EvaluationScript>function check(SB86C5369FB3A46E962726828E1F0664AChoice) { if(SB86C5369FB3A46E962726828E1F0664AChoice.getValue().getText() == "Medication change is not effective") return true; else return false; }</EvaluationScript>		
+      <NextStep ref="S29AC463513691C7A6CB16E59D3649230" name="Medication change is not effective">
+	<EvaluationScript>function check(S0E5FED6C8911FC7371EC6E605F323379Choice) { if(S0E5FED6C8911FC7371EC6E605F323379Choice.getValue().getText() == "Medication change is not effective") return true; else return false; }</EvaluationScript>		
       </NextStep>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09" name="Medication change is effective">
-	<EvaluationScript>function check(SB86C5369FB3A46E962726828E1F0664AChoice) { if(SB86C5369FB3A46E962726828E1F0664AChoice.getValue().getText() == "Medication change is effective") return true; else return false; }</EvaluationScript>		
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86" name="Medication change is effective">
+	<EvaluationScript>function check(S0E5FED6C8911FC7371EC6E605F323379Choice) { if(S0E5FED6C8911FC7371EC6E605F323379Choice.getValue().getText() == "Medication change is effective") return true; else return false; }</EvaluationScript>		
       </NextStep>
     </ConsultStep>
-      <RecommendationStep ID="S254A202C-94C4-CA29-3884-681DDC0A37BA" name="Consider Ablation">
+      <RecommendationStep ID="S29AC463513691C7A6CB16E59D3649230" name="Consider Ablation">
       <Receiver ref="P3"/>
       <Urgency>2</Urgency>
       <Display>
@@ -2586,9 +2586,9 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09"/>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86"/>
     </RecommendationStep>
-      <RecommendationStep ID="S8D06F33C-A0D7-9A1F-AAEF-681DCFEEE12B" name="Consider EP Study">
+      <RecommendationStep ID="S72B5635841C27339ED466E59C70A8C13" name="Consider EP Study">
       <Receiver ref="P3"/>
       <Urgency>2</Urgency>
       <Display>
@@ -2657,9 +2657,9 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S254A202C-94C4-CA29-3884-681DDC0A37BA"/>
+      <NextStep ref="S29AC463513691C7A6CB16E59D3649230"/>
     </RecommendationStep>	
-      <ConsultStep ID="SE08A9520-760C-FE41-2182-67B166372B8D" name="Check Inappropriate Discharge">
+      <ConsultStep ID="SF0A4C709DF5ADE9E9DE36E3F6F435150" name="Check Inappropriate Discharge">
       <Display>
 	<HTML>
 	  <head>						
@@ -2748,17 +2748,17 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S2A714E73-92E0-99B5-42E5-682F4D83B9AC" name="InappropriateDischarge > 1">
-	<EvaluationScript>function check(SE08A9520760CFE41218267B166372B8DChoice) { if(SE08A9520760CFE41218267B166372B8DChoice.getValue().getText() == "Inappropriate Discharge > 1") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SBE70C276CA590B4159B46E66AF0CEF0D" name="Inappropriate Discharge > 1">
+	<EvaluationScript>function check(SF0A4C709DF5ADE9E9DE36E3F6F435150Choice) { if(SF0A4C709DF5ADE9E9DE36E3F6F435150Choice.getValue().getText() == "Inappropriate Discharge > 1") return true; else return false; }</EvaluationScript>
       </NextStep>
-      <NextStep ref="SF2DA11EC-091E-5443-AF36-682F5E65CDEE" name="InappropriateDischarge = 1">
-	<EvaluationScript>function check(SE08A9520760CFE41218267B166372B8DChoice) { if(SE08A9520760CFE41218267B166372B8DChoice.getValue().getText() == "Inappropriate Discharge = 1") return true; else return false; }</EvaluationScript>
+      <NextStep ref="S0CBC7230AB40836025206E66B85D19E2" name="Inappropriate Discharge = 1">
+	<EvaluationScript>function check(SF0A4C709DF5ADE9E9DE36E3F6F435150Choice) { if(SF0A4C709DF5ADE9E9DE36E3F6F435150Choice.getValue().getText() == "Inappropriate Discharge = 1") return true; else return false; }</EvaluationScript>
       </NextStep>
-      <NextStep ref="S0A282FD3-B82E-0882-BC30-682F6FDAC5C0" name="InappropriateDischarge = 0">
-	<EvaluationScript>function check(SE08A9520760CFE41218267B166372B8DChoice) { if(SE08A9520760CFE41218267B166372B8DChoice.getValue().getText() == "Inappropriate Discharge = 0") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SF8B65E00D8C661B6EBE36E66C879E309" name="Inappropriate Discharge = 0">
+	<EvaluationScript>function check(SF0A4C709DF5ADE9E9DE36E3F6F435150Choice) { if(SF0A4C709DF5ADE9E9DE36E3F6F435150Choice.getValue().getText() == "Inappropriate Discharge = 0") return true; else return false; }</EvaluationScript>
       </NextStep>
     </ConsultStep>
-      <ConsultStep ID="S2A714E73-92E0-99B5-42E5-682F4D83B9AC" name="Consider immediate referral to the Clinic"><!--Change from RecommendationStep to ConsultStep-->
+      <ConsultStep ID="SBE70C276CA590B4159B46E66AF0CEF0D" name="Consider immediate referral to the Clinic"><!--Change from RecommendationStep to ConsultStep-->
       <Display>
 	<HTML>
 	  <head/>
@@ -2817,8 +2817,8 @@
 		    <p>Real SVT is detected and there are more than one inappropriate discharges. Arrange immediate referral to the Clinic and call the patient</p>
 
 		    <form onsubmit="return ValidateData();" action="null" method="post">
-		      <input type="submit" name="D5Choice" value="Finalize the Care Plan" onclick="btnWhichButton=this"/>
-		      <input type="submit" name="D5Choice" value="Send an SMS to patient/caregiver and Finalize the Care Plan" onclick="btnWhichButton=this"/>
+		      <input type="submit" name="D5Choice" value="Finalize the Care Plan!" onclick="btnWhichButton=this"/>
+		      <input type="submit" name="D5Choice" value="Send an SMS to patient/caregiver and Finalize the Care Plan!" onclick="btnWhichButton=this"/>
 		  </form></td>
 		</tr>
 	      </tbody>
@@ -2826,14 +2826,14 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09" name="finalize">
-	<EvaluationScript>function check(S2A714E7392E099B542E5682F4D83B9ACChoice) { if(S2A714E7392E099B542E5682F4D83B9ACChoice.getValue().getText() == "Finalize the Care Plan") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86" name="Finalize the Care Plan!">
+	<EvaluationScript>function check(SBE70C276CA590B4159B46E66AF0CEF0DChoice) { if(SBE70C276CA590B4159B46E66AF0CEF0DChoice.getValue().getText() == "Finalize the Care Plan!") return true; else return false; }</EvaluationScript>
       </NextStep>
-      <NextStep ref="SE42480E6-144C-CDCB-B6D6-68321C809E60" name="send ands sms and finalize">
-	<EvaluationScript>function check(S2A714E7392E099B542E5682F4D83B9ACChoice) { if(S2A714E7392E099B542E5682F4D83B9ACChoice.getValue().getText() == "Send an SMS to patient/caregiver and Finalize the Care Plan"") return true; else return false; }</EvaluationScript>
+      <NextStep ref="S1F52066191605F05B5CB6E68951DB677" name="Send an SMS to patient/caregiver and Finalize the Care Plan!">
+	<EvaluationScript>function check(SBE70C276CA590B4159B46E66AF0CEF0DChoice) { if(SBE70C276CA590B4159B46E66AF0CEF0DChoice.getValue().getText() == "Send an SMS to patient/caregiver and Finalize the Care Plan!") return true; else return false; }</EvaluationScript>
       </NextStep>
     </ConsultStep>	
-      <RecommendationStep ID="SE42480E6-144C-CDCB-B6D6-68321C809E60" name="Send notification to patient for immediate referral">
+      <RecommendationStep ID="S1F52066191605F05B5CB6E68951DB677" name="Send notification to patient for immediate referral">
       <Receiver ref="P4"/>
       <Urgency>3</Urgency>
       <Display>
@@ -2842,9 +2842,9 @@
 
 	</HTML>
       </Display>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09"/>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86"/>
     </RecommendationStep>	
-      <ConsultStep ID="SF2DA11EC-091E-5443-AF36-682F5E65CDEE" name="Consider a follow up in clinic"><!--Change from RecommendationStep to ConsultStep-->
+      <ConsultStep ID="S0CBC7230AB40836025206E66B85D19E2" name="Consider a follow up in clinic"><!--Change from RecommendationStep to ConsultStep-->
       <Display>
 	<HTML>
 	  <head/>
@@ -2903,8 +2903,8 @@
 		    <p>Real SVT is detected and there is a inappropriate discharges. Arrange a follow up the Clinic and call the patient</p>
 
 		    <form onsubmit="return ValidateData();" action="null" method="post">
-		      <input type="submit" name="D5Choice" value="Finalize the Care Plan" onclick="btnWhichButton=this"/>
-		      <input type="submit" name="D5Choice" value="Send an SMS to patient/caregiver and Finalize the Care Plan" onclick="btnWhichButton=this"/>
+		      <input type="submit" name="D5Choice" value="Finalize the Care Plan!" onclick="btnWhichButton=this"/>
+		      <input type="submit" name="D5Choice" value="Send an SMS to patient/caregiver and Finalize the Care Plan!" onclick="btnWhichButton=this"/>
 		  </form></td>
 		</tr>
 	      </tbody>
@@ -2912,14 +2912,14 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09" name="finalize">
-	<EvaluationScript>function check(SF2DA11EC091E5443AF36682F5E65CDEEChoice) { if(SF2DA11EC091E5443AF36682F5E65CDEEChoice.getValue().getText() == "Finalize the Care Plan") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86" name="Finalize the Care Plan!">
+	<EvaluationScript>function check(S0CBC7230AB40836025206E66B85D19E2Choice) { if(S0CBC7230AB40836025206E66B85D19E2Choice.getValue().getText() == "Finalize the Care Plan!") return true; else return false; }</EvaluationScript>
       </NextStep>
-      <NextStep ref="S47B87C0D-1996-E938-00F1-6834B85DCC19" name="send ands sms and finalize">
-	<EvaluationScript>function check(SF2DA11EC091E5443AF36682F5E65CDEEChoice) { if(SF2DA11EC091E5443AF36682F5E65CDEEChoice.getValue().getText() == "Send an SMS to patient/caregiver and Finalize the Care Plan"") return true; else return false; }</EvaluationScript>
+      <NextStep ref="S68C2C3BD6D4AECF8682C6E6BD015530D" name="Send an SMS to patient/caregiver and Finalize the Care Plan!">
+	<EvaluationScript>function check(S0CBC7230AB40836025206E66B85D19E2Choice) { if(S0CBC7230AB40836025206E66B85D19E2Choice.getValue().getText() == "Send an SMS to patient/caregiver and Finalize the Care Plan!") return true; else return false; }</EvaluationScript>
       </NextStep>
     </ConsultStep>	
-      <RecommendationStep ID="S47B87C0D-1996-E938-00F1-6834B85DCC19" name="Send notification to patient for immediate referral">
+      <RecommendationStep ID="S68C2C3BD6D4AECF8682C6E6BD015530D" name="Send notification to patient for immediate referral">
       <Receiver ref="P4"/>
       <Urgency>3</Urgency>
       <Display>
@@ -2928,9 +2928,9 @@
 
 	</HTML>
       </Display>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09"/>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86"/>
     </RecommendationStep>		 
-      <ConsultStep ID="S0A282FD3-B82E-0882-BC30-682F6FDAC5C0" name="Consider a follow up in clinic"><!--Change from RecommendationStep to ConsultStep-->
+      <ConsultStep ID="SF8B65E00D8C661B6EBE36E66C879E309" name="Consider a follow up in clinic"><!--Change from RecommendationStep to ConsultStep-->
       <Display>
 	<HTML>
 	  <head/>
@@ -2989,8 +2989,8 @@
 		    <p>Real SVT is detected however there is no inappropriate discharges. Arrange a routine follow up the Clinic and call the patient</p>
 
 		    <form onsubmit="return ValidateData();" action="null" method="post">
-		      <input type="submit" name="D5Choice" value="Finalize the Care Plan" onclick="btnWhichButton=this"/>
-		      <input type="submit" name="D5Choice" value="Send an SMS to patient/caregiver and Finalize the Care Plan" onclick="btnWhichButton=this"/>
+		      <input type="submit" name="D5Choice" value="Finalize the Care Plan!" onclick="btnWhichButton=this"/>
+		      <input type="submit" name="D5Choice" value="Send an SMS to patient/caregiver and Finalize the Care Plan!" onclick="btnWhichButton=this"/>
 		  </form></td>
 		</tr>
 	      </tbody>
@@ -2998,14 +2998,14 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09" name="finalize">
-	<EvaluationScript>function check(S0A282FD3B82E0882BC30682F6FDAC5C0Choice) { if(S0A282FD3B82E0882BC30682F6FDAC5C0Choice.getValue().getText() == "Finalize the Care Plan") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86" name="Finalize the Care Plan!">
+	<EvaluationScript>function check(SF8B65E00D8C661B6EBE36E66C879E309Choice) { if(SF8B65E00D8C661B6EBE36E66C879E309Choice.getValue().getText() == "Finalize the Care Plan!") return true; else return false; }</EvaluationScript>
       </NextStep>
-      <NextStep ref="SD059A2BA-E71C-AB51-ED11-683717CA826D" name="send ands sms and finalize">
-	<EvaluationScript>function check(S0A282FD3B82E0882BC30682F6FDAC5C0Choice) { if(S0A282FD3B82E0882BC30682F6FDAC5C0Choice.getValue().getText() == "Send an SMS to patient/caregiver and Finalize the Care Plan"") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SE8F9916B35B89644392D6E6DE2A6E46E" name="Send an SMS to patient/caregiver and Finalize the Care Plan!">
+	<EvaluationScript>function check(SF8B65E00D8C661B6EBE36E66C879E309Choice) { if(SF8B65E00D8C661B6EBE36E66C879E309Choice.getValue().getText() == "Send an SMS to patient/caregiver and Finalize the Care Plan!") return true; else return false; }</EvaluationScript>
       </NextStep>
     </ConsultStep>	
-      <RecommendationStep ID="SD059A2BA-E71C-AB51-ED11-683717CA826D" name="Send notification to patient for immediate referral">
+      <RecommendationStep ID="SE8F9916B35B89644392D6E6DE2A6E46E" name="Send notification to patient for immediate referral">
       <Receiver ref="P4"/>
       <Urgency>3</Urgency>
       <Display>
@@ -3014,15 +3014,15 @@
 
 	</HTML>
       </Display>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09"/>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86"/>
     </RecommendationStep>
-      <RecordActionStep ID="S17972A05-4127-83AD-5792-67B1901E767B" name="Record Noise Event">
+      <RecordActionStep ID="SA023F5C263D7E7B700716E3FA3B6D7ED" name="Record Noise Event">
       <Concept code="C0028263" name="Noise" schemeID="UMLS"/>
       <DataSource code="C0033213" name="Problem" schemeID="UMLS"/>
       <Value text="true"/>
-      <NextStep ref="SC76BFC25-FF45-C749-521C-683B3EDFC8EF" name="Present the EGM, check electrode dysfunction"/>
+      <NextStep ref="S74CDBB1CBD692B3A52066E6FD3470AC7" name="Present the EGM, check electrode dysfunction"/>
     </RecordActionStep>
-      <ConsultStep ID="SC76BFC25-FF45-C749-521C-683B3EDFC8EF" name="Present the EGM, check electrode dysfunction">
+      <ConsultStep ID="S74CDBB1CBD692B3A52066E6FD3470AC7" name="Present the EGM, check electrode dysfunction">
       <Display>
 	<HTML>
 	  <head>						
@@ -3105,14 +3105,14 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="SABCF8479-CDCC-ECFB-780C-683C298D1508" name="There is electrode dysfunction!">
-	<EvaluationScript>function check(SC76BFC25FF45C749521C683B3EDFC8EFChoice) { if(SC76BFC25FF45C749521C683B3EDFC8EFChoice.getValue().getText() == "There is electrode dysfunction!") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SD456A0A5A709B829D6846E70BF98A865" name="There is electrode dysfunction!">
+	<EvaluationScript>function check(S74CDBB1CBD692B3A52066E6FD3470AC7Choice) { if(S74CDBB1CBD692B3A52066E6FD3470AC7Choice.getValue().getText() == "There is electrode dysfunction!") return true; else return false; }</EvaluationScript>
       </NextStep>
-      <NextStep ref="S5A46EBED-CAD6-49D2-AF54-683C369E1D34" name="There is no electrode dysfunction!">
-	<EvaluationScript>function check(SC76BFC25FF45C749521C683B3EDFC8EFChoice) { if(SC76BFC25FF45C749521C683B3EDFC8EFChoice.getValue().getText() == "There is no electrode dysfunction!") return true; else return false; }</EvaluationScript>
+      <NextStep ref="S2A57AA09F1BBBCFBDE9A6E70CB9B6BB3" name="There is no electrode dysfunction!">
+	<EvaluationScript>function check(S74CDBB1CBD692B3A52066E6FD3470AC7Choice) { if(S74CDBB1CBD692B3A52066E6FD3470AC7Choice.getValue().getText() == "There is no electrode dysfunction!") return true; else return false; }</EvaluationScript>
       </NextStep>	
     </ConsultStep>
-      <ConsultStep ID="SABCF8479-CDCC-ECFB-780C-683C298D1508" name="Present the Lead Impedance Alerts, Lead Impedance Trend, Amplitude of the signal to the Medical Professional">
+      <ConsultStep ID="SD456A0A5A709B829D6846E70BF98A865" name="Present the Lead Impedance Alerts, Lead Impedance Trend, Amplitude of the signal to the Medical Professional">
       <Variable name="LeadImpedanceAlerts" type="integer">
 	<Concept code="722624" name="MDC_IDC_MSMT_LEADHVCHNL_IMPEDANCE" schemeID="MDC_IDC"/>
 	<DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
@@ -3232,14 +3232,14 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="SA09B2A03-E56D-CC98-2769-683FAB6A6DF5" name="Yes, there are!">
-	<EvaluationScript>function check(SABCF8479CDCCECFB780C683C298D1508Choice) { if(SABCF8479CDCCECFB780C683C298D1508Choice.getValue().getText() == "Yes, there are!") return true; else return false; }</EvaluationScript>
+      <NextStep ref="S19BCE6D3A4932C938C726E72E4033A90" name="Yes, there are!">
+	<EvaluationScript>function check(SD456A0A5A709B829D6846E70BF98A865Choice) { if(SD456A0A5A709B829D6846E70BF98A865Choice.getValue().getText() == "Yes, there are!") return true; else return false; }</EvaluationScript>
       </NextStep>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09" name="No, there is not!">
-	<EvaluationScript>function check(SABCF8479CDCCECFB780C683C298D1508Choice) { if(SABCF8479CDCCECFB780C683C298D1508Choice.getValue().getText() == "No, there is not!") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86" name="No, there is not!">
+	<EvaluationScript>function check(SD456A0A5A709B829D6846E70BF98A865Choice) { if(SD456A0A5A709B829D6846E70BF98A865Choice.getValue().getText() == "No, there is not!") return true; else return false; }</EvaluationScript>
       </NextStep>
     </ConsultStep>
-      <ConsultStep ID="SA09B2A03-E56D-CC98-2769-683FAB6A6DF5" name="Consider urgent followup in hospital"><!--Change from RecommendationStep to ConsultStep-->
+      <ConsultStep ID="S19BCE6D3A4932C938C726E72E4033A90" name="Consider urgent follow up in hospital"><!--Change from RecommendationStep to ConsultStep-->
       <Display>
 	<HTML>
 	  <head/>
@@ -3298,8 +3298,8 @@
 		    <p>Noise is detected and there seems to be a problem in ICD Device. Arrange immediate referral to the Clinic and call the patient</p>
 
 		    <form onsubmit="return ValidateData();" action="null" method="post">
-		      <input type="submit" name="R22Choice" value="Finalize the Care Plan" onclick="btnWhichButton=this"/>
-		      <input type="submit" name="R22Choice" value="Send an SMS to patient/caregiver and Finalize the Care Plan" onclick="btnWhichButton=this"/>
+		      <input type="submit" name="R22Choice" value="Finalize the Care Plan!" onclick="btnWhichButton=this"/>
+		      <input type="submit" name="R22Choice" value="Send an SMS to patient/caregiver and Finalize the Care Plan!" onclick="btnWhichButton=this"/>
 		  </form></td>
 		</tr>
 	      </tbody>
@@ -3307,14 +3307,14 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09" name="finalize">
-	<EvaluationScript>function check(SA09B2A03E56DCC982769683FAB6A6DF5Choice) { if(SA09B2A03E56DCC982769683FAB6A6DF5Choice.getValue().getText() == "Finalize the Care Plan") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86" name="Finalize the Care Plan!">
+	<EvaluationScript>function check(S19BCE6D3A4932C938C726E72E4033A90Choice) { if(S19BCE6D3A4932C938C726E72E4033A90Choice.getValue().getText() == "Finalize the Care Plan!") return true; else return false; }</EvaluationScript>
       </NextStep>
-      <NextStep ref="S2C052A30-21E5-8048-7C3D-68412BD3FEB0" name="send ands sms and finalize">
-	<EvaluationScript>function check(SA09B2A03E56DCC982769683FAB6A6DF5Choice) { if(SA09B2A03E56DCC982769683FAB6A6DF5Choice.getValue().getText() == "Send an SMS to patient/caregiver and Finalize the Care Plan"") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SC8AAE5225EE3B246C5A36E746E5B32F7" name="Send an SMS to patient/caregiver and Finalize the Care Plan!">
+	<EvaluationScript>function check(S19BCE6D3A4932C938C726E72E4033A90Choice) { if(S19BCE6D3A4932C938C726E72E4033A90Choice.getValue().getText() == "Send an SMS to patient/caregiver and Finalize the Care Plan!") return true; else return false; }</EvaluationScript>
       </NextStep>
     </ConsultStep>	
-      <RecommendationStep ID="S2C052A30-21E5-8048-7C3D-68412BD3FEB0" name="Send notification to patient for immeidiate referral">
+      <RecommendationStep ID="SC8AAE5225EE3B246C5A36E746E5B32F7" name="Send notification to patient for immeidiate referral">
       <Receiver ref="P4"/>
       <Urgency>3</Urgency>
       <Display>
@@ -3323,9 +3323,9 @@
 
 	</HTML>
       </Display>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09"/>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86"/>
     </RecommendationStep>	
-      <ConsultStep ID="S5A46EBED-CAD6-49D2-AF54-683C369E1D34" name="Present the EGM, check external disturbances">
+      <ConsultStep ID="S2A57AA09F1BBBCFBDE9A6E70CB9B6BB3" name="Present the EGM, check external disturbances">
 
       <Display>
 	<HTML>
@@ -3410,17 +3410,17 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S1E38BE68-A877-A6BA-A012-6843C13C7AD8" name="There seems to be external disturbances!">
-	<EvaluationScript>function check(S5A46EBEDCAD649D2AF54683C369E1D34Choice) { if(S5A46EBEDCAD649D2AF54683C369E1D34Choice.getValue().getText() == "There seems to be external disturbances") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SE05C20D9D05E03A35F886E76C70477D8" name="There seems to be external disturbances!">
+	<EvaluationScript>function check(S2A57AA09F1BBBCFBDE9A6E70CB9B6BB3Choice) { if(S2A57AA09F1BBBCFBDE9A6E70CB9B6BB3Choice.getValue().getText() == "There seems to be external disturbances!") return true; else return false; }</EvaluationScript>
       </NextStep>
-      <NextStep ref="S560A22EF-4D7B-06C7-49E8-67B13AB3C139" name="There is no external disturbance, check Real VT Case!">
-	<EvaluationScript>function check(S5A46EBEDCAD649D2AF54683C369E1D34Choice) { if(S5A46EBEDCAD649D2AF54683C369E1D34Choice.getValue().getText() == "There is no external disturbance, check Real VT Case!") return true; else return false; }</EvaluationScript>
+      <NextStep ref="S28D3B94DCE4E4DF7D86F6E3FABF8C4A5" name="There is no external disturbance, check Real VT Case!">
+	<EvaluationScript>function check(S2A57AA09F1BBBCFBDE9A6E70CB9B6BB3Choice) { if(S2A57AA09F1BBBCFBDE9A6E70CB9B6BB3Choice.getValue().getText() == "There is no external disturbance, check Real VT Case!") return true; else return false; }</EvaluationScript>
       </NextStep>	
-      <NextStep ref="SE08A9520-760C-FE41-2182-67B166372B8D" name="There is no external disturbance, check Real SVT Case!">
-	<EvaluationScript>function check(S5A46EBEDCAD649D2AF54683C369E1D34Choice) { if(S5A46EBEDCAD649D2AF54683C369E1D34Choice.getValue().getText() == "There is no external disturbance, check Real SVT Case!") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SF0A4C709DF5ADE9E9DE36E3F6F435150" name="There is no external disturbance, check Real SVT Case!">
+	<EvaluationScript>function check(S2A57AA09F1BBBCFBDE9A6E70CB9B6BB3Choice) { if(S2A57AA09F1BBBCFBDE9A6E70CB9B6BB3Choice.getValue().getText() == "There is no external disturbance, check Real SVT Case!") return true; else return false; }</EvaluationScript>
       </NextStep>	
     </ConsultStep>
-      <ConsultStep ID="S1E38BE68-A877-A6BA-A012-6843C13C7AD8" name="Check Number of Noises within that week">
+      <ConsultStep ID="SE05C20D9D05E03A35F886E76C70477D8" name="Check Number of Noises within that week">
       <Variable name="NumberOfNoiseCase" type="integer">
 	<Concept code="C0028263" name="Noise" schemeID="UMLS"/>
 	<DataSource code="C1562065" name="Record of health event" schemeID="UMLS"/>
@@ -3499,7 +3499,7 @@
 		    <p align="center"><b>Recommendation and Next Step to follow </b> </p>
 		    <p>Number of Noise Cases in this week is: $NumberOfNoiseCase. Do you confirm?</p>
 		    <form onsubmit="return ValidateData();" action="null" method="post">
-		      <input type="submit" name="D23Choice" value="Number of Noise Cases in >3" onclick="btnWhichButton=this"/>
+		      <input type="submit" name="D23Choice" value="Number of Noise Cases is > 3" onclick="btnWhichButton=this"/>
 		      <input type="submit" name="D23Choice" value="Number of Noise cases is 1" onclick="btnWhichButton=this"/>	
 
 		    </form>
@@ -3510,14 +3510,14 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S3768F2C0-217B-0964-3A33-684B514A4EF3" name="Number of Noise Cases in >3">
-	<EvaluationScript>function check(S1E38BE68A877A6BAA0126843C13C7AD8Choice) { if(S1E38BE68A877A6BAA0126843C13C7AD8Choice.getValue().getText() == "Number of Noise Cases in >3") return true; else return false; }</EvaluationScript>
+      <NextStep ref="S3EF157451C547A3087966E7974356606" name="Number of Noise Cases is > 3">
+	<EvaluationScript>function check(SE05C20D9D05E03A35F886E76C70477D8Choice) { if(SE05C20D9D05E03A35F886E76C70477D8Choice.getValue().getText() == "Number of Noise Cases is > 3") return true; else return false; }</EvaluationScript>
       </NextStep>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09" name="Number of Noise cases is 1">
-	<EvaluationScript>function check(S1E38BE68A877A6BAA0126843C13C7AD8Choice) { if(S1E38BE68A877A6BAA0126843C13C7AD8Choice.getValue().getText() == "Number of Noise cases is 1") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86" name="Number of Noise cases is 1">
+	<EvaluationScript>function check(SE05C20D9D05E03A35F886E76C70477D8Choice) { if(SE05C20D9D05E03A35F886E76C70477D8Choice.getValue().getText() == "Number of Noise cases is 1") return true; else return false; }</EvaluationScript>
       </NextStep>	
     </ConsultStep>
-      <RecommendationStep ID="S3768F2C0-217B-0964-3A33-684B514A4EF3" name="Contacts the patient">
+      <RecommendationStep ID="S3EF157451C547A3087966E7974356606" name="Contacts the patient">
       <Receiver ref="P3"/>
       <Urgency>2</Urgency>
       <Display>
@@ -3584,10 +3584,10 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09" name="finalize"/>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86" name="finalize"/>
 
     </RecommendationStep>	
-      <ConsultStep ID="S228AC30A-F1C3-462E-99D2-67B727F4DF02" name="Check Programmed ATP">
+      <ConsultStep ID="SDB9C456801A5FBB48F7E6E414E831533" name="Check Programmed ATP">
       <Variable name="ProgrammedATP" type="integer">
 	<Concept code="737888" name="MDC_IDC_STAT_TACHYTHERAPY_ATP_DELIVERED_RECENT" schemeID="MDC_IDC"/>
 	<DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
@@ -3688,15 +3688,15 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S96451C42-F39E-B3C2-AAB4-684E5C40BE18" name="ATP is programmed">
-	<EvaluationScript>function check(S228AC30AF1C3462E99D267B727F4DF02Choice) { if(S228AC30AF1C3462E99D267B727F4DF02Choice.getValue().getText() == "ATP is programmed") return true; else return false; }</EvaluationScript>
+      <NextStep ref="S54FE76FB9BBE0DBA14686E7C058E2A3A" name="ATP is programmed">
+	<EvaluationScript>function check(SDB9C456801A5FBB48F7E6E414E831533Choice) { if(SDB9C456801A5FBB48F7E6E414E831533Choice.getValue().getText() == "ATP is programmed") return true; else return false; }</EvaluationScript>
       </NextStep>
-      <NextStep ref="SAC419FD7-13FC-EC66-A478-684E6B582461" name="ATP is not programmed">
-	<EvaluationScript>function check(S228AC30AF1C3462E99D267B727F4DF02Choice) { if(S228AC30AF1C3462E99D267B727F4DF02Choice.getValue().getText() == "ATP has not been programmed") return true; else return false; }</EvaluationScript>
+      <NextStep ref="S87FC60A4B13C7F3B15156E7C106550FA" name="ATP has not been programmed">
+	<EvaluationScript>function check(SDB9C456801A5FBB48F7E6E414E831533Choice) { if(SDB9C456801A5FBB48F7E6E414E831533Choice.getValue().getText() == "ATP has not been programmed") return true; else return false; }</EvaluationScript>
       </NextStep>
 
     </ConsultStep>
-      <ConsultStep ID="S96451C42-F39E-B3C2-AAB4-684E5C40BE18" name="Check ATP Effective">
+      <ConsultStep ID="S54FE76FB9BBE0DBA14686E7C058E2A3A" name="Check ATP Effective">
       <Variable name="EffectiveATP" type="integer">
 	<Concept code="737888" name="MDC_IDC_STAT_TACHYTHERAPY_ATP_DELIVERED_RECENT" schemeID="MDC_IDC"/>
 	<DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
@@ -3786,15 +3786,15 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09" name="ATP is effective">
-	<EvaluationScript>function check(S96451C42F39EB3C2AAB4684E5C40BE18Choice) { if(S96451C42F39EB3C2AAB4684E5C40BE18Choice.getValue().getText() == "ATP is effective") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86" name="ATP is effective">
+	<EvaluationScript>function check(S54FE76FB9BBE0DBA14686E7C058E2A3AChoice) { if(S54FE76FB9BBE0DBA14686E7C058E2A3AChoice.getValue().getText() == "ATP is effective") return true; else return false; }</EvaluationScript>
       </NextStep>
-      <NextStep ref="SAC419FD7-13FC-EC66-A478-684E6B582461" name="ATP is not effective">
-	<EvaluationScript>function check(S96451C42F39EB3C2AAB4684E5C40BE18Choice) { if(S96451C42F39EB3C2AAB4684E5C40BE18Choice.getValue().getText() == "ATP was not effective") return true; else return false; }</EvaluationScript>
+      <NextStep ref="S87FC60A4B13C7F3B15156E7C106550FA" name="ATP was not effective">
+	<EvaluationScript>function check(S54FE76FB9BBE0DBA14686E7C058E2A3AChoice) { if(S54FE76FB9BBE0DBA14686E7C058E2A3AChoice.getValue().getText() == "ATP was not effective") return true; else return false; }</EvaluationScript>
       </NextStep>
 
     </ConsultStep>
-      <ConsultStep ID="SAC419FD7-13FC-EC66-A478-684E6B582461" name="Check Programmed Shock">
+      <ConsultStep ID="S87FC60A4B13C7F3B15156E7C106550FA" name="Check Programmed Shock">
       <Variable name="ProgrammedShock" type="integer">
 	<Concept code="737824" name="MDC_IDC_STAT_TACHYTHERAPY_SHOCKS_DELIVERED_RECENT" schemeID="MDC_IDC"/>
 	<DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
@@ -3895,15 +3895,15 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S7C868CFC-1BE2-E3FB-4F76-6853BF2C9B36" name="Shock is programmed">
-	<EvaluationScript>function check(SAC419FD713FCEC66A478684E6B582461Choice) { if(SAC419FD713FCEC66A478684E6B582461Choice.getValue().getText() == "Shock is programmed and delivered") return true; else return false; }</EvaluationScript>
+      <NextStep ref="S44DC47FF149E3B95DCB66E7EA43A916D" name="Shock is programmed and delivered">
+	<EvaluationScript>function check(S87FC60A4B13C7F3B15156E7C106550FAChoice) { if(S87FC60A4B13C7F3B15156E7C106550FAChoice.getValue().getText() == "Shock is programmed and delivered") return true; else return false; }</EvaluationScript>
       </NextStep>
-      <NextStep ref="S92517FF5-96FF-83FD-CF3B-6853CE4CFDAA" name="Shock is not programmed">
-	<EvaluationScript>function check(SAC419FD713FCEC66A478684E6B582461Choice) { if(SAC419FD713FCEC66A478684E6B582461Choice.getValue().getText() == "Shock was not delivered") return true; else return false; }</EvaluationScript>
+      <NextStep ref="S3895B117FD378140B7BC6E7EAFFEAE6F" name="Shock was not delivered">
+	<EvaluationScript>function check(S87FC60A4B13C7F3B15156E7C106550FAChoice) { if(S87FC60A4B13C7F3B15156E7C106550FAChoice.getValue().getText() == "Shock was not delivered") return true; else return false; }</EvaluationScript>
       </NextStep>
 
     </ConsultStep>
-      <ConsultStep ID="S7C868CFC-1BE2-E3FB-4F76-6853BF2C9B36" name="Check Shock Effective">
+      <ConsultStep ID="S44DC47FF149E3B95DCB66E7EA43A916D" name="Check Shock Effective">
 
       <Display>
 	<HTML>
@@ -3990,14 +3990,14 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09" name="Shock is effective">
-	<EvaluationScript>function check(S7C868CFC1BE2E3FB4F766853BF2C9B36Choice) { if(S7C868CFC1BE2E3FB4F766853BF2C9B36Choice.getValue().getText() == "Shock is effective") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86" name="Shock is effective">
+	<EvaluationScript>function check(S44DC47FF149E3B95DCB66E7EA43A916DChoice) { if(S44DC47FF149E3B95DCB66E7EA43A916DChoice.getValue().getText() == "Shock is effective") return true; else return false; }</EvaluationScript>
       </NextStep>
-      <NextStep ref="S9185EB27-52A0-0AF7-EB00-67C51BD5B7B0" name="Shock is not effective">
-	<EvaluationScript>function check(S7C868CFC1BE2E3FB4F766853BF2C9B36Choice) {  if(S7C868CFC1BE2E3FB4F766853BF2C9B36Choice.getValue().getText() == "Shock was not effective") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SF1752270F59BF4C5D44F6E4856FECAC9" name="Shock was not effective">
+	<EvaluationScript>function check(S44DC47FF149E3B95DCB66E7EA43A916DChoice) {  if(S44DC47FF149E3B95DCB66E7EA43A916DChoice.getValue().getText() == "Shock was not effective") return true; else return false; }</EvaluationScript>
       </NextStep>
     </ConsultStep>
-      <RecommendationStep ID="S92517FF5-96FF-83FD-CF3B-6853CE4CFDAA" name="Perform self monitoring">
+      <RecommendationStep ID="S3895B117FD378140B7BC6E7EAFFEAE6F" name="Perform self monitoring">
       <Receiver ref="P4"/>
       <Urgency>3</Urgency>
       <Display>
@@ -4006,15 +4006,15 @@
 
 	</HTML>
       </Display>
-      <NextStep ref="SDC22B3FB-3C40-7D26-2601-68577A79EDEB"/>
+      <NextStep ref="S7F2B8D751F5AADD8DD6B6E815E688931"/>
     </RecommendationStep>
-      <WaitStep ID="SDC22B3FB-3C40-7D26-2601-68577A79EDEB" name="The CIED report has been received...">
+      <WaitStep ID="S7F2B8D751F5AADD8DD6B6E815E688931" name="The CIED report has been received...">
       <Event>
 	<DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
       </Event>
-      <NextStep ref="S7FE1C19C-B68B-6DD1-B8F8-6858A500F11D" name="Present the EGM, check VT"/>
+      <NextStep ref="S4CC895B601B5F122F1726E824820A86E" name="Present the EGM, check VT"/>
     </WaitStep> 
-      <ConsultStep ID="S7FE1C19C-B68B-6DD1-B8F8-6858A500F11D" name="Present the EGM, check VT">
+      <ConsultStep ID="S4CC895B601B5F122F1726E824820A86E" name="Present the EGM, check VT">
 
       <Display>
 	<HTML>
@@ -4098,11 +4098,11 @@
 	  </body>
 	</HTML>
       </Display>
-      <NextStep ref="S9185EB27-52A0-0AF7-EB00-67C51BD5B7B0" name="There is VT persistent!">
-	<EvaluationScript>function check(S7FE1C19CB68B6DD1B8F86858A500F11DChoice) { if(S7FE1C19CB68B6DD1B8F86858A500F11DChoice.getValue().getText() == "The case is VT!") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SF1752270F59BF4C5D44F6E4856FECAC9" name="There is VT persistent!">
+	<EvaluationScript>function check(S4CC895B601B5F122F1726E824820A86EChoice) { if(S4CC895B601B5F122F1726E824820A86EChoice.getValue().getText() == "The case is VT!") return true; else return false; }</EvaluationScript>
       </NextStep>
-      <NextStep ref="S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09" name="The case is no VT!">
-	<EvaluationScript>function check(S7FE1C19CB68B6DD1B8F86858A500F11DChoice) { if(S7FE1C19CB68B6DD1B8F86858A500F11DChoice.getValue().getText() == "There is no VT!") return true; else return false; }</EvaluationScript>
+      <NextStep ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86" name="The case is no VT!">
+	<EvaluationScript>function check(S4CC895B601B5F122F1726E824820A86EChoice) { if(S4CC895B601B5F122F1726E824820A86EChoice.getValue().getText() == "There is no VT!") return true; else return false; }</EvaluationScript>
       </NextStep>	
     </ConsultStep>
   </Algorithm>
