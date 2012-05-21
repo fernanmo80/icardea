@@ -1,0 +1,55 @@
+Coronary Artery Disease|C1956346|UMLS
+Transient Ischemic Attack|C0007787|UMLS
+Cholesterol levels raised|C0848569|UMLS
+Hypertensive disease|C0020538|UMLS
+Myocardial Infarction|C0027051|UMLS
+History of Transient Ischemic Attack/Stroke |266257000|snomedct
+Hypertension|266287006|snomedct|required
+Congestive heart failure|42343007|snomedct
+History of Diabetes|73211009|snomedct
+Bleeding|131148009|snomedct|required
+Intracranial hemorrhage|1386000|snomedct
+Intracranial aneurism|128609009|snomedct
+Recent major trauma|2734008|snomedct|required
+Gastrointestinal bleeding  / Gastrointestinalhemorrhage|74474003|snomedct
+hepatic impairment / Abnormal liver function|75183008|snomedct|required
+Blood dyscrasia /Disorder of hematopoietic syste|34093004|snomedct
+Pregnancy |289908002|snomedct
+Lactation|63158009|snomedct
+third trimester pregnancy|41587001|snomedct
+first trimester pregnancy|57630001|snomedct
+cognitive impairment |386806002|snomedct|required
+dementia |52448006|snomedct|required
+psychiatric disease/mental disorder|74732009|snomedct|required
+Hemorrhagic retinopathy |10055332|snomedct
+Active gastroduodenal ulcus /Unspecified peptic ulcer|196697002|snomedct
+Chronic hepatic disease /Disease of live|235856003|snomedct
+alcoholism |191809008|snomedct|required
+Epilepsy |84757009|snomedct
+pericardial effusion |373945007|snomedct
+heart failure|195117009|snomedct
+LeftVentricularHypertrophy|164873001|snomedct
+CoronaryArteryDisease|414024009|snomedct
+HeartDiseases|56265001|snomedct
+History of myocardial infarction |22298006|snomedct
+High cholesterol|13644009|snomedct
+Ex-Smoker|8517006|snomedct
+Sudden cardiac death|95281009|snomedct
+Triple vessel disease of the heart|233817007|snomedct
+posterior wall aneurysm|C2061846|umls
+Finding of left ventricular function|366188009|snomedct
+Normal sinus rhyth|64730000|snomedct
+anti thrombotic therapy|C2729238|umls
+Epilepsy|C0014544|UMLS
+Prolonged QT Interval|C0151878|UMLS
+Sarcoidosis|C0036202|UMLS
+Never smoked|C0425293|UMLS
+Sudden Cardiac Death|C0085298|UMLS
+MRI Myocarditis|C0027059|UMLS
+palpitations|C0030252|UMLS
+panic attacks|C0086769|UMLS
+Numbness in both arms and legs|C2219790|UMLS
+left vertricular dysfunction|C0242698|UMLS
+Chronic Gastritis|C0085695|UMLS
+esophageal irritation|C0743575|UMLS
+Hernia, Hiatal|C0019291|UMLS

@@ -1,0 +1,249 @@
+5-lipoxygenase Inhibitor|C1289971|UMLS
+Preparations|C2267085|UMLS
+Analgesics|C0002771|UMLS
+Anesthetics, Inhalation|C0242903|UMLS
+Antiarrhythmics†|C1579437|UMLS
+Antibiotics†|C0003232|UMLS
+Aminoglycosides (oral)|C0002556|UMLS
+Cephalosporins, parenteral|C0007732|UMLS
+Macrolides|C0282563|UMLS
+Miscellaneous|C0205395|UMLS
+Penicillins, intravenous,   high dose|C0030842|UMLS
+Quinolones|C1533693|UMLS
+Sulfonamides, long acting|C0038760|UMLS
+Tetracyclines|C1744619|UMLS
+Anticoagulants|C0003280|UMLS
+Anticonvulsants|C0003286|UMLS
+Antidepressants|C1579362|UMLS
+Antimalarial Agents|C0003374|UMLS
+Antiparasitic/Antimicrobials|C0003404|UMLS
+Antiplatelet Drugs/Effects|C0085826|UMLS
+Beta-Adrenergic blockers|C0001645|UMLS
+Cholelitholytic Agents|C0304562|UMLS
+Diuretics†|C0012798|UMLS
+Intravaginal,   Systemic†|C0442122|UMLS
+Gastric Acidity and Peptic Ulcer|C0017120|UMLS
+Gastrointestinal|C0017713|UMLS
+Prokinetic Agents|C2114759|UMLS
+Ulcerative Colitis Agents|C2064853|UMLS
+Gout Treatment Agents|C2064753|UMLS
+Hemorrheologic Agents|C0304945|UMLS
+Hyperglycemic Agents|C1321567|UMLS
+Hypertensive Emergency |C0745136|UMLS
+Bile Acid-Binding Resins†|C2266924|UMLS
+Fibric Acid Derivatives|C2936462|UMLS
+HMG-CoA Reductase |C2248143|UMLS
+Inhibitors†|C0243077|UMLS
+Leukotriene Receptor Antagonist|C0595726|UMLS
+Monoamine Oxidase Inhibitors|C0026457|UMLS
+Narcotics, prolonged|C0027415|UMLS
+Nonsteroidal Anti-Inflammatory|C2916905|UMLS
+Proton Pump Inhibitors|C0358591|UMLS
+Psychostimulants|C0304403|UMLS
+Salicylates|C0036077|UMLS
+Selective Serotonin Reuptake|C0360105|UMLS
+Steroids, Adrenocortical†|C0038317|UMLS
+Steroids, Anabolic (17-Alkyl Testosterone Derivatives)|C0002744|UMLS
+Thrombolytics|C0016018|UMLS
+Uricosuric Agents|C0041983|UMLS
+Vaccines|C0042210|UMLS
+Vitamins†|C0042890|UMLS
+acetaminophen|C0000970|UMLS
+alcohol|C0001975|UMLS
+allopurinol|C0002144|UMLS
+aminosalicylic acid|C0030125|UMLS
+amiodarone HCl|C0700442|UMLS
+argatroban|C0048470|UMLS
+aspirin|C0004057|UMLS
+atenolol|C0004147|UMLS
+atorvastatin|C0286651|UMLS
+azithromycin|C0052796|UMLS
+bivalirudin|C0168273|UMLS
+capecitabine|C0671970|UMLS
+cefamandole|C0007541|UMLS
+cefazolin|C0007546|UMLS
+cefoperazone|C0007552|UMLS
+cefotetan|C0007555|UMLS
+cefoxitin|C0007557|UMLS
+ceftriaxone|C0007561|UMLS
+celecoxib|C0538927|UMLS
+cerivastatin|C0528023|UMLS
+chenodiol|C0975508|UMLS
+chloramphenicol|C0008168|UMLS
+chloral hydrate|C0008161|UMLS
+chlorpropamide|C0008287|UMLS
+cholestyramine |C0008402|UMLS
+cimetidine|C0008783|UMLS
+ciprofloxacin|C0008809|UMLS
+cisapride|C0072916|UMLS
+clarithromycin|C0055856|UMLS
+clofibrate|C0009002|UMLS
+WARFARIN overdose|C0573797|UMLS
+cyclophosphamide |C0010583|UMLS
+danazol|C0010961|UMLS
+dextran|C0086140|UMLS
+dextrothyroxine|C0011824|UMLS
+diazoxide|C0012022|UMLS
+diclofenac|C0012091|UMLS
+dicumarol|C0005640|UMLS
+diflunisal|C0012228|UMLS
+disulfiram|C0012772|UMLS
+doxycycline|C0013090|UMLS
+erythromycin|C0014806|UMLS
+esomeprazole|C0937846|UMLS
+ethacrynic acid|C0014963|UMLS
+ezetimibe|C1142985|UMLS
+fenofibrate|C0033228|UMLS
+fenoprofen|C0015837|UMLS
+fluconazole|C0016277|UMLS
+fluorouracil|C0016360|UMLS
+fluoxetine|C0016365|UMLS
+flutamide|C0016384|UMLS
+fluvastatin|C0082608|UMLS
+fluvoxamine|C0085228|UMLS
+gefitinib|C1122962|UMLS
+gemfibrozil|C0017245|UMLS
+glucagon|C0017687|UMLS
+halothane|C0018549|UMLS
+heparin|C0019134|UMLS
+ibuprofen|C0020740|UMLS
+ifosfamide|C0020823|UMLS
+indomethacin|C0021246|UMLS
+influenza virus vaccine|C0021403|UMLS
+itraconazole|C0064113|UMLS
+ketoprofen|C0022635|UMLS
+ketorolac|C0073631|UMLS
+lansoprazole|C0050940|UMLS
+lepirudin|C0772394|UMLS
+levamisole|C0023556|UMLS
+levofloxacin|C0282386|UMLS
+levothyroxine|C0079691|UMLS
+liothyronine|C0546882|UMLS
+lovastatin|C0024027|UMLS
+mefenamic acid|C0025152|UMLS
+methimazole |C0025644|UMLS
+methyldopa|C0025741|UMLS
+methylphenidate|C0025810|UMLS
+methylsalicylate ointment (topical)|C0066282|UMLS
+metronidazole|C0025872|UMLS
+miconazole (intravaginal, oral,systemic)|C0025942|UMLS
+moricizine hydrochloride |C0724636|UMLS
+nalidixic acid|C0027353|UMLS
+naproxen|C0027396|UMLS
+neomycin|C0027603|UMLS
+norfloxacin|C0028365|UMLS
+ofloxacin|C0028902|UMLS
+olsalazine|C0069454|UMLS
+omeprazole|C0028978|UMLS
+oxandrolone|C0029995|UMLS
+oxaprozin|C0069739|UMLS
+oxymetholone|C0030072|UMLS
+pantoprazole|C0081876|UMLS
+paroxetine|C0070122|UMLS
+penicillin G, intravenous|C0690770|UMLS
+pentoxifylline|C0030899|UMLS
+phenylbutazone|C0031463|UMLS
+phenytoin |C0031507|UMLS
+piperacillin|C0031955|UMLS
+piroxicam|C0031990|UMLS
+pravastatin |C0085542|UMLS
+prednisone |C0032952|UMLS
+propafenone|C0033429|UMLS
+propoxyphene|C0033493|UMLS
+propranolol|C0033497|UMLS
+propylthiouracil |C0033511|UMLS
+quinidine|C0034414|UMLS
+quinine|C0034417|UMLS
+rabeprazole|C0378482|UMLS
+ranitidine |C0034665|UMLS
+rofecoxib|C0762662|UMLS
+sertraline|C0074393|UMLS
+simvastatin|C0074554|UMLS
+stanozolol|C0038149|UMLS
+streptokinase|C0038418|UMLS
+sulfamethizole|C0038687|UMLS
+sulfamethoxazole|C0038689|UMLS
+sulfinpyrazone|C0038742|UMLS
+sulfisoxazole|C0038745|UMLS
+sulindac|C0038792|UMLS
+tamoxifen|C0039286|UMLS
+tetracycline|C0039644|UMLS
+thyroid|C0040128|UMLS
+ticarcillin|C0040193|UMLS
+ticlopidine|C0040207|UMLS
+tissue plasminogen activator|C0522860|UMLS
+(t-PA)|C0380028|UMLS
+tolbutamide|C0040374|UMLS
+tramadol|C0040610|UMLS
+trimethoprim/sulfamethoxazole|C0041044|UMLS
+urokinase|C0042071|UMLS
+valdecoxib|C0913246|UMLS
+valproate|C0080356|UMLS
+vitamin E|C0042874|UMLS
+zafirlukast|C0378466|UMLS
+zileuton|C0081408|UMLS
+Adrenal Cortical Steroid Inhibitors|C2917323|UMLS
+Antacids|C0003138|UMLS
+Antianxiety Agents|C0040616|UMLS
+Antidepressants|C0003289|UMLS
+Antihistamines|C0003360|UMLS
+Antineoplastics|C0003392|UMLS
+Antipsychotic Medications|C1548819|UMLS
+Antithyroid Drugs|C0040125|UMLS
+Barbiturates|C0004745|UMLS
+Enteral Nutritional Supplements|C0846670|UMLS
+Agents|C0450442|UMLS
+Hypnotics|C0020591|UMLS
+Hypolipidemics|C0086440|UMLS
+Bile Acid-Binding Resins|C2266924|UMLS
+HMG-CoA Reductase Inhibitors|C0360714|UMLS
+alcohol|C0001975|UMLS
+aminoglutethimide|C0002555|UMLS
+amobarbital|C0002640|UMLS
+atorvastatin|C0286651|UMLS
+azathioprine|C0004482|UMLS
+butabarbital|C0006464|UMLS
+butalbital|C0054234|UMLS
+carbamazepine|C0006949|UMLS
+chloral hydrate|C0008161|UMLS
+chlordiazepoxide|C0008188|UMLS
+chlorthalidone|C0008294|UMLS
+cholestyramine|C0008402|UMLS
+clozapine|C0009079|UMLS
+corticotropin|C0001655|UMLS
+cortisone|C0010137|UMLS
+Warfarin under dosage|C0043031|UMLS
+cyclophosphamide|C0010583|UMLS
+dicloxacillin|C0012093|UMLS
+ethchlorvynol|C0014987|UMLS
+glutethimide|C0017845|UMLS
+griseofulvin|C0018242|UMLS
+haloperidol|C0018546|UMLS
+meprobamate|C0025386|UMLS
+6-mercaptopurine|C0000618|UMLS
+methimazole|C0025644|UMLS
+moricizine hydrochloride|C0724636|UMLS
+nafcillin|C0027324|UMLS
+paraldehyde|C0030438|UMLS
+phenobarbital|C0031412|UMLS
+phenytoin|C0031507|UMLS
+pravastatin|C0085542|UMLS
+prednisone|C0032952|UMLS
+primidone|C0033148|UMLS
+propylthiouracil|C0033511|UMLS
+raloxifene|C0244404|UMLS
+ranitidine|C0034665|UMLS
+rifampin|C0035608|UMLS
+secobarbital|C0036516|UMLS
+spironolactone|C0037982|UMLS
+sucralfate|C0038633|UMLS
+trazodone|C0040805|UMLS
+vitamin C (high dose)|C0564420|UMLS
+vitamin K|C0042878|UMLS
+Concor|C0110591|UMLS
+Psychopax (Diazepam)|C0012010|UMLS
+Convulex|C0591288|UMLS
+Ebetrexat(Methotrexate)|C0025677|UMLS
+Folsan(Folic Acid)|C0016410|UMLS
+Magnosolv(Magnesium)|C0024467|UMLS
+Nexium|C0939400|UMLS
