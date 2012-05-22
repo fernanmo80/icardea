@@ -14,6 +14,10 @@
     <body>
         <div id="content">
             <nav id="sidebar">
+            <div>
+                <a href="../../manuals.html">&#xAB; iCARDEA User Guides</a>
+            </div>  
+            <h1>iCARDEA EHR Interoperability Framework</h1>
             <h2>Table of Contents</h2>
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -44,7 +48,7 @@ it is a somewhat shorter version: </p>
   <li>
     <p>Install <a href="http://www.postgresql.org/download/">PostgreSQL</a>. We assume
 that you are going to install both Postgres and OpenATNA in the same
-machine. If that’s not the case you need to correctly modify the
+machine. If that&rsquo;s not the case you need to correctly modify the
 <a href="http://www.postgresql.org/docs/8.3/static/auth-pg-hba-conf.html">pg_hba.conf</a>
 file so that the database server accepts connections from other
 machines.</p>
@@ -69,7 +73,7 @@ repository or you can download the source from their <a href="https://www.projec
 repository</a>.
 In the first case you can unzip the file in a directory and then run
 the <code>openatna-1.2.1-SNAPSHOT.jar</code> as follows (You do have
-<a href="http://www.java.com/en/download/index.jsp">Java</a>, don’t you?): </p>
+<a href="http://www.java.com/en/download/index.jsp">Java</a>, don&rsquo;t you?): </p>
 
     <pre><code>java -jar openatna-1.2.1-SNAPSHOT.jar
 </code></pre>
@@ -81,7 +85,7 @@ listens on UDP port 2861, and on 2862 for TLS connections.</p>
 
 <h4 id="tipimgstippng-consistent-time"><img src="imgs/tip.png" alt="tip" /> Consistent time</h4>
 
-<p>The ATNA profile requires “consistent time” (ITI-1) everywhere, i.e. the
+<p>The ATNA profile requires &ldquo;consistent time&rdquo; (ITI-1) everywhere, i.e. the
 clocks of the machines that participate in the transactions to be
 synchronized. Usually this can be achieved by using
 <a href="http://en.wikipedia.org/wiki/Network_Time_Protocol">NTP</a> time servers
@@ -114,8 +118,8 @@ you need to alter this properties file accordingly.</p>
 below. Basically you can provide a lot of criteria for selecting only
 the messages that you want to see. For example in the Event Type Code
 you can provide the code of the IHE transaction that the messages
-selected should be related with (In the example below “ITI-41” is the
-code for the XDS “Provide and Register Document Set-b” transaction).
+selected should be related with (In the example below &ldquo;ITI-41&rdquo; is the
+code for the XDS &ldquo;Provide and Register Document Set-b&rdquo; transaction).
 Then by clicking on the little plus (<code>+</code>) sign shown next to each
 message you see more details about the specific message.</p>
 

@@ -14,6 +14,10 @@
     <body>
         <div id="content">
             <nav id="sidebar">
+            <div>
+                <a href="../../manuals.html">&#xAB; iCARDEA User Guides</a>
+            </div>  
+            <h1>iCARDEA EHR Interoperability Framework</h1>
             <h2>Table of Contents</h2>
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -166,7 +170,7 @@ need an SVN client and a good one for MS Windows is the
 
 <h4 id="idp">iCARDEA OpenID Provider</h4>
 <p>This is an OpenID Provider for iCARDEA that supports the authentication of the
-users using the Windows ‘Domain Controller’. </p>
+users using the Windows &lsquo;Domain Controller&rsquo;. </p>
 
 <p>We assume a Windows machine is used for the installation of this server
 since some windows specific APIs are used for authenticating users. Also
@@ -221,7 +225,7 @@ install</code> in this directory.</p>
 <ul>
   <li>
     <p>Download and install <a href="http://httpd.apache.org/download.cgi#apache22">Apache
- 2.2</a> if you haven’t done
+ 2.2</a> if you haven&rsquo;t done
  already.  The SSL version is preferred if you plan to secure the server
  (as you should!!).</p>
   </li>
@@ -258,14 +262,14 @@ Openid Server!</p>
 
 <h4 id="xds">XDS Registry, Update Broker, and Patient Index</h4>
 
-<p>The “installation” of these two components is a plain copy of the
-contents of the SVN repository in some folder – there’s no need for
+<p>The &ldquo;installation&rdquo; of these two components is a plain copy of the
+contents of the SVN repository in some folder &ndash; there&rsquo;s no need for
 running setup or other installation bundle, assuming that you have
 installed Python and the rest of the <a href="#pre">prerequisites</a>. You just
 need to create two new folders (e.g. in <code>c:\</code>) called (for example):
 <code>c:\xds</code> and <code>c:\pixpdq</code> and put there the relevant code as downloaded
 from the SVN repository. (The code for the XDS Registry and the Update
-Broker should be in the same folder – they are in the same folder in
+Broker should be in the same folder &ndash; they are in the same folder in
 the SVN as well)</p>
 
 <h4 id="pixm">PIX Manager</h4>
@@ -344,7 +348,7 @@ issuing:</p>
 
   <p>The <a href="http://www.mongodb.org/display/DOCS/Http+Interface#HttpInterface-SimpleRESTInterface">REST interface of
 MongoDB</a>
-allows querying the database from your browser and it’s a quick and dirty
+allows querying the database from your browser and it&rsquo;s a quick and dirty
 approach to test things..</p>
 
 </div>
@@ -354,7 +358,7 @@ following:</p>
 
 <ul>
   <li>
-    <p>Change the line “MONGO_HOST=…” in <code>xds_config.py</code> if mongodb is
+    <p>Change the line &ldquo;MONGO_HOST=&hellip;&rdquo; in <code>xds_config.py</code> if mongodb is
 installed in a different machine instead of localhost. There are also
 various settings like the ports that the XDS Registry and the Update
 Broker are listening etc.</p>
@@ -373,8 +377,8 @@ application_name=NISTManager_SGSFAK
 facility_name=NIST
 </code></pre>
 
-    <p>The rest of the “sections” correspond to identification (affinity)
-domains. For each domain there’s a namespace (i.e. a short name), a
+    <p>The rest of the &ldquo;sections&rdquo; correspond to identification (affinity)
+domains. For each domain there&rsquo;s a namespace (i.e. a short name), a
 <em>universal id</em> (the long unique name), and the <a href="http://www.med.mun.ca/tedhoekman/medinfo/hl7/ch200038.htm#I8"><em>universal
 type</em></a>
 specifying the type of the universal id used (it can be one of ISO,
@@ -390,7 +394,7 @@ universal_type=ISO
 </ul>
 
 <p>For the configuration of the PIX Manager web application two files need
-to be configured (<code>&lt;home&gt;</code> is PIX manager’s root directory in the web
+to be configured (<code>&lt;home&gt;</code> is PIX manager&rsquo;s root directory in the web
 server):</p>
 
 <ul>
@@ -425,18 +429,18 @@ running on</p>
 <div class="footnotes">
   <ol>
     <li id="fn:1">
-      <p>The Python code has not been tested with 3.x branch<a href="#fnref:1" rev="footnote">&#8617;</a></p>
+      <p>The Python code has not been tested with 3.x branch<a href="#fnref:1" rel="reference">&#8617;</a></p>
     </li>
     <li id="fn:2">
       <p>NOTE: In Linux <code>lxml</code> requires <code>libxml2</code> and <code>libxslt</code> to be properly
-  installed so you ‘d better install these with the package
+  installed so you &lsquo;d better install these with the package
   management tool of your Linux distribution (e.g. <code>apt-get</code> in
   Debian/Ubuntu) to look for packages like <code>libxml2-dev</code> or
-  <code>libxslt-devel</code> if the build with the <code>easy_install</code> fails.<a href="#fnref:2" rev="footnote">&#8617;</a></p>
+  <code>libxslt-devel</code> if the build with the <code>easy_install</code> fails.<a href="#fnref:2" rel="reference">&#8617;</a></p>
     </li>
     <li id="fn:3">
       <p>In Linux (and other <a href="http://en.wikipedia.org/wiki/Unix-like">*nix</a> systems) it also requires the
-  installation of libevent.<a href="#fnref:3" rev="footnote">&#8617;</a></p>
+  installation of libevent.<a href="#fnref:3" rel="reference">&#8617;</a></p>
     </li>
   </ol>
 </div>
