@@ -14,6 +14,10 @@
     <body>
         <div id="content">
             <nav id="sidebar">
+            <div>
+                <a href="../../manuals.html">&#xAB; iCARDEA User Guides</a>
+            </div>  
+            <h1>iCARDEA EHR Interoperability Framework</h1>
             <h2>Table of Contents</h2>
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -32,6 +36,11 @@
             <div id="main">
                 <h2 id="how-to-start">How to start</h2>
 
+<p>This section describes the steps for starting up the components of the
+EHR interoperability framework, after they have been successfully
+installed. For the installation guide please check the <a href="install.html">How to
+install</a> section.</p>
+
 <p>First of all you have to launch the mongoDB database server. You have
 to launch a command prompt and <code>cd</code> to the folder where you have
 unzipped the distribution. For the now on I am assuming that you have
@@ -41,8 +50,10 @@ executable files</p>
 
 <ul>
   <li>
-    <p>Launch (in the command line, after <code>cd</code> to the <code>bin</code> directory of the
-mongoDB) the <code>mongod</code> executable by issuing:</p>
+    <p>If you have not <a href="install.html#tipimgstippng-running-mongodb-as-windows-service">installed MongoDB as a Windows
+service</a>,
+you can launch (in the command line, after <code>cd</code> to the <code>bin</code> directory
+of the mongoDB) the <code>mongod</code> executable by issuing:</p>
 
     <pre><code>mongod -f mongodb.conf
 </code></pre>
@@ -68,6 +79,15 @@ by launching maven as follows:</p>
 
     <pre><code>maven run
 </code></pre>
+  </li>
+  <li>
+    <p>Optionally you can also start the ATNA Audit Repository as described
+<a href="audit.html">here</a>, i.e. by issuing:</p>
+
+    <pre><code>java -jar openatna-1.2.1-SNAPSHOT.jar
+</code></pre>
+
+    <p>in the OpenATNA installation folder.</p>
   </li>
 </ul>
 
