@@ -46,14 +46,16 @@ public class PPMButtonSelectionAdaptor extends SelectionAdapter {
 		this.viewname=viewname;
 		this.tabFolder=myTabfolder;
 
-//				System.out.println(viewname + "created inkl Tabfolder");
+				System.out.println(viewname + " created inkl Tabfolder:"+myTabfolder);
 
 	}
 	
 	public void widgetSelected(SelectionEvent e){
 		//	super.widgetSelected(e);
 //		System.out.println(viewname + " selected");
-
+if (tabFolder==null){
+	tabFolder=PPMMain.mainTabFolder;
+}
 		position=tabFolder.getSelectionIndex();
 		Composite composite;
 
