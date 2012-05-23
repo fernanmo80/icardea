@@ -690,7 +690,7 @@ public class PPMDataset {
 				cPatient.setCiedIdentifier(rs.getString(5));
 				cPatient.setCitizenshipNumber(rs.getString(6));
 				this.iCardeaID=cPatient.getCitizenshipNumber();
-				if (this.iCardeaID.equalsIgnoreCase("191")){
+				if (this.iCardeaID!=null && this.iCardeaID.equalsIgnoreCase("191")){
 					if (cPatient.getDateOfBirth()==null || cPatient.getDateOfBirth().trim().length()<7){
 						cPatient.setDateOfBirth("19710310");
 						birthdatecheck=true;
