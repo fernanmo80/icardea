@@ -862,12 +862,13 @@ public class PPMDataset {
 				logger.debug(statmentString);
 				this.updatePPM_EHR_Data(id);
 				//easier garbage collection
-				rs.close();
-				rs=null;
+
 				checkrs.close();
 				checkrs=null;
 
 			}
+			rs.close();
+			rs=null;
 
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
