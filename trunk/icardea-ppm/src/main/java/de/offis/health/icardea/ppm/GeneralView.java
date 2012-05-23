@@ -542,14 +542,14 @@ public class GeneralView extends ViewPart {
 		//HACK
 		if((pUserName.toLowerCase().startsWith("https"))&&((pUserName.toLowerCase().contains(":4545")))){
 			pUserName = pUserName.replaceFirst(":4545", "");
-			logger.debug("Https OpenID was called with port. Removed port:  "+pUserName );
+			logger.info("Https OpenID was called with port. Removed port:  "+pUserName );
 		}
 		// HACK for ensuring portnumber for FORTH OpenID implementation
 		if(    !(pUserName.toLowerCase().startsWith("https"))
 				&&(pUserName.toLowerCase().startsWith("http"))
 				&& !(pUserName.toLowerCase().contains(":4545"))){
 			pUserName = pUserName.replaceFirst("/idp/u=", ":4545/idp/u=");
-			logger.debug("Http OpenID was called without port. Added port 4545 : "+pUserName);
+			logger.info("Http OpenID was called without port. Added port 4545 : "+pUserName);
 		}
 		
 		
@@ -561,6 +561,7 @@ public class GeneralView extends ViewPart {
 		DiscoveryInformation discovery = RegistrationService.performDiscoveryOnUserSuppliedIdentifier(pUserName);
 
 		if(discovery==null){//Discovery Null true
+			logger.info("No discovery for OpenID-User "+pUserName +". This can be caused by Tomcat SSL certrificate error. Please have a look if x704 error occored.");
 			//FIXME Audit logging here
 			System.out.println("Hiddenmodus"+pHidden);
 			if(!pHidden){
