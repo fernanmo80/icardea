@@ -183,7 +183,8 @@ public class PPMMain extends ViewPart {
 						if (isAllowed){
 							if (allRows[i].isHasSubcontent() )
 							{
-
+								Display display = Display.getCurrent();
+								
 								TableItem tableItem = new TableItem(table, SWT.NONE);
 								boolean subrows=false;
 								tableItem.setText(0,allRows[i].getName());
@@ -202,10 +203,9 @@ public class PPMMain extends ViewPart {
 										subrows_tmp="";
 									}
 									tableItem.setText(1,subrows_tmp);
-									//just for testing
+
 									// FARBE COLOR
 									{
-										Display display = Display.getCurrent();
 										//									 display.getSystemColor(SWT.COLOR_DARK_RED);
 										logger.trace("Subitem:"+allRows[i].getSubContentName());
 										if (allRows[i].getSubContentName().equalsIgnoreCase("Compliance")){
@@ -290,9 +290,11 @@ public class PPMMain extends ViewPart {
 								button.setSize(new Point(132,20));
 								button.setEnabled(subrows);
 								button.setGrayed(subrows);
-
-								//logger.debug("Button size x: "+button.getSize().x +"  y: "+button.getSize().y);
-
+								if (!subrows){
+									button.setBackground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
+									button.setText("");
+									//logger.debug("Button size x: "+button.getSize().x +"  y: "+button.getSize().y);
+								}
 
 								editor.minimumWidth = button.getSize().x;
 								editor.horizontalAlignment = SWT.LEFT;

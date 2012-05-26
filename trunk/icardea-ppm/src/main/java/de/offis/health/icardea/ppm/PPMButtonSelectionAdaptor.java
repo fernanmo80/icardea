@@ -32,30 +32,30 @@ public class PPMButtonSelectionAdaptor extends SelectionAdapter {
 	}
 
 
-//	public PPMButtonSelectionAdaptor(String viewname){
-//		super();
-//		ppmDataset= PPMDataset.getInstance();
-//		this.viewname=viewname;
-//		tabFolder=PPMMain.mainTabFolder;
-//		//		System.out.println(viewname + "created");
-//		//Crete an fill the tab
-//	}
+	//	public PPMButtonSelectionAdaptor(String viewname){
+	//		super();
+	//		ppmDataset= PPMDataset.getInstance();
+	//		this.viewname=viewname;
+	//		tabFolder=PPMMain.mainTabFolder;
+	//		//		System.out.println(viewname + "created");
+	//		//Crete an fill the tab
+	//	}
 	public PPMButtonSelectionAdaptor(String viewname,TabFolder myTabfolder){
 		super();
 		ppmDataset= PPMDataset.getInstance();
 		this.viewname=viewname;
 		this.tabFolder=myTabfolder;
 
-				System.out.println(viewname + " created inkl Tabfolder:"+myTabfolder);
+		//				System.out.println(viewname + " created inkl Tabfolder:"+myTabfolder);
 
 	}
-	
+
 	public void widgetSelected(SelectionEvent e){
 		//	super.widgetSelected(e);
-//		System.out.println(viewname + " selected");
-if (tabFolder==null){
-	tabFolder=PPMMain.mainTabFolder;
-}
+		//		System.out.println(viewname + " selected");
+		if (tabFolder==null){
+			tabFolder=PPMMain.mainTabFolder;
+		}
 		position=tabFolder.getSelectionIndex();
 		Composite composite;
 
@@ -79,12 +79,12 @@ if (tabFolder==null){
 
 		TabItem tbtm = new TabItem(tabFolder, SWT.NONE);
 		//tbtm.setControl(table);
-		
+
 		tbtm.setText(viewname);
-		
+
 		composite = new Composite(tabFolder, SWT.NONE);
 		tbtm.setControl(composite);
-		
+
 		TableColumnLayout layout = new TableColumnLayout();
 
 		composite.setLayout(layout);
@@ -133,8 +133,8 @@ if (tabFolder==null){
 		fillTable();
 
 		tabFolder.setSelection(i);
-		
-		
+
+
 		composite.addFocusListener(new FocusListener(){
 
 			public void focusGained(FocusEvent event) {
@@ -144,8 +144,8 @@ if (tabFolder==null){
 
 			public void focusLost(FocusEvent event) {
 				// TODO Auto-generated method stub
-				
-				
+
+
 			}});
 	}
 	void fillTable(){
@@ -158,42 +158,42 @@ if (tabFolder==null){
 			int nextItem=0;
 			for (int j=0;j<allRows.length;j++){
 				{   
-//					System.out.println("Curr:"+currentdate +" Comp:"+allRows[j].getLowTime() +" REsult"+allRows[j].getLowTime().compareToIgnoreCase(currentdate));
+					//					System.out.println("Curr:"+currentdate +" Comp:"+allRows[j].getLowTime() +" REsult"+allRows[j].getLowTime().compareToIgnoreCase(currentdate));
 					if (allRows[j].getLowTime().compareToIgnoreCase(currentdate)<=0   )
 					{   TableItem tableItem;
-						if (nextItem>=currentItems) {
-							 tableItem = new TableItem(table, SWT.NONE);
+					if (nextItem>=currentItems) {
+						tableItem = new TableItem(table, SWT.NONE);
 
-						}else{
-							 tableItem = table.getItem(nextItem);
-							
-							 nextItem++;
-						}
-//						System.out.println(allRows[j]);
-						tableItem.setText(0,PPMDataset.convTimeToPoint(allRows[j].getLowTime()));
-						
-						if (allRows[j].getHighTime().length() <3 )
-							{
-							tableItem.setText(1,"");
-//							System.out.println("Notime:"+allRows[j].getHighTime());
-							}else{
-								tableItem.setText(1,PPMDataset.convTimeToPoint(allRows[j].getHighTime()));
-								noHightime=false;
-								
-							}
-						//						tableItem.setText(2,allRows[i].getSubContentName());
-						if (allRows[j].getText()==null){
-							tableItem.setText(2,"");
-						}else{
-							tableItem.setText(2,allRows[j].getText());
+					}else{
+						tableItem = table.getItem(nextItem);
 
-						}
-						
+						nextItem++;
+					}
+					//						System.out.println(allRows[j]);
+					tableItem.setText(0,PPMDataset.convTimeToPoint(allRows[j].getLowTime()));
+
+					if (allRows[j].getHighTime().length() <3 )
+					{
+						tableItem.setText(1,"");
+						//							System.out.println("Notime:"+allRows[j].getHighTime());
+					}else{
+						tableItem.setText(1,PPMDataset.convTimeToPoint(allRows[j].getHighTime()));
+						noHightime=false;
+
+					}
+					//						tableItem.setText(2,allRows[i].getSubContentName());
+					if (allRows[j].getText()==null){
+						tableItem.setText(2,"");
+					}else{
+						tableItem.setText(2,allRows[j].getText());
+
+					}
+
 					}
 				}
 			}
 			if (noHightime ) {
-				System.out.println("Resize");
+//				System.out.println("Resize");
 				tableViewer.getTable().getColumn(1).setWidth(1);
 				//tableViewer.refresh();
 			}
