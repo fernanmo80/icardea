@@ -504,8 +504,8 @@ public class GeneralView extends ViewPart {
 					btnDact = new Button(userComposit, SWT.CENTER);
 					btnDact.setGrayed(true);
 					btnDact.setText("DACT");
-
-					btnDact.addSelectionListener(new PPMButtonSelectionAdaptor("DACT",PPMMain.mainTabFolder) );
+// Here the Code for DACT Button is called. No make a nice one, I need DACTButtonSelectionAdaptor
+					btnDact.addSelectionListener(new DACTButtonSelectionAdaptor("DACT",PPMMain.mainTabFolder) );
 				}
 			}
 		}
