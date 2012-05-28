@@ -368,8 +368,176 @@ public class PPMDataset {
 		return(colList.toArray(new PPMSubItemsModel[0]));
 	}
 
+public void dactCalled(){
+	String sqlQuery="";
+	int res=0;
+	String userName = "";
+	if (this.userOpenID.equalsIgnoreCase("")){
+		userName="UnkownID";
+	}
+	else{
+		userName=this.userOpenID;
+	}
+	sqlQuery = "INSERT INTO dact_counter(username) VALUE ( '"+userName+"');";
+	//System.out.println("DACT Called" + sqlQuery);
+	try{
+		res= getStmt().executeUpdate(sqlQuery);
+		if(res==0){
+			logger.error("Undocumented call of DACT");
+		}
+		else{
+			logger.info("DACT was counted to be used by "+this.userOpenID);
+		}
+		
+	}
+	catch (Exception e) {
+		// TODO: handle exception
+		logger.error("Problem with counting Dact: " + e.getMessage() );
+	}
+	
+}
+	
+	
+//returns all known patterns, whithout patient validation
+public ArrayList<DactPatternDataSet> getDactItems()
+	//Start reading
+	{		
+	ArrayList<DactPatternDataSet> allPatterns = new ArrayList<DactPatternDataSet>();
+	int nextItem=0;
+	String sqlQuery="";		
+	//keep in mind, that parameter is NOT unique withhin one patid, may be sheet have to be added
+	ResultSet rs = null;
 
+	sqlQuery = "SELECT "+ 
+			" pattern_id, "+
+			" prerequisite_db_relations,  "+
+			" prerequisiute_db_attributes,  "+
+			" prerequisite_view,  "+
+			" conclusion_db_attribute,  "+
+			" conclusion_db_relation,  "+
+			" confidence_view,  "+
+			" conclusion_view,  "+
+			" support_view,  "+
+			" approvedstatus_view,  "+
+			" validforpatient,  "+
+			" creationdate,  "+
+			" creationsource,  "+
+			" active  "+
+			" FROM "+ 
+			" dact_pattern " +
+			" where active = true "+
+			" order by pattern_id;";
 
+	try {
+		rs = this.getStmt().executeQuery(sqlQuery);
+		//System.out.println("DACT Button Test - getSTmt");
+		// Is the preReqValid for Patient?
+		//curPattern.preReqFullFilled = rs.getBoolean("");
+		//`validforpatient`,
+		//curPattern.validForPat=rs.getBoolean("");
+
+		while (rs.next())
+		{
+			//System.out.println("DACT Button Test - resultset");
+			DactPatternDataSet curPattern = new DactPatternDataSet();
+			curPattern.patternID=rs.getInt("pattern_id");
+			curPattern.viewPreReq=rs.getString("prerequisite_view");
+			//  `pattern_id`,
+			curPattern.patternID = rs.getInt("pattern_id");
+			//`prerequisite_db_relations`,
+			curPattern.preReqRelations = rs.getString("prerequisite_db_relations");
+			//`prerequisiute_db_attributes`,
+			curPattern.preReqAttributes =rs.getString("prerequisiute_db_attributes");
+			//`prerequisite_view`,
+			curPattern.viewPreReq = rs.getString("prerequisite_view");
+			// `conclusion_db_attribute`,
+			curPattern.conCluAttribute =rs.getString("conclusion_db_attribute");
+			// `conclusion_db_relation`,
+			curPattern.concluRelation =rs.getString("conclusion_db_relation");
+			// `confidence_view`,
+			curPattern.viewConf =rs.getString("confidence_view");
+			//`conclusion_view`,
+			curPattern.viewConclu=rs.getString("conclusion_view");
+			//`support_view`,
+			curPattern.viewSupport = rs.getString("support_view");
+			//`approvedstatus_view`,
+			curPattern.viewApproved = rs.getString("approvedstatus_view");
+			//`creationdate`,
+			curPattern.creationDate =rs.getString("creationdate");
+			//`creationsource`,
+			curPattern.creationSource =rs.getString("creationsource");
+			//`active`
+			curPattern.active = rs.getBoolean("active");
+
+			//System.out.println("PatternID add " + curPattern.patternID.toString());
+			// Store at the list array
+			allPatterns.add(curPattern);
+
+		}
+
+	} 
+	catch (SQLException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+	finally{
+		try {
+			rs.close();
+		} catch (Exception e) {
+			System.out.println("Major error. Restart could help: "+e.getMessage());;
+		}
+	}
+	return allPatterns;
+	}// End of reading
+
+	public ArrayList<DactPatternDataSet> checkDactItems(ArrayList<DactPatternDataSet> pPatternCheck, Integer pPatientID)
+	{// set the booleans of the pattern, if they are valid for the current patient or not.
+		DactPatternDataSet selected = null; 	
+		String sqlQuery="";		
+		ResultSet rs = null;
+
+		for (int i=0; i < pPatternCheck.size(); i++  ) 
+		{
+			selected = pPatternCheck.get(i);
+			//TODO keep in mind, that parameter is NOT unique withhin one patid, may be sheet have to be added
+			sqlQuery = "select distinct t1.pattern_id " +
+					"from dact_pattern as t1 " + selected.preReqRelations 
+					+ " where " + selected.preReqAttributes 
+					+ pPatientID ;
+			try{
+				//System.out.println("SQLString "+sqlQuery);
+				rs = this.getStmt().executeQuery(sqlQuery);
+
+				// Is the preReqValid for Patient?
+				//curPattern.preReqFullFilled = rs.getBoolean("");
+				//`validforpatient`,
+				//curPattern.validForPat=rs.getBoolean("");
+
+				if (rs.next())
+				{
+					selected.preReqFullFilled = true;
+				}
+				else{
+					selected.preReqFullFilled = false;
+				}
+				//update into patternset
+				pPatternCheck.set(i, selected);
+			}
+			catch (SQLException e) {
+				// TODO Auto-generated catch block
+				logger.error("Dact patternCheck caused error : "+ e.getMessage());
+			}
+			finally{
+				try {
+					rs.close();
+				} catch (Exception e) {
+					logger.error("Major error. Restart could help: "+e.getMessage());;
+				}
+			}
+
+		}
+		return pPatternCheck;
+	}
 
 	/**
 	 * @return The userFullName
@@ -979,16 +1147,17 @@ public class PPMDataset {
 	 * @return false, if there is not a single valid pattern for the Patient 
 	 */
 
-	public boolean getPatternStatus(int pPatientID)throws SQLException{
+	public ArrayList<DactPatternDataSet>  getPatternStatus(int pPatientID){
 		// Boolean indicating if one valid pattern was found
 		boolean retVal = false;
-		Collection<DactPatternDataSet> patternList = new ArrayList<DactPatternDataSet>();
+		ArrayList<DactPatternDataSet> patternList = new ArrayList<DactPatternDataSet>();
 
 		String sqlString = "";
-		ResultSet rs;
+		ResultSet rs=null;
 		//1. Pattern anfragen
 		sqlString = "select t1.pattern_id,  t1.prerequisite_db_relations, t1.prerequisiute_db_attributes from dact_pattern as t1 where t1.active = true";
 		logger.debug("SQL Pattern anfragen: " + sqlString);
+		try{
 		rs = createStmt().executeQuery(sqlString);
 		while(rs.next()){
 			DactPatternDataSet currentPattern = new DactPatternDataSet();
@@ -1073,7 +1242,18 @@ public class PPMDataset {
 				}	
 			} // End of IF PreReqFullfilled
 		}// End of Step 3
-	
+		}// end of try
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		finally{
+			try {
+				rs.close();
+			} catch (Exception e) {
+				System.out.println("Major error. Restart could help: "+e.getMessage());;
+			}
+		}
 		// Demo output:
 		logger.debug("Following Patterns where found for patient " + pPatientID);
 		for(DactPatternDataSet iterDactPattern:patternList ){
@@ -1081,7 +1261,7 @@ public class PPMDataset {
 			logger.debug(iterDactPattern.toHealthCareActorString());
 			
 		}
-		return retVal;
+		return patternList;
 	}
 	
 	/**
