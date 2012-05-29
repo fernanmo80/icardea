@@ -135,18 +135,18 @@ public class PPMButtonSelectionAdaptor extends SelectionAdapter {
 		tabFolder.setSelection(i);
 
 
-		composite.addFocusListener(new FocusListener(){
-
-			public void focusGained(FocusEvent event) {
-				// TODO Auto-generated method stub
-				System.out.println("Got Focus."+event);
-			}
-
-			public void focusLost(FocusEvent event) {
-				// TODO Auto-generated method stub
-
-
-			}});
+//		composite.addFocusListener(new FocusListener(){
+//
+//			public void focusGained(FocusEvent event) {
+//				// TODO Auto-generated method stub
+//				System.out.println("Got Focus."+event);
+//			}
+//
+//			public void focusLost(FocusEvent event) {
+//				// TODO Auto-generated method stub
+//
+//
+//			}});
 	}
 	void fillTable(){
 
