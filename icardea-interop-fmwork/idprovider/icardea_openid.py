@@ -24,6 +24,9 @@ from openid.extensions import sreg
 from openid.extensions import ax
 import active_directory as ad
 import os
+import logging
+import pythoncom
+logging.basicConfig(filename='c:/icardea/EHR/idprovider/idp.log', level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # from sqlalchemy import 
 APP_HOME = os.path.dirname(__file__)
@@ -118,12 +121,16 @@ def audit_logout(usr):
 
 def check_win_user(uid, pwd):
     try:
+        pythoncom.CoInitializeEx(0)
         hdl = win32security.LogonUser(uid, ad.root().dc, pwd,
                 win32security.LOGON32_LOGON_NETWORK,
                 win32security.LOGON32_PROVIDER_DEFAULT
                 )
     except win32security.error:
         return False;
+    except :
+        logging.error('WIN32 error', exc_info=True)
+        raise
     else:
         hdl.close()
         return True;
@@ -169,6 +176,7 @@ def do_signup(db):
     if c:
         flash('errors', 'Please choose another username')
         redirect('signup')
+    pythoncom.CoInitializeEx(0)
     if 'hospital_user' not in params:
         if not STANDALONE:
             # Check if there's already a Hospital user with the same name
@@ -455,17 +463,19 @@ app = bottle.default_app.pop()
 sql_plugin = sqlite.Plugin(dbfile=os.path.join(APP_HOME, 'users.db'))
 app.install(sql_plugin)
 
-MY_HOST = socket.gethostbyname(socket.gethostname())
+#MY_HOST = socket.gethostbyname(socket.gethostname())
+MY_HOST = 'icardea-server.lksdom21.lks.local'
 try:
     from mod_wsgi import version
     # Running as wsgi application!
     # we assume that this wsgi application has been already "mounted"
     # in the '/idp' sub dir in the Apache configuration file.
-    server_base_url = 'http://%s/idp' % (MY_HOST,)
+    server_base_url = 'https://%s/idp' % (MY_HOST,)
     idp_app = app
+    idp_app.catchall = False
 except:
     PORT = 4545
-    server_base_url = 'http://%s:%s/idp' % (MY_HOST, PORT)
+    server_base_url = 'https://%s/idp' % (MY_HOST, )
     idp_app = bottle.default_app.push()
     idp_app.mount(app, '/idp')
 
