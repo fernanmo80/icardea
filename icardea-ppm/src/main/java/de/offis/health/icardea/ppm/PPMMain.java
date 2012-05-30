@@ -33,6 +33,7 @@ import org.eclipse.swt.widgets.TabItem;
 import org.eclipse.swt.widgets.Table;
 import org.eclipse.swt.widgets.TableColumn;
 import org.eclipse.swt.widgets.TableItem;
+import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
 import tr.com.srdc.icardea.consenteditor.webservice.client.ConsentManagerImplServiceTest;
@@ -57,7 +58,8 @@ public class PPMMain extends ViewPart {
 	public ScrolledComposite scrolledComposite;
 	public ArrayList<Button> buttonList;
 	private static int currenttab=0;
-
+static public Thread ppmMainThread;
+static public Display ppmMainDisplay;
 	public TableViewer tableViewer;
 	private static Logger logger = Logger.getLogger(PPMMain.class);
 
@@ -67,6 +69,8 @@ public class PPMMain extends ViewPart {
 	public PPMMain() {
 
 		ppmDataset= PPMDataset.getInstance();
+		ppmMainThread=Thread.currentThread();
+		ppmMainDisplay=PlatformUI.getWorkbench().getDisplay();
 	}
 
 	/* (non-Javadoc)
