@@ -844,7 +844,7 @@ public ArrayList<DactPatternDataSet> getDactItems()
 		return bez;	
 	}
 	public void fillPatientList(){
-		ResultSet rs;
+		ResultSet rs=null;
 		boolean birthdatecheck=false;
 		patientList = new ArrayList();
 		try {
@@ -858,7 +858,7 @@ public ArrayList<DactPatternDataSet> getDactItems()
 				cPatient.setDateOfBirth(rs.getString(4));
 				cPatient.setCiedIdentifier(rs.getString(5));
 				cPatient.setCitizenshipNumber(rs.getString(6));
-				this.iCardeaID=cPatient.getCitizenshipNumber();
+//				this.iCardeaID=cPatient.getCitizenshipNumber();
 				if (this.iCardeaID!=null && this.iCardeaID.equalsIgnoreCase("191")){
 					if (cPatient.getDateOfBirth()==null || cPatient.getDateOfBirth().trim().length()<7){
 						cPatient.setDateOfBirth("19710310");
@@ -893,10 +893,18 @@ public ArrayList<DactPatternDataSet> getDactItems()
 					e.printStackTrace();
 				}
 			}
-			rs.close();
+		
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}
+		finally{
+			try {
+				rs.close();
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				logger.info("Some Error closing Resultset, do not matter. "+ e.getMessage());
+			}
 		}
 		return ;	
 
@@ -1371,8 +1379,8 @@ public ArrayList<DactPatternDataSet> getDactItems()
 				+" create  OR REPLACE view icardea.procedures as   select  0 val, m.proceduretext text,m.effectiveTimeLow, m.effectiveTimeHigh ,p.id patid  from `procedure` m,Patient p, EHRPHRData ehr  where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID   order by m.effectiveTimeLow;"
 				+" create  OR REPLACE view icardea.fullmedications as select  m.doseQuantity val, m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh,concat(m.text ,' ', m.doseQuantity,' mg',IF(ehr.isEHR=0,' (from PHR)',' (from EHR)')) text,ehr.isEHR ,p.id patid from Medication m,Patient p, EHRPHRData ehr where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and careProvisionCode=\"MEDLIST\" order by m.effectiveTime,m.effectiveTimeHigh,m.text ;"
 				+" create  OR REPLACE view icardea.medicationsPHR as select  m.doseQuantity val, m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh,concat(m.text ,' ', m.doseQuantity,' mg') text,ehr.isEHR ,p.id patid from Medication m,Patient p, EHRPHRData ehr where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and careProvisionCode=\"MEDLIST\" and ehr.isEHR=0 order by m.text,m.effectiveTime,m.effectiveTimeHigh ;"
-				+" create  OR REPLACE view icardea.prescriptions as select  m.doseQuantity val, m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh,concat(m.text ,' ', m.doseQuantity,' mg') text,ehr.isEHR ,p.id patid from Medication m,Patient p, EHRPHRData ehr where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and careProvisionCode=\"MEDLIST\" and ehr.isEHR=1 order by m.text,m.effectiveTime,m.effectiveTimeHigh ;"
-				+" CREATE OR REPLACE  VIEW icardea.dact AS SELECT '201105121200' as effectivetimelow, '' as effectivetimehigh, CONCAT_WS('; ',  CONCAT('Vorbedingung: ', t1.prerequisite),  CONCAT('Folgerung: ' , t1.conclusion),  CONCAT('% Zuversicht: ' ,  t1.confidence),  CONCAT('Patienten: ' , t1.support)) as text,  5 as val,  1 as patid FROM   dact_raw as t1;";
+				+" create  OR REPLACE view icardea.prescriptions as select  m.doseQuantity val, m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh,concat(m.text ,' ', m.doseQuantity,' mg') text,ehr.isEHR ,p.id patid from Medication m,Patient p, EHRPHRData ehr where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and careProvisionCode=\"MEDLIST\" and ehr.isEHR=1 order by m.text,m.effectiveTime,m.effectiveTimeHigh ;";
+//				+" CREATE OR REPLACE  VIEW icardea.dact AS SELECT '201105121200' as effectivetimelow, '' as effectivetimehigh, CONCAT_WS('; ',  CONCAT('Vorbedingung: ', t1.prerequisite),  CONCAT('Folgerung: ' , t1.conclusion),  CONCAT('% Zuversicht: ' ,  t1.confidence),  CONCAT('Patienten: ' , t1.support)) as text,  5 as val,  1 as patid FROM   dact_raw as t1;";
 
 		createInitial=  replaceInto +" ( 'Overview','Name','--','Text','Name of the patient','CIED / EHR / PHR','','','fixed value','','','','can be filled out during implant (ASCII) or FU','0',1,'Overview','','','','','Andreas Schmidt','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','ID','--','Numeric','Hospitals ID number','EHR','','','fixed value','F8.0','Depends on each institution, but usually it has >3 digits and <9','','is caluclated from birthdate and used for statistsics','0','2','Overview','','','','','','19000101120000','21000101120000'); "
