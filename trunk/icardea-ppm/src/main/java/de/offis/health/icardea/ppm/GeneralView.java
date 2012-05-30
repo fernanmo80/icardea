@@ -220,6 +220,7 @@ public class GeneralView extends ViewPart {
 										//										gd_headerComposite = new GridData(SWT.LEFT, SWT.CENTER, false, false, 1, 1);
 										gd_headerComposite.heightHint = 1;
 										gd_headerComposite.minimumHeight = 1;
+										gd_headerComposite.heightHint=1;
 										gd_headerComposite.minimumWidth = 570;
 										gd_headerComposite.widthHint = 570;
 										headerComposite.setLayoutData(gd_headerComposite);
@@ -228,8 +229,13 @@ public class GeneralView extends ViewPart {
 										//										headerComposite.setData( WidgetUtil.CUSTOM_VARIANT, "bannerLogo" );
 										//										headerComposite.setLayout(null);
 
+//										headerComposite.setVisible(false);
+										headerComposite.setSize(2,1);
+										
 										headerComposite.layout();
-										headerComposite.pack();
+//										headerComposite.pack();
+										headerComposite.dispose();
+										
 
 										patientTopLayout.topControl=patientInfos;
 										patientTop.layout();
