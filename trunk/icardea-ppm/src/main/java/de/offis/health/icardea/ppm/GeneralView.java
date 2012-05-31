@@ -33,6 +33,8 @@ import org.openid4java.discovery.DiscoveryInformation;
 import org.openid4java.message.AuthRequest;
 import org.openid4java.message.ParameterList;
 
+import com.sun.net.ssl.internal.ssl.Provider;
+import java.security.Security;
 import de.offis.health.icardea.ppm.login.RegistrationService;
 
 /**
@@ -568,9 +570,33 @@ public class GeneralView extends ViewPart {
 		// 2. and Assocication. Done at performdiscovery
 		// this should also build a consumermanager. 
 		DiscoveryInformation discovery = RegistrationService.performDiscoveryOnUserSuppliedIdentifier(pUserName);
+		
+		// HACK to fix the spontaneous OpenID x704 problem: Just retrust tomcat by loading SSL certificate again
+		if(discovery==null){
+			logger.error("No discovery for OpenID-User "+pUserName +". \n This can be caused by Tomcat SSL certrificate error. \n" +
+					"Try to reestablish SSL for Tomcat. Please have a look if x704 error occored. ");
+			String keystoreFile = ResourceBundle.getBundle("icardea")
+					.getString("tomcat.home") + "conf/.keystore";
+            String keystorePass = "srdcpass";
+            String truststoreFile = ResourceBundle.getBundle("icardea")
+					.getString("tomcat.home") + "conf/.truststore";
+            String truststorePass = "srdcpass";
 
+            // Registering the JSSE provider
+            Security.addProvider(new Provider());
+
+            // Specifying the Keystore details
+            System.setProperty("javax.net.ssl.keyStore", keystoreFile);
+            System.setProperty("javax.net.ssl.keyStorePassword",
+                    keystorePass);
+            System.setProperty("javax.net.ssl.trustStore", truststoreFile);
+            System.setProperty("javax.net.ssl.trustStorePassword", truststorePass); 
+            
+            discovery = RegistrationService.performDiscoveryOnUserSuppliedIdentifier(pUserName);
+		}
+		
 		if(discovery==null){//Discovery Null true
-			logger.info("No discovery for OpenID-User "+pUserName +". This can be caused by Tomcat SSL certrificate error. Please have a look if x704 error occored.");
+			logger.info("Still unable to get Discovery. If you are sure the user is known, restart TOMCAT");
 			//FIXME Audit logging here
 			System.out.println("Hiddenmodus"+pHidden);
 			if(!pHidden){
