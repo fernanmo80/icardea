@@ -3,6 +3,7 @@
  */
 package de.offis.health.icardea.ppm;
 
+import java.io.File;
 import java.net.UnknownHostException;
 import java.text.MessageFormat;
 import java.util.ResourceBundle;
@@ -581,7 +582,18 @@ public class GeneralView extends ViewPart {
             String truststoreFile = ResourceBundle.getBundle("icardea")
 					.getString("tomcat.home") + "conf/.truststore";
             String truststorePass = "srdcpass";
-
+            File ff=new File(keystoreFile);
+            if (ff!=null && ff.exists() && ff.canRead()){
+                logger.debug("Using keystore: "+keystoreFile);
+            }else{
+            	logger.error("Problems with keystore!!!!!!!: "+keystoreFile);
+            }
+            ff=new File(truststoreFile);
+            if (ff!=null && ff.exists() && ff.canRead()){
+                logger.debug("Using truststore: "+keystoreFile);
+            }else{
+            	logger.error("Problems with truststore!!!!!!!: "+keystoreFile);
+            }
             // Registering the JSSE provider
             Security.addProvider(new Provider());
 
