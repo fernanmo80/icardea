@@ -57,12 +57,17 @@ public class EngineInterface {
 			e.printStackTrace();
 		}
 		// TODO
-		logger.info(" $$$ Starting careplan:"+carePlanID+" carepla URL:"+careplanURL + " for patient:"+patientID);
+		logger.info(" $$$ Starting careplan:"+carePlanID+" careplan URL:"+careplanURL + " for patient:"+patientID);
 		ae.setProcessedGuidelineURL(careplanURL);
 		GuidelineEntity ge = new GuidelineEntity();
 		ge.setGuidelineURL(careplanURL);
 		ae.setGuidelineEntity(ge);
 		return AFAgent.createStandaloneGuidelineAgent(ae).getAID();
+	}
+	
+	public static synchronized void abortCareplan(String patientID, String careplanProcessorID) {
+		//TODO: Kill the thread with given patientID and careplanProcessorID
+		
 	}
 
 	public static synchronized void processConsultingMessage(
