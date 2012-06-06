@@ -18,7 +18,7 @@ package tr.com.srdc.icardea.model.careplan{
 		[XmlAttribute(alias="ID")]	
 		public  var id : String = "";
 		[XmlAttribute(alias="status")]	
-		public  var status : String = "no";
+		public  var status : String = "inactive";
 		[XmlAttribute(alias="name")]	
 		public  var name : String = "";
 		[XmlAttribute(alias="version")]	

@@ -48,14 +48,22 @@
 			service.addEventListener(ResultEvent.RESULT,onResultRegisteredPatients);
 			service.addEventListener(FaultEvent.FAULT, onFault);			
 			service.listRegisteredPatients();
-			executions = new ArrayCollection;
-			executions.addItem("Executed on 22.12.12");
-			executions.addItem("Executed on 23.12.12");
-			executions.addItem("Executed on 24.12.12");
-			execStack.selectedIndex = 0;
-						
+			/*
+			executionHistory = new ArrayCollection;
+       		var service : RemoteObject = new RemoteObject("engineService");
+			var cs:ChannelSet = new ChannelSet();
+			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+			cs.addChannel(customChannel);
+			service.channelSet = cs;
+			service.addEventListener(ResultEvent.RESULT,onResultHistory);
+			service.addEventListener(FaultEvent.FAULT, onFault);			
+			service.retrieveExecutedAssignments();
+			*/						
 	   }
-      
+       public function onResultHistory(result:ResultEvent):void 
+       {
+       		executionHistory = result.result as ArrayCollection;
+       }
        public function onResultRegisteredPatients(result:ResultEvent):void 
        {
        		
@@ -81,7 +89,7 @@
 						obj.careplan = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).careplan;
 						obj.diagram = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).diagram;
 						obj.version = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).version;
-						obj.status = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).status;
+						obj.careplanStatus = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).status;
 						obj.url = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).url;
 						assignments.addItem(obj);
 					}
@@ -123,11 +131,10 @@
         public function logHistory():void{
         	execStack.selectedIndex = 1;
         }
-        private function changeHistory():void {
-        	executionHistory = new ArrayCollection;
-        	executionHistory.addItem("Detection of VT!");
-        	executionHistory.addItem("Guideline Finalized!");
-        }  	 
+        private function returnHome():void{
+        	execStack.selectedIndex = 0;
+        }
+         	 
        
         ]]>
 	</mx:Script>
@@ -140,6 +147,7 @@
 					<mx:DataGridColumn headerText="Patient Name" dataField="name"/>	
 					<mx:DataGridColumn headerText="Patient Surname" dataField="surname" />
 					<mx:DataGridColumn headerText="Care Plan Name" dataField="careplanName" />
+					<!--<mx:DataGridColumn headerText="Status" dataField="careplanStatus" />-->
 					<!--<mx:DataGridColumn headerText="History">
 			   	    	<mx:itemRenderer>
 							<mx:Component>
@@ -156,10 +164,10 @@
 			</mx:HBox>
 		</mx:VBox>
 		<mx:VBox width="100%" height="100%" id="history">
-			<mx:HBox width="100%">
-				<mx:List change="changeHistory()" width="100%" labelField="Date of Execution" dataProvider="{executions}"></mx:List>
-				<mx:List width="100%" labelField="Execution History" dataProvider="{executionHistory}"></mx:List>
-			</mx:HBox>
+			<mx:List width="100%" labelField="Execution History" dataProvider="{executionHistory}"></mx:List>
+			 <mx:HBox>
+				<mx:Button id="returnDiagram" label="Return" enabled="true" click="returnHome()" styleName="adminButton"/>		
+			 </mx:HBox>
 		</mx:VBox>		
 	</mx:ViewStack>		
 </mx:VBox>
