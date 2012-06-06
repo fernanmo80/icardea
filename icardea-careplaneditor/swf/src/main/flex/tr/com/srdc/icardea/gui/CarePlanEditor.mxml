@@ -305,7 +305,8 @@
 			
 			[Bindable]
 			public var executeCareplanObj:Object;
-			
+			[Bindable]
+			public var careplanProccessorID:String;
 			[Bindable]
 			public var monitoringMessageQueue:ArrayCollection = new ArrayCollection;
 			
@@ -411,6 +412,7 @@
 			*/
 			public function doSettings():void {
 				//diagram.clearAll();
+				logInfo = "";
 				buttonBox.removeAllChildren();
 				buttonBox1.removeAllChildren();
 				if (execute == true) {
@@ -422,15 +424,15 @@
 					var bt2:Button = new Button();
 					var bt3:Button = new Button();
 					bt1.addEventListener(MouseEvent.CLICK, executeGuideline);
-					bt2.addEventListener(MouseEvent.CLICK, getFromXML);
+					bt2.addEventListener(MouseEvent.CLICK, abortExecution);
 					bt3.addEventListener(MouseEvent.CLICK, restartGuideline);
 					
 					bt1.label = "Start";
 					bt1.setStyle("color", "Green");
 					bt3.label = "Clear";
-					bt2.label = "Import";
+					bt2.label = "Abort";
 					bt1.id = "executeButton";
-					bt2.id = "importXML";
+					bt2.id = "abortExecution";
 					bt3.id = "restartButton";
 					//iPopUp.visible = false;
 					//iPopUp.includeInLayout = false;
@@ -617,11 +619,43 @@
 				}
 				//logText.text = "";
 			}
+			private function abortExecution(event:MouseEvent):void {
+				var service : RemoteObject = new RemoteObject("engineService");
+				var cs:ChannelSet = new ChannelSet();
+				var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+				cs.addChannel(customChannel);
+				service.channelSet = cs;
+				service.addEventListener(ResultEvent.RESULT,onResultAbortCareplan);
+				service.addEventListener(FaultEvent.FAULT, onFault);
+				trace("personID: "+executeCareplanObj.personID+" cpID: "+ executeCareplanObj.careplanID)
+				service.abortCareplan(executeCareplanObj.personID, careplanProccessorID);
+				executeCareplanObj.status = "aborted";
+			}
+			public function onResultAbortCareplan(result:ResultEvent):void 
+       		{
+       			(buttonBox.getChildAt(0) as Button).label = "Start";
+       			(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
+       			if(MyObjectProxy._objects != null){
+					 for(var i:int = 0;i<MyObjectProxy._objects.length;i++){
+						dobObject = diagram.getElementByDataObjectId(MyObjectProxy._objects[i].uid) as DiagramObject;
+						trace("NUM CHILD: "+dobObject.sprite.numChildren);
+						if(dobObject.sprite.numChildren > 2){
+							
+							while(dobObject.sprite.numChildren != 2)
+								dobObject.sprite.removeChildAt(dobObject.sprite.numChildren-1);
+						}
+					}
+					
+					
+					diagram.scrollTo(0,0);
+				}
+				logInfo += "Execution Aborted!"+"\n";					
+       		}
 			
 			private function executeGuideline(event:MouseEvent):void {
 				if ((buttonBox.getChildAt(0) as Button).label == "Start") {
 					(buttonBox.getChildAt(0) as Button).setStyle("color", "Red");
-					(buttonBox.getChildAt(0) as Button).label = "Stop";
+					(buttonBox.getChildAt(0) as Button).label = "Pause";
 					
 					var service : RemoteObject = new RemoteObject("engineService");
 					var cs:ChannelSet = new ChannelSet();
@@ -630,32 +664,43 @@
 					service.channelSet = cs;
 					service.addEventListener(ResultEvent.RESULT,onResultExecuteCareplan);
 					service.addEventListener(FaultEvent.FAULT, onFault);
-					
 					trace("personID: "+executeCareplanObj.personID+" cpID: "+ executeCareplanObj.careplanID)
 					service.executeCareplan(executeCareplanObj.personID, executeCareplanObj.careplanID);
+					executeCareplanObj.status = "executing";
 					
 					
-				} else { //TODO
-					(buttonBox.getChildAt(0) as Button).label = "Start";
+				} else if ((buttonBox.getChildAt(0) as Button).label == "Pause") {
+					(buttonBox.getChildAt(0) as Button).label = "Resume";
 					(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
+					executeCareplanObj.status = "paused";
 					clearInterval(executionTimerId);
-					logInfo += "Execution Stops!"+"\n";
-				
-				} 
+					logInfo += "Execution Paused!"+"\n";
+					
+				}
+				else if ((buttonBox.getChildAt(0) as Button).label == "Resume") {
+					(buttonBox.getChildAt(0) as Button).label = "Pause";
+					(buttonBox.getChildAt(0) as Button).setStyle("color", "Red");
+					executeCareplanObj.status = "resumed";					
+					logInfo += "Execution Resumed!"+"\n";
+					
+					executionTimerId = setInterval(startExecution, 1000, executeCareplanObj.careplanID);
+					executeCareplanObj.status = "executing";
+					
+				}  
 			}
 			
 			public function onResultExecuteCareplan(result:ResultEvent):void 
        		{
        			var executionID:String = result.result as String;
+       			careplanProccessorID = executionID;
        			trace("Execution id: "+executionID)
-       			executionTimerId = setInterval(startExecution, 1000, executionID);
+       			executionTimerId = setInterval(startExecution, 1000, executeCareplanObj.careplanID);
        			startExecution(executionID);
 				logInfo += "Execution Starts!"+"\n";					
        		}
        		
        		
-       		public function startExecution(executionID:String):void {
-       			
+       		public function startExecution(executionID:String):void {       			
        		
        			var service : RemoteObject = new RemoteObject("engineService");
 				var cs:ChannelSet = new ChannelSet();
@@ -673,11 +718,7 @@
 				service.channelSet = cs;
 				service.addEventListener(ResultEvent.RESULT,onResultConsultQueue);
 				service.addEventListener(FaultEvent.FAULT, onFault);
-				service.receiveConsultMessage();
-				 
-				
-				
-       			
+				service.receiveConsultMessage();       			
        		}
        		public function scrollTo(dobTarget:DiagramObject):void {
        			trace("dobTarget.x: "+dobTarget.x)
@@ -791,7 +832,7 @@
 			   						(buttonBox.getChildAt(0) as Button).label = "Start";
 			   						Alert.show("Guideline Finalized!");
 			   						clearInterval(executionTimerId);
-									//logInfo += "Execution Ends!"+"\n";
+									logInfo += "Execution Finalized!"+"\n";
 			   					}
 			   					if(id == "S6D65A091-CB09-6B23-CCB2-519CAD72E0B4" ){
 			   						dobTarget = diagram.getElementByDataObjectId("S8590B661-27DB-989C-7C2C-51A555B00624") as DiagramObject;
@@ -801,13 +842,12 @@
 			   						(buttonBox.getChildAt(0) as Button).label = "Start";
 			   						Alert.show("Guideline Finalized!");
 			   						clearInterval(executionTimerId);
-									//logInfo += "Execution Ends!"+"\n";
+									logInfo += "Execution Finalized!"+"\n";
 			   					}
 			   						
 			   					
 		   						scrollTo(dobTarget);
 		   						colorSprite("red",dobTarget);
-		   						//logInfo += object_dic[dobTarget.dataobjectid].name+"\n";
 		   						mm.isMonitored = true;
 			   							   					
 			   				}
@@ -865,6 +905,7 @@
 	   					//isScrolled = true;
 	   					scrollTo(dobTarget);
 	   					colorSprite("red",dobTarget);
+	   					logInfo += object_dic[dobTarget.dataobjectid].name+"\n";
 	   					
 	   					
 	   				} 
@@ -893,8 +934,8 @@
 	                
 	                //ExternalInterface.call(jsfunc);
 	                ExternalInterface.addCallback("consultResult",consultResult);
-			
-   					addEventListener(Event.CLOSE, continueExecution); 
+	                
+	                addEventListener(Event.CLOSE, continueExecution); 
    					
        			}  
        			
@@ -908,6 +949,7 @@
 			} 
        		public function consultResult(result:String):void {
        		
+       			logInfo+=result+"\n";
 				trace("result: "+result)
 				trace("cm.careplanProcessorID"+cm.careplanProcessorID)
    				informConsultMessage(cm.careplanProcessorID, result);
@@ -1384,6 +1426,7 @@
 			    body.eligibilityCriteria.variable.addItem(dummyVar);
 			    body.algorithm=algo;
 			    cp.body = body;
+			    
 			    xml = FlexXBEngine.instance.serialize(cp);
 			    trace("XMLemel: "+xml)
 			    trace("Diagram: "+diagram.toXML().toXMLString())
@@ -1395,15 +1438,12 @@
 			    }
 			    else {
 			    	Alert.show("No content to save");
-			    }
-			    
-			    
+			    }	    
 			}
 			
 			public function cancelCareplanEdit():void{
 				Application.application.viewStack.selectedIndex = 2;
 				Application.application.userMain.selectedIndex = 3;
-				
 			}
 			
 
@@ -1422,9 +1462,7 @@
 			   			}
 			   		}
 			   	}
-			    else{
-			    	
-			    }
+			    
 		    }
         	
 	
@@ -1440,19 +1478,13 @@
 					OpenNavContainer1.play();
 					NavContainerIsVisable=true;
 				}
-			}
-	
+			}	
 			private function HandleDividerClick(event:Event):void{
 				
 				if (event.currentTarget.name == "DivNav"){
 					setNavContainerVisible();
 				}
-				
-				
-				
 			}
-			
-			
 		]]>
 	</mx:Script>
 	
@@ -1460,14 +1492,10 @@
 	<mx:Resize id="CloseNavContainer1" targets="{[monitorStack]}" duration="400" widthTo="0"/>
 	<mx:Resize id="OpenNavContainer" targets="{[editorStack]}" duration="400" widthTo="300"/>
 	<mx:Resize id="OpenNavContainer1" targets="{[monitorStack]}" duration="400" widthTo="300"/>
-
-
-
 	<mx:HBox id="applicationContainer" 
 			 width="100%"
 			 height="100%"
-			 styleName="applicationContainer">
-	
+			 styleName="applicationContainer">	
 		<extended:ExtendedDividedBox styleName="ExtendedDividerBoxButtonV" id="DivNav" showButton="true" buttonClick="HandleDividerClick(event);" xmlns="tr.com.srdc.icardea.gui.dividedbox.*" direction="horizontal" resizeToContent="true" liveDragging="true" width="100%" height="100%">
 			<mx:VBox horizontalScrollPolicy="off" verticalScrollPolicy="off" resize="handleSliderParentReSize(event);" verticalGap="0" horizontalGap="0" visible="false" styleName="toolPanelContainer" id="monitorStack" includeInLayout="false" height="100%">
 						<mx:Label text="Care Plan Execution" fontWeight="bold" enabled="true" fontFamily="Arial" fontSize="20"/>
@@ -1505,6 +1533,10 @@
 						</mx:HBox>
 						<mx:Spacer height="5%"/>
 						<mx:Button styleName="iCardeaLabel" label="Details"/>
+						<mx:Spacer height="5%"/>
+						<mx:Label styleName="iCardeaLabel" text="Log History" textDecoration="underline" fontWeight="bold"/>
+						<mx:Spacer height="5%"/>
+						<mx:TextArea editable="false" id="logText" width="100%" height="100%" text="{logInfo}"/>
 						<mx:Spacer height="10%"/>
 						<mx:HBox styleName="iCardeaLabel" id="buttonBox" width="100%">
 						</mx:HBox>
@@ -1561,8 +1593,7 @@
 				<diagview:DiagramView id="diagram"
 									  width="100%" height="100%"
 									  creationComplete="diagram_creationCompleteHandler()">
-				</diagview:DiagramView>
-				
+				</diagview:DiagramView>				
 			</mx:VBox>
 		</extended:ExtendedDividedBox>	
 	</mx:HBox>	
