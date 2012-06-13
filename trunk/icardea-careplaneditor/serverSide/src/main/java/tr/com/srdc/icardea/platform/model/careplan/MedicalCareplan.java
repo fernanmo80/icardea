@@ -33,9 +33,10 @@ public class MedicalCareplan {
 	 */
 	
 	
+	private String status;
 	private String name;
 	private String version;
-	private String status;
+	private String ICD10Code;
 	private String url;
 	
 
@@ -52,13 +53,14 @@ public class MedicalCareplan {
 	}
 	
 	public MedicalCareplan(String diagram, String careplan, String id,
-			String name, String version, String status) {
+			String name, String version, String ICD10Code) {
 		super();
 		this.diagram = diagram;
 		this.careplan = careplan;
 		this.id = id;
 		this.name = name;
 		this.version = version;
+		this.ICD10Code = ICD10Code;
 		this.status = status;
 	}
 	public String getDiagram() {
@@ -91,11 +93,19 @@ public class MedicalCareplan {
 	public void setVersion(String version) {
 		this.version = version;
 	}
-	public String getStatus() {
-		return status;
+	public String getICD10Code() {
+		return ICD10Code;
 	}
+	public void setICD10Code(String ICD10Code) {
+		this.ICD10Code = ICD10Code;
+	}
+
 	public void setStatus(String status) {
 		this.status = status;
+	}
+
+	public String getStatus() {
+		return status;
 	}
 
 	

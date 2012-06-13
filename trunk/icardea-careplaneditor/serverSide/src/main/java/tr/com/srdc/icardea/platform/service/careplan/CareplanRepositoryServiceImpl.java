@@ -93,6 +93,7 @@ public class CareplanRepositoryServiceImpl implements
 				System.out.println("Storing AF Careplan...");
 				mct.setIdentifier("1");
 				mct.setName("Management of AF");
+				
 				mct.setContent(salkServer+":"+securePort+"/icardea/guidelines/icardea/ManagementofAF-1.owl");
 				try {
 					mct.setDiagram(readFile(homeDirectory+"\\icardea-careplanengine\\src\\main\\resources\\guideline\\ManagementofAF-1.dgr"));
@@ -109,7 +110,7 @@ public class CareplanRepositoryServiceImpl implements
 					e.printStackTrace();
 				}
 				
-				
+				mct.setICD10Code("not started");
 				mct.save();
 				careplans[0] = mct;
 
@@ -118,6 +119,7 @@ public class CareplanRepositoryServiceImpl implements
 				MedicalCareplanTemplate mct2 = new MedicalCareplanTemplate();
 				mct2.setIdentifier("2");
 				mct2.setName("Management of VT");
+				
 				mct2.setContent(salkServer+":"+securePort+"/icardea/guidelines/icardea/ManagementofVT-2.owl");
 				//TODO
 				try {
@@ -135,6 +137,7 @@ public class CareplanRepositoryServiceImpl implements
 					e.printStackTrace();
 				}
 				//TODO
+				mct2.setICD10Code("not started");
 				mct2.save();
 				careplans[1] = mct2;
 				
@@ -145,6 +148,7 @@ public class CareplanRepositoryServiceImpl implements
 				MedicalCareplanTemplate mct3 = new MedicalCareplanTemplate();
 				mct3.setIdentifier("3");
 				mct3.setName("Management of Technical CP");
+				
 				mct3.setContent(salkServer+":"+securePort+"/icardea/guidelines/icardea/ManagementofTechnicalCP-3.owl");
 				//TODO
 				try {
@@ -162,6 +166,7 @@ public class CareplanRepositoryServiceImpl implements
 					e.printStackTrace();
 				}
 				//TODO
+				mct3.setICD10Code("not started");
 				mct3.save();
 				careplans[2] = mct3;
 				transaction.commit();
@@ -182,6 +187,10 @@ public class CareplanRepositoryServiceImpl implements
 			toBeFilledCareplan.setId(careplan.getIdentifier());
 			toBeFilledCareplan.setName(careplan.getName());
 			toBeFilledCareplan.setUrl(careplan.getContent());
+			
+			System.out.println("careplan.getStatus(): "+careplan.getICD10Code());
+			toBeFilledCareplan.setICD10Code(careplan.getICD10Code());
+			
 			String content = careplan.getContent();
 			if(content != null){
 				st = content.split("owl");	
@@ -262,6 +271,7 @@ public class CareplanRepositoryServiceImpl implements
 			toBeSaved.setContent(careplanOwlUrl);*/
 			toBeSaved.setIdentifier(careplan.getId());
 			toBeSaved.setName(careplan.getName());
+			toBeSaved.setICD10Code("not started");
 
 			
 			System.out.println("careplan.getUrl(): "+careplan.getUrl());
@@ -332,6 +342,8 @@ public class CareplanRepositoryServiceImpl implements
 			toBeSaved.setContent(careplanOwlUrl);
 			toBeSaved.setIdentifier(careplan.getId());
 			toBeSaved.setName(careplan.getName());
+			toBeSaved.setICD10Code(careplan.getICD10Code());
+			
 			toBeSaved.save();
 			transaction.commit();
 		} catch (PersistentException e) {
