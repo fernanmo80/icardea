@@ -9,10 +9,13 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.ResourceBundle;
 
 import org.apache.log4j.Logger;
+
+import tr.com.srdc.icardea.careplanengine.agents.guidelineAgent.GuidelineAgent;
 import tr.com.srdc.icardea.careplanengine.entities.AssignmentEntity;
 import tr.com.srdc.icardea.careplanengine.entities.GuidelineEntity;
 import tr.com.srdc.icardea.careplanengine.glif.generator.GlifGenerator;
@@ -24,8 +27,11 @@ import tr.com.srdc.icardea.careplanengine.glif.generator.GlifGenerator;
 public class EngineInterface {
 
 	private static Logger logger = Logger.getLogger(EngineInterface.class);
-	private static ArrayList<ConsultMessage> cmq = new ArrayList<ConsultMessage>();
-	private static ArrayList<MonitoringMessage> mmq = new ArrayList<MonitoringMessage>();
+	//private static ArrayList<ConsultMessage> cmq = new ArrayList<ConsultMessage>();
+	private static Hashtable<String, ConsultMessage> cmq = new Hashtable();
+	//private static ArrayList<MonitoringMessage> mmq = new ArrayList<MonitoringMessage>();
+	private static Hashtable<String, MonitoringMessage> mmq = new Hashtable();
+	private static Hashtable<String, Hashtable<String, String>> executingCareplans = new Hashtable<String, Hashtable<String,String>>();
 
 	public static synchronized String executeCareplan(String patientID,
 			String carePlanID) {
@@ -62,12 +68,25 @@ public class EngineInterface {
 		GuidelineEntity ge = new GuidelineEntity();
 		ge.setGuidelineURL(careplanURL);
 		ae.setGuidelineEntity(ge);
-		return AFAgent.createStandaloneGuidelineAgent(ae).getAID();
+		String careplanProcessorID = AFAgent.createStandaloneGuidelineAgent(ae).getAID();
+		
+		Hashtable<String, String> temp = new Hashtable<String, String>();
+		temp.put(carePlanID, careplanProcessorID);
+		executingCareplans.put(patientID, temp);
+		return careplanProcessorID;
+	}
+	public static synchronized String resumeCareplan(String patientID, String careplanID) {
+		Hashtable<String, String> temp = new Hashtable<String, String>();
+		temp = executingCareplans.get(patientID);
+		return temp.get(careplanID);
+		
 	}
 	
 	public static synchronized void abortCareplan(String patientID, String careplanProcessorID) {
 		//TODO: Kill the thread with given patientID and careplanProcessorID
-		
+		AFAgent.getInstance().abortGuidelineAgent(careplanProcessorID);
+		cmq = new Hashtable<String, ConsultMessage>();
+		mmq = new Hashtable<String, MonitoringMessage>();
 	}
 
 	public static synchronized void processConsultingMessage(
@@ -81,7 +100,8 @@ public class EngineInterface {
 		 */
 		ConsultMessage consultMessage = new ConsultMessage(careplanProcessorID,
 				consultHTMLString, stepID);
-		cmq.add(consultMessage);
+		//cmq.add(consultMessage);
+		cmq.put(careplanProcessorID, consultMessage);
 	}
 
 	public static synchronized void informConsultMessage(
@@ -95,7 +115,7 @@ public class EngineInterface {
 		AFAgent.getInstance().getGuidelineAgent(careplanProcessorID)
 				.informConsultMessage(result);
 		if(cmq.size() > 0)
-			cmq.remove(0);
+			cmq.remove(careplanProcessorID);
 		else
 			logger.info(" $$$ CMQ Size is less than ZERO");
 	}
@@ -114,23 +134,24 @@ public class EngineInterface {
 		 */
 		MonitoringMessage monitoringMessage = new MonitoringMessage(
 				careplanProcessorID, stepID, status, monitorMessage);
-		mmq.add(monitoringMessage);
+		//mmq.add(monitoringMessage);
+		mmq.put(careplanProcessorID, monitoringMessage);
 	}
-	public static synchronized void assertMonitoringMessage(boolean isSuccessful){
-		if(isSuccessful) {
+	public static synchronized void assertMonitoringMessage(String isSuccessful){
+		//if(isSuccessful) {
 			if(mmq.size() > 0)
-				mmq.remove(0);
+				mmq.remove(isSuccessful);
 			else
 				logger.info(" $$$ MMQ Size is less than ZERO");
-		}
+		//}
 		
 	}
 
-	public static synchronized ArrayList<MonitoringMessage> receiveMonitoringMessage() {
+	public static synchronized Hashtable<String, MonitoringMessage> receiveMonitoringMessage() {
 		return mmq;
 	}
 
-	public static synchronized ArrayList<ConsultMessage> receiveConsultMessage() {
+	public static synchronized Hashtable<String, ConsultMessage> receiveConsultMessage() {
 		return cmq;
 	}
 
