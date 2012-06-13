@@ -133,12 +133,9 @@ public class LoginServiceImpl implements LoginService {
 		contactInDB.setMobileNumber(model.getPhoneNumber());
 		contactInDB.setPhoneNumber(model.getPhoneNumber());
 		contactInDB.save();
-		
+		personInDB.setContact(contactInDB);
 		personInDB.save();
 		transaction.commit();
-		
-		
-		
 		
 	}
 	

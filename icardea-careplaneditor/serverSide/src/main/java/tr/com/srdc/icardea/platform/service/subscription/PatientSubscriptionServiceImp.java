@@ -78,7 +78,7 @@ public class PatientSubscriptionServiceImp implements
 			PersonalizedMedicalCareplan[] careplansInDB = null;
 			if (assignedCareplans != null) {
 				careplansInDB = assignCareplan2Patient(assignedCareplans,
-					patient.getPersonID());
+					patient);
 			}
 			// Delete non-existent ones
 			if (careplansInDB != null) {
@@ -287,22 +287,24 @@ public class PatientSubscriptionServiceImp implements
 	}
 
 	public synchronized PersonalizedMedicalCareplan[] assignCareplan2Patient(
-		List<MedicalCareplan> assignedCareplans, String patientId) {
+		List<MedicalCareplan> assignedCareplans, Patient patient) {
 		sslSetup();
 		try {
 			PersistentTransaction transaction = ICardeaPersistentManager.instance().getSession().beginTransaction();
 			PersonalizedMedicalCareplanCriteria careplanCriteria = new PersonalizedMedicalCareplanCriteria();
-			careplanCriteria.patientIdentifier.eq(patientId);
+			careplanCriteria.patientIdentifier.eq(patient.getPersonID());
 			PersonalizedMedicalCareplan[] careplansInDB = PersonalizedMedicalCareplan.listPersonalizedMedicalCareplanByCriteria(careplanCriteria);
 			System.out.println(" $$$ Assignment process started for patient:"
-				+ patientId);
+				+ patient.getPersonID());
 			System.out.println(" $$$ Already assigned careplans size in DB:"
 				+ careplansInDB.length);
 			// Add newly added Personalized Careplans
+			System.out.println("assignedCareplans.size(); "+ assignedCareplans.size());
 			for (int i = 0; i < assignedCareplans.size(); i++) {
 				MedicalCareplan careplan = assignedCareplans.get(i);
 				System.out.println(" $$$ Processing careplan:"
 					+ careplan.getId());
+				
 				PersonalizedMedicalCareplan personalizedCareplan = null;
 				MedicalCareplanTemplate medicalCareplanTemplate = null;
 				boolean found = false;
@@ -311,6 +313,7 @@ public class PatientSubscriptionServiceImp implements
 					if (personalizedCareplanInDB.getMedicalCareplanTemplate().getIdentifier().equals(careplan.getId())) {
 						personalizedCareplan = personalizedCareplanInDB;
 						medicalCareplanTemplate = personalizedCareplanInDB.getMedicalCareplanTemplate();
+						
 						System.out.println(" $$$ Found the careplan from GUI in the DB:"
 							+ careplan.getId());
 						found = true;
@@ -321,6 +324,7 @@ public class PatientSubscriptionServiceImp implements
 				if (!found) {
 					System.out.println(" $$$ Could not find the careplan from GUI in the DB therefore creating a new one:"
 						+ careplan.getId());
+					
 					personalizedCareplan = new PersonalizedMedicalCareplan();
 					MedicalCareplanTemplateCriteria mcriteria = new MedicalCareplanTemplateCriteria();
 					mcriteria.identifier.eq(careplan.getId());
@@ -329,14 +333,16 @@ public class PatientSubscriptionServiceImp implements
 						Thread.sleep(5000);
 						System.out.println(" ### Waiting careplans to be stored to the database...");
 					}
+					
 					medicalCareplanTemplate = mctList[0];
 				}
 
-				
-				personalizedCareplan.setPatientIdentifier(patientId);
+				System.out.println("careplan.getICD10Code laaa(): "+ careplan.getICD10Code());	
+				personalizedCareplan.setICD10Code(careplan.getICD10Code());
+				personalizedCareplan.setPatientIdentifier(patient.getPersonID());
 				personalizedCareplan.setIdentifier(careplan.getId());
 				System.out.println(" $$$ Assigning careplan:"
-					+ careplan.getId() + " to patient" + patientId);
+					+ careplan.getId() + " to patient" + patient.getPersonID());
 
 				String[] st;
 				String content = medicalCareplanTemplate.getContent();
@@ -422,7 +428,8 @@ public class PatientSubscriptionServiceImp implements
 
 				s = conn.createStatement();
 				resultSet = s.executeQuery("select pid, gid from assignment where pid = "
-					+ patientId + " and gid=" + careplan.getId());
+					+ patient.getPersonID() + " and gid=" + careplan.getId());
+				
 
 				if (!resultSet.next()) {
 					Statement s1 = conn.createStatement();
@@ -430,7 +437,7 @@ public class PatientSubscriptionServiceImp implements
 					s1.executeUpdate("INSERT INTO assignment VALUES ("
 						+ id
 						+ ","
-						+ patientId
+						+ patient.getPersonID()
 						+ ","
 						+ careplan.getId()
 						+ ",2,'yildiray','yildiray','2010-05-08 01:01:01','2010-05-10 01:01:01',NULL,"
@@ -441,12 +448,20 @@ public class PatientSubscriptionServiceImp implements
 				conn.close();
 
 				// TODO
+				
 			}
 			transaction.commit();
+			
+			/*System.out.println("patient.getAssignedCareplans().size(): "+ patient.getAssignedCareplans().size());
+			patient.getAssignedCareplans().add(new MedicalCareplan());
+			System.out.println("patient.getAssignedCareplans().size()2: "+ patient.getAssignedCareplans().size());
+			*/
+			System.out.println("careplansInDB: "+careplansInDB.length);
 			return careplansInDB;
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
+		System.out.println("careplansInDB: nullll");
 		return null;
 	}
 
@@ -731,6 +746,7 @@ public class PatientSubscriptionServiceImp implements
 					medicalCareplan.setId(medicalCareplanTemplate.getIdentifier());
 					medicalCareplan.setName(medicalCareplanTemplate.getName());
 					medicalCareplan.setUrl(medicalCareplanTemplate.getContent());
+					medicalCareplan.setICD10Code(medicalCareplanTemplate.getICD10Code());
 
 					String content = medicalCareplanTemplate.getContent();
 
