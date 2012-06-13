@@ -54,6 +54,11 @@ public class AFAgent {
 	public GuidelineAgent getGuidelineAgent(String key) {
 		return guidelineAgents.get(key);
 	}
+	
+	public void abortGuidelineAgent(String key){
+		guidelineAgents.get(key).interrupt();
+		guidelineAgents.remove(key);
+	}
 
 	public static GuidelineAgent createGuidelineAgent(AssignmentEntity assignment,
 		boolean isSubguideline, String parentGuidelineAgent,
