@@ -48,6 +48,8 @@
 			service.addEventListener(ResultEvent.RESULT,onResultRegisteredPatients);
 			service.addEventListener(FaultEvent.FAULT, onFault);			
 			service.listRegisteredPatients();
+			
+			
 			/*
 			executionHistory = new ArrayCollection;
        		var service : RemoteObject = new RemoteObject("engineService");
@@ -88,8 +90,11 @@
 						obj.header = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).header;
 						obj.careplan = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).careplan;
 						obj.diagram = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).diagram;
+						trace("obj.diagram: "+obj.diagram)
 						obj.version = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).version;
-						obj.careplanStatus = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).status;
+						trace("obj.version: "+obj.version)
+						obj.ICD10Code = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).ICD10Code;
+						trace("obj.status: "+obj.ICD10Code)
 						obj.url = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).url;
 						assignments.addItem(obj);
 					}
@@ -116,12 +121,36 @@
 	    		mcp.name = patients.selectedItem.careplanName;
 	    		mcp.careplan = patients.selectedItem.careplan;
 	 		    mcp.diagram = patients.selectedItem.diagram;
-				carePlanEditor.careplan = mcp;
+	 		    carePlanEditor.careplan = mcp;
+				
+				
+					
+				for(var i = 0 ; i < assignments.length; i++){
+					if(assignments.getItemAt(i) == (patients.selectedItem as Object) ){
+						trace("assignments.getItemAt(i).ICD10Code: "+assignments.getItemAt(i).ICD10Code);
+						if(assignments.getItemAt(i).ICD10Code != "not started"){
+							
+							trace("executing...")
+							parentApplication.careplanDT.isExecuting=true;
+						}
+						else{
+							trace("started...")
+							parentApplication.careplanDT.isExecuting=false;
+							assignments.getItemAt(i).ICD10Code = "executing";
+						}	
+						break;
+					}
+				}
+				
+				patients.invalidateList();
+				
 				carePlanEditor.executeCareplanObj = patients.selectedItem as Object;
 			       
 		    	parentApplication.viewStack.selectedIndex = 3;
 		    	parentApplication.careplanDT.execute=true;
 		    	parentApplication.careplanDT.doSettings();
+		    	
+		    	//parentApplication.careplanDT.executeGuideline(new MouseEvent(MouseEvent.CLICK));
 	        }
 	       else
 	        {
@@ -147,7 +176,8 @@
 					<mx:DataGridColumn headerText="Patient Name" dataField="name"/>	
 					<mx:DataGridColumn headerText="Patient Surname" dataField="surname" />
 					<mx:DataGridColumn headerText="Care Plan Name" dataField="careplanName" />
-					<!--<mx:DataGridColumn headerText="Status" dataField="careplanStatus" />-->
+					<mx:DataGridColumn headerText="Status" dataField="ICD10Code" />
+					<!--<mx:DataGridColumn headerText="Percentage" dataField="percentage" />-->
 					<!--<mx:DataGridColumn headerText="History">
 			   	    	<mx:itemRenderer>
 							<mx:Component>

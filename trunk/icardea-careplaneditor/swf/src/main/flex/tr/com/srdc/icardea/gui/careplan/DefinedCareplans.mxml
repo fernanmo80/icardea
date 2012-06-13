@@ -52,7 +52,6 @@
 	    	
 	    		mcp.careplan = (dgrid.selectedItem as MedicalCareplan).careplan;
  				mcp.diagram = (dgrid.selectedItem as MedicalCareplan).diagram;
- 			
  			    trace("mcp.careplan: "+mcp.careplan)
  				trace("mcp.diagram: "+mcp.diagram)     
  			
@@ -149,6 +148,7 @@
 					<mx:columns>
 						<mx:DataGridColumn dataField="id" headerText="Care Plan ID"  />
 						<mx:DataGridColumn dataField="name" headerText="Care Plan Name" />	
+						<!--<mx:DataGridColumn dataField="ICD10Code" headerText="Status" />-->
 						<mx:DataGridColumn dataField="edit" headerText="Edit" >
 							<mx:itemRenderer>
 								<mx:Component>

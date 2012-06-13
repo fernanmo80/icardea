@@ -291,13 +291,15 @@
 			
 			[Bindable]
 			public var execute:Boolean;
+			[Bindable]
+			public var isExecuting:Boolean;
 			
 			var dobObject:DiagramObject = null;
 			
 			var executionTimerId;
 			
 			[Bindable]
-			private var logInfo:String = "";
+			public var logInfo:String;
 			
 			var executionPopUp:executionTool;
 			
@@ -308,10 +310,10 @@
 			[Bindable]
 			public var careplanProccessorID:String;
 			[Bindable]
-			public var monitoringMessageQueue:ArrayCollection = new ArrayCollection;
+			public var monitoringMessageQueue:Dictionary = new Dictionary;
 			
 			[Bindable]
-			public var consultMessageQueue:ArrayCollection = new ArrayCollection;
+			public var consultMessageQueue:Dictionary = new Dictionary;
 			
 			
             /*
@@ -412,6 +414,7 @@
 			*/
 			public function doSettings():void {
 				//diagram.clearAll();
+				diagram.scrollTo(0,0);
 				logInfo = "";
 				buttonBox.removeAllChildren();
 				buttonBox1.removeAllChildren();
@@ -427,7 +430,15 @@
 					bt2.addEventListener(MouseEvent.CLICK, abortExecution);
 					bt3.addEventListener(MouseEvent.CLICK, restartGuideline);
 					
-					bt1.label = "Start";
+					if(isExecuting){
+						trace("resume da olmasi lazim")
+						bt1.label = "Resume";
+					}						
+					else{
+						trace("start da olmasi lazim")
+						bt1.label = "Start";
+					} 
+							
 					bt1.setStyle("color", "Green");
 					bt3.label = "Clear";
 					bt2.label = "Abort";
@@ -442,6 +453,8 @@
 					buttonBox.addChild(bt1);
 					buttonBox.addChild(bt2);
 					buttonBox.addChild(bt3);
+					
+					//executeGuideline(new MouseEvent(MouseEvent.CLICK));
 				
 				} else if (execute == false) {
 					editorStack.includeInLayout = true;
@@ -484,42 +497,14 @@
 				bitmapData.draw(diagram, new Matrix());
 				var imageWidth:int = diagram.width;
 				var imageHeight:int = diagram.height;
-				//var bitmapData:BitmapData = new BitmapData(imageWidth, imageHeight, true, 0x00FFFFFF);
-				//bitmapData = diagram.getBitmapData(imageWidth, imageHeight);
-				//var bitmap : Bitmap = new Bitmap(bitmapData);
+				
 				var jpg:JPEGEncoder = new JPEGEncoder();
 				var baSave:ByteArray = jpg.encode(bitmapData);
 							 
 			    reference = new FileReference();
                 reference.save(baSave, DEFAULT_FILE_NAME);
                 reference.addEventListener(Event.COMPLETE, cleareFileReference);
-                
-                /* var bmpS:Number = 16000000;
- 
-				var printWidth:Number;
-				var printHeight:Number;
-				var fileReference:FileReference = new FileReference();
-				var bitmapData:BitmapData;
-				var bounds:Rectangle;
-				var w:Number = diagram.width;
-				var h:Number = diagram.height;
-                var zone:String
-				
-				bounds = diagram.getVisualizerBounds();
-				printHeight = Math.min(Math.sqrt(bmpS*bounds.height/bounds.width),8000);
-				printWidth = Math.min(bmpS/printHeight,8000);
-				bitmapData = new BitmapData(printWidth,printHeight, true, 0xFFFFFF);
-				bitmapData.draw(diagram.getBitmapData(printWidth,printHeight,true,true));
-						
-				var encoder:Object = new Object();
-				var pe:PNGEncoder = new PNGEncoder();
-				var defaultName:String = 'Untitled.png';
-				encoder.encode = pe.encode;
-				var imageBytes:ByteArray = encoder.encode(bitmapData);
- 
- 				fileReference.save(imageBytes, defaultName); */
-				
-				
+               
 			}
 			 
 			
@@ -629,7 +614,8 @@
 				service.addEventListener(FaultEvent.FAULT, onFault);
 				trace("personID: "+executeCareplanObj.personID+" cpID: "+ executeCareplanObj.careplanID)
 				service.abortCareplan(executeCareplanObj.personID, careplanProccessorID);
-				executeCareplanObj.status = "aborted";
+				executeCareplanObj.ICD10Code = "aborted";
+				
 			}
 			public function onResultAbortCareplan(result:ResultEvent):void 
        		{
@@ -665,14 +651,14 @@
 					service.addEventListener(ResultEvent.RESULT,onResultExecuteCareplan);
 					service.addEventListener(FaultEvent.FAULT, onFault);
 					trace("personID: "+executeCareplanObj.personID+" cpID: "+ executeCareplanObj.careplanID)
+					executeCareplanObj.ICD10Code = "executing";
 					service.executeCareplan(executeCareplanObj.personID, executeCareplanObj.careplanID);
-					executeCareplanObj.status = "executing";
 					
 					
 				} else if ((buttonBox.getChildAt(0) as Button).label == "Pause") {
 					(buttonBox.getChildAt(0) as Button).label = "Resume";
 					(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
-					executeCareplanObj.status = "paused";
+					executeCareplanObj.ICD10Code = "paused";
 					clearInterval(executionTimerId);
 					logInfo += "Execution Paused!"+"\n";
 					
@@ -680,14 +666,28 @@
 				else if ((buttonBox.getChildAt(0) as Button).label == "Resume") {
 					(buttonBox.getChildAt(0) as Button).label = "Pause";
 					(buttonBox.getChildAt(0) as Button).setStyle("color", "Red");
-					executeCareplanObj.status = "resumed";					
+					executeCareplanObj.ICD10Code = "resumed";					
 					logInfo += "Execution Resumed!"+"\n";
 					
-					executionTimerId = setInterval(startExecution, 1000, executeCareplanObj.careplanID);
-					executeCareplanObj.status = "executing";
-					
+					var service : RemoteObject = new RemoteObject("engineService");
+					var cs:ChannelSet = new ChannelSet();
+					var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+					cs.addChannel(customChannel);
+					service.channelSet = cs;
+					service.addEventListener(ResultEvent.RESULT,onResultResumeCareplan);
+					service.addEventListener(FaultEvent.FAULT, onFault);		
+					service.resumeCareplan(executeCareplanObj.personID, executeCareplanObj.careplanID);
 				}  
 			}
+			public function onResultResumeCareplan(result:ResultEvent):void 
+       		{
+       			var executionID:String = result.result as String;
+       			careplanProccessorID = executionID;
+       			trace("Execution id: "+executionID)
+       			executionTimerId = setInterval(startExecution, 1000, executeCareplanObj.careplanID);
+       			startExecution(executionID);
+				logInfo += "Execution Starts!"+"\n";					
+       		}
 			
 			public function onResultExecuteCareplan(result:ResultEvent):void 
        		{
@@ -702,6 +702,15 @@
        		
        		public function startExecution(executionID:String):void {       			
        		
+       			/*for ( var key:String in monitoringMessageQueue ) 
+				{	
+					delete monitoringMessageQueue["careplanProcessorID"];
+				}
+				for ( var key:String in consultMessageQueue ) 
+				{	
+					delete consultMessageQueue["careplanProcessorID"];
+				}*/ 
+       			
        			var service : RemoteObject = new RemoteObject("engineService");
 				var cs:ChannelSet = new ChannelSet();
 				var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
@@ -808,54 +817,57 @@
        		public function onResultMonitorQueue(result:ResultEvent):void 
        		{
        			trace("monitoring......");
-       			trace("Monitoring result: "+(result.result as ArrayCollection).length);
-       			monitoringMessageQueue = result.result as ArrayCollection;	
+       			trace("careplanProccessorID: "+ careplanProccessorID);
        			
-       			
-       			
-       				if(monitoringMessageQueue.length != 0){
-	       				
-	       					trace("MMQ length: "+monitoringMessageQueue.length);
-			   				var mm:MonitoringMessage = monitoringMessageQueue.getItemAt(0) as MonitoringMessage;
-			   				sendAssertMonitoring(true);
-			   				
-			   				var id:String = mm.stepID;
-			   				trace("mm.stepid: " + id)
-			   				
-			   				if (id != null && id != "" && mm.isMonitored == false){
-			   					var dobTarget:DiagramObject = diagram.getElementByDataObjectId(id) as DiagramObject;
-			   					if(id == "SEC1015ACF16AF3331C376E3054D26595" ){//TODO: These are only for AF and VT
-			   						dobTarget = diagram.getElementByDataObjectId("SCCCB5EA8B07CAC2607AF6E3FB7A74B86") as DiagramObject;
-			   						//(buttonBox.getChildAt(0) as Button).label == "Start";
-			   						//clearInterval(executionTimerId);
-			   						(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
-			   						(buttonBox.getChildAt(0) as Button).label = "Start";
-			   						Alert.show("Guideline Finalized!");
-			   						clearInterval(executionTimerId);
-									logInfo += "Execution Finalized!"+"\n";
-			   					}
-			   					if(id == "S6D65A091-CB09-6B23-CCB2-519CAD72E0B4" ){
-			   						dobTarget = diagram.getElementByDataObjectId("S8590B661-27DB-989C-7C2C-51A555B00624") as DiagramObject;
-			   						//(buttonBox.getChildAt(0) as Button).label == "Start";
-			   						//clearInterval(executionTimerId);
-			   						(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
-			   						(buttonBox.getChildAt(0) as Button).label = "Start";
-			   						Alert.show("Guideline Finalized!");
-			   						clearInterval(executionTimerId);
-									logInfo += "Execution Finalized!"+"\n";
-			   					}
-			   						
-			   					
-		   						scrollTo(dobTarget);
-		   						colorSprite("red",dobTarget);
-		   						mm.isMonitored = true;
-			   							   					
-			   				}
-			   				//monitoringMessageQueue.removeItemAt(0);
-			   				
-			    }
+       			var consultSize:int = 0;
+       			for ( var key:String in result.result ) 
+				{ 
+				   if(key == careplanProccessorID){
+					   trace("key is " + key + " val is " + result.result[key]); 
+					   monitoringMessageQueue["careplanProcessorID"] = key;
+					   monitoringMessageQueue["monitoringMessage"] = result.result[key];
+					   consultSize++;
+					   var mm:MonitoringMessage = monitoringMessageQueue["monitoringMessage"] as MonitoringMessage;
+				   				sendAssertMonitoring(monitoringMessageQueue["careplanProcessorID"]);
+				   				
+				   				var id:String = mm.stepID;
+				   				trace("mm.stepid: " + id)
+				   				
+				   				if (id != null && id != "" && mm.isMonitored == false){
+				   					var dobTarget:DiagramObject = diagram.getElementByDataObjectId(id) as DiagramObject;
+				   					if(id == "SEC1015ACF16AF3331C376E3054D26595" ){//TODO: These are only for AF and VT
+				   						dobTarget = diagram.getElementByDataObjectId("SCCCB5EA8B07CAC2607AF6E3FB7A74B86") as DiagramObject;
+				   						//(buttonBox.getChildAt(0) as Button).label == "Start";
+				   						//clearInterval(executionTimerId);
+				   						(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
+				   						(buttonBox.getChildAt(0) as Button).label = "Start";
+				   						Alert.show("Guideline Finalized!");
+				   						clearInterval(executionTimerId);
+										logInfo += "Execution Finalized!"+"\n";
+				   					}
+				   					if(id == "S6D65A091-CB09-6B23-CCB2-519CAD72E0B4" ){
+				   						dobTarget = diagram.getElementByDataObjectId("S8590B661-27DB-989C-7C2C-51A555B00624") as DiagramObject;
+				   						//(buttonBox.getChildAt(0) as Button).label == "Start";
+				   						//clearInterval(executionTimerId);
+				   						(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
+				   						(buttonBox.getChildAt(0) as Button).label = "Start";
+				   						Alert.show("Guideline Finalized!");
+				   						clearInterval(executionTimerId);
+										logInfo += "Execution Finalized!"+"\n";
+				   					}
+				   						
+				   					
+			   						scrollTo(dobTarget);
+			   						colorSprite("red",dobTarget);
+			   						mm.isMonitored = true;
+			   		
+				   				}
+				   				delete monitoringMessageQueue["careplanProcessorID"];
+					}
+				}
+				
        		}
-			public function sendAssertMonitoring(result:Boolean):void{
+			public function sendAssertMonitoring(result:String):void{
 				var service : RemoteObject = new RemoteObject("engineService");
 				var cs:ChannelSet = new ChannelSet();
 				var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
@@ -871,76 +883,65 @@
        		public var cm:ConsultMessage;
        		public function onResultConsultQueue(result:ResultEvent):void 
        		{
-       			
+       			trace("careplanProccessorID: "+ careplanProccessorID);
        			trace("consulting......");
-       			trace("Consult result: "+(result.result as ArrayCollection).length);
-       			consultMessageQueue = result.result as ArrayCollection;
        			
-       			if(consultMessageQueue.length != 0){
-       				trace("CMQ length: "+consultMessageQueue.length);
-   					cm = consultMessageQueue.getItemAt(0) as ConsultMessage;
-   					trace("cm.html: "+cm.consultHTMLString);
-   					var id:String = cm.stepID;
-   					 if (id != null && id != ""){
-	   					var dobTarget:DiagramObject = diagram.getElementByDataObjectId(id) as DiagramObject;
-	   					if(id == "S06803B5E-9643-8FF4-B83C-67ADE997CA20"){//TODO: These are only for AF and VT
-	   						dobTarget = diagram.getElementByDataObjectId("S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09") as DiagramObject;
-	   						(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
-	   						(buttonBox.getChildAt(0) as Button).label = "Start";
-	   						Alert.show("Guideline Finalized!");
-			   				//(buttonBox.getChildAt(0) as Button).label == "Start";
-			   				clearInterval(executionTimerId);
-							//logInfo += "Execution Ends!"+"\n";
-	   					}
-	   					if(id == "S0F4B6AE8-BC3C-052D-E84E-9105773EF96A"){
-	   						dobTarget = diagram.getElementByDataObjectId("S30264FBE-5736-5620-9F74-910787388943") as DiagramObject;
-	   						(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
-	   						(buttonBox.getChildAt(0) as Button).label = "Start";
-	   						Alert.show("Guideline Finalized!");
-			   				//(buttonBox.getChildAt(0) as Button).label == "Start";
-			   				clearInterval(executionTimerId);
-							//logInfo += "Execution Ends!"+"\n";
-	   					}
-	   						
-	   					//isScrolled = true;
-	   					scrollTo(dobTarget);
-	   					colorSprite("red",dobTarget);
-	   					logInfo += object_dic[dobTarget.dataobjectid].name+"\n";
+       			for ( var key:String in result.result ) 
+				{ 
+				   if(key == careplanProccessorID){
+					   trace("key is " + key + " val is " + result.result[key]); 
+					   consultMessageQueue["careplanProcessorID"] = key;
+					   consultMessageQueue["consultMessage"] = result.result[key];
+					 
+					   
+					  // trace("CMQ length: "+consultSize);
+	   					cm = consultMessageQueue["consultMessage"] as ConsultMessage;
+	   					trace("cm.html: "+cm.consultHTMLString);
+	   					var id:String = cm.stepID;
+	   					 if (id != null && id != ""){
+		   					var dobTarget:DiagramObject = diagram.getElementByDataObjectId(id) as DiagramObject;
+		   					if(id == "S06803B5E-9643-8FF4-B83C-67ADE997CA20"){//TODO: These are only for AF and VT
+		   						dobTarget = diagram.getElementByDataObjectId("S42F61D34-3D6A-29F5-D8FD-67B19FD9CE09") as DiagramObject;
+		   						(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
+		   						(buttonBox.getChildAt(0) as Button).label = "Start";
+		   						Alert.show("Guideline Finalized!");
+				   				//(buttonBox.getChildAt(0) as Button).label == "Start";
+				   				clearInterval(executionTimerId);
+								//logInfo += "Execution Ends!"+"\n";
+		   					}
+		   					if(id == "S0F4B6AE8-BC3C-052D-E84E-9105773EF96A"){
+		   						dobTarget = diagram.getElementByDataObjectId("S30264FBE-5736-5620-9F74-910787388943") as DiagramObject;
+		   						(buttonBox.getChildAt(0) as Button).setStyle("color", "Green");
+		   						(buttonBox.getChildAt(0) as Button).label = "Start";
+		   						Alert.show("Guideline Finalized!");
+				   				//(buttonBox.getChildAt(0) as Button).label == "Start";
+				   				clearInterval(executionTimerId);
+								//logInfo += "Execution Ends!"+"\n";
+		   					}
+		   						
+		   					//isScrolled = true;
+		   					scrollTo(dobTarget);
+		   					colorSprite("red",dobTarget);
+		   					logInfo += object_dic[dobTarget.dataobjectid].name+"\n";
+		   				} 
 	   					
+	   					clearInterval(executionTimerId);	   					
 	   					
-	   				} 
-   					
-   					clearInterval(executionTimerId);
-   					
-   					
-   					//var scriptContent:String =  "var btnWhichButton;"+"function ValidateData() {"+"if (btnWhichButton.value == 'The case is VT!' ) {"+"alert('VT Pressed');"+"} else if (btnWhichButton.value == 'There is Noise!' ){"+"alert('Noise Pressed');"+"} else if (btnWhichButton.value == 'Submit' ){"+"alert('Submit Pressed');"+"return true;}"+"return false;}";
-					//var scriptContent:String =  " function ValidateData\(\) &#123; &#125; getFlexApp\('iCardea'\).consultResult\(btnWhichButton.value\); window.close\(\); return true; &#125; function getFlexApp\(appName\)&#123;  if \(navigator.appName.indexOf \('Microsoft'\) !=-1\)  &#123; return opener.window[appName];  &#125;  else &#123; return opener.document[appName];  &#125;	&#125;";
-					var scriptContent:String =  " function ValidateData() { getFlexApp('iCardea').consultResult(btnWhichButton.value); window.close(); return true; } function getFlexApp(appName){  if (navigator.appName.indexOf ('Microsoft') !=-1)  { return opener.window[appName];  }  else { return opener.document[appName];  }}";
-					//var noscriptContent:String =	"<object classid='clsid:D27CDB6E-AE6D-11cf-96B8-444553540000' id='iCardea' width='100%' height='100%'	codebase='http://fpdownload.macromedia.com/get/flashplayer/current/swflash.cab'><param name='movie' value='iCardea.swf' />	<param name='quality' value='high' /><param name='bgcolor' value='#ececec' /><param name='allowScriptAccess' value='sameDomain' />	<embed src='iCardea.swf' quality='high' bgcolor='#ececec'	width='100%' height='100%' name='iCardea' align='middle' play='true' loop='false'	quality='high'	allowScriptAccess='sameDomain'	type='application/x-shockwave-flash'	pluginspage='http://www.adobe.com/go/getflashplayer'>	</embed></object>";	
-					//var st:String = "function(){" +"var pop_w = window.open( '', '', 'height = 750, width = 600,scrollbars=1' );"+	"var content = "+cm.consultHTMLString+";"+"pop_w.document.write(content);"+	"pop_w.document.close(); }";//var st2:String = "function ValidateData() {	if (btnWhichButton.value == 'The case is VT!' ) {	alert('VT Pressed');	} else if (btnWhichButton.value == 'There is Noise!' ){	alert('Noise Pressed');	} else if (btnWhichButton.value == 'Submit' ){	alert('Submit Pressed');return true;}return false;}";
-	                //$('head').append("+scriptContent+");              
-	                //ExternalInterface.call("st",cm.consultHTMLString,scriptContent);
-	                //ExternalInterface.call(st);
-	               
-	               var headContent:String = "<meta http-equiv="+"\"Content-Type\""+" content="+"\"text/html; charset=utf-8\""+" />";
-					
-	                var arr:Array = cm.consultHTMLString.split("<body>");
-	                var arr1:Array = (arr[1] as String).split("</body>");
-	                var st2:String = arr1[0];
-	                
-	                ExternalInterface.call("openindex",st2,scriptContent); 
-	                
-	                //var jsfunc:String ="function st(){OpenWindow=window.open('', 'newwin', 'height=750, width=650,toolbar=no,scrollbars=1,menubar=no');OpenWindow.document.write('<HTML lang="+"\"en\""+">');OpenWindow.document.write('<HEAD>'); OpenWindow.document.write("+headContent+"); OpenWindow.document.write('<SCRIPT LANGUAGE="+"\"JavaScript\""+">'); OpenWindow.document.write("+scriptContent+");OpenWindow.document.write('</SCRIPT>');OpenWindow.document.write('</HEAD>');OpenWindow.document.write('<BODY>');OpenWindow.document.write("+st2+");OpenWindow.document.write('</BODY>');OpenWindow.document.write('</HTML>');OpenWindow.document.close();self.name='main';}";	                	                
-	                
-	                //ExternalInterface.call(jsfunc);
-	                ExternalInterface.addCallback("consultResult",consultResult);
-	                
-	                addEventListener(Event.CLOSE, continueExecution); 
-   					
-       			}  
-       			
-       					
-       			
+	   					var scriptContent:String =  " function ValidateData() { getFlexApp('iCardea').consultResult(btnWhichButton.value); window.close(); return true; } function getFlexApp(appName){  if (navigator.appName.indexOf ('Microsoft') !=-1)  { return opener.window[appName];  }  else { return opener.document[appName];  }}";
+						var headContent:String = "<meta http-equiv="+"\"Content-Type\""+" content="+"\"text/html; charset=utf-8\""+" />";
+						
+		                var arr:Array = cm.consultHTMLString.split("<body>");
+		                var arr1:Array = (arr[1] as String).split("</body>");
+		                var st2:String = arr1[0];
+		                
+		                ExternalInterface.call("openindex",st2,scriptContent); 
+		                ExternalInterface.addCallback("consultResult",consultResult);
+		                
+		                addEventListener(Event.CLOSE, continueExecution);
+		                
+	   					
+	       			}
+	   			}
        		}
        		public function closePopUp():void {
 				//Dispatch close event, so that the parent is able to recognize popup's been closed.
@@ -953,6 +954,7 @@
 				trace("result: "+result)
 				trace("cm.careplanProcessorID"+cm.careplanProcessorID)
    				informConsultMessage(cm.careplanProcessorID, result);
+   				//delete consultMessageQueue["careplanProcessorID"]; 
                 closePopUp();
 				
 			}
@@ -963,8 +965,7 @@
 				cs.addChannel(customChannel);
 				service.channelSet = cs;
 				service.addEventListener(ResultEvent.RESULT,onResultInformConsultMessage);
-				service.addEventListener(FaultEvent.FAULT, onFault);
-				
+				service.addEventListener(FaultEvent.FAULT, onFault);				
 				service.informConsultMessage(executionID,result); 
        		}
        		public function onFault(fault:FaultEvent):void 
@@ -976,15 +977,11 @@
        			
        		}
        		
-       		
-			
-			
 			private function continueExecution(e:Event):void {
 				executionTimerId = setInterval(startExecution, 1000,"");
 			}
 			
 			
-
             /*
             * Change contextual menu when hand mode is activated
             */
