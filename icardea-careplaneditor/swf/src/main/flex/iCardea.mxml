@@ -389,13 +389,13 @@
 							 	</mx:ControlBar>
 							 </mx:VBox>
 							 <mx:VBox width="100%" height="100%">
-							 	<careplans:DefinedCareplans id="careplans" click="{careplans.sparent = this; careplanDT.execute=false; careplanDT.doSettings();}" />
+							 	<careplans:DefinedCareplans id="careplans" click="{careplans.sparent = this; careplanDT.execute=false; }" />
 							 </mx:VBox>
 							 <mx:VBox width="100%" height="100%">
 							 	<cpatientview:patients id="patientManagement"/>
 							 </mx:VBox>	
 							 <mx:VBox width="100%" height="100%">
-							 	<monitor:DefinedPatients2Monitor id="monitorPatients" click="{careplanDT.execute=true; careplanDT.doSettings();}"/>
+							 	<monitor:DefinedPatients2Monitor id="monitorPatients" click="{careplanDT.execute=true; }"/>
 							 </mx:VBox>						 
 						</mx:ViewStack>
 					</mx:HBox>

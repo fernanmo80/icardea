@@ -49,12 +49,16 @@
 		public function assign():void
 		{	
 			//sparent.myViewStack.selectedIndex=0;
-			trace(sparent.dgrid.selectedItem as MedicalCareplan)
-			if((dgrid.selectedItem as Patient).assignedCareplans == null)
+			//trace("ICD10Code: "+(sparent.dgrid.selectedItem as MedicalCareplan).ICD10Code);
+			if((dgrid.selectedItem as Patient).assignedCareplans == null){
 				(dgrid.selectedItem as Patient).assignedCareplans = new ArrayCollection;
-			else	
-				(dgrid.selectedItem as Patient).assignedCareplans.addItem(sparent.dgrid.selectedItem as MedicalCareplan);
-			trace((dgrid.selectedItem as Patient).assignedCareplans);
+				trace("burdaa1");
+			}				
+			
+			(dgrid.selectedItem as Patient).assignedCareplans.addItem(sparent.dgrid.selectedItem as MedicalCareplan);
+			//trace("status: "+(dgrid.selectedItem as Patient).assignedCareplans.getItemAt(0).ICD10Code)
+			
+			//trace((dgrid.selectedItem as Patient).assignedCareplans);
 			var service : RemoteObject = new RemoteObject("subscriptionService");
 			var cs:ChannelSet = new ChannelSet();
 			var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
@@ -62,14 +66,16 @@
 			service.channelSet = cs;
 			service.addEventListener(ResultEvent.RESULT,onAssignCareplans2Patient);
 			service.addEventListener(FaultEvent.FAULT, onFault);
-			service.assignCareplan2Patient((dgrid.selectedItem as Patient).assignedCareplans, (dgrid.selectedItem as Patient).personID);
+			
+			
+			service.assignCareplan2Patient((dgrid.selectedItem as Patient).assignedCareplans, (dgrid.selectedItem as Patient));
 			
 		}
 		private function onAssignCareplans2Patient(result:ResultEvent):void 
        	{
        		
-       		PopUpManager.removePopUp(this);
        		sparent.sparent.monitorPatients.init();
+       		PopUpManager.removePopUp(this);
        	} 
        
       	private function onFault(fault:FaultEvent):void 
@@ -118,7 +124,7 @@
 					<mx:DataGridColumn headerText="Surname" dataField="surname" />
 					<mx:DataGridColumn headerText="Gender" dataField="gender" />
 					<mx:DataGridColumn headerText="Birthdate" dataField="dateOfBirth" />
-					<mx:DataGridColumn headerText="Caregiver">
+					<!--<mx:DataGridColumn headerText="Caregiver">
 			   	    	<mx:itemRenderer>
 							<mx:Component>
 								<mx:HBox horizontalAlign="center">
@@ -126,7 +132,7 @@
 								</mx:HBox>
 							</mx:Component>
 						</mx:itemRenderer>
-					</mx:DataGridColumn>
+					</mx:DataGridColumn>-->
 				</mx:columns>
 			</mx:DataGrid>
 			<mx:HBox horizontalAlign="right" width="100%">
