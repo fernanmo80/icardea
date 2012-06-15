@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import tr.com.srdc.icardea.careplanengine.glif.generator.GlifGenerator;
 import tr.com.srdc.icardea.hibernate.ICardeaPersistentManager;
 import tr.com.srdc.icardea.hibernate.MedicalCareplanTemplate;
 import tr.com.srdc.icardea.hibernate.MedicalCareplanTemplateCriteria;
@@ -312,6 +313,7 @@ public class PatientSubscriptionServiceImp implements
 					PersonalizedMedicalCareplan personalizedCareplanInDB = careplansInDB[j];
 					if (personalizedCareplanInDB.getMedicalCareplanTemplate().getIdentifier().equals(careplan.getId())) {
 						personalizedCareplan = personalizedCareplanInDB;
+						personalizedCareplan.setName("not started");
 						medicalCareplanTemplate = personalizedCareplanInDB.getMedicalCareplanTemplate();
 						
 						System.out.println(" $$$ Found the careplan from GUI in the DB:"
@@ -326,6 +328,7 @@ public class PatientSubscriptionServiceImp implements
 						+ careplan.getId());
 					
 					personalizedCareplan = new PersonalizedMedicalCareplan();
+					personalizedCareplan.setName("not started");
 					MedicalCareplanTemplateCriteria mcriteria = new MedicalCareplanTemplateCriteria();
 					mcriteria.identifier.eq(careplan.getId());
 					MedicalCareplanTemplate[] mctList = MedicalCareplanTemplate.listMedicalCareplanTemplateByCriteria(mcriteria);
@@ -337,8 +340,8 @@ public class PatientSubscriptionServiceImp implements
 					medicalCareplanTemplate = mctList[0];
 				}
 
-				System.out.println("careplan.getICD10Code laaa(): "+ careplan.getICD10Code());	
-				personalizedCareplan.setICD10Code(careplan.getICD10Code());
+				//System.out.println("careplan.getICD10Code laaa(): "+ careplan.getICD10Code());	
+				//personalizedCareplan.setICD10Code(careplan.getICD10Code());
 				personalizedCareplan.setPatientIdentifier(patient.getPersonID());
 				personalizedCareplan.setIdentifier(careplan.getId());
 				System.out.println(" $$$ Assigning careplan:"
@@ -630,6 +633,54 @@ public class PatientSubscriptionServiceImp implements
 
 		return patientsToBeFilled;
 	}
+	
+	public synchronized void informDBaboutStatus(String personID, String careplanName, String status){
+		List<Patient> patients = listRegisteredPatients();
+//		for(int i = 0; i < patients.size(); i++ ){
+//			if(patients.get(i).getPersonID() == personID){
+//				for(int j = 0; j < patients.get(i).getAssignedCareplans().size(); j++){
+//					if(patients.get(i).getAssignedCareplans().get(j).getName() == careplanName){
+//						patients.get(i).getAssignedCareplans().get(j).setStatus("executing");
+//						String careplanID = patients.get(i).getAssignedCareplans().get(j).getId();
+		
+						
+						try {
+							PersistentTransaction transaction = ICardeaPersistentManager.instance().getSession().beginTransaction();
+							PersonalizedMedicalCareplanCriteria careplanCriteria;
+							careplanCriteria = new PersonalizedMedicalCareplanCriteria();
+							careplanCriteria.patientIdentifier.eq(personID);
+							PersonalizedMedicalCareplan[] careplansInDB = PersonalizedMedicalCareplan.listPersonalizedMedicalCareplanByCriteria(careplanCriteria);
+							PersonalizedMedicalCareplan personalizedCareplan = null;
+							
+							for (int k = 0; k < careplansInDB.length; k++) {
+								PersonalizedMedicalCareplan personalizedCareplanInDB = careplansInDB[k];
+								if (personalizedCareplanInDB.getMedicalCareplanTemplate().getName().equals(careplanName)) {
+									System.out.println("exec exec exec: "+careplanName);
+									
+									personalizedCareplan = personalizedCareplanInDB;
+									personalizedCareplan.setName(status);
+									personalizedCareplan.save();
+									transaction.commit();
+									break;
+									
+								}
+							}
+							
+						} catch (PersistentException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						
+						
+						
+						
+						
+						
+					}
+//				}
+//			}
+//		}
+//	}
 
 	@Override
 		public synchronized void setSubscriptions(Patient p) {
@@ -740,13 +791,14 @@ public class PatientSubscriptionServiceImp implements
 				String[] st;
 				for (int j = 0; j < careplansInDB.length; j++) {
 					MedicalCareplanTemplate medicalCareplanTemplate = careplansInDB[j].getMedicalCareplanTemplate();
+					
 					MedicalCareplan medicalCareplan = new MedicalCareplan();
 					System.out.println(" $$$ Careplan:"
 							+ medicalCareplanTemplate.getIdentifier());
 					medicalCareplan.setId(medicalCareplanTemplate.getIdentifier());
 					medicalCareplan.setName(medicalCareplanTemplate.getName());
 					medicalCareplan.setUrl(medicalCareplanTemplate.getContent());
-					medicalCareplan.setICD10Code(medicalCareplanTemplate.getICD10Code());
+					medicalCareplan.setStatus(careplansInDB[j].getName());
 
 					String content = medicalCareplanTemplate.getContent();
 

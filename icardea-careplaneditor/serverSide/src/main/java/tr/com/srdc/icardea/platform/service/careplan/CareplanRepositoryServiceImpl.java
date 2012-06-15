@@ -110,7 +110,7 @@ public class CareplanRepositoryServiceImpl implements
 					e.printStackTrace();
 				}
 				
-				mct.setICD10Code("not started");
+				//mct.setICD10Code("not started");
 				mct.save();
 				careplans[0] = mct;
 
@@ -137,7 +137,7 @@ public class CareplanRepositoryServiceImpl implements
 					e.printStackTrace();
 				}
 				//TODO
-				mct2.setICD10Code("not started");
+				//mct2.setICD10Code("not started");
 				mct2.save();
 				careplans[1] = mct2;
 				
@@ -166,7 +166,7 @@ public class CareplanRepositoryServiceImpl implements
 					e.printStackTrace();
 				}
 				//TODO
-				mct3.setICD10Code("not started");
+				//mct3.setICD10Code("not started");
 				mct3.save();
 				careplans[2] = mct3;
 				transaction.commit();
@@ -189,7 +189,7 @@ public class CareplanRepositoryServiceImpl implements
 			toBeFilledCareplan.setUrl(careplan.getContent());
 			
 			System.out.println("careplan.getStatus(): "+careplan.getICD10Code());
-			toBeFilledCareplan.setICD10Code(careplan.getICD10Code());
+			//toBeFilledCareplan.setICD10Code(careplan.getICD10Code());
 			
 			String content = careplan.getContent();
 			if(content != null){
@@ -271,7 +271,7 @@ public class CareplanRepositoryServiceImpl implements
 			toBeSaved.setContent(careplanOwlUrl);*/
 			toBeSaved.setIdentifier(careplan.getId());
 			toBeSaved.setName(careplan.getName());
-			toBeSaved.setICD10Code("not started");
+			//toBeSaved.setICD10Code("not started");
 
 			
 			System.out.println("careplan.getUrl(): "+careplan.getUrl());
@@ -342,7 +342,7 @@ public class CareplanRepositoryServiceImpl implements
 			toBeSaved.setContent(careplanOwlUrl);
 			toBeSaved.setIdentifier(careplan.getId());
 			toBeSaved.setName(careplan.getName());
-			toBeSaved.setICD10Code(careplan.getICD10Code());
+			//toBeSaved.setICD10Code(careplan.getICD10Code());
 			
 			toBeSaved.save();
 			transaction.commit();
