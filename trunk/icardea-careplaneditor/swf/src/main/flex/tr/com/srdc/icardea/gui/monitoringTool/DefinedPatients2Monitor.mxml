@@ -93,7 +93,7 @@
 						trace("obj.diagram: "+obj.diagram)
 						obj.version = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).version;
 						trace("obj.version: "+obj.version)
-						obj.ICD10Code = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).ICD10Code;
+						obj.ICD10Code = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).status;
 						trace("obj.status: "+obj.ICD10Code)
 						obj.url = (((result.result as ArrayCollection).getItemAt(i) as Patient).assignedCareplans.getItemAt(j) as MedicalCareplan).url;
 						assignments.addItem(obj);
@@ -110,6 +110,10 @@
 	   {
 			trace(event.fault.faultString)
 	   }
+	   public function onResultInform(result:ResultEvent):void 
+       {
+       	
+       }
        
        public function openSelected():void
         {
@@ -123,20 +127,29 @@
 	 		    mcp.diagram = patients.selectedItem.diagram;
 	 		    carePlanEditor.careplan = mcp;
 				
-				
+				/*var service : RemoteObject = new RemoteObject("subscriptionService");
+				var cs:ChannelSet = new ChannelSet();
+				var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+				cs.addChannel(customChannel);
+				service.channelSet = cs;
+				service.addEventListener(ResultEvent.RESULT,onResultInform);
+				service.addEventListener(FaultEvent.FAULT, onFault);			
+				*/
 					
 				for(var i = 0 ; i < assignments.length; i++){
 					if(assignments.getItemAt(i) == (patients.selectedItem as Object) ){
 						trace("assignments.getItemAt(i).ICD10Code: "+assignments.getItemAt(i).ICD10Code);
-						if(assignments.getItemAt(i).ICD10Code != "not started"){
+						if(assignments.getItemAt(i).ICD10Code != "not started" && assignments.getItemAt(i).ICD10Code != "aborted" && assignments.getItemAt(i).ICD10Code != "finished"){
 							
 							trace("executing...")
 							parentApplication.careplanDT.isExecuting=true;
+							
 						}
 						else{
 							trace("started...")
 							parentApplication.careplanDT.isExecuting=false;
 							assignments.getItemAt(i).ICD10Code = "executing";
+							//service.informDBaboutStatus((patients.selectedItem as Object).personID, (patients.selectedItem as Object).careplanName,"executing" );
 						}	
 						break;
 					}

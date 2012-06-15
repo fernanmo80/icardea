@@ -616,6 +616,15 @@
 				service.abortCareplan(executeCareplanObj.personID, careplanProccessorID);
 				executeCareplanObj.ICD10Code = "aborted";
 				
+				var service : RemoteObject = new RemoteObject("subscriptionService");
+				var cs:ChannelSet = new ChannelSet();
+				var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+				cs.addChannel(customChannel);
+				service.channelSet = cs;
+				//service.addEventListener(ResultEvent.RESULT,onResultInform);
+				service.addEventListener(FaultEvent.FAULT, onFault);
+				service.informDBaboutStatus(executeCareplanObj.personID, executeCareplanObj.careplanName,"aborted" );
+				
 			}
 			public function onResultAbortCareplan(result:ResultEvent):void 
        		{
@@ -654,6 +663,14 @@
 					executeCareplanObj.ICD10Code = "executing";
 					service.executeCareplan(executeCareplanObj.personID, executeCareplanObj.careplanID);
 					
+					var service : RemoteObject = new RemoteObject("subscriptionService");
+					var cs:ChannelSet = new ChannelSet();
+					var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+					cs.addChannel(customChannel);
+					service.channelSet = cs;
+					//service.addEventListener(ResultEvent.RESULT,onResultInform);
+					service.addEventListener(FaultEvent.FAULT, onFault);
+					service.informDBaboutStatus(executeCareplanObj.personID, executeCareplanObj.careplanName,"executing" );
 					
 				} else if ((buttonBox.getChildAt(0) as Button).label == "Pause") {
 					(buttonBox.getChildAt(0) as Button).label = "Resume";
@@ -661,6 +678,15 @@
 					executeCareplanObj.ICD10Code = "paused";
 					clearInterval(executionTimerId);
 					logInfo += "Execution Paused!"+"\n";
+					
+					var service : RemoteObject = new RemoteObject("subscriptionService");
+					var cs:ChannelSet = new ChannelSet();
+					var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+					cs.addChannel(customChannel);
+					service.channelSet = cs;
+					//service.addEventListener(ResultEvent.RESULT,onResultInform);
+					service.addEventListener(FaultEvent.FAULT, onFault);
+					service.informDBaboutStatus(executeCareplanObj.personID, executeCareplanObj.careplanName,"paused" );
 					
 				}
 				else if ((buttonBox.getChildAt(0) as Button).label == "Resume") {
@@ -677,6 +703,15 @@
 					service.addEventListener(ResultEvent.RESULT,onResultResumeCareplan);
 					service.addEventListener(FaultEvent.FAULT, onFault);		
 					service.resumeCareplan(executeCareplanObj.personID, executeCareplanObj.careplanID);
+					
+					var service : RemoteObject = new RemoteObject("subscriptionService");
+					var cs:ChannelSet = new ChannelSet();
+					var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+					cs.addChannel(customChannel);
+					service.channelSet = cs;
+					//service.addEventListener(ResultEvent.RESULT,onResultInform);
+					service.addEventListener(FaultEvent.FAULT, onFault);
+					service.informDBaboutStatus(executeCareplanObj.personID, executeCareplanObj.careplanName,"resumed" );
 				}  
 			}
 			public function onResultResumeCareplan(result:ResultEvent):void 
@@ -844,6 +879,15 @@
 				   						Alert.show("Guideline Finalized!");
 				   						clearInterval(executionTimerId);
 										logInfo += "Execution Finalized!"+"\n";
+										var service : RemoteObject = new RemoteObject("subscriptionService");
+										var cs:ChannelSet = new ChannelSet();
+										var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+										cs.addChannel(customChannel);
+										service.channelSet = cs;
+										//service.addEventListener(ResultEvent.RESULT,onResultInform);
+										service.addEventListener(FaultEvent.FAULT, onFault);
+										service.informDBaboutStatus(executeCareplanObj.personID, executeCareplanObj.careplanName,"finalized" );
+				
 				   					}
 				   					if(id == "S6D65A091-CB09-6B23-CCB2-519CAD72E0B4" ){
 				   						dobTarget = diagram.getElementByDataObjectId("S8590B661-27DB-989C-7C2C-51A555B00624") as DiagramObject;
@@ -854,6 +898,15 @@
 				   						Alert.show("Guideline Finalized!");
 				   						clearInterval(executionTimerId);
 										logInfo += "Execution Finalized!"+"\n";
+										var service : RemoteObject = new RemoteObject("subscriptionService");
+										var cs:ChannelSet = new ChannelSet();
+										var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+										cs.addChannel(customChannel);
+										service.channelSet = cs;
+										//service.addEventListener(ResultEvent.RESULT,onResultInform);
+										service.addEventListener(FaultEvent.FAULT, onFault);
+										service.informDBaboutStatus(executeCareplanObj.personID, executeCareplanObj.careplanName,"finalized" );
+				
 				   					}
 				   						
 				   					
@@ -907,6 +960,15 @@
 		   						Alert.show("Guideline Finalized!");
 				   				//(buttonBox.getChildAt(0) as Button).label == "Start";
 				   				clearInterval(executionTimerId);
+				   				var service : RemoteObject = new RemoteObject("subscriptionService");
+								var cs:ChannelSet = new ChannelSet();
+								var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+								cs.addChannel(customChannel);
+								service.channelSet = cs;
+								//service.addEventListener(ResultEvent.RESULT,onResultInform);
+								service.addEventListener(FaultEvent.FAULT, onFault);
+								service.informDBaboutStatus(executeCareplanObj.personID, executeCareplanObj.careplanName,"finalized" );
+				
 								//logInfo += "Execution Ends!"+"\n";
 		   					}
 		   					if(id == "S0F4B6AE8-BC3C-052D-E84E-9105773EF96A"){
@@ -916,6 +978,15 @@
 		   						Alert.show("Guideline Finalized!");
 				   				//(buttonBox.getChildAt(0) as Button).label == "Start";
 				   				clearInterval(executionTimerId);
+				   				var service : RemoteObject = new RemoteObject("subscriptionService");
+								var cs:ChannelSet = new ChannelSet();
+								var customChannel:Channel = new SecureAMFChannel("my-amf","/icardea_careplaneditor/messagebroker/amf");
+								cs.addChannel(customChannel);
+								service.channelSet = cs;
+								//service.addEventListener(ResultEvent.RESULT,onResultInform);
+								service.addEventListener(FaultEvent.FAULT, onFault);
+								service.informDBaboutStatus(executeCareplanObj.personID, executeCareplanObj.careplanName,"finalized" );
+				
 								//logInfo += "Execution Ends!"+"\n";
 		   					}
 		   						

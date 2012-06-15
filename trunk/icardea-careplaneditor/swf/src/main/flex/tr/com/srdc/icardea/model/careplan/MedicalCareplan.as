@@ -18,7 +18,7 @@ package tr.com.srdc.icardea.model.careplan{
 		[XmlAttribute(alias="ID")]	
 		public  var id : String = "";
 		[XmlAttribute(alias="status")]	
-		public  var ICD10Code : String;
+		public  var status : String;
 		[XmlAttribute(alias="name")]	
 		public  var name : String = "";
 		[XmlAttribute(alias="version")]	
