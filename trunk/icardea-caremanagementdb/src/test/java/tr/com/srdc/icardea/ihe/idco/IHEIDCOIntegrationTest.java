@@ -50,7 +50,7 @@ public class IHEIDCOIntegrationTest {
 		dos.close();
 	}
 
-	@Test
+	//@Test
 	public void testADTMessage() throws java.lang.Exception {
 		String fileName = "idco/adt-a01.hl7";
 		ObservationCreator obsCreator = new ObservationCreator("localhost", 1011);
@@ -73,6 +73,12 @@ public class IHEIDCOIntegrationTest {
 		ObservationCreator obsCreator = new ObservationCreator("localhost", 1011);
 		obsCreator.run(true, true, fileName);
 		System.out.println(" $$$$ Sent....");
+	}
+	@Test
+	public void testAFScenario() throws java.lang.Exception {
+		String fileName = "idco/AF_Scenario.hl7";
+		ObservationCreator obsCreator = new ObservationCreator("localhost", 1011);
+		obsCreator.run(true, false, fileName);
 	}
 
 	//@Test
