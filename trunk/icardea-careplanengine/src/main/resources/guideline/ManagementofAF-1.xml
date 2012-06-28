@@ -1911,15 +1911,25 @@
 
 		      <p align="center"><b>Brief Information about the patient </b></p>
 
-		      <p>Patient Name: <br />
-			Patient ID: <br />
-			Initial Diagnosis: <a
+		      <p>Patient Name: 
+			<data src="caremanagementdb://Patient/@givenName"/>
+			<data src="caremanagementdb://Patient/@secondName"/>
+			<data src="caremanagementdb://Patient/@familyName"/>
+			<br />
+			Patient ID: 
+			<data src="caremanagementdb://Patient/@patientIdentifier"/>
+			<br />
+			Initial Diagnosis: 
+			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
+			<a
 			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
-			Implanted Device: <br />
-			Last Follow-up Date: <a
-			  href="http://link.to.care.management.db/">Access to previous Remote
-			  follow-up results</a> </p>
+			Implanted Device:
+			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
+			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
+			<br />
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
 		      </p>
@@ -1929,9 +1939,9 @@
 		    <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
 
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
-		      Received Date: <br />
+		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link/">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EHRBlock">
@@ -2122,15 +2132,25 @@
 
 		      <p align="center"><b>Brief Information about the patient </b></p>
 
-		      <p>Patient Name: <br />
-			Patient ID: <br />
-			Initial Diagnosis: <a
+		      <p>Patient Name: 
+			<data src="caremanagementdb://Patient/@givenName"/>
+			<data src="caremanagementdb://Patient/@secondName"/>
+			<data src="caremanagementdb://Patient/@familyName"/>
+			<br />
+			Patient ID: 
+			<data src="caremanagementdb://Patient/@patientIdentifier"/>
+			<br />
+			Initial Diagnosis: 
+			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
+			<a
 			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
-			Implanted Device: <br />
-			Last Follow-up Date: <a
-			  href="http://link.to.care.management.db/">Access to previous Remote
-			  follow-up results</a> </p>
+			Implanted Device:
+			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
+			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
+			<br />
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
 		      </p>
@@ -2140,9 +2160,9 @@
 		    <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
 
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
-		      Received Date: <br />
+		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link/">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EHRBlock">
@@ -2318,15 +2338,25 @@
 
 		      <p align="center"><b>Brief Information about the patient </b></p>
 
-		      <p>Patient Name: <br />
-			Patient ID: <br />
-			Initial Diagnosis: <a
+		      <p>Patient Name: 
+			<data src="caremanagementdb://Patient/@givenName"/>
+			<data src="caremanagementdb://Patient/@secondName"/>
+			<data src="caremanagementdb://Patient/@familyName"/>
+			<br />
+			Patient ID: 
+			<data src="caremanagementdb://Patient/@patientIdentifier"/>
+			<br />
+			Initial Diagnosis: 
+			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
+			<a
 			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
-			Implanted Device: <br />
-			Last Follow-up Date: <a
-			  href="http://link.to.care.management.db/">Access to previous Remote
-			  follow-up results</a> </p>
+			Implanted Device:
+			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
+			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
+			<br />
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
 		      </p>
@@ -2336,9 +2366,9 @@
 		    <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
 
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
-		      Received Date: <br />
+		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link/">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EHRBlock">
@@ -2496,15 +2526,25 @@
 
 		      <p align="center"><b>Brief Information about the patient </b></p>
 
-		      <p>Patient Name: <br />
-			Patient ID: <br />
-			Initial Diagnosis: <a
+		      <p>Patient Name: 
+			<data src="caremanagementdb://Patient/@givenName"/>
+			<data src="caremanagementdb://Patient/@secondName"/>
+			<data src="caremanagementdb://Patient/@familyName"/>
+			<br />
+			Patient ID: 
+			<data src="caremanagementdb://Patient/@patientIdentifier"/>
+			<br />
+			Initial Diagnosis: 
+			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
+			<a
 			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
-			Implanted Device: <br />
-			Last Follow-up Date: <a
-			  href="http://link.to.care.management.db/">Access to previous Remote
-			  follow-up results</a> </p>
+			Implanted Device:
+			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
+			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
+			<br />
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
 		      </p>
@@ -2514,9 +2554,9 @@
 		    <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
 
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
-		      Received Date: <br />
+		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link/">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EHRBlock">
@@ -3217,15 +3257,25 @@
 
 		      <p align="center"><b>Brief Information about the patient </b></p>
 
-		      <p>Patient Name: <br />
-			Patient ID: <br />
-			Initial Diagnosis: <a
+		      <p>Patient Name: 
+			<data src="caremanagementdb://Patient/@givenName"/>
+			<data src="caremanagementdb://Patient/@secondName"/>
+			<data src="caremanagementdb://Patient/@familyName"/>
+			<br />
+			Patient ID: 
+			<data src="caremanagementdb://Patient/@patientIdentifier"/>
+			<br />
+			Initial Diagnosis: 
+			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
+			<a
 			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
-			Implanted Device: <br />
-			Last Follow-up Date: <a
-			  href="http://link.to.care.management.db/">Access to previous Remote
-			  follow-up results</a> </p>
+			Implanted Device:
+			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
+			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
+			<br />
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
 		      </p>
@@ -3235,9 +3285,9 @@
 		    <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
 
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
-		      Received Date: <br />
+		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link/">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="PHRBlock">
@@ -3360,15 +3410,25 @@
 
 		      <p align="center"><b>Brief Information about the patient </b></p>
 
-		      <p>Patient Name: <br />
-			Patient ID: <br />
-			Initial Diagnosis: <a
+		      <p>Patient Name: 
+			<data src="caremanagementdb://Patient/@givenName"/>
+			<data src="caremanagementdb://Patient/@secondName"/>
+			<data src="caremanagementdb://Patient/@familyName"/>
+			<br />
+			Patient ID: 
+			<data src="caremanagementdb://Patient/@patientIdentifier"/>
+			<br />
+			Initial Diagnosis: 
+			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
+			<a
 			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
-			Implanted Device: <br />
-			Last Follow-up Date: <a
-			  href="http://link.to.care.management.db/">Access to previous Remote
-			  follow-up results</a> </p>
+			Implanted Device:
+			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
+			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
+			<br />
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
 		      </p>
@@ -3378,9 +3438,9 @@
 		    <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
 
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
-		      Received Date: <br />
+		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link/">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EHRBlock">
@@ -4713,15 +4773,25 @@
 
 		      <p align="center"><b>Brief Information about the patient </b></p>
 
-		      <p>Patient Name: <br />
-			Patient ID: <br />
-			Initial Diagnosis: <a
+		      <p>Patient Name: 
+			<data src="caremanagementdb://Patient/@givenName"/>
+			<data src="caremanagementdb://Patient/@secondName"/>
+			<data src="caremanagementdb://Patient/@familyName"/>
+			<br />
+			Patient ID: 
+			<data src="caremanagementdb://Patient/@patientIdentifier"/>
+			<br />
+			Initial Diagnosis: 
+			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
+			<a
 			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
 			  EHR</a> <br />
-			Implanted Device: <br />
-			Last Follow-up Date: <a
-			  href="http://link.to.care.management.db/">Access to previous Remote
-			  follow-up results</a> </p>
+			Implanted Device:
+			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
+			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
+			<br />
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a href="http://link.to.care.management.db">Access
+			  to previous Remote follow-up results</a> </p>
 
 		      <p><br />
 		      </p>
@@ -4731,9 +4801,9 @@
 		    <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
 
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
-		      Received Date: <br />
+		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link/">Access to Report
+		      <a href="http://patient.parameter.monitor.link">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EHRBlock">
