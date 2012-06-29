@@ -85,7 +85,7 @@
       <Variable name="AFStatus" type="boolean">
 	<Concept code="739568" name="MDC_IDC_EPISODE_TYPE" schemeID="MDC_IDC"/>
 	<DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
-	<RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x] == "Epis_AT_AF") y=true; } return y; }</RefinementScript>
+	<RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x].indexOf("Epis_AT_AF") != -1) y=true; } return y; }</RefinementScript>
       </Variable>
       <!--Scriptler degisecek. Ayrica burada input girilen AFStatus objesini incele. Nasil olusturuluyor.-->
       <EvaluationScript>function EligibleToGuidelineCriterion(AFStatus) { if ( AFStatus.getValue().getText() == "true") return true; else return false; }</EvaluationScript>
