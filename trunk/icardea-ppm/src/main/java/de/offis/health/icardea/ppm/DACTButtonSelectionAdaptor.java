@@ -208,6 +208,8 @@ public class DACTButtonSelectionAdaptor extends SelectionAdapter {
 	 * At this method the Tab-Excel is filled propabbly using hidden SQL statemens	
 	 */
 	void fillTable(){
+		//Nur fuer lokales faerben
+		dDisplay d=PPMMain.ppmMainDisplay;
 		//System.out.println("DACT Button Test - filltable");
 		ppmDataset.dactCalled();
 		int patientID= 2;
@@ -226,6 +228,11 @@ public class DACTButtonSelectionAdaptor extends SelectionAdapter {
 		{
 			DactPatternDataSet selected = allPatterns.get(i);
 
+			//Coloring, see PPMMAin Line 212
+			//	tableItem.setForeground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
+			// tableItem.setBackground(display.getSystemColor(SWT.COLOR_DARK_RED));
+			
+			
 			//Write the items into the table
 			TableItem tableItem = new TableItem(table, SWT.NONE);
 			tableItem.setText(0, selected.patternID.toString());
@@ -233,11 +240,14 @@ public class DACTButtonSelectionAdaptor extends SelectionAdapter {
 			tableItem.setText(2, selected.viewConclu);
 			tableItem.setText(3, selected.viewConf);
 			tableItem.setText(4, selected.viewSupport);
+			
 			if (selected.validForPat){
-				tableItem.setText(5, "Total Fullfilled by patient");
+				tableItem.setText(5, "Totally Fullfilled by patient");
+				tableItem.setForeground(d.getSystemColor(SWT.COLOR_DARK_GREEN));
 			}
 			else if (selected.preReqFullFilled) {
 				tableItem.setText(5, "PreReq Fullfilled by patient");
+				tableItem.setForeground(d.getSystemColor(SWT.COLOR_DARK_MAGENTA));
 			}
 
 			;
