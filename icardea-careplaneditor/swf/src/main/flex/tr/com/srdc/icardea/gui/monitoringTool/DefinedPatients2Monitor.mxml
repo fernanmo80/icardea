@@ -139,7 +139,7 @@
 				for(var i = 0 ; i < assignments.length; i++){
 					if(assignments.getItemAt(i) == (patients.selectedItem as Object) ){
 						trace("assignments.getItemAt(i).ICD10Code: "+assignments.getItemAt(i).ICD10Code);
-						if(assignments.getItemAt(i).ICD10Code != "not started" && assignments.getItemAt(i).ICD10Code != "aborted" && assignments.getItemAt(i).ICD10Code != "finished"){
+						if(assignments.getItemAt(i).ICD10Code == "executing" || assignments.getItemAt(i).ICD10Code == "paused"){
 							
 							trace("executing...")
 							parentApplication.careplanDT.isExecuting=true;
