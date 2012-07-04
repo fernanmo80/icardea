@@ -100,7 +100,7 @@
 	<Variable name="VTStatus" type="boolean">
 	  <Concept code="739568" name="MDC_IDC_EPISODE_TYPE" schemeID="MDC_IDC"/>
 	  <DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
-	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x] == "Epis_VT") y=true; } return y; }</RefinementScript>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x].indexOf("Epis_VT") != -1) y=true; } return y; }</RefinementScript>
 	</Variable>
 	<Variable name="SVTStatus" type="boolean">
 	
