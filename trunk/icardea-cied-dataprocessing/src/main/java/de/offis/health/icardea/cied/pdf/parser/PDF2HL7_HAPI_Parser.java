@@ -173,6 +173,9 @@ public class PDF2HL7_HAPI_Parser {
 			obx_list = new ArrayList<ORU_OBX>();
 			egm_list = new ArrayList<ORU_EGM>();
 			
+			//hack AT insert full PDF into it
+			egm_list=egm_List(0,"Report", pdfExtractor.getPDFPages(1, pdfExtractor.getNumberOfPages()), pdfFile, egm_list);
+			
 			for (int i=1; i<=pdfExtractor.getNumberOfPages();i++) {
 				for (int j=0; j<titleList.size();j++) {
 					/*In Medtronic file, the position for each title in every pages is 
@@ -209,7 +212,8 @@ public class PDF2HL7_HAPI_Parser {
 					if (matcher_EGM.find()) {
 						egm_list=egm_List(i, matcher_EGM.group(), pdfExtractor.getPDFPage(i), pdfFile, egm_list);
 					}
-				}
+				}//HACK AT here adding the full pdf? 
+
 			}
 			
 			/*########################EGM Base64 Encode Section########################*/
@@ -360,6 +364,7 @@ public class PDF2HL7_HAPI_Parser {
 	
 	private ArrayList<ORU_EGM> egm_List(int egmPageNumber, String egmName, byte[] egmContent , File pdfFile, ArrayList<ORU_EGM> egmList) {
 		ORU_EGM egmObject=new ORU_EGM();
+		logger.info("!!!Adding PDF:"+egmName+" from File:"+pdfFile.getName());
 		egmObject.setEgmPageNumber(egmPageNumber);
 		egmObject.setEgmName(egmName+"_P"+Integer.toString(egmPageNumber)); //P means Page
 		egmObject.setEgmContent(egmContent);
