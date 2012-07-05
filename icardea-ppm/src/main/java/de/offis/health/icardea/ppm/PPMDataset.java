@@ -48,9 +48,12 @@ public class PPMDataset {
 
 	private String dropPPMDataset="drop table  if exists icardea.PPMDATASET; ";
 	private String dropPPMPending="drop table  if exists icardea.PPMPENDING; ";
+	private String dropDACT="drop table  if exists icardea.dact_pattern; drop table  if exists icardea.dact_counter;";
+	
 
 	private String createPPMDataset = "CREATE TABLE icardea.PPMDATASET (   SHEET VARCHAR(20),   PARAMETER VARCHAR(50),   DATASET LONGTEXT,   TYPE_OF_VARIABLE TEXT,   EXPLANATION TEXT,   SOURCE TEXT,   FULLREFID TEXT,   PPMDATASOURCE TEXT,   TIME_FRAME TEXT,   FORMAT TEXT,   VALIDATION TEXT,   COMMENTS TEXT,   SJM_COMMENTS TEXT,   PATID TEXT,   SORTNUMBER INTEGER,   SUBTITEL TEXT,   BUTTONTITEL TEXT,   BUTTONTABLE TEXT,   USERPREF TEXT,   SQLCAREPLAN TEXT,   DEMODATASET_AF TEXT,   TIMELOW TEXT,   TIMEHIGH TEXT,   ID INTEGER NOT NULL  AUTO_INCREMENT,   PRIMARY KEY (ID) );";
 	private String createPPMPending = "CREATE TABLE icardea.PPMPENDING (   SerialID TEXT,   DATASET LONGTEXT,   SOURCE TEXT,   FULLREFID TEXT,   PATID TEXT,   TIMELOW TEXT,   TIMEHIGH TEXT,   STATUS CHAR,   localid MEDIUMINT NOT NULL AUTO_INCREMENT,    PRIMARY KEY (localid)   );";
+	private String createDACT;
 	private String createVIEWS="";
 	private String createInitial= "";
 	private static Logger logger = Logger.getLogger(PPMDataset.class);
@@ -128,6 +131,11 @@ public class PPMDataset {
 		logger.info("Table ppmpending created");
 		stmt.execute(createInitial);
 		logger.info("Initial configuration created");
+		stmt.execute(dropDACT);
+		logger.info("DACT Tables dropped");
+		stmt.execute(createDACT);
+		logger.info("Dact Tables created");
+
 	}
 
 	private void createInitialViewsDB() throws SQLException {
@@ -1363,6 +1371,8 @@ public ArrayList<DactPatternDataSet> getDactItems()
 		String replaceInto=" REPLACE INTO ppmdataset (SHEET,PARAMETER,DATASET,TYPE_OF_VARIABLE,EXPLANATION,SOURCE,FULLREFID,PPMDATASOURCE,TIME_FRAME,FORMAT,VALIDATION,COMMENTS,SJM_COMMENTS,PATID,SORTNUMBER,SUBTITEL,BUTTONTITEL,BUTTONTABLE,USERPREF,SQLCAREPLAN,DEMODATASET_AF,TIMELOW,TIMEHIGH) VALUES ";
 		createPPMDataset = "CREATE TABLE icardea.PPMDATASET (   SHEET VARCHAR(20),   PARAMETER VARCHAR(50),   DATASET LONGTEXT,   TYPE_OF_VARIABLE TEXT,   EXPLANATION TEXT,   SOURCE TEXT,   FULLREFID TEXT,   PPMDATASOURCE TEXT,   TIME_FRAME TEXT,   FORMAT TEXT,   VALIDATION TEXT,   COMMENTS TEXT,   SJM_COMMENTS TEXT,   PATID TEXT,   SORTNUMBER INTEGER,   SUBTITEL TEXT,   BUTTONTITEL TEXT,   BUTTONTABLE TEXT,   USERPREF TEXT,   SQLCAREPLAN TEXT,   DEMODATASET_AF TEXT,   TIMELOW TEXT,   TIMEHIGH TEXT,   ID INTEGER NOT NULL  AUTO_INCREMENT,   PRIMARY KEY (ID) );";
 		createPPMPending = "CREATE TABLE icardea.PPMPENDING (   SerialID TEXT,   DATASET LONGTEXT,   SOURCE TEXT,   FULLREFID TEXT,   PATID TEXT,   TIMELOW TEXT,   TIMEHIGH TEXT,   STATUS CHAR,   localid MEDIUMINT NOT NULL AUTO_INCREMENT,    PRIMARY KEY (localid)   );";
+		createDACT = "CREATE TABLE dact_counter (   dactcounter INTEGER(11) NOT NULL AUTO_INCREMENT,   calltime TIMESTAMP NULL DEFAULT CURRENT_TIMESTAMP,   username TEXT,   PRIMARY KEY (dactcounter) ); "+
+				"CREATE TABLE dact_pattern (   pattern_id int(11) NOT NULL AUTO_INCREMENT COMMENT 'AutoIcrementID for the pattern',   prerequisite_db_relations text NOT NULL COMMENT 'Prerequisite for comparing to Database values',   prerequisiute_db_attributes text NOT NULL COMMENT 'The values for the attribute exchange',   prerequisite_view text COMMENT 'Prerequiste for showing to healthcare professionel',   conclusion_db_relation text NOT NULL COMMENT 'the attribute values',   conclusion_db_attribute text NOT NULL COMMENT 'Conclusion for Database comparision. Could be used for showing patterns, that are also true for this patient',   confidence_view text COMMENT 'Cofidence to show to the healthcare actor',   conclusion_view text COMMENT 'The conclusion of the view to be shown to the healthcare actor',   support_view text COMMENT 'Support to be shown to the healtchare actor',   approvedstatus_view text COMMENT 'Show the status of the pattern (approved rejected) to the healthcare actor',   validforpatient boolean DEFAULT NULL COMMENT 'Flag to show, if the pattern in total (prerequisuite and conclusion) is valid for the patient',   creationdate date DEFAULT NULL COMMENT 'Date of creation of the pattern YYYY-MM-DD',   creationsource text COMMENT 'Name of the Source / Analysisprocess that created the pattern',   active boolean NOT NULL COMMENT 'Boolean to enable or disable the usage of a pattern',   PRIMARY KEY (pattern_id) ) COMMENT='Information for patterns and comparing to CaremanagementDB' ";
 		createVIEWS="create OR REPLACE view icardea.medications as select  m.doseQuantity val, m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh,concat(m.text ,' ', m.doseQuantity,' mg',IF(ehr.isEHR=0,' (from PHR)',' (from EHR)')) text,ehr.isEHR ,p.id patid from Medication m,Patient p, EHRPHRData ehr where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and careProvisionCode=\"MEDLIST\" and ehr.isEHR=1 order by m.text,m.effectiveTime,m.effectiveTimeHigh ;"
 				+" create  OR REPLACE view icardea.Compliance as   select  0 val,  m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh, concat(m.text, ' taken ',m.doseQuantity,' mg prescribed ' ,m2.doseQuantity,' mg') text, ehr.isEHR ,ehr2.isEHR isEHr2,p.id patid from Medication m, Medication m2,Patient p, EHRPHRData ehr, EHRPHRData ehr2 where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and ehr2.id=m2.EHRPHRDataID and  m.drugcode=m2.drugcode  and ehr.isEHR=0 and ehr2.isEHR=1 and (cast(`m`.`doseQuantity` as DECIMAL(50,3)) <> cast(`m2`.`doseQuantity` as DECIMAL(50,3))) order by m.text,m.effectiveTime,m.effectiveTimeHigh ;  "
 				+" create  OR REPLACE view icardea.symptoms as     select  0 val,  m.problemValueOriginalText text,m.effectiveTimeLow, m.effectiveTimeHigh ,p.id patid from Problem m,Patient p, EHRPHRData ehr where p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID  and ehr.IsEHR=1 and problemCode=\"409586006\" order by m.effectiveTimeLow; "
