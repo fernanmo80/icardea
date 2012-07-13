@@ -1,0 +1,223 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title> </title>
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta name="viewport" content="width=device-width,
+      initial-scale=1.0">
+    <link rel="stylesheet" href="../styles/style.css">
+    <link rel="stylesheet" href="../styles/icardea_style.css">
+  </head>
+  <body>
+    <br>
+    <div id="container">
+      <p> <a href="../manuals.html">« iCARDEA User Guides</a> </p>
+      <h1 class="ui-corner-all ui-state-default">PHR System Technical
+        Information<br>
+      </h1>
+      <div id="main">
+        <p>The Personal Health Record (PHR) system.<br>
+          The external PHR portal does not connect with other iCARDEA
+          components.<br>
+          Also, for security reasons, no patient contact info form is
+          provided. We want to ensure completely anonymity for the
+          users.<br>
+          User credentials are provided to the user and should first be
+          setup during configuration (see below).<br>
+        </p>
+        <p>User Manual can be found <a target="_blank"
+            href="phr_user_manual_p2.htm">here</a>.</p>
+        <p>User Training Material can be found <a target="_blank"
+            href="phr_user_training_basic_p2.htm">here</a>, this
+          includes some core activities that a new user might perform
+          with the PHR system.</p>
+        <section> </section>
+        <h2 id="start">How to start the external portal<br>
+        </h2>
+        <p>To start the portal, Tomcat application server must be
+          started.<br>
+          The first time, the&nbsp; Sesame Database must be created
+          before accessing the portal (see How to Install). <br>
+        </p>
+        <p>Next access the following URL in the web browser:
+          http://domain[:8080]/phrweb</p>
+        <ul>
+          <li>Login using either a demo user ID&nbsp; (phrsm,
+            phr1..phr9) or from a list of Login IDs defined in property
+            <span style="font-weight: bold; font-style: italic;">demo.login.ids</span>
+            in phrs.properties. <br>
+          </li>
+          <li>After filling in user name and password, user is able to
+            use the PHR portal by selecting from the menu on the left.</li>
+        </ul>
+        <aside>
+          <h2>Notes</h2>
+          <div class="caution">
+            <h3><img src="../ehr/user_guide/imgs/caution.png"
+                alt="caution">Caution </h3>
+            <p>Make sure the configuration parameters are set before
+              installation.</p>
+          </div>
+        </aside>
+        <section> </section>
+        <h2 id="install">How to install</h2>
+        <ol>
+          <li>Download the following archives from <a
+href="http://code.google.com/p/icardea/source/browse/#svn%2Ftrunk%2Ftools_resources">http://code.google.com/p/icardea/source/browse/#svn%2Ftrunk%2Ftools_resources</a>
+            and install the enclosed <span style="font-style: italic;">[war</span>
+            files] into your Tomcat <span style="font-style: italic;">webapps</span>
+            directory.<br>
+            sesame-tools263.zip [openrdf-sesame.war and
+            openrdf-workbench.war ]<br>
+            phrext1.zip [phrweb.war]<br>
+            <br>
+          </li>
+          <li>Review the configuration section below and make the
+            appropriate updates to the configuration<br>
+            <br>
+          </li>
+          <li>Start Tomcat and create the Sesame Database using the CURL
+            program<br>
+            For windows, download the CURL software at <a
+href="http://code.google.com/p/icardea/source/browse/#svn%2Ftrunk%2Ftools_resources%2Fcurl">http://code.google.com/p/icardea/source/browse/#svn%2Ftrunk%2Ftools_resources%2Fcurl</a><br>
+            <br>
+            <span style="font-style: italic;">Creating a native java
+              database in Sesame called phrext1:</span><br>
+            <br>
+            call curl -X POST "
+http://domain[:8080]/openrdf-workbench/repositories/NONE/create?type=native&amp;Repository+ID=phrext1&amp;Repository+title=phrs1+title&amp;Triple+indexes=spoc,posc"<br>
+              <br>
+              <br>
+            <br>
+          </li>
+        </ol>
+        <ul>
+        </ul>
+        <ul>
+        </ul>
+        <ol>
+          <span style="text-decoration: underline;"> </span>
+        </ol>
+        <h2 id="configuration">How to clear databases</h2>
+        <p>1. MongoDB:&nbsp; [mongo&nbsp; directory]\bin\mongo
+          localhost/phrsdata1 -quiet -eval "db.dropDatabase()"<br>
+          2. Sesame Database:<br>
+          <br>
+          a. Shutdown Tomcat <br>
+          b. rmdir /S /Q "%APPDATA%\Aduna"<br>
+        </p>
+        <h2 id="configuration">Configuration</h2>
+        <ul>
+        </ul>
+        <p>Set the following Tomcat environment variables ( use
+          setenv.bat or set manually): <br>
+        </p>
+        <ul>
+        </ul>
+        <ol>
+          <li>Set Tomcat parameters<br>
+            CATALINA_OPTS=-Xms 256m -Xmx1024m -XX:PermSize=256m
+            -XX:MaxPermSize=1024m<br>
+            <br>
+          </li>
+          <li>Check your Tomcat port, it should be port 8080.<br>
+            <br>
+            Otherwise: <br>
+            a) Make a copy of <span style="font-style: italic;">generic_triplestore.xml
+
+
+            </span><span style="font-style: italic;">from
+              phrweb/WEB-INF/lib/phrs-dataexchange-client-1.0-SNAPSHOT.jar</span><span
+              style="font-style: italic;">.<br>
+            </span>b) Change the port in&nbsp; <span style="font-style:
+              italic;">generic_triplestore.xml</span> and copy the file
+            to <span style="font-style: italic;">phrweb/WEB-INF/classes</span></li>
+          <li>
+            <p>Update the local User Credentials assignments<br>
+              <br>
+              User credentials are assigned to each user. Provide your
+              user with a user ID and password, although password is
+              optional depending on your requirements.<br>
+              <br>
+              Normally, the iCARDEA Identity provider is used by the PHR
+              portal, instead, the local user credentials can be
+              assigned in the <span style="font-style: italic;">phrs.properties</span>
+              file. In the PHR portal properties file <span
+                style="font-weight: bold;">phrweb/resources/phrs.properties</span>,
+              provide a comma separated list of login IDs<br>
+              The Login ID <span style="font-style: italic;
+                font-weight: bold;">phrsm</span> is already included by
+              default.<br>
+              <span style="font-style: italic;"></span><br>
+              All login IDs must begin with <span style="font-weight:
+                bold; font-style: italic;">phr</span> - This is the
+              means to distinguish between the short IDs used in the
+              iCardea Identity Provider and local PHR identifiers.<br>
+              <span style="font-style: italic;">local.login.ids=phr1,phr2<br>
+              </span><br>
+              Assign a password following the Login ID, by adding the
+              delimiter "*" followed by the password<br>
+              <span style="font-style: italic;">local.login.ids=phr1,phr2*pass123,phr3</span><br>
+            </p>
+          </li>
+          <li>Check and Update Patient information material references<br>
+            <br>
+            The UI menu sidebar links to a Content Management system.
+            Provide links to the content in the phrscontent.properties
+            file<br>
+            phrweb/WEB-INF/classes/phrscontent.properties<br>
+            <br>
+          </li>
+          <li>(Optional) Provide new resource files to localize the User
+            Interfaces <br>
+            <br>
+            The language choice is determined by the web browser
+            settings.<br>
+            <br>
+            Under WEB-INF/classes:<br>
+            <span style="font-style: italic;">Messagelabels.properties</span>
+            - contains German labels<br>
+            <span style="font-style: italic;">Messagelabels_en.properties</span>
+            - contains English labels. Note that it is named <span
+              style="font-style: italic;">Messagelabels_hide_en.properties</span>
+            to prevent confusion during demonstrations<br>
+            <br>
+          </li>
+        </ol>
+        <h2>Technical Details</h2>
+        <p>This version of the PHR system requires the following
+          software:</p>
+        <ul>
+          <li>Java 1.6+</li>
+          <li>Tomcat 6.0.35 (install separately) Installation directory
+          </li>
+          <li>MongoDB running as service or started before</li>
+          <li>Sesame Database 2.6.3 and workbench installed in the
+            Tomcat <span style="font-style: italic;">webapp</span>
+            directory (see installation)<br>
+          </li>
+          <li>CURL program <a
+href="http://code.google.com/p/icardea/source/browse/#svn%2Ftrunk%2Ftools_resources%2Fcurl">http://code.google.com/p/icardea/source/browse/#svn%2Ftrunk%2Ftools_resources%2Fcurl</a></li>
+          <li>Content Management System for any information materials<br>
+            <br>
+          </li>
+        </ul>
+        <p style="font-weight: bold;">Following TCP ports are required:<br>
+        </p>
+        <ul>
+          <li>MongoDB : 27017;&nbsp; web UI on:&nbsp; 28017<br>
+          </li>
+          <li>Apache Tomcat Server for&nbsp; portal application <span
+              style="font-style: italic;">phrweb</span> : 8080<br>
+          </li>
+        </ul>
+      </div>
+      <footer><br>
+      </footer>
+    </div>
+  </body>
+</html>
