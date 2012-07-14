@@ -209,7 +209,7 @@ public class DACTButtonSelectionAdaptor extends SelectionAdapter {
 	 */
 	void fillTable(){
 		//Nur fuer lokales faerben
-		dDisplay d=PPMMain.ppmMainDisplay;
+		Display d=PPMMain.ppmMainDisplay;
 		//System.out.println("DACT Button Test - filltable");
 		ppmDataset.dactCalled();
 		int patientID= 2;
