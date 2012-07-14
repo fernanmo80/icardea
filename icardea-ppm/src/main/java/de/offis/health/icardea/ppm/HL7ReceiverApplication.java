@@ -3,7 +3,12 @@
  */
 package de.offis.health.icardea.ppm;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 
 import org.apache.log4j.Logger;
 
@@ -41,7 +46,7 @@ public class HL7ReceiverApplication implements Application {
 
 	private Parser parser=null;
 	private static boolean keepAlive=true;
-	private static boolean directtesting=false;
+	private static boolean directtesting=true;
 	private static Logger logger = Logger.getLogger(HL7ReceiverApplication.class);
 
 	private PPMDataset ppmDataset=null;
@@ -127,6 +132,8 @@ public class HL7ReceiverApplication implements Application {
 
 
 	public boolean useMessage(Message in) throws HL7Exception, IOException {
+
+		String currentOBXIdentifier=null;
 		//take from observationProcessor  code SRDC
 		logger.trace("Now we can use Message:\n"+in);
 		//FIXME different HL7 version 2.5 2.6 etc.
@@ -140,7 +147,7 @@ public class HL7ReceiverApplication implements Application {
 		//		String orderDateTime= orderObservation.getOBR().getObr6_RequestedDateTime().encode();
 		String orderDateTimeStart= orderObservation.getOBR().getObr7_ObservationDateTime().encode();
 		if (orderDateTimeStart==null ) {
-			orderDateTimeStart="190001011212"; //FIXME date time aus MSH header, or current date?
+			orderDateTimeStart="190001011212"; //FIXME date time aus MSH header, or current date? OR obr9
 		}
 		if (orderDateTimeStart.length()<8){
 			orderDateTimeStart="190001011212"; //FIXME date time aus MSH header, or current date?
@@ -154,6 +161,9 @@ public class HL7ReceiverApplication implements Application {
 		logger.debug("Order DTM:"+orderDateTimeStart);
 		int numberOfOBX = orderObservation.getOBSERVATIONReps();
 		logger.debug(" Number of OBX:"+ numberOfOBX);
+		String extented="UNKOWN";
+		String currentSUBID="";
+		boolean isInsub=false;
 		for (int i = 0; i < numberOfOBX; i++) {
 			logger.debug("Processing OBX Segment " + (i + 1));
 			OBX obx = orderObservation.getOBSERVATION(i).getOBX();
@@ -190,7 +200,7 @@ public class HL7ReceiverApplication implements Application {
 			observationIdentifier = obx.getObservationIdentifier().getCe1_Identifier()+"^"
 					+obx.getObservationIdentifier().getCe2_Text()+"^"
 					+obx.getObservationIdentifier().getCe3_NameOfCodingSystem();
-
+			currentOBXIdentifier=obx.getObservationIdentifier().getCe1_Identifier().toString();
 			//			if (obx.getObservationIdentifier().getText() != null) {
 			//				String observationIdentifierText = obx.getObservationIdentifier().getText().getValue(); // OPTIONAL, MDC_IDC Nomenclature reference id
 			//			}
@@ -200,14 +210,61 @@ public class HL7ReceiverApplication implements Application {
 			if (obx.getObservationSubID() != null) {
 				observationSubID = obx.getObservationSubID().getValue(); // OPTIONAL, Used for Complex Data Type Observations
 			}
+			//added to the obervation identifier a sub identifierfor:
+			//737952^MDC_IDC_STAT_EPISODE_TYPE^MDC use obx.6.2
+			// 731648^MDC_IDC_SET_ZONE_TYPE^MDC (??) use obx.6.2 eg 731648^MDC_IDC_SET_ZONE_TYPE^MDC^FVT
+			//739568^MDC_IDC_EPISODE_TYPE^MDC use obx.6.2 eg 739568^MDC_IDC_EPISODE_TYPE^MDC^VT
+//			logger.info("Current obser ID:"+currentOBXIdentifier+" equal 739568:"+currentOBXIdentifier.equals("739568"));
+			if (currentOBXIdentifier.equals("737952")|currentOBXIdentifier.equals("731648")|currentOBXIdentifier.equals("739568")){
+				extented=((CWE)obx.getObservationValue(0).getData()).getCwe2_Text().encode();
+				logger.debug("!!!!!!!!!!!!!!!!!!!!Extendet Identifier:"+extented+" subid:"+observationSubID);
+				currentSUBID=observationSubID;
+				isInsub=true;
 
+			}
+
+
+			//720961^MDC_IDC_LEAD_MODEL^MDC search for 720966^MDC_IDC_LEAD_LOCATION^MDC use that obx.6.2 like Atrial 
+			if (currentOBXIdentifier.equals("720961")){
+				int j;
+				if (observationSubID!=null){
+					OBX obx1=null;
+					for ( j=i+1;j<numberOfOBX;j++){
+						obx1 = orderObservation.getOBSERVATION(j).getOBX();
+						logger.debug("Loop:"+j+" ibid:"+observationSubID +":subid:"+obx1.getObservationSubID()+":obx:"+obx1.getObservationIdentifier().getCe1_Identifier());
+						if (obx1.getObservationSubID().toString().equals(observationSubID)){
+							if (obx1.getObservationIdentifier().getCe1_Identifier().encode().toString().equals("720966")){
+								extented=((CWE)obx1.getObservationValue(0).getData()).getCwe2_Text().encode();
+								logger.debug("LOCATION Identifier:"+observationIdentifier);
+								currentSUBID=observationSubID;
+								isInsub=true;
+								break;
+							}
+						}else{
+							extented="";
+							break; //other OBX
+						}
+					}
+				}
+				logger.debug("####Extendet Location Identifier:"+observationIdentifier+" subid:"+observationSubID+" ext: "+extented);
+
+			}
+			if (isInsub ){
+				if (currentSUBID .equals(observationSubID)){
+					observationIdentifier=observationIdentifier+"^"+extented;
+
+				}else{
+					isInsub=false;
+				}
+			}
+			
 			if (valueType.equals("ST")) {
 				observationValue = ((ST) obx.getObservationValue(0).getData()).getValue();
 			} else if (valueType.equals("NM")) {
 				observationValue = ((NM) obx.getObservationValue(0).getData()).getValue();
 				observationValue =observationValue +" "+  obx.getObx6_Units().encode();
 			} else if (valueType.equals("TX")) {
-				logger.info(" *** TX:" + obx.getObservationValue(0).getData() + ":" + observationValueIdentifier);
+				//				logger.info(" *** TX:" + obx.getObservationValue(0).getData() + ":" + observationValueIdentifier);
 				if (obx.getObservationValue(0).getData().toString() == null) {
 					observationValue = "";
 				} else {
@@ -259,7 +316,7 @@ public class HL7ReceiverApplication implements Application {
 			}else if (dateTimeOfObservation.length()<9){
 				dateTimeOfObservation=orderDateTimeStart;
 			}
-//			logger.info(serialnumber+":"+observationIdentifier+":"+dateTimeOfObservation+":"+observationValue.substring(0, 200));
+			//			logger.info(serialnumber+":"+observationIdentifier+":"+dateTimeOfObservation+":"+observationValue.substring(0, 200));
 			//			System.out.println(serialnumber+"\n"+observationIdentifier+"\n"+
 			//					observationValue+"\n"+dateTimeOfObservation+"\n-----------------------------");
 			//			ppmDataset.addCIEDData("model:Secura/serial:PZC600368S", "720897^MDC_IDC_PG_TYPE^MDC", "CIED");
@@ -315,9 +372,34 @@ public class HL7ReceiverApplication implements Application {
 			//		"OBX|16|CWE|722752^MDC_IDC_MSMT_LEADHVCHNL_STATUS^MDC|1|Null||||||F|||20100726120000\r"+
 			//		"OBX|17|CWE|720970^MDC_IDC_LEAD_CONNECTION_STATUS^MDC|1|Connected^Connected||||||F|||20100726120000\r";
 
+			BufferedReader bf =null;
+			StringBuilder messageBuffer = null;
+			bf = new BufferedReader(new InputStreamReader(
+					new FileInputStream("C:\\Test\\Medtronic test files\\test.hl7")));
 
+			messageBuffer = new StringBuilder();
+
+			String line = "";
+			while ((line = bf.readLine()) != null) {
+				messageBuffer.append(line).append("\r");
+			}
+
+
+			try{
+				if(bf!=null)
+				{
+					bf.close();
+				}
+			}catch (IOException e) {  
+				e.printStackTrace();  
+			}  
+
+			oruString=messageBuffer.toString();
 			ORU_R01 message = (ORU_R01) parser.parse(oruString);
-			System.out.println("Message parsed:"+oruString);
+			System.out.println("Message parsed:\n"+oruString);
+
+			//			if (true) return;
+
 			app.useMessage(message)		;	
 			System.out.println("FINISH");
 		}
