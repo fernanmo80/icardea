@@ -21,13 +21,14 @@
       </h1>
       <div id="main">
         <p>The Personal Health Record (PHR) system.<br>
-          The external PHR portal does not connect with other iCARDEA
-          components.<br>
-          Also, for security reasons, no patient contact info form is
-          provided. We want to ensure completely anonymity for the
-          users.<br>
-          User credentials are provided to the user and should first be
-          setup during configuration (see below).<br>
+          <meta http-equiv="content-type" content="text/html;
+            charset=UTF-8">
+          The external PHR does not connect with other iCARDEA
+          components (No importing of EHR data, no transfer of data to
+          the patient parameter monitor. To ensure user anonymity, the
+          portal does not show or collect patient contact information.</p>
+        <p> User credentials are provided to the user and should first
+          be setup in the&nbsp; configuration setup (see below).<br>
         </p>
         <p>User Manual can be found <a target="_blank"
             href="phr_user_manual_p2.htm">here</a>.</p>
@@ -48,11 +49,9 @@
         <ul>
           <li>Login using either a demo user ID&nbsp; (phrsm,
             phr1..phr9) or from a list of Login IDs defined in property
-            <span style="font-weight: bold; font-style: italic;">demo.login.ids</span>
-            in phrs.properties. <br>
+            <span style="font-weight: bold; font-style: italic;">local.login.ids</span>
+            in phrs.properties (see Configuration below)<br>
           </li>
-          <li>After filling in user name and password, user is able to
-            use the PHR portal by selecting from the menu on the left.</li>
         </ul>
         <aside>
           <h2>Notes</h2>
@@ -90,8 +89,8 @@ href="http://code.google.com/p/icardea/source/browse/#svn%2Ftrunk%2Ftools_resour
             <br>
             call curl -X POST "
 http://domain[:8080]/openrdf-workbench/repositories/NONE/create?type=native&amp;Repository+ID=phrext1&amp;Repository+title=phrs1+title&amp;Triple+indexes=spoc,posc"<br>
-              <br>
-              <br>
+            <br>
+            <br>
             <br>
           </li>
         </ol>
@@ -130,6 +129,7 @@ http://domain[:8080]/openrdf-workbench/repositories/NONE/create?type=native&amp;
             a) Make a copy of <span style="font-style: italic;">generic_triplestore.xml
 
 
+
             </span><span style="font-style: italic;">from
               phrweb/WEB-INF/lib/phrs-dataexchange-client-1.0-SNAPSHOT.jar</span><span
               style="font-style: italic;">.<br>
@@ -148,7 +148,7 @@ http://domain[:8080]/openrdf-workbench/repositories/NONE/create?type=native&amp;
               assigned in the <span style="font-style: italic;">phrs.properties</span>
               file. In the PHR portal properties file <span
                 style="font-weight: bold;">phrweb/resources/phrs.properties</span>,
-              provide a comma separated list of login IDs<br>
+              provide a comma separated list of Login IDs<br>
               The Login ID <span style="font-style: italic;
                 font-weight: bold;">phrsm</span> is already included by
               default.<br>
