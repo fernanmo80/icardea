@@ -15,25 +15,21 @@
   <body>
     <br>
     <div id="container">
-	    <p>
-           <a href="../manuals.html">&#xAB; iCARDEA User Guides</a>
-            
-        </p>
+      <p> <a href="../manuals.html">« iCARDEA User Guides</a> </p>
       <h1 class="ui-corner-all ui-state-default">PHR System Technical
         Information<br>
       </h1>
-      
       <div id="main">
         <p>The Personal Health Record (PHR) system enables the patient
           to collect their health observations, report their health
           profile, access patient information and utilize feedback
-          mechanisms for&nbsp; interacting with medical professsionals.</p>
+          mechanisms for&nbsp; interacting with medical professionals.</p>
         <p>User Manual can be found <a target="_blank"
-href="phr_user_manual_p2.htm">here</a>.</p>
+            href="phr_user_manual_p2.htm">here</a>.</p>
         <p>User Training Material can be found <a target="_blank"
-href="phr_user_training_basic_p2.htm">here</a>,
-          this includes some core activities that a new user might
-          perform with the PHR system.</p>
+            href="phr_user_training_basic_p2.htm">here</a>, this
+          includes some core activities that a new user might perform
+          with the PHR system.</p>
         <section> </section>
         <h2 id="start">How to start</h2>
         <p>To start the system,&nbsp; first initialized data stores,
@@ -77,21 +73,22 @@ href="phr_user_training_basic_p2.htm">here</a>,
           </ul>
         </ul>
         <aside>
-        <h2>Notes</h2>
-        <div class="caution">
-          <h3><img
-              src="../ehr/user_guide/imgs/caution.png"
-              alt="caution">Caution </h3>
-          <p>Make sure the configuration parameters are set before
-            installation.</p>
-        </div>
-	</aside>
+          <h2>Notes</h2>
+          <div class="caution">
+            <h3><img src="../ehr/user_guide/imgs/caution.png"
+                alt="caution">Caution </h3>
+            <p>Make sure the configuration parameters are set before
+              installation.</p>
+          </div>
+        </aside>
         <section> </section>
         <h2 id="install">How to install</h2>
-        <p>To download the source codes of the project, please go to <a
-            href="http://www.srdc.com.tr/svn/iCardea/">http://www.srdc.com.tr/svn/iCardea/</a></p>
-        <p>Review the configuration&nbsp; and make the appropriate
-          updates to the configuration</p>
+        <p>To download the source codes of the project: <a
+            href="http://code.google.com/p/icardea/source/checkout"><span
+              style="text-decoration: underline;">http://code.google.com/p/icardea/source/checkout</span></a><a
+            href="http://code.google.com/p/icardea/source/checkout"></a></p>
+        <p>Review the configuration and make the appropriate updates to
+          the configuration</p>
         <p>To install run the following scripts:</p>
         <ul>
           <li>phr-system-CLEANALL.bat</li>
@@ -101,6 +98,28 @@ href="phr_user_training_basic_p2.htm">here</a>,
         <ul>
           <li>phr-system-STARTUP.bat</li>
         </ul>
+        <h2 id="configuration">How to clear databases</h2>
+        <p>If you wish to clear databases without re-installing the
+          software, then run the script <span style="font-style:
+            italic;">phr-system-CLEANALL.bat</span> or manually:<br>
+        </p>
+        1. MongoDB: <br>
+        <br>
+        In your running Mongo, find the collection <span
+          style="font-style: italic;">phrsdata1</span> and drop the it
+        e.g. [mongo&nbsp; directory]\bin\mongo localhost/phrsdata1
+        -quiet -eval "db.dropDatabase()"<br>
+        <br>
+        2. Sesame Database:<br>
+        <br>
+        a. Shutdown Tomcat <br>
+        b. rmdir /S /Q "%APPDATA%\Aduna"<br>
+        c. Run the curl command to ensure that the Sesame database <span
+          style="font-style: italic;">phrs1</span> is initialized<br>
+        call curl -X POST "
+http://domain[:8080]/openrdf-workbench/repositories/NONE/create?type=native&amp;Repository+ID=phrs1&amp;Repository+title=phrs1+title&amp;Triple+indexes=spoc,posc"<br>
+        <p><br>
+        </p>
         <ol>
           <span style="text-decoration: underline;"> </span>
         </ol>
@@ -140,18 +159,25 @@ href="phr_user_training_basic_p2.htm">here</a>,
             endpoints) <br>
             -- pcc-9.properties (EHRIF endpoint and Care Provision
             codes) <br>
-            -- start-securepcc10-endpoint.bat<span style="font-weight:
-              bold;"></span></li>
+            -- start-securepcc10-endpoint.bat<br>
+            <br>
+            <span style="font-weight: bold;"></span></li>
           <li><span style="font-weight: bold;">Consent Manager
               Configuration<span style="font-weight: bold;"></span></span><br>
             - The service endpoint is set to port 8080, and can be
             re-configured in the maven POM file<span style="font-weight:
-              bold;"><span style="font-weight: bold;"> ﻿phr-ws/pom.xml</span></span></li>
+              bold;"><span style="font-weight: bold;"> ﻿phr-ws/pom.xml<br>
+                <br>
+              </span></span></li>
           <li>Ensure that Tomcat is installed the directory matching the
             property found in the phr-system-*.bat scripts (see below -
-            PHRS_TOMCAT=D:\srfg\tomcat\phrs-tomcat-6)</li>
-          <li>Include the two war files from Sesame found in the google
-            code tools_resources/sesame-tools263.zip</li>
+            PHRS_TOMCAT=D:\srfg\tomcat\phrs-tomcat-6)<br>
+            <br>
+          </li>
+          <li>Copy the Sesame war files into Tomcat found in the google
+            code tools_resources/sesame-tools263.zip<br>
+            <br>
+          </li>
           <li>The following scripts can be run for a new installation
             and run in the following order. You might be required to
             interact with the scripts to simply continue the execution
@@ -167,6 +193,56 @@ href="phr_user_training_basic_p2.htm">here</a>,
               <pre>phr-system-STARTUP.bat</pre>
             </li>
           </ol>
+        </ol>
+        <ol start="7">
+          <li>Set Tomcat environment parameters<br>
+            CATALINA_OPTS=-Xms 256m -Xmx1024m -XX:PermSize=256m
+            -XX:MaxPermSize=1024m<br>
+            <br>
+          </li>
+          <li>Check your Tomcat port, it should be port 8080.<br>
+            <br>
+            Otherwise: <br>
+            a) Make a copy of <span style="font-style: italic;">generic_triplestore.xml
+
+
+
+
+
+
+
+
+
+            </span><span style="font-style: italic;">from
+              phrweb/WEB-INF/lib/phrs-dataexchange-client-1.0-SNAPSHOT.jar</span><span
+              style="font-style: italic;">.<br>
+            </span>b) Change the port in&nbsp; <span style="font-style:
+              italic;">generic_triplestore.xml</span> and copy the file
+            to <span style="font-style: italic;">phrweb/WEB-INF/classes<br>
+              <br>
+            </span></li>
+          <li>Check and Update Patient information material references<br>
+            <br>
+            The UI menu sidebar links to a Content Management system.
+            Provide links to the content in the phrscontent.properties
+            file<br>
+            phrweb/WEB-INF/classes/phrscontent.properties<br>
+            <br>
+          </li>
+          <li>(Optional) Provide new resource files to localize the User
+            Interfaces <br>
+            <br>
+            The language choice is determined by the web browser
+            settings.<br>
+            <br>
+            Under WEB-INF/classes:<br>
+            <span style="font-style: italic;">Messagelabels.properties</span>
+            - contains German labels<br>
+            <span style="font-style: italic;">Messagelabels_en.properties</span>
+            - contains English labels. Note that it is named <span
+              style="font-style: italic;">Messagelabels_hide_en.properties</span>
+            to prevent confusion during demonstrations<br>
+          </li>
         </ol>
         <h3><span style="font-weight: bold;">Configuration details for
             the scripts</span></h3>
@@ -235,8 +311,9 @@ href="phr_user_training_basic_p2.htm">here</a>,
         </ul>
         <ul>
           <ul>
-            <li>Starts Tomcat and the sesame triple store and ensures
-              triplestore exists. Wait for tomcat to startup.</li>
+            <li>This starts Tomcat, and it also starts the Sesame triple
+              store and ensures triplestore exists. Wait for Tomcat to
+              startup.</li>
             <li>A final message indicates that the server is started. If
               the server is not completely finished, the next step will
               fail because the interoperability component depends on the
@@ -248,39 +325,48 @@ href="phr_user_training_basic_p2.htm">here</a>,
         </ul>
         <span style="font-weight: bold;"></span>
         <h2 id="techical">Technical Details</h2>
-        <p>PHR system requires the following software installed and
-          running:</p>
+        <p>The PHR system requires the following software:</p>
         <ul>
           <li>Java 1.6+</li>
           <li>Maven 2.2.1</li>
           <li>MongoDB running as service or started before</li>
           <li>Tomcat 6.0.35 (install separately) Installation directory
-            -&nbsp;<br>
-            see configuration settings in scripts and change path in the
-            scripts if<br>
-            necessary<br>
+            - see configuration settings in scripts and change path in
+            the scripts if necessary</li>
+          <li>Sesame Database 2.6.3 and Sesame workbench 263 installed
+            in the Tomcat <span style="font-style: italic;">webapp</span>
+            directory (see installation)<br>
+          </li>
+          <li>cURL program <a
+href="http://code.google.com/p/icardea/source/browse/#svn%2Ftrunk%2Ftools_resources%2Fcurl">http://code.google.com/p/icardea/source/browse/#svn%2Ftrunk%2Ftools_resources%2Fcurl</a></li>
+          <li>A Content Management System for storing and accessing
+            patient information materials. The page references are coded
+            in phrscontent.properties described in the software
+            configuration description.</li>
+          <li>iCARDEA Care Planner Web Services for data exchange with
+            PHRS interoperability component<br>
+          </li>
+          <li>iCARDEA EHR-Interoperability Framework for data exchange
+            with PHRS interoperability component</li>
+          <li>iCARDEA Patient Index (PIX) server (port 2575) for
+            resolving patient global patient protocol ID using an
+            identifier submitted by the patient.<br>
             <br>
           </li>
         </ul>
         <p style="font-weight: bold;">Following TCP ports are required:<br>
         </p>
         <ul>
-          <li>PHR Interoperability PCC-09 Endpoint : 8089<br>
+          <li>PHRS Interoperability PCC-09 Endpoint : 8089<br>
           </li>
-          <li>PHR Interoperability PCC-10 Endpoint : 8989<br>
+          <li>PHRS Interoperability PCC-10 Endpoint : 8989<br>
           </li>
-          <li>PHR Interoperability Socket Listener : 5578<br>
+          <li>PHRS Interoperability Socket Listener : 5578<br>
           </li>
-          <li>MongoDB : 27017;&nbsp; web ui on:&nbsp; 28017<br>
+          <li>MongoDB : 27017<br>
           </li>
-          <li>Apache Tomcat Server for&nbsp; portal application <span
+          <li>Apache Tomcat Server for portal application <span
               style="font-style: italic;">phrweb</span> : 6060<br>
-          </li>
-          <li>Patient Index (PIX) server: 2575<br>
-          </li>
-          <li>Care Planner Web Service : determined by&nbsp;<br>
-          </li>
-          <li>Consent Manager Web Services: 8080<br>
           </li>
         </ul>
       </div>

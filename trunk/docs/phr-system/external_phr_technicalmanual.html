@@ -79,9 +79,9 @@ href="http://code.google.com/p/icardea/source/browse/#svn%2Ftrunk%2Ftools_resour
             appropriate updates to the configuration<br>
             <br>
           </li>
-          <li>Start Tomcat and create the Sesame Database using the CURL
+          <li>Start Tomcat and create the Sesame Database using the cURL
             program<br>
-            For windows, download the CURL software at <a
+            For windows, download the cURL software at <a
 href="http://code.google.com/p/icardea/source/browse/#svn%2Ftrunk%2Ftools_resources%2Fcurl">http://code.google.com/p/icardea/source/browse/#svn%2Ftrunk%2Ftools_resources%2Fcurl</a><br>
             <br>
             <span style="font-style: italic;">Creating a native java
@@ -89,8 +89,6 @@ href="http://code.google.com/p/icardea/source/browse/#svn%2Ftrunk%2Ftools_resour
             <br>
             call curl -X POST "
 http://domain[:8080]/openrdf-workbench/repositories/NONE/create?type=native&amp;Repository+ID=phrext1&amp;Repository+title=phrs1+title&amp;Triple+indexes=spoc,posc"<br>
-            <br>
-            <br>
             <br>
           </li>
         </ol>
@@ -102,8 +100,13 @@ http://domain[:8080]/openrdf-workbench/repositories/NONE/create?type=native&amp;
           <span style="text-decoration: underline;"> </span>
         </ol>
         <h2 id="configuration">How to clear databases</h2>
-        <p>1. MongoDB:&nbsp; [mongo&nbsp; directory]\bin\mongo
-          localhost/phrsdata1 -quiet -eval "db.dropDatabase()"<br>
+        <p>1. MongoDB: <br>
+          <br>
+          In your running Mongo, find the collection <span
+            style="font-style: italic;">phrsdata1</span> and drop the it
+          e.g. [mongo&nbsp; directory]\bin\mongo localhost/phrsdata1
+          -quiet -eval "db.dropDatabase()"<br>
+          <br>
           2. Sesame Database:<br>
           <br>
           a. Shutdown Tomcat <br>
@@ -127,6 +130,9 @@ http://domain[:8080]/openrdf-workbench/repositories/NONE/create?type=native&amp;
             <br>
             Otherwise: <br>
             a) Make a copy of <span style="font-style: italic;">generic_triplestore.xml
+
+
+
 
 
 
@@ -200,9 +206,12 @@ http://domain[:8080]/openrdf-workbench/repositories/NONE/create?type=native&amp;
             Tomcat <span style="font-style: italic;">webapp</span>
             directory (see installation)<br>
           </li>
-          <li>CURL program <a
+          <li>cURL program <a
 href="http://code.google.com/p/icardea/source/browse/#svn%2Ftrunk%2Ftools_resources%2Fcurl">http://code.google.com/p/icardea/source/browse/#svn%2Ftrunk%2Ftools_resources%2Fcurl</a></li>
-          <li>Content Management System for any information materials<br>
+          <li>A Content Management System for storing and accessing
+            patient information materials. The page references are coded
+            in phrscontent.properties described in the software
+            configuration description.<br>
             <br>
           </li>
         </ul>
