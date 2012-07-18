@@ -213,13 +213,43 @@ public class HL7ReceiverApplication implements Application {
 			//added to the obervation identifier a sub identifierfor:
 			//737952^MDC_IDC_STAT_EPISODE_TYPE^MDC use obx.6.2
 			// 731648^MDC_IDC_SET_ZONE_TYPE^MDC (??) use obx.6.2 eg 731648^MDC_IDC_SET_ZONE_TYPE^MDC^FVT
-			//739568^MDC_IDC_EPISODE_TYPE^MDC use obx.6.2 eg 739568^MDC_IDC_EPISODE_TYPE^MDC^VT
 //			logger.info("Current obser ID:"+currentOBXIdentifier+" equal 739568:"+currentOBXIdentifier.equals("739568"));
-			if (currentOBXIdentifier.equals("737952")|currentOBXIdentifier.equals("731648")|currentOBXIdentifier.equals("739568")){
+			
+			
+			if (currentOBXIdentifier.equals("737952")|currentOBXIdentifier.equals("731648")){
 				extented=((CWE)obx.getObservationValue(0).getData()).getCwe2_Text().encode();
 				logger.debug("!!!!!!!!!!!!!!!!!!!!Extendet Identifier:"+extented+" subid:"+observationSubID);
 				currentSUBID=observationSubID;
 				isInsub=true;
+
+			}
+//			OBX|65|TX|739536^MDC_IDC_EPISODE_ID^MDC|1|104||||||F 
+//			search for
+//			OBX|66|CWE|739568^MDC_IDC_EPISODE_TYPE^MDC|1|Epis_VT-NS^VT-NS||||||F
+
+			if (currentOBXIdentifier.equals("739536")){
+				int j;
+				String epi_id= ((TX)obx.getObservationValue(0).getData()).getValue().toString();
+				if (observationSubID!=null){
+					OBX obx1=null;
+					for ( j=i+1;j<numberOfOBX;j++){
+						obx1 = orderObservation.getOBSERVATION(j).getOBX();
+						logger.debug("Loop:"+j+" ibid:"+observationSubID +":subid:"+obx1.getObservationSubID()+":obx:"+obx1.getObservationIdentifier().getCe1_Identifier());
+						if (obx1.getObservationSubID().toString().equals(observationSubID)){
+							if (obx1.getObservationIdentifier().getCe1_Identifier().encode().toString().equals("739568")){
+								extented=((CWE)obx1.getObservationValue(0).getData()).getCwe2_Text().encode()+" #"+epi_id;
+								logger.debug(" Identifier:"+observationIdentifier);
+								currentSUBID=observationSubID;
+								isInsub=true;
+								break;
+							}
+						}else{
+							extented="";
+							break; //other OBX
+						}
+					}
+				}
+				logger.debug("####Extendet Location Identifier:"+observationIdentifier+" subid:"+observationSubID+" ext: "+extented);
 
 			}
 

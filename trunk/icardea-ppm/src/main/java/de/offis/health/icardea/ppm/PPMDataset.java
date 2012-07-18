@@ -49,7 +49,7 @@ public class PPMDataset {
 	private String dropPPMDataset="drop table  if exists icardea.PPMDATASET; ";
 	private String dropPPMPending="drop table  if exists icardea.PPMPENDING; ";
 	private String dropDACT="drop table  if exists icardea.dact_pattern; drop table  if exists icardea.dact_counter;";
-	
+
 
 	private String createPPMDataset = "CREATE TABLE icardea.PPMDATASET (   SHEET VARCHAR(20),   PARAMETER VARCHAR(50),   DATASET LONGTEXT,   TYPE_OF_VARIABLE TEXT,   EXPLANATION TEXT,   SOURCE TEXT,   FULLREFID TEXT,   PPMDATASOURCE TEXT,   TIME_FRAME TEXT,   FORMAT TEXT,   VALIDATION TEXT,   COMMENTS TEXT,   SJM_COMMENTS TEXT,   PATID TEXT,   SORTNUMBER INTEGER,   SUBTITEL TEXT,   BUTTONTITEL TEXT,   BUTTONTABLE TEXT,   USERPREF TEXT,   SQLCAREPLAN TEXT,   DEMODATASET_AF TEXT,   TIMELOW TEXT,   TIMEHIGH TEXT,   ID INTEGER NOT NULL  AUTO_INCREMENT,   PRIMARY KEY (ID) );";
 	private String createPPMPending = "CREATE TABLE icardea.PPMPENDING (   SerialID TEXT,   DATASET LONGTEXT,   SOURCE TEXT,   FULLREFID TEXT,   PATID TEXT,   TIMELOW TEXT,   TIMEHIGH TEXT,   STATUS CHAR,   localid MEDIUMINT NOT NULL AUTO_INCREMENT,    PRIMARY KEY (localid)   );";
@@ -252,6 +252,7 @@ public class PPMDataset {
 	private List<String> sheetList = new ArrayList(Arrays.asList(new String[]{"Overview", "VT/VF", "AF/AT","PatInfo","ProPara"}));
 	private String[] dateStrings ={"23.03.2012","05.12.2010","25.01.2012","30.09.2011","01.12.2008","15.06.2010","30.09.2010","24.01.2011"};
 	private String currentDate  ;
+	private String ppmROW= "SHEET,PARAMETER,DATASET,TYPE_OF_VARIABLE,EXPLANATION,SOURCE,fullrefid,PPMDATASOURCE,TIME_FRAME,FORMAT,VALIDATION,COMMENTS,SJM_COMMENTS,SORTNUMBER,SUBTITEL,BUTTONTITEL,BUTTONTABLE,USERPREF,SQLCAREPLAN,DEMODATASET_AF,TIMELOW,TIMEHIGH,PATID";
 
 	/**
 	 * @return the currentDate
@@ -376,126 +377,126 @@ public class PPMDataset {
 		return(colList.toArray(new PPMSubItemsModel[0]));
 	}
 
-public void dactCalled(){
-	String sqlQuery="";
-	int res=0;
-	String userName = "";
-	if (this.userOpenID.equalsIgnoreCase("")){
-		userName="UnkownID";
-	}
-	else{
-		userName=this.userOpenID;
-	}
-	sqlQuery = "INSERT INTO dact_counter(username) VALUE ( '"+userName+"');";
-	//System.out.println("DACT Called" + sqlQuery);
-	try{
-		res= getStmt().executeUpdate(sqlQuery);
-		if(res==0){
-			logger.error("Undocumented call of DACT");
+	public void dactCalled(){
+		String sqlQuery="";
+		int res=0;
+		String userName = "";
+		if (this.userOpenID.equalsIgnoreCase("")){
+			userName="UnkownID";
 		}
 		else{
-			logger.info("DACT was counted to be used by "+this.userOpenID);
+			userName=this.userOpenID;
 		}
-		
+		sqlQuery = "INSERT INTO dact_counter(username) VALUE ( '"+userName+"');";
+		//System.out.println("DACT Called" + sqlQuery);
+		try{
+			res= getStmt().executeUpdate(sqlQuery);
+			if(res==0){
+				logger.error("Undocumented call of DACT");
+			}
+			else{
+				logger.info("DACT was counted to be used by "+this.userOpenID);
+			}
+
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			logger.error("Problem with counting Dact: " + e.getMessage() );
+		}
+
 	}
-	catch (Exception e) {
-		// TODO: handle exception
-		logger.error("Problem with counting Dact: " + e.getMessage() );
-	}
-	
-}
-	
-	
-//returns all known patterns, whithout patient validation
-public ArrayList<DactPatternDataSet> getDactItems()
+
+
+	//returns all known patterns, whithout patient validation
+	public ArrayList<DactPatternDataSet> getDactItems()
 	//Start reading
 	{		
-	ArrayList<DactPatternDataSet> allPatterns = new ArrayList<DactPatternDataSet>();
-	int nextItem=0;
-	String sqlQuery="";		
-	//keep in mind, that parameter is NOT unique withhin one patid, may be sheet have to be added
-	ResultSet rs = null;
+		ArrayList<DactPatternDataSet> allPatterns = new ArrayList<DactPatternDataSet>();
+		int nextItem=0;
+		String sqlQuery="";		
+		//keep in mind, that parameter is NOT unique withhin one patid, may be sheet have to be added
+		ResultSet rs = null;
 
-	sqlQuery = "SELECT "+ 
-			" pattern_id, "+
-			" prerequisite_db_relations,  "+
-			" prerequisiute_db_attributes,  "+
-			" prerequisite_view,  "+
-			" conclusion_db_attribute,  "+
-			" conclusion_db_relation,  "+
-			" confidence_view,  "+
-			" conclusion_view,  "+
-			" support_view,  "+
-			" approvedstatus_view,  "+
-			" validforpatient,  "+
-			" creationdate,  "+
-			" creationsource,  "+
-			" active  "+
-			" FROM "+ 
-			" dact_pattern " +
-			" where active = true "+
-			" order by pattern_id;";
+		sqlQuery = "SELECT "+ 
+				" pattern_id, "+
+				" prerequisite_db_relations,  "+
+				" prerequisiute_db_attributes,  "+
+				" prerequisite_view,  "+
+				" conclusion_db_attribute,  "+
+				" conclusion_db_relation,  "+
+				" confidence_view,  "+
+				" conclusion_view,  "+
+				" support_view,  "+
+				" approvedstatus_view,  "+
+				" validforpatient,  "+
+				" creationdate,  "+
+				" creationsource,  "+
+				" active  "+
+				" FROM "+ 
+				" dact_pattern " +
+				" where active = true "+
+				" order by pattern_id;";
 
-	try {
-		rs = this.getStmt().executeQuery(sqlQuery);
-		//System.out.println("DACT Button Test - getSTmt");
-		// Is the preReqValid for Patient?
-		//curPattern.preReqFullFilled = rs.getBoolean("");
-		//`validforpatient`,
-		//curPattern.validForPat=rs.getBoolean("");
-
-		while (rs.next())
-		{
-			//System.out.println("DACT Button Test - resultset");
-			DactPatternDataSet curPattern = new DactPatternDataSet();
-			curPattern.patternID=rs.getInt("pattern_id");
-			curPattern.viewPreReq=rs.getString("prerequisite_view");
-			//  `pattern_id`,
-			curPattern.patternID = rs.getInt("pattern_id");
-			//`prerequisite_db_relations`,
-			curPattern.preReqRelations = rs.getString("prerequisite_db_relations");
-			//`prerequisiute_db_attributes`,
-			curPattern.preReqAttributes =rs.getString("prerequisiute_db_attributes");
-			//`prerequisite_view`,
-			curPattern.viewPreReq = rs.getString("prerequisite_view");
-			// `conclusion_db_attribute`,
-			curPattern.conCluAttribute =rs.getString("conclusion_db_attribute");
-			// `conclusion_db_relation`,
-			curPattern.concluRelation =rs.getString("conclusion_db_relation");
-			// `confidence_view`,
-			curPattern.viewConf =rs.getString("confidence_view");
-			//`conclusion_view`,
-			curPattern.viewConclu=rs.getString("conclusion_view");
-			//`support_view`,
-			curPattern.viewSupport = rs.getString("support_view");
-			//`approvedstatus_view`,
-			curPattern.viewApproved = rs.getString("approvedstatus_view");
-			//`creationdate`,
-			curPattern.creationDate =rs.getString("creationdate");
-			//`creationsource`,
-			curPattern.creationSource =rs.getString("creationsource");
-			//`active`
-			curPattern.active = rs.getBoolean("active");
-
-			//System.out.println("PatternID add " + curPattern.patternID.toString());
-			// Store at the list array
-			allPatterns.add(curPattern);
-
-		}
-
-	} 
-	catch (SQLException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}
-	finally{
 		try {
-			rs.close();
-		} catch (Exception e) {
-			System.out.println("Major error. Restart could help: "+e.getMessage());;
+			rs = this.getStmt().executeQuery(sqlQuery);
+			//System.out.println("DACT Button Test - getSTmt");
+			// Is the preReqValid for Patient?
+			//curPattern.preReqFullFilled = rs.getBoolean("");
+			//`validforpatient`,
+			//curPattern.validForPat=rs.getBoolean("");
+
+			while (rs.next())
+			{
+				//System.out.println("DACT Button Test - resultset");
+				DactPatternDataSet curPattern = new DactPatternDataSet();
+				curPattern.patternID=rs.getInt("pattern_id");
+				curPattern.viewPreReq=rs.getString("prerequisite_view");
+				//  `pattern_id`,
+				curPattern.patternID = rs.getInt("pattern_id");
+				//`prerequisite_db_relations`,
+				curPattern.preReqRelations = rs.getString("prerequisite_db_relations");
+				//`prerequisiute_db_attributes`,
+				curPattern.preReqAttributes =rs.getString("prerequisiute_db_attributes");
+				//`prerequisite_view`,
+				curPattern.viewPreReq = rs.getString("prerequisite_view");
+				// `conclusion_db_attribute`,
+				curPattern.conCluAttribute =rs.getString("conclusion_db_attribute");
+				// `conclusion_db_relation`,
+				curPattern.concluRelation =rs.getString("conclusion_db_relation");
+				// `confidence_view`,
+				curPattern.viewConf =rs.getString("confidence_view");
+				//`conclusion_view`,
+				curPattern.viewConclu=rs.getString("conclusion_view");
+				//`support_view`,
+				curPattern.viewSupport = rs.getString("support_view");
+				//`approvedstatus_view`,
+				curPattern.viewApproved = rs.getString("approvedstatus_view");
+				//`creationdate`,
+				curPattern.creationDate =rs.getString("creationdate");
+				//`creationsource`,
+				curPattern.creationSource =rs.getString("creationsource");
+				//`active`
+				curPattern.active = rs.getBoolean("active");
+
+				//System.out.println("PatternID add " + curPattern.patternID.toString());
+				// Store at the list array
+				allPatterns.add(curPattern);
+
+			}
+
+		} 
+		catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-	}
-	return allPatterns;
+		finally{
+			try {
+				rs.close();
+			} catch (Exception e) {
+				System.out.println("Major error. Restart could help: "+e.getMessage());;
+			}
+		}
+		return allPatterns;
 	}// End of reading
 
 	public ArrayList<DactPatternDataSet> checkDactItems(ArrayList<DactPatternDataSet> pPatternCheck, Integer pPatientID)
@@ -809,8 +810,8 @@ public ArrayList<DactPatternDataSet> getDactItems()
 		}
 		return stmt;
 	}
-	
-	
+
+
 	public Statement createStmt() {
 		//TODO error handling
 		try {
@@ -866,7 +867,7 @@ public ArrayList<DactPatternDataSet> getDactItems()
 				cPatient.setDateOfBirth(rs.getString(4));
 				cPatient.setCiedIdentifier(rs.getString(5));
 				cPatient.setCitizenshipNumber(rs.getString(6));
-//				this.iCardeaID=cPatient.getCitizenshipNumber();
+				//				this.iCardeaID=cPatient.getCitizenshipNumber();
 				if (this.iCardeaID!=null && this.iCardeaID.equalsIgnoreCase("191")){
 					if (cPatient.getDateOfBirth()==null || cPatient.getDateOfBirth().trim().length()<7){
 						cPatient.setDateOfBirth("19710310");
@@ -901,7 +902,7 @@ public ArrayList<DactPatternDataSet> getDactItems()
 					e.printStackTrace();
 				}
 			}
-		
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -973,46 +974,120 @@ public ArrayList<DactPatternDataSet> getDactItems()
 
 	public void checkPendingData(){
 
-		ResultSet rs;
-		ResultSet checkrs;
+		ResultSet rsPending;
+		ResultSet checkrsNew;
+		ResultSet rsNew;
+		ResultSet rsNew1;
+		Statement stNew=createStmt();
+		Statement stNew1=createStmt();
+		Statement stcheckrsNew=createStmt();
+		Statement stUpdates=createStmt();
+
 		String statmentString="";
 		String id="1";
 		String dataset="";
 		String datatype="";
 		try {
-			rs = createStmt().executeQuery("SELECT  source,status,SerialID,dataset,fullrefid,w.timelow,w.timehigh,ID,w.localid FROM ppmpending w,patient p "+
-					"where w.status='P' and trim(w.SerialID)=trim(p.patientIdentifier)"
+			rsPending = createStmt().executeQuery("SELECT  source,status,SerialID,dataset,fullrefid,w.timelow,w.timehigh,ID,w.localid FROM ppmpending w,patient p "+
+					"where w.status='P' and trim(w.SerialID)=trim(p.patientIdentifier) and ID<>'0'"
 					);
 			logger.info("Check Pending Data ");
-			while (rs.next()) {
-				id= rs.getString("ID");
+			while (rsPending.next()) {
+
+
+				String currentPendingFullrefID=rsPending.getString("fullrefid");
+				id= rsPending.getString("ID");
 				statmentString="select * from ppmdataset where patid=trim('"+id+"')";
-				checkrs=getStmt().executeQuery(statmentString);
-				if (!checkrs.next()){
+				checkrsNew=stcheckrsNew.executeQuery(statmentString);
+				if (!checkrsNew.next()){
 					logger.info("New Patient found");
 					newPPMPatient(id);
 				}
-				statmentString="select id, timelow,timehigh,TYPE_OF_VARIABLE from ppmdataset where patid=trim('"+id+"') and fullrefid='"+rs.getString("fullrefid")+"'";
+				checkrsNew.close();
+				//new loop for subitems
+				statmentString="select id, timelow,timehigh,TYPE_OF_VARIABLE,PARAMETER,patid from ppmdataset where patid=trim('"+id+"') " 
+						+" and right(fullrefid,1)='^' and left('"+currentPendingFullrefID+"',length(fullrefid))=fullrefid";
 				//				System.out.println(statmentString);
 				logger.debug(statmentString);
+				checkrsNew=stcheckrsNew.executeQuery(statmentString);
+				String subRef="unknown";
+				String insertROW="empty";
+				while (checkrsNew.next()){
+					logger.info("Subitem fullref:"+currentPendingFullrefID);
+					String temp[]=currentPendingFullrefID.split("\\^");
+					for (int ii=0;ii<temp.length;ii++){
+						logger.info(ii+":"+temp[ii]);
+					}
+					subRef=temp[temp.length-1];
+					//create new subitem entry for this one
+					try {
+						//check if it already there
+
+						rsNew1 = stNew1.executeQuery("select * from ppmdataset where trim(patid)='"+id+"' and fullrefid='"+currentPendingFullrefID+"'");
+						if (!rsNew1.next()){
+							rsNew1.close();
+							//ok new line have to be insert
+							rsNew = stNew.executeQuery("SELECT  "+ppmROW+ " FROM ppmdataset where id='"+checkrsNew.getString("id")+"'" );
+							while (rsNew.next()) {
+								//							private String ppmROW= "SHEET,PARAMETER,DATASET,TYPE_OF_VARIABLE,EXPLANATION,SOURCE,fullrefid,PPMDATASOURCE,TIME_FRAME,FORMAT,VALIDATION,COMMENTS,SJM_COMMENTS,SORTNUMBER,SUBTITEL,BUTTONTITEL,BUTTONTABLE,USERPREF,SQLCAREPLAN,DEMODATASET_AF,TIMELOW,TIMEHIGH,PATID";
+								insertROW = "INSERT INTO icardea.PPMDATASET ("+ppmROW+") values (";
+								for (int i=1;i<23;i++){//CAVE count 
+									switch (i){
+									case 2://description
+										insertROW=insertROW+"'"+rsNew.getString(i)+" "+subRef+"',";
+										break;
+
+									case 7://fullref
+										insertROW=insertROW+"'"+currentPendingFullrefID+"',";
+										break;
+									default:
+										insertROW=insertROW+"'"+rsNew.getString(i)+"',";
+										break;
+									}
+								}
+								insertROW=insertROW+"'"+checkrsNew.getString("patid")+"')";
+								stUpdates.executeUpdate(insertROW);
+								//				System.out.println(insertROW);
+								logger.info(insertROW);
+							}
+							rsNew.close();
+
+						}else{
+							logger.info("Already inserted: "+currentPendingFullrefID);
+						}
+
+					}
+					catch (SQLException e) {
+						logger.error("ERROR:"+insertROW);
+						e.printStackTrace();
+					}					
+				}
+
+				checkrsNew.close();
+				statmentString="select id, timelow,timehigh,TYPE_OF_VARIABLE from ppmdataset where patid=trim('"+id
+						+"') and fullrefid='"+currentPendingFullrefID+"'";
+				//				System.out.println(statmentString);
+				logger.debug(statmentString);
+				ResultSet checkrs;
+
 				checkrs=getStmt().executeQuery(statmentString);
 				while (checkrs.next()){
-					if (rs.getString("timehigh").compareTo(checkrs.getString("timelow")) <= 0){
+					if (rsPending.getString("timehigh").compareTo(checkrs.getString("timelow")) <= 0){
 						//new value high time is below actual value ignore it
-						statmentString="update ppmpending set status='O' where localid="+rs.getInt("localid");
-						createStmt().executeUpdate(statmentString);
+						statmentString="update ppmpending set status='O' where localid="+rsPending.getInt("localid");
+						stUpdates.executeUpdate(statmentString);
 						//						System.out.println(statmentString);
-						logger.debug(statmentString);
+						logger.info(statmentString);
 					}else
-						if 	(rs.getString("timelow").compareTo(checkrs.getString("timelow")) <= 0){
+						if 	(rsPending.getString("timelow").compareTo(checkrs.getString("timelow")) <= 0){
 							//new value low time is below actual low value ignore it
-							statmentString="update ppmpending set status='O' where localid="+rs.getInt("localid");
-							createStmt().executeUpdate(statmentString);
+							statmentString="update ppmpending set status='O' where localid="+rsPending.getInt("localid");
+							stUpdates.executeUpdate(statmentString);
 							//							System.out.println(statmentString);
-							logger.debug(statmentString);
+							logger.info(statmentString);
 						}else{
 							//new value inserting
-							dataset=rs.getString("dataset");
+							dataset=rsPending.getString("dataset");
 							if (dataset==null) {
 								logger.error("Null Dataset");
 								return;
@@ -1023,51 +1098,57 @@ public ArrayList<DactPatternDataSet> getDactItems()
 							}else if (datatype.equals("Time")){
 								if (dataset.length()>9){
 									dataset=dataset.substring(8);
+
 								}
 							}else if (datatype.equals("Date")){
 								if (dataset.length()>=8){
 									dataset=dataset.substring(0,8);
+									dataset=PPMDataset.convTimeToPoint(dataset);
+									//									dataset=dataset.substring(7,8)+"."+dataset.substring(5,6)+"."+dataset.substring(0,4);
 								}
 
 							}
-							logger.debug("datatype:"+datatype+" :"+dataset+"  pre:"+rs.getString("dataset"));
-							statmentString="update ppmdataset set dataset='"+dataset+"',timelow='"+rs.getString("timelow")
-									+"',timehigh='"+rs.getString("timehigh")+
+							logger.info("Insert datatype:"+datatype+" :"+dataset+"  pre:"+rsPending.getString("dataset"));
+							statmentString="update ppmdataset set dataset='"+dataset+"',timelow='"+rsPending.getString("timelow")
+									+"',timehigh='"+rsPending.getString("timehigh")+
 									"' where id="+checkrs.getInt("id");
-							createStmt().executeUpdate(statmentString);
+							stUpdates.executeUpdate(statmentString);
 							logger.trace(statmentString);
-							statmentString="update ppmpending set status='I' where localid="+rs.getInt("localid");
-							createStmt().executeUpdate(statmentString);
+							statmentString="update ppmpending set status='I' where localid="+rsPending.getInt("localid");
+							stUpdates.executeUpdate(statmentString);
 							logger.trace(statmentString);
 						}
 
 				}
-
-				statmentString="Update EHR Data";
-				logger.debug(statmentString);
-				this.updatePPM_EHR_Data(id);
-				//easier garbage collection
-
 				checkrs.close();
 				checkrs=null;
 
+				//				statmentString="Update EHR Data";
+				//				logger.debug(statmentString);
+				//				this.updatePPM_EHR_Data(id);
+				//easier garbage collection
 			}
-			rs.close();
-			rs=null;
+			statmentString="Update EHR Data";
+			logger.debug(statmentString);
+			this.updatePPM_EHR_Data(id);
 
+			rsPending.close();
+			rsPending=null;
+			stcheckrsNew.close();
+			stNew.close();
+			stNew1.close();
+			stUpdates.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			System.out.println("ERROR:"+statmentString);
 			logger.error(statmentString);
 			e.printStackTrace();
 		}
 
 
+
 	}
 
-	private void newPPMPatient(String patid){
+	private void newPPMPatient(String patid){	
 		ResultSet rs;
-		String ppmROW= "SHEET,PARAMETER,DATASET,TYPE_OF_VARIABLE,EXPLANATION,SOURCE,fullrefid,PPMDATASOURCE,TIME_FRAME,FORMAT,VALIDATION,COMMENTS,SJM_COMMENTS,SORTNUMBER,SUBTITEL,BUTTONTITEL,BUTTONTABLE,USERPREF,SQLCAREPLAN,DEMODATASET_AF,TIMELOW,TIMEHIGH,PATID";
 		String insertROW ="";
 		//		System.out.println("Add PPMDataset for patid="+patid);
 		logger.info("Add PPMDataset for patid="+patid);
@@ -1076,7 +1157,7 @@ public ArrayList<DactPatternDataSet> getDactItems()
 			rs = createStmt().executeQuery("SELECT  "+ppmROW+ " FROM ppmdataset where trim(patid)=0 " );
 			while (rs.next()) {
 				insertROW = "INSERT INTO icardea.PPMDATASET ("+ppmROW+") values (";
-				for (int i=1;i<23;i++){
+				for (int i=1;i<23;i++){//CAVE count 
 					insertROW=insertROW+"'"+rs.getString(i)+"',";
 				}
 				insertROW=insertROW+"'"+patid+"')";
@@ -1156,7 +1237,7 @@ public ArrayList<DactPatternDataSet> getDactItems()
 		return true;
 
 	}
-	
+
 	/**
 	 * 
 	 * @param pPatientID The PatientID for which the Pattern should be identified
@@ -1174,90 +1255,90 @@ public ArrayList<DactPatternDataSet> getDactItems()
 		sqlString = "select t1.pattern_id,  t1.prerequisite_db_relations, t1.prerequisiute_db_attributes from dact_pattern as t1 where t1.active = true";
 		logger.debug("SQL Pattern anfragen: " + sqlString);
 		try{
-		rs = createStmt().executeQuery(sqlString);
-		while(rs.next()){
-			DactPatternDataSet currentPattern = new DactPatternDataSet();
-			currentPattern.patternID = rs.getInt("pattern_id");
-			logger.debug("PAtternVAlues: IP" + currentPattern.patternID);
-			currentPattern.preReqRelations= rs.getString("prerequisite_db_relations");
-			logger.debug("PAtternVAlues: " +currentPattern.preReqRelations);
-			currentPattern.preReqAttributes= rs.getString("prerequisiute_db_attributes");
-			logger.debug("PAtternVAlues: " +currentPattern.preReqAttributes);
-			patternList.add(currentPattern);
-		}
-		// look for patterns of user
-
-		for(DactPatternDataSet iterDactPattern:patternList ){ 
-
-			sqlString = "select distinct t1.pattern_id from dact_pattern as t1 "
-					+iterDactPattern.preReqRelations 
-					+" where " + iterDactPattern.preReqAttributes + pPatientID +" and t1.pattern_id = "+iterDactPattern.patternID +";";
-			logger.debug("SQL pattern: " + sqlString);
 			rs = createStmt().executeQuery(sqlString);
-			if(rs.next()){
-				Integer patternID = rs.getInt("pattern_id");
-				logger.debug("Following Pattern is useful: " + iterDactPattern.patternID);	
-				iterDactPattern.preReqFullFilled = true;
+			while(rs.next()){
+				DactPatternDataSet currentPattern = new DactPatternDataSet();
+				currentPattern.patternID = rs.getInt("pattern_id");
+				logger.debug("PAtternVAlues: IP" + currentPattern.patternID);
+				currentPattern.preReqRelations= rs.getString("prerequisite_db_relations");
+				logger.debug("PAtternVAlues: " +currentPattern.preReqRelations);
+				currentPattern.preReqAttributes= rs.getString("prerequisiute_db_attributes");
+				logger.debug("PAtternVAlues: " +currentPattern.preReqAttributes);
+				patternList.add(currentPattern);
 			}
-			else{
-				logger.debug("Following Pattern is useless: " + iterDactPattern.patternID);	
-				iterDactPattern.preReqFullFilled = false;
-			}
-		}
+			// look for patterns of user
 
+			for(DactPatternDataSet iterDactPattern:patternList ){ 
 
-		// 3. Aufbereiten der Pattern die Anzeige
-		for(DactPatternDataSet iterDactPattern:patternList ){
-			sqlString ="";
-			// PreRequisites are fullfilled for Patient
-			if (iterDactPattern.preReqFullFilled){
-				sqlString = "SELECT  t1.pattern_id,   t1.prerequisite_view," +
-						" t1.conclusion_db_attribute,  t1.conclusion_db_relation," +
-						" t1.confidence_view,  t1.conclusion_view, t1.support_view," +
-						" t1.approvedstatus_view, t1.creationdate,  t1.creationsource," +
-						"  t1.active " +
-						"FROM dact_pattern as t1" +
-						"  where t1.pattern_id = " +iterDactPattern.patternID;
-				rs = createStmt().executeQuery(sqlString);
-				if(rs.next()){
-					//Store data
-					iterDactPattern.viewPreReq =  rs.getString("prerequisite_view");
-					iterDactPattern.conCluAttribute =  rs.getString("conclusion_db_attribute");
-					iterDactPattern.concluRelation =  rs.getString("conclusion_db_relation");
-					iterDactPattern.viewConf =  rs.getString("confidence_view");
-					iterDactPattern.viewConclu =  rs.getString("conclusion_view");
-					iterDactPattern.viewSupport =  rs.getString("support_view");
-					iterDactPattern.viewApproved =  rs.getString("approvedstatus_view");
-					iterDactPattern.creationDate =  rs.getString("creationdate");
-					iterDactPattern.creationSource =  rs.getString("creationsource");
-					iterDactPattern.active =  rs.getBoolean("active");
-					logger.debug("Pattern; " +iterDactPattern);
-
-					if(rs.next()){
-						logger.error("Threre where multiple Lines for on PatternId in dact_pattern. Primary Key problem! for PatternID"+iterDactPattern.patternID);
-					}
-				}
-				else{
-					logger.error("There was no line but had to be for PattternID:"+iterDactPattern.patternID);
-				}
-				// Check, if the whole pattern is already fullfilled by the patient
-				sqlString="";
 				sqlString = "select distinct t1.pattern_id from dact_pattern as t1 "
-						+iterDactPattern.concluRelation 
-						+" where " + iterDactPattern.conCluAttribute + pPatientID +" and t1.pattern_id = "+iterDactPattern.patternID +";";
+						+iterDactPattern.preReqRelations 
+						+" where " + iterDactPattern.preReqAttributes + pPatientID +" and t1.pattern_id = "+iterDactPattern.patternID +";";
 				logger.debug("SQL pattern: " + sqlString);
 				rs = createStmt().executeQuery(sqlString);
 				if(rs.next()){
 					Integer patternID = rs.getInt("pattern_id");
-					logger.debug("Following Pattern is fullfillen in totoal: " + iterDactPattern.patternID);	
-					iterDactPattern.validForPat = true;
+					logger.debug("Following Pattern is useful: " + iterDactPattern.patternID);	
+					iterDactPattern.preReqFullFilled = true;
 				}
 				else{
-					logger.debug("Following Pattern conclusion is not fullfilled: " + iterDactPattern.patternID);	
-					iterDactPattern.validForPat = false;
-				}	
-			} // End of IF PreReqFullfilled
-		}// End of Step 3
+					logger.debug("Following Pattern is useless: " + iterDactPattern.patternID);	
+					iterDactPattern.preReqFullFilled = false;
+				}
+			}
+
+
+			// 3. Aufbereiten der Pattern die Anzeige
+			for(DactPatternDataSet iterDactPattern:patternList ){
+				sqlString ="";
+				// PreRequisites are fullfilled for Patient
+				if (iterDactPattern.preReqFullFilled){
+					sqlString = "SELECT  t1.pattern_id,   t1.prerequisite_view," +
+							" t1.conclusion_db_attribute,  t1.conclusion_db_relation," +
+							" t1.confidence_view,  t1.conclusion_view, t1.support_view," +
+							" t1.approvedstatus_view, t1.creationdate,  t1.creationsource," +
+							"  t1.active " +
+							"FROM dact_pattern as t1" +
+							"  where t1.pattern_id = " +iterDactPattern.patternID;
+					rs = createStmt().executeQuery(sqlString);
+					if(rs.next()){
+						//Store data
+						iterDactPattern.viewPreReq =  rs.getString("prerequisite_view");
+						iterDactPattern.conCluAttribute =  rs.getString("conclusion_db_attribute");
+						iterDactPattern.concluRelation =  rs.getString("conclusion_db_relation");
+						iterDactPattern.viewConf =  rs.getString("confidence_view");
+						iterDactPattern.viewConclu =  rs.getString("conclusion_view");
+						iterDactPattern.viewSupport =  rs.getString("support_view");
+						iterDactPattern.viewApproved =  rs.getString("approvedstatus_view");
+						iterDactPattern.creationDate =  rs.getString("creationdate");
+						iterDactPattern.creationSource =  rs.getString("creationsource");
+						iterDactPattern.active =  rs.getBoolean("active");
+						logger.debug("Pattern; " +iterDactPattern);
+
+						if(rs.next()){
+							logger.error("Threre where multiple Lines for on PatternId in dact_pattern. Primary Key problem! for PatternID"+iterDactPattern.patternID);
+						}
+					}
+					else{
+						logger.error("There was no line but had to be for PattternID:"+iterDactPattern.patternID);
+					}
+					// Check, if the whole pattern is already fullfilled by the patient
+					sqlString="";
+					sqlString = "select distinct t1.pattern_id from dact_pattern as t1 "
+							+iterDactPattern.concluRelation 
+							+" where " + iterDactPattern.conCluAttribute + pPatientID +" and t1.pattern_id = "+iterDactPattern.patternID +";";
+					logger.debug("SQL pattern: " + sqlString);
+					rs = createStmt().executeQuery(sqlString);
+					if(rs.next()){
+						Integer patternID = rs.getInt("pattern_id");
+						logger.debug("Following Pattern is fullfillen in totoal: " + iterDactPattern.patternID);	
+						iterDactPattern.validForPat = true;
+					}
+					else{
+						logger.debug("Following Pattern conclusion is not fullfilled: " + iterDactPattern.patternID);	
+						iterDactPattern.validForPat = false;
+					}	
+				} // End of IF PreReqFullfilled
+			}// End of Step 3
 		}// end of try
 		catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -1273,13 +1354,13 @@ public ArrayList<DactPatternDataSet> getDactItems()
 		// Demo output:
 		logger.debug("Following Patterns where found for patient " + pPatientID);
 		for(DactPatternDataSet iterDactPattern:patternList ){
-			
+
 			logger.debug(iterDactPattern.toHealthCareActorString());
-			
+
 		}
 		return patternList;
 	}
-	
+
 	/**
 	 * @param args
 	 */
@@ -1390,7 +1471,7 @@ public ArrayList<DactPatternDataSet> getDactItems()
 				+" create  OR REPLACE view icardea.fullmedications as select  m.doseQuantity val, m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh,concat(m.text ,' ', m.doseQuantity,' mg',IF(ehr.isEHR=0,' (from PHR)',' (from EHR)')) text,ehr.isEHR ,p.id patid from Medication m,Patient p, EHRPHRData ehr where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and careProvisionCode=\"MEDLIST\" order by m.effectiveTime,m.effectiveTimeHigh,m.text ;"
 				+" create  OR REPLACE view icardea.medicationsPHR as select  m.doseQuantity val, m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh,concat(m.text ,' ', m.doseQuantity,' mg') text,ehr.isEHR ,p.id patid from Medication m,Patient p, EHRPHRData ehr where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and careProvisionCode=\"MEDLIST\" and ehr.isEHR=0 order by m.text,m.effectiveTime,m.effectiveTimeHigh ;"
 				+" create  OR REPLACE view icardea.prescriptions as select  m.doseQuantity val, m.effectiveTime effectiveTimeLow, m.effectiveTimeHigh effectiveTimeHigh,concat(m.text ,' ', m.doseQuantity,' mg') text,ehr.isEHR ,p.id patid from Medication m,Patient p, EHRPHRData ehr where  p.id=ehr.Patientid and ehr.id=m.EHRPHRDataID and careProvisionCode=\"MEDLIST\" and ehr.isEHR=1 order by m.text,m.effectiveTime,m.effectiveTimeHigh ;";
-//				+" CREATE OR REPLACE  VIEW icardea.dact AS SELECT '201105121200' as effectivetimelow, '' as effectivetimehigh, CONCAT_WS('; ',  CONCAT('Vorbedingung: ', t1.prerequisite),  CONCAT('Folgerung: ' , t1.conclusion),  CONCAT('% Zuversicht: ' ,  t1.confidence),  CONCAT('Patienten: ' , t1.support)) as text,  5 as val,  1 as patid FROM   dact_raw as t1;";
+		//				+" CREATE OR REPLACE  VIEW icardea.dact AS SELECT '201105121200' as effectivetimelow, '' as effectivetimehigh, CONCAT_WS('; ',  CONCAT('Vorbedingung: ', t1.prerequisite),  CONCAT('Folgerung: ' , t1.conclusion),  CONCAT('% Zuversicht: ' ,  t1.confidence),  CONCAT('Patienten: ' , t1.support)) as text,  5 as val,  1 as patid FROM   dact_raw as t1;";
 
 		createInitial=  replaceInto +" ( 'Overview','Name','--','Text','Name of the patient','CIED / EHR / PHR','','','fixed value','','','','can be filled out during implant (ASCII) or FU','0',1,'Overview','','','','','Andreas Schmidt','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','ID','--','Numeric','Hospitals ID number','EHR','','','fixed value','F8.0','Depends on each institution, but usually it has >3 digits and <9','','is caluclated from birthdate and used for statistsics','0','2','Overview','','','','','','19000101120000','21000101120000'); "
@@ -1416,16 +1497,18 @@ public ArrayList<DactPatternDataSet> getDactItems()
 				+replaceInto +" ( 'Overview','LV lead pacing impedance','--','Numeric','Pacing impedance of the left ventricular lead','CIED','722435^MDC_IDC_MSMT_LEADCHNL_LV_IMPEDANCE_VALUE^MDC','','latest value and prior review value','F4.0','For valid limits, ask Medtronic & SJM','Some patients may not have a left ventricular lead implanted','200-2000 Ohm','0','23','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','LV lead R wave amplitude','--','Numeric','Amplitude of the left ventricular lead signal','CIED','180205^ICARDEA_IDC_MSMT_LEADCHNEL_LV_RWAVE_AMPLITUDE^ICARDEA ','','latest value and prior review value','F2.1','<15.0 and >0.1','Some patients may not have a left ventricular lead implanted','-','0','24','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','LV lead pacing threshold','--','Numeric','Pacing threshold of the left ventricular lead','CIED','722179^MDC_IDC_MSMT_LEADCHNL_LV_PACING_THRESHOLD_AMPLITUDE','','latest value and prior review value','F2.1','<5.0','Some patients may not have a left ventricular lead implanted','-','0','25','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'Overview','Percentage of AS','--','Numeric','% of atrial sensing','CIED','180206^ICARDEA_IDC_MSMT_AS_PERCENT^ICARDEA  ','','latest value','F3.0','0 - 100','Some patients may not have an atrial lead implanted','summed up autovalue','0','26','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'Overview','Percentage of AP','--','Numeric','% of atrial pacing','CIED','180207^ICARDEA_IDC_MSMT_AP_PERCENT^ICARDEA  ','','latest value','F3.0','0 - 100','Some patients may not have an atrial lead implanted','summed up autovalue','0','27','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'Overview','Percentage of RVS','--','Numeric','% of right ventricular sensing','CIED','180208^ICARDEA_IDC_MSMT_RVS_PERCENT^ICARDEA  ','','latest value','F3.0','0 - 100','','summed up autovalue','0','28','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'Overview','Percentage of RVP','--','Numeric','% of right ventricular pacing','CIED','180209^ICARDEA_IDC_MSMT_RVP_PERCENT^ICARDEA ','','latest value','F3.0','0 - 100','','summed up autovalue','0','29','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'Overview','Percentage of LVS','--','Numeric','% of left ventricular sensing','CIED','180210^ICARDEA_IDC_MSMT_LVS_PERCENT^ICARDEA  ','','latest value','F3.0','0 - 100','Some patients may not have a left ventricular lead implanted','summed up autovalue','0','30','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); ";
+				+replaceInto +" ( 'Overview','Percentage of AS','--','Numeric','% of atrial sensing','CIED','180206^ICARDEA_IDC_MSMT_AS_PERCENT^ICARDEA','','latest value','F3.0','0 - 100','Some patients may not have an atrial lead implanted','summed up autovalue','0','26','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'Overview','Percentage of AP','--','Numeric','% of atrial pacing','CIED','180207^ICARDEA_IDC_MSMT_AP_PERCENT^ICARDEA','','latest value','F3.0','0 - 100','Some patients may not have an atrial lead implanted','summed up autovalue','0','27','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'Overview','Percentage of RVS','--','Numeric','% of right ventricular sensing','CIED','180208^ICARDEA_IDC_MSMT_RVS_PERCENT^ICARDEA','','latest value','F3.0','0 - 100','','summed up autovalue','0','28','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'Overview','Percentage of RVP','--','Numeric','% of right ventricular pacing','CIED','180209^ICARDEA_IDC_MSMT_RVP_PERCENT^ICARDEA','','latest value','F3.0','0 - 100','','summed up autovalue','0','29','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'Overview','Percentage of LVS','--','Numeric','% of left ventricular sensing','CIED','180210^ICARDEA_IDC_MSMT_LVS_PERCENT^ICARDEA','','latest value','F3.0','0 - 100','Some patients may not have a left ventricular lead implanted','summed up autovalue','0','30','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); ";
 
 		createInitial=createInitial+replaceInto +" ( 'Overview','Percentage of LVP','--','Numeric','% of left ventricular pacing','CIED','180211^ICARDEA_IDC_MSMT_LVP_PERCENT^ICARDEA  ','','latest value','F3.0','0 - 100','Some patients may not have a left ventricular lead implanted','summed up autovalue','0','31','Measured Parameters','','','','','PDF','19000101120000','21000101120000'); "
+				//
 				+replaceInto +" ( 'Overview','SVT','--','Numeric','Number of episodes classified as SVT','CIED','739568^MDC_IDC_EPISODE_TYPE^MDC (SVT)','','latest value','F3.0','','','autovalue','0','33','Arrhytmia Episodes','','','','','PDF','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','AF / AT','--','Numeric','Number of episodes classified as AF / AT','CIED','739568^MDC_IDC_EPISODE_TYPE^MDC (AT/AF)','','latest value','F3.0','','','autovalue plus histogram data','0','34','Arrhytmia Episodes','','','','','PDF','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','VT','--','Numeric','Number of episodes classified as VT / VF','CIED','739568^MDC_IDC_EPISODE_TYPE^MDC (VT)','','latest value','F3.0','','','autovalue','0','35','Arrhytmia Episodes','','','','','PDF','19000101120000','21000101120000'); "
+				//
 				+replaceInto +" ( 'Overview','PMT','--','Numeric','Number of episodes classified as pacemaker mediated tachycardia','CIED','180301^ICARDEA_IDC_EPISODE_PMT^ICARDEA','','latest value','F3.0','','','autovalue','0','36','Arrhytmia Episodes','','','','','PDF','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','SVT treated','--','Numeric','Number of episodes classified as SVT treated','CIED','180302^ICARDEA_IDC_EPISODE_TREATED_SVT^ICARDEA','','latest value','F3.0','','','autovalue','0','37','Arrhytmia Episodes','','','','','PDF','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','VT treated','--','Numeric','Number of episodes classified as VT / VF treated','CIED','180303^ICARDEA_IDC_EPISODE_TREATED_VT^ICARDEA','','latest value','F3.0','','','autovalue','0','38','Arrhytmia Episodes','','','','','PDF','19000101120000','21000101120000'); "
@@ -1434,10 +1517,11 @@ public ArrayList<DactPatternDataSet> getDactItems()
 				+replaceInto +" ( 'Overview','QOL score','--','Numeric','Quality of Life test score','PHR','','','latest value','F3.0','0 - 105','The QOL test could be on the PHR to be filled by SOME patients (those with HF) before the review date','','0','43','Clinical Status','','','','','','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','Hospital admissions','--','Numeric','Any hospital admissions since prior visit','EHR / PHR','','','latest value','F1.0','','Should include both the EHR information and the PHR s because the patient may have been admitted at a different facility','','0','44','Clinical Status','','','','','','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'Overview','Medications','--','List','Current medical treatment of the patient','EHR / PHR','','','latest value','','','Could also underline or show the medication that has been changed','','0','45','Clinical Status','Medications','Medications','','','Nexium 20 mg,Thrombo ass 100 mg Aspirin, Plavix 75 mg,  Nomexor (Nebivolol), - Simvastatin 20 mg','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'AF/AT','Nr of episodes','--','Numeric','Number of episodes','CIED','737952^MDC_IDC_STAT_EPISODE_TYPE^MDC (AT/AF)','','latest value','F3.0','','Maybe it would be useful to have a diagram with the number of episodes, how they were classified and their treatment','','0','47','AF/AT','','','','','1','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'AF/AT','Date of episode','--','Date','Date of each episode','CIED','739552^MDC_IDC_EPISODE_DTM^MDC (AT/AF)','','latest value','DD-MM-YYYY','','Show it in a chart','','0','48','AF/AT','','','','','22.03.2010','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'AF/AT','Time of episode','--','Time','Time of each episode','CIED','739552^MDC_IDC_EPISODE_DTM^MDC (AT/AF)','','latest value','hh:mm:ss','','Show it in a chart','','0','49','AF/AT','','','','','in the night','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'AF/AT','Duration of episode','--','Time','Duration of each episode','CIED','739712^MDC_IDC_EPISODE_DURATION^MDC (AT/AF)','','latest value','hh:mm:ss','','Show it in a chart','','0','50','AF/AT','','','','','20 minutes','19000101120000','21000101120000'); "
+				//only at/af
+				+replaceInto +" ( 'AF/AT','Nr of episodes','--','Numeric','Number of episodes','CIED','737952^MDC_IDC_STAT_EPISODE_TYPE^MDC^AT/AF','','latest value','F3.0','','Maybe it would be useful to have a diagram with the number of episodes, how they were classified and their treatment','','0','47','AF/AT','','','','','1','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'AF/AT','Date of episode','--','Date','Date of each episode','CIED','739552^MDC_IDC_EPISODE_DTM^MDC^AT/AF','','latest value','DD-MM-YYYY','','Show it in a chart','','0','48','AF/AT','','','','','22.03.2010','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'AF/AT','Time of episode','--','Time','Time of each episode','CIED','739552^MDC_IDC_EPISODE_DTM^MDC^AT/AF','','latest value','hh:mm:ss','','Show it in a chart','','0','49','AF/AT','','','','','in the night','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'AF/AT','Duration of episode','--','Time','Duration of each episode','CIED','739712^MDC_IDC_EPISODE_DURATION^MDC^AT/AF','','latest value','hh:mm:ss','','Show it in a chart','','0','50','AF/AT','','','','','20 minutes','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'AF/AT','VT zone','--','Categoric','Programmed zone to which each episode is classified','CIED','180305^ICARDEA_IDC_EPISODE_VT_ZONE^ICARDEA','','latest value','Nominal','','Show it in a chart','','0','51','AF/AT','','','','','0','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'AF/AT','Cycle length','--','Numeric','If stable, the mean cycle length (ms) of the tacycardia','CIED','180306^ICARDEA_IDC_EPISODE_CYCLE_LENGTH^ICARDEA','','latest value','F3.0','','Show it in a chart','','0','52','AF/AT','','','','','0','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'AF/AT','Onset','--','Numeric','Onset of the tachycardia (%)','CIED','180307^ICARDEA_IDC_EPISODE_ONSET^ICARDEA','','latest value','F2.0','','Show it in a chart','','0','53','AF/AT','','','','','0','19000101120000','21000101120000'); "
@@ -1446,13 +1530,14 @@ public ArrayList<DactPatternDataSet> getDactItems()
 				+replaceInto +" ( 'AF/AT','Morphology criteria','--','Numeric','% QRS conconrdance between baseline electrogram and the electrogram during the tachycardia','CIED','180310^ICARDEA_IDC_EPISODE_MORPHOLOGY_CRITERIA^ICARDEA','','latest value','F2.0','','Show it in a chart','','0','56','AF/AT','','','','','0','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'AF/AT','ATP','--','Numeric','Number of ATP delivered for each episode','CIED','737888^MDC_IDC_STAT_TACHYTHERAPY_ATP_DELIVERED_RECENT^MDC','','latest value','F3.0','','Show it in a chart','','0','57','AF/AT','','','','','0','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'AF/AT','Shock','--','Numeric','Number of shocks delivered for each episode','CIED','737824^MDC_IDC_STAT_TACHYTHERAPY_SHOCKS_DELIVERED_RECENT^MDC','','latest value','F1.0','','Show it in a chart','','0','58','AF/AT','','','','','0','19000101120000','21000101120000'); "
+				// further information
 				+replaceInto +" ( 'AF/AT','Electrogram','--','Image','Intracardiac electrogram registered by the device for each episode','CIED','18750-0^Cardiac Electrophysiology Report^LN','','latest value','','','Link to each particular electrogram','','0','59','AF/AT','','','','','Afib rate 180','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'AF/AT','Diagnosis','--','Text','Main diagnosis of the patient','EHR','','','fixed value','','','Reason for implantation of the device','','0','61','Patient relevant information ','','','','','sudden cardiac death','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'AF/AT','Problems','--','List','Patient s reported symptoms (palpitations, dizziness, syncope, chest pain, shortness of breath, etc.)','PHR','','','latest value','','','Could be a free text, or better: list of specific symptoms marked by the patient','','0','62','Patient relevant information ','Problems','Problems','','','none?','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'AF/AT','Anticoagulation','--','Categoric','Oral chronic anticoagulation (YES / NO)','CALCULATE','','','','Binary','','','','0','63','Patient relevant information ','','','','','NO','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'AF/AT','Medications','--','List','Current medical treatment of the patient','EHR / PHR','','','latest value','','','Could also underline or show the medication that has been changed','','0','64','Patient relevant information ','Medications','Medications','','','Nexium 20 mg,Thrombo ass 100 mg Aspirin, Plavix 75 mg,  Nomexor (Nebivolol), - Simvastatin 20 mg','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'AF/AT','Medication compliance','--','List','Patient s reported compliance to medication','PHR','','','4 weeks','','','','','0','65','Patient relevant information ','Compliance','Compliance','','','Nexium 20 mg,Thrombo ass 100 mg Aspirin, Plavix 75 mg,  Nomexor (Nebivolol), - Simvastatin 20 mg','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'AF/AT','Ttreatment changes','--','Text','Changes in treatment','PHR','','','4 weeks','','','','','0','66','Patient relevant information ','','','','','None','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'AF/AT','Treatment changes','--','Text','Changes in treatment','PHR','','','4 weeks','','','','','0','66','Patient relevant information ','','','','','None','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'AF/AT','Reports','--','Text','Recent hospital admission reports','EHR','','','12 months','','','Maybe highlight admissions to the Emergency Room or any Cardiovascular Department','','0','67','Patient relevant information ','','','','','alert from st jude','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'AF/AT','CHADS2 Score','--','Numeric','Prior congestive heart failure / Hypertension / Age >75 years / Diabetes mellitus / Stroke (table 7 D.4.2.1)','EHR / PHR','','','latest value','F1.0','','','','0','68','Patient relevant information ','','','','','3','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'AF/AT','CHADS2-Vasc Score','--','Numeric','Table 9 D.4.2.1','CALCULATE','','','','F1.0','','','','0','69','Patient relevant information ','','','','','NA','19000101120000','21000101120000'); "
@@ -1462,18 +1547,23 @@ public ArrayList<DactPatternDataSet> getDactItems()
 				+replaceInto +" ( 'AF/AT','Lab results','--','List','Table showing the patient s laboratory results','EHR','','','latest value','','','Link to the patients last lab results','maybe also show the specific laboratory s lower und upper normal values and highlight those outside their limits ','0','74','Patient Objective Data','Lab results','LabResult','','','Potassium mEq/L     - 4.0','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'AF/AT','Electrocardiogram','--','Image','Electrocardiogram','EHR','','','latest value','','','Link to the patients last electrocardiogram results','','0','75','Patient Objective Data','','','','','Normal sinus rythm','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'AF/AT','Echocardiogram','--','Image','Table showing the patient s echocardiography results, report and images','EHR','','','latest value','','','Link to the patient s last echocardiogram','','0','76','Patient Objective Data','','','','','none available','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'VT/VF','Nr of episodes','--','Numeric','Number of episodes','CIED','737952^MDC_IDC_STAT_EPISODE_TYPE^MDC (VT/VF)','','latest value','F3.0','','Maybe it would be useful to have a diagram with the number of episodes, how they were classified and their treatment','','0','78','VT/VF','','','','','0','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'VT/VF','Date of episode','--','Date','Date of each episode','CIED','739552^MDC_IDC_EPISODE_DTM^MDC (VT/VF)','','latest value','DD-MM-YYYY','','Show it in a chart','','0','79','VT/VF','','','','','0','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'VT/VF','Time of episode','--','Time','Time of each episode','CIED','739552^MDC_IDC_EPISODE_DTM^MDC (VT/VF)','','latest value','hh:mm:ss','','Show it in a chart','','0','80','VT/VF','','','','','0','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'VT/VF','Duration of episode','--','Time','Duration of each episode','CIED','739712^MDC_IDC_EPISODE_DURATION^MDC (VT/VF)','','latest value','hh:mm:ss','','Show it in a chart','','0','81','VT/VF','','','','','0','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'VT/VF','VT zone','--','Categoric','Programmed zone to which each episode is classified','CIED','180305^ICARDEA_IDC_EPISODE_VT_ZONE^ICARDEA','','latest value','Nominal','','Show it in a chart','','0','82','VT/VF','','','','','0','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'VT/VF','Cycle length','--','Numeric','If stable, the mean cycle length (ms) of the tacycardia','CIED','180306^ICARDEA_IDC_EPISODE_CYCLE_LENGTH^ICARDEA','','latest value','F3.0','','Show it in a chart','','0','83','VT/VF','','','','','0','19000101120000','21000101120000'); "
+				//episode subitems
+				+replaceInto +" ( 'VT/VF','Nr of episodes:','--','Numeric','Number of episodes','CIED','737952^MDC_IDC_EPISODE_ID^MDC^','','latest value','F3.0','','','','0','780','VT/VF','','','','','0','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'VT/VF','Date of episode:','--','Date','Date of each episode','CIED','739552^MDC_IDC_EPISODE_DTM^MDC^','','latest value','DD-MM-YYYY','','Show it in a chart','','0','790','VT/VF','','','','','0','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'VT/VF','Time of episode:','--','Time','Time of each episode','CIED','739552^MDC_IDC_EPISODE_DTM^MDC^','','latest value','hh:mm:ss','','Show it in a chart','','0','800','VT/VF','','','','','0','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'VT/VF','Therapy Details:','--','Text','','CIED','739680^MDC_IDC_EPISODE_DETECTION_THERAPY_DETAILS^MDC^','','latest value','','','','','0','801','Tachycardia parameters','','','','','','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'VT/VF','Duration of episode','--','Time','Duration of each episode','CIED','739712^MDC_IDC_EPISODE_DURATION^MDC^','','latest value','hh:mm:ss','','Show it in a chart','','0','810','VT/VF','','','','','0','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'VT/VF','VT zone','--','Categoric','Programmed zone to which each episode is classified','CIED','180305^ICARDEA_IDC_EPISODE_VT_ZONE^ICARDEA^','','latest value','Nominal','','Show it in a chart','','0','820','VT/VF','','','','','0','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'VT/VF','Cycle length','--','Numeric','If stable, the mean cycle length (ms) of the tacycardia','CIED','180306^ICARDEA_IDC_EPISODE_CYCLE_LENGTH^ICARDEA^','','latest value','F3.0','','Show it in a chart','','0','830','VT/VF','','','','','0','19000101120000','21000101120000'); "
+				//
 				+replaceInto +" ( 'VT/VF','Onset','--','Numeric','Onset of the tachycardia (%)','CIED','180307^ICARDEA_IDC_EPISODE_ONSET^ICARDEA','','latest value','F2.0','','Show it in a chart','','0','84','VT/VF','','','','','0','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'VT/VF','Stability','--','Numeric','Stability of tachycardias cycle length (%)','CIED','180308^ICARDEA_IDC_EPISODE_STABILITY^ICARDEA','','latest value','F2.0','','Show it in a chart','','0','85','VT/VF','','','','','0','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'VT/VF','VA relationship','--','Categoric','In patients with atrial lead, VA relationship (V>A, V=A, V<A)','CIED','180309^ICARDEA_IDC_EPISODE_VA_RELATIONSHIP^ICARDEA','','latest value','Nominal','','Show it in a chart','','0','86','VT/VF','','','','','0','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'VT/VF','Morphology criteria','--','Numeric','% QRS conconrdance between baseline electrogram and the electrogram during the tachycardia','CIED','180310^ICARDEA_IDC_EPISODE_MORPHOLOGY_CRITERIA^ICARDEA','','latest value','F2.0','','Show it in a chart','','0','87','VT/VF','','','','','0','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'VT/VF','ATP','--','Numeric','Number of ATP delivered for each episode','CIED','737888^MDC_IDC_STAT_TACHYTHERAPY_ATP_DELIVERED_RECENT^MDC','','latest value','F3.0','','Show it in a chart','','0','88','VT/VF','','','','','0','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'VT/VF','Shock','--','Numeric','Number of shocks delivered for each episode','CIED','737824^MDC_IDC_STAT_TACHYTHERAPY_SHOCKS_DELIVERED_RECENT^MDC','','latest value','F1.0','','Show it in a chart','','0','89','VT/VF','','','','','0','19000101120000','21000101120000'); "
+				//same as above?
+				+replaceInto +" ( 'VT/VF','ATP each episode','--','Numeric','Number of ATP delivered for each episode','CIED','737888^MDC_IDC_STAT_TACHYTHERAPY_ATP_DELIVERED_RECENT^MDC','','latest value','F3.0','','Show it in a chart','','0','88','VT/VF','','','','','0','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'VT/VF','Shock delivered each episode','--','Numeric','Number of shocks delivered for each episode','CIED','737824^MDC_IDC_STAT_TACHYTHERAPY_SHOCKS_DELIVERED_RECENT^MDC','','latest value','F1.0','','Show it in a chart','','0','89','VT/VF','','','','','0','19000101120000','21000101120000'); "
+				//furtherinformation
 				+replaceInto +" ( 'VT/VF','Electrogram','--','Image','Intracardiac electrogram registered by the device for each episode','CIED','18750-0^Cardiac Electrophysiology Report^LN','','latest value','','','Link to each particular electrogram','','0','90','VT/VF','','','','','0','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'VT/VF','Diagnosis','--','Text','Main diagnosis of the patient','EHR','','','fixed value','','','Reason for implantation of the device','','0','92','Patient relevant information ','','','','','none','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'VT/VF','Problems','--','List','Patient s reported symptoms (palpitations, dizziness, syncope, chest pain, shortness of breath, etc.)','PHR','','','latest value','','','Could be a free text, or better: list of specific symptoms marked by the patient','','0','93','Patient relevant information ','Problems','Problems','','','none','19000101120000','21000101120000'); "
@@ -1486,33 +1576,45 @@ public ArrayList<DactPatternDataSet> getDactItems()
 				+replaceInto +" ( 'VT/VF','INR','--','Numeric','Patient s anticoagulation status','EHR','','','8 weeks','F2.1','','','','0','101','Patient Objective Data','','','','','0','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'VT/VF','Electrocardiogram','--','Image','Electrocardiogram','EHR','','','latest value','','','Link to the patients last electrocardiogram results','','0','102','Patient Objective Data','','','','','0','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'VT/VF','Echocardiogram','--','Image','Table showing the patient s echocardiography results, report and images','EHR','','','latest value','','','Link to the patient s last echocardiogram','','0','103','Patient Objective Data','','','','','0','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','Date of birth','--','Date','Date of birth','EHR','','','fixed value','DD-MM-YYYY','>01-01-1900 and <interrogation date','','','0','105','Patient Information','','','','','Andreas Schmidt','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','Diagnosis','--','Text','Main diagnosis of the patient','EHR','','','fixed value','','','Reason for implantation of the device','','0','106','Patient Information','','','','','Sudden cardiac death','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','NYHA functional class at implant','--','Categoric','Functional class according to the New York Heart Association Classification (I -IV) at implant','PHR','','','latest value','Ordinal','I, II, III or IV','In the PHR a questionnare could be filled, with simple questions to obtain this parameter','','0','107','Patient Information','','','','','NHYA 1','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','EF','--','Numeric','Ejection fraction','EHR','','','Latest value','F2.0','>8 and <95','It can be retrieved from the echocardiogram parameters or catheterisation (use the latest value)','','0','108','Patient Information','','','','','0,6','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','Date of EF','--','Date','Date of EF shown','EHR','','','Latest value','DD-MM-YYYY','','Give the date that the test was perfomed','','0','1109','Patient Information','','','','','15.11.2009','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','Date of implantation','--','Date','Date of implantation','CIED / EHR','720901^MDC_IDC_PG_IMPLANT_DT^MDC','','fixed value','DD-MM-YYYY','> Date of birth','','','0','111','Device Parameters','','','','','20.11.2009','19000101120000','21000101120000'); "
+				//patinfo start
+				+replaceInto +" ( 'PatInfo','Date of birth','--','Date','Date of birth','EHR','','','fixed value','DD-MM-YYYY','>01-01-1900 and <interrogation date','','','0','1050','Patient Information','','','','','Andreas Schmidt','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','Diagnosis','--','Text','Main diagnosis of the patient','EHR','','','fixed value','','','Reason for implantation of the device','','0','1060','Patient Information','','','','','Sudden cardiac death','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','NYHA functional class at implant','--','Categoric','Functional class according to the New York Heart Association Classification (I -IV) at implant','PHR','','','latest value','Ordinal','I, II, III or IV','In the PHR a questionnare could be filled, with simple questions to obtain this parameter','','0','1070','Patient Information','','','','','NHYA 1','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','EF','--','Numeric','Ejection fraction','EHR','','','Latest value','F2.0','>8 and <95','It can be retrieved from the echocardiogram parameters or catheterisation (use the latest value)','','0','1080','Patient Information','','','','','0,6','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','Date of EF','--','Date','Date of EF shown','EHR','','','Latest value','DD-MM-YYYY','','Give the date that the test was perfomed','','0','1090','Patient Information','','','','','15.11.2009','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','Date of implantation','--','Date','Date of implantation','CIED / EHR','720901^MDC_IDC_PG_IMPLANT_DT^MDC','','fixed value','DD-MM-YYYY','> Date of birth','','','0','1110','Device Parameters','','','','','20.11.2009','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'PatInfo','Date of battery exchange','--','Date','Date of battery exchange','CIED / EHR','180101^ICARDEA_IDC_PG_BATTERY EXCHANGE_DTM^ICARDEA','','latest value','DD-MM-YYYY','> Date of implantation','Show ONLY if there has been a battery exchange (if the information is not blank)','','0','1112','Device Parameters','','','','','non applicable','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','Type of device','--','Categoric','PM / ICD / CRT-P / CRT-D','CIED / EHR','720897^MDC_IDC_PG_TYPE^MDC','','fixed value','Nominal','','','','0','113','Device Parameters','','','','','ICD','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','CIED manufacturer','--','Categoric','Medtronic / SJM','CIED / EHR','720900^MDC_IDC_PG_MFG^MDC','','fixed value','Nominal','','There are others in the market (Biotronik, Boston, etc,) but for the current project we are only using these two','','0','114','Device Parameters','','','','','SJM','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','Model','--','Categoric','for types - ASK Medtronic & SJM','CIED / EHR','720898^MDC_IDC_PG_MODEL^MDC','','fixed value','Nominal','','','','0','115','Device Parameters','','','','','Current accel','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','CIED serial number','--','Numeric','CIED serial number','CIED / EHR','720899^MDC_IDC_PG_SERIAL^MDC','','fixed value','ASK Medtronic & SJM','','','','0','116','Device Parameters','','','','','9925119','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','RA lead model','--','Categoric','Right atrial lead model','CIED / EHR','720961^MDC_IDC_LEAD_MODEL^MDC','','fixed value','Nominal','','Some patients may not have an atrial lead implanted','','0','117','Device Parameters','','','','','Tendril ST ','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','RA lead serial number','--','Numeric','Right atrial lead serial number','CIED / EHR','720962^MDC_IDC_LEAD_SERIAL^MDC','','fixed value','','','Some patients may not have an atrial lead implanted','','0','1118','Device Parameters','','','','','BKM99752','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','RA lead impedance at implant','--','Numeric','Impedance of the atrial lead at implant','CIED / EHR','722432^MDC_IDC_MSMT_LEADCHNL_RA_IMPEDANCE_VALUE^MDC','','fixed value','F4.0','For valid limits, ask Medtronic & SJM','','','0','1119','Device Parameters','','','','','SAME AS ON DEMO PATIENT PDF','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','RA lead P wave amplitude at implant','--','Numeric','Amplitude of the atrial lead signal at implant','CIED / EHR','180202^ICARDEA_IDC_MSMT_LEADCHNEL_RA_PWAVE_AMPLITUDE^ICARDEA','','fixed value','F2.1','<15.0 and >0.1','','','0','1120','Device Parameters','','','','','Demo Data','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','RA lead pacing threshold at implant','--','Numeric','Pacing threshold of the atrial lead at implant','CIED / EHR','722176^MDC_IDC_MSMT_LEADCHNL_RA_PACING_THRESHOLD_AMPLITUDE^MDC','','fixed value','F2.1','<5.0','','','0','1121','Device Parameters','','','','','Demo Data','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','RV lead model','--','Categoric','Right ventricular lead model','CIED / EHR','720961^MDC_IDC_LEAD_MODEL^MDC','','fixed value','Nominal','','','','0','1122','Device Parameters','','','','','Durata 7120','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','RV lead serial number','--','Numeric','Right ventricular lead serial number','CIED / EHR','720962^MDC_IDC_LEAD_SERIAL^MDC','','fixed value','','','','','0','1123','Device Parameters','','','','','AKA99156','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','RV lead def. impedance at implant','--','Numeric','Defibrillation impedance of the right ventricular lead at implant','CIED / EHR','180203^ICARDEA_IDC_MSMT_LEADCHNEL_RV_DEFRIBRILLATION_IMPENDENCE^ICARDEA ','','fixed value','F2.0','For valid limits, ask Medtronic & SJM','Patients without an ICD ','','0','1124','Device Parameters','','','','','SAME AS  ON DEMO PATIRENT','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','RV lead pacing impedance at implant','--','Numeric','Pacing impedance of the right ventricular lead at implant','CIED / EHR','722433^MDC_IDC_MSMT_LEADCHNL_RV_IMPEDANCE_VALUE^MDC','','fixed value','F4.0','For valid limits, ask Medtronic & SJM','','','0','1125','Device Parameters','','','','','PDF SAME AS DEMO','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','RV lead R wave amplitude at implant','--','Numeric','Amplitude of the right ventricular lead signal at implant','CIED / EHR','180204^ICARDEA_IDC_MSMT_LEADCHNEL_RV_RWAVE_AMPLITUDE^ICARDEA ','','fixed value','F2.1','<15.0 and >0.1','','','0','1126','Device Parameters','','','','','Demo Data','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','RV lead pacing threshold at implant','--','Numeric','Pacing threshold of the right ventricular lead at implant','CIED / EHR','722177^MDC_IDC_MSMT_LEADCHNL_RV_PACING_THRESHOLD_AMPLITUDE^MDC','','fixed value','F2.1','<5.0','','','0','1127','Device Parameters','','','','','Demo Data','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','LV lead model','--','Categoric','Left ventricular lead model','CIED / EHR','720961^MDC_IDC_LEAD_MODEL^MDC','','fixed value','Nominal','','Some patients may not have a left ventricular lead implanted','','0','1128','Device Parameters','','','','','NA','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','LV lead serial number','--','Numeric','Left ventricular lead serial number','CIED / EHR','720962^MDC_IDC_LEAD_SERIAL^MDC','','fixed value','','','Some patients may not have a left ventricular lead implanted','','0','1129','Device Parameters','','','','','NA','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','LV lead pacing impedance at implant','--','Numeric','Pacing impedance of the left ventricular lead at implant','CIED / EHR','722435^MDC_IDC_MSMT_LEADCHNL_LV_IMPEDANCE_VALUE^MDC','','fixed value','F4.0','For valid limits, ask Medtronic & SJM','','','0','1130','Device Parameters','','','','','NA','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','LV lead R wave amplitude at implant','--','Numeric','Amplitude of the left ventricular lead signal at implant','CIED / EHR','180205^ICARDEA_IDC_MSMT_LEADCHNEL_LV_RWAVE_AMPLITUDE^ICARDEA ','','fixed value','F2.1','<15.0 and >0.1','','','0','1131','Device Parameters','','','','','NA','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'PatInfo','LV lead pacing threshold at implant','--','Numeric','Pacing threshold of the left ventricular lead at implant','CIED / EHR','722179^MDC_IDC_MSMT_LEADCHNL_LV_PACING_THRESHOLD_AMPLITUDE^MDC','','fixed value','F2.1','<5.0','','','0','1132','Device Parameters','','','','','NA','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','Type of device','--','Categoric','PM / ICD / CRT-P / CRT-D','CIED / EHR','720897^MDC_IDC_PG_TYPE^MDC','','fixed value','Nominal','','','','0','1130','Device Parameters','','','','','ICD','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','CIED manufacturer','--','Categoric','Medtronic / SJM','CIED / EHR','720900^MDC_IDC_PG_MFG^MDC','','fixed value','Nominal','','There are others in the market (Biotronik, Boston, etc,) but for the current project we are only using these two','','0','1140','Device Parameters','','','','','SJM','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','Model','--','Categoric','for types - ASK Medtronic & SJM','CIED / EHR','720898^MDC_IDC_PG_MODEL^MDC','','fixed value','Nominal','','','','0','1150','Device Parameters','','','','','Current accel','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','CIED serial number','--','Numeric','CIED serial number','CIED / EHR','720899^MDC_IDC_PG_SERIAL^MDC','','fixed value','ASK Medtronic & SJM','','','','0','1160','Device Parameters','','','','','9925119','19000101120000','21000101120000'); "
+
+				// direkt access changed to variable marking
+				+replaceInto +" ( 'PatInfo','Model:','--','Categoric','lead model','CIED / EHR','720961^MDC_IDC_LEAD_MODEL^MDC^','','fixed value','Nominal','','Some patients may not have an atrial lead implanted','','0','1170','Device Parameters','','','','','Tendril ST ','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','Serial number:','--','Numeric','lead serial number','CIED / EHR','720962^MDC_IDC_LEAD_SERIAL^MDC^','','fixed value','','','Some patients may not have an atrial lead implanted','','0','1171','Device Parameters','','','','','BKM99752','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','Date of implantation:','--','Date','Date of implantation','CIED / EHR','720964^MDC_IDC_LEAD_IMPLANT_DT^MDC^','','fixed value','DD-MM-YYYY','> Date of birth','','field can be set during implant or followup','0','1172','Device Parameters','','','','','20.11.2009','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','Lead manufacturer:','--','Categoric','Medtronic / SJM','CIED / EHR','720963^MDC_IDC_LEAD_MFG^MDC^','','fixed value','Nominal','','In Project only SJM/MEDTRONIC','automatic value','0','1173','Device Parameters','','','','','SJM','19000101120000','21000101120000'); "
+
+				//
+				+replaceInto +" ( 'PatInfo','RA lead model','--','Categoric','Right atrial lead model','CIED / EHR','720961^MDC_IDC_LEAD_MODEL^MDC^RA','','fixed value','Nominal','','Some patients may not have an atrial lead implanted','','0','1181','Device Parameters','','','','','Tendril ST ','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','RA lead serial number','--','Numeric','Right atrial lead serial number','CIED / EHR','720962^MDC_IDC_LEAD_SERIAL^MDC^RA','','fixed value','','','Some patients may not have an atrial lead implanted','','0','1182','Device Parameters','','','','','BKM99752','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','RA lead impedance at implant','--','Numeric','Impedance of the atrial lead at implant','CIED / EHR','722432^MDC_IDC_MSMT_LEADCHNL_RA_IMPEDANCE_VALUE^MDC','','fixed value','F4.0','For valid limits, ask Medtronic & SJM','','','0','1183','Device Parameters','','','','','SAME AS ON DEMO PATIENT PDF','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','RA lead P wave amplitude at implant','--','Numeric','Amplitude of the atrial lead signal at implant','CIED / EHR','180202^ICARDEA_IDC_MSMT_LEADCHNEL_RA_PWAVE_AMPLITUDE^ICARDEA','','fixed value','F2.1','<15.0 and >0.1','','','0','1184','Device Parameters','','','','','Demo Data','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','RA lead pacing threshold at implant','--','Numeric','Pacing threshold of the atrial lead at implant','CIED / EHR','722176^MDC_IDC_MSMT_LEADCHNL_RA_PACING_THRESHOLD_AMPLITUDE^MDC','','fixed value','F2.1','<5.0','','','0','1185','Device Parameters','','','','','Demo Data','19000101120000','21000101120000'); "
+				//
+				+replaceInto +" ( 'PatInfo','RV lead model','--','Categoric','Right ventricular lead model','CIED / EHR','720961^MDC_IDC_LEAD_MODEL^MDC^RV','','fixed value','Nominal','','','','0','1192','Device Parameters','','','','','Durata 7120','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','RV lead serial number','--','Numeric','Right ventricular lead serial number','CIED / EHR','720962^MDC_IDC_LEAD_SERIAL^MDC^RV','','fixed value','','','','','0','1193','Device Parameters','','','','','AKA99156','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','RV lead def. impedance at implant','--','Numeric','Defibrillation impedance of the right ventricular lead at implant','CIED / EHR','180203^ICARDEA_IDC_MSMT_LEADCHNEL_RV_DEFRIBRILLATION_IMPENDENCE^ICARDEA','','fixed value','F2.0','For valid limits, ask Medtronic & SJM','Patients without an ICD ','','0','1194','Device Parameters','','','','','SAME AS  ON DEMO PATIRENT','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','RV lead pacing impedance at implant','--','Numeric','Pacing impedance of the right ventricular lead at implant','CIED / EHR','722433^MDC_IDC_MSMT_LEADCHNL_RV_IMPEDANCE_VALUE^MDC','','fixed value','F4.0','For valid limits, ask Medtronic & SJM','','','0','1195','Device Parameters','','','','','PDF SAME AS DEMO','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','RV lead R wave amplitude at implant','--','Numeric','Amplitude of the right ventricular lead signal at implant','CIED / EHR','180204^ICARDEA_IDC_MSMT_LEADCHNEL_RV_RWAVE_AMPLITUDE^ICARDEA','','fixed value','F2.1','<15.0 and >0.1','','','0','1196','Device Parameters','','','','','Demo Data','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','RV lead pacing threshold at implant','--','Numeric','Pacing threshold of the right ventricular lead at implant','CIED / EHR','722177^MDC_IDC_MSMT_LEADCHNL_RV_PACING_THRESHOLD_AMPLITUDE^MDC','','fixed value','F2.1','<5.0','','','0','1197','Device Parameters','','','','','Demo Data','19000101120000','21000101120000'); "
+				//
+				+replaceInto +" ( 'PatInfo','LV lead model','--','Categoric','Left ventricular lead model','CIED / EHR','720961^MDC_IDC_LEAD_MODEL^MDC^LV','','fixed value','Nominal','','Some patients may not have a left ventricular lead implanted','','0','1200','Device Parameters','','','','','NA','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','LV lead serial number','--','Numeric','Left ventricular lead serial number','CIED / EHR','720962^MDC_IDC_LEAD_SERIAL^MDC^LV','','fixed value','','','Some patients may not have a left ventricular lead implanted','','0','1201','Device Parameters','','','','','NA','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','LV lead pacing impedance at implant','--','Numeric','Pacing impedance of the left ventricular lead at implant','CIED / EHR','722435^MDC_IDC_MSMT_LEADCHNL_LV_IMPEDANCE_VALUE^MDC','','fixed value','F4.0','For valid limits, ask Medtronic & SJM','','','0','1202','Device Parameters','','','','','NA','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','LV lead R wave amplitude at implant','--','Numeric','Amplitude of the left ventricular lead signal at implant','CIED / EHR','180205^ICARDEA_IDC_MSMT_LEADCHNEL_LV_RWAVE_AMPLITUDE^ICARDEA','','fixed value','F2.1','<15.0 and >0.1','','','0','1203','Device Parameters','','','','','NA','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'PatInfo','LV lead pacing threshold at implant','--','Numeric','Pacing threshold of the left ventricular lead at implant','CIED / EHR','722179^MDC_IDC_MSMT_LEADCHNL_LV_PACING_THRESHOLD_AMPLITUDE^MDC','','fixed value','F2.1','<5.0','','','0','1204','Device Parameters','','','','','NA','19000101120000','21000101120000'); "
+				//rest information patinfo medical
 				+replaceInto +" ( 'PatInfo','NOTES','--','Text','Space por the clinitian to write important notes about the patient to be remembered','PPM','','','','','','','','0','142','Patient relevant information ','','','','','','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'PatInfo','Doctor','--','Text','Name of doctor responsible for the patient s care','EHR','','','','','','','','0','134','Patient relevant information ','','','','','OP turnusartz 1','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'PatInfo','Doctor s contact details','--','Text','Could be work number or email (to be decided by the institution)','EHR','','','','','','','','0','135','Patient relevant information ','','','','','4482 2066','19000101120000','21000101120000'); "
@@ -1528,22 +1630,24 @@ public ArrayList<DactPatternDataSet> getDactItems()
 				+replaceInto +" ( 'PatInfo','Procedures','--','List','symptom recorded by the patient','PHR','','','','text ','','','','0','118','Patient relevant information ','Procedures','Procedures','','','shortness of breath','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'PatInfo','Patient comments','--','List','any other comment that the patient wants to resgister (like his diary)','PHR','','','Dates of episodes of vt','','','','','0','130','Patient relevant information ','Patient comments','PatComment','','','none','19000101120000','21000101120000'); "
 				+replaceInto +" ( 'PatInfo','All Medications','--','List','medication changes including drug name, frequency, dosage, recorded','EHR/PHR','','','','Text, F2, text','','a list of drugs','','0','140','Patient relevant information ','Full Medications','fullmedications','','','Simvastatin, 1 tablet, 1x day ','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'ProPara','Pacing mode','--','Categoric','DDD / DDDR / VVI / VVIR / AAI / AAIR / VDD','CIED','730752^MDC_IDC_SET_BRADY_MODE^MDC','','latest value','Nominal','','','','0','143','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'ProPara','Lower rate limit','--','Numeric','Lower rate limit','CIED','180401^ICARDEA_IDC_SET_RATE_LIMIT_LOWER^ICARDEA','','latest value','F2.0','LRL < ULR; LRL >35','','','0','144','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'ProPara','Upper rate limit','--','Numeric','Upper rate limit','CIED','180402^ICARDEA_IDC_SET_RATE_LIMIT_UPPER^ICARDEA','','latest value','F3.0','LRL < ULR; URL >95','','','0','145','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'ProPara','Maximal rate of the sensor','--','Numeric','Maximal rate of the sensor','CIED','731200^MDC_IDC_SET_BRADY_MAX_SENSOR_RATE^MDC','','latest value','F3.0','MSR = URL','','','0','146','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'ProPara','AV sensed','--','Numeric','AV interval sensed','CIED','731266^MDC_IDC_SET_BRADY_SAV_DELAY_LOW^MDC','','latest value','F3.0','60 - 350','','','0','147','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'ProPara','AV paced','--','Numeric','AV interval paced','CIED','731330^MDC_IDC_SET_BRADY_PAV_DELAY_LOW^MDC','','latest value','F3.0','60 - 350','','','0','148','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'ProPara','VP mode','--','Categoric','RV only / LV only / BiVentricular','CIED','180403^ICARDEA_IDC_SET_VP_MODE^ICARDEA','','latest value','Nominal','','','','0','149','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'ProPara','VV','--','Numeric','VV interval','CIED','180404^ICARDEA_IDC_SET_VV^ICARDEA','','latest value','F3.0','','Only for CRT devices - can be a negative number','','0','150','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'ProPara','Number of zones programmed','--','Categoric','1, 2 or 3','CIED','180405^ICARDEA_IDC_SET_ZONE_NUM^ICARDEA','','latest value','Ordinal','','','','0','152','Tachycardia parameters','','','','','','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'ProPara','VT1 limit','--','Numeric','Rate at what VT1 zone is considered','CIED','180406^ICARDEA_IDC_SET_LIMIT_VT1^ICARDEA','','latest value','F3.0','VT1 limit < VT2 limit','','','0','153','Tachycardia parameters','','','','','','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'ProPara','VT2 limit','--','Numeric','Rate at what VT2 zone is considered','CIED','180407^ICARDEA_IDC_SET_LIMIT_VT2^ICARDEA','','latest value','F3.0','VT2 limit < VF limit','','','0','154','Tachycardia parameters','','','','','','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'ProPara','VF limit','--','Numeric','Rate at what VF zone is considered','CIED','180408^ICARDEA_IDC_SET_LIMIT_VF^ICARDEA','','latest value','F3.0','VF limit > VT1 or VT2 limit','','','0','155','Tachycardia parameters','','','','','','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'ProPara','VT1 therapy','--','Text','VT1 therapy programmed','CIED','739680^MDC_IDC_EPISODE_DETECTION_THERAPY_DETAILS^MDC','','latest value','','','','','0','156','Tachycardia parameters','','','','','','19000101120000','21000101120000'); "
-				+replaceInto +" ( 'ProPara','VT2 therapy','--','Text','VT2 therapy programmed','CIED','739680^MDC_IDC_EPISODE_DETECTION_THERAPY_DETAILS^MDC','','latest value','','','','','0','157','Tachycardia parameters','','','','','','19000101120000','21000101120000'); " 
-				+replaceInto +" ( 'ProPara','VF therapy','--','Text','VF therapy programmed','CIED','739680^MDC_IDC_EPISODE_DETECTION_THERAPY_DETAILS^MDC','','latest value','','','','','0','158','Tachycardia parameters','','','','','','19000101120000','21000101120000');";
-
+				//generell para device
+				+replaceInto +" ( 'ProPara','Pacing mode','--','Categoric','DDD / DDDR / VVI / VVIR / AAI / AAIR / VDD','CIED','730752^MDC_IDC_SET_BRADY_MODE^MDC','','latest value','Nominal','','','','0','1430','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'ProPara','Lower rate limit','--','Numeric','Lower rate limit','CIED','180401^ICARDEA_IDC_SET_RATE_LIMIT_LOWER^ICARDEA','','latest value','F2.0','LRL < ULR; LRL >35','','','0','1440','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'ProPara','Upper rate limit','--','Numeric','Upper rate limit','CIED','180402^ICARDEA_IDC_SET_RATE_LIMIT_UPPER^ICARDEA','','latest value','F3.0','LRL < ULR; URL >95','','','0','1450','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'ProPara','Maximal rate of the sensor','--','Numeric','Maximal rate of the sensor','CIED','731200^MDC_IDC_SET_BRADY_MAX_SENSOR_RATE^MDC','','latest value','F3.0','MSR = URL','','','0','1460','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'ProPara','AV sensed','--','Numeric','AV interval sensed','CIED','731266^MDC_IDC_SET_BRADY_SAV_DELAY_LOW^MDC','','latest value','F3.0','60 - 350','','','0','1470','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'ProPara','AV paced','--','Numeric','AV interval paced','CIED','731330^MDC_IDC_SET_BRADY_PAV_DELAY_LOW^MDC','','latest value','F3.0','60 - 350','','','0','1480','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'ProPara','VP mode','--','Categoric','RV only / LV only / BiVentricular','CIED','180403^ICARDEA_IDC_SET_VP_MODE^ICARDEA','','latest value','Nominal','','','','0','1490','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'ProPara','VV','--','Numeric','VV interval','CIED','180404^ICARDEA_IDC_SET_VV^ICARDEA','','latest value','F3.0','','Only for CRT devices - can be a negative number','','0','1500','Bradicardia parameters','','','','','','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'ProPara','Number of zones programmed','--','Categoric','1, 2 or 3','CIED','180405^ICARDEA_IDC_SET_ZONE_NUM^ICARDEA','','latest value','Ordinal','','','','0','1520','Tachycardia parameters','','','','','','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'ProPara','VT1 limit','--','Numeric','Rate at what VT1 zone is considered','CIED','180406^ICARDEA_IDC_SET_LIMIT_VT1^ICARDEA','','latest value','F3.0','VT1 limit < VT2 limit','','','0','1530','Tachycardia parameters','','','','','','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'ProPara','VT2 limit','--','Numeric','Rate at what VT2 zone is considered','CIED','180407^ICARDEA_IDC_SET_LIMIT_VT2^ICARDEA','','latest value','F3.0','VT2 limit < VF limit','','','0','1540','Tachycardia parameters','','','','','','19000101120000','21000101120000'); "
+				+replaceInto +" ( 'ProPara','VF limit','--','Numeric','Rate at what VF zone is considered','CIED','180408^ICARDEA_IDC_SET_LIMIT_VF^ICARDEA','','latest value','F3.0','VF limit > VT1 or VT2 limit','','','0','1550','Tachycardia parameters','','','','','','19000101120000','21000101120000'); "
+				//all the same
+				//				+replaceInto +" ( 'ProPara','VT1 therapy','--','Text','VT1 therapy programmed','CIED','739680^MDC_IDC_EPISODE_DETECTION_THERAPY_DETAILS^MDC','','latest value','','','','','0','1560','Tachycardia parameters','','','','','','19000101120000','21000101120000'); "
+				//				+replaceInto +" ( 'ProPara','VT2 therapy','--','Text','VT2 therapy programmed','CIED','739680^MDC_IDC_EPISODE_DETECTION_THERAPY_DETAILS^MDC','','latest value','','','','','0','1570','Tachycardia parameters','','','','','','19000101120000','21000101120000'); " 
+				//				+replaceInto +" ( 'ProPara','VF therapy','--','Text','VF therapy programmed','CIED','739680^MDC_IDC_EPISODE_DETECTION_THERAPY_DETAILS^MDC','','latest value','','','','','0','1580','Tachycardia parameters','','','','','','19000101120000','21000101120000');";
+				;
 	}
 
 }
