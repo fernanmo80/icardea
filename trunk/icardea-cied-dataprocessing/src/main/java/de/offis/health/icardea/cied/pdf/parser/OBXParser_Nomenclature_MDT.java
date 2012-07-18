@@ -271,7 +271,8 @@ public class OBXParser_Nomenclature_MDT extends AbstractPDFParser {
 			oru_obx.setObservationSubID(String.valueOf(observation_Sub_ID));
 			break;
 		case 739696:
-			oru_obx.setObservationValueIdentifier("Thearpy");
+//			oru_obx.setObservationValueIdentifier("Thearpy");
+			oru_obx.setObservationValueIdentifier(observationValue);
 			oru_obx.setObservationValue(observationValue);
 			oru_obx.setObservationSubID(String.valueOf(observation_Sub_ID));
 			break;

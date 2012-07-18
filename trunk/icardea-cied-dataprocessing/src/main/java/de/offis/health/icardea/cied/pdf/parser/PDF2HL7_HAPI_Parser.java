@@ -355,8 +355,13 @@ public class PDF2HL7_HAPI_Parser {
 			oru_obr.setFillerOrderNumber_entityIdentifier(obrParser.getOBR_fillerOrderNumber_entityIdentifier());
 			oru_obr.setUniversalServiceIdentifier_identifier(obrParser.getOBR_universalServiceIdentifier_identifier());
 			oru_obr.setUniversalServiceIdentifier_text(obrParser.getOBR_universalServiceIdentifier_text());
-			oru_obr.setObservationData_Time_time(obrParser.getOBR_observationData_Time_time());
-			oru_obr.setObservationEndData_Time_time(obrParser.getOBR_observationEndData_Time_time());
+			//AT ADDED 
+			String tmpDTM=obrParser.getOBR_observationEndData_Time_time();
+
+			oru_obr.setObservationData_Time_time(tmpDTM);
+			oru_obr.setObservationEndData_Time_time(tmpDTM);
+//			oru_obr.setObservationData_Time_time(obrParser.getOBR_observationData_Time_time());
+//			oru_obr.setObservationEndData_Time_time(obrParser.getOBR_observationEndData_Time_time());
 			oru_obr.setResultsRptStatusChngDate_Time_time(obrParser.getOBR_resultsRptStatusChngDate_Time_time());
 			oru_obr.setResultStatus(obrParser.getOBR_resultStatus());
 		} catch (PropertyNotFoundException e) {
@@ -518,18 +523,19 @@ public class PDF2HL7_HAPI_Parser {
 			if (observationValue!= null) { 
 				obx_list.add(obxparser_nomenclature_mdt.parse_obx_Parameters(observationSubID, observationValue, 720901));
 			}
-			observationValue=obxParser_parameters.getMDC_IDC_SET_LEADCHNL_RA_PACING_AMPLITUDE();
-			if (observationValue!= null) { 
-				obx_list.add(obxparser_nomenclature_mdt.parse_obx_Parameters(observationSubID, observationValue, 729984));
-			}
-			observationValue=obxParser_parameters.getMDC_IDC_SET_LEADCHNL_RV_PACING_AMPLITUDE();
-			if (observationValue!= null) { 
-				obx_list.add(obxparser_nomenclature_mdt.parse_obx_Parameters(observationSubID, observationValue, 729985));
-			}
-			observationValue=obxParser_parameters.getMDC_IDC_SET_LEADCHNL_LV_PACING_AMPLITUDE();
-			if (observationValue!= null) { 
-				obx_list.add(obxparser_nomenclature_mdt.parse_obx_Parameters(observationSubID, observationValue, 729987));
-			}
+			//currently not needed 
+//			observationValue=obxParser_parameters.getMDC_IDC_SET_LEADCHNL_RA_PACING_AMPLITUDE();
+//			if (observationValue!= null) { 
+//				obx_list.add(obxparser_nomenclature_mdt.parse_obx_Parameters(observationSubID, observationValue, 729984));
+//			}
+//			observationValue=obxParser_parameters.getMDC_IDC_SET_LEADCHNL_RV_PACING_AMPLITUDE();
+//			if (observationValue!= null) { 
+//				obx_list.add(obxparser_nomenclature_mdt.parse_obx_Parameters(observationSubID, observationValue, 729985));
+//			}
+//			observationValue=obxParser_parameters.getMDC_IDC_SET_LEADCHNL_LV_PACING_AMPLITUDE();
+//			if (observationValue!= null) { 
+//				obx_list.add(obxparser_nomenclature_mdt.parse_obx_Parameters(observationSubID, observationValue, 729987));
+//			}
 
 			/*
 			 * MDC_IDC_SET_BRADY
