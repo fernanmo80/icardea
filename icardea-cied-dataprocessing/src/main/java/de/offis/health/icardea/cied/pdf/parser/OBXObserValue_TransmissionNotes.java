@@ -41,7 +41,7 @@ public class OBXObserValue_TransmissionNotes extends AbstractPDFParser implement
 		if (matcher.find()) {
 			mdc_IDC_PG_MODEL = matcher.group(1);
 		} // end if
-		return mdc_IDC_PG_MODEL;
+		return mdc_IDC_PG_MODEL.trim();
 	}
 
 	public String getMDC_IDC_PG_SERIAL() throws PropertyNotFoundException {

@@ -453,11 +453,14 @@ public class HL7_ORU_Creator {
 		obr.getFillerOrderNumber().getEntityIdentifier().setValue(
 				fillerOrderNumber);
 		// obr.getUniversalServiceIdentifier().getIdentifier().setValue(universalServiceIdentifer);
-		obr.getObservationDateTime().getTime().setValue(observationDateTime);
-		obr.getObservationEndDateTime().getTime().setValue(
-				observationEndDateTime);
-		obr.getResultsRptStatusChngDateTime().getTime().setValue(
-				resultRptStatusChangeDateTime);
+		obr.getObr7_ObservationDateTime().getTime().setValue(observationDateTime);
+//		obr.getObservationDateTime().getTime().setValue(observationDateTime);
+		obr.getObr8_ObservationEndDateTime().getTime().setValue(observationEndDateTime);
+//		obr.getObservationEndDateTime().getTime().setValue(
+//				observationEndDateTime);
+		
+//		obr.getResultsRptStatusChngDateTime().getTime().setValue(
+//				resultRptStatusChangeDateTime);
 		obr.getResultStatus().setValue(resultStatus);
 		
 		obr.getObr4_UniversalServiceIdentifier().getCe1_Identifier().setValue(
