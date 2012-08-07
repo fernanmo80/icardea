@@ -104,6 +104,7 @@
        		}       			
        		else{
        			viewStack.selectedIndex = 0;	///TODO: fix for openid
+       			authName.text = "Welcome ";
        		}
        			
        	} 
