@@ -86,7 +86,7 @@
       <Variable name="VTStatus" type="boolean">
 	<Concept code="739568" name="MDC_IDC_EPISODE_TYPE" schemeID="MDC_IDC"/>
 	<DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
-	<RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x].indexOf("Epis_VT") != -1) y=true; } return y; }</RefinementScript>
+	<RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x] == "Epis_VT") y=true; } return y; }</RefinementScript>
       </Variable>
       <!--Scriptler degisecek. Ayrica burada input girilen AFStatus objesini incele. Nasil olusturuluyor.-->
       <EvaluationScript>function EligibleToGuidelineCriterion(VTStatus) { if ( VTStatus.getValue().getText() == "true") return true; else return false; }</EvaluationScript>
@@ -100,7 +100,7 @@
 	<Variable name="VTStatus" type="boolean">
 	  <Concept code="739568" name="MDC_IDC_EPISODE_TYPE" schemeID="MDC_IDC"/>
 	  <DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
-	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x].indexOf("Epis_VT") != -1) y=true; } return y; }</RefinementScript>
+	  <RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x] == "Epis_VT") y=true; } return y; }</RefinementScript>
 	</Variable>
 	<Variable name="SVTStatus" type="boolean">
 	
@@ -267,7 +267,7 @@
 	    </body>
 	  </HTML>
 	</Display>
-	<NextStep ref="S28D3B94DCE4E4DF7D86F6E3FABF8C4A5" name="The case is VT!">
+	<NextStep ref="S685A96A2F701EC9EF05D00D4BF84CD9A" name="The case is VT!">
 	  <EvaluationScript>function check(S80251CF3E98C720F5B4D6E37322A6A8CChoice) { if(S80251CF3E98C720F5B4D6E37322A6A8CChoice.getValue().getText() == "The case is VT!") return true; else return false; }</EvaluationScript>
 	</NextStep>
 	<NextStep ref="SA023F5C263D7E7B700716E3FA3B6D7ED" name="There is Noise!">
@@ -280,6 +280,106 @@
 	  <EvaluationScript>function check(S80251CF3E98C720F5B4D6E37322A6A8CChoice) { if(S80251CF3E98C720F5B4D6E37322A6A8CChoice.getValue().getText() == "Finalize careplan!") return true; else return false; }</EvaluationScript>
 	</NextStep>
       </ConsultStep>
+	  <ConsultStep ID="S685A96A2F701EC9EF05D00D4BF84CD9A" name="Check Sustain/Non-Sustain VT">
+        <Display>
+	  <HTML>
+		    
+	    <head>
+	    </head>
+	    <body>					
+	      <table cellspacing="10" style="background-color:#e1e1e1">
+		<tbody>
+		  <tr name="PatientBlock" id="PatientBlock">
+		    <td style="background-color:#eeeeee"><!--The following HTML will be populated automatically in the execution phase-->
+
+		      <p align="center"><b>Brief Information about the patient </b></p>
+
+		      <p>Patient Name: 
+			<data src="caremanagementdb://Patient/@givenName"/>
+			<data src="caremanagementdb://Patient/@secondName"/>
+			<data src="caremanagementdb://Patient/@familyName"/>
+			<br />
+			Patient ID: 
+			<data src="caremanagementdb://Patient/@patientIdentifier"/>
+			<br />
+			<a
+			  target="_blank" href="PPM:TAB3">Access to
+			  EHR</a> <br />
+			Implanted Device:
+			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
+			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
+			<br />
+			Last Follow-up Date: <data src="caremanagementdb://721028:MDC_IDC_SESS_DTM_PREVIOUS"/><a target="_blank" href="PPM:TAB1">Access
+			  to previous Remote follow-up results</a> </p>
+
+		      <p><br />
+		      </p>
+		    </td>
+		  </tr>
+		  <tr name="CIEDBlock">
+
+		    <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
+		      Received Date:	<data src="caremanagementdb://Patient/CIEDData/@receivedTime"/>
+		      <br/>
+		      Alarms Detected:
+		      <data src="alarmmanager://Alarm/Time"/>
+		      VT Episode
+		      <br/>
+		      <a target="_blank" href="PPM:TAB1">Access to Report Exported</a>
+		    </td>
+		  </tr>
+		 <tr name="EGMBlock"> <td style="background-color:#eeeeee">
+		      <p align="center"><b>Brief Information about the EGM and detected
+			  problems </b> </p>
+		      <table  cellspacing="10" width="100%">
+			<tbody>
+			  <tr>
+			    <td><!--The following HTML will be populated in the execution step-->
+			      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to
+				  Report Exported</a> <br /> </p>
+
+
+			      <p><img width="312" height="190" id="Picture1"
+				  src="caremanagementdb://Patient/Observation/@base64String"
+				  alt="x.bmp" /></p>
+			    </td>
+			    <td><!--The following HTML will be populated in the execution step-->
+
+			      <p align="center">  Assesment by CIED <a target="_blank" href="PPM:TAB1">Access
+				  to Report Exported</a> <br />
+				<br/>
+				  </p>
+			    </td>
+			  </tr>
+			</tbody>
+		      </table>
+		    </td>
+		  </tr>
+		  
+		  <tr name="ChoiceBlock">
+		    <td style="background-color:#eeeeee">
+		      <p align="center"><b>Recommendation and Next Step to follow </b> </p>
+		      <p>Please choose the suitable option</p>
+
+		      <form onsubmit="return ValidateData();" action="null" method="post">
+			<input type="submit" name="S5Choice" value="There is Sustained VT!" onclick="btnWhichButton=this" />
+			<input type="submit" name="S5Choice" value="There is no Sustained VT!" onclick="btnWhichButton=this"/>
+			  </form>
+		    </td>
+		  </tr>
+		</tbody>
+	      </table>
+	    </body>
+	  </HTML>
+	</Display>
+        <NextStep name="There is Sustained VT!" ref="S28D3B94DCE4E4DF7D86F6E3FABF8C4A5">
+          <EvaluationScript>function check(S685A96A2F701EC9EF05D00D4BF84CD9AChoice) { if(S685A96A2F701EC9EF05D00D4BF84CD9AChoice.getValue().getText() == "There is Sustained VT!") return true; else return false; }</EvaluationScript>
+        </NextStep>
+        <NextStep name="There is no Sustained VT!" ref="SCCCB5EA8B07CAC2607AF6E3FB7A74B86">
+          <EvaluationScript>function check(S685A96A2F701EC9EF05D00D4BF84CD9AChoice) { if(S685A96A2F701EC9EF05D00D4BF84CD9AChoice.getValue().getText() == "There is no Sustained VT!") return true; else return false; }</EvaluationScript>
+        </NextStep>
+      </ConsultStep>
+	  
       <ConsultStep ID="S28D3B94DCE4E4DF7D86F6E3FABF8C4A5" name="Check Episodes">
 	<Variable name="NumberOfEpisode" type="integer">
 	  <Concept code="738000" name="MDC_IDC_STAT_EPISODE_RECENT_COUNT" schemeID="MDC_IDC"/>
