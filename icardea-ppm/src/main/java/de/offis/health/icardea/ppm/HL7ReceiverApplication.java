@@ -441,7 +441,7 @@ public class HL7ReceiverApplication implements Application {
 			ppm.checkPendingData();
 
 			try {
-				Thread.sleep(60*1000);//ten minutes
+				Thread.sleep(60*1000);//ten minutes 10*60*1000
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
