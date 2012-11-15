@@ -46,7 +46,7 @@ public class HL7ReceiverApplication implements Application {
 
 	private Parser parser=null;
 	private static boolean keepAlive=true;
-	private static boolean directtesting=true;
+	private static boolean directtesting=false;
 	private static Logger logger = Logger.getLogger(HL7ReceiverApplication.class);
 
 	private PPMDataset ppmDataset=null;
