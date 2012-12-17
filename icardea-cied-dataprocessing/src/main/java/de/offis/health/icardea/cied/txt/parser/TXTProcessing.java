@@ -27,9 +27,9 @@ public class TXTProcessing {
 			 * Step 1. Find the location of all FollowupSummaryData.txt
 			 */
 			sjmTXTList=getTxtList(sjm_Txt_Directory, 0, sjmTXTList);
-			/*for (int i = 0; i < sjmTXTList.size(); i++) {
+			for (int i = 0; i < sjmTXTList.size(); i++) {
 				logger.info("SJM File txt "+sjmTXTList.get(i).getAbsolutePath());
-			}*/
+			}
 			if(sjmTXTList!= null) {
 				//if there is any *.txt file under SJM_TXT_Directory
 				logger.debug("Start parsing TXT into HL7v2.5 Messages");

@@ -478,7 +478,7 @@ public class OBXObserValue_SJM extends AbstractTXTParser implements OBXParserInt
 		Pattern pattern = Pattern.compile(getProperty(this.PROPERTY_KEY_REGEX_MDC_IDC_EPISODE_DTM), Pattern.MULTILINE | Pattern.DOTALL);
 		Matcher matcher = pattern.matcher(getTxtContent());
 		if (matcher.find()){
-			mdc_IDC_EPISODE_DTM=matcher.group(4) + getMonthNumberFromMonthShortName(matcher.group(2)) + matcher.group(1) + matcher.group(5) + matcher.group(6) + matcher.group(7);			
+			mdc_IDC_EPISODE_DTM=matcher.group(4) + getMonthNumberFromMonthShortName(matcher.group(2)) + matcher.group(3) + matcher.group(5) + matcher.group(6) + matcher.group(7);			
 		}
 		return mdc_IDC_EPISODE_DTM;
 	}
