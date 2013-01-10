@@ -63,9 +63,9 @@ public class DACTButtonSelectionAdaptor extends SelectionAdapter {
 						// 		Invalid thread access Error problem:
 						//position= tabFolder.getSelectionIndex();
 						// @AT: This could fix it
-						if (tabFolder==null){
+//						if (tabFolder==null){
 							tabFolder=PPMMain.mainTabFolder;
-						}
+//						}
 
 						position = PPMMain.mainTabFolder.getSelectionIndex();	
 						Composite composite;
