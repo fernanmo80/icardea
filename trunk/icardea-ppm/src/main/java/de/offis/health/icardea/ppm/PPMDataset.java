@@ -608,7 +608,7 @@ public class PPMDataset {
 	 * @param currentPatID the currentPatID to set
 	 */
 	public void setCurrentPatID(String currentPatID) {
-		this.currentPatID = currentPatID;
+		this.currentPatID = currentPatID.trim();
 		logger.info("Choose PatID:"+currentPatID);
 		updateDataset();
 	}
