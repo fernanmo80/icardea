@@ -213,7 +213,10 @@ public class DACTButtonSelectionAdaptor extends SelectionAdapter {
 		//System.out.println("DACT Button Test - filltable");
 		ppmDataset.dactCalled();
 		int patientID= 2;
-		patientID=Integer.parseInt(ppmDataset.getiCardeaID());
+		//patientID=Integer.parseInt(ppmDataset.getiCardeaID());
+		//Wrong: Not iCARDEa Patient ID- Must be the databaseID
+		patientID = Integer.parseInt(ppmDataset.getCurrentPatID());
+				
 		// The database access is done via the ppmDataset. I use the DactPatternDataSEt for convince semi-automatic storag
 		// removes the items of the tAble. AT stated, there could be a problem
 		table.removeAll();
@@ -242,11 +245,11 @@ public class DACTButtonSelectionAdaptor extends SelectionAdapter {
 			tableItem.setText(4, selected.viewSupport);
 			
 			if (selected.validForPat){
-				tableItem.setText(5, "Totally Fullfilled by patient");
+				tableItem.setText(5, "Entirely Fullfilled by patient (Based on available data)");
 				tableItem.setForeground(d.getSystemColor(SWT.COLOR_DARK_GREEN));
 			}
 			else if (selected.preReqFullFilled) {
-				tableItem.setText(5, "PreReq Fullfilled by patient");
+				tableItem.setText(5, "PreReq Fullfilled by patient (Based on available data)");
 				tableItem.setForeground(d.getSystemColor(SWT.COLOR_DARK_MAGENTA));
 			}
 

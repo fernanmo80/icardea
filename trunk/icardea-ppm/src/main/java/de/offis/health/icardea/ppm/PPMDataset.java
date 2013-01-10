@@ -516,7 +516,7 @@ public class PPMDataset {
 					+ " where " + selected.preReqAttributes 
 					+ pPatientID ;
 			try{
-				//System.out.println("SQLString "+sqlQuery);
+				logger.debug("SQLString "+sqlQuery);
 				rs = this.getStmt().executeQuery(sqlQuery);
 
 				// Is the preReqValid for Patient?
@@ -535,7 +535,7 @@ public class PPMDataset {
 				pPatternCheck.set(i, selected);
 			}
 			catch (SQLException e) {
-				// TODO Auto-generated catch block
+				
 				logger.error("Dact patternCheck caused error : "+ e.getMessage());
 			}
 			finally{
