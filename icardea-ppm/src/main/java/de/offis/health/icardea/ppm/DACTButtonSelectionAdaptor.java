@@ -227,6 +227,7 @@ public class DACTButtonSelectionAdaptor extends SelectionAdapter {
 		allPatterns = ppmDataset.checkDactItems(allPatterns, patientID );
 		//ArrayList<DactPatternDataSet> allPatterns = ppmDataset.getPatternStatus(patientID);
 		// now run through the patterns
+		// For allPatterns that were true Quick and Dirty
 		for (int i=0; i < allPatterns.size(); i++  ) 
 		{
 			DactPatternDataSet selected = allPatterns.get(i);
@@ -235,7 +236,7 @@ public class DACTButtonSelectionAdaptor extends SelectionAdapter {
 			//	tableItem.setForeground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
 			// tableItem.setBackground(display.getSystemColor(SWT.COLOR_DARK_RED));
 			
-			
+			if (selected.validForPat || selected.preReqFullFilled){
 			//Write the items into the table
 			TableItem tableItem = new TableItem(table, SWT.NONE);
 			tableItem.setText(0, selected.patternID.toString());
@@ -252,10 +253,34 @@ public class DACTButtonSelectionAdaptor extends SelectionAdapter {
 				tableItem.setText(5, "PreReq Fullfilled by patient (Based on available data)");
 				tableItem.setForeground(d.getSystemColor(SWT.COLOR_DARK_MAGENTA));
 			}
-
+			}
 			;
 
-		}
+		}// End For allPatterns that were true
+		// now run through the patterns
+		 //For allPatterns that has nothing to do with the patient
+				for (int i=0; i < allPatterns.size(); i++  ) 
+				{
+					DactPatternDataSet selected = allPatterns.get(i);
+
+					//Coloring, see PPMMAin Line 212
+					//	tableItem.setForeground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
+					// tableItem.setBackground(display.getSystemColor(SWT.COLOR_DARK_RED));
+					
+					if (!selected.validForPat && !selected.preReqFullFilled){
+					//Write the items into the table
+					TableItem tableItem = new TableItem(table, SWT.NONE);
+					tableItem.setText(0, selected.patternID.toString());
+					tableItem.setText(1, selected.viewPreReq);
+					tableItem.setText(2, selected.viewConclu);
+					tableItem.setText(3, selected.viewConf);
+					tableItem.setText(4, selected.viewSupport);
+					
+					
+					}
+					;
+
+				}// End For allPatterns that has nothing to do with the patient
 
 
 
