@@ -216,7 +216,6 @@ public class GeneralView extends ViewPart {
 
 										updatePatientLabels();
 
-										//FIXME Audit logging here
 										// hiding image
 
 										logger.info("Switch Topcontrol to Patient");
@@ -565,7 +564,6 @@ public class GeneralView extends ViewPart {
 		}
 
 
-		//FIXME Audit logging here
 		//1. Perform discover on the user suplieed identifier
 		// Done be RegistationService
 		// 2. and Assocication. Done at performdiscovery
@@ -609,7 +607,6 @@ public class GeneralView extends ViewPart {
 		
 		if(discovery==null){//Discovery Null true
 			logger.info("Still unable to get Discovery. If you are sure the user is known, restart TOMCAT");
-			//FIXME Audit logging here
 			System.out.println("Hiddenmodus"+pHidden);
 			if(!pHidden){
 				System.out.println("Error");
@@ -621,7 +618,6 @@ public class GeneralView extends ViewPart {
 
 		}
 		else{//Discovery Null false
-			//FIXME Audit logging here
 
 			logger.debug("GOT Discovery for:" + discovery.getDelegateIdentifier());
 			logger.debug("GOT Discovery for:" + discovery.getClaimedIdentifier());
