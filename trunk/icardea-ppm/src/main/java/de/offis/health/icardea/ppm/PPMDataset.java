@@ -1128,9 +1128,10 @@ public class PPMDataset {
 							if (datatype.equals("Image")){
 								dataset="";
 							}else if (datatype.equals("Time")){
-								if (dataset.length()>9){
-									dataset=dataset.substring(8);
-
+								
+								if (dataset.length()>9){//FIXME only time here, but for better vie dtm 
+									dataset=PPMDataset.convTimeToPoint(dataset.substring(0,8))+" "+dataset.substring(8);
+									
 								}
 							}else if (datatype.equals("Date")){
 								if (dataset.length()>=8){
@@ -1429,7 +1430,7 @@ public class PPMDataset {
 			ppmDataset.setCurrentPatID(2);
 			mySheetsList=new ArrayList(Arrays.asList(ppmDataset.getSheetStrings()));
 			try {
-				ResultSet rs = ppmDataset.getStmt().executeQuery("SELECT  sheet FROM ppmdataset  group by sheet order by userprefs,sortnumber");
+				ResultSet rs = ppmDataset.getStmt().executeQuery("SELECT  sheet FROM ppmdataset  group by sheet order by userpref,sortnumber");
 				//			while (rs.next()) {
 				//
 				//				String bez = rs.getString(1);
