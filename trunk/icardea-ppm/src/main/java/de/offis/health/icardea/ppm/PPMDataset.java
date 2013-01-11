@@ -527,6 +527,15 @@ public class PPMDataset {
 				if (rs.next())
 				{
 					selected.preReqFullFilled = true;
+					//TODO: Fast hack 
+					sqlQuery = "select distinct t1.pattern_id from dact_pattern as t1 "
+							+selected.concluRelation 
+							+" where " + selected.conCluAttribute + pPatientID +" and t1.pattern_id = "+selected.patternID +";";
+					logger.debug("Determine PatternFullfiled " + sqlQuery);
+					rs = this.getStmt().executeQuery(sqlQuery);
+					if(rs.next()){
+						selected.validForPat = true;
+					}
 				}
 				else{
 					selected.preReqFullFilled = false;
