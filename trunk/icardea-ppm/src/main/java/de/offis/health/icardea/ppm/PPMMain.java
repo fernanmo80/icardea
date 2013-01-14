@@ -58,8 +58,8 @@ public class PPMMain extends ViewPart {
 	public ScrolledComposite scrolledComposite;
 	public ArrayList<Button> buttonList;
 	private static int currenttab=0;
-static public Thread ppmMainThread;
-static public Display ppmMainDisplay;
+	static public Thread ppmMainThread;
+	static public Display ppmMainDisplay;
 	public TableViewer tableViewer;
 	private static Logger logger = Logger.getLogger(PPMMain.class);
 
@@ -77,13 +77,16 @@ static public Display ppmMainDisplay;
 	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
 	 */
 	@Override
-	public void createPartControl(Composite parent) {
+	public void createPartControl(Composite parent) 
+	{
 		{ 
 			parent.setLayout(new FillLayout());
 			int numSheets= ppmDataset.getSheetStrings().length;
 			//			buttonList=new ArrayList();
 			mainTabFolder = new TabFolder(parent, SWT.NONE);
 			String[] header ={"Description","Current Values","Subitems"};
+			String[] directshown = new String[30];
+			int ds=0;
 			String subrows_tmp="";
 			final boolean useTable=true;
 			boolean fullView=false;//FIXME FULLVIEW CHANGEABLE
@@ -188,7 +191,7 @@ static public Display ppmMainDisplay;
 							if (allRows[i].isHasSubcontent() )
 							{
 								Display display = Display.getCurrent();
-								
+
 								TableItem tableItem = new TableItem(table, SWT.NONE);
 								boolean subrows=false;
 								tableItem.setText(0,allRows[i].getName());
@@ -286,7 +289,6 @@ static public Display ppmMainDisplay;
 								Button button = new Button(table, SWT.PUSH);
 								button.setText(allRows[i].getSubContentName());
 								button.setAlignment(SWT.LEFT);
-
 								button.addSelectionListener(
 										new PPMButtonSelectionAdaptor(allRows[i].getSubContentName(),this.mainTabFolder) 
 										);
@@ -294,17 +296,21 @@ static public Display ppmMainDisplay;
 								button.setSize(new Point(132,20));
 								button.setEnabled(subrows);
 								button.setGrayed(subrows);
+								
 								if (!subrows){
 									button.setBackground(display.getSystemColor(SWT.COLOR_INFO_BACKGROUND));
 									button.setText("");
 									//logger.debug("Button size x: "+button.getSize().x +"  y: "+button.getSize().y);
+								}else{
+									directshown[ds]=allRows[i].getSubContentName();
+									ds++;
 								}
 
 								editor.minimumWidth = button.getSize().x;
 								editor.horizontalAlignment = SWT.LEFT;
 								editor.setEditor(button, tableItem, 2);
 								//						buttonList.add(button);
-
+								//add the tab directly 
 
 							}else {
 								//no subcontent
@@ -322,80 +328,91 @@ static public Display ppmMainDisplay;
 						}
 					}
 				}
+
 			}
-			HttpServletRequest request = RWT.getRequest();
-
-			if (request.getParameter("tab")!=null){
-				mainTabFolder.setSelection(Integer.parseInt(request.getParameter("tab").toString()));
-				logger.debug("Choose Tab#"+Integer.parseInt(request.getParameter("tab").toString()));
-			}
-
-			//			if(!useTable)	for (int is=0;is<numSheets;is++){
-			//				tbtmTest = new TabItem(mainTabFolder, SWT.NONE);
-			//				tbtmTest.setText(ppmDataset.getSheetStrings()[is]);
-			//
-			//				composite_1 = new Composite(mainTabFolder, SWT.V_SCROLL);
-			//				tbtmTest.setControl(composite_1);
-			//				GridLayout gl=new GridLayout(3, false);
-			//
-			//				composite_1.setLayout(gl);
-			//
-			//
-			//				PPMRowModel[] allRows= ppmDataset.getRows(ppmDataset.getSheetStrings()[is]);
-			//
-			//				new Label(composite_1, SWT.NONE).setText(header[0]);
-			//				//		new Label(composite_1,SWT.SEPARATOR);
-			//				new Label(composite_1, SWT.NONE).setText(header[1]);
-			//				new Label(composite_1, SWT.NONE).setText(header[2]);
-			//
-			//
-			//				for (int i=0;i<allRows.length;i++){
-			//					if (!allRows[i].getContent().equalsIgnoreCase("--") |allRows[i].isHasSubcontent() |fullView ){
-			//						Label l1 = new Label(composite_1, SWT.NONE);
-			//						//			new Label(composite_1,SWT.SEPARATOR);
-			//						Label l2 = new Label(composite_1, SWT.LEFT);
-			//						l1.setText(allRows[i].getName()+":");
-			//						l1.setToolTipText(allRows[i].getExplanation());
-			//						l1.setAlignment(SWT.LEFT);
-			//						l2.setText(allRows[i].getContent());
-			//						l2.setToolTipText(allRows[i].getExplanation());
-			//						if (allRows[i].isHasSubcontent())
-			//						{   Button l3 = new Button( composite_1, SWT.PUSH);
-			//						l3.setText(allRows[i].getSubContentName());
-			//						l3.setToolTipText("Press to see further and history data");
-			//						l3.addSelectionListener(
-			//								new PPMButtonSelectionAdaptor(allRows[i].getSubContentName(),this.mainTabFolder) 
-			//								);
-			//						}else {
-			//							Label l3 = new Label(composite_1, SWT.NONE);
-			//							l3.setText("");
-			//						}
-			//					}
-			//					//							System.out.println(allRows[i].getName()+":\t"+allRows[i].getContent());
-			//					//							System.out.println(aktsheet+"#"+i+":"+allRows[i]);
-			//				}
-			//			}
-
+			if (true){
+				//littel hack to directly show all subtabs
+				for (int l=0;l<ds;l++){
+					logger.debug("Add subitem Tab:"+directshown[l]);
+					PPMButtonSelectionAdaptor ppm=new PPMButtonSelectionAdaptor(directshown[l],this.mainTabFolder) ;
+					ppm.widgetSelected(null);
+					PPMMain.mainTabFolder.setSelection(0);
+				}
 
 		}
+		HttpServletRequest request = RWT.getRequest();
+
+		if (request.getParameter("tab")!=null){
+			mainTabFolder.setSelection(Integer.parseInt(request.getParameter("tab").toString()));
+			logger.debug("Choose Tab#"+Integer.parseInt(request.getParameter("tab").toString()));
+		}
+
+		//			if(!useTable)	for (int is=0;is<numSheets;is++){
+		//				tbtmTest = new TabItem(mainTabFolder, SWT.NONE);
+		//				tbtmTest.setText(ppmDataset.getSheetStrings()[is]);
+		//
+		//				composite_1 = new Composite(mainTabFolder, SWT.V_SCROLL);
+		//				tbtmTest.setControl(composite_1);
+		//				GridLayout gl=new GridLayout(3, false);
+		//
+		//				composite_1.setLayout(gl);
+		//
+		//
+		//				PPMRowModel[] allRows= ppmDataset.getRows(ppmDataset.getSheetStrings()[is]);
+		//
+		//				new Label(composite_1, SWT.NONE).setText(header[0]);
+		//				//		new Label(composite_1,SWT.SEPARATOR);
+		//				new Label(composite_1, SWT.NONE).setText(header[1]);
+		//				new Label(composite_1, SWT.NONE).setText(header[2]);
+		//
+		//
+		//				for (int i=0;i<allRows.length;i++){
+		//					if (!allRows[i].getContent().equalsIgnoreCase("--") |allRows[i].isHasSubcontent() |fullView ){
+		//						Label l1 = new Label(composite_1, SWT.NONE);
+		//						//			new Label(composite_1,SWT.SEPARATOR);
+		//						Label l2 = new Label(composite_1, SWT.LEFT);
+		//						l1.setText(allRows[i].getName()+":");
+		//						l1.setToolTipText(allRows[i].getExplanation());
+		//						l1.setAlignment(SWT.LEFT);
+		//						l2.setText(allRows[i].getContent());
+		//						l2.setToolTipText(allRows[i].getExplanation());
+		//						if (allRows[i].isHasSubcontent())
+		//						{   Button l3 = new Button( composite_1, SWT.PUSH);
+		//						l3.setText(allRows[i].getSubContentName());
+		//						l3.setToolTipText("Press to see further and history data");
+		//						l3.addSelectionListener(
+		//								new PPMButtonSelectionAdaptor(allRows[i].getSubContentName(),this.mainTabFolder) 
+		//								);
+		//						}else {
+		//							Label l3 = new Label(composite_1, SWT.NONE);
+		//							l3.setText("");
+		//						}
+		//					}
+		//					//							System.out.println(allRows[i].getName()+":\t"+allRows[i].getContent());
+		//					//							System.out.println(aktsheet+"#"+i+":"+allRows[i]);
+		//				}
+		//			}
+
+
 	}
+}
+// TODO Auto-generated method stub
+
+
+static void setTabbedFocus(int index){
+	currenttab=index;
+	if (mainTabFolder!=null)
+		if (index<mainTabFolder.getItemCount()){
+			mainTabFolder.setSelection(index);
+		}
+}
+/* (non-Javadoc)
+ * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
+ */
+@Override
+public void setFocus() {
 	// TODO Auto-generated method stub
 
-
-	static void setTabbedFocus(int index){
-		currenttab=index;
-		if (mainTabFolder!=null)
-			if (index<mainTabFolder.getItemCount()){
-				mainTabFolder.setSelection(index);
-			}
-	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
-	 */
-	@Override
-	public void setFocus() {
-		// TODO Auto-generated method stub
-
-	}
+}
 
 }
