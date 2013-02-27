@@ -86,7 +86,7 @@
       <Variable name="VTStatus" type="boolean">
 	<Concept code="739568" name="MDC_IDC_EPISODE_TYPE" schemeID="MDC_IDC"/>
 	<DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
-	<RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x] == "Epis_VT") y=true; } return y; }</RefinementScript>
+	<RefinementScript>function refine(list) { var x; var y=true; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x] == "Epis_VT") y=true; } return y; }</RefinementScript>
       </Variable>
       <!--Scriptler degisecek. Ayrica burada input girilen AFStatus objesini incele. Nasil olusturuluyor.-->
       <EvaluationScript>function EligibleToGuidelineCriterion(VTStatus) { if ( VTStatus.getValue().getText() == "true") return true; else return false; }</EvaluationScript>
@@ -190,7 +190,7 @@
 				  Report Exported</a> <br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="100" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
@@ -339,7 +339,7 @@
 				  Report Exported</a> <br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="100" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
@@ -444,7 +444,7 @@
 				  Report Exported</a> <br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="100" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
@@ -553,7 +553,7 @@
 				  Report Exported</a> <br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="100" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
@@ -662,7 +662,7 @@
 				Report Exported</a> <br /> </p>
 
 
-			    <p><img width="312" height="190" id="Picture1"
+			    <p><img width="250" height="100" id="Picture1"
 				src="caremanagementdb://Patient/Observation/@base64String"
 				alt="x.bmp" /></p>
 
@@ -761,7 +761,7 @@
 			  Report Exported</a> <br /> </p>
 
 
-		      <p><img width="312" height="190" id="Picture1"
+		      <p><img width="250" height="100" id="Picture1"
 			  src="caremanagementdb://Patient/Observation/@base64String"
 			  alt="x.bmp" /></p>
 
@@ -857,7 +857,7 @@
 				  Report Exported</a> <br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="100" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
@@ -961,7 +961,7 @@
 				Report Exported</a> <br /> </p>
 
 
-			    <p><img width="312" height="190" id="Picture1"
+			    <p><img width="250" height="100" id="Picture1"
 				src="caremanagementdb://Patient/Observation/@base64String"
 				alt="x.bmp" /></p>
 
@@ -1071,7 +1071,7 @@
 				Report Exported</a> <br /> </p>
 
 
-			    <p><img width="312" height="190" id="Picture1"
+			    <p><img width="250" height="100" id="Picture1"
 				src="caremanagementdb://Patient/Observation/@base64String"
 				alt="x.bmp" /></p>
 
@@ -2157,7 +2157,7 @@
 			      Report Exported</a> <br /> </p>
 
 
-			  <p><img width="312" height="190" id="Picture1"
+			  <p><img width="250" height="100" id="Picture1"
 			      src="caremanagementdb://Patient/Observation/@base64String"
 			      alt="x.bmp" /></p>
 
@@ -2582,7 +2582,7 @@
 			      Report Exported</a> <br /> </p>
 
 
-			  <p><img width="312" height="190" id="Picture1"
+			  <p><img width="250" height="100" id="Picture1"
 			      src="caremanagementdb://Patient/Observation/@base64String"
 			      alt="x.bmp" /></p>
 
@@ -2821,7 +2821,7 @@
 			    Report Exported</a> <br /> </p>
 
 
-			<p><img width="312" height="190" id="Picture1"
+			<p><img width="250" height="100" id="Picture1"
 			    src="caremanagementdb://Patient/Observation/@base64String"
 			    alt="x.bmp" /></p>
 
@@ -3181,7 +3181,7 @@
 			      Report Exported</a> <br /> </p>
 
 
-			  <p><img width="312" height="190" id="Picture1"
+			  <p><img width="250" height="100" id="Picture1"
 			      src="caremanagementdb://Patient/Observation/@base64String"
 			      alt="x.bmp" /></p>
 
@@ -3294,7 +3294,7 @@
 				Report Exported</a> <br /> </p>
 
 
-			    <p><img width="312" height="190" id="Picture1"
+			    <p><img width="250" height="100" id="Picture1"
 				src="caremanagementdb://Patient/Observation/@base64String"
 				alt="x.bmp" /></p>
 			  </td>
@@ -3485,7 +3485,7 @@
 			      Report Exported</a> <br /> </p>
 
 
-			  <p><img width="312" height="190" id="Picture1"
+			  <p><img width="250" height="100" id="Picture1"
 			      src="caremanagementdb://Patient/Observation/@base64String"
 			      alt="x.bmp" /></p>
 
@@ -3585,7 +3585,7 @@
 			      Report Exported</a> <br /> </p>
 
 
-			  <p><img width="312" height="190" id="Picture1"
+			  <p><img width="250" height="100" id="Picture1"
 			      src="caremanagementdb://Patient/Observation/@base64String"
 			      alt="x.bmp" /></p>
 
@@ -3750,7 +3750,7 @@
 				Report Exported</a> <br /> </p>
 
 
-			    <p><img width="312" height="190" id="Picture1"
+			    <p><img width="250" height="100" id="Picture1"
 				src="caremanagementdb://Patient/Observation/@base64String"
 				alt="x.bmp" /></p>
 			  </td>
@@ -3859,7 +3859,7 @@
 			      Report Exported</a> <br /> </p>
 
 
-			  <p><img width="312" height="190" id="Picture1"
+			  <p><img width="250" height="100" id="Picture1"
 			      src="caremanagementdb://Patient/Observation/@base64String"
 			      alt="x.bmp" /></p>
 
@@ -3957,7 +3957,7 @@
 				Report Exported</a> <br /> </p>
 
 
-			    <p><img width="312" height="190" id="Picture1"
+			    <p><img width="250" height="100" id="Picture1"
 				src="caremanagementdb://Patient/Observation/@base64String"
 				alt="x.bmp" /></p>
 			  </td>
@@ -4063,7 +4063,7 @@
 			      Report Exported</a> <br /> </p>
 
 
-			  <p><img width="312" height="190" id="Picture1"
+			  <p><img width="250" height="100" id="Picture1"
 			      src="caremanagementdb://Patient/Observation/@base64String"
 			      alt="x.bmp" /></p>
 
@@ -4174,7 +4174,7 @@
 			      Report Exported</a> <br /> </p>
 
 
-			  <p><img width="312" height="190" id="Picture1"
+			  <p><img width="250" height="100" id="Picture1"
 			      src="caremanagementdb://Patient/Observation/@base64String"
 			      alt="x.bmp" /></p>
 
