@@ -85,7 +85,7 @@
       <Variable name="AFStatus" type="boolean">
 	<Concept code="739568" name="MDC_IDC_EPISODE_TYPE" schemeID="MDC_IDC"/>
 	<DataSource code="C0581396" name="Cardiac implant device" schemeID="UMLS"/>
-	<RefinementScript>function refine(list) { var x; var y=false; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x].indexOf("Epis_AT_AF") != -1) y=true; } return y; }</RefinementScript>
+	<RefinementScript>function refine(list) { var x; var y=true; var names=list.toArray(); for(x in names) { println(names[x]); if(names[x].indexOf("Epis_AT_AF") != -1) y=true; } return y; }</RefinementScript>
       </Variable>
       <!--Scriptler degisecek. Ayrica burada input girilen AFStatus objesini incele. Nasil olusturuluyor.-->
       <EvaluationScript>function EligibleToGuidelineCriterion(AFStatus) { if ( AFStatus.getValue().getText() == "true") return true; else return false; }</EvaluationScript>
@@ -152,9 +152,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -172,7 +170,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -185,18 +183,18 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
-				  Report Exported</a> <br /> </p>
+			      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to
+			      Report Exported</a> <br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="190" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
-				  to Report Exported</a> <br />
+			      <p align="center">  Assesment by CIED <a target="_blank" href="PPM:TAB1">Access to
+			      Report Exported</a> <br />
 				<br/>
 
 				<p align="left"><font color="#880015">VT Status: $VTStatus <br />
@@ -223,28 +221,28 @@
 				<td>Renal insufficiency or renal failure:</td>
 				<td>
 				  $RenalInsufficiency
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				  <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Heart failure:</td>
 				<td>
 				  $HeartFailure
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				  <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Diabetes:</td>
 				<td>
 				  $Diabetes
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				  <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Atrial arrhythmia:</td>
 				<td>
 				  $AtrialArrhythmia
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				  <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>			  
 			</tbody>
@@ -315,9 +313,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -335,7 +331,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -348,18 +344,16 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
-				  Report Exported</a> <br /> </p>
+			      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="190" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
-				  to Report Exported</a> <br />
+			      <p align="center">  Assesment by CIED <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br />
 				<br/>
 
 				<p align="left"># of AppropriateDischarges: $AppropriateDischarge <br />
@@ -384,28 +378,28 @@
 			    <td>Renal insufficiency or renal failure:</td>
 			    <td>
 			      $RenalInsufficiency
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Heart failure:</td>
 			    <td>
 			      $HeartFailure
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Diabetes:</td>
 			    <td>
 			      $Diabetes
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Atrial arrhythmia:</td>
 			    <td>
 			      $AtrialArrhythmia
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>			  
 			</tbody>
@@ -463,9 +457,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -483,7 +475,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -528,9 +520,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -548,7 +538,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -596,9 +586,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a><br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -616,7 +604,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -629,18 +617,16 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
-				  Report Exported</a> <br /> </p>
+			      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to Report Exported</a><br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="190" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
-				  to Report Exported</a> <br />
+			      <p align="center">  Assesment by CIED <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br />
 				<br/>
 
 				<p align="left">Tachy Therapy Statistic Recent Shocks Aborted : $InappropriateDischarge 
@@ -706,9 +692,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a><br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -726,7 +710,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -776,9 +760,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a><br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -796,7 +778,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -809,18 +791,16 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
-				  Report Exported</a> <br /> </p>
+			      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="190" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
-				  to Report Exported</a> <br />
+			      <p align="center">  Assesment by CIED <a target="_blank" href="PPM:TAB1">Access to Report Exported</a><br />
 				<br/>
 
 				<p align="left"># of Noise Cases: $NumberOfNoiseCase <br />
@@ -894,9 +874,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a><br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -914,7 +892,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -927,18 +905,16 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
-				  Report Exported</a> <br /> </p>
+			      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="190" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
-				  to Report Exported</a> <br />
+			      <p align="center">  Assesment by CIED <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br />
 				<br/>
 
 				<p align="left">Lead Impedance Alerts: $LeadImpedanceAlerts <br />
@@ -1001,9 +977,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -1021,7 +995,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -1098,9 +1072,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -1118,7 +1090,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -1131,18 +1103,18 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
-				  Report Exported</a> <br /> </p>
+			      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to Report
+			Exported</a> <br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="190" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
-				  to Report Exported</a> <br />
+			      <p align="center">  Assesment by CIED <a target="_blank" href="PPM:TAB1">Access to Report
+			Exported</a> <br />
 				<br/>
 
 				<p align="left"><font color="#880015">Real SVT Status: $RealSVT <br />
@@ -1169,28 +1141,28 @@
 				<td>Renal insufficiency or renal failure:</td>
 				<td>
 				  $RenalInsufficiency
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				  <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Heart failure:</td>
 				<td>
 				  $HeartFailure
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				  <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Diabetes:</td>
 				<td>
 				  $Diabetes
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				  <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Atrial arrhythmia:</td>
 				<td>
 				  $AtrialArrhythmia
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				  <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>			  
 			</tbody>
@@ -1257,9 +1229,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -1277,8 +1247,8 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
-			Exported</a> </td>
+		      <a target="_blank" href="PPM:TAB1">Access to Report
+			Exported</a></td>
 		  </tr>
 		  <tr name="EGMBlock">
 		    <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
@@ -1290,18 +1260,16 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
-				  Report Exported</a> <br /> </p>
+			      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="190" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
-				  to Report Exported</a> <br />
+			      <p align="center">  Assesment by CIED <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br />
 				<br/>
 
 				<p align="left">Tachy Therapy Statistic Recent Shocks Aborted : $InappropriateDischarge 
@@ -1363,9 +1331,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -1383,7 +1349,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -1427,7 +1393,7 @@
 		    <br/>
 		    Initial Diagnosis:
 		    <data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-		    <a href="http://patient.parameter.monitor.link/a.php?patientID">Access to EHR</a>
+		    <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 		    <br/>
 		    Implanted Device:
 		    <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1445,7 +1411,8 @@
 		    <br/>
 		    Alarms Detected: Atrial Fibrillation episode at a rate of 180
 		    <br/>
-		    <a href="http://patient.parameter.monitor.link">Access to Report Exported</a>
+		    <a target="_blank" href="PPM:TAB1">Access to Report
+			Exported</a>
 		  </td>
 		</tr>
 		<tr name="EGMBlock">
@@ -1533,7 +1500,7 @@
 		    <br/>
 		    Initial Diagnosis:
 		    <data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-		    <a href="http://patient.parameter.monitor.link/a.php?patientID">Access to EHR</a>
+		    <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 		    <br/>
 		    Implanted Device:
 		    <data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
@@ -1551,7 +1518,8 @@
 		    <br/>
 		    Alarms Detected: Atrial Fibrillation episode at a rate of 180
 		    <br/>
-		    <a href="http://patient.parameter.monitor.link">Access to Report Exported</a>
+		    <a target="_blank" href="PPM:TAB1">Access to Report
+			Exported</a>
 		  </td>
 		</tr>
 		<tr name="EGMBlock">
@@ -1564,18 +1532,16 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
-				  Report Exported</a> <br /> </p>
+			      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="190" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
-				  to Report Exported</a> <br />
+			      <p align="center">  Assesment by CIED <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br />
 				<br/>
 
 				<p align="left"><font color="#880015">Real SVT Status: $RealSVT <br />
@@ -1605,28 +1571,28 @@
 				<td>Renal insufficiency or renal failure:</td>
 				<td>
 				  $RenalInsufficiency
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				  <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Heart failure:</td>
 				<td>
 				  $HeartFailure
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				  <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Diabetes:</td>
 				<td>
 				  $Diabetes
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				  <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>
 			  <tr>
 				<td>Atrial arrhythmia:</td>
 				<td>
 				  $AtrialArrhythmia
-				  <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+				  <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 				</td>
 			  </tr>			  
 			</tbody>
@@ -1717,9 +1683,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -1737,7 +1701,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EHRBlock">
@@ -1752,35 +1716,35 @@
 			    <td>History Of Congestive Heart Failure:</td>
 			    <td>
 			      $HistoryOfCongestiveHeartFailure
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>History Of Hypertension:</td>
 			    <td>
 			      $HistoryOfHypertension
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>	Age Of The Patient:</td>
 			    <td>
 			      $AgeOfThePatient
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>History Of Diabetis Mellitus:</td>
 			    <td>
 			      $HistoryOfDiabetisMellitus
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>History Of Stroke:</td>
 			    <td>
 			      $HistoryOfStroke
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			</tbody>
@@ -1921,9 +1885,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -1941,7 +1903,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EHRBlock">
@@ -1961,84 +1923,84 @@
 			    <td>Major bleeding in the previous six months</td>
 			    <td>
 			      $Majorbleedingintheprevioussixmonths
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Intracranial hemorrhage</td>
 			    <td>
 			      $Intracranialhemorrhage
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0151699">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Intracranial aneurism</td>
 			    <td>
 			      $Intracranialaneurism
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0007766">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Recent major trauma</td>
 			    <td>
 			      $Recentmajortrauma
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0332677">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Gastrointestinal bleeding</td>
 			    <td>
 			      $Gastrointestinalbleeding
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0017181">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Surgery performed or planned within one month</td>
 			    <td>
 			      $Surgeryperformedorplannedwithinonemonth
-			      <a href="http://link.to.patient.parameter.monitor?section=Procedure">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Severe hepatic impairment</td>
 			    <td>
 			      $Severehepaticimpairment
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0948807">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Blood dyscrasia</td>
 			    <td>
 			      $Blooddyscrasia
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0018939">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Severe uncontrolled hypertension</td>
 			    <td>
 			      $Severeuncontrolledhypertension
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C1868885">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Pregnancy (1st and 3rd trimester) or lactation</td>
 			    <td>
 			      $Pregnancyorlactation
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0022925">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Severe cognitive impairment (severe dementia or psychiatric disease)</td>
 			    <td>
 			      $Severecognitiveimpairmentseveredementiaorpsychiatricdisease
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0338656,C0497327,C0004936">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Severe chronic alcoholism</td>
 			    <td>
 			      $Severechronicalcoholism
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0001973">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			</tbody>
@@ -2142,9 +2104,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a><br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -2162,8 +2122,8 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
-			Exported</a> </td>
+		      <a target="_blank" href="PPM:TAB1">Access to Report
+			Exported</a></td>
 		  </tr>
 		  <tr name="EHRBlock">
 		    <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
@@ -2181,49 +2141,49 @@
 			    <td>Active gastroduodenal ulcus</td>
 			    <td>
 			      $Activegastroduodenalulcus
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0041582">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Hemorrhagic retinopathy</td>
 			    <td>
 			      $Hemorrhagicretinopathy
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0948059">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Chronic hepatic disease</td>
 			    <td>
 			      $Chronichepaticdisease
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0023895">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Active chronic alcoholism</td>
 			    <td>
 			      $Activechronicalcoholism
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0001973">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Epilepsy</td>
 			    <td>
 			      $Epilepsy
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0017181">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Pericardial Effusion</td>
 			    <td>
 			      $Pericardialeffusion
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0031039">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Moderate cognitive impairment</td>
 			    <td>
 			      $Moderatecognitiveimpairment
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0948807">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>	
 			</tbody>
@@ -2348,9 +2308,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a><br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -2368,7 +2326,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EHRBlock">
@@ -2388,7 +2346,7 @@
 			    <td>GOT</td>
 			    <td>
 			      $GOT
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			    <td>10-35 U/l</td>
 			  </tr>
@@ -2396,7 +2354,7 @@
 			    <td>GPT</td>
 			    <td>
 			      $GPT
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0201836">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			    <td>10-35 U/l</td>
 			  </tr>
@@ -2404,7 +2362,7 @@
 			    <td>LDH</td>
 			    <td>
 			      $LDH
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0202113">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			    <td>135-225 U/l</td>
 			  </tr>
@@ -2412,7 +2370,7 @@
 			    <td>Alk.Phosphatase</td>
 			    <td>
 			      $Phosphatase
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0201850]">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			    <td>35-104 U/l</td>
 			  </tr>
@@ -2420,7 +2378,7 @@
 			    <td>Gamma-GT</td>
 			    <td>
 			      $GammaGT
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0202035">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			    <td>5-39 U/l</td>
 			  </tr>
@@ -2428,7 +2386,7 @@
 			    <td>INR</td>
 			    <td>
 			      $INR
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C052032">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			    <td>0.8 - 1.2</td>
 			  </tr>
@@ -2452,7 +2410,7 @@
 			    <td>Hemoglobin</td>
 			    <td>
 			      $Hemoglobin
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0518015">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			    <td>11.7-15.6 g/dl</td>
 			  </tr>
@@ -2460,7 +2418,7 @@
 			    <td>Platelets</td>
 			    <td>
 			      $Platelets
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0032181">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			    <td>140-400 G/L</td>
 			  </tr>
@@ -2468,7 +2426,7 @@
 			    <td>Leucocytes</td>
 			    <td>
 			      $Leucocytes
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0023508">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			    <td>4-10 G/L</td>
 			  </tr>
@@ -2536,9 +2494,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -2556,7 +2512,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EHRBlock">
@@ -2656,9 +2612,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -2676,8 +2630,8 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
-			Exported</a> </td>
+		      <a target="_blank" href="PPM:TAB1">Access to Report
+			Exported</a></td>
 		  </tr>
 		  <tr name="RecommendationBlock">
 		    <td style="background-color:#eeeeee">
@@ -2721,9 +2675,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -2741,7 +2693,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -2786,9 +2738,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -2806,8 +2756,8 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
-			Exported</a> </td>
+		      <a target="_blank" href="PPM:TAB1">Access to Report
+			Exported</a></td>
 		  </tr>
 		  <tr name="RecommendationBlock">
 		    <td style="background-color:#eeeeee">
@@ -2850,9 +2800,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -2870,7 +2818,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -2880,11 +2828,10 @@
 			  problems </b> </p>
 
 
-		      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
-			  Report Exported</a> <br /> </p>
+		      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br /> </p>
 
 
-		      <p><img width="312" height="190" id="Picture1"
+		      <p><img width="250" height="190" id="Picture1"
 			  src="caremanagementdb://Patient/Observation/@base64String"
 			  alt="x.bmp" /></p>
 
@@ -2946,9 +2893,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a><br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -2966,8 +2911,8 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
-			Exported</a> </td>
+		      <a target="_blank" href="PPM:TAB1">Access to Report
+			Exported</a></td>
 		  </tr>
 		  <tr name="RecommendationBlock">
 		    <td style="background-color:#eeeeee">
@@ -3011,9 +2956,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a><br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -3031,7 +2974,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -3076,9 +3019,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -3096,8 +3037,8 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
-			Exported</a> </td>
+		      <a target="_blank" href="PPM:TAB1">Access to Report
+			Exported</a></td>
 		  </tr>
 		  <tr name="RecommendationBlock">
 		    <td style="background-color:#eeeeee">
@@ -3139,9 +3080,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -3159,8 +3098,8 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
-			Exported</a> </td>
+		      <a target="_blank" href="PPM:TAB1">Access to Report
+			Exported</a></td>
 		  </tr>
 		  <tr name="EGMBlock">
 		    <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
@@ -3169,11 +3108,10 @@
 			  problems </b> </p>
 
 
-		      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
-			  Report Exported</a> <br /> </p>
+		      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br /> </p>
 
 
-		      <p><img width="312" height="190" id="Picture1"
+		      <p><img width="250" height="190" id="Picture1"
 			  src="caremanagementdb://Patient/Observation/@base64String"
 			  alt="x.bmp" /></p>
 
@@ -3267,9 +3205,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -3287,8 +3223,8 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
-			Exported</a> </td>
+		      <a target="_blank" href="PPM:TAB1">Access to Report
+			Exported</a></td>
 		  </tr>
 		  <tr name="PHRBlock">
 		    <td style="background-color:#eeeeee"><!--The following HTML will be populated in the execution step-->
@@ -3306,49 +3242,49 @@
 			    <td>Ability to perform bathing activity?</td>
 			    <td>
 			      $Bathing
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to PHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Does perform shopping activities?</td>
 			    <td>
 			      $Shopping
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to PHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Shopping assisted?</td>
 			    <td>
 			      $ShoppingAssited
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to PHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Climbing stairs?</td>
 			    <td>
 			      $ClimbingStairs
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to PHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Does drive a car?</td>
 			    <td>
 			      $DriveCar
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to PHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Difficulty performing gardening activities?</td>
 			    <td>
 			      $GardeningDifficulty
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to PHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Doing housework?</td>
 			    <td>
 			      $Housework
-			      <a href="http://link.to.patient.parameter.monitor?section=ImagingResultcode=C0004002">Link to PHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 
@@ -3420,9 +3356,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -3440,7 +3374,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EHRBlock">
@@ -3459,21 +3393,21 @@
 			    <td>Hypertension</td>
 			    <td>
 			      $Hypertension
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0041582">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>History of heart failure</td>
 			    <td>
 			      $HeartFailure
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0948059">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Chronic Obstructive Pulmonary Disease</td>
 			    <td>
 			      $COPD
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0023895">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			</tbody>
@@ -3526,9 +3460,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a><br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -3546,7 +3478,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -3602,9 +3534,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -3622,7 +3552,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -3635,18 +3565,16 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
-				  Report Exported</a> <br /> </p>
+			      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to Report Exported</a><br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="190" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
-				  to Report Exported</a> <br />
+			      <p align="center">  Assesment by CIED <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br />
 				<br/>
 
 				<p align="left"><font color="#880015">Episode Duration = $EpisodeDuration seconds </font><br/>
@@ -3706,9 +3634,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -3726,8 +3652,8 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
-			Exported</a> </td>
+		      <a target="_blank" href="PPM:TAB1">Access to Report
+			Exported</a></td>
 		  </tr>
 		  <tr name="RecommendationBlock">
 		    <td style="background-color:#eeeeee">
@@ -3781,9 +3707,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -3801,7 +3725,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -3814,18 +3738,16 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
-				  Report Exported</a> <br /> </p>
+			      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="190" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
-				  to Report Exported</a> <br />
+			      <p align="center">  Assesment by CIED <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br />
 				<br/>
 
 				<p align="left"><font color="#880015">Episode Duration = $EpisodeDuration hours</font><br/>
@@ -3890,9 +3812,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -3910,7 +3830,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -3960,9 +3880,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -3980,8 +3898,8 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
-			Exported</a> </td>
+		      <a target="_blank" href="PPM:TAB1">Access to Report
+			Exported</a></td>
 		  </tr>
 		  <tr name="RecommendationBlock">
 		    <td style="background-color:#eeeeee">
@@ -4036,9 +3954,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -4056,7 +3972,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -4106,9 +4022,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -4126,7 +4040,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -4168,9 +4082,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a><br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -4188,7 +4100,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -4198,11 +4110,10 @@
 			  problems </b> </p>
 
 
-		      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
-			  Report Exported</a> <br /> </p>
+		      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br /> </p>
 
 
-		      <p><img width="312" height="190" id="Picture1"
+		      <p><img width="250" height="190" id="Picture1"
 			  src="caremanagementdb://Patient/Observation/@base64String"
 			  alt="x.bmp" /></p>
 
@@ -4256,9 +4167,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -4276,7 +4185,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -4338,9 +4247,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -4358,7 +4265,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -4371,18 +4278,16 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
-				  Report Exported</a> <br /> </p>
+			      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="190" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
-				  to Report Exported</a> <br />
+			      <p align="center">  Assesment by CIED <a target="_blank" href="PPM:TAB1">Access to Report Exported</a><br />
 				<br/>
 
 				<p align="left">Episode Start = $EpisodeStart<br/>
@@ -4454,9 +4359,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -4474,7 +4377,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -4487,18 +4390,16 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
-				  Report Exported</a> <br /> </p>
+			      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="190" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
-				  to Report Exported</a> <br />
+			      <p align="center">  Assesment by CIED <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br />
 				<br/>
 
 				<p align="left"><font color="#880015">Episode Duration = $EpisodeDuration days</font><br/>
@@ -4558,9 +4459,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -4578,7 +4477,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -4622,9 +4521,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a><br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -4642,7 +4539,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -4691,9 +4588,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a><br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -4711,7 +4606,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -4783,9 +4678,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -4803,7 +4696,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EHRBlock">
@@ -4823,28 +4716,28 @@
 			    <td>The Congestive Heart Failure status</td>
 			    <td>
 			      $CHF
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0019080">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Coronary Artery Disease status</td>
 			    <td>
 			      $CAD
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0151699">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Hypertension status</td>
 			    <td>
 			      $Hypertension
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0007766">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 			  <tr>
 			    <td>Left Ventricular Hypertrophy</td>
 			    <td>
 			      $LVH
-			      <a href="http://link.to.patient.parameter.monitor?section=Problemcode=C0332677">Link to EHR</a>
+			      <a target="_blank" href="PPM:TAB3">Access to EHR</a>
 			    </td>
 			  </tr>
 
@@ -4909,9 +4802,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -4929,7 +4820,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -4979,9 +4870,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -4999,8 +4888,8 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
-			Exported</a> </td>
+		      <a target="_blank" href="PPM:TAB1">Access to Report
+			Exported</a></td>
 		  </tr>
 		  <tr name="RecommendationBlock">
 		    <td style="background-color:#eeeeee">
@@ -5043,9 +4932,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -5063,8 +4950,8 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
-			Exported</a> </td>
+		     <a target="_blank" href="PPM:TAB1">Access to Report
+			Exported</a></td>
 		  </tr>
 		  <tr name="RecommendationBlock">
 		    <td style="background-color:#eeeeee">
@@ -5107,9 +4994,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -5127,7 +5012,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
@@ -5188,9 +5073,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -5208,7 +5091,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="EGMBlock">
@@ -5221,18 +5104,17 @@
 			<tbody>
 			  <tr>
 			    <td><!--The following HTML will be populated in the execution step-->
-			      <p align="center"> EGM: <a href="http://patient.parameter.monitor.link">Access to
-				  Report Exported</a> <br /> </p>
+			      <p align="center"> EGM: <a target="_blank" href="PPM:TAB1">Access to
+			      Report Exported</a> <br /> </p>
 
 
-			      <p><img width="312" height="190" id="Picture1"
+			      <p><img width="250" height="190" id="Picture1"
 				  src="caremanagementdb://Patient/Observation/@base64String"
 				  alt="x.bmp" /></p>
 			    </td>
 			    <td><!--The following HTML will be populated in the execution step-->
 
-			      <p align="center">  Assesment by CIED <a href="http://patient.parameter.monitor.link">Access
-				  to Report Exported</a> <br />
+			      <p align="center">  Assesment by CIED <a target="_blank" href="PPM:TAB1">Access to Report Exported</a> <br />
 				<br/>
 
 				<p align="left"><font color="#880015">Paroxysmal AF = $ParoxysmalAF <br/>
@@ -5294,9 +5176,7 @@
 			<br />
 			Initial Diagnosis: 
 			<data src="caremanagementdb://Problem[@code=95281009]/@problemValueOriginalText"/>
-			<a
-			  href="http://patient.parameter.monitor.link/a.php?patientID">Access to
-			  EHR</a> <br />
+			<a target="_blank" href="PPM:TAB3">Access to EHR</a> <br />
 			Implanted Device:
 			<data src="caremanagementdb://720897:MDC_IDC_PG_TYPE"/>
 			<data src="caremanagementdb://720898:MDC_IDC_PG_MODEL"/>
@@ -5314,7 +5194,7 @@
 		      <p align="center"><b>Brief Information about the recent alarm </b></p>
 		      Received Date: <data src="caremanagementdb://Patient/CIEDData/@receivedTime"/><br />
 		      Alarms Detected: Atrial Fibrillation episode at a rate of 180 <br />
-		      <a href="http://patient.parameter.monitor.link">Access to Report
+		      <a target="_blank" href="PPM:TAB1">Access to Report
 			Exported</a> </td>
 		  </tr>
 		  <tr name="RecommendationBlock">
